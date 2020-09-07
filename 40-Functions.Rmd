@@ -1,0 +1,137 @@
+# Writing your own functions {#functions}
+
+```{r echo = FALSE}
+knitr::opts_chunk$set(fig.width = 10, fig.height = 5,
+                      comment = NA, cache = TRUE) 
+options(rt.theme = "lightgrid")
+options(rt.fit.theme = "lightgrid")
+```
+
+```{r, comment="", results="asis", echo=FALSE}
+old.hooks <- fansi::set_knit_hooks(knitr::knit_hooks)
+options(crayon.enabled = TRUE)
+```
+
+Writing your own functions is fun and useful. When should you do it? Whenever you find yourself repeating pieces of code. Why is it important?  
+Writing a function helps reduce the total amount of code, which reduces the chances of error, and makes your code more readable.  
+Functions in R are "first class objects". What does this mean? You can pass them in and out of other functions or objects like any other R structure. For example, we have seen that you can use a command like `apply(mat, 2, mean)  
+
+First, the basics.
+
+Single argument, no default:
+```{r}
+square <- function(x) {
+  x^2
+}
+square(3)
+```
+
+The last object in the function definition is returned.  
+You could use `return`, but it's often not necessary.
+```{r}
+square <- function(x) {
+  out <- x^2
+  return(out)
+}
+square(4)
+```
+
+`return` is a way to end evaluation early:
+```{r}
+square.pos <- function(x) {
+  if (x > 0) {
+    return(x^2)
+  } else {
+    x
+  }
+  cat("The input was left unchanged\n")
+}
+x <- sample(-10:10, 1)
+x
+square.pos(x)
+```
+
+Multiple arguments, one with default:
+```{r}
+raise <- function(x, power = 2) {
+  x^power
+}
+x <- sample(10, 1)
+x
+raise(x)
+raise(x, power = 3)
+raise(x, 3)
+```
+
+## Arguments with multiple possible values
+```{r}
+myfn <- function(type = "alpha") {
+  cat("You have selected type '", type, "'\n", sep = "")
+}
+myfn("beta")
+```
+
+## Match arguments
+You can match specific values for an argument using `match.arg`:
+```{r error = TRUE}
+myfn <- function(type = c("alpha", "beta", "gamma")) {
+  type <- match.arg(type)
+  cat("You have selected type '", type, "'\n", sep = "")
+}
+myfn("a")
+myfn("b")
+myfn("g")
+myfn("d")
+```
+
+Above you see that partial matching using `match.arg` was able to identify a valid option, and when there was no match, an informative error was printed.
+
+Partial matching is also automatically done on the argument names themselves, but it's important to avoid depending on that. 
+```{r}
+adsr <- function(attack = 100,
+                 decay = 250,
+                 sustain = 40,
+                 release = 1000) {
+  cat("Attack time:", attack, "ms\n",
+      "Decay time:", decay, "ms\n",
+      "Sustain level:", sustain, "\n",
+      "Release time:", release, "ms\n")
+}
+
+adsr(50, s = 100, r = 500)
+```
+
+## Passing extra arguments to another function with the `...` argument
+Many functions include a `...` argument at the end. Any arguments not otherwise matched are collected there. A common use for this is to pass them to another function:
+```{r}
+cplot <- function(x, y,
+                  cex = 1.5,
+                  pch = 16,
+                  col = "#18A3AC",
+                  bty = "n", ...) {
+  plot(x, y, cex = cex, pch = pch, col = col, bty = bty, ...)
+                  }
+```
+
+`...` is also used for variable number of iputs, often as the first argument of a function. For example, look at the documentation of `c`, `cat`, `cbind`, `rbind`, `paste`  
+
+Note: Any arguments after the `...`, **must** be named fully, i.e. will not be partially matched.
+
+## The pipe operator `%>%`
+A pipe allows writing `f(x)` as `x %>% f`. It is often used to replace multiple temporary assignments in a multistep procedure, or make code more readable by avoiding nesting multiple functions. 
+Instead of:  
+`x <- f1(x)
+x <- f2(x)
+x <- f3(x)`  
+you can write:  
+`x <- x %>% f1 %>% f2 %>% f3`
+
+
+```{r}
+library(magrittr)
+(iris[, -5] %>%
+  split(iris$Species) %>%
+  lapply(function(i) sapply(i, mean)) -> iris_mean_bySpecies)
+```
+Pipes are used extensively in the [tidyverse](https://www.tidyverse.org) packages.  
+You can learn more about the pipe operator in the [magrittr vignette](https://cran.r-project.org/web/packages/magrittr/vignettes/magrittr.html)

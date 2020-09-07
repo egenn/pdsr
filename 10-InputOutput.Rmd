@@ -1,0 +1,150 @@
+# Data Input/Output {#dataio}
+
+```{r echo = FALSE}
+knitr::opts_chunk$set(fig.width = 10, fig.height = 5,
+                      comment = NA, cache = TRUE) 
+options(rt.theme = "lightgrid")
+options(rt.fit.theme = "lightgrid")
+```
+
+```{r, comment="", results="asis", echo=FALSE}
+old.hooks <- fansi::set_knit_hooks(knitr::knit_hooks)
+options(crayon.enabled = TRUE)
+```
+
+## R datasets
+### Datasets included with R (in package 'datasets')
+List builtin datasets with `data` and no arguments:
+```{r eval=FALSE}
+data()
+```
+These builtin datasets are normally readily available in the R console (because the `datasets` package is automatically loaded)
+You can check if this is the case using `search()`
+```{r}
+search()
+```
+
+
+### Datasets included with other packages
+List a dataset included with an R package:
+```{r, eval = FALSE}
+data(package = "glmnet")
+data(package = "MASS")
+```
+
+Load a dataset from
+
+## System commands
+Get working directory with `getwd()`
+```{r}
+getwd()
+```
+
+You can set a different working directory with `setwd()`  
+
+List files in current directory:
+```{r}
+getwd()
+dir()
+```
+
+You can execute any command directly on the underlying OS from within R using the `system` command. (These are, obviously, OS-dependent)
+```{r}
+system("uname -a")
+```
+
+Note: See issue [here](https://stackoverflow.com/questions/27388964/rmarkdown-not-outputting-results-of-system-command-to-html-file)
+
+## Data I/O
+### Read local CSV
+`read.csv()` is the an alias for `read.table()` that defaults to commas as separators and dots for decimal points. (Run `read.csv` in the console to print its source and see for yourself)
+```{r eval = FALSE}
+men <-  read.csv("../Data/pone.0204161.s001.csv")
+str(men)
+```
+
+### Read from the web
+```{r eval = FALSE}
+parkinsons <- read.csv("https://archive.ics.uci.edu/ml/machine-learning-databases/parkinsons/parkinsons.data")
+# str(parkinsons)
+sleep <- read.csv("https://www.openml.org/data/get_csv/53273/sleep.arff",
+                  na.strings = "?")
+# str(sleep)
+```
+
+
+### Read zipped data from the web 
+#### using base gzcon and csv.read
+```{r eval = FALSE}
+con <- gzcon(url("https://github.com/EpistasisLab/penn-ml-benchmarks/raw/master/datasets/classification/breast-cancer-wisconsin/breast-cancer-wisconsin.tsv.gz"),
+             text = TRUE)
+bcw <- read.csv(con, header = TRUE, sep = "\t")
+```
+
+#### using data.table fread
+You can use __data.table__'s `fread` instead, which will automatically handle zipped files:
+```{r eval = FALSE}
+library(data.table)
+bcw2 <- fread("https://github.com/EpistasisLab/penn-ml-benchmarks/raw/master/datasets/classification/breast-cancer-wisconsin/breast-cancer-wisconsin.tsv.gz")
+```
+
+If you want to stick to using data frames, you can use the argument `data.table`:
+```{r eval = FALSE}
+bcw2 <- fread("https://github.com/EpistasisLab/penn-ml-benchmarks/raw/master/datasets/classification/breast-cancer-wisconsin/breast-cancer-wisconsin.tsv.gz",
+              data.table = FALSE)
+```
+
+### Write to CSV
+```{r eval = FALSE}
+write.csv(iris, "../Data/iris.csv", row.names = FALSE)
+```
+Note that in this case we did not need to save row names (which are just integers 1 to  150 and would add a useless extra column in the output)
+
+### Read .xslx using openxlsx::read.xlsx
+As an example, we can read the csv we saved earlier into Excel and then save it as a .xlsx file.  
+
+```{r eval = FALSE}
+iris.path <- normalizePath("../Data/iris.xlsx")
+iris2 <- openxlsx::read.xlsx(iris.path)
+```
+
+Note: `openxlsx::read.xlsx` does not work with a relative path like `"./Data/iris.xlsc"`. Therefore we used the `normalizePath` function to give us the full path of the file without having to type it out.
+
+Check that the data is still identical:
+```{r eval = FALSE}
+all(iris == iris2)
+```
+
+### Write an R object to RDS
+You can write any R object directly to file so that you can recover it at any time, share it, etc. Remember that since a list can contain any number of objects of any type, you can save any collection of objects as an RDS file. For multiple objects, see also the `save.image` command below.
+```{r eval = FALSE}
+saveRDS(iris, "iris.rds")
+```
+
+To load an object saved in an rds file, assign it to an object  usig `readRDS`:
+```{r eval = FALSE}
+iris_fromFile <- readRDS("iris.rds")
+all(iris == iris_fromFile)
+```
+
+
+### Write multiple R objects to RData file using `save`
+```{r eval = FALSE}
+mat1 <- sapply(seq_len(10), function(i) rnorm(500))
+mat2 <- sapply(seq_len(10), function(i) rnorm(500))
+save(mat1, mat2, file = "./mat.RData")
+```
+Note: we will learn how to use `sapply` later under "Loop functions"
+
+To load the variables in the `RData` files you saved, use the `load` command:
+```{r eval = FALSE}
+load("./Rmd/mat.RData")
+```
+
+Note that `load` adds the objects to your workspace using with their original names. You do not assign them to a new object, unlike with the `readRDS` call above.
+
+### Write your entire workspace to a RData image using `save.image`
+You can save your entire workspace to a RData file using the `save.image` function.  
+```{r eval=FALSE}
+save.image("workspace_01_29_2020.RData")
+```

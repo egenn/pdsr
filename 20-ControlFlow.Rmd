@@ -1,0 +1,183 @@
+# Flow Control {#flowcontrol}
+
+```{r echo = FALSE}
+knitr::opts_chunk$set(fig.width = 10, fig.height = 5,
+                      comment = NA, cache = TRUE) 
+options(rt.theme = "lightgrid")
+options(rt.fit.theme = "lightgrid")
+```
+
+```{r, comment="", results="asis", echo=FALSE}
+old.hooks <- fansi::set_knit_hooks(knitr::knit_hooks)
+options(crayon.enabled = TRUE)
+```
+
+Basic building blocks of programs
+
+* `if` [Condition] `then` [Expression] `else` [Alternate Expression]
+* `for` [Variable in Sequence] do [Expression]
+* `while` [Condition] do [Expression]
+* `repeat` [Expression] until `break`
+* `break`: break out of `for`, `while` or `repeat` loop
+* `next`: skip current iteration and proceed to next
+
+## `if` - `then` - `else`
+```{r}
+a <- 4
+if (a < 10) {
+  cat("a is not that big")
+} else {
+  cat("a is not too small")
+}
+```
+
+## `if` - `then` - `else if` = `else`
+```{r}
+a <- sample(seq(-2, 2, .5), 1)
+if (a > 0) {
+  result <- "positive"
+} else if (a == 0) {
+  result <- "zero"
+} else {
+  result <- "negative"
+}
+```
+
+## Conditional assignment with `if` - `else`
+```{r}
+a <- 8
+y <- if (a > 5) {
+  10
+} else {
+  0
+}
+```
+
+## Conditional assignment with `ifelse`
+```{r}
+a <- 3
+(y <- ifelse(a > 5, 10, 0))
+```
+
+`ifelse` is vectorized:
+```{r}
+a <- 1:10
+(y <- ifelse(a > 7, a^2, a))
+```
+
+## `for` loops
+```{r}
+for (i in seq(10)) {
+  cat(i^2, "\n")
+}
+```
+
+`letters` is a built-in constant that includes all 26 lowercase letters of the Roman alphabet; `LETTERS` similarly includes all 26 uppercase letters.
+```{r}
+for (letter in letters[1:5]) {
+  cat(letter, "is a letter!\n")
+}
+```
+
+### Nested `for` loops
+```{r}
+a <- matrix(1:9, 3)
+for (i in seq(3)) {
+  for (j in seq(3)) {
+    cat("  a[", i, ",", j, "] is ", a[i, j], "\n", sep = "")
+  }
+}
+```
+
+## `while` loops
+```{r}
+a <- 10
+while (a > 0) {
+  a <- a - 1
+  cat("a is equal to", a, "\n")
+}
+cat("when all is said and done, a is", a)
+```
+
+## `break` stops execution of a loop:
+```{r}
+for (i in seq(10)) {
+  if (i == 5) break()
+  cat(i, "squared is", i^2, "\n")
+}
+```
+
+## `next` skips the current iteration
+```{r}
+for (i in seq(7)) {
+  if (i == 5) next()
+  cat(i, "squared is", i^2, "\n")
+}
+```
+
+## `repeat` loops
+`repeat` is not that useful, it initiates an infinite loop and **must** use `break` to exit. Best to use any other type of loop instead.
+```{r}
+i <- 10
+repeat {
+ i <- i - 1
+ if (i == 0) break()
+ cat("i is", i, "\n")
+}
+```
+
+## Select one of multiple alternatives with `switch`
+Instead of using multiple `if` - `else if` statements, we can build a more compact call using `switch`. (It is best suited for options that are of type character, rather tha numeric)
+
+```{r}
+y <- sample(letters[seq(8)], 1)
+y
+output <- switch(y,                      # 1. Some expression
+                 a = "Well done",        # 2. The possible values of the expression, unquoted
+                 b = "Not bad",          #    followed by the `=` and the conditional output
+                 c = "Nice try",
+                 d = "Not a nice try",
+                 e = "This is bad",
+                 f = "Fail",
+                 "This is not even a possible grade") # 3. An optional last argument is the default
+                                                      #    value, if there is no match above
+output
+```
+
+```{r}
+a <- rnorm(1)
+a
+out <- switch(as.integer(a > 0),
+              `1` = "Input is positive",
+              `0` = "Input is not positive")
+out
+```
+
+```{r}
+a <- rnorm(1)
+a
+out <- switch(as.character(a > 0),
+              `TRUE` = "Input is positive",
+              `FALSE` = "Input is not positive")
+out
+```
+
+
+## `switch` example: HTTP Status Codes
+```{r}
+status <- sample(400:410, 1)
+status
+response <- switch(as.character(status),
+                   `400` = "Bad Request",
+                   `401` = "Unauthorized",
+                   `402` = "Payment Required",
+                   `403` = "Forbidden",
+                   `404` = "Not Found",
+                   `405` = "Method Not Allowed",
+                   `406` = "Not Acceptable",
+                   `407` = "Proxy Authentication Required",
+                   `408` = "Request Timeout",
+                   `409` = "Conflict",
+                   `410` = "Gone")
+response
+```

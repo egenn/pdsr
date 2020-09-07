@@ -1,0 +1,83 @@
+# Optimization with `optim()` {#optim}
+
+```{r echo = FALSE}
+knitr::opts_chunk$set(fig.width = 4.5, fig.height = 4.5,
+                      comment = NA, cache = TRUE) 
+options(rt.theme = "lightgrid")
+options(rt.fit.theme = "lightgrid")
+```
+
+```{r, comment="", results="asis", echo=FALSE}
+old.hooks <- fansi::set_knit_hooks(knitr::knit_hooks)
+options(crayon.enabled = TRUE)
+```
+
+```{r echo = FALSE}
+library(rtemis)
+```
+
+R provides a general purpose optimization tool, `optim()`. You can use it to estimate parameters that minimize any defined function.  
+Supervised and unsupervised learning involves defining a loss function to minimize or an objective function to minimize or maximize.  
+To learn how `optim()` works, let's write a simple function that returns linear coefficients by minimizing squared error.
+
+## Data
+```{r}
+set.seed(2020)
+x <- sapply(seq(10), function(i) rnorm(500))
+y <- 12 + 1.5 * x[, 3] + 3.2 * x[, 7] + .5 * x[, 9] + rnorm(500)
+```
+
+## GLM (`glm`, `s.GLM`)
+```{r}
+yx.glm <- glm(y ~ x)
+summary(yx.glm)
+```
+Or, using _rtemis_:
+```{r}
+mod.glm <- s.GLM(x, y)
+```
+```{r}
+summary(mod.glm$mod)
+```
+
+## `optim`
+Basic usage of `optim` to find values of parameters that minimize a function:  
+
+* Define a list of initial parameter values
+* Define a loss function whose first argument is the above list of initial parameter values
+* Pass parameter list and objective function to `optim`
+
+In the following example, we wrap these three steps in a function called `linearcoeffs`, which will output the linear coefficients that minimize squared error, given a matrix/data.frame of features `x` and an outcome `y`. We also specify the optimization method to be used (See `?base::optim` for details):
+```{r}
+linearcoeffs <- function(x, y, method = "BFGS") {
+  
+  # 1. List of initial parameter values
+  params <- as.list(c(mean(y), rep(0, NCOL(x))))
+  names(params) <- c("Intercept", paste0("Coefficient", seq(NCOL(x))))
+  
+  # 2. Loss function: first argument is parameter list
+  loss <- function(params, x, y) {
+    estimated <- c(params[[1]] + x %*% unlist(params[-1]))
+    mean((y - estimated)^2)
+  }
+  
+  # 3. optim!
+  coeffs <- optim(params, loss, x = x, y = y, method = method)
+  
+  # The values that minimize the loss function are stored in $par
+  coeffs$par
+}
+```
+
+```{r}
+coeffs.optim <- linearcoeffs(x, y)
+estimated.optim <- cbind(1, x) %*% coeffs.optim
+mplot3.fit(y, estimated.optim)
+coeffs.glm <- mod.glm$mod$coefficients
+estimated.glm <- cbind(1, x) %*% coeffs.glm
+mplot3.fit(y, estimated.glm)
+```
+
+```{r}
+mplot3.fit(coeffs.glm, coeffs.optim)
+```

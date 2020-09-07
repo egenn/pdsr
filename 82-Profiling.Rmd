@@ -1,0 +1,125 @@
+# Timing & Profiling {#profiling}
+
+```{r echo = FALSE}
+knitr::opts_chunk$set(fig.width = 5, fig.height = 5,
+                      comment = NA, cache = TRUE) 
+options(rt.theme = "lightgrid")
+options(rt.fit.theme = "lightgrid")
+```
+
+```{r, comment="", results="asis", echo=FALSE}
+old.hooks <- fansi::set_knit_hooks(knitr::knit_hooks)
+options(crayon.enabled = TRUE)
+```
+
+Profiling your code involves timing the execution of different steps of a program. This is usually performed in order to identify bottlenecks that slow down the execution of your code and it helps you prioritize which parts to optimize.
+
+## Time the execution of an expression with `system.time`
+If you want to time how long it takes for an R expression to complete, you can use the base command `system.time`.  
+"elapsed" time is real time in seconds. "user" and "system" are time used by the CPU on different types of tasks (see `?proc.time`)
+
+```{r}
+x <- rnorm(9999)
+system.time({
+    y <- vector("numeric", 9999)
+    for (i in 1:9999) y[i] <- x[i]^3
+})
+```
+
+```{r}
+system.time(x^3)
+```
+
+You can use `replicate` to get a measure of time over multiple executions and average it:
+```{r}
+library(mgcv)
+library(glmnet)
+set.seed(2020)
+x <- replicate(100, rnorm(5000))
+y <- x[, 1]^2 + x[, 5]^3 + 12 + rnorm(5000)
+dat <- data.frame(x, y)
+fit.glm <- function(dat) mod <- glm(y ~ x, family = gaussian, data = dat)
+fit.gam <- function(dat) mod <- gam(y ~ x, family = gaussian, data = dat)
+    
+system.time(replicate(1000, fit.glm))
+system.time(replicate(1000, fit.gam))
+```
+
+## Compare execution times of different expressions with `microbenchmark()`
+```{r}
+library(microbenchmark)
+library(rpart)
+data(Sonar, package = "mlbench")
+```
+`microbenchmark()` allows you to time the execution of multiple expressions with sub-millisecond accuracy. It will execute each command a number of times as defined by the `times` argument (default = 100), and output statistics of execution time per expression in nanoseconds. Using `plot` on the output produces a boxplot comparing the time distributions.
+```{r warning=FALSE}
+glmVSrpart <- microbenchmark(glm(Class ~ ., family = "binomial", Sonar),
+               rpart(Class ~ ., Sonar, method = "class"),
+               times = 50)
+plot(glmVSrpart)
+```
+
+Let's compare using a for loop vs. vapply vs. sapply for a one-hot encoding function:
+```{r}
+oh_for <- function(x) {
+  x.name <- deparse(substitute(x))
+  x <- factor(x)
+  .levels <- levels(x)
+  ncases <- NROW(x)
+  index <- as.numeric(x)
+  oh <- matrix(0, ncases, length(.levels))
+  colnames(oh) <- paste0(x.name, ".", .levels)
+  for (i in seq(ncases)) oh[i, index[i]] <- 1
+  oh
+}
+
+oh_vapply <- function(x) {
+  x.name <- deparse(substitute(x))
+  x <- factor(x)
+  .levels <- levels(x)
+  ncases <- NROW(x)
+  index <- as.numeric(x)
+  ohv <- rep(0, length(.levels))
+  oh <- t(vapply(seq(ncases), function(i) {
+    ohv[index[i]] <- 1
+    ohv
+  }, ohv))
+  colnames(oh) <- paste0(x.name, ".", .levels)
+  oh
+}
+
+oh_sapply <- function(x) {
+  x.name <- deparse(substitute(x))
+  x <- factor(x)
+  .levels <- levels(x)
+  ncases <- NROW(x)
+  index <- as.numeric(x)
+  ohv <- rep(0, length(.levels))
+  oh <- t(sapply(seq(ncases), function(i) {
+    ohv[index[i]] <- 1
+    ohv
+  }))
+  colnames(oh) <- paste0(x.name, ".", .levels)
+  oh
+}
+
+dictionary <- letters
+set.seed(2020)
+x <- sample(letters, 1000, T)
+library(microbenchmark)
+oh_3ways <- microbenchmark(oh_for(x), oh_vapply(x), oh_sapply(x))
+plot(oh_3ways)
+```
+In this case, the `for` loop beats `sapply`, which beats `vapply`.
+
+## Profile a function with `profvis()`
+`profvis` provides an interactive output to visualize how much time is spent in different calls within an algorithm.
+```{r}
+library(profvis)
+library(rtemis)
+data(Sonar, package = 'mlbench')
+```
+
+```{r}
+profvis(s.ADDTREE(Sonar))
+```

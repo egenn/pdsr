@@ -1,0 +1,100 @@
+# Operations & Vectorization {#vectorization}
+
+```{r echo = FALSE}
+knitr::opts_chunk$set(fig.width = 10, fig.height = 5,
+                      comment = NA, cache = TRUE) 
+options(rt.theme = "lightgrid")
+options(rt.fit.theme = "lightgrid")
+```
+
+```{r, comment="", results="asis", echo=FALSE}
+old.hooks <- fansi::set_knit_hooks(knitr::knit_hooks)
+options(crayon.enabled = TRUE)
+```
+
+Most builtin R functions are vectorized. This is very efficient: it saves both human (your) time and machine time.  
+Functions from 3rd party packages are often vectorized as well. Check each function's help file before using.   
+
+## Operations between vectors of equal length
+```{r}
+(x <- 1:10)
+(z <- 11:20)
+(x + z)
+```
+
+## Operations between a vector and a scalar
+```{r}
+(x + 10)
+(x * 2)
+(x / 10)
+(x ^ 2)
+```
+
+## Operations between vectors of unequal length: value recycling
+Operations between a vector and a scalar are a special case of operations between vectors of unequal length. Whenever you perform an operation between two objects of different length, the shorter object's elements are recycled:
+```{r}
+x + c(2:1)
+```
+
+Operations between objects of unequal length can occur by mistake. If the shorter object's length is a multiple of the longer object's length, there will be *no error or warning*, as above. Otherwise, there is a warning, which may be confusing at first, but recycling still happens - and this is very unlikely to be intentional:
+
+```{r}
+x + c(1, 3, 9)
+```
+
+## Vectorized matrix operations
+Operations between matrices are similarly vectorized.
+```{r}
+(a <- matrix(1:4, 2))
+(b <- matrix(11:14, 2))
+a + b
+a * b
+a / b
+```
+
+## Vectorized functions
+```{r}
+log(x)
+sqrt(x)
+sin(x)
+cos(x)
+```
+
+
+## Logical operations
+```{r}
+T & T
+```
+
+```{r}
+T & F
+```
+
+```{r}
+T | F
+```
+
+```{r}
+x <- TRUE
+!x
+```
+
+```{r}
+a <- c(T, T, T, F, F, F)
+b <- c(F, F, T, F, T, T)
+a & b
+a | b
+xor(a, b)
+```
+
+Test all elements are TRUE with `all()`:
+```{r}
+all(a)
+```
+
+Test if any element is TRUE with `any()`:
+```{r}
+any(a)
+```
+
+

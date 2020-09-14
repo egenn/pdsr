@@ -1,4 +1,4 @@
-# Flow Control {#flowcontrol}
+# Control flow {#controlflow}
 
 ```{r echo = FALSE}
 knitr::opts_chunk$set(fig.width = 10, fig.height = 5,
@@ -11,8 +11,14 @@ options(rt.fit.theme = "lightgrid")
 old.hooks <- fansi::set_knit_hooks(knitr::knit_hooks)
 options(crayon.enabled = TRUE)
 ```
+Code is often not executed linearly (i.e. line-by-line). Control flow operations define the order in which code segments are executed.
 
-Basic building blocks of programs
+Execution is often conditional (`if - then - else` or `switch`).
+
+Segments of code may be repeated multiple times (`for`) or as long as certain conditions are met (`while`).
+
+
+Control flow operations form some of the fundamental building blocks of programs. Each operation is very simple - combine enough of them you can bui
 
 * `if` [Condition] `then` [Expression] `else` [Alternate Expression]
 * `for` [Variable in Sequence] do [Expression]
@@ -79,6 +85,62 @@ for (letter in letters[1:5]) {
 }
 ```
 
+## Select one of multiple alternatives with `switch`
+Instead of using multiple `if` - `else if` statements, we can build a more compact call using `switch`. (It is best suited for options that are of type character, rather tha numeric)
+
+```{r}
+y <- sample(letters[seq(8)], 1)
+y
+output <- switch(y,                      # 1. Some expression
+                 a = "Well done",        # 2. The possible values of the expression, unquoted
+                 b = "Not bad",          #    followed by the `=` and the conditional output
+                 c = "Nice try",
+                 d = "Not a nice try",
+                 e = "This is bad",
+                 f = "Fail",
+                 "This is not even a possible grade") # 3. An optional last argument is the default
+                                                      #    value, if there is no match above
+output
+```
+
+```{r}
+a <- rnorm(1)
+a
+out <- switch(as.integer(a > 0),
+              `1` = "Input is positive",
+              `0` = "Input is not positive")
+out
+```
+
+```{r}
+a <- rnorm(1)
+a
+out <- switch(as.character(a > 0),
+              `TRUE` = "Input is positive",
+              `FALSE` = "Input is not positive")
+out
+```
+
+
+### `switch` example: HTTP Status Codes
+```{r}
+status <- sample(400:410, 1)
+status
+response <- switch(as.character(status),
+                   `400` = "Bad Request",
+                   `401` = "Unauthorized",
+                   `402` = "Payment Required",
+                   `403` = "Forbidden",
+                   `404` = "Not Found",
+                   `405` = "Method Not Allowed",
+                   `406` = "Not Acceptable",
+                   `407` = "Proxy Authentication Required",
+                   `408` = "Request Timeout",
+                   `409` = "Conflict",
+                   `410` = "Gone")
+response
+```
+
 ### Nested `for` loops
 ```{r}
 a <- matrix(1:9, 3)
@@ -124,60 +186,4 @@ repeat {
  if (i == 0) break()
  cat("i is", i, "\n")
 }
-```
-
-## Select one of multiple alternatives with `switch`
-Instead of using multiple `if` - `else if` statements, we can build a more compact call using `switch`. (It is best suited for options that are of type character, rather tha numeric)
-
-```{r}
-y <- sample(letters[seq(8)], 1)
-y
-output <- switch(y,                      # 1. Some expression
-                 a = "Well done",        # 2. The possible values of the expression, unquoted
-                 b = "Not bad",          #    followed by the `=` and the conditional output
-                 c = "Nice try",
-                 d = "Not a nice try",
-                 e = "This is bad",
-                 f = "Fail",
-                 "This is not even a possible grade") # 3. An optional last argument is the default
-                                                      #    value, if there is no match above
-output
-```
-
-```{r}
-a <- rnorm(1)
-a
-out <- switch(as.integer(a > 0),
-              `1` = "Input is positive",
-              `0` = "Input is not positive")
-out
-```
-
-```{r}
-a <- rnorm(1)
-a
-out <- switch(as.character(a > 0),
-              `TRUE` = "Input is positive",
-              `FALSE` = "Input is not positive")
-out
-```
-
-
-## `switch` example: HTTP Status Codes
-```{r}
-status <- sample(400:410, 1)
-status
-response <- switch(as.character(status),
-                   `400` = "Bad Request",
-                   `401` = "Unauthorized",
-                   `402` = "Payment Required",
-                   `403` = "Forbidden",
-                   `404` = "Not Found",
-                   `405` = "Method Not Allowed",
-                   `406` = "Not Acceptable",
-                   `407` = "Proxy Authentication Required",
-                   `408` = "Request Timeout",
-                   `409` = "Conflict",
-                   `410` = "Gone")
-response
 ```

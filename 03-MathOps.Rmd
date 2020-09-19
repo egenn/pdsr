@@ -23,7 +23,7 @@ x * y
 x / 3
 ```
 Exponentiation uses `^`:
-(This is worth pointing out, because while `^` is likely the most common way to represent exponentiation, the symbol use for exponentiation varies across languages - same with the last two)
+(This is worth pointing out, because while `^` is likely the most common way to represent exponentiation, the symbol used for exponentiation varies across languages)
 
 ```{r}
 x^3
@@ -48,7 +48,24 @@ i.e. *Divide and return just the remainder*
 ```{r}
 x %% y
 ```
-## Basic stat operations
+```{r}
+x <- (-10:10)[-11]
+y <- sample((-10:10)[-11], 20)
+x - (x %/% y) * y == x %% y
+```
+Try to figure out what the following does:  
+
+```{r}
+x <- rnorm(20)
+y <- rnorm(20)
+round(x - (x %/% y) * y, 5) == round(x %% y, 5)
+```
+
+```{block, type="Info"}
+`round(x, digits)` rounds `x` to the desired number of digits and is used to overcome rounding errors.
+```
+
+## Basic descriptive stats
 
 Let's use the `rnorm` function to draw 200 numbers from a random normal distribution:
 
@@ -64,4 +81,9 @@ median(x)
 sd(x) # standard deviation
 min(x)
 max(x)
+range(x)
 ```
+```{r}
+summary(x)
+```
+

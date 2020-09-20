@@ -1,0 +1,311 @@
+# Data Types {#types}
+
+```{r echo = FALSE}
+knitr::opts_chunk$set(fig.width = 10, fig.height = 5,
+                      comment = NA, cache = TRUE) 
+options(rt.theme = "lightgrid")
+options(rt.fit.theme = "lightgrid")
+```
+
+```{r, comment="", results="asis", echo=FALSE}
+old.hooks <- fansi::set_knit_hooks(knitr::knit_hooks)
+options(crayon.enabled = TRUE)
+```
+
+```{block, type="Note"}
+In R, everything is an object.
+Every "action" is a function.
+[Functions](#functions) are also objects, which means they be passed as arguments to functions or returned from other functions.
+We shall see the relevance of this, for example, in the [Loop Functions](#loopfns) chapter.
+```
+
+## Assignment
+
+Use `<-` for all assignments
+
+```{r}
+x <- 3
+# You can add comments within code blocks using the usual "#" prefix
+```
+
+Typing the name of an object...
+
+```{r}
+x
+```
+...is equivalent to printing it
+
+```{r}
+print(x)
+```
+
+You can also place any assignment in parentheses and this will perform the assignment and print the object:
+
+```{r}
+(x <- 3)
+```
+
+Note: While you *could* use the equal sign '=' for assignment, you should only use it when passing arguments to functions.  
+
+You can assign the same value to multiple objects - this can be useful when initializing variables.
+
+```{r}
+x <- z <- init <- 0
+x
+z
+init
+```
+
+Excitingly, R allows assignment in the opposite direction as well:
+
+```{r}
+10 -> x
+x
+```
+
+We shall see later that the `->` assignment can be convenient at the end of a [pipe](https://class.lambdamd.org/progdatscir/functions.html#the-pipe-operator).
+
+You can even do this, which is fun (?) but unlikely to be useful:
+
+```{r}
+x <- 7 -> z
+x
+z
+```
+
+## Base types
+
+R includes a number of builtin data types.  
+
+These are defined by the R core team: users cannot define their own data types, but they can define their own classes - see section on [Classes and Object-Oriented Programming](#classes).  
+
+Some of the more popular data types in R are:
+
+* Logical (a.k.a. [Boolean](https://en.wikipedia.org/wiki/Boolean_data_type))
+* Numeric, integer
+* Numeric, [double](https://en.wikipedia.org/wiki/Double-precision_floating-point_format)
+* Character
+* Environment
+* Closure (i.e. function)
+
+```{block, type="Warning"}
+Many errors in R occur because a variable is, or gets coerced to, the wrong type by accident.
+```
+
+**Check variable types with `str()` and/or `typeof()`.**
+
+## Logical 
+
+If you are writing code, use `TRUE` and `FALSE`.  
+On the console, you can abbreviate to `T` and `F`.
+
+```{r}
+a <- c(TRUE, FALSE)
+a <- c(T, F)
+x <- 4
+b <- x > 10
+str(b)
+typeof(b)
+b
+```
+
+## Integer
+
+Assign a range of integers:
+
+```{r}
+(x <- 1:5)
+str(x)
+typeof(x)
+```
+
+```{r}
+x <- 1 # defaults to double
+str(x)
+typeof(x)
+```
+
+Force integer by adding a pretty "L" suffix
+
+```{r}
+x <- 1L
+str(x)
+typeof(x)
+```
+
+## Double
+
+```{r}
+x <- c(1.2, 3.4, 10.987632419834556)
+x
+str(x)
+typeof(x)
+```
+
+## Character
+
+```{r}
+x <- "word"
+typeof(x)
+```
+
+## Environment
+
+```{r}
+x <- new.env()
+x$name <- "Guava"
+x$founded <- 2020
+x
+typeof(x)
+```
+
+## Closure (function)
+
+```{r}
+square <- function(x) x^2
+square(3)
+typeof(square)
+```
+
+## Create - coerce - test
+
+You can create / initialize vectors of specific type with the `vector` command and specifying a `mode` or directly by calling the appropriate function:
+
+```{r}
+(xl <- vector(mode = "logical", length = 10))
+(xd <- vector(mode = "double", length = 10))
+(xn <- vector(mode = "numeric", length = 10)) # same as "double"
+(xi <- vector(mode = "integer", length = 10))
+(xc <- vector(mode = "character", length = 10))
+```
+
+These are aliases of the `vector` command above (print their source code to see for yourself)
+
+```{r}
+xl <- logical(10)
+xd <- double(10)
+xn <- numeric(10) # same as double
+xi <- integer(10)
+xc <- character(10)
+```
+
+## Explicit coercion
+
+We can explicitly convert objects of one class to a different class using one of many available `as.*` functions.
+
+```{r}
+x <- c(1.2, 2.3)
+as.logical(x)
+as.double(x)
+as.numeric(x)
+as.integer(x)
+as.character(x)
+```
+
+Factors can be converted to numbers (integers) which denote which level each element represents.
+
+```{r}
+x <- factor(c("mango", "tangerine", "banana", "mango", "banana"),
+            levels = c("mango", "banana", "tangerine"))
+class(x)
+typeof(x)
+is.numeric(x)
+is.factor(x)
+as.numeric(x)
+as.integer(x)
+as.double(x)
+as.character(x)
+```
+
+Logical vectors are converted to 1s and 0s as expected:  
+
+TRUE becomes 1 and FALSE becomes 0
+
+```{r}
+x <- c(TRUE, TRUE, FALSE)
+as.numeric(x)
+```
+
+Note that going the other way, i.e. from numeric to logical,  
+**anything other than zero is TRUE**:
+
+```{r}
+x <- seq(-2, 2, .5)
+as.logical(x)
+```
+
+Not all conversions are possible.  
+There is no meaningful/consistent way to come up with a number for a character vector.  
+The following outputs NA values and prints a (helpful) error message.
+
+```{r}
+x <- c("mango", "banana", "tangerine")
+as.numeric(x)
+```
+
+## Implicit coercion
+
+Remember, the language tries to make life easier and will often automatically coerce from one class to another to make requested operations possible.
+
+For example, you can sum a logical vector.  
+It will automatically be converted to numeric as we saw earlier.
+
+```{r}
+x <- c(TRUE, TRUE, FALSE)
+sum(x)
+```
+
+On the other hand, you cannot sum a factor, for example.  
+You get an error with an explanation:
+
+```{r error = TRUE}
+x <- factor(c("mango", "banana", "mango"))
+sum(x)
+```
+
+```{block, type="Note"}
+Note: We had to add `error = TRUE` in the Rmarkdown's code block's options (not visible in the HTML output), because otherwise compilation of the Rmarkdown document would stop at the error.
+```
+
+Yes, if for some reason it made sense, you could explicitly coerce to numeric and then sum:
+
+```{r}
+x <- factor(c("mango", "banana", "mango"))
+sum(as.numeric(x))
+```
+
+## Missing values (`NA`)
+
+Missing values in R are coded as `NA`.  
+Let's create a matrix with values drawn at random from a normal distribution and replace some of them with `NA`:
+
+```{r}
+a <- sapply(1:10, function(i) rnorm(30))
+dim(a)
+a[1, 5] <- a[1, 7] <- a[1, 9] <- a[1, 10] <- a[12, 9] <- 
+  a[20, 9] <- a[27, 6] <- a[29, 6] <- NA
+```
+
+### Count NAs by columnn and row using `apply`
+
+We will create a so-called anonymous function within `apply`.
+
+```{r}
+total.NAs.byRow <- apply(a, 1, function(i)  sum(is.na(i)))
+total.NAs.byCol <- apply(a, 2, function(i)  sum(is.na(i)))
+
+index.NAs <- is.na(a)
+apply(index.NAs, 1, sum)
+apply(index.NAs, 2, sum)
+```
+
+### Some operations result in `NA` values
+
+This can be normal and expected, or suggest an error.  
+It may be worth checking your output for `NA` values.
+
+```{r}
+x <- -5:5
+(logx <- log(x))
+anyNA(logx)
+```

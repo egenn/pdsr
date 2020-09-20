@@ -12,10 +12,12 @@ old.hooks <- fansi::set_knit_hooks(knitr::knit_hooks)
 options(crayon.enabled = TRUE)
 ```
 
-<!-- Something to keep in mind:   -->
-<!-- In R, any "thing" is an object and any "action" is a function.   -->
-<!-- That's it - there are "objects" of various kinds, many of them described here.   -->
-<!-- Functions are described in [chapter on functions](#functions). -->
+```{block, type="Note"}
+In R, everything is an object.
+Every "action" is a function.
+[Functions](#functions) are also objects, which means they be passed as arguments to functions or returned from other functions.
+We shall see the relevance of this, for example, in the [Loop Functions](#loopfns) chapter.
+```
 
 ## Assignment
 
@@ -84,7 +86,7 @@ Some of the more popular data types in R are:
 * Numeric, [double](https://en.wikipedia.org/wiki/Double-precision_floating-point_format)
 * Character
 * Environment
-* Closure (function + environment)
+* Closure (i.e. function)
 
 ```{block, type="Warning"}
 Many errors in R occur because a variable is, or gets coerced to, the wrong type by accident.
@@ -157,7 +159,7 @@ x
 typeof(x)
 ```
 
-### Closure
+### Closure (function)
 
 ```{r}
 square <- function(x) x^2
@@ -263,7 +265,7 @@ sum(x)
 ```
 
 ```{block, type="Note"}
-Note: we added `error = TRUE` in the code block's options, because otherwise compilation of the Rmarkdown document would stop at the error.
+Note: We had to add `error = TRUE` in the Rmarkdown's code block's options (not visible in the HTML output), because otherwise compilation of the Rmarkdown document would stop at the error.
 ```
 
 Yes, if for some reason it made sense, you could explicitly coerce to numeric and then sum:
@@ -642,7 +644,7 @@ names(x) <- c("Hospital", "Departments", "PIDs")
 x
 ```
 
-Note: Remember that data a frame is a special type of list. Therefore in data frames `colnames` and `names` are equivalent:
+Remember that data a frame is a special type of list. Therefore in data frames `colnames` and `names` are equivalent:
 
 ```{r}
 colnames(iris)

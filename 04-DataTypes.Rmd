@@ -109,9 +109,9 @@ a <- c(TRUE, FALSE)
 a <- c(T, F)
 x <- 4
 b <- x > 10
+b
 str(b)
 typeof(b)
-b
 ```
 
 ## Integer
@@ -120,22 +120,28 @@ Assign a range of integers:
 
 ```{r}
 (x <- 1:5)
-str(x)
 typeof(x)
+str(x)
 ```
+
+Note that assigning an integer defaults to type double:
 
 ```{r}
-x <- 1 # defaults to double
-str(x)
+x <- 1
 typeof(x)
+str(x)
 ```
 
-Force integer by adding a pretty "L" suffix:
+You can force it to be stored as integer by adding an `L` suffix:
 
 ```{r}
 x <- 1L
-str(x)
 typeof(x)
+str(x)
+```
+```{r}
+x <- c(1L, 3L, 5L)
+str(x)
 ```
 
 ## Double
@@ -143,8 +149,8 @@ typeof(x)
 ```{r}
 x <- c(1.2, 3.4, 10.987632419834556)
 x
-str(x)
 typeof(x)
+str(x)
 ```
 
 ## Character
@@ -154,7 +160,13 @@ x <- "word"
 typeof(x)
 ```
 
+```{r}
+x <- c("alpha", "beta", "gamma")
+```
+
 ## Environment
+
+Defining your own environments is probably for advanced use only:
 
 ```{r}
 x <- new.env()
@@ -166,6 +178,9 @@ typeof(x)
 
 ## Closure (function)
 
+Closures are functions - they contain their own variable definitions.  
+Read more on [functions](#functions).
+
 ```{r}
 square <- function(x) x^2
 square(3)
@@ -174,7 +189,7 @@ typeof(square)
 
 ## Create - coerce - test
 
-You can create / initialize vectors of specific type with the `vector` command and specifying a `mode` or directly by calling the appropriate function:
+You can create / initialize vectors of specific type with the `vector` command and specifying a `mode` or directly by calling the relevant function:
 
 ```{r}
 (xl <- vector(mode = "logical", length = 10))
@@ -204,21 +219,6 @@ as.logical(x)
 as.double(x)
 as.numeric(x)
 as.integer(x)
-as.character(x)
-```
-
-Factors can be converted to numbers (integers) which denote which level each element represents.
-
-```{r}
-x <- factor(c("mango", "tangerine", "banana", "mango", "banana"),
-            levels = c("mango", "banana", "tangerine"))
-class(x)
-typeof(x)
-is.numeric(x)
-is.factor(x)
-as.numeric(x)
-as.integer(x)
-as.double(x)
 as.character(x)
 ```
 
@@ -291,9 +291,11 @@ a[1, 5] <- a[1, 7] <- a[1, 9] <- a[1, 10] <- a[12, 9] <-
   a[20, 9] <- a[27, 6] <- a[29, 6] <- NA
 ```
 
-### Count NAs by columnn and row using `apply`
+### Count NAs by columnn and row using `apply()`
 
-We will create a so-called anonymous function within `apply`.
+You will learn about `apply()` and other [loop functions in the relevant chapter](#loopfns).  
+
+Below, you see how we use so-called anonymous function within `apply`.
 
 ```{r}
 total.NAs.byRow <- apply(a, 1, function(i)  sum(is.na(i)))

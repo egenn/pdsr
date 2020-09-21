@@ -25,7 +25,7 @@ levels(x)
 In R, a factor is stored as vector of integers indexing a set of levels.
 ```
 
-`str` of a factor outputs:
+`str` on a factor outputs:
 
 * the number of levels
 * the levels, in order
@@ -35,11 +35,13 @@ In R, a factor is stored as vector of integers indexing a set of levels.
 str(x)
 ```
 
-You can define the levels and their order using the `levels` argument in `factor()`.
+## Defining the levels of a factor
 
-If undefined, the levels will be set to the unique values of the input vector sorted alphabetically.
+When you create a factor with `factor()`, you can use the `levels` argument to define the order of levels.  
 
-In many cases we want to define levels in a specific order.
+If you do not use the `levels` argument, the levels will default to the unique values of the input vector sorted alphabetically.
+
+The vector passed to the `levels` arguments must include all unique values passed to `factor()`, otherwise you will get `NA` values
 
 ```{r}
 (x <- factor(c("alpha", "alpha", "beta", "delta", "delta")))
@@ -71,7 +73,7 @@ levels(xe) <- c("a", "b", "c", "d")
 xe
 ```
 
-#### Ordered factors
+## Ordered factors
 
 The order of a factor's levels affects their internal integer representation.
 
@@ -86,4 +88,21 @@ x <- factor(c("low", "low", "high", "low", "mid",
             ordered = TRUE)
 x
 class(x)
+```
+
+## Integer coercion
+
+Factors can be converted to integers which denote which level each element represents.
+
+```{r}
+x <- factor(c("mango", "tangerine", "banana", "mango", "banana"),
+            levels = c("mango", "banana", "tangerine"))
+class(x)
+typeof(x)
+is.numeric(x)
+is.factor(x)
+as.numeric(x)
+as.integer(x)
+as.double(x)
+as.character(x)
 ```

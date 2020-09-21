@@ -22,7 +22,7 @@ There are 5 main data structures in R:
 
 Homogeneous vs. hetereogeneous refers to the kind of data types (integer, double, character, logical, factor, etc.) that a structure can hold. This means a matrix can hold only numbers or only characters, but a data frame can hold different types in different columns. That is why data frames are very popular data structure for statistical work.
 
-```{block, type="Info}
+```{block, type="Info"}
 **Check object class with `class()` and/or `str()`.**
 ```
 
@@ -162,7 +162,9 @@ length(df)
 
 ## Arrays
 
-A 1D array is not a vector:
+### 1D array
+
+It is very unlikely you will need to use a 1D array, which is essentially a vector but of class `array`:
 
 ```{r}
 x <- 1:10
@@ -173,6 +175,8 @@ class(xa)
 is.vector(xa)
 ```
 
+### 2D array
+
 A 2D array is a matrix:
 
 ```{r}
@@ -181,12 +185,25 @@ class(x)
 dim(x)
 ```
 
-An ND array is an ND array (N-dimensional array):
+### ND array
+
+You can build an N-dimensional array:
 
 ```{r}
-x <- array(sample(1:255, 432, TRUE), dim = c(12, 12, 3))
+(x <- array(1:60, dim = c(5, 4, 3)))
 class(x)
 ```
+You can provide names for each dimensions using the `dimnames` argument. It accepts a list where each elements is a character vector of legth equal to the dimension length. Using the same example as above, we pass three character vector of length 5, 4, and 3 to match the length of the dimensions:
+
+```{r}
+x <- array(1:60,
+            dim = c(5, 4, 3),
+            dimnames = list(letters[1:5],
+                            c("alpha", "beta", "gamma", "delta"),
+                            c("x", "y", "z")))
+```
+
+3D arrays can be used to represent color images. Here, just for fun, we use `rasterImage` to show how you would visualize such an image:
 
 ```{r}
 x <- array(sample(1:255, 432, TRUE), dim = c(12, 12, 3))
@@ -196,81 +213,6 @@ plot(NULL, NULL,
      xlim = c(0, 100), ylim = c(0, 100),
      axes = F, ann = F, pty = "s")
 rasterImage(x/255, 0, 0, 100, 100)
-```
-
-```{r}
-n4 <- array(sample(1:255, 600, TRUE), dim = c(10, 4, 3, 5))
-```
-
-## Factors
-
-Factors are used to store categorical data and they have many important uses in statistics and data science.
-
-```{r}
-(x <- factor(c("a", "b", "c", "d", "a", "a", "d", "c")))
-```
-
-```{block, type="Note"}
-In R, a factor is stored as vector of integers indexing a set of levels.
-```
-
-`str` of a factor outputs:
-
-* the number of levels
-* the levels, in order
-* the vector as an integer index of the levels
-
-```{r}
-str(x)
-```
-
-You can define the levels and their order using the `levels` argument in `factor()`. If undefined, the levels will be set to the unique values of the input vector sorted alphabetically.  
-In many cases we want to define levels in a specific order.
-
-```{r}
-(x <- factor(c("alpha", "alpha", "beta", "delta", "delta")))
-table(x)
-(x <- factor(c("alpha", "alpha", "beta", "delta", "delta"),
-            levels = c("alpha", "beta", "gamma", "delta")))
-class(x)
-table(x)
-```
-
-```{r}
-levels(x)
-```
-
-```{block, type="Note"}
-Setting new levels with `levels` *changes all values*
-```
-
-```{r}
-xe <- x
-levels(xe) <- c("a", "b", "c", "d")
-xe
-```
-
-You can change the order of the levels, without changing the values:
-
-```{r}
-xr <- factor(as.character(x), levels = c("delta", "gamma", "beta", "alpha"))
-xr
-```
-
-#### Factors can be ordered
-
-The order of a factor's levels affects their internal integer representation. 
-This, in turn, affects their order in some application (like plotting categorical variables in ggplot2).  
-
-An **ordered factor** is a separate concept, where you are defining that there is a meaningful order, often quantitative, to the levels - like "low, mid, high", or "grade 1", "grade 2", "grade 3", "grade 4".
-
-```{r}
-x <- factor(c("low", "low", "high", "low", "mid", 
-              "mid", "high", "low", "high", "mid"),
-            levels = c("low", "mid", "high"),
-            ordered = TRUE)
-x
-class(x)
 ```
 
 ## Attributes

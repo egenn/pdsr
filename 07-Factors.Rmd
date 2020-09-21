@@ -1,0 +1,89 @@
+# Factors
+
+Factors are used to store categorical data and they have many important uses in statistics and data science.
+
+You can create a factor with `factor()`:
+
+```{r}
+(x <- factor(c("a", "c", "d", "b", "a", "a", "d", "c")))
+```
+
+or coerce a numeric or character vector to factor with `as.factor()`:
+
+```{r}
+a <- sample(1:4, 20, TRUE)
+(af <- as.factor(a))
+```
+
+You can get the levels of a factor using `levels()`:
+
+```{r}
+levels(x)
+```
+
+```{block, type="Note"}
+In R, a factor is stored as vector of integers indexing a set of levels.
+```
+
+`str` of a factor outputs:
+
+* the number of levels
+* the levels, in order
+* the vector as an integer index of the levels
+
+```{r}
+str(x)
+```
+
+You can define the levels and their order using the `levels` argument in `factor()`.
+
+If undefined, the levels will be set to the unique values of the input vector sorted alphabetically.
+
+In many cases we want to define levels in a specific order.
+
+```{r}
+(x <- factor(c("alpha", "alpha", "beta", "delta", "delta")))
+table(x)
+(x <- factor(c("alpha", "alpha", "beta", "delta", "delta"),
+            levels = c("alpha", "beta", "gamma", "delta")))
+class(x)
+table(x)
+```
+
+```{r}
+levels(x)
+```
+
+To change the ***order of the levels***, without changing the actual values in the vector (the data itself):
+
+```{r}
+xr <- factor(as.character(x), levels = c("delta", "gamma", "beta", "alpha"))
+xr
+```
+
+```{block, type="Warning"}
+Be very careful: Setting new levels with `levels()` ***changes levels and all vector values***
+```
+
+```{r}
+xe <- x
+levels(xe) <- c("a", "b", "c", "d")
+xe
+```
+
+#### Ordered factors
+
+The order of a factor's levels affects their internal integer representation.
+
+This, in turn, affects their order in some application - like plotting categorical variables in ggplot2, or defining which outcome is the 'positive' case in classification in some ML packages.  
+
+An **ordered factor** is a separate concept, where you are defining that there is a meaningful order, usually quantitative, to the levels - like "low < mid < high", or "grade 1 < grade 2 < grade 3 < grade 4".
+
+```{r}
+x <- factor(c("low", "low", "high", "low", "mid", 
+              "mid", "high", "low", "high", "mid"),
+            levels = c("low", "mid", "high"),
+            ordered = TRUE)
+x
+class(x)
+```

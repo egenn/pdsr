@@ -22,6 +22,29 @@ Every "action" is a function.
 We shall see the relevance of this, for example, in the [Loop Functions](#loopfns) chapter.
 ```
 
+## Base types
+
+R includes a number of builtin data types.  
+
+These are defined by the R core team: users cannot define their own data types, but they can define their own classes - see section on [Classes and Object-Oriented Programming](#classes).  
+
+Some of the more popular data types in R are:
+
+* Logical (a.k.a. [Boolean](https://en.wikipedia.org/wiki/Boolean_data_type))
+* Numeric, integer
+* Numeric, [double](https://en.wikipedia.org/wiki/Double-precision_floating-point_format)
+* Character
+* Environment
+* Closure (i.e. function)
+
+```{block, type="Warning"}
+Many errors in R occur because a variable is, or gets coerced to, the wrong type by accident.
+```
+
+```{block, type="Info"}
+**Check variable types with `typeof()` and/or `str()`.**
+```
+
 ## Assignment
 
 Use `<-` for all assignments
@@ -74,29 +97,6 @@ You can even do this, which is fun (?) but unlikely to be useful:
 x <- 7 -> z
 x
 z
-```
-
-## Base types
-
-R includes a number of builtin data types.  
-
-These are defined by the R core team: users cannot define their own data types, but they can define their own classes - see section on [Classes and Object-Oriented Programming](#classes).  
-
-Some of the more popular data types in R are:
-
-* Logical (a.k.a. [Boolean](https://en.wikipedia.org/wiki/Boolean_data_type))
-* Numeric, integer
-* Numeric, [double](https://en.wikipedia.org/wiki/Double-precision_floating-point_format)
-* Character
-* Environment
-* Closure (i.e. function)
-
-```{block, type="Warning"}
-Many errors in R occur because a variable is, or gets coerced to, the wrong type by accident.
-```
-
-```{block, type="Info"}
-**Check variable types with `typeof()` and/or `str()`.**
 ```
 
 ## Logical 
@@ -187,7 +187,7 @@ square(3)
 typeof(square)
 ```
 
-## Create - coerce - test
+## Initialize vectors
 
 You can create / initialize vectors of specific type with the `vector` command and specifying a `mode` or directly by calling the relevant function:
 
@@ -211,15 +211,15 @@ xc <- character(10)
 
 ## Explicit coercion
 
-We can explicitly convert objects of one class to a different class using one of many available `as.*` functions.
+We can explicitly convert objects of one type to a different type using `as.*` functions:
 
 ```{r}
-x <- c(1.2, 2.3)
-as.logical(x)
-as.double(x)
-as.numeric(x)
-as.integer(x)
-as.character(x)
+(x <- c(1.2, 2.3))
+(x <- as.logical(x))
+(x <- as.double(x))
+(x <- as.numeric(x))
+(x <- as.integer(x))
+(x <- as.character(x))
 ```
 
 Logical vectors are converted to 1s and 0s as expected:  
@@ -272,7 +272,7 @@ sum(x)
 Note: We had to add `error = TRUE` in the Rmarkdown's code block's options (not visible in the HTML output), because otherwise compilation of the Rmarkdown document would stop at the error.
 ```
 
-Yes, if for some reason it made sense, you could explicitly coerce to numeric and then sum:
+If for some reason it made sense, you could explicitly coerce to numeric and then sum:
 
 ```{r}
 x <- factor(c("mango", "banana", "mango"))
@@ -306,10 +306,10 @@ apply(index.NAs, 1, sum)
 apply(index.NAs, 2, sum)
 ```
 
-### Some operations result in `NA` values
+### Some operations result in `NaN` values
 
 This can be normal and expected, or suggest an error.  
-It may be worth checking your output for `NA` values.
+It may be worth checking your output for `NaN` values.
 
 ```{r}
 x <- -5:5

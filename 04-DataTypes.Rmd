@@ -99,6 +99,17 @@ x
 z
 ```
 
+## Initialize - coerce - test
+
+The following table lists the functions to *initialize*, *coerce* (=convert), and *test* the core data types:
+
+| **Initialize** | **Coerce**        | **Test**          |
+|---------------:|------------------:|------------------:|
+| `logical(n)`   | `as.logical(x)`   | `is.logical(x)`   |
+| `integer(n)`   | `as.integer(x)`   | `is.integer(x)`   |
+| `double(n)`    | `as.double(x)`    | `is.double(x)`    |
+| `character(n)` | `as.character(x)` | `is.character(x)` |
+
 ## Logical 
 
 If you are writing code, use `TRUE` and `FALSE`.  
@@ -279,40 +290,22 @@ x <- factor(c("mango", "banana", "mango"))
 sum(as.numeric(x))
 ```
 
-## Missing values (`NA`)
+## Missing Values
 
-Missing values in R are coded as `NA`.  
-Let's create a matrix with values drawn at random from a normal distribution and replace some of them with `NA`:
+Missing values in any data type - logical, integer, double, or character - are coded using `NA`.  
+To check for the presence of `NA` values, use `is.na()`:
 
 ```{r}
-a <- sapply(1:10, function(i) rnorm(30))
-dim(a)
-a[1, 5] <- a[1, 7] <- a[1, 9] <- a[1, 10] <- a[12, 9] <- 
-  a[20, 9] <- a[27, 6] <- a[29, 6] <- NA
+(x <- c(1.2, 5.3, 4.8, NA, 9.6))
+is.na(x)
 ```
 
-### Count NAs by columnn and row using `apply()`
-
-You will learn about `apply()` and other [loop functions in the relevant chapter](#loopfns).  
-
-Below, you see how we use so-called anonymous function within `apply`.
-
 ```{r}
-total.NAs.byRow <- apply(a, 1, function(i)  sum(is.na(i)))
-total.NAs.byCol <- apply(a, 2, function(i)  sum(is.na(i)))
-
-index.NAs <- is.na(a)
-apply(index.NAs, 1, sum)
-apply(index.NAs, 2, sum)
+(x <- c("mango", "banana", NA, "sugar", "ackee"))
+is.na(x)
 ```
 
-### Some operations result in `NaN` values
-
-This can be normal and expected, or suggest an error.  
-It may be worth checking your output for `NaN` values.
-
 ```{r}
-x <- -5:5
-(logx <- log(x))
-anyNA(logx)
+(x <- c(T, T, F, T, F, F, NA))
+is.na(x)
 ```

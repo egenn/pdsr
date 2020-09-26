@@ -315,9 +315,9 @@ length(df)
 
 R objects may have some builtin attributes but you can add arbitrary attributes to any R object. These are used to store additional information, sometimes called metadata.  
 
-### Read attributes
+### Print all attributes
 
-To read an object's attributes, use `attributes`:
+To print an object's attributes, use `attributes`:
 
 ```{r}
 attributes(iris)
@@ -325,7 +325,7 @@ attributes(iris)
 
 This returns a named list. In this case we got names, class, and row.names of the iris data frame.  
 
-### Add attributes
+### Get or set specific attributes
 
 You can assign new attributes using `attr`:
 
@@ -345,6 +345,38 @@ Our trusty `str` function will print attributes as well
 ```{r}
 str(x)
 ```
+
+#### A matrix is a vector - a closer look
+
+Let's see how a matrix is literally just a vector with assigned dimensions.  
+Start with a vector of length 20:
+
+```{r}
+x <- 1:20
+x
+```
+The vector has no attributes - yet:
+
+```{r}
+attributes(x)
+```
+To convert to a matrix, we would normally pass our vector to the `matrix()` function and define number of rows and/or columns:
+
+```{r}
+xm <- matrix(x, 5)
+xm
+attributes(xm)
+```
+
+Just for demonstration, let's instead directly add a dimension attribute to our vector:
+
+```{r}
+attr(x, "dim") <- c(5, 4)
+x
+class(x)
+```
+
+Just like that, we have a matrix.
 
 ### Common builtin attributes
 

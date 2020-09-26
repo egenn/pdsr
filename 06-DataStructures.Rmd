@@ -44,10 +44,19 @@ The following summary table lists the functions to *initialize*, *coerce* (=conv
 
 ## Vectors
 
+A vector is the basic structure that contains data in R. Other structures that contain data are made up of one or more vectors.
+
 ```{r}
-(x1 <- c(1, 3, 5, 7))
-class(x1)
-typeof(x1)
+(x <- c(1, 3, 5, 7))
+class(x)
+typeof(x)
+```
+
+A vector has `length()` but no `dim()`:
+
+```{r}
+length(x)
+dim(x)
 ```
 
 ```{r}
@@ -70,7 +79,10 @@ seq(1, 10, .5)
 
 ```{r}
 (seq(12))
+# or 
 (seq_len(12))
+# is same as
+1:12
 ```
 
 3. Along the length of another object
@@ -96,10 +108,27 @@ x <- vector("list", 10)
 
 ## Matrices
 
+A matrix is a **vector with 2 dimensions**.  
+
+To create a matrix, you pass a vector to the `matrix()` command and specify number of rows using `nrow` and/or number of columns using `ncol`:
+
 ```{r}
-x <- matrix(sample(seq(1000), 30), nrow = 10, ncol = 3)
+x <- matrix(sample(seq(1000), 30),
+            nrow = 10, ncol = 3)
 x
 class(x)
+```
+
+```{block, type="Note"}
+A matrix has length (`length(x)`) equal to the number of all (i, j) elements or nrow * ncol
+(if `i` is the row index and `j` is the column index) and dimensions (`dim(x)`) as expected:
+```
+
+```{r}
+length(x)
+dim(x)
+nrow(x)
+ncol(x)
 ```
 
 ### Construct by row or by column
@@ -146,6 +175,70 @@ class(x)
 
 ```{r}
 cbind(matrix(1, 5, 2), matrix(2, 5, 4))
+```
+
+## Arrays
+
+Arrays are **vectors with dimensions**.  
+You can have 1D, 2D or any-D, i.e. ND arrays.
+
+### 1D array
+
+A 1D array is just like a vector but of class `array` and with `dim(x)` equal to `length(x)` (remember, vectors have only `length(x)` and undefined `dim(x)`):
+
+```{r}
+x <- 1:10
+xa <- array(1:10, dim = 10)
+class(x)
+is.vector(x)
+length(x)
+dim(x)
+class(xa)
+is.vector(xa)
+length(xa)
+dim(xa)
+```
+
+It is quite unlikely you will need to use a 1D array instead of a vector.
+
+### 2D array
+
+A 2D array is a matrix:
+
+```{r}
+x <- array(1:40, dim = c(10, 4))
+class(x)
+dim(x)
+```
+
+### ND array
+
+You can build an N-dimensional array:
+
+```{r}
+(x <- array(1:60, dim = c(5, 4, 3)))
+class(x)
+```
+You can provide names for each dimensions using the `dimnames` argument. It accepts a list where each elements is a character vector of legth equal to the dimension length. Using the same example as above, we pass three character vector of length 5, 4, and 3 to match the length of the dimensions:
+
+```{r}
+x <- array(1:60,
+            dim = c(5, 4, 3),
+            dimnames = list(letters[1:5],
+                            c("alpha", "beta", "gamma", "delta"),
+                            c("x", "y", "z")))
+```
+
+3D arrays can be used to represent color images. Here, just for fun, we use `rasterImage` to show how you would visualize such an image:
+
+```{r}
+x <- array(sample(1:255, 432, TRUE), dim = c(12, 12, 3))
+par("pty")
+par(pty = "s")
+plot(NULL, NULL,
+     xlim = c(0, 100), ylim = c(0, 100),
+     axes = F, ann = F, pty = "s")
+rasterImage(x/255, 0, 0, 100, 100)
 ```
 
 ## Lists
@@ -198,7 +291,7 @@ length(x)
 ##  Data frames
 
 ```{block, type="Note"}
-Data frames are specialized lists where each element = column has the same length, but, unlike matrices, each column can contain a different data type.
+A data frames is a **special type of list** where each element has the same length and forms a column, resulting in a 2D structure. Unlike matrices, each column can contain a different data type.
 ```
 
 ```{r}
@@ -216,61 +309,6 @@ mat <- matrix(1:100, 10)
 length(mat)
 df <- as.data.frame(mat)
 length(df)
-```
-
-## Arrays
-
-### 1D array
-
-It is very unlikely you will need to use a 1D array: it is essentially a vector but of class `array`:
-
-```{r}
-x <- 1:10
-xa <- array(1:10, dim = 10)
-class(x)
-is.vector(x)
-class(xa)
-is.vector(xa)
-```
-
-### 2D array
-
-A 2D array is a matrix:
-
-```{r}
-x <- array(1:40, dim = c(10, 4))
-class(x)
-dim(x)
-```
-
-### ND array
-
-You can build an N-dimensional array:
-
-```{r}
-(x <- array(1:60, dim = c(5, 4, 3)))
-class(x)
-```
-You can provide names for each dimensions using the `dimnames` argument. It accepts a list where each elements is a character vector of legth equal to the dimension length. Using the same example as above, we pass three character vector of length 5, 4, and 3 to match the length of the dimensions:
-
-```{r}
-x <- array(1:60,
-            dim = c(5, 4, 3),
-            dimnames = list(letters[1:5],
-                            c("alpha", "beta", "gamma", "delta"),
-                            c("x", "y", "z")))
-```
-
-3D arrays can be used to represent color images. Here, just for fun, we use `rasterImage` to show how you would visualize such an image:
-
-```{r}
-x <- array(sample(1:255, 432, TRUE), dim = c(12, 12, 3))
-par("pty")
-par(pty = "s")
-plot(NULL, NULL,
-     xlim = c(0, 100), ylim = c(0, 100),
-     axes = F, ann = F, pty = "s")
-rasterImage(x/255, 0, 0, 100, 100)
 ```
 
 ## Attributes

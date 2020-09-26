@@ -321,3 +321,38 @@ is.na(x)
 (x <- c(T, T, F, T, F, F, NA))
 is.na(x)
 ```
+
+```{block, type="Note"}
+Any operations on an `NA` results in `NA`
+```
+
+```{r}
+x <- c(1.2, 5.3, 4.8, NA, 9.6)
+x*2
+```
+Multiple functions that accept as input an object with multiple values (a vector, a matrix, a data.frame, etc.) will return `NA` if *any* element is `NA`:
+
+```{r}
+mean(x)
+median(x)
+sd(x)
+min(x)
+max(x)
+range(x)
+```
+
+First, make sure `NA` values represent legitimate missing data and not some error.  
+Then, decide how you want to handle it.
+
+In all of the above commands you can pass `na.rm = TRUE` to ignore `NA` values:
+
+```{r}
+mean(x, na.rm = TRUE)
+median(x, na.rm = TRUE)
+sd(x, na.rm = TRUE)
+min(x, na.rm = TRUE)
+max(x, na.rm = TRUE)
+range(x, na.rm = TRUE)
+```
+
+The chapter on [Handling Missing Data](#missingdata) describes some approaches to handling missing data in the context of statistics or modeling, commonly supervised learning.

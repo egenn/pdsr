@@ -23,6 +23,7 @@ There are 4 main class systems in R:
 S3 and S4 methods are part of generic functions. RC and R6 methods are part of the object, but you can (and should) write generic functions for them as well.
 
 ## S3
+
 We have already used plenty of S3 objects. Data frames are some of the most common S3 objects.  
 Generic functions in R are saved as `functionname.classname` and called automaticaly, based on the class of the first argument. This allows the same function, e.g. `print`, `summary`, `c`, to have a different effect on objects of different classes.
 For example, the `print` function applied on a data frame, will actually call `print.data.frame`, while applied on a factor, it will call `print.factor`.  
@@ -31,20 +32,24 @@ This means, `print(iris)` calls `print.data.frame(iris)`
 Note how the R documentation lists usage information separately for each S3 method, e.g. `## S3 method for class 'factor'`
 
 ### `methods()`
+
 To get a list of all available methods defined for a specific class:  
 (i.e. "What different functions can I use on this object?")
+
 ```{r}
 methods(class = "data.frame")
 ```
 Conversely, to get a list of all available methods for a generic function (i.e. which classes have)  
 (i.e. "What objects can I use this function on?")
+
 ```{r}
 methods(generic.function = "plot")
 ```
 
-
 ### Defining custom S3 classes
+
 It is trivial to create a new class and assign an object to it. There is no formal definition, which means an object is simply assigned to a class by name:
+
 ```{r}
 x <- 1:10
 class(x) <- c("specialvector", "numeric")

@@ -26,8 +26,10 @@ Missing data is a very common problem in statistics and data science. Data may b
 “The fact that the data are missing is systematically related to the unobserved data”
 
 ## Check for missing data
+
 You can use your favorite base commands to check for missing data, by row, by column, total, etc.  
 Let's add some NA values to our favorite dataset:
+
 ```{r}
 dat <- iris
 set.seed(2020)
@@ -35,24 +37,30 @@ dat[sample(1:150, 3), 1] <- dat[sample(1:150, 22), 2] <- dat[sample(1:150, 9), 4
 ```
 
 ### Visualize
+
 You can visualize missing data. A number of packages include functions to do this. I added a simple function in `rtemis`, `mplot.missing()`. In this examples, missing cases are represented in orange:
+
 ```{r}
 library(rtemis)
 mplot.missing(dat)
 ```
 
 ### Summarize
+
 Get N of missing per column:
+
 ```{r}
 sapply(dat, function(i) sum(is.na(i)))
 ```
 
 The `checkData()` function in `rtemis` includes information on missing data:
+
 ```{r}
 checkData(dat)
 ```
 
 ## Handle missing data
+
 Different approaches can be used to handle missing data:  
 
 * Do nothing! - if your algorithm(s) can handle missing data (decision trees!)
@@ -64,24 +72,31 @@ Different approaches can be used to handle missing data:
         * Multiple imputation
         
 ### Do nothing (decision trees!)
+
 Decision trees and ensemble methods that use decision trees like random forest and gradient boosting.
+
 ```{r}
 dat.cart <- s.CART(dat)
 ```
 
 ### Use complete cases only
+
 R's builtin `complete.cases()` function returns a logical index of cases that have no missing values, i.e. are complete.
+
 ```{r}
 dim(dat)
 (index_cc <- complete.cases(dat))
 dat_cc <- dat[index_cc, ]
 dim(dat_cc)
 ```
+
 We lost `r nrow(dat) - nrow(dat_cc)` cases in the above example. Maybe that's a lot.
 
 ### Replace with a fixed value: mean, median vs. mode, "missing"
+
 We can manually replace missing values with the mean or median for continuous variables, or with the mode for categorical features.  
 For example to replace the first feature's missing values with the mean
+
 ```{r}
 Sepal.Length_mean <- mean(dat$Sepal.Length, na.rm = TRUE)
 dat_rm <- dat
@@ -89,33 +104,41 @@ dat_rm$Sepal.Length[is.na(dat_rm$Sepal.Length)] <- Sepal.Length_mean
 ```
 
 The `preprocess()` function in `rtemis` can do this for you as well for all features:
+
 ```{r}
 dat_pre <- preprocess(dat, impute = TRUE, impute.type = "meanMode")
 ```
+
 Verify there are no missing data by rerunning `checkData()`:
+
 ```{r}
 checkData(dat_pre)
 ```
 
 You may want to include a "missingness" column that indicates which cases were imputed to include in your model. You can create this simply by running:
+
 ```{r}
 Sepal.Length_missing = factor(as.integer(is.na(dat$Sepal.Length)))
 ```
 
 `preprocess()` includes the option `missingness` to add corresponding indicator columns after imputation:
+
 ```{r}
 dat_pre <- preprocess(dat, impute = TRUE, impute.type = "meanMode",
                       missingness = TRUE)
 head(dat_pre)
 ```
+
 With categorical variables, an alternative option would be to introduce a new level of "missing" to your data, instead of replacing with the mode, for example. If we bin a continuous variable to convert to categorical, the same can then also be applied.  
 
 (-> I will add a function to `preprocess()` to do this.)
 
 ### Last observation carried forward
+
 In longitudinal / timeseries data, we may want to replace missing values with the last observed value. This is called last observation carried forward (LOCF). As always, whether this procedure is appropriate depend the reasons for missingness. The `zoo` and `DescTool` packages provide commands to perform LOCF.  
 
 Some simulated data. We are missing blood pressure measurements on Saturdays and Sundays:
+
 ```{r}
 dat <- data.frame(Day = rep(c("Mon", "Tues", "Wed", "Thu", "Fri", "Sat", "Sun"), 3),
                   SBP = sample(105:125, 21, TRUE))
@@ -124,21 +147,25 @@ dat
 ```
 
 The `zoo` package includes the `na.locf()`. 
+
 ```{r}
 dat$SBPlocf <- zoo::na.locf(dat$SBP)
 dat
 ```
+
 Similar functionality is included in `DescTools`' `LOCF()` function:
 
 ```{r}
 DescTools::LOCF(dat$SBP)
 ```
 
-
 ### Replace missing values with estimated values
+
 #### Single imputation
+
 You can use non-missing data to predict missing data in an iterative procedure [@buuren2010mice][@stekhoven2012missforest].
 The `missRanger` package uses the optimized (and parallel-capable) package `ranger` [@wright2015ranger] to iteratively train random forest models for imputation.
+
 ```{r}
 library(missRanger)
 dat <- iris
@@ -152,7 +179,9 @@ checkData(dat_rfimp)
 Note: The default method for `preprocess(impute = TRUE)` is to use `missRanger`.
 
 #### Multiple imputation
+
 Multiple imputation creates multiple estimates of the missing data. It is more statistically valid for small datasets, but may not be practical for larger datasets. The package `mice` is a popular choice for multiple imputation in R.
+
 ```{r eval = FALSE}
 library(mice)
 dat_mice <- mice(dat)

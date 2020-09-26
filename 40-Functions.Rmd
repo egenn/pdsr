@@ -33,20 +33,24 @@ Single argument, no default:
 square <- function(x) {
   x^2
 }
+
 square(3)
 ```
 
 The last object in the function definition is returned.  
-You could use `return`, but it's often not necessary.
+You could use `return()`, but it's not necessary if you want to return the last object defined within the function.
+
 ```{r}
 square <- function(x) {
   out <- x^2
   return(out)
 }
+
 square(4)
 ```
 
-`return` is a way to end evaluation early:
+`return()` is a way to end evaluation early:
+
 ```{r}
 square.pos <- function(x) {
   if (x > 0) {
@@ -56,16 +60,19 @@ square.pos <- function(x) {
   }
   cat("The input was left unchanged\n")
 }
+
 x <- sample(-10:10, 1)
 x
 square.pos(x)
 ```
 
 Multiple arguments, one with default:
+
 ```{r}
 raise <- function(x, power = 2) {
   x^power
 }
+
 x <- sample(10, 1)
 x
 raise(x)
@@ -74,6 +81,7 @@ raise(x, 3)
 ```
 
 ## Arguments with multiple possible values
+
 ```{r}
 myfn <- function(type = "alpha") {
   cat("You have selected type '", type, "'\n", sep = "")
@@ -82,12 +90,15 @@ myfn("beta")
 ```
 
 ## Match arguments
+
 You can match specific values for an argument using `match.arg`:
+
 ```{r error = TRUE}
 myfn <- function(type = c("alpha", "beta", "gamma")) {
   type <- match.arg(type)
   cat("You have selected type '", type, "'\n", sep = "")
 }
+
 myfn("a")
 myfn("b")
 myfn("g")
@@ -97,6 +108,7 @@ myfn("d")
 Above you see that partial matching using `match.arg` was able to identify a valid option, and when there was no match, an informative error was printed.
 
 Partial matching is also automatically done on the argument names themselves, but it's important to avoid depending on that. 
+
 ```{r}
 adsr <- function(attack = 100,
                  decay = 250,
@@ -129,6 +141,23 @@ cplot <- function(x, y,
 
 Note: Any arguments after the `...`, **must** be named fully, i.e. will not be partially matched.
 
+## Return multiple objects
+
+R function can only return a single object. This is not much of a problem because you can simply put any collection of objects into a list and return it:
+
+```{r}
+lfn <- function(x, fn = square) {
+  xfn <- square(x)
+  
+  list(x = x,
+       xfn = xfn,
+       fn = fn)
+}
+
+lfn(3)
+```
+
+
 ## Scoping
 
 Functions exist in their own environment, i.e. contain their own variable definitions - an illustration:
@@ -141,10 +170,10 @@ fn <- function(x, y) {
   y <- 20*y
   cat("Inside the function, x = ", x, " and y = ", y, "\n")
 }
+
 fn(x, y)
 cat("Outside the function, x = ", x, " and y = ", y, "\n")
 ```
-
 
 ## The pipe operator `%>%`
 
@@ -164,5 +193,6 @@ library(magrittr)
   split(iris$Species) %>%
   lapply(function(i) sapply(i, mean)) -> iris_mean_bySpecies)
 ```
+
 Pipes are used extensively in the [tidyverse](https://www.tidyverse.org) packages.  
 You can learn more about the pipe operator in the [magrittr vignette](https://cran.r-project.org/web/packages/magrittr/vignettes/magrittr.html)

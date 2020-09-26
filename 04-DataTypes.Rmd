@@ -174,13 +174,18 @@ str(x)
 
 ## Character
 
+A character vector consists of one or more elements, each of which consists of one or more actual characters, i.e. it is **not** a vector of single characters. (The length of a character vector is the number of individual elements, and is not related to the number of characters in each element)
+
 ```{r}
 x <- "word"
 typeof(x)
+length(x)
 ```
 
 ```{r}
-x <- c("alpha", "beta", "gamma")
+(x <- c("a", "b", "gamma", "delta"))
+typeof(x)
+length(x)
 ```
 
 ## Environment
@@ -233,7 +238,7 @@ xc <- character(10)
 We can explicitly convert objects of one type to a different type using `as.*` functions:
 
 ```{r}
-(x <- c(1.2, 2.3))
+(x <- c(1.2, 2.3, 3.4))
 (x <- as.logical(x))
 (x <- as.double(x))
 (x <- as.numeric(x))
@@ -250,8 +255,7 @@ x <- c(TRUE, TRUE, FALSE)
 as.numeric(x)
 ```
 
-Note that going the other way, i.e. from numeric to logical,  
-**anything other than zero is TRUE**:
+Note that converting from numeric to logical **anything other than zero is TRUE**:
 
 ```{r}
 x <- seq(-2, 2, .5)
@@ -259,7 +263,7 @@ as.logical(x)
 ```
 
 Not all conversions are possible.  
-There is no meaningful/consistent way to come up with a number for a character vector.  
+There is no meaningful/consistent way to convert a character vector to numeric.  
 The following outputs NA values and prints a (helpful) error message.
 
 ```{r}

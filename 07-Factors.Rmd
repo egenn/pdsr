@@ -4,7 +4,7 @@ Factors are used to store categorical data and they have many important uses in 
 
 
 ```{block, type="Note"}
-Factors in R are integer vectors with values from 1 to the total number of levels, where each integer has a label.
+Factors in R are integer vectors with values from `1 : (number of levels)`, where each integer has a label.
 ```
 
 You can create a factor by passing a vector to `factor()` or `as.factor()`:
@@ -13,12 +13,13 @@ You can create a factor by passing a vector to `factor()` or `as.factor()`:
 x <- c("a", "c", "d", "b", "a", "a", "d", "c")
 xf <- factor(x)
 xf
+class(xf)
 xftoo <- as.factor(x)
 xftoo
+class(xftoo)
 ```
 
 The difference is that `as.factor()` does not accept any arguments
-
 
 You can get the levels of a factor using `levels()`:
 
@@ -30,7 +31,7 @@ levels(x)
 In R, a factor is stored as vector of integers indexing a set of levels.
 ```
 
-`str` on a factor outputs:
+Our trusty `str` applied on a factor outputs:
 
 * the number of levels
 * the levels, in order
@@ -74,6 +75,7 @@ Be very careful: Setting new levels with `levels()` ***changes levels and all ve
 
 ```{r}
 xe <- x
+xe
 levels(xe) <- c("a", "b", "c", "d")
 xe
 ```

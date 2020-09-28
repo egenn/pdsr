@@ -78,6 +78,33 @@ You can return rows and or columns reversed too if desired:
 df[6:7, 4:2]
 ```
 
+### Matrix of indexes
+
+This is probably quite less common, but potentially useful.
+
+```{r}
+idm <- matrix(c(2, 4, 7, 4, 3, 1), 3)
+```
+
+An n-by-2 matrix can be used to index as a length n vector of `[row, colum]` indexes.
+
+```{r}
+mat[idm]
+```
+### Cartesian product of index vectors
+
+Also rather uncommon: passing two vectors indexes with the cartesian product of the vectors, therefore returning a matrix:
+
+```{r}
+mat[c(2, 4, 7), c(4, 3, 1)]
+```
+
+To visualize the cartesian product of the two vectors you can use `outer()`:
+
+```{r}
+outer(c(2, 4, 7), c(4, 3, 1), paste, sep = ",")
+```
+
 ## Lists
 
 Reminder: A list can contain elements of different class and of different length:
@@ -159,7 +186,8 @@ Similar to indexing a list, notice that some return a smaller data frame, while 
 
 ```{block, type="Info"}
 You can index a data frame using all the ways you can index a list and all the ways you can index a matrix.
-```
+```  
+
 
 ```{r}
 x <- data.frame(Feat_1 = 21:25,
@@ -221,7 +249,7 @@ x[, idi, drop = F]
 x[, idc, drop = F]
 ```
 
-Extracting multiple columns returns a data.frame:
+Extracting multiple columns returns a data frame:
 
 ```{r}
 x[, 2:3]
@@ -237,7 +265,7 @@ x[1, ]
 class(x[1, ])
 ```
 
-Convert into a list using `c`:
+Convert into a list using `c()`:
 
 ```{r}
 c(x[1, ])
@@ -253,23 +281,36 @@ class(unlist(x[1, ]))
 
 ## Logical <-> Integer indexing
 
-We have integer and logical indices. It's easy to convert one to the other.  
-In general, logical indices should be the length of your object / dimension (unless you really want values to be recycled) but integer indices will be shorter.
+There are two types of indexes/indices: integer and logical.  
+
+```{block, type="Note"}
+- A logical index needs to be of the same dimensions as the object it is indexing (unless you really want to recycle values - see chapter on [vectorization](#vectorization)):  
+    you are specifying whether to include or exclude each element
+    
+- An integer index will be shorter than the object it is indexing:
+    you are specifying which subset of elements to include (or with a `-` in front, which elements to exclude)
+```
+
+It's easy to convert between the two types of indexes.  
+
+Build an index of all cases in the iris dataset whose sepal length is greater than the mean sepal length:
 
 ```{r}
 index <- iris$Sepal.Length > mean(iris$Sepal.Length)
-index
+head(index)
 ```
 
 ```{r}
 head(iris[index, ])
 ```
 
-## Logical to integer index with `which`:
+## Logical to integer index with `which()`:
+
+`which()` literally gives the position of all `TRUE` elements in a vector, thus converting a logical to an integer index:
 
 ```{r}
 index_i <- which(iris$Sepal.Length > mean(iris$Sepal.Length))
-index_i
+head(index_i)
 table(index)
 length(index_i)
 ```
@@ -282,7 +323,7 @@ head(iris[index_i, ])
 
 ```{r}
 index_l <- vector(length = NROW(iris))
-index_l[index_i] <- T
+index_l[index_i] <- TRUE
 ```
 
 ## Complement of an index
@@ -299,7 +340,7 @@ all(iris[!index_l, ] == iris[-index_i, ])
 
 ```{r}
 head(iris)
-iris_sl.gt.med <-  subset(iris, Sepal.Length > median(Sepal.Length))
+iris_sl.gt.med <- subset(iris, Sepal.Length > median(Sepal.Length))
 ```
 
 Note: You can use the column name Sepal.Length directly, i.e. unquoted and you don't need to use `iris$Sepal.Length`. (This is called Non-Standard Evaluation, NSE)
@@ -330,4 +371,3 @@ Within a `with()` expression, you can access data.frame columns without quoting 
 with(x, x[group == "alpha", ])
 with(x, x[two > 0, ])
 ```
-

@@ -69,6 +69,21 @@ The above tells you that x is a factor,
 it has two levels labeled as "female" and "male", in that order, i.e. female is level 1 and male is level 2.    
 The last part shows that the first five elements (in this case the whole vector) consists of three elements of level 1 (female) followed by 2 elements of level 2 (male)
 
+### Setting new level labels
+
+You can use the `levesl()` command with an assignment to assign new labels to a factor (same syntax to how you use `rownames()` or `colnames()` to assign new row column names to a matrix/data frame)
+
+```{r}
+xf <- factor(sample(c("patient_status_positive", "patient_status_negative"), 10, T),
+             levels = c("patient_status_positive", "patient_status_negative"))
+xf
+```
+
+```{r}
+levels(xf)
+levels(xf) <- c("positive", "negative")
+```
+
 ### Defining the mapping of labels to integers
 
 If you want to define the mapping of labels to their integer representation (and not default to them sorted alphabeticaly), you use the `levels` arguments of the `factor()` function.  
@@ -148,9 +163,9 @@ x
 
 Note how the levels now include the `<` sign between levels to indicate the ordering.
 
-## Change order of levels or labels
+## Change (order of levels) or (labels)
 
-We've seen how to creat a factor with defined order of levels and how to create an ordered factor and what each means.
+We've seen how to create a factor with defined order of levels and how to change level labels already. Because these are prone to serious accidents, let's look at them again, together.
 
 **To change the order of levels** of an existing factor use `factor()`:
 
@@ -203,6 +218,31 @@ You don't notice because how would you.
 Your model does the exact opposite of what you intended.
 
 -> Don't ever do this.
+
+## Factor to numeric
+
+While it often makes sense to have factors with words for labels, they can be any character and that includes numbers (i.e. numbers which are treated as labels)
+
+```{r}
+xn <- factor(c(3, 7, 7, 9, 3, 3, 9))
+xn
+```
+
+This behaves just like any other factor with all the rules we learned above.
+
+There is a very easy trap to fall into, if you ever decide to convert such a factor to numeric.
+
+The first thing that usually comes to mind is to use `as.numeric()`.
+
+```{r}
+# don't do this
+as.numeric(xn)
+```
+But! We already know this will return the integer index, it will not return the labels as numbers. The way around this is simply to convert to character first and then to numeric:
+
+```{r}
+as.numeric(as.character(xn))
+```
 
 ## Summary
 

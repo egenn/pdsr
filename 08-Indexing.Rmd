@@ -3,56 +3,83 @@
 ```{r echo = FALSE}
 knitr::opts_chunk$set(fig.width = 10, fig.height = 5,
                       comment = NA, cache = TRUE) 
-options(rt.theme = "lightgrid")
-options(rt.fit.theme = "lightgrid")
-```
-
-```{r, comment="", results="asis", echo=FALSE}
-old.hooks <- fansi::set_knit_hooks(knitr::knit_hooks)
-options(crayon.enabled = TRUE)
 ```
 
 ## Indexing
+
+The main indexing operator in R is the square bracket `[`.
+Indexing is 1-based, meaning the first item of any collection is 1.
+(If you are wondering why we are even mentioning this, know that many programming language use [0-based indexing](https://en.wikipedia.org/wiki/Zero-based_numbering#Computer_programming))
+
 ### Vectors
+
+Get the 5th element of a vector:
+
 ```{r}
 x <- rnorm(10)
 x
-x[5:10]
+x[5]
+```
+
+Get elements 6 through 9 of the same vector:
+
+```{r}
+x[6:9]
 ```
 
 ### Matrices
-A matrix is rectangular and can contain elements of the same class only.  
+
+Reminder:
+
+- A matrix is a 2D vector and contains elements of one type only (numeric, integer, character, factor).  
+- A data frame is a 2D list and each column can contain different type of data.
+
 Numeric matrix:
-```{r}
-x <- cbind(rnorm(5), rnorm(5), rnorm(5))
-x
-```
-
-Character matrix:
-```{r}
-x <- matrix(letters[1:15], 5)
-x
-```
-
-Matrix & data frame indexing: `[row, column]`
 
 ```{r}
-x[1, 1]
+mat <- matrix(1:40, 10)
+df <- as.data.frame(mat)
 ```
+
+To index a 2D structure, whether a matrix or data frame, we use `[row, column]`
+
+To get the contents of the fifth row, second column:
 
 ```{r}
-x[1, ]
-x[, 1]
+mat[5, 2]
+df[5, 2]
 ```
+
+If you want to select an entire row or an entire column, you leave the row or column index blank, but - necessarily - use a comma:
+
+Get the first row:
 
 ```{r}
-x[2:4, 3:2]
+df[1, ]
 ```
 
-Note: A matrix element is a cell. Contrast with data frames where an element is a column. This affects how elementwise operations are applied on matrices and columns - e.g. using `sapply()`
+Get the second column:
+
+```{r}
+df[, 2]
+```
+
+You can define ranges for both rows and columns:
+
+```{r}
+df[6:7, 2:4]
+```
+
+You can return rows and or columns reversed too if desired:
+
+```{r}
+df[6:7, 4:2]
+```
 
 ### Lists
-A list can contain elements of different class and of different length:
+
+Reminder: A list can contain elements of different class and of different length:
+
 ```{r}
 (x <- list(one = 1:4,
           two = sample(seq(0, 100, .1), 10),
@@ -60,12 +87,19 @@ A list can contain elements of different class and of different length:
           four = median))
 ```
 
-Access a list element, i.e. vector with `$` or double brackets:
+You can access a list element with:
+
+- `$` followed by name of element (therefore only works if elements are named)
+- using double brackets `[[` with either name or integer index
+
+To access the third element:
+
 ```{r}
 x$three
-class(x$three)
+
 x[["three"]]
 class(x[["three"]])
+x[[3]]
 ```
 
 To access an element with a name or integer index, only the bracket notation works:

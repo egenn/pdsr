@@ -3,14 +3,8 @@
 ```{r echo = FALSE}
 knitr::opts_chunk$set(fig.width = 10, fig.height = 5,
                       comment = NA, cache = TRUE) 
-options(rt.theme = "lightgrid")
-options(rt.fit.theme = "lightgrid")
 ```
 
-```{r, comment="", results="asis", echo=FALSE}
-old.hooks <- fansi::set_knit_hooks(knitr::knit_hooks)
-options(crayon.enabled = TRUE)
-```
 Code is often not executed linearly (i.e. line-by-line). Control flow operations define the order in which code segments are executed.
 
 Execution is often conditional (`if - then - else` or `switch`).
@@ -27,7 +21,8 @@ Control flow operations form some of the fundamental building blocks of programs
 * `break`: break out of `for`, `while` or `repeat` loop
 * `next`: skip current iteration and proceed to next
 
-## `if` - `then` - `else`
+## `if` - `then` - `else`:
+
 ```{r}
 a <- 4
 if (a < 10) {
@@ -37,7 +32,8 @@ if (a < 10) {
 }
 ```
 
-## `if` - `then` - `else if` = `else`
+## `if` - `then` - `else if` = `else`:
+
 ```{r}
 a <- sample(seq(-2, 2, .5), 1)
 if (a > 0) {
@@ -49,7 +45,8 @@ if (a > 0) {
 }
 ```
 
-## Conditional assignment with `if` - `else`
+## Conditional assignment with `if` - `else`:
+
 ```{r}
 a <- 8
 y <- if (a > 5) {
@@ -59,7 +56,8 @@ y <- if (a > 5) {
 }
 ```
 
-## Conditional assignment with `ifelse`
+## Conditional assignment with `ifelse`:
+
 ```{r}
 a <- 3
 (y <- ifelse(a > 5, 10, 0))
@@ -142,6 +140,7 @@ response
 ```
 
 ### Nested `for` loops
+
 ```{r}
 a <- matrix(1:9, 3)
 for (i in seq(3)) {
@@ -152,6 +151,7 @@ for (i in seq(3)) {
 ```
 
 ## `while` loops
+
 ```{r}
 a <- 10
 while (a > 0) {
@@ -162,6 +162,7 @@ cat("when all is said and done, a is", a)
 ```
 
 ## `break` stops execution of a loop:
+
 ```{r}
 for (i in seq(10)) {
   if (i == 5) break()
@@ -169,7 +170,8 @@ for (i in seq(10)) {
 }
 ```
 
-## `next` skips the current iteration
+## `next` skips the current iteration:
+
 ```{r}
 for (i in seq(7)) {
   if (i == 5) next()
@@ -178,7 +180,9 @@ for (i in seq(7)) {
 ```
 
 ## `repeat` loops
+
 `repeat` is not that useful, it initiates an infinite loop and **must** use `break` to exit. Best to use any other type of loop instead.
+
 ```{r}
 i <- 10
 repeat {

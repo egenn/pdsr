@@ -287,6 +287,33 @@ l2 <- list(s = LETTERS[21:24], t = 100:97)
 length(x)
 ```
 
+### Mixing types with `c()`
+
+It's best to use `c()` to either combine elements of the same type into a vector, or to combine lists, otherwise you must inspect the outcome to be certain it was as intended.  
+
+As we've seen, if all arguments passed to `c()` are of a single type, you get a vector of that type:
+
+```{r}
+(x <- c(12.9, 94.67, 23.74, 46.901))
+class(x)
+```
+If arguments passed to `c()` are a mix of numeric and character, they all get ***coerced to character***. 
+
+```{r}
+(x <- c(23.54, "mango", "banana", 75))
+class(x)
+```
+
+If you pass more types of objects (which cannot be coerced to character) you get a list, since it is the only structure that can support all of them together:
+
+```{r}
+(x <- c(42, mean, "potatoes"))
+class(x)
+```
+
+```{block, type="Note"}
+Other than concatenating vectors of the same type or lists into a larger list, it probably best to avoid using `c()` and directly constructing the object you want using, e.g. `list()`.
+```
 
 ##  Data frames
 

@@ -5,19 +5,20 @@ knitr::opts_chunk$set(fig.width = 10, fig.height = 5,
                       comment = NA, cache = TRUE) 
 ```
 
-## Indexing
-
 The main indexing operator in R is the square bracket `[`.
 Indexing is 1-based, meaning the first item of any collection is 1.
 (If you are wondering why we are even mentioning this, know that many programming language use [0-based indexing](https://en.wikipedia.org/wiki/Zero-based_numbering#Computer_programming))
 
-### Vectors
-
-Get the 5th element of a vector:
+## Vectors
 
 ```{r}
 x <- rnorm(10)
 x
+```
+
+Get the 5th element of a vector:
+
+```{r}
 x[5]
 ```
 
@@ -27,7 +28,7 @@ Get elements 6 through 9 of the same vector:
 x[6:9]
 ```
 
-### Matrices
+## Matrices
 
 Reminder:
 
@@ -39,6 +40,7 @@ Numeric matrix:
 ```{r}
 mat <- matrix(1:40, 10)
 df <- as.data.frame(mat)
+df
 ```
 
 To index a 2D structure, whether a matrix or data frame, we use `[row, column]`
@@ -76,20 +78,20 @@ You can return rows and or columns reversed too if desired:
 df[6:7, 4:2]
 ```
 
-### Lists
+## Lists
 
 Reminder: A list can contain elements of different class and of different length:
 
 ```{r}
 (x <- list(one = 1:4,
-          two = sample(seq(0, 100, .1), 10),
-          three = c("mango", "banana", "tangerine"),
-          four = median))
+           two = sample(seq(0, 100, .1), 10),
+           three = c("mango", "banana", "tangerine"),
+           four = median))
 ```
 
 You can access a list element with:
 
-- `$` followed by name of element (therefore only works if elements are named)
+- `$` followed by name of the element (therefore only works if elements are named)
 - using double brackets `[[` with either name or integer index
 
 To access the third element:
@@ -102,7 +104,8 @@ class(x[["three"]])
 x[[3]]
 ```
 
-To access an element with a name or integer index, only the bracket notation works:
+To access an element with a name or integer index stored in a variable, only the bracket notation works - therefore programmatically you would always use double brackets to access different elements:
+
 ```{r}
 idi <- 3
 idc <- "three"
@@ -110,26 +113,38 @@ x[[idi]]
 x[[idc]]
 ```
 
-Single bracket indexing returns a list:
+`$` or `[[` return an element.  
+In contrast, single bracket `[` indexing of a list returns a pruned list:
+
+```{r}
+x[[idi]]
+class(x[[idi]])
+```
+vs.
+
 ```{r}
 x[idi]
-x[idc]
 class(x[idi])
-class(x[idc])
 ```
 
-Extract multiple list elements with single brackets:
+Extract multiple list elements with single brackets, as expected:
+
 ```{r}
 x[2:3]
 class(x[2:3])
 ```
 
-Beware the confusing recursive indexing. The following extracts the 3rd element of the 2nd element of the list:
+Beware (confusing) recursive indexing.  
+(This is probably rarely used).  
+Unlike in the single brackets example above, colon notation in double brackets accesses elements recursively at the given position.  
+The following extracts the 3rd element of the 2nd element of the list:
+
 ```{r}
 x[[2:3]]
 ```
 
-You can convert a list to one lone vector containing all the individual components of the original list using `unlist()`:
+You can convert a list to one lone vector containing all the individual components of the original list using `unlist()`. Notice how names are automatically created based on the original structure:
+
 ```{r}
 (x <- list(alpha = sample(seq(100), 10),
           beta = sample(seq(100), 10),
@@ -137,47 +152,62 @@ You can convert a list to one lone vector containing all the individual componen
 unlist(x)
 ```
 
+## Data frames
 
-### Data frames
-A data.frame in R is a special type of list. Like a list, its elements are vectors of any type (integer, double, character, factor, and more) but, unlike a list, they have to be of the same length, since a data.frame is a rectangular structure. There are different ways to index and slice a data frame. Beware that some return a smaller data.frame, while others return vectors.  
+As we've seen, a data frame is a rectangular list. Like a list, its elements are vectors of any type (integer, double, character, factor, and more) but, unlike a list, they have to be of the same length. There are different ways to index and slice a data frame.  
+Similar to indexing a list, notice that some return a smaller data frame, while others return vectors.  
+
+```{block, type="Info"}
 You can index a data frame using all the ways you can index a list and all the ways you can index a matrix.
-
-```{r}
-x <- data.frame(Feat_1 = 1:5,
-                Feat_2 = rnorm(5),
-                Feat_3 = paste0("rnd_", sample(seq(100), 5)))
 ```
 
-#### Extract column(s)
+```{r}
+x <- data.frame(Feat_1 = 21:25,
+                Feat_2 = rnorm(5),
+                Feat_3 = paste0("rnd_", sample(seq(100), 5)))
+x
+```
+
+### Extract column(s)
+
 Just like in a list, using the `$` operator returns an element, i.e. a **vector**:
+
 ```{r}
 x$Feat_2
 class(x$Feat_2)
 ```
 
 Accessing a column by name with square brackets, returns a single-column **data.frame**:
+
 ```{r}
 x["Feat_2"]
 class(x["Feat_2"])
 ```
+
 Again, similar to a list, if you double the square brackets, you access the element within the data.frame, which is a vector:
+
 ```{r}
 x[["Feat_2"]]
 ```
+
 Accessing a column by `[row, column]` either by position or name, return a vector by default:
+
 ```{r}
 x[, 2]
 class(x[, 2])
 x[, "Feat_2"]
 class(x[, "Feat_2"])
 ```
+
 The above happens, because by default the argument `drop` is set to `TRUE`. Set it to `FALSE` to return a `data.frame`:
+
 ```{r}
 class(x[, 2, drop = FALSE])
 class(x[, "Feat_2", drop = FALSE])
 ```
 
-With the exception of the `$` notation, all other indexing and slicing operations work with a variable holding either a character name of a column or an integer location:
+As in lists, with the exception of the `$` notation, all other indexing and slicing operations work with a variable holding either a column name of or an integer location:
+
 ```{r}
 idi <- 2
 idc <- "Feat_2"
@@ -189,34 +219,40 @@ x[, idi]
 x[, idc]
 x[, idi, drop = F]
 x[, idc, drop = F]
-
 ```
 
-Extracting multiple columns returns a data.frame (since it cannot be "dropped" into a vector)
+Extracting multiple columns returns a data.frame:
+
 ```{r}
 x[, 2:3]
 class(x[, 2:3])
 ```
 
-#### Extract rows
+### Extract rows
+
 A row is a small data.frame, since it contains multiple columns:
+
 ```{r}
 x[1, ]
 class(x[1, ])
 ```
 
 Convert into a list using `c`:
+
 ```{r}
 c(x[1, ])
 class(c(x[1, ]))
 ```
+
 Convert into a (named) vector using `unlist()`:
+
 ```{r}
 unlist(x[1, ])
 class(unlist(x[1, ]))
 ```
 
 ## Logical <-> Integer indexing
+
 We have integer and logical indices. It's easy to convert one to the other.  
 In general, logical indices should be the length of your object / dimension (unless you really want values to be recycled) but integer indices will be shorter.
 
@@ -224,11 +260,13 @@ In general, logical indices should be the length of your object / dimension (unl
 index <- iris$Sepal.Length > mean(iris$Sepal.Length)
 index
 ```
+
 ```{r}
 head(iris[index, ])
 ```
 
-### Logical to integer index with `which`:
+## Logical to integer index with `which`:
+
 ```{r}
 index_i <- which(iris$Sepal.Length > mean(iris$Sepal.Length))
 index_i
@@ -240,26 +278,32 @@ length(index_i)
 head(iris[index_i, ])
 ```
 
-### Integer to logical index
+## Integer to logical index
+
 ```{r}
 index_l <- vector(length = NROW(iris))
 index_l[index_i] <- T
 ```
 
-### Complement of an index
+## Complement of an index
+
 To get the complement, you negate the logical index (`!`) and you subtract the integer (`-`):
+
 ```{r}
 all(iris[!index_l, ] == iris[-index_i, ])
 ```
 
 ## `subset()`
+
 `subset()` allows you to filter cases that meet certain conditions using the `subset` argument, and optionally also select columns using the `select` argument:
+
 ```{r}
 head(iris)
 iris_sl.gt.med <-  subset(iris, Sepal.Length > median(Sepal.Length))
 ```
 
-Note: You can use the column name Sepal.Length directly, i.e. unquoted and you don't need to use `iris$Sepal.Length`. This is calles Non-Standard Evaluation (NSE)
+Note: You can use the column name Sepal.Length directly, i.e. unquoted and you don't need to use `iris$Sepal.Length`. (This is called Non-Standard Evaluation, NSE)
+
 ```{r}
 x <- data.frame(one = 1:10,
                 two = rnorm(10),
@@ -271,13 +315,17 @@ subset(x, two > 0, two:group)
 ```
 
 ## `split()`
+
 Split a data frame into multiple data frames by groups defined by a factor:
+
 ```{r}
 x_by_group <- split(x, x$group)
 ```
 
-## `with`
-With `with`, you can access data.frame column without quoting or using the `$` operator:
+## `with()`
+
+Within a `with()` expression, you can access data.frame columns without quoting or using the `$` operator:
+
 ```{r}
 with(x, x[group == "alpha", ])
 with(x, x[two > 0, ])

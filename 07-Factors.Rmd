@@ -5,7 +5,7 @@ knitr::opts_chunk$set(fig.width = 5, fig.height = 5,
                       comment = NA, cache = TRUE) 
 ```
 
-Factors are used to store categorical data and therefore have many important uses in statistics / data science / machine learning.  
+Factors are used to store **categorical data** and therefore have many important uses in statistics / data science / machine learning.  
 
 You can create factor by passing a numeric or character vector to `factor()` or `as.factor()`.  
 The difference is that `as.factor()` does not accept any arguments while `factor()` does - and they can be very important. More on this right below.
@@ -43,7 +43,7 @@ Internally, the command sees there are two distinct labels, female and male, and
 
 Printing a factor prints the vector of labels followed by the levels, i.e. the unique labels.  
 
-## 1. The underlying **integer vector**
+## The underlying **integer vector**
 
 Each level is assigned an integer. (Internally, this is the "data" that forms the elements of a factor vector). You don't see these integers unless you convert the factor to numeric (`as.numeric()`) or look at the (truncated) output of `str()`
 
@@ -51,9 +51,9 @@ Each level is assigned an integer. (Internally, this is the "data" that forms th
 as.numeric(x)
 ```
 
-## 2. The **mapping of integers to labels**
+## The **mapping of integers to labels**
 
-This defines which integer is mapped to which level. i.e. whether 1 is mapped to male or female. You can store the same information regardless which one you choose to call 1 and 2. 
+This defines which integer is mapped to which label, i.e. whether 1 is mapped to male or female. You can store the same information regardless which one you choose to call 1 and 2. 
 
 To get the mapping you can use `levels()`. It prints the labels in order:
 
@@ -95,7 +95,15 @@ The `table` command has a number of useful applications, in it simplest form, it
 table(x)
 ```
 
-If you know that more levels exist, even if no examples are present in your sample, you can define more levels:
+If you forget (or choose to exclude) a level, all occurences are replaced by `NA`:
+
+```{r}
+x <- factor(c("alpha", "alpha", "gamma", "delta", "delta"),
+ levels = c("alpha", "gamma"))
+x
+```
+
+If you know that more levels exist, even if no examples are present in your sample, you can includes these extra levels:
 
 ```{r}
 x <- factor(c("alpha", "alpha", "gamma", "delta", "delta"),
@@ -107,12 +115,13 @@ x
 table(x)
 ```
 
-
-## 3. Whether the factor is **ordered**
+## Is the factor **ordered**
 
 We looked at how you can define the order of levels using the `levels` argument in `factor()`, which affects the integer mapping to each label.
 
-Entirely separately from the order of the mapping, you can further define if there is a *quantitative relationship* among levels of the form `level 1 < level 2 < ... < level n`.
+This can affect how some applications treat the different levels.
+
+On top of the order of the mapping, you can further define if there is a *quantitative relationship* among levels of the form `level 1 < level 2 < ... < level n`. This, in turn, can affect how the factor is treated by some functions, like some functions that fit statistical models.
 
 ```{block, type="Note"}
 All factors' levels appear in some order or other.
@@ -137,22 +146,20 @@ x <- factor(dat,
 x
 ```
 
-Note how the Levels now include the `<` sign between levels to indicate the ordering.
+Note how the levels now include the `<` sign between levels to indicate the ordering.
 
-## Change order or labels
+## Change order of levels or labels
 
-We've seen how to order levels and how to create an ordered factor and what these two mean.
+We've seen how to creat a factor with defined order of levels and how to create an ordered factor and what each means.
 
-**To change the order of levels** use `factor()`:
-
-Start with a factor
+**To change the order of levels** of an existing factor use `factor()`:
 
 ```{r}
 x <- factor(c("target", "target", "control", "control", "control"))
 x
 ```
 
-Change the order so that target is first:
+Change the order so that target is first (i.e. corresponds to 1:
 
 ```{r}
 x <- factor(x, levels = c("target", "control"))
@@ -166,24 +173,36 @@ levels(x) <- c("hit", "decoy")
 x
 ```
 
+```{block, type="Warning"}
+Changing the levels of a factor with `levels()` does not change the internal integer representation but changes every elements labels 
+```
+
 ## Fatal error to avoid
 
-It is common to get a dataset for classification where the outcome is a factor of 1s and 0s:
+Example scenario: You receive a dataset for classification where the outcome is a factor of 1s and 0s:
 
 ```{r}
 outcome <- factor(c(1, 1, 0, 0, 0, 1, 0))
 outcome
 ```
-Some classification procedures expect the first level to be the 'positive' outcome, so you may want to reorder the levels.
+Some classification procedures expect the first level to be the 'positive' outcome, so you decide to reorder the levels.
 
-If you were to mistakenly use `levels()` instead of `factor()` to achieve this as explained above, you would flip all the outcome values, which would most probably be a horrible disaster:
+You mistakenly use `levels()` instead of `factor(x, levels=c(...))` hoping to achieve this.  
+
+You end up flipping all the outcome values.
 
 ```{r}
 levels(outcome) <- c("1", "0")
 outcome
 ```
 
-Don't ever do this.
+All zeros became ones and ones became zeros.
+
+You don't notice because how would you.
+
+Your model does the exact opposite of what you intended.
+
+-> Don't ever do this.
 
 ## Summary
 

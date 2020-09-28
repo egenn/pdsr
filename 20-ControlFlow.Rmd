@@ -11,7 +11,7 @@ Execution is often conditional (`if - then - else` or `switch`).
 
 Segments of code may be repeated multiple times (`for`) or as long as certain conditions are met (`while`).
 
-Control flow operations form some of the fundamental building blocks of programs. Each operation is very simple - combine enough of them you can bui
+Control flow operations form some of the fundamental building blocks of programs. Each operation is very simple - combine enough of them and you can build up to any amount of complexity.
 
 * `if` [Condition] `then` [Expression] `else` [Alternate Expression]
 * `for` [Variable in Sequence] do [Expression]
@@ -31,10 +31,11 @@ if (a < 10) {
 }
 ```
 
-## `if` - `then` - `else if` = `else`:
+## `if` - `then` - `else if` - `else`:
 
 ```{r}
 a <- sample(seq(-2, 2, .5), 1)
+a
 if (a > 0) {
   result <- "positive"
 } else if (a == 0) {
@@ -42,9 +43,12 @@ if (a > 0) {
 } else {
   result <- "negative"
 }
+result
 ```
 
 ## Conditional assignment with `if` - `else`:
+
+You can use an `if` statement as part of an assignment:
 
 ```{r}
 a <- 8
@@ -63,12 +67,14 @@ a <- 3
 ```
 
 `ifelse` is vectorized:
+
 ```{r}
 a <- 1:10
 (y <- ifelse(a > 7, a^2, a))
 ```
 
 ## `for` loops
+
 ```{r}
 for (i in seq(10)) {
   cat(i^2, "\n")
@@ -76,6 +82,7 @@ for (i in seq(10)) {
 ```
 
 `letters` is a built-in constant that includes all 26 lowercase letters of the Roman alphabet; `LETTERS` similarly includes all 26 uppercase letters.
+
 ```{r}
 for (letter in letters[1:5]) {
   cat(letter, "is a letter!\n")
@@ -83,7 +90,8 @@ for (letter in letters[1:5]) {
 ```
 
 ## Select one of multiple alternatives with `switch`
-Instead of using multiple `if` - `else if` statements, we can build a more compact call using `switch`. (It is best suited for options that are of type character, rather tha numeric)
+
+Instead of using multiple `if` - `else if` statements, we can build a more compact call using `switch`. (It is best suited for options that are of type character, rather than numeric)
 
 ```{r}
 y <- sample(letters[seq(8)], 1)
@@ -120,6 +128,7 @@ out
 
 
 ### `switch` example: HTTP Status Codes
+
 ```{r}
 status <- sample(400:410, 1)
 status
@@ -180,7 +189,7 @@ for (i in seq(7)) {
 
 ## `repeat` loops
 
-`repeat` is not that useful, it initiates an infinite loop and **must** use `break` to exit. Best to use any other type of loop instead.
+`repeat` initiates an infinite loop and you **must** use `break` to exit. Probably best to use any other type of loop instead.
 
 ```{r}
 i <- 10

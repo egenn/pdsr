@@ -3,64 +3,109 @@
 ```{r echo = FALSE}
 knitr::opts_chunk$set(fig.width = 10, fig.height = 5,
                       comment = NA, cache = TRUE) 
-options(rt.theme = "lightgrid")
-options(rt.fit.theme = "lightgrid")
 ```
 
-```{r, comment="", results="asis", echo=FALSE}
-old.hooks <- fansi::set_knit_hooks(knitr::knit_hooks)
-options(crayon.enabled = TRUE)
+Loop functions are some of the most widely used R functions. They replace longer expressions created with a `for` loop, for example.  
+They can result in more compact and readable code and are often faster to execute than a `for` loop.  
+
+* `apply()`: Apply function over array margins (i.e. over one or more dimensions)
+* `lapply()`: Return a *list* where each element is the result of applying a function to each element of the input
+* `sapply()`: Same as `lapply()`, but returns the simplest possible R object (instead of always returning a list)
+* `vapply()`: Same as `sapply()`, but you prespecify the return type: this is safer and may also be faster
+* `tapply()`: Apply a function to elements of groups defined by a factor
+* `mapply()`: Multivariate version of `sapply()`: Apply a function using the first elements of the inputs vectors, then using the second, third, and so on
+
+## `apply()`
+
+```{block, type="Info"}
+`apply()` applies a function over one (or more) dimensions of an object of 2 dimensions or more.
 ```
 
-The following functions are some of the most widely used R functions. They replace longer expressions created with a `for` loop, for example. They usually result in clean, compact, and readable code.
+Let's calculate the mean value of each of the irst four columns of the iris dataset:
 
-* `apply`: Apply function over array margins
-* `lapply`: Return a *list* where each element is the result of applying a function to each element of the input
-* `sapply`: Same as `lapply`, but returns the simplest possible R object, instead of always returning a list.
-* `vapply`: Same as `sapply`, but you prespecify the return type: this is safer and may also be faster
-* `tapply`: Apply a function to elements of groups defined by a factor
-* `mapply`: Multivariate version of `sapply`: Apply a function using the first elements of the inputs vectors, then using the second, third, and so on.
-
-## `apply`
-Get the numeric (first four) columns of the iris dataset and calculate the mean of each column:
 ```{r}
 x <- iris[, -5]
-apply(x,      # array with 'dim' attribute, most commonly 2D matrix or data.frame
-      MARGIN = 2, # integer vector or character indicating dimensions over which 'FUN' will be applied
-      FUN = mean) # function to apply
+iris_column_mean <- 
+  apply(x,          # array with 'dim' attribute, most commonly 2D matrix or data.frame
+        MARGIN = 2, # integer vector or character indicating dimensions over which 'FUN' will be applied
+        FUN = mean) # function to apply
+iris_column_mean
 ```
 
+```{block, type="Note"}
 Hint: It is easiest to think of the "MARGIN" as the **dimension you want to keep**.  
-In the above case, I want a mean for each variable, i.e. I want to keep columns and collapse rows.  
-Otherwise, get mean across rows (does not make much sense in this case)
+In the above case, we want the mean for each variable, i.e. we want to keep columns and collapse rows.
+```
+
+The above is equivalent to:
+
+```{r}
+iris_column_mean <- numeric(ncol(x))
+names(iris_column_mean) <- names(x)
+
+for (i in seq(x)) {
+  iris_column_mean[i] <- mean(x[, i])
+}
+iris_column_mean
+```
+
+If you wanted to get the mean of the rows (makes little sense in this case):
+
 ```{r}
 head(apply(x, 1, mean))
 ```
 
-## `lapply`
+```{block, type="Note"}
+`apply()` only works on objects with a define `dim()`
+```
 
-`lapply` applies a function on each of the elements of its input.  
-Note: The 'elements' of a data frame are its columns (remember, a data frame is a list with equal-length elements). The 'elements' of a matrix are each cell one by one, by column. Therefore lapply has a very different effect on a data frame and a matrix. `lapply` is commonly used to iterate over the columns of a data frame.
+```{block, type="None"}
+Try to think why you can't use `apply()` to apply a function `fn()` on a vector `v`.
+
+...
+
+...
+
+
+Because that would be `fn(v)`
+```
+
+## `lapply()`
+
+```{block, type="Info"}
+`lapply()` applies a function on each of the elements of its input.  
+```
+
+
+Note: The 'elements' of a data frame are its columns (remember, a data frame is a list with equal-length elements). The 'elements' of a matrix are each cell one by one, by column. Therefore lapply has a very different effect on a data frame and a matrix. `lapply()` is commonly used to iterate over the columns of a data frame.
 
 ```{r}
-(iris.median <- lapply(iris[, -5], median))
+iris.median <- lapply(iris[, -5], median)
+iris.median
 ```
 
 The above is equivalent to:
+
 ```{r}
 iris.median <- vector("list", 4)
 names(iris.median) <- colnames(iris[, -5])
 for (i in 1:4) {
   iris.median[[i]] <- median(iris[, 1])
 }
-
 ```
 
 
-## `sapply`
-Check the source code for `sapply` (type `sapply` at the console and hit Enter). It is an alias for `lapply`, followed by a call to `simplify2array`. The output will be the simplest R object that can hold the data type(s) resulting from the operations.
+## `sapply()`
+
+Check the source code for `sapply` (type `sapply` at the console and hit Enter).  
+It is an alias for `lapply`, followed by a call to `simplify2array`.  
+
+```{block, type="Note"}
+The output of `sapply` be the simplest R object that can hold the data type(s) resulting from the operations.
+```
+
 ```{r}
-(iris.median <- sapply(iris[, -5], median))
+iris.median <- sapply(iris[, -5], median)
 ```
 
 ```{r}
@@ -69,9 +114,11 @@ iris.summary <- data.frame(Mean = sapply(iris[, -5], mean),
 iris.summary
 ```
 
-## `vapply`
+## `vapply()`
+
 Much less commonly used than `lapply` or `sapply` (possibly quite underused).  
 You add the argument `FUN.VALUE` which must be of the correct **type** and **length** of the expected result.
+
 ```{r}
 iris.median <- vapply(iris[, -5], median, FUN.VALUE = .1)
 ```
@@ -85,20 +132,49 @@ iris.minmax <- vapply(iris[, -5], minmax, out)
 ```
 
 If the output does not match, we get an informative error:
+
 ```{r error = TRUE}
 out <- vector("numeric", length = 2)
 iris.min <- vapply(iris[, -5], min, out)
 ```
 
-## `tapply`
+## `tapply()`
+
 ```{r}
-tapply(iris$Sepal.Length, iris$Species, mean)
+mean_Sepal.Length_by_Species <-
+  tapply(iris$Sepal.Length, iris$Species, mean)
+mean_Sepal.Length_by_Species
+```
+The above is equivalent to:
+
+```{r}
+species <- levels(iris$Species)
+mean_Sepal.Length_by_Species <- vector("numeric", length(species))
+names(mean_Sepal.Length_by_Species) <- species
+
+for (i in seq(species)) {
+  mean_Sepal.Length_by_Species[i] <- 
+    mean(iris$Sepal.Length[iris$Species == species[i]])
+}
+mean_Sepal.Length_by_Species
 ```
 
-## `mapply`
+## `mapply()`
+
 ```{r}
 raise <- function(x, power) x^power
-x <- 1:5
-p <- 5:1
-(out <- mapply(raise, x, p))
+x <- 2:6
+p <- 6:2
+out <- mapply(raise, x, p)
+out
 ```
+
+The above is equivalent to:
+
+```{r}
+out <- vector("numeric", 6)
+for (i in seq(5)) {
+  out[i] <- raise(x[i], p[i])
+}
+```
+

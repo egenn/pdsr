@@ -66,7 +66,7 @@ a <- 3
 (y <- ifelse(a > 5, 10, 0))
 ```
 
-`ifelse` is vectorized:
+`ifelse` is [vectorized](#vectorization):
 
 ```{r}
 a <- 1:10
@@ -86,6 +86,17 @@ for (i in seq(10)) {
 ```{r}
 for (letter in letters[1:5]) {
   cat(letter, "is a letter!\n")
+}
+```
+
+### Nested `for` loops
+
+```{r}
+a <- matrix(1:9, 3)
+for (i in seq(3)) {
+  for (j in seq(3)) {
+    cat("  a[", i, ",", j, "] is ", a[i, j], "\n", sep = "")
+  }
 }
 ```
 
@@ -144,17 +155,6 @@ response <- switch(as.character(status),
                    `409` = "Conflict",
                    `410` = "Gone")
 response
-```
-
-### Nested `for` loops
-
-```{r}
-a <- matrix(1:9, 3)
-for (i in seq(3)) {
-  for (j in seq(3)) {
-    cat("  a[", i, ",", j, "] is ", a[i, j], "\n", sep = "")
-  }
-}
 ```
 
 ## `while` loops

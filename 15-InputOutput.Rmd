@@ -15,8 +15,9 @@ List builtin datasets with `data` and no arguments:
 data()
 ```
 
-These builtin datasets are normally readily available in the R console (because the `datasets` package is automatically loaded)
+These builtin datasets are normally readily available in the R console (because the `datasets` package is automatically loaded)  
 You can check if this is the case using `search()`
+
 ```{r}
 search()
 ```
@@ -24,18 +25,26 @@ search()
 
 ### Datasets included with other packages
 
-List a dataset included with an R package:
+List a dataset included with some R package:
 
 ```{r, eval = FALSE}
 data(package = "glmnet")
 data(package = "MASS")
+data(package = "mlbench")
 ```
 
-Load a dataset from
+Load a dataset from some R package:
+
+```{r}
+data(Sonar, package = "mlbench")
+```
+
+Note: quotes around "Sonar" in the `data()` command above are optional.
 
 ## System commands
 
 Get working directory with `getwd()`
+
 ```{r eval=FALSE}
 getwd()
 ```
@@ -43,11 +52,13 @@ getwd()
 You can set a different working directory with `setwd()`  
 
 List files in current directory:
+
 ```{r eval=FALSE}
 dir()
 ```
 
-You can execute any command directly on the underlying OS from within R using the `system` command. (These are, obviously, OS-dependent)
+You can execute a command of you operating system (OS) -i.e. MacOS, Linux, Windows- from within R using the `system()` function:
+
 ```{r}
 system("uname -a")
 ```
@@ -65,7 +76,7 @@ men <-  read.csv("../Data/pone.0204161.s001.csv")
 str(men)
 ```
 
-### Read from the web
+### Read data from the web
 
 ```{r eval = FALSE}
 parkinsons <- read.csv("https://archive.ics.uci.edu/ml/machine-learning-databases/parkinsons/parkinsons.data")
@@ -86,9 +97,9 @@ con <- gzcon(url("https://github.com/EpistasisLab/penn-ml-benchmarks/raw/master/
 bcw <- read.csv(con, header = TRUE, sep = "\t")
 ```
 
-#### using data.table fread
+#### using **data.table**'s `fread()`
 
-You can use __data.table__'s `fread` instead, which will automatically handle zipped files:
+You can use __data.table__'s `fread()` instead, which will automatically handle zipped files:
 
 ```{r eval = FALSE}
 library(data.table)
@@ -110,7 +121,7 @@ write.csv(iris, "../Data/iris.csv", row.names = FALSE)
 
 Note that in this case we did not need to save row names (which are just integers 1 to  150 and would add a useless extra column in the output)
 
-### Read .xslx using openxlsx::read.xlsx
+### Read .xslx using `openxlsx::read.xlsx()`
 
 As an example, we can read the csv we saved earlier into Excel and then save it as a .xlsx file.  
 
@@ -119,7 +130,7 @@ iris.path <- normalizePath("../Data/iris.xlsx")
 iris2 <- openxlsx::read.xlsx(iris.path)
 ```
 
-Note: `openxlsx::read.xlsx` does not work with a relative path like `"./Data/iris.xlsc"`. Therefore we used the `normalizePath` function to give us the full path of the file without having to type it out.
+Note: `openxlsx::read.xlsx()` does not work with a relative path like `"./Data/iris.xlsc"`. Therefore we used the `normalizePath()` function to give us the full path of the file without having to type it out.
 
 Check that the data is still identical:
 

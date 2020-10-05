@@ -74,46 +74,40 @@ Get the second column:
 df[, 2]
 ```
 
+### Range of rows and columns
+
 You can define ranges for both rows and columns:
 
 ```{r}
 df[6:7, 2:4]
 ```
 
-You can return rows and or columns reversed too if desired:
+You can return rows and/or columns reversed too if desired:
 
 ```{r}
-df[6:7, 4:2]
+df[7:6, 4:2]
+```
+
+Or use vectors to specify of any rows and columns:
+
+```{r}
+df[c(2, 4, 7), c(1, 4, 3)]
 ```
 
 ### Matrix of indexes
 
-This is probably quite less common, but potentially useful.
+This is quite less common, but potentially useful. It allows you to specify a series of individual `[i, j]` indexes (i.e. is a way to select multiple non-contiguous elements)
 
 ```{r}
 idm <- matrix(c(2, 4, 7, 4, 3, 1), 3)
 idm
 ```
 
-An n-by-2 matrix can be used to index as a length n vector of `[row, colum]` indexes.
+An n-by-2 matrix can be used to index as a length n vector of `[row, colum]` indexes. Therefore, the above matrix, will return elements `[2, 4], [4, 3], [7, 1]`:
 
 ```{r}
 mat[idm]
 ```
-### Cartesian product of index vectors
-
-Also rather uncommon: passing two vectors indexes with the cartesian product of the vectors, therefore returning a matrix:
-
-```{r}
-mat[c(2, 4, 7), c(4, 3, 1)]
-```
-
-To visualize the cartesian product of the two vectors you can use `outer()`:
-
-```{r}
-outer(c(2, 4, 7), c(4, 3, 1), paste, sep = ",")
-```
-
 ## Lists
 
 Reminder: A list can contain elements of different class and of different length:

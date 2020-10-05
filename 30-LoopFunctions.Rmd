@@ -11,7 +11,7 @@ They can result in more compact and readable code and are often faster to execut
 * `apply()`: Apply function over array margins (i.e. over one or more dimensions)
 * `lapply()`: Return a *list* where each element is the result of applying a function to each element of the input
 * `sapply()`: Same as `lapply()`, but returns the simplest possible R object (instead of always returning a list)
-* `vapply()`: Same as `sapply()`, but you prespecify the return type: this is safer and may also be faster
+* `vapply()`: Same as `sapply()`, but you pre-specify the return type: this is safer and may also be faster
 * `tapply()`: Apply a function to elements of groups defined by a factor
 * `mapply()`: Multivariate version of `sapply()`: Apply a function using the first elements of the inputs vectors, then using the second, third, and so on
 
@@ -19,13 +19,58 @@ They can result in more compact and readable code and are often faster to execut
 knitr::include_graphics("./Rapplyfam.png")
 ```
 
+Before starting to use the above function, we need to learn about anonymous functions, which are often used within the apply functions.
+
+## Anonymous functions
+
+Anonymous functions are just like regular functions but they are not assigned to an object - i.e. they are not "named".  
+They are usually passed as arguments to other functions to be used once, hence no need to name them.  
+In R, anonymous functions are often used with the apply family of functions.  
+
+Example of a simple regular function:
+
+```{r}
+squared <- function(x) {
+  x^2
+}
+```
+
+Because this is a short function definition, it can also be written in a single line without curly brackets:
+
+```{r}
+squared <- function(x) x^2
+```
+
+The equivalent anonymous function is the same minus the assignment:
+
+```{r}
+function(x) x^2
+```
+
+Let's use the `squared` function within `sapply()` to square the first four columns of the iris dataset. We wrap the function around `head()` to print the first six lines only:
+
+```{r}
+head(iris[, 1:4])
+iris_sq <- sapply(iris[, 1:4], squared)
+head(iris_sq)
+```
+
+Let's do the same as above, but this time using an anonymous function:
+
+```{r}
+iris_sqtoo <- sapply(iris[, 1:4], function(x) x^2)
+head(iris_sqtoo)
+```
+
+The entire anonymous function definition is passed in the function argument (`FUN` in the R documentation).
+
 ## `apply()`
 
 ```{block, type="Info"}
 `apply()` applies a function over one (or more) dimensions of an object of 2 dimensions or more.
 ```
 
-Let's calculate the mean value of each of the irst four columns of the iris dataset:
+Let's calculate the mean value of each of the first four columns of the iris dataset:
 
 ```{r}
 x <- iris[, -5]
@@ -81,7 +126,7 @@ Because that would be `fn(v)`
 ```
 
 
-Note: The 'elements' of a data frame are its columns (remember, a data frame is a list with equal-length elements). The 'elements' of a matrix are each cell one by one, by column. Therefore lapply has a very different effect on a data frame and a matrix. `lapply()` is commonly used to iterate over the columns of a data frame.
+Note: The 'elements' of a data frame are its columns (remember, a data frame is a list with equal-length elements). The 'elements' of a matrix are each cell one by one, by column. Therefore `lapply()` has a very different effect on a data frame and a matrix. `lapply()` is commonly used to iterate over the columns of a data frame.
 
 ```{r}
 iris.median <- lapply(iris[, -5], median)
@@ -97,7 +142,6 @@ for (i in 1:4) {
   iris.median[[i]] <- median(iris[, 1])
 }
 ```
-
 
 ## `sapply()`
 
@@ -182,3 +226,6 @@ for (i in seq(5)) {
 }
 ```
 
+## Iterating over a sequence instead of an object
+
+In `lapply()`, `sapply()` and `vapply()` you can iterate over an integer sequence instead of directly on an object:

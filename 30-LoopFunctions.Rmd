@@ -19,7 +19,7 @@ They can result in more compact and readable code and are often faster to execut
 knitr::include_graphics("./Rapplyfam.png")
 ```
 
-Before starting to use the above function, we need to learn about anonymous functions, which are often used within the apply functions.
+Before starting to use the above functios, we need to learn about anonymous functions, which are often used within the apply functions.
 
 ## Anonymous functions
 
@@ -228,4 +228,23 @@ for (i in seq(5)) {
 
 ## Iterating over a sequence instead of an object
 
-In `lapply()`, `sapply()` and `vapply()` you can iterate over an integer sequence instead of directly on an object:
+With `lapply()`, `sapply()` and `vapply()` there is a very simple trick that may often come in handy. Instead of iterating over elements of an object, you can iterate over an integer index of the elements and use it accordingly in the anonymous function.  
+This alternative approach is much closer to how we would use an integer sequence in a `for` loop.  
+It will be much clearer through an example:
+
+Get the mean of the first four columns of iris:
+
+```{r}
+# original way: iterate through elements i.e. columns:
+sapply(iris[, -5], function(i) mean(i))
+
+# alternative way: iterate over integer index of elements:
+sapply(1:4, function(i) mean(iris[, i]))
+
+# equivalent to:
+for (i in 1:4) {
+  mean(iris[, i])
+}
+```
+
+Notice that in the alternative approach, since you are not passing the object (iris, here) as the input to `lapply()`, it needs to be specified within the anonymous function.

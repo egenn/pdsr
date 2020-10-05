@@ -13,27 +13,34 @@ An index is one of two types:
 - logical index: for each elements in an object specify `TRUE` if you want to include it, or `FALSE` to exclude it from the selection.
 - integer index: define the position of elements to select.  
 
-The main indexing operator in R is the square bracket `[`.
-Indexing in R is 1-based, meaning the first item of a vector is in position 1.  
+The main indexing operator in R is the square bracket `[`.  
+Logical indexes are usually created as the output of a logical operation, e.g. an elemntwise comparison.  
+Integer indexing in R is 1-based, meaning the first item of a vector is in position 1.  
 (If you are wondering why we even have to mention this, know that many programming languages use [0-based indexing](https://en.wikipedia.org/wiki/Zero-based_numbering#Computer_programming))
 
 ## Vectors {#indexvectors}
 
 ```{r}
-x <- rnorm(10)
+x <- 15:24
 x
 ```
 
-Get the 5th element of a vector:
+Get the 5th element of a vector (integer index):
 
 ```{r}
 x[5]
 ```
 
-Get elements 6 through 9 of the same vector:
+Get elements 6 through 9 of the same vector (integer index):
 
 ```{r}
 x[6:9]
+```
+
+Select elements with value greater than 19 (logical index):
+
+```{r}
+x[x > 19]
 ```
 
 ## Matrices {#indexmatrices}
@@ -43,15 +50,17 @@ Reminder:
 - A matrix is a 2D vector and contains elements of one type only (numeric, integer, character, factor).  
 - A data frame is a 2D list and each column can contain different type of data.
 
-Numeric matrix:
+To index a 2D structure, whether a matrix or data frame, we use the form `[row, column]`  
+The following indexing operations are therefore the same whether applied on a matrix or a data frame.
 
 ```{r}
 mat <- matrix(1:40, 10)
+colnames(mat) <- paste0("Feature_", seq(ncol(mat)))
+rownames(mat) <- paste0("Row_", seq(nrow(mat)))
+mat
 df <- as.data.frame(mat)
 df
 ```
-
-To index a 2D structure, whether a matrix or data frame, we use `[row, column]`
 
 To get the contents of the fifth row, second column:
 
@@ -65,33 +74,34 @@ If you want to select an entire row or an entire column, you leave the row or co
 Get the first row:
 
 ```{r}
-df[1, ]
+mat[1, ]
 ```
 
 Get the second column:
 
 ```{r}
-df[, 2]
+mat[, 2]
 ```
+Note that colnames and rownames where added to the matrix above for convenience - if they are absent, the labels are not shown above each element.
 
 ### Range of rows and columns
 
 You can define ranges for both rows and columns:
 
 ```{r}
-df[6:7, 2:4]
+mat[6:7, 2:4]
 ```
 
 You can return rows and/or columns reversed too if desired:
 
 ```{r}
-df[7:6, 4:2]
+mat[7:6, 4:2]
 ```
 
 Or use vectors to specify of any rows and columns:
 
 ```{r}
-df[c(2, 4, 7), c(1, 4, 3)]
+mat[c(2, 4, 7), c(1, 4, 3)]
 ```
 
 ### Matrix of indexes
@@ -108,6 +118,23 @@ An n-by-2 matrix can be used to index as a length n vector of `[row, colum]` ind
 ```{r}
 mat[idm]
 ```
+
+### Logical index {#matidl}
+
+Select all rows with values greater than 15 on the second column:
+
+The logical index for this operation is:
+
+```{r}
+mat[, 2] > 15
+```
+
+It can be used directly to index the matrix:
+
+```{r}
+mat[mat[, 2] > 15, ]
+```
+
 ## Lists {#indexlists}
 
 Reminder: A list can contain elements of different class and of different length:
@@ -182,10 +209,19 @@ You can convert a list to one lone vector containing all the individual componen
 unlist(x)
 ```
 
+### Logical index {#idllist}
+
+We can use a logical index on a list as well:
+
+```{r}
+x[c(T, F, T, F)]
+```
+
 ## Data frames {#indexdfs}
 
-As we've seen, a data frame is a rectangular list. Like a list, its elements are vectors of any type (integer, double, character, factor, and more) but, unlike a list, they have to be of the same length. There are different ways to index and slice a data frame.  
-Similar to indexing a list, notice that some return a smaller data frame, while others return vectors.  
+We've already seen above that a data frame can be indexed in the same ways as a matrix.  
+At the same time, we know that a data frame is a rectangular list. Like a list, its elements are vectors of any type (integer, double, character, factor, and more) but, unlike a list, they have to be of the same length. A data frame can also be indexed the same way as a list.  
+Similar to indexing a list, notice that some methods return a smaller data frame, while others return vectors.  
 
 ```{block, type="Info"}
 You can index a data frame using all the ways you can index a list and all the ways you can index a matrix.
@@ -281,6 +317,12 @@ Convert into a (named) vector using `unlist()`:
 ```{r}
 unlist(x[1, ])
 class(unlist(x[1, ]))
+```
+
+### Logical index {#dfidl}
+
+```{r}
+x[x$Feat_1 > 22, ]
 ```
 
 ## Logical <-> Integer indexing

@@ -67,9 +67,9 @@ The entire anonymous function definition is passed in the function argument (`FU
 ## `apply()`
 
 ```{block, type="Info"}
-`apply()` applies a function over one (or more) dimensions of an object of 2 dimensions or more.
+`apply()` applies a function over one (or more) dimensions of an array of 2 dimensions or more (this includes matrices) or a data frame.
 ```
-
+ 
 Let's calculate the mean value of each of the first four columns of the iris dataset:
 
 ```{r}
@@ -145,15 +145,17 @@ for (i in 1:4) {
 
 ## `sapply()`
 
-Check the source code for `sapply` (type `sapply` at the console and hit Enter).  
-It is an alias for `lapply`, followed by a call to `simplify2array`.  
+`sapply()` is an alias for `lapply()`, followed by a call to `simplify2array()`.  
+(Check the source code for `sapply()`: type `sapply()` at the console and hit Enter).  
+
 
 ```{block, type="Note"}
-The output of `sapply` be the simplest R object that can hold the data type(s) resulting from the operations.
+The output of `sapply()` will be the simplest R object that can hold the data type(s) resulting from the operations.
 ```
 
 ```{r}
 iris.median <- sapply(iris[, -5], median)
+iris.median
 ```
 
 ```{r}
@@ -164,7 +166,12 @@ iris.summary
 
 ## `vapply()`
 
-Much less commonly used than `lapply` or `sapply` (possibly quite underused).  
+Much less commonly used (possibly *underused*) than `lapply()` or `sapply()`, `vapply()` allows you to specify what the expected output looks like - e.g. a numeric vector of a certain length.  
+This can have two advantages:
+
+- It is safer against errors
+- It will sometimes be a little faster
+
 You add the argument `FUN.VALUE` which must be of the correct **type** and **length** of the expected result.
 
 ```{r}
@@ -188,11 +195,14 @@ iris.min <- vapply(iris[, -5], min, out)
 
 ## `tapply()`
 
+`tapply()` is one way (of many) to apply a function on **subgroups of data** as defined by one or more factors.  
+In the following example, we calculate the mean Sepal.Length by species on the iris dataset:
+
 ```{r}
-mean_Sepal.Length_by_Species <-
-  tapply(iris$Sepal.Length, iris$Species, mean)
+mean_Sepal.Length_by_Species <- tapply(iris$Sepal.Length, iris$Species, mean)
 mean_Sepal.Length_by_Species
 ```
+
 The above is equivalent to:
 
 ```{r}
@@ -247,4 +257,45 @@ for (i in 1:4) {
 }
 ```
 
-Notice that in the alternative approach, since you are not passing the object (iris, here) as the input to `lapply()`, it needs to be specified within the anonymous function.
+Notice that in the alternative approach, since you are not passing the object (iris, here) as the input to `lapply()`, therefore it needs to be specified within the anonymous function.
+
+## `*apply()`ing on matrices vs. data frames
+
+To consolidate some of what was learned above, let's focus on the difference between working on a matrix vs. a data frame.  
+First, let's create a matrix and a data frame with the same data:
+
+```{r}
+amat <- matrix(21:70, 10)
+colnames(amat) <- paste0("Feature_", 1:ncol(amat))
+amat
+adf <- as.data.frame(amat)
+adf
+```
+
+We've seen that with `apply()` we specify the dimension to operate on and it works the same way on both matrices and data frames:
+
+```{r}
+apply(amat, 2, mean)
+apply(adf, 2, mean)
+```
+
+However, `sapply()` (and `lapply()`, `vapply()`) acts on ***each element*** of the object, therefore it is not meaningful to pass a matrix to it:
+
+```{r}
+sapply(amat, mean)
+```
+The above returns the mean of each element, i.e. the element itself, which is pointless.
+
+Since a data frame is a list, and its columns are its elements, it works great for column operations on data frames:
+
+```{r}
+sapply(adf, mean)
+```
+
+If you want to use `sapply()` on a matrix, you could iterate over an integer sequence as shown in the previous section:
+
+```{r}
+sapply(1:ncol(amat), function(i) mean(amat[, i]))
+```
+
+This is shown to help emphasize the differences between the function and the data structures. In practice, you would use `apply()` on a matrix.

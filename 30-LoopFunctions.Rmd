@@ -21,49 +21,6 @@ knitr::include_graphics("./Rapplyfam.png")
 
 Before starting to use the above functios, we need to learn about anonymous functions, which are often used within the apply functions.
 
-## Anonymous functions
-
-Anonymous functions are just like regular functions but they are not assigned to an object - i.e. they are not "named".  
-They are usually passed as arguments to other functions to be used once, hence no need to name them.  
-In R, anonymous functions are often used with the apply family of functions.  
-
-Example of a simple regular function:
-
-```{r}
-squared <- function(x) {
-  x^2
-}
-```
-
-Because this is a short function definition, it can also be written in a single line without curly brackets:
-
-```{r}
-squared <- function(x) x^2
-```
-
-The equivalent anonymous function is the same minus the assignment:
-
-```{r}
-function(x) x^2
-```
-
-Let's use the `squared` function within `sapply()` to square the first four columns of the iris dataset. We wrap the function around `head()` to print the first six lines only:
-
-```{r}
-head(iris[, 1:4])
-iris_sq <- sapply(iris[, 1:4], squared)
-head(iris_sq)
-```
-
-Let's do the same as above, but this time using an anonymous function:
-
-```{r}
-iris_sqtoo <- sapply(iris[, 1:4], function(x) x^2)
-head(iris_sqtoo)
-```
-
-The entire anonymous function definition is passed in the function argument (`FUN` in the R documentation).
-
 ## `apply()`
 
 ```{block, type="Info"}
@@ -166,31 +123,32 @@ iris.summary
 
 ## `vapply()`
 
-Much less commonly used (possibly *underused*) than `lapply()` or `sapply()`, `vapply()` allows you to specify what the expected output looks like - e.g. a numeric vector of a certain length.  
+Much less commonly used (possibly *underused*) than `lapply()` or `sapply()`, `vapply()` allows you to specify what the expected output looks like - e.g. a numeric vector of a certain length.
+
 This can have two advantages:
 
 - It is safer against errors
 - It will sometimes be a little faster
 
-You add the argument `FUN.VALUE` which must be of the correct **type** and **length** of the expected result.
+You add the argument `FUN.VALUE` which must be of the correct **type** and **length** of the expected result ***of each iteration***.
 
 ```{r}
-iris.median <- vapply(iris[, -5], median, FUN.VALUE = .1)
+vapply(iris[, -5], median, FUN.VALUE = .1)
 ```
+
+Here, each iteration returns the median of each column, i.e. a numeric vector of length 1.
+Therefore `FUN.VALUE` can be any numeric scalar.
+
+For example, if we instead returned the range of each column, `FUN.VALUE` should be a numeric vector of length 1:
 
 ```{r}
-minmax <- function(x) {
-  c(min(x), max(x))
-}
-out <- vector("numeric", length = 2)
-iris.minmax <- vapply(iris[, -5], minmax, out)
+vapply(iris[, -5], range, FUN.VALUE = rep(.1, 2))
 ```
 
-If the output does not match, we get an informative error:
+If `FUN.VALUE` does not match the returned value, we get an informative error:
 
 ```{r error = TRUE}
-out <- vector("numeric", length = 2)
-iris.min <- vapply(iris[, -5], min, out)
+vapply(iris[, -5], range, FUN.VALUE = .1)
 ```
 
 ## `tapply()`
@@ -219,10 +177,21 @@ mean_Sepal.Length_by_Species
 
 ## `mapply()`
 
+The above functions all work well when you iterating over elements of a single object.  
+`mapply()` allows you to execute a function that accepts two or more inputs, say `fn(x, z)` using the i-th element of each input, and will return:  
+`fn(x[1], z[1])`, `fn(x[2], z[2])`, ..., `fn(x[n], z[n])`
+
+Let's create a simple function that accepts two numeric arguments, and two vectors length 5 each:
+
 ```{r}
 raise <- function(x, power) x^power
 x <- 2:6
 p <- 6:2
+```
+
+Use mapply to raise each `x` to the corresponding `p`:
+
+```{r}
 out <- mapply(raise, x, p)
 out
 ```
@@ -230,10 +199,11 @@ out
 The above is equivalent to:
 
 ```{r}
-out <- vector("numeric", 6)
+out <- vector("numeric", 5)
 for (i in seq(5)) {
   out[i] <- raise(x[i], p[i])
 }
+out
 ```
 
 ## Iterating over a sequence instead of an object
@@ -299,3 +269,47 @@ sapply(1:ncol(amat), function(i) mean(amat[, i]))
 ```
 
 This is shown to help emphasize the differences between the function and the data structures. In practice, you would use `apply()` on a matrix.
+
+
+## Anonymous functions
+
+Anonymous functions are just like regular functions but they are not assigned to an object - i.e. they are not "named".  
+They are usually passed as arguments to other functions to be used once, hence no need to name them.  
+In R, anonymous functions are often used with the apply family of functions.  
+
+Example of a simple regular function:
+
+```{r}
+squared <- function(x) {
+  x^2
+}
+```
+
+Because this is a short function definition, it can also be written in a single line without curly brackets:
+
+```{r}
+squared <- function(x) x^2
+```
+
+The equivalent anonymous function is the same minus the assignment:
+
+```{r}
+function(x) x^2
+```
+
+Let's use the `squared` function within `sapply()` to square the first four columns of the iris dataset. We wrap the function around `head()` to print the first six lines only:
+
+```{r}
+head(iris[, 1:4])
+iris_sq <- sapply(iris[, 1:4], squared)
+head(iris_sq)
+```
+
+Let's do the same as above, but this time using an anonymous function:
+
+```{r}
+iris_sqtoo <- sapply(iris[, 1:4], function(x) x^2)
+head(iris_sqtoo)
+```
+
+The entire anonymous function definition is passed in the function argument (`FUN` in the R documentation).

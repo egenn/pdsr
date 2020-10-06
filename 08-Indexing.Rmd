@@ -327,7 +327,7 @@ x[x$Feat_1 > 22, ]
 
 ## Logical <-> Integer indexing
 
-There are two types of indexes/indices: integer and logical.  
+As we saw, there are two types of indexes/indices: integer and logical.  
 
 ```{block, type="Note"}
 - A logical index needs to be of the same dimensions as the object it is indexing (unless you really want to recycle values - see chapter on [vectorization](#vectorization)):  
@@ -337,47 +337,94 @@ There are two types of indexes/indices: integer and logical.
     you are specifying which subset of elements to include (or with a `-` in front, which elements to exclude)
 ```
 
-It's easy to convert between the two types of indexes.  
+It's easy to convert between the two types.  
 
-Build an index of all cases in the iris dataset whose sepal length is greater than the mean sepal length:
+For example, start with a sequence of integers:
 
 ```{r}
-index <- iris$Sepal.Length > mean(iris$Sepal.Length)
-head(index)
+x <- 21:30
+x
 ```
 
+Let's create a logical index based on two inequalities:
+
 ```{r}
-head(iris[index, ])
+logical_index <- x > 23 & x < 28
+logical_index
 ```
 
 ### Logical to integer index with `which()`:
 
+
+```{block, type="Warning"}
+The common mistake is to attempt to convert a logical index to an integer index using `as.integer()`. This results in a vector of 1's and 0's, NOT an integer index.  
+`which()` converts a logical index to an integer index.
+```
+
 `which()` literally gives the position of all `TRUE` elements in a vector, thus converting a logical to an integer index:
 
 ```{r}
-index_i <- which(iris$Sepal.Length > mean(iris$Sepal.Length))
-head(index_i)
-table(index)
-length(index_i)
+integer_index <- which(logical_index)
+integer_index
+```
+i.e. positions 4, 5, 6, 7 of the `logical_index` are TRUE
+
+
+```{block, type="Note"}
+A logical and an integer index are equivalent if they select the exact same elements
 ```
 
+Let's check than when used to index `x`, they both return the same result:
+
 ```{r}
-head(iris[index_i, ])
+x[logical_index]
+x[integer_index]
+all(x[logical_index] == x[integer_index])
 ```
 
 ### Integer to logical index
 
+On the other hand, if we want to convert an integer index to a logical index, we can begin with a logical vector of the same length or dimension as the object we want to index with all FALSE values:
+
 ```{r}
-index_l <- vector(length = NROW(iris))
-index_l[index_i] <- TRUE
+logical_index_too <- vector(length = length(x))
+logical_index_too
 ```
 
-## Complement of an index
-
-To get the complement, you negate the logical index (`!`) and you subtract the integer (`-`):
+And use the integer index to replace the corresponding elements to TRUE:
 
 ```{r}
-all(iris[!index_l, ] == iris[-index_i, ])
+logical_index_too[integer_index] <- TRUE
+logical_index_too
+```
+This, of course, is the same as the logical index we started with.
+
+```{r}
+all(logical_index == logical_index_too)
+```
+
+## Exclude cases using an index
+
+Very often, we want to use an index, whether logical or integer, to exclude cases instead of to select cases.  
+To do that with a logical integer, we simply use an exclamation point in front of the index to negate each element (convert each TRUE to FALSE and each FALSE to TRUE):
+
+```{r}
+logical_index
+!logical_index
+```
+
+```{r}
+x[!logical_index]
+```
+
+To exclude elements using an integer index, R allows you to use negative indexing:
+
+```{r}
+x[-integer_index]
+```
+
+```{block, type="Note"}
+To get the complement of an index, you negate a logical index (`!logical_index`) or you subtract an integer index (`-integer_index`):
 ```
 
 ## `subset()`

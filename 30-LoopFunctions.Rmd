@@ -25,6 +25,10 @@ Before starting to use the above functios, we need to learn about anonymous func
 
 ```{block, type="Info"}
 `apply()` applies a function over one (or more) dimensions of an array of 2 dimensions or more (this includes matrices) or a data frame.
+
+As per usual, rows come first, therefore:  
+`MARGIN = 1`: apply function on each ***row***
+`MARGIN = 2`: apply function on each ***column***
 ```
  
 Let's calculate the mean value of each of the first four columns of the iris dataset:
@@ -33,7 +37,7 @@ Let's calculate the mean value of each of the first four columns of the iris dat
 x <- iris[, -5]
 iris_column_mean <- 
   apply(x,          # array with 'dim' attribute, most commonly 2D matrix or data.frame
-        MARGIN = 2, # integer vector or character indicating dimensions over which 'FUN' will be applied
+        MARGIN = 2, # integer vector or character indicating dimensions over which 'FUN' will be applied.
         FUN = mean) # function to apply
 iris_column_mean
 ```
@@ -62,7 +66,7 @@ head(apply(x, 1, mean))
 ```
 
 ```{block, type="Note"}
-`apply()` only works on objects with a define `dim()`
+`apply()` only works on objects with defined (i.e. non-NULL) `dim()`
 ```
 
 ```{block, type="None"}
@@ -208,9 +212,10 @@ out
 
 ## Iterating over a sequence instead of an object
 
-With `lapply()`, `sapply()` and `vapply()` there is a very simple trick that may often come in handy: Instead of iterating over elements of an object, you can iterate over an integer index of whichever elements you want to access and use it accordingly within the anonymous function.  
+With `lapply()`, `sapply()` and `vapply()` there is a very simple trick that may often come in handy:  
+Instead of iterating over elements of an object, you can iterate over an integer index of whichever elements you want to access and use it accordingly within the anonymous function.  
 This alternative approach is much closer to how we would use an integer sequence in a `for` loop.  
-It will be much clearer through an example:
+It will be clearer through an example:
 
 Get the mean of the first four columns of iris:
 

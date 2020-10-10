@@ -36,7 +36,7 @@ Let's create an example data frame:
 
 ```{r}
 dat_wide2long <- reshape(data = dat_wide,                    # Data in wide format
-                         idvar = "ID",                       # The column name that define case ID
+                         idvar = "ID",                       # The column name that defines case ID
                          varying = list(2:4),                # The columns whose values we want to keep
                          v.names = "Score",                  # The name of the new column which will contain all the values from the columns above
                          times = c(colnames(dat_wide)[2:4]), # The values/names, of length = (N of columns defined in "varying"), that will be recycled to indicate which column from the wide dataset each row corresponds to
@@ -103,11 +103,11 @@ Let's create a long dataset:
 ### base
 
 ```{r}
-(dat_long2wide <- reshape(dat_long,
-                          idvar = "ID",
-                          timevar = "Fruit",
-                          v.names = "Score",
-                          direction = "wide"))
+dat_long2wide <- reshape(dat_long,
+                         idvar = "ID",
+                         timevar = "Fruit",
+                         v.names = "Score",
+                         direction = "wide")
 colnames(dat_long2wide) <- gsub("Score.", "", colnames(dat_long2wide))
 dat_long2wide
 ```
@@ -141,19 +141,20 @@ Scenario: You have received two or more tables with data. Each table consists of
 Let's make up some data:
 
 ```{r}
-(a <- data.frame(PID = c(1:9),
+a <- data.frame(PID = c(1:9),
                 Hospital = c("UCSF", "HUP", "Stanford",
                              "Stanford", "UCSF", "HUP", 
                              "HUP", "Stanford", "UCSF"),
                 Age = c(22, 34, 41, 19, 53, 21, 63, 22, 19),
-                Sex = c(1, 1, 0, 1, 0, 0, 1, 0, 0)))
+                Sex = c(1, 1, 0, 1, 0, 0, 1, 0, 0))
 
-(b  <- data.frame(PID = c(6:12),
-                  V1 = c(153, 89, 112, 228,  91, 190, 101),
-                  Department = c("Neurology", "Radiology",
-                                 "Emergency", "Cardiology",
-                                 "Surgery", "Neurology", "Psychiatry")))
-
+b  <- data.frame(PID = c(6:12),
+                 V1 = c(153, 89, 112, 228,  91, 190, 101),
+                 Department = c("Neurology", "Radiology",
+                                "Emergency", "Cardiology",
+                                "Surgery", "Neurology", "Psychiatry"))
+a
+b
 dim(a)
 dim(b)
 ```
@@ -170,11 +171,13 @@ The default arguments of `merge()` perform an **inner join**:
 
 ```{r}
 (ab.inner <- merge(a, b))
+# same as
 (ab.inner <- merge(a, b, by = "PID"))
+# same as
 (ab.inner <- merge(a, b, all = FALSE))
 ```
 
-Note that the resulting table only contains cases found in both data frames (IDs 6 through 9)
+Note that the resulting table only contains cases found in both data frames (i.e. IDs 6 through 9)
 
 ### Outer join
 

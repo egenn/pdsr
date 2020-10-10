@@ -14,7 +14,7 @@ options(crayon.enabled = TRUE)
 
 ## Wide to Long
 
-```{r wideLong, echo = FALSE, out.width = "100%", fig.align = "center", fig.cap = "Wide and Long data frame example. Take a moment to notice how the wide data set on the left with 3 cases (i.e. 3 IDs) and 3 variables gets converted from a 3 x 4 table to a 9 x 3 long data set on the right. The values are present once in each table: on the wide table they form an **ID x Variable** matrix, while on the long they are stacked on a **single column**. The IDs are repeated on the long table, once for each variable. There is a new "Variable" column}
+```{r wideLong, echo = FALSE, out.width = "100%", fig.align = "center", fig.cap = "Wide and Long data format example. Take a moment to notice how the wide table on the left with 3 cases (3 IDs) and 3 variables gets converted from a 3 x 4 table to a 9 x 3 long table on the right. The values (outlined in magenta) are present once in each table: on the wide table they form an **ID x Variable** matrix, while on the long they are stacked on a **single column**. The IDs have to be repeated on the long table, once for each variable and there is a new 'Variable' column to provide the information present in the wide table's column names." }
 knitr::include_graphics("wide_long.png", dpi = NA)
 ```
 
@@ -23,7 +23,8 @@ library(tidyr)
 library(data.table)
 ```
 
-Let's create some example data frame:
+Let's create an example data frame:
+
 ```{r}
 (dat_wide <- data.frame(ID = c(1, 2, 3),
                        mango = c(1.1, 2.1, 3.1),
@@ -32,57 +33,65 @@ Let's create some example data frame:
 ```
 
 ### base
+
 ```{r}
-(dat_wide2long <- reshape(data = dat_wide,                    # Data in wide format
-                          idvar = "ID",                       # The column name that define case ID
-                          varying = list(2:4),                # The columns whose values we want to keep
-                          v.names = "Score",                  # The name of the new column which will contain all the values from the columns above
-                          times = c(colnames(dat_wide)[2:4]), # The values/names, of length = (N of columns defined in "varying"), that will be recycled to indicate which column from the wide dataset each row corresponds to
-                          timevar = "Fruit",                  # The name of the new column created to hold the values defined by "times"
-                          direction = "long"))  
+dat_wide2long <- reshape(data = dat_wide,                    # Data in wide format
+                         idvar = "ID",                       # The column name that define case ID
+                         varying = list(2:4),                # The columns whose values we want to keep
+                         v.names = "Score",                  # The name of the new column which will contain all the values from the columns above
+                         times = c(colnames(dat_wide)[2:4]), # The values/names, of length = (N of columns defined in "varying"), that will be recycled to indicate which column from the wide dataset each row corresponds to
+                         timevar = "Fruit",                  # The name of the new column created to hold the values defined by "times"
+                         direction = "long") 
 ```
 
-You Can also define 'varying' with character vector:  
+You Can also define 'varying' with a character vector:  
 `varying = list(c("mango", "banana","tangerine")`  
 
 Explore the resulting data frame's attributes:
+
 ```{r}
 attributes(dat_wide2long)
 ```
 
-These added attributes reshaping back to wide as easy as:
+These attributes and present if and only if a long data set was created from a wide as above. In that case, reshaping back to a wide data frame is as easy as:
+
 ```{r}
 reshape(dat_wide2long)
 ```
 
-Look at the following figure to understand `reshape`'s syntax:
+The `resahep()` function is probably one of the most complicated because the documentation is not clear, specifically with regards to which arguments refer to the input vs. output data frame. Use the following figure as a guide to understand `reshape()`'s syntax. You can use it as reference when building your own `reshape()` command by following steps 1 through 4:
 
-```{r wideLongSyntax, echo = FALSE, out.width = "100%", fig.align = "center", fig.cap = "reshape syntax for Wide to Long"}
+```{r wideLongSyntax, echo = FALSE, out.width = "100%", fig.align = "center", fig.cap = "`reshape()` syntax for Wide to Long transformation."}
 knitr::include_graphics("reshape_wide2long.png", dpi = NA)
 ```
 
 ### tidyr
+
 ```{r}
-(dat_wide2long_tv <- pivot_longer(dat_wide,
+dat_wide2long_tv <- pivot_longer(dat_wide,
                            cols = 2:4,
                            names_to = "Fruit",
-                           values_to = "Score"))
+                           values_to = "Score")
+dat_wide2long_tv
 ```
 
 ### data.table
+
 ```{r}
 dat_wide_dt <- as.data.table(dat_wide)
-(dat_wide2long_dt <- melt(dat_wide_dt,
-                          id.vars = 1,
-                          measure.vars = 2:4,
-                          variable.name = "Fruit",
-                          value.name = "Score"))
+dat_wide2long_dt <- melt(dat_wide_dt,
+                         id.vars = 1,
+                         measure.vars = 2:4,
+                         variable.name = "Fruit",
+                         value.name = "Score")
 setorder(dat_wide2long_dt, "ID")
+dat_wide2long_dt
 ```
 
 ## Long to Wide
 
-Let's create our long dataset:
+Let's create a long dataset:
+
 ```{r}
 (dat_long <- data.frame(ID = c(1, 2, 3, 1, 2, 3, 1, 2, 3),
                        Fruit = c("mango", "mango", "mango", 
@@ -92,6 +101,7 @@ Let's create our long dataset:
 ```
 
 ### base
+
 ```{r}
 (dat_long2wide <- reshape(dat_long,
                           idvar = "ID",
@@ -103,26 +113,33 @@ dat_long2wide
 ```
 
 ### tidyr
+
 ```{r}
-(dat_long2wide_tv <- pivot_wider(dat_long,
-                                 id_cols = "ID",
-                                 names_from = "Fruit",
-                                 values_from = "Score"))
+dat_long2wide_tv <- pivot_wider(dat_long,
+                                id_cols = "ID",
+                                names_from = "Fruit",
+                                values_from = "Score")
+dat_long2wide_tv
 ```
 
 ### data.table
+
 `data.table`'s long to wide procedure is defined with a convenient formula notation:
+
 ```{r}
 dat_long_dt <- as.data.table(dat_long)
-dcast(dat_long_dt,
-      ID ~ Fruit,
-      value.var = "Score")
+dat_long2wide_dt <- dcast(dat_long_dt,
+                          ID ~ Fruit,
+                          value.var = "Score")
+dat_long2wide_dt
 ```
 
 ## Table Joins (i.e. Merging data.frames)
+
 Scenario: You have received two or more tables with data. Each table consists of a unique identifier (ID), which is shared among the tables, plus a number of variables in columns, which may be unique to each table. You want to merge them into one big table so that for each ID you have all available information.  
 
 Let's make up some data:
+
 ```{r}
 (a <- data.frame(PID = c(1:9),
                 Hospital = c("UCSF", "HUP", "Stanford",
@@ -142,13 +159,15 @@ dim(b)
 ```
 
 There are four main types of join operations:
+
 ```{r, echo = FALSE, out.width = "100%",  fig.align = "center", fig.cap = "Common Join Operations"}
 knitr::include_graphics("R_Joins.png")
 ```
 
-
 ### Inner join
-The default arguments of `merge` perform an inner join:
+
+The default arguments of `merge()` perform an **inner join**:
+
 ```{r}
 (ab.inner <- merge(a, b))
 (ab.inner <- merge(a, b, by = "PID"))
@@ -158,7 +177,9 @@ The default arguments of `merge` perform an inner join:
 Note that the resulting table only contains cases found in both data frames (IDs 6 through 9)
 
 ### Outer join
-You can perform an outer join by specifying `all = TRUE`:
+
+You can perform an **outer join** by specifying `all = TRUE`:
+
 ```{r}
 (ab.outer <- merge(a, b, all = TRUE))
 (ab.outer <- merge(a, b, by = "PID", all = TRUE))
@@ -167,22 +188,29 @@ You can perform an outer join by specifying `all = TRUE`:
 Note that the resulting data frame contains all IDs found in either input data frame and missing values are represented with `NA`
 
 ### Left outer join
-You can perform a left outer join by specifying `all.x = TRUE`:
+
+You can perform a **left outer join** by specifying `all.x = TRUE`:
+
 ```{r}
 (ab.leftOuter <- merge(a, b, all.x = TRUE))
 ```
+
 Note how the resulting data frame contains all IDs present in the left input data frame only. 
 
 ### Right outer join
-You can perform a right outer join by specifying `all.y = TRUE`:
+
+You can perform a **right outer join** by specifying `all.y = TRUE`:
+
 ```{r}
 (ab.rightOuter <- merge(a, b, all.y = TRUE))
 ```
+
 Note how the resulting data frame contains all IDs present in the right input data frame only.
 
-## Feature transformation with `transform`
+## Feature transformation with `transform()`
 
 Make up some data:
+
 ```{r}
 dat <- data.frame(Sex = c(0, 0, 1, 1, 0),
                   Height = c(1.5, 1.6, 1.55, 1.73, 1.8),
@@ -190,19 +218,23 @@ dat <- data.frame(Sex = c(0, 0, 1, 1, 0),
 ```
 
 ```{r}
-(dat <- transform(dat, BMI = Weight/Height^2))
+dat <- transform(dat, BMI = Weight/Height^2)
+dat
 ```
 
-`transform` is not used too often, because it is trivial to do the same with direct assignment:
+`transform()` is probably not used too often, because it is trivial to do the same with direct assignment:
+
 ```{r}
 dat$BMI <- dat$Weight/dat$Height^2
 ```
-but can be useful when adding multiple variables and/or used in a pipe:
+
+but can be useful when adding multiple variables and/or used in a [pipe](#pipe):
+
 ```{r}
 library(magrittr)
-(dat %>% 
+dat %>% 
   subset(Sex == 0) %>%
   transform(DeltaWeightFromMean = Weight - mean(Weight),
             BMI = Weight/Height^2,
-            CI = Weight/Height^3))
+            CI = Weight/Height^3)
 ```

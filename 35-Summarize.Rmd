@@ -2,10 +2,7 @@
 
 ```{r echo = FALSE}
 knitr::opts_chunk$set(fig.width = 10, fig.height = 5,
-                      comment = NA, cache = TRUE) 
-options(rt.theme = "lightgrid")
-options(rt.fit.theme = "lightgrid")
-library(rtemis)
+                      comment = NA, cache = TRUE)
 ```
 
 ```{r, comment="", results="asis", echo=FALSE}
@@ -13,13 +10,17 @@ old.hooks <- fansi::set_knit_hooks(knitr::knit_hooks)
 options(crayon.enabled = TRUE)
 ```
 
+Let's read in a dataset from OpenML:
+
 ```{r}
 heart <- read.csv("https://www.openml.org/data/get_csv/51/dataset_51_heart-h.arff",
                   na.strings = "?")
 ```
 
 
-## Get summary of an R object with `summary`
+## Get summary of an R object with `summary()`
+
+R includes `summary()` [methods](#s3methods) for a number of different objects. 
 
 ```{r}
 summary(heart)

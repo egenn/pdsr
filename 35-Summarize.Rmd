@@ -31,19 +31,41 @@ summary(heart)
 We saw in [Loop Functions](#loopfns) how we can apply functions on rows, columns, or other subsets of our data. R has optimized builtin functions for some very common operations, with self-explanatory names:
 
 ```{r}
-(a <- matrix(1:20, 5))
+a <- matrix(1:20, 5)
+a
 ```
 
 ```{r}
 colSums(a)
+
+# same as
+apply(a, 2, sum)
+```
+
+```{r}
 rowSums(a)
+
+# same as
+apply(a, 1, sum)
+```
+
+```{r}
 colMeans(a)
+
+# same as
+apply(a, 2, mean)
+```
+
+```{r}
 rowMeans(a)
+
+# same as
+apply(a, 1, mean)
 ```
 
 ## Optimized matrix operations with **matrixStats**
 
-The **matrixStats** package [@matrixStats2019] offers a number of optimized matrix operations, including drop-in replacements of the above. These should be prefered when dealing with bigger data:
+Whilte the builtin operations above are already optimized and faster than the equivalent calls, the **matrixStats** package [@matrixStats2019] offers a number of futher optimized matrix operations, including drop-in replacements of the above. These should be prefered when dealing with bigger data:
 
 ```{r}
 library(matrixStats)
@@ -53,7 +75,7 @@ colMeans2(a)
 rowMeans2(a)
 ```
 
-Note: **matrixStats** provides replacement functions named almost identically to their base counterpart - so they are easy to find - but are different - so they don't mask the base functions (this is good software design).
+Note: **matrixStats** provides replacement functions named almost identically to their base counterpart - so they are easy to find - but are different - so they don't mask the base functions (this is important and good software design).
 
 ## Grouped summary statistics with `aggregate()`
 

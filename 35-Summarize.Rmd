@@ -20,46 +20,15 @@ heart <- read.csv("https://www.openml.org/data/get_csv/51/dataset_51_heart-h.arf
 
 
 ## Get summary of an R object with `summary`
+
 ```{r}
 summary(heart)
 ```
 
-
-## Summarize by group using `aggregate()`
-`aggregate` is a powerful way to apply functions on splits of your data. It can replicate functionality of the `apply` family, but can be more flexible/powerful and supports a formula input.
-```{r}
-aggregate(iris[, -5], by = list(iris$Species), mean)
-```
-
-Alternatively, you can use the very "R", very convenient formula notation:
-```{r}
-aggregate(. ~ Species, iris, mean)
-```
-
-Let's make up a second grouping
-```{r}
-irisd <- iris
-irisd$Group2 <- rep(1:2, 3, each = 25)
-irisd$Group2
-```
-This "Group2" divides each iris Species in the first and last 25 cases.  
-Let's aggregate by both Species and Group2
-
-```{r}
-aggregate(irisd[, -c(5:6)],
-          by = list(Species = irisd$Species, Group2 = irisd$Group2),
-          mean)
-```
-
-And using the more compact formula notation:
-```{r}
-aggregate(. ~ Species + Group2, irisd, mean)
-```
-
-Note: Using aggregate with the `by = list` argument is easier to code with, the formula notation is probably easier to perform in real time on the console - you **can** code with the formula notation, but if there is an alternative it's unlikely to be worth the extra steps.
-
 ## Fast builtin column and row operations
+
 We saw in [Loop Functions](#loopfns) how we can apply functions on rows, columns, or other subsets of our data. R has optimized builtin functions for some very common operations, with self-explanatory names:
+
 ```{r}
 (a <- matrix(1:20, 5))
 ```
@@ -71,8 +40,10 @@ colMeans(a)
 rowMeans(a)
 ```
 
-## Optimized matrix operations with `matrixStats`
-The `matrixStats` package [@matrixStats2019] offers a number of optimized matrix operations, including drop-in replacements of the above. These should be prefered when dealing with bigger data:
+## Optimized matrix operations with **matrixStats**
+
+The **matrixStats** package [@matrixStats2019] offers a number of optimized matrix operations, including drop-in replacements of the above. These should be prefered when dealing with bigger data:
+
 ```{r}
 library(matrixStats)
 colSums2(a)
@@ -81,4 +52,42 @@ colMeans2(a)
 rowMeans2(a)
 ```
 
-Note: `matrixStats` provides replacement functions named almost identically to their base counterpart - so they are easy to find - but are different - so they don't mask the base functions (this is good software design).
+Note: **matrixStats** provides replacement functions named almost identically to their base counterpart - so they are easy to find - but are different - so they don't mask the base functions (this is good software design).
+
+## Grouped summary statistics with `aggregate()`
+
+`aggregate()` is a powerful way to apply functions on splits of your data. It can replicate functionality of the `*apply()` family, but can be more flexible/powerful and supports a formula input.
+
+```{r}
+aggregate(iris[, -5], by = list(iris$Species), mean)
+```
+
+Alternatively, you can use the very "R", very convenient, **formula notation**:
+
+```{r}
+aggregate(. ~ Species, iris, mean)
+```
+
+Let's make up a second grouping:
+
+```{r}
+irisd <- iris
+irisd$Group2 <- rep(1:2, 3, each = 25)
+irisd$Group2
+```
+
+This "Group2" divides each iris Species in the first and last 25 cases.  
+Let's aggregate by both Species and Group2:
+
+```{r}
+aggregate(irisd[, -c(5, 6)],
+          by = list(Species = irisd$Species, Group2 = irisd$Group2),
+          mean)
+```
+
+And using the more compact formula notation:
+```{r}
+aggregate(. ~ Species + Group2, irisd, mean)
+```
+
+Note: Using aggregate with the `by = list()` argument is easier to code with. The formula notation might be easier to work with in real time on the console. You *can* code with the formula notation, but if there is an alternative it's unlikely to be worth the extra steps.

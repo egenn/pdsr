@@ -322,6 +322,25 @@ is.na(x)
 is.na(x)
 ```
 
+`is.na()` works similarly on matrices:
+
+```{r}
+x <- matrix(1:20, 5)
+x[4, 3] <- NA
+is.na(x)
+```
+
+```{block, type="Note"}
+Note that `is.na()` returns a response for each element (i.e. is [vectorized](#vectorization)) in contrast to `is.numeric()`, `is.logical()`, etc. It makes sense, since the latter are chacking the type of a whole object, while the former is checking individual elements. 
+```
+
+`anyNA()` is a very useful function to check if there an any NA values in an object:
+
+```{r}
+anyNA(x)
+```
+
+
 ```{block, type="Note"}
 Any operations on an `NA` results in `NA`
 ```

@@ -12,6 +12,82 @@ old.hooks <- fansi::set_knit_hooks(knitr::knit_hooks)
 options(crayon.enabled = TRUE)
 ```
 
+## Table Joins (i.e. Merging data.frames)
+
+Scenario: You have received two or more tables with data. Each table consists of a unique identifier (ID), which is shared among the tables, plus a number of variables in columns, which may be unique to each table. You want to merge them into one big table so that for each ID you have all available information.  
+
+Let's make up some data:
+
+```{r}
+a <- data.frame(PID = c(1:9),
+                Hospital = c("UCSF", "HUP", "Stanford",
+                             "Stanford", "UCSF", "HUP", 
+                             "HUP", "Stanford", "UCSF"),
+                Age = c(22, 34, 41, 19, 53, 21, 63, 22, 19),
+                Sex = c(1, 1, 0, 1, 0, 0, 1, 0, 0))
+
+b  <- data.frame(PID = c(6:12),
+                 V1 = c(153, 89, 112, 228,  91, 190, 101),
+                 Department = c("Neurology", "Radiology",
+                                "Emergency", "Cardiology",
+                                "Surgery", "Neurology", "Psychiatry"))
+a
+b
+dim(a)
+dim(b)
+```
+
+There are four main types of join operations:
+
+```{r, echo = FALSE, out.width = "100%",  fig.align = "center", fig.cap = "Common Join Operations"}
+knitr::include_graphics("R_Joins.png")
+```
+
+### Inner join
+
+The default arguments of `merge()` perform an **inner join**:
+
+```{r}
+(ab.inner <- merge(a, b))
+# same as
+(ab.inner <- merge(a, b, by = "PID"))
+# same as
+(ab.inner <- merge(a, b, all = FALSE))
+```
+
+Note that the resulting table only contains cases found in both data frames (i.e. IDs 6 through 9)
+
+### Outer join
+
+You can perform an **outer join** by specifying `all = TRUE`:
+
+```{r}
+(ab.outer <- merge(a, b, all = TRUE))
+(ab.outer <- merge(a, b, by = "PID", all = TRUE))
+```
+
+Note that the resulting data frame contains all IDs found in either input data frame and missing values are represented with `NA`
+
+### Left outer join
+
+You can perform a **left outer join** by specifying `all.x = TRUE`:
+
+```{r}
+(ab.leftOuter <- merge(a, b, all.x = TRUE))
+```
+
+Note how the resulting data frame contains all IDs present in the left input data frame only. 
+
+### Right outer join
+
+You can perform a **right outer join** by specifying `all.y = TRUE`:
+
+```{r}
+(ab.rightOuter <- merge(a, b, all.y = TRUE))
+```
+
+Note how the resulting data frame contains all IDs present in the right input data frame only.
+
 ## Wide to Long
 
 ```{r wideLong, echo = FALSE, out.width = "100%", fig.align = "center", fig.cap = "Wide and Long data format example. Take a moment to notice how the wide table on the left with 3 cases (3 IDs) and 3 variables gets converted from a 3 x 4 table to a 9 x 3 long table on the right. The values (outlined in magenta) are present once in each table: on the wide table they form an **ID x Variable** matrix, while on the long they are stacked on a **single column**. The IDs have to be repeated on the long table, once for each variable and there is a new 'Variable' column to provide the information present in the wide table's column names." }
@@ -133,82 +209,6 @@ dat_long2wide_dt <- dcast(dat_long_dt,
                           value.var = "Score")
 dat_long2wide_dt
 ```
-
-## Table Joins (i.e. Merging data.frames)
-
-Scenario: You have received two or more tables with data. Each table consists of a unique identifier (ID), which is shared among the tables, plus a number of variables in columns, which may be unique to each table. You want to merge them into one big table so that for each ID you have all available information.  
-
-Let's make up some data:
-
-```{r}
-a <- data.frame(PID = c(1:9),
-                Hospital = c("UCSF", "HUP", "Stanford",
-                             "Stanford", "UCSF", "HUP", 
-                             "HUP", "Stanford", "UCSF"),
-                Age = c(22, 34, 41, 19, 53, 21, 63, 22, 19),
-                Sex = c(1, 1, 0, 1, 0, 0, 1, 0, 0))
-
-b  <- data.frame(PID = c(6:12),
-                 V1 = c(153, 89, 112, 228,  91, 190, 101),
-                 Department = c("Neurology", "Radiology",
-                                "Emergency", "Cardiology",
-                                "Surgery", "Neurology", "Psychiatry"))
-a
-b
-dim(a)
-dim(b)
-```
-
-There are four main types of join operations:
-
-```{r, echo = FALSE, out.width = "100%",  fig.align = "center", fig.cap = "Common Join Operations"}
-knitr::include_graphics("R_Joins.png")
-```
-
-### Inner join
-
-The default arguments of `merge()` perform an **inner join**:
-
-```{r}
-(ab.inner <- merge(a, b))
-# same as
-(ab.inner <- merge(a, b, by = "PID"))
-# same as
-(ab.inner <- merge(a, b, all = FALSE))
-```
-
-Note that the resulting table only contains cases found in both data frames (i.e. IDs 6 through 9)
-
-### Outer join
-
-You can perform an **outer join** by specifying `all = TRUE`:
-
-```{r}
-(ab.outer <- merge(a, b, all = TRUE))
-(ab.outer <- merge(a, b, by = "PID", all = TRUE))
-```
-
-Note that the resulting data frame contains all IDs found in either input data frame and missing values are represented with `NA`
-
-### Left outer join
-
-You can perform a **left outer join** by specifying `all.x = TRUE`:
-
-```{r}
-(ab.leftOuter <- merge(a, b, all.x = TRUE))
-```
-
-Note how the resulting data frame contains all IDs present in the left input data frame only. 
-
-### Right outer join
-
-You can perform a **right outer join** by specifying `all.y = TRUE`:
-
-```{r}
-(ab.rightOuter <- merge(a, b, all.y = TRUE))
-```
-
-Note how the resulting data frame contains all IDs present in the right input data frame only.
 
 ## Feature transformation with `transform()`
 

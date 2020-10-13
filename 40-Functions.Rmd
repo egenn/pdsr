@@ -3,31 +3,21 @@
 ```{r echo = FALSE}
 knitr::opts_chunk$set(fig.width = 10, fig.height = 5,
                       comment = NA, cache = TRUE) 
-options(rt.theme = "lightgrid")
-options(rt.fit.theme = "lightgrid")
-```
-
-```{r, comment="", results="asis", echo=FALSE}
-old.hooks <- fansi::set_knit_hooks(knitr::knit_hooks)
-options(crayon.enabled = TRUE)
 ```
 
 Writing your own functions is fun and useful.  
 When should you do it?  
 Whenever you find yourself repeating pieces of code.  
 Why is it important?  
-Writing a function helps reduce the total amount of code, which reduces the chances of error, and makes your code more readable.  
+Writing functions helps reduce the total amount of code, which reduces the chances of error, and makes your code more readable.  
 
-Functions in R are "first class objects".  
-What does this mean?  
-You can pass them in and out of other functions or objects like any other R structure.  
-For example, we have seen that you can use a command like `apply(mat, 2, mean)  
+Reminder: Functions in R are "first class objects".  
+This means you can pass them in and out of other functions or objects like any other R structure.  
+For example, we have seen that you can use a command like `apply(mat, 2, mean)`   
 
 Functions in R are *for the most part* like mathematical functions: they have one or more inputs and one output. The inputs are known as the function arguments. If you want to return multiple outputs, you can easily enough return a list containing any number of R objects.
 
-First, the basics.
-
-Single argument, no default:
+Let's start with a very simple function: single argument, no default:
 
 ```{r}
 square <- function(x) {
@@ -159,7 +149,7 @@ lfn(3)
 
 ## Scoping
 
-Functions exist in their own environment, i.e. contain their own variable definitions - an illustration:
+Functions exist in their own environment, i.e. contain their own variable definitions.
 
 ```{r}
 x <- 3
@@ -172,6 +162,20 @@ fn <- function(x, y) {
 
 fn(x, y)
 cat("Outside the function, x = ", x, " and y = ", y, "\n")
+```
+
+However, if a variable is referenced within a function but no local definition exists, the interpreter will look for the variable at the parent directory. It is best to not rely on this and instead make sure all variables are passed to the functions that need them.  
+
+In the following example, `x` is only defined outside the function definition, but referenced within it.
+
+```{r}
+x <- 21
+
+itfn <- function(y, lr = 1) {
+  x + lr * y
+}
+
+itfn(3)
 ```
 
 ## The pipe operator `%>%` {#pipe}

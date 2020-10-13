@@ -17,7 +17,9 @@ library(rtemis)
 ```
 
 ## Continuous variables
+
 ### Standardization / Scaling & Centering with `scale()`
+
 Depending on your modeling needs / algorithms you plan to use, it is often important to scale and/or center your data. Note that many functions, but not all, will automatically scale and center data internally if it is required by the algorithm. Check the function documentation.  
 If you manually scale and/or center your data, you must:  
 
@@ -29,14 +31,17 @@ A common mistake is to either scale training and testing data together in the be
 
 Standardizing, i.e. converting to Z-scores, involving subtracting the mean and dividing by the standard deviation. 
 Scaling and centering in R is performed with the `scale` function. By default, both arguments `scale` and `center` are TRUE:
+
 ```{r}
 iris.scaled <- scale(iris[, -5])
 ```
 
-First, let's check that it did what we were hoping.  
+First, let's check that it did what we were hoping:  
+
 ```{r}
 colMeans(iris.scaled)
 ```
+
 ```{r}
 apply(iris.scaled, 2, sd)
 ```
@@ -44,11 +49,13 @@ apply(iris.scaled, 2, sd)
 Good - We got mean of 0 (effectively) and standard deviation of 1 for each column.  
 
 Now, let's get the scale and center attributes:
+
 ```{r}
 attributes(iris.scaled)
 ```
 
 Let's save the scale and center attributes and then check some values so that we are clear what is happening:
+
 ```{r}
 (.center <- attr(iris.scaled, "scaled:center"))
 (.scale <- attr(iris.scaled, "scaled:scale"))
@@ -57,11 +64,13 @@ all(Sepal.Length_scaled == iris.scaled[, "Sepal.Length"])
 ```
 
 Note: Due to limitation in numerical precision, checking sets of floats for equality after multiple operations is not recommended. Always a good idea to plot:
+
 ```{r}
 mplot3.fit(Sepal.Length_scaled, iris.scaled[, "Sepal.Length"])
 ```
 
 ### Log-transform with `log()`
+
 ```{r include = FALSE}
 set.seed(2020)
 v <- rnorm(1000)
@@ -72,39 +81,50 @@ x <- exp(vp)
 
 For the following example, `x` is an unknown feature in a new dataset we were just given.  
 We start by plotting its distribution:
+
 ```{r}
 mplot3.x(x)
 ```
+
 We can see it is highly skewed. A log transform may help here.  
 Let's check:
+
 ```{r}
 mplot3.x(log(x))
 ```
 
-Looks like a good deal!
+Looks like a good deal.
 
 ### Data binning with `cut()`
+
 Another approach for the above variable might be to bin it.  
 Let's look at a few different ways to bin continuous data.
 
 
 #### Equal-interval cuts
+
 By passing an integer to `cut()`'s `breaks` argument, we get that many equally-spaced intervals:
+
 ```{r}
 x_cut4 <- cut(x, breaks = 4)
 table(x_cut4)
 ```
+
 Because the data is so skewed, equal intervals are not helpful in this case. The majority of the data gets grouped into a single bin.  
 Let's visualize the cuts.
+
 ```{r}
 (xcuts5 <- seq(min(x), max(x), length.out = 5))
 mplot3.x(x, par.reset = FALSE)
 abline(v = xcuts5, col = "red", lwd = 1.5)
 ```
+
 Note: We used `par.reset = FALSE` to stop `mplot3.x` from resetting its custom `par()` settings so that we can continue adding elements to the same plot, in this case with the `abline` command.  
 
 #### Quantile cuts
+
 Instead, we can get quantiles. We ask for 5 quantiles which corresponds to 4 intervals:
+
 ```{r}
 (xquants5 <- quantile(x, seq(0, 1, length.out = 5)))
 mplot3.x(x, par.reset = F)
@@ -112,6 +132,7 @@ abline(v = xquants5, col = "green", lwd = 1.5)
 ```
 
 We can use the quantiles as breaks in `cut()`:
+
 ```{r}
 x_cutq4 <- cut(x, breaks = xquants5)
 table(x_cutq4)
@@ -136,10 +157,12 @@ mplot3.x(x)
 ```
 
 It may be worth binning into 2. Let's look at equal-interval and quantile cuts:  
+
 ```{r}
 (xcuts3 <- seq(min(x), max(x), length.out = 3))
 (xquants3 <- quantile(x, seq(0, 1, length.out = 3)))
 ```
+
 ```{r}
 mplot3.x(x, par.reset = F)
 abline(v = xcuts3, col = "red", lwd = 1.5)
@@ -160,19 +183,22 @@ mplot3.x(x, par.reset = F)
 abline(v = c(min(x), 19, max(x)), col = "yellow", lwd = 1.5)
 ```
 
-
 ## Categorical variables
+
 Many algorithms, or their implementations, do not support categorical variables directly and to use them, you must convert all categorical variables to some type of numeric encoding.
 
 ### Integer encoding
+
 If the categorical data is ordinal, you simply convert them to integers.  
 For example, the following ordered factor:
+
 ```{r}
 (brightness <- factor(c("bright", "brightest", "darkest",
                     "bright", "dark", "dim", "dark"),
                   levels = c("darkest", "dark", "dim", "bright", "brightest"),
                   ordered = TRUE))
 ```
+
 ...can be directly coerced to integer:
 
 ```{r}
@@ -180,14 +206,16 @@ as.integer(brightness)
 ```
 
 ### One-hot encoding
+
 When categorical features are **not** ordinal, and your algorithm cannot handle them directly, you can one-hot encode them. (This is similar to creating dummy variables in statistics). In one-hot encoding, each categorical feature is converted to k binary features, where k = number of unique values in the input, such that only one feature is 1 per case.
 
 ```{r}
 admission_reasons <- c("plannedSurgery", "emergencySurgery", "medical")
 (admission <- sample(admission_reasons, 10, T))
 ```
-We can use the `rtemis` `oneHot()` function:
+
+We can use the **rtemis** `oneHot()` function:
+
 ```{r}
 (admission_oneHot <- oneHot(admission))
 ```
-

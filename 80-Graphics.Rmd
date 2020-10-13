@@ -24,6 +24,7 @@ Visualization is central to statistics and data science. It is used to check dat
 R has powerful graphical capabilities built in to the core language. It contains two largely separate graphics systems: 'base' graphics in the `graphics` package, inherited from the S language, and 'grid' graphics in the `grid` package: a "rewrite of the graphics layout capabilities". There is limited support for interaction between the two. In practice, for a given application, choose one or the other. There are no high level functions for the grid graphics system built into the base R distribution, but a few very popular packages have been built on top of it. Both graphics systems can produce beautiful, layered, high quality graphics. It is possible to build functions using either system to produce most, if not all, types of plots.  
 
 ## Base graphics
+
 Common R plotting functions like `plot`, `barplot`, `boxplot`, `heatmap`, etc. are built ontop of base graphics [@murrell2018r]. Their default arguments provide a minimalist output, but can be tweaked extensively. An advantage of base graphics is they are very fast and relatively easy to extend.  
 
 The `par` function allows setting or querying graphical parameters of the base graphics system. Have a look at its documentation (`?par`).  
@@ -50,16 +51,19 @@ Note: All of these can be set either with a call to `pa()r` prior to plotting or
 However, there is one important distinction: `cex` set with `par()` (which defaults to 1), sets the baseline and all other `cex` parameters multiply it. However, `cex` set within `plot()` stil multiplies `cex` set with `par()`, but only affectts the plotting character size.
 
 ## Grid graphics
+
 The two most popular packages built on top of the `grid` package are:  
 
 * [lattice](https://cran.r-project.org/web/packages/lattice/lattice.pdf) 
 * [ggplot2](https://ggplot2.tidyverse.org) [@wickham2011ggplot2]
 
 ### `ggplot2`
+
 `ggplot2`, created by Hadley Wickham [@wickham2011ggplot2], follows the [Grammar of Graphics](https://www.springer.com/statistics/computational/book/978-0-387-24544-7) approach of Leland Wilkinson [@wilkinson2012grammar] and has a very different syntax than base functions.  
 The general idea is to start by defining the data and then add and/or modify graphical elements in a stepwise manner, which allows one to build complex and layered visualizations. A simplified interface to `ggplot` graphics is provided in the `qplot` function of `ggplot2` (but you should avoid it and use learn to use the `ggplot` command which is fun and much more flexible and useful to know)
 
 ## 3rd party APIs
+
 There are also third party libraries with R APIs that provide even more modern graphic capabilities to the R user:  
 
 * [plotly](https://plot.ly) [@sievert2017plotly]
@@ -67,7 +71,7 @@ There are also third party libraries with R APIs that provide even more modern g
 
 Both build interactive plots, which can be viewed in a web browser or exported to bitmap graphics, and both also follow the grammar of graphics paradigm, and therefore follow similar syntax to `ggplot2`.
 
-The [rtemis](https://rtemis.lambdamd.org) package [@gennatas2017towards] provides visualization functions built on top of base graphics (for speed and extendability) and plotly (for interactivity):  
+The [**rtemis**](https://rtemis.lambdamd.org) package [@gennatas2017towards] provides visualization functions built on top of base graphics (for speed and extendability) and **plotly** (for interactivity):  
 
 * [mplot3](https://rtemis.lambdamd.org/staticgraphics.html) static graphics (base)
 * [dplot3](https://rtemis.lambdamd.org/interactivegraphics.html) interactive graphics (plotly)
@@ -76,60 +80,73 @@ Let's go over the most common plot types using base graphics, mplot3, dplot3, an
 You should be familiar with the basic functionality of both base graphics and ggplot as they are extensively used.
 
 ## Colors in R
+
 Colors in R can be defined in many different ways:  
 
-* Using names
+* Using names (check the output of `colors()`)
 * Using a hexadecimal RGB code in the form `#RRGGBBAA`, e.g. `#FF0000FF` for opaque red
-* Using the `rgb(red, green, blue, alpha)` function (which outputs a hex number)
-* Using the `hsv(h, s, v, alpha)` function (which also outputs a hex number)
-* Using integers: these act as an index for the output of `palette()`
+* Using the `rgb(red, green, blue, alpha)` function (outputs a hex number)
+* Using the `hsv(h, s, v, alpha)` function (also outputs a hex number)
+* Using integers: these index the output of `palette()`
 
 ### Color names
-There is a long list of color names R understands, which you can pass directly as characters.  
+
+There is a long list of color names R understands, and can be listed using `colors()`.  
+They can be passed directly as characters.  
 Shades of gray are provided as `gray0`/`grey0` (white) to `gray100`/`grey100` (black).  
 Absurdly wide PDFs with all builtin R colors, excluding the grays/greys, are available sorted [alphabeticaly](https://rtemis.netlify.com/RColors.pdf) and sorted by [increasing Red and decreasing Green and Blue values](https://rtemis.netlify.com/RColors_incRed_decBlueGreen.pdf)
 
 ### Hexadecimal codes
 Hexadecimal color codes are characters starting with the pound sign, followed by 4 pairs of hex codes representing Red, Green, Blue, and Alpha values. Since RGB values go from 0 to 255, hex goes from 00 to FF. You can convert decimal to hex using `as.hexmode`:
+
 ```{r}
 as.hexmode(0)
 as.hexmode(127)
 as.hexmode(255)
 ```
+
 The last two values for the alpha setting are optional: if not included, defaults to max (opaque)
 
 ### RGB
+
 ```{r}
 rgb(0, 0, 1)
 ```
+
 Note the default `maxColorValue = 1`, set to 255 to use the usual RGB range of 0 to 255:
+
 ```{r}
 rgb(0, 0, 255, maxColorValue = 255)
 ```
 
 ### HSV
+
 Color can also be parameterized using the hue, saturation, and value system ([HSV](https://en.wikipedia.org/wiki/HSL_and_HSV)). Each range from 0 to 1.  
 Simplistically: Hue controls the color. Saturation 1 is max color and 0 is white. Value 1 is max color and 0 is black.
+
 ```{r}
 hsv(1, 1, 1)
 ```
 
 In the following plot, the values around the polar plot represent hue. Moving inwards to the center, saturation changes from 1 to 0.
+
 ```{r}
 mplot.hsv()
 mplot.hsv(v = .5)
 ```
 
-
 ## Scatterplot
+
 ### base
 
 A default base graphics plot is rather minimalist:
+
 ```{r}
 plot(iris$Sepal.Length, iris$Petal.Length)
 ```
 
 By tweaking a few parameters, we get a perhaps prettier result:
+
 ```{r}
 plot(iris$Sepal.Length, iris$Petal.Length,
      pch = 16,
@@ -139,26 +156,30 @@ plot(iris$Sepal.Length, iris$Petal.Length,
      xlab = "Sepal Length", ylab = "Petal Length")
 ```
 
+### **mplot3**
 
-### `mplot3`
 ```{r}
 mplot3.xy(iris$Sepal.Length, iris$Petal.Length)
 ```
 
-[dplot3](https://rtemis.netlify.com/interactivegraphics.html) provides similar functionality to `mplot3`, built on top of plotly. Notice how you can interact with the plot using the mouse:
+[`dplot3()`](https://rtemis.lambdamd.org/interactivegraphics.html) provides similar functionality to `mplot3()`, built on top of **plotly**. Notice how you can interact with the plot using the mouse:
 
-### `dplot3`
+### **dplot3**
+
 ```{r}
 dplot3.xy(iris$Sepal.Length, iris$Petal.Length)
 ```
 
-### `ggplot2`
+### **ggplot2**
+
 Note: The name of the package is `ggplot2`, the name of the function is `ggplot`.
+
 ```{r}
 ggplot(iris, aes(Sepal.Length, Petal.Length)) + geom_point()
 ```
 
-### `plotly`
+### **plotly**
+
 ```{r}
 p <- plot_ly(iris, x = ~Sepal.Length, y = ~Petal.Length) %>% 
   add_trace(type = "scatter", mode = "markers")
@@ -166,7 +187,9 @@ p
 ```
 
 ### Grouped
-In `mplot3` and `dplot3`, add a `group` arguments:
+
+In `mplot3()` and `dplot3()`, add a `group` argument:
+
 ```{r}
 mplot3.xy(iris$Sepal.Length, iris$Petal.Length,
           group = iris$Species)
@@ -177,41 +200,46 @@ dplot3.xy(iris$Sepal.Length, iris$Petal.Length,
           group = iris$Species)
 ```
 
+In **ggplot2**, specify `color` within `aes`.  
+`ggplot` plots can be assigned to an object. Print the object to view it.
 
-In `ggplot2`, specify `color` within `aes`.  
-Note that `ggplot` plots can be assigned to an object. Print the object to view it.
 ```{r}
 p <- ggplot(iris, aes(Sepal.Length, Petal.Length, color = Species)) +
   geom_point()
 p
 ```
 
-In `plotly` define the `color` argument:
+In **plotly** define the `color` argument:
+
 ```{r}
 p <- plot_ly(iris, x = ~Sepal.Length, y = ~Petal.Length, color = ~Species) %>% 
   add_trace(type = "scatter", mode = "markers")
 p
 ```
 
-
 ## Scatterplot with fit
 
-### `mplot3`
-In `mplot3`, define the algorithm to use to fit a curve, with `fit`. `se.fit` allows plotting the standard error bar (if it can be provided by the algorithm in `fit`)
+### **mplot3**
+
+In `mplot3.xy()`, define the algorithm to use to fit a curve, with `fit`. `se.fit` allows plotting the standard error bar (if it can be provided by the algorithm in `fit`)
+
 ```{r}
 mplot3.xy(iris$Sepal.Length, iris$Petal.Length,
           fit = "gam", se.fit = T)
 ```
 
 Passing a `group` argument, automatically fits separate models:
+
 ```{r}
 mplot3.xy(iris$Sepal.Length, iris$Petal.Length,
           fit = "gam", se.fit = T,
           group = iris$Species)
 ```
 
-### `dplot3`
-Same syntax as `mplot3` above
+### **dplot3**
+
+Same syntax as `mplot3.xy()` above:
+
 ```{r}
 dplot3.xy(iris$Sepal.Length, iris$Petal.Length,
           fit = "gam", se.fit = T)
@@ -223,8 +251,10 @@ dplot3.xy(iris$Sepal.Length, iris$Petal.Length,
           group = iris$Species)
 ```
 
-### `ggplot2`
-In `ggplot`, add a `geom_smooth`:
+### **ggplot2**
+
+In `ggplot()`, add a `geom_smooth`:
+
 ```{r}
 ggplot(iris, aes(x = Sepal.Length, y = Petal.Length)) +
   geom_point() +
@@ -232,14 +262,17 @@ ggplot(iris, aes(x = Sepal.Length, y = Petal.Length)) +
 ```
 
 To group, again, use `color`:
+
 ```{r}
 ggplot(iris, aes(x = Sepal.Length, y = Petal.Length, color = Species)) +
   geom_point() +
   geom_smooth(method = 'gam')
 ```
 
-### `plotly`
-In `plotly`, `add_lines`:
+### **plotly**
+
+In `plot_ly()`, `add_lines()`:
+
 ```{r}
 library(mgcv)
 mod.gam <- gam(Petal.Length ~ s(Sepal.Length), data = iris)
@@ -249,6 +282,7 @@ plot_ly(iris, x = ~Sepal.Length) %>%
 ```
 
 To get fit by group, you add all elements one after the other - one way would be this:
+
 ```{r}
 iris.bySpecies <- split(iris, iris$Species)
 gam.fitted <- lapply(iris.bySpecies, function(i) {
@@ -276,11 +310,14 @@ for (i in seq_along(iris.bySpecies)) {
 p
 ```
 
-It's a lot of work, that's why `dplot3` exists.
+It's a lot of work, and that's why `dplot3()` exists.
 
 ## Density plot
+
 There is no builtin density plot, but you can get x and y coordinates from the `density` function and add a polygon:
+
 ### base
+
 ```{r}
 .density <- density(iris$Sepal.Length)
 class(.density)
@@ -296,28 +333,32 @@ polygon(c(.density$x, rev(.density$x)), c(.density$y, rep(0, length(.density$y))
         col = "#18A3AC66", border = NA)
 ```
 
+### **mplot3**
 
-### mplot3
 ```{r}
 mplot3.x(iris$Sepal.Length, 'density')
 ```
 
-### dplot3
+### **dplot3**
+
 ```{r}
 dplot3.x(iris$Sepal.Length)
 ```
 
-### ggplot2
+### **ggplot2**
+
 ```{r}
 ggplot(iris, aes(x = Sepal.Length)) + geom_density()
 ```
 
 Add color:
+
 ```{r}
 ggplot(iris, aes(x = Sepal.Length)) + geom_density(color = "#18A3AC66", fill = "#18A3AC66")
 ```
 
 #### Grouped
+
 ```{r}
 mplot3.x(iris$Sepal.Length, group = iris$Species)
 ```
@@ -325,7 +366,6 @@ mplot3.x(iris$Sepal.Length, group = iris$Species)
 ```{r}
 dplot3.x(iris$Sepal.Length, group = iris$Species)
 ```
-
 
 ```{r}
 (ggplot(iris, aes(Sepal.Length, color = Species, fill = Species)) + 
@@ -335,33 +375,37 @@ dplot3.x(iris$Sepal.Length, group = iris$Species)
   labs(x = "Sepal Length", y = "Density"))
 ```
 
-
 ## Histogram
+
 ```{r}
 set.seed(2020)
 a <- rnorm(500)
 ```
 
 ### base
+
 ```{r}
 hist(a)
 hist(a, col = "#18A3AC66")
 hist(a, col = "#18A3AC99", border = "white", main = "", breaks = 30)
 ```
 
-### mplot3
+### **mplot3**
+
 ```{r}
 mplot3.x(a, "histogram")
 mplot3.x(a, "histogram", hist.breaks = 30)
 ```
 
-### dplot3
+### **dplot3**
+
 ```{r}
 dplot3.x(a, "hist")
 dplot3.x(a, "hist", hist.n.bins = 40)
 ```
 
-### ggplot2
+### **ggplot2**
+
 ```{r}
 (p <- ggplot(mapping = aes(a)) + geom_histogram())
 (p <- ggplot(mapping = aes(a)) + geom_histogram(binwidth = .2))
@@ -370,6 +414,7 @@ dplot3.x(a, "hist", hist.n.bins = 40)
 ```
 
 #### Grouped
+
 ```{r}
 mplot3.x(iris$Petal.Length, 'h', group = iris$Species, hist.breaks = 10)
 ```
@@ -384,28 +429,32 @@ ggplot(iris, aes(x = Sepal.Length, fill = Species)) +
 ```
 
 ### Barplot
+
 ```{r}
 schools <- data.frame(UCSF = 4, Stanford = 7, Penn = 12)
 ```
 
 ### base
+
 ```{r}
 barplot(as.matrix(schools))
 barplot(as.matrix(schools), col = "dodgerblue3")
 ```
 
+### **mplot3**
 
-### mplot3
 ```{r}
 mplot3.bar(schools)
 ```
 
-### dplot3
+### **dplot3**
+
 ```{r}
 dplot3.bar(schools)
 ```
 
-### ggplot2
+### **ggplot2**
+
 `ggplot` requires an explicit column in the data that define the categorical x-axis:
 ```{r}
 schools.df <- data.frame(University = colnames(schools),
@@ -414,14 +463,15 @@ ggplot(schools.df, aes(University, N_schools)) +
   geom_bar(stat = "identity", color = "#18A3AC", fill = "#18A3AC")
 ```
 
-
 ## Box plot
+
 ```{r}
 x <- rnormmat(200, 4, return.df = TRUE, seed = 2019)
 colnames(x) <- c("mango", "banana", "tangerine", "sugar")
 ```
 
 ### base
+
 ```{r}
 boxplot(x)
 ```
@@ -430,18 +480,22 @@ boxplot(x)
 boxplot(x, col = "steelblue4")
 ```
 
-### mplot3
+### **mplot3**
+
 ```{r}
 mplot3.box(x)
 ```
 
-### dplot3
+### **dplot3**
+
 ```{r}
 dplot3.box(x)
 ```
 
-### ggplot2
+### **ggplot2**
+
 Again, ggplot requires an explicit categorical x-axis, which is this case means a conversion from wide to long dataset:
+
 ```{r}
 library(tidyr)
 (x.long <- pivot_longer(x, 1:4, names_to = "Fruit", values_to = "Feature"))
@@ -449,6 +503,7 @@ library(tidyr)
 ```
 
 Add some color:
+
 ```{r}
 (p <- ggplot(x.long, aes(Fruit, Feature)) +
    geom_boxplot(fill = c("#44A6AC66", "#F4A36266", "#3574A766", "#C23A7066"),
@@ -456,37 +511,46 @@ Add some color:
 ```
 
 ## Heatmap
-Let's create some synthetic correlation data
+
+Let's create some synthetic correlation data:
+
 ```{r}
 x <- rnormmat(20, 20, seed = 2020)
 x.cor <- cor(x)
 ```
 
 ### base
+
 R has a great builtin heatmap function, which supports hierarchical clustering and plots the dendrogram in the margins by default:
+
 ```{r}
 heatmap(x.cor)
 ```
 
 It may be a little surprising that clustering is on by default. To disable row and column dendrograms, set `Rowv` and `Colv` to `NA`:
+
 ```{r}
 heatmap(x.cor, Rowv = NA, Colv = NA)
 ```
 
-### mplot3
+### **mplot3**
+
 mplot3 adds a colorbar to the side of the heatmap. Notice there are 10 circles above and 10 circles below zero to represent 10% increments.
 ```{r}
 mplot3.heatmap(x.cor)
 ```
 
 
-### dplot3
+### **dplot3**
+
 ```{r}
 dplot3.heatmap(x.cor)
 ```
 
-### ggplot2
+### **ggplot2**
+
 ggplot does not have a builtin heatmap function per se, but you can use `geom_tile` to build one. It also needs a data frame input in long form once again:
+
 ```{r}
 x.cor.dat <- as.data.frame(x.cor)
 colnames(x.cor.dat) <- rownames(x.cor.dat) <- paste0("V", seq(20))
@@ -498,9 +562,10 @@ x.cor.long <- data.frame(NodeA = rownames(x.cor)[row(x.cor)],
     geom_tile() + coord_equal())
 ```
 
-
 ## Saving plots to file
+
 ### base
+
 You can save base graphics to disk using a number of different file formats. To do this, you have to:  
 
 * Open a graphic device - e.g. `pdf("path/to/xy_scatter.pdf")`

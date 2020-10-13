@@ -110,6 +110,12 @@ Let's create an example data frame:
 
 ### base
 
+The `resahep()` function is probably one of the most complicated because the documentation is not clear, specifically with regards to which arguments refer to the input vs. output data frame. Use the following figure as a guide to understand `reshape()`'s syntax. You can use it as a reference when building your own `reshape()` command by following steps 1 through 5:
+
+```{r wideLongSyntax, echo = FALSE, out.width = "100%", fig.align = "center", fig.cap = "`reshape()` syntax for Wide to Long transformation."}
+knitr::include_graphics("R_reshape_wide2long.png", dpi = NA)
+```
+
 ```{r}
 dat_wide2long <- reshape(data = dat_wide,                    # Data in wide format
                          idvar = "ID",                       # The column name that defines case ID
@@ -120,7 +126,7 @@ dat_wide2long <- reshape(data = dat_wide,                    # Data in wide form
                          direction = "long") 
 ```
 
-You Can also define 'varying' with a character vector:  
+You can also define 'varying' with a character vector:  
 `varying = list(c("mango", "banana","tangerine")`  
 
 Explore the resulting data frame's attributes:
@@ -133,12 +139,6 @@ These attributes and present if and only if a long data set was created from a w
 
 ```{r}
 reshape(dat_wide2long)
-```
-
-The `resahep()` function is probably one of the most complicated because the documentation is not clear, specifically with regards to which arguments refer to the input vs. output data frame. Use the following figure as a guide to understand `reshape()`'s syntax. You can use it as reference when building your own `reshape()` command by following steps 1 through 5:
-
-```{r wideLongSyntax, echo = FALSE, out.width = "100%", fig.align = "center", fig.cap = "`reshape()` syntax for Wide to Long transformation."}
-knitr::include_graphics("reshape_wide2long.png", dpi = NA)
 ```
 
 ### tidyr
@@ -178,12 +178,19 @@ Let's create a long dataset:
 
 ### base
 
+Using base `reshape()` for long-to-wide transformation is simpler than wide-to-long:
+
+```{r longWideSyntax, echo = FALSE, out.width = "100%", fig.align = "center", fig.cap = "`reshape()` syntax for Long to Wide transformation."}
+knitr::include_graphics("R_reshape_long2wide.png", dpi = NA)
+```
+
 ```{r}
 dat_long2wide <- reshape(dat_long,
                          idvar = "ID",
                          timevar = "Fruit",
                          v.names = "Score",
                          direction = "wide")
+# Optionally rename columns
 colnames(dat_long2wide) <- gsub("Score.", "", colnames(dat_long2wide))
 dat_long2wide
 ```

@@ -1,0 +1,108 @@
+# Intro to data modeling {#modeling}
+
+```{r echo = FALSE}
+knitr::opts_chunk$set(fig.width = 4.5, fig.height = 4.5,
+                      comment = NA, cache = TRUE) 
+```
+-> This section is a work in progress
+
+## Generalized Linear Model (GLM)
+
+The Generalized Linear Model is one of the most common and important models in statistics.  
+Let's look at an example using the GLM for regression.  
+We will use the `mtcars` builtin dataset to predict horsepower (`hp`) of 32 cars from 10 other features:
+
+```{r}
+str(mtcars)
+```
+Here, we use the `glm()` function which accepts a formula that defines the model.  
+The formula used below means "regress hp on all other variables". The `family` argument defines we are performing regression and the `data` argument points to the data frame where the covariates used in the formula are found.
+
+```{r}
+mod <- glm(hp ~ ., family = "gaussian", data = mtcars)
+mod
+```
+
+For amgaussian output, we can also use the `lm()` function (there are minor differences in the output created, but the model is the same):
+
+```{r}
+mod <- lm(hp ~ ., data = mtcars)
+mod
+```
+
+Get summary of the model using `summary()`:
+
+```{r}
+summary(mod)
+```
+
+Note how R prints stars next to covariates whose p-values falls within certain limits, described right below the table of estimates.  
+Above, for example, the p-value for `disp` falls between 0.001 and 0.01 and therefore gets highlighted with 2 stars.  
+
+To extract the p-values of the intercept and each coefficient, we use `coef()` on `summary()`. The final (4th) column lists the p-values:
+
+```{r}
+coef(summary(mod))
+```
+
+## Mass-univariate analysis
+
+There are many cases where we have a large number of predictors and, along with any other number of tests or models, we may want to regress our outcome of interest on each covariate, one at a time.  
+
+Let's create some synthetic data with 1000 cases and 100 covariates  
+The outcome is generated using just 4 of those 100 covariates and has added noise.
+
+```{r}
+set.seed(2020)
+n_col <- 100
+n_row <- 1000
+x <- as.data.frame(lapply(seq(n_col), function(i) rnorm(n_row)),
+                   col.names = paste0("Feature_", seq(n_col)))
+dim(x)
+y <- .7 + x[, 10] + .3 * x[, 20] + 1.3 * x[, 30] + x[, 50] + rnorm(500)
+```
+
+Let's fit a linear model regressing y on each column of x using `lm`:
+
+```{r}
+mod.xy.massuni <- lapply(seq(x), function(i) lm(y ~ x[, i]))
+length(mod.xy.massuni)
+names(mod.xy.massuni) <- paste0("mod", seq(x))
+```
+
+To extract p-values for each model, we must find where exactly to look.  
+Let's look into the first model:
+```{r}
+(ms1 <- summary(mod.xy.massuni$mod1))
+ms1$coefficients
+```
+
+The p-values for each feature is stored in row 1, column 4 fo the coefficients matrix. Let's extract all of them:
+```{r}
+mod.xy.massuni.pvals <- sapply(mod.xy.massuni, function(i) summary(i)$coefficients[2, 4])
+```
+Let's see which variable are significant at the 0.05:
+```{r}
+which(mod.xy.massuni.pvals < .05)
+```
+...and which are significant at the 0.01 level:
+```{r}
+which(mod.xy.massuni.pvals < .01)
+```
+
+## Multiple comparison correction
+
+We've performed a large number of tests and before reporting the results, we need to control for [multiple comparisons](https://en.wikipedia.org/wiki/Multiple_comparisons_problem).  
+To do that, we use R's `p.adjust()` function. It adjusts a vector of p-values to account for multiple comparisons using one of multiple methods. The default, and recommended, is the [Holm method](https://en.wikipedia.org/wiki/Holm%E2%80%93Bonferroni_method). It ensures that `FWER < α`, i.e. controls the [family-wise error rate](https://en.wikipedia.org/wiki/Family-wise_error_rate), a.k.a. the probability of making one or more false discoveries (Type I errors) 
+
+```{r}
+mod.xy.massuni.pvals.holm_adjusted <- p.adjust(mod.xy.massuni.pvals)
+```
+
+Now, let's see which features' p-values survive the magical .05 threshold:
+
+```{r}
+which(mod.xy.massuni.pvals.holm_adjusted < .05)
+```
+
+These are indeed the correct features (not surprisingly, still reassuringly).

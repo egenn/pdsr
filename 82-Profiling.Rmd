@@ -15,6 +15,7 @@ options(crayon.enabled = TRUE)
 Profiling your code involves timing the execution of different steps of a program. This is usually performed in order to identify bottlenecks that slow down the execution of your code and it helps you prioritize which parts to optimize.
 
 ## Time the execution of an expression with `system.time`
+
 If you want to time how long it takes for an R expression to complete, you can use the base command `system.time`.  
 "elapsed" time is real time in seconds. "user" and "system" are time used by the CPU on different types of tasks (see `?proc.time`)
 
@@ -30,7 +31,8 @@ system.time({
 system.time(x^3)
 ```
 
-You can use `replicate` to get a measure of time over multiple executions and average it:
+You can use `\replicate()` to get a measure of time over multiple executions and average it:
+
 ```{r}
 library(mgcv)
 library(glmnet)
@@ -46,12 +48,15 @@ system.time(replicate(1000, fit.gam))
 ```
 
 ## Compare execution times of different expressions with `microbenchmark()`
+
 ```{r}
 library(microbenchmark)
 library(rpart)
 data(Sonar, package = "mlbench")
 ```
-`microbenchmark()` allows you to time the execution of multiple expressions with sub-millisecond accuracy. It will execute each command a number of times as defined by the `times` argument (default = 100), and output statistics of execution time per expression in nanoseconds. Using `plot` on the output produces a boxplot comparing the time distributions.
+
+`microbenchmark()` allows you to time the execution of multiple expressions with sub-millisecond accuracy. It will execute each command a number of times as defined by the `times` argument (default = 100), and output statistics of execution time per expression in nanoseconds. Using `plot()` on the output produces a boxplot comparing the time distributions.
+
 ```{r warning=FALSE}
 glmVSrpart <- microbenchmark(glm(Class ~ ., family = "binomial", Sonar),
                rpart(Class ~ ., Sonar, method = "class"),
@@ -60,6 +65,7 @@ plot(glmVSrpart)
 ```
 
 Let's compare using a for loop vs. vapply vs. sapply for a one-hot encoding function:
+
 ```{r}
 oh_for <- function(x) {
   x.name <- deparse(substitute(x))
@@ -110,10 +116,13 @@ library(microbenchmark)
 oh_3ways <- microbenchmark(oh_for(x), oh_vapply(x), oh_sapply(x))
 plot(oh_3ways)
 ```
+
 In this case, the `for` loop beats `sapply`, which beats `vapply`.
 
 ## Profile a function with `profvis()`
+
 `profvis` provides an interactive output to visualize how much time is spent in different calls within an algorithm.
+
 ```{r}
 library(profvis)
 library(rtemis)
@@ -121,5 +130,5 @@ data(Sonar, package = 'mlbench')
 ```
 
 ```{r}
-profvis(s.ADDTREE(Sonar))
+profvis(rpart::rpart(Class ~ ., Sonar))
 ```

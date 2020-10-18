@@ -4,26 +4,24 @@
 knitr::opts_chunk$set(fig.width = 4.5, fig.height = 4.5,
                       comment = NA, cache = TRUE) 
 ```
--> This section is a work in progress
 
 ## Generalized Linear Model (GLM)
 
 The Generalized Linear Model is one of the most common and important models in statistics.  
-Let's look at an example using the GLM for regression.  
-We will use the `mtcars` builtin dataset to predict horsepower (`hp`) of 32 cars from 10 other features:
+Let's look at an example using the GLM for regression. We will use the `mtcars` builtin dataset to predict horsepower (`hp`) of 32 cars from 10 other features:
 
 ```{r}
 str(mtcars)
 ```
-Here, we use the `glm()` function which accepts a formula that defines the model.  
-The formula used below means "regress hp on all other variables". The `family` argument defines we are performing regression and the `data` argument points to the data frame where the covariates used in the formula are found.
 
 ```{r}
 mod <- glm(hp ~ ., family = "gaussian", data = mtcars)
 mod
 ```
+The `glm()` function accepts a formula that defines the model.  
+The formula `hp ~ .` means "regress hp on all other variables". The `family` argument defines we are performing regression and the `data` argument points to the data frame where the covariates used in the formula are found.
 
-For amgaussian output, we can also use the `lm()` function (there are minor differences in the output created, but the model is the same):
+For a gaussian output, we can also use the `lm()` function. There are minor differences in the output created, but the model is the same:
 
 ```{r}
 mod <- lm(hp ~ ., data = mtcars)

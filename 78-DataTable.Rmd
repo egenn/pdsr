@@ -12,11 +12,11 @@ old.hooks <- fansi::set_knit_hooks(knitr::knit_hooks)
 options(crayon.enabled = TRUE)
 ```
 
-The [__data.table__](https://github.com/Rdatatable/data.table) package provides a modern and highly optimized version of R's data.frame structure. It is highly memory efficient and automatically parallelizes internal operations to achieve substantial speed improvements over data.frames. The `data.table` package weighs in at a few KB only, has zero dependencies, and maintains compatibility with R versions going as far back as possible.  
+The [__data.table__](https://github.com/Rdatatable/data.table) package provides a modern and highly optimized version of R's data.frame structure. It is highly memory efficient and automatically parallelizes internal operations to achieve substantial speed improvements over data.frames. The `data.table` package weighs in at just a few kilobytes, has zero dependencies, and maintains compatibility with R versions going as far back as possible.  
 
 There are two main ways in which `data.table` differs from `data.frame`:  
 
-* You can perform many operations "in-place" without creating a copy, i.e. make changes to a `data.table` without having to assign it back to itself.
+* You can perform many operations ***"in-place"*** without creating a copy (i.e. make changes to a `data.table` without having to assign it back to itself).
 * There is a lot more than indexing and slicing that you can do within a `data.table`'s "frame" i.e. the square brackets after a `data.table`, like applying any custom function to specific columns and/or cases.
 
 ```{r}
@@ -26,10 +26,11 @@ library(data.table)
 
 Let's look at `data.table` vs. `data.frame` operations:
 
-## Create a __data.table__
+## Create a `data.table`
 
 ### By assignment: `data.table()`
 Same syntax with `data.frame()`:
+
 ```{r}
 (df <- data.frame(A = 1:5,
                   B = c(1.2, 4.3, 9.7, 5.6, 8.1),
@@ -40,6 +41,7 @@ class(df)
                   C = c("a", "b", "b", "a", "a")))
 class(dt)
 ```
+
 Notice how `data.table` inherits from `data.frame`. This means that if a method does not exist for `data.table`, the method for `data.frame` will be used.  
 One difference from `data.frame()` is that, as you can see above, is that `stringsAsFactors` defaults to FALSE in `data.table()`. Also, as part of efficiency improvements, data.tables do away with row names, which are rarely used. Instead of using rownames, you can always add an extra column with the same information - this is advisable when working with data.frame as well.
 
@@ -51,6 +53,7 @@ One difference from `data.frame()` is that, as you can see above, is that `strin
 ```
 
 ### By coercion: `as.data.table()`
+
 ```{r}
 dat <- data.frame(A = 1:5,
                   B = c(1.2, 4.3, 9.7, 5.6, 8.1),
@@ -59,8 +62,10 @@ dat <- data.frame(A = 1:5,
 ```
 
 
-### By coercion *in-place*: `setDT()`
+### By coercion ***in-place***: `setDT()`
+
 `setDT` converts a list or data.frame into a `data.table` in-place. Note: the original object itself is changed, you do not need to assign the output of `setDT` to a new name.
+
 ```{r}
 dat <- data.frame(A = 1:5,
                   B = c(1.2, 4.3, 9.7, 5.6, 8.1),
@@ -70,27 +75,34 @@ setDT(dat)
 class(dat)
 ```
 
-You can similarly convert a `data.table` into a `data.frame`, in-place:
+You can similarly convert a `data.table` to a `data.frame`, in-place:
+
 ```{r}
 setDF(dat)
 class(dat)
 ```
 
 ### Read into `data.table` from file
+
 __data.table__ includes the `fread()` function to read data from files, in a similar way as the base functions `read.csv()` and `read.table()`. It is orders of magnitude faster for very large data (e.g. thousands to millions of rows) and it can read directly from URLs, and zipped files. The `sep` arguments defines the separator (same as in `read.csv()` and `read.table()`), but when set to `"auto"` (the default) it does a great job of figuring it out by itself. 
+
 ```{r eval = FALSE}
 dat <- fread("path/to/file.csv")
 dat <- fread("https::/url/to/file.csv.gz")
 ```
-For its speed and convenience, `fread()` is recommended over `read.csv()`/`read.table()` even if you intend to work with a `data.frame` exclusively, in which case you can pass the argument `data.table = FALSE` to `fread()`
+
+For its speed and convenience, `fread()` is recommended over `\read.csv()`/`\read.table()` even if you intend to work with a `data.frame` exclusively, in which case you can pass the argument `data.table = FALSE` to `fread()`
 
 ### Write a `data.table` to file: `fwrite()`
+
 ```{r eval = FALSE}
 fwrite(dt, "/path/to/file.csv")
 ```
 
 ## Combine `data.table`s
+
 `cbind()` and `rbind()` work on `data.table`s the same as on `data.frame`s:
+
 ```{r}
 dt1 <- data.table(a = 1:5)
 dt2 <- data.table(b = 11:15)
@@ -98,30 +110,33 @@ cbind(dt1, dt2)
 rbind(dt1, dt1)
 ```
 
-
 ## `str` works the same (and you should keep using it!)
+
 ```{r}
 str(df)
 str(dt)
 ```
 
-
 ## Indexing a `data.table`
+
 Indexing is largely unchanged, with a few notable exceptions.  
 Integer indexing is mostly the same:
+
 ```{r}
 df[1, ]
 dt[1, ]
 ```
 
-Selecting a single column with integer indexing in __data.table__ does not drop to a vector (i.e. similar to `drop = FALSE` in a data.frame):
+Selecting a single column with integer indexing in `data.table` does not drop to a vector (i.e. similar to `drop = FALSE` in a data.frame):
+
 ```{r}
 df[, 1]
 df[, 1, drop = FALSE]
 dt[, 1]
 ```
 
-In __data.table__, you can access column names directly without quoting or using `$`:
+In `data.table`, you can access column names directly without quoting or using `$`:
+
 ```{r}
 df[, "B"]
 df$B
@@ -136,21 +151,33 @@ dt[B > 5, ]
 
 Think of working inside the `data.table` frame (i.e. the "[...]") like an environment. You have direct access to the variables within it.  
 If you want to refer to variables outside the `data.table`, prefix the variable name with `..`. This is similar to how you access contents of a directory above your current directory in the terminal:
+
 ```{r}
 varname = "C"
 df[, varname]
 dt[, ..varname]
 ```
+
 This tells the `data.table` "don't look for 'varname' in the data.table, go outside to find it"
 
 ### Conditionally select cases:
+
 It is easy to select cases by combining conditions by using column names directly. Note that `data.table` does not require you to add ", " to select all columns after you have specified rows - works just the same if you so include it:
+
+There are a few way to conditionally select in a data.frame:
+
 ```{r}
 df[df$A > mean(df$A) & df$B > mean(df$B), ]
 subset(df, A > mean(A) & B > mean(B))
 with(df, df[A > mean(A) & B > mean(B), ])
+```
+
+The data.table equivalent is probably simplest:
+
+```{r}
 dt[A > mean(A) & B > mean(B)]
 ```
+
 
 ```{r}
 (a <- rnormmat(10, 5, seed = 2020, return.df = TRUE))
@@ -164,7 +191,9 @@ adt[!is.na(V3)]
 ```
 
 ### Select columns
+
 by integer index, same as with a data.frame
+
 ```{r}
 dt[, 2]
 dt[, 2:3]
@@ -172,25 +201,32 @@ dt[, c(1, 3)]
 ```
 
 by name: selecting a single column by name returns a vector:
+
 ```{r}
 dt[, A]
 ```
+
 by name: selecting one or more columns by name enclosed in `.()` which, in this case, is short for `list()`, return a `data.table`:
+
 ```{r}
 dt[, .(A)]
 dt[, .(A, B)]
 ```
 
-## Add new columns in-place
+## Add new columns ***in-place***
+
 Use `:=` assignment to add a new column in the existing `data.table`.
 Once again, in-place means you do not have to assign the result to a variable, the existing `data.table` will be changed.
+
 ```{r}
 dt[, AplusC := A + C]
 dt
 ```
 
-## Add multiple columns in-place
+## Add multiple columns ***in-place***
+
 To add multiple columns, use `:=` in a little more awkward notation:
+
 ```{r}
 dt[, `:=`(AminusC = A - C, AoverC = A / C)]
 dt
@@ -203,28 +239,35 @@ dt[, A := as.numeric(A)]
 dt
 ```
 
-
 ## Delete column in-place
+
 To delete a column, use `:=` to set it to NULL:
+
 ```{r}
 dt[, AoverC := NULL]
 dt
 ```
-Same awkward notation to delete multiple columns:
+
+Same awkward notation as earlier to delete multiple columns:
+
 ```{r}
 dt[, `:=`(AplusC = NULL, AminusC = NULL)]
 dt
 ```
 
 ## Summarize
+
 Create a *new* data.table using any summary function:
+
 ```{r}
 Asummary <- dt[, .(Amax = max(A), Amin = min(A), Asd = sd(A))]
 Asummary
 ```
 
 ### `address`: Object location in memory
-When you add a new column to an existing, the data.frame is copied behind the scenes (its address in memory changes):
+
+When you add a new column to an existing data.frame, the data.frame is copied behind the scenes - you can tell becasue its memory address (where it's physically stored in your computer) changes:
+
 ```{r}
 df1 <- data.frame(alpha = 1:5, beta = 11:15)
 address(df1)
@@ -232,7 +275,8 @@ df1$gamma <- df1$alpha + df1$beta
 address(df1)
 ```
 
-When you add a new column in a data.table *in-place* its address remains the same:
+When you add a new column in a data.table ***in-place*** its address remains unchanged:
+
 ```{r}
 dt1 <- data.table(alpha = 1:5, beta = 11:15)
 address(dt1)
@@ -241,7 +285,9 @@ address(dt1)
 ```
 
 ### Reference semantics at work
+
 Up to now, you are likely used to working with regular R objects that behave like this:
+
 ```{r}
 (df1 <- data.frame(a = rep(1, 5)))
 (df2 <- df1)
@@ -251,7 +297,9 @@ df1
 address(df1)
 address(df2)
 ```
+
 `data.table` uses "reference semantics" or "pass-by-reference". Be very careful or you might be mightily confused:
+
 ```{r}
 (dt1 <- data.table(a = rep(1, 5)))
 (dt2 <- dt1)
@@ -262,7 +310,10 @@ address(dt1)
 address(dt2)
 ```
 
+```{block, type="Note"}
 If you want to create a copy of a data.table, use `copy()`:
+```
+
 ```{r}
 (dt3 <- copy(dt1))
 address(dt3)
@@ -271,16 +322,19 @@ dt3
 dt1
 ```
 
-## `set*`: Set attributes in-place
+## `set*()`: Set attributes ***in-place***
+
 `data.table` includes a number of function that begin with `set*`, all of which change their input *by reference* and as such require no assignment.  
 You may be surprised to find out that even an inocuous operation like changing the column names of a data.frame, requires a copy:
+
 ```{r}
 address(df)
 colnames(df) <- c("A", "B", "Group")
 address(df)
 ```
 
-Use `setnames()` to edit a `data.table`'s column names in-place:
+Use `setnames()` to edit a `data.table`'s column names ***in-place***:
+
 ```{r}
 address(dt)
 setnames(dt, old = 1:3, new = c("A", "B", "Group"))
@@ -288,22 +342,29 @@ address(dt)
 ```
 
 ## `setorder()`: Set order of `data.table`
+
 Since this is a `set*` function, it changes a `data.table` in-place. You can order by any number of columns, ascending or descending:  
 Order by Group and then by A:
+
 ```{r}
 setorder(dt, Group, A)
 dt
 ```
 
 Order by Group and then by decreasing B:
+
 ```{r}
 setorder(dt, Group, -B)
 dt
 ```
 
 ## Group according to `by`
-Up to now, we have learned about how to use the `data.table` frame `dat[i, j]` to filter cases in `i` or add/remove/transform columns in-place in `j`. There is a whole other dimension in the `data.table` frame: `by`.  
-The `data.table` syntax is:
+
+Up to now, we have learned how to use the `data.table` frame `dat[i, j]` to filter cases in `i` or add/remove/transform columns in-place in `j`. There is a whole other dimension in the `data.table` frame: `by`.  
+
+
+```{block, type="Info"}
+The complete `data.table` syntax is:
 
 `dt[i, j, by]`  
 
@@ -311,26 +372,32 @@ The `data.table` syntax is:
 * Subset rows using `i`
 * Manipulate columns with `j`
 * Grouped according to `by`
+```
 
 Again, using `.()` or `list()` in `j`, returns a new `data.table`:
+
 ```{r}
 dt[, .(meanAbyGroup = mean(A)), by = Group]
 dt[, list(medianBbyGroup = median(B)), by = Group]
 ```
 
-Making an assignment with `:=` in `j`, adds a column in place. Since here we are grouping, the same value will be assigned to all cases of the group:
+Making an assignment with `:=` in `j`, adds a column in-place. Since here we are grouping, the same value will be assigned to all cases of the group:
+
 ```{r}
 dt[, meanAbyGroup := mean(A), by = Group]
 dt
 ```
 
-For more complex operations, you may need to refer to the slice of the `data.table` defined by `by` within `j`. There is a special notation for that: `.SD` (think sub-`data.table`):
+For more complex operations, you may need to refer to the slice of the `data.table` defined by `by` within `j`. There is a special notation for this: `.SD` (think sub-`data.table`):
+
 ```{r}
 dt[, A_DiffFromGroupMin := .SD[, 1] - min(.SD[, 1]), by = Group]
 dt
 ```
 
+```{block, type="Note"}
 By now, it should be clearer that the `data.table` frame provides a very flexible way to perform a very wide range of operations with minimal new notation.
+```
 
 ## Apply functions to columns
 Any function that returns a list can be used in `j` to return a new data.table - therefore lapply is perfect for getting summary on multiple columns:
@@ -374,7 +441,7 @@ dt2[, paste0(cols, "_groupMean") := lapply(.SD, mean), .SDcols = cols, by = Grou
 dt2
 ```
 
-## Reshape `data.table`
+## Reshape a `data.table`
 
 ### `melt()`: Wide to long
 
@@ -390,6 +457,7 @@ dt_long
 ```
 
 ### `dcast()`: Long to wide
+
 ```{r}
 dt_long
 dcast(dt_long, ID ~ Timepoint,
@@ -397,7 +465,9 @@ dcast(dt_long, ID ~ Timepoint,
 ```
 
 ## Table Joins
+
 `data.table` allow you to perform table joins either with the base R `merge()` or with its own bracket notation:
+
 ```{r}
 (a <- data.table(PID = c(1:9),
                 Hospital = c("UCSF", "HUP", "Stanford", 
@@ -414,29 +484,36 @@ dcast(dt_long, ID ~ Timepoint,
 ```
 
 ### Inner
+
 ```{r}
 merge(a, b)
 ```
 
-
 ### Outer
+
 ```{r}
 merge(a, b, all = TRUE)
 ```
 
 ### Left outer
+
 ```{r}
 merge(a, b, all.x = TRUE)
 ```
+
 One way to allow fast joins with bracket notation is to set keys:
+
 ```{r}
 setkey(a, "PID")
 setkey(b, "PID")
 ```
+
 ```{r}
 b[a, ]
 ```
+
 ### Right outer
+
 ```{r}
 merge(a, b, all.y = TRUE)
 ```
@@ -444,4 +521,3 @@ merge(a, b, all.y = TRUE)
 ```{r}
 a[b, ]
 ```
-

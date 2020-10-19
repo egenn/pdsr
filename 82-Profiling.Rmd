@@ -12,7 +12,7 @@ old.hooks <- fansi::set_knit_hooks(knitr::knit_hooks)
 options(crayon.enabled = TRUE)
 ```
 
-Profiling your code involves timing the execution of different steps of a program. This is usually performed in order to identify bottlenecks that slow down the execution of your code and it helps you prioritize which parts to optimize.
+Profiling your code involves timing the execution of different steps of a program. This is usually performed in order to identify bottlenecks that slow down the execution of your code and it helps you prioritize which parts to optimize. A 
 
 ## Time the execution of an expression with `system.time`
 
@@ -49,75 +49,75 @@ system.time(replicate(1000, fit.gam))
 
 ## Compare execution times of different expressions with `microbenchmark()`
 
-```{r}
-library(microbenchmark)
-library(rpart)
-data(Sonar, package = "mlbench")
-```
-
 `microbenchmark()` allows you to time the execution of multiple expressions with sub-millisecond accuracy. It will execute each command a number of times as defined by the `times` argument (default = 100), and output statistics of execution time per expression in nanoseconds. Using `plot()` on the output produces a boxplot comparing the time distributions.
 
-```{r warning=FALSE}
-glmVSrpart <- microbenchmark(glm(Class ~ ., family = "binomial", Sonar),
-               rpart(Class ~ ., Sonar, method = "class"),
-               times = 50)
-plot(glmVSrpart)
-```
-
-Let's compare using a for loop vs. vapply vs. sapply for a one-hot encoding function:
 
 ```{r}
-oh_for <- function(x) {
-  x.name <- deparse(substitute(x))
-  x <- factor(x)
-  .levels <- levels(x)
-  ncases <- NROW(x)
-  index <- as.numeric(x)
-  oh <- matrix(0, ncases, length(.levels))
-  colnames(oh) <- paste0(x.name, ".", .levels)
-  for (i in seq(ncases)) oh[i, index[i]] <- 1
-  oh
-}
-
-oh_vapply <- function(x) {
-  x.name <- deparse(substitute(x))
-  x <- factor(x)
-  .levels <- levels(x)
-  ncases <- NROW(x)
-  index <- as.numeric(x)
-  ohv <- rep(0, length(.levels))
-  oh <- t(vapply(seq(ncases), function(i) {
-    ohv[index[i]] <- 1
-    ohv
-  }, ohv))
-  colnames(oh) <- paste0(x.name, ".", .levels)
-  oh
-}
-
-oh_sapply <- function(x) {
-  x.name <- deparse(substitute(x))
-  x <- factor(x)
-  .levels <- levels(x)
-  ncases <- NROW(x)
-  index <- as.numeric(x)
-  ohv <- rep(0, length(.levels))
-  oh <- t(sapply(seq(ncases), function(i) {
-    ohv[index[i]] <- 1
-    ohv
-  }))
-  colnames(oh) <- paste0(x.name, ".", .levels)
-  oh
-}
-
-dictionary <- letters
-set.seed(2020)
-x <- sample(letters, 1000, T)
 library(microbenchmark)
-oh_3ways <- microbenchmark(oh_for(x), oh_vapply(x), oh_sapply(x))
-plot(oh_3ways)
 ```
 
-In this case, the `for` loop beats `sapply`, which beats `vapply`.
+To start, we compare two very simple and fast operations, using base and dplyr to add two columns of 1000 integers:
+
+```{r}
+dat <- as.data.frame(matrix(1:2000, 1000))
+dim(dat)
+library(dplyr)
+```
+
+```{r}
+add2k <- microbenchmark(base = dat$V1 + dat$V2,
+                        dplyr = mutate(dat, a = V1 + V2))
+```
+
+You can print microbenchmark's output:
+
+```{r}
+add2k
+```
+
+and plot it:
+
+```{r}
+plot(add2k)
+```
+
+Now let's use the **nycflights13** dataset which includes data on 336776 flights that departed from any of the three NY area airports in 2013. Because the data comes as a [tibble](https://tibble.tidyverse.org/), we shall perform all operations on the tibble and a data.frame of the same data to compare.
+
+```{r}
+library(nycflights13)
+class(flights)
+dim(flights)
+flightsDF <- as.data.frame(flights)
+```
+
+Compare performance base R vs. dplyr in calculating mean arrival delay by carrier using either a data.frame or a tibble:
+
+```{r warning=FALSE}
+dbc <- microbenchmark(
+  df_aggregate = aggregate(flightsDF$arr_delay, by = list(flightsDF$carrier), mean, na.rm = TRUE),
+  tb_aggregate = aggregate(flights$arr_delay, by = list(flights$carrier), mean, na.rm = TRUE),
+  df_tapply = tapply(flightsDF$arr_delay, flightsDF$carrier, mean, na.rm = TRUE),
+  tb_tapply = tapply(flights$arr_delay, flights$carrier, mean, na.rm = TRUE),
+  df_dplyr = flightsDF %>% group_by(carrier) %>% summarize(mean(arr_delay, na.rm = TRUE)),
+  tb_dplyr = flights %>% group_by(carrier) %>% summarize(mean(arr_delay, na.rm = TRUE)))
+dbc
+```
+
+```{r}
+plot(dbc)
+```
+
+```{r warning=FALSE}
+library(rpart)
+data(Sonar, package = "mlbench")
+
+glmVSrpart <- microbenchmark(
+  glm = glm(Class ~ ., family = "binomial", Sonar),
+  rpart = rpart(Class ~ ., Sonar, method = "class"),
+  times = 50)
+
+plot(glmVSrpart)
+```
 
 ## Profile a function with `profvis()`
 

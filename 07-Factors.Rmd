@@ -229,8 +229,8 @@ Your model does the exact opposite of what you intended.
 While it often makes sense to have factors with words for labels, they can be any character and that includes numbers (i.e. numbers which are treated as labels)
 
 ```{r}
-xn <- factor(c(3, 7, 7, 9, 3, 3, 9))
-xn
+f <- factor(c(3, 7, 7, 9, 3, 3, 9))
+f
 ```
 
 This behaves just like any other factor with all the rules we learned above.
@@ -240,13 +240,29 @@ There is a very easy trap to fall into, if you ever decide to convert such a fac
 The first thing that usually comes to mind is to use `as.numeric()`.
 
 ```{r}
-# don't do this
-as.numeric(xn)
+# !don't do this!
+as.numeric(f)
 ```
-But! We already know this will return the integer index, it will not return the labels as numbers. The way around this is simply to convert to character first and then to numeric:
+But! We already know this will return the integer index, it will not return the labels as numbers.  
+
+By understanding the internal representation of the factor, i.e. that a factor is an integer vector indexing a set of labels, you can convert labels to numeric exactly by indexing the set of labels:
 
 ```{r}
-as.numeric(as.character(xn))
+levels(f)[f]
+```
+The above suggests that used as an index within the brackets, `f` is coerced to integer, therefore to understand the above:
+
+```{r}
+levels(f)
+levels(f)[as.integer(f)]
+# same as
+levels(f)[f]
+```
+
+A different way around this that may be less confusing is to simply convert the factor to character and then to numeric:
+
+```{r}
+as.numeric(as.character(f))
 ```
 
 ## Summary

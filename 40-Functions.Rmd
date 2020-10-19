@@ -176,15 +176,34 @@ itfn(3)
 
 ## The pipe operator `%>%` {#pipe}
 
-A pipe allows writing `f(x)` as `x %>% f`. It is often used to replace multiple temporary assignments in a multistep procedure, or make code more readable by avoiding nesting multiple functions. 
-Instead of: 
+```{r FigRpipes, echo = FALSE, out.width = "80%", fig.align = 'center', fig.cap = "Illustration of pipes in R"}
+knitr::include_graphics("./R_pipes.png")
+```
 
-`x <- f1(x)
+A pipe allows writing `f(x)` as `x %>% f`. It is often used to replace multiple temporary assignments in a multistep procedure, or as an alternative to nesting functions. Some packages and developers promote its use, other discourage it. As always, there is a big subjective component here and you should try and see if and when it suits you.
+
+
+The following:
+
+```{r eval = FALSE}
+x <- f1(x)
 x <- f2(x)
-x <- f3(x)`  
-you can write:  
+x <- f3(x)
+```
 
-`x <- x %>% f1 %>% f2 %>% f3`
+is equivalent to:
+
+```{r eval = FALSE}
+x <- f3(f2(f1(x)))
+```
+
+is equivalent to:
+
+```{r eval = FALSE}
+x <- x %>% f1 %>% f2 %>% f3
+```
+
+The pipe operator was originally introduced in the **magrittr** package. Note that a number of other packages that allow or endorse the use of pipes export the pipe operator as well.
 
 ```{r}
 library(magrittr)

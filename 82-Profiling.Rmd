@@ -58,15 +58,16 @@ library(microbenchmark)
 
 To start, we compare two very simple and fast operations, using base and dplyr to add two columns of 1000 integers:
 
-```{r}
+```{r warning=FALSE}
 dat <- as.data.frame(matrix(1:2000, 1000))
 dim(dat)
 library(dplyr)
 ```
 
 ```{r}
-add2k <- microbenchmark(base = dat$V1 + dat$V2,
-                        dplyr = mutate(dat, a = V1 + V2))
+add2k <- microbenchmark(
+  base = dat$V1 + dat$V2,
+  dplyr = mutate(dat, a = V1 + V2))
 ```
 
 You can print microbenchmark's output:

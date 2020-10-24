@@ -110,12 +110,22 @@ knitr::include_graphics("R_reshape_wide2long.png", dpi = NA)
 ```
 
 ```{r}
-dat_wide2long <- reshape(data = dat_wide,                    # Data in wide format
-                         idvar = "ID",                       # The column name that defines case ID
-                         varying = list(2:4),                # The columns whose values we want to keep
-                         v.names = "Score",                  # The name of the new column which will contain all the values from the columns above
-                         times = c(colnames(dat_wide)[2:4]), # The values/names, of length = (N of columns defined in "varying"), that will be recycled to indicate which column from the wide dataset each row corresponds to
-                         timevar = "Fruit",                  # The name of the new column created to hold the values defined by "times"
+dat_wide2long <- reshape(# Data in wide format
+                         data = dat_wide,
+                         # The column name that defines case ID
+                         idvar = "ID",
+                         # The columns whose values we want to keep
+                         varying = list(2:4),
+                         # The name of the new column which will contain all 
+                         # the values from the columns above
+                         v.names = "Score",
+                         # The values/names, of length = (N columns in "varying"), 
+                         #that will be recycled to indicate which column from the 
+                         #wide dataset each row corresponds to
+                         times = c(colnames(dat_wide)[2:4]),
+                         # The name of the new column created to hold the values 
+                         # defined by "times"
+                         timevar = "Fruit",                  
                          direction = "long") 
 ```
 

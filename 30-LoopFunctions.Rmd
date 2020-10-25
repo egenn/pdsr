@@ -19,26 +19,29 @@ They can result in more compact and readable code and are often faster to execut
 knitr::include_graphics("./R_applyfam.png")
 ```
 
-Before starting to use the above functios, we need to learn about anonymous functions, which are often used within the apply functions.
+Before starting to use the above functions, we need to learn about anonymous functions, which are often used within the apply functions.
 
 ## `apply()`
 
 ```{block, type="info"}
-`apply()` applies a function over one (or more) dimensions of an array of 2 dimensions or more (this includes matrices) or a data frame.
+`apply()` applies a function over one or more dimensions of an array of 2 dimensions or more (this includes matrices) or a data frame:
 
-As per usual, rows come first, therefore:  
+`apply(array, MARGIN, FUN)`
+```
+
+`MARGIN` can be an integer vector or character indicating the dimensions over which 'FUN' will be applied.
+
+By convention, rows come first (just like in [indexing](#indexing)), therefore:  
 `MARGIN = 1`: apply function on each ***row***
 `MARGIN = 2`: apply function on each ***column***
-```
- 
+
+
+
 Let's calculate the mean value of each of the first four columns of the iris dataset:
 
 ```{r}
 x <- iris[, -5]
-iris_column_mean <- 
-  apply(x,          # array with 'dim' attribute, most commonly 2D matrix or data.frame
-        MARGIN = 2, # integer vector or character indicating dimensions over which 'FUN' will be applied.
-        FUN = mean) # function to apply
+iris_column_mean <- apply(x, MARGIN = 2, FUN = mean) 
 iris_column_mean
 ```
 
@@ -66,7 +69,7 @@ head(apply(x, 1, mean))
 ```
 
 ```{block, type="note"}
-`apply()` only works on objects with defined (i.e. non-NULL) `dim()`
+`apply()` only works on objects with defined (i.e. non-NULL) `dim()`, i.e. arrays.
 ```
 
 ```{block, type="note"}
@@ -83,11 +86,13 @@ Because that would be `fn(v)`
 ## `lapply()`
 
 ```{block, type="info"}
-`lapply()` applies a function on each of the elements of its input.  
+`lapply()` applies a **function** on **each element of its input** and returns a **list** of the outputs.  
 ```
 
 
 Note: The 'elements' of a data frame are its columns (remember, a data frame is a list with equal-length elements). The 'elements' of a matrix are each cell one by one, by column. Therefore `lapply()` has a very different effect on a data frame and a matrix. `lapply()` is commonly used to iterate over the columns of a data frame.
+
+`lapply()` is the only function of the `*apply()` family that always returns a list.
 
 ```{r}
 iris.median <- lapply(iris[, -5], median)
@@ -107,11 +112,11 @@ for (i in 1:4) {
 ## `sapply()`
 
 `sapply()` is an alias for `lapply()`, followed by a call to `simplify2array()`.  
-(Check the source code for `sapply()`: type `sapply()` at the console and hit Enter).  
+(Check the source code for `sapply()` by typing `sapply` at the console and hitting Enter).  
 
 
 ```{block, type="note"}
-The output of `sapply()` will be the simplest R object that can hold the data type(s) resulting from the operations.
+Unlike `lapply()`, the output of `sapply()` is variable: it is the simplest R object that can hold the data type(s) resulting from the operations, i.e. a vector, matrix, data frame, or list.
 ```
 
 ```{r}
@@ -127,7 +132,7 @@ iris.summary
 
 ## `vapply()`
 
-Much less commonly used (possibly *underused*) than `lapply()` or `sapply()`, `vapply()` allows you to specify what the expected output looks like - e.g. a numeric vector of a certain length.
+Much less commonly used (possibly *underused*) than `lapply()` or `sapply()`, `vapply()` allows you to specify what the expected output looks like - for example a numeric vector of length 2, a character vector of length 1.
 
 This can have two advantages:
 
@@ -296,13 +301,13 @@ Because this is a short function definition, it can also be written in a single 
 squared <- function(x) x^2
 ```
 
-The equivalent anonymous function is the same minus the assignment:
+The equivalent anonymous function is the same, but omitting the assignment:
 
 ```{r}
 function(x) x^2
 ```
 
-Let's use the `squared` function within `sapply()` to square the first four columns of the iris dataset. We wrap the function around `head()` to print the first six lines only:
+Let's use the `squared()` function within `sapply()` to square the first four columns of the iris dataset. In these examples, we often wrap functions around `head()` which prints the first few lines of an object to avoid:
 
 ```{r}
 head(iris[, 1:4])

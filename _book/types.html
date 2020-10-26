@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 4 Data Types | Programming for Data Science in R</title>
+  <meta name="description" content="Chapter 4 Data Types | Programming for Data Science in R is an ongoing project to build an online resource for (Bio)statisticians / Epidemiologists / (Health) Data Scientists" />
+  <meta name="generator" content="bookdown 0.21.2 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 4 Data Types | Programming for Data Science in R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Chapter 4 Data Types | Programming for Data Science in R is an ongoing project to build an online resource for (Bio)statisticians / Epidemiologists / (Health) Data Scientists" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 4 Data Types | Programming for Data Science in R" />
+  
+  <meta name="twitter:description" content="Chapter 4 Data Types | Programming for Data Science in R is an ongoing project to build an online resource for (Bio)statisticians / Epidemiologists / (Health) Data Scientists" />
+  
+
+<meta name="author" content="Efstathios (Stathis) D. Gennatas, MBBS AICSM PhD" />
+
+
+<meta name="date" content="2020-10-26" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="basicops.html"/>
+<link rel="next" href="structures.html"/>
+<script src="libs/header-attrs-2.5/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.5.2/htmlwidgets.js"></script>
+<script src="libs/plotly-binding-4.9.2.1/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.1.0.1/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.1.0.1/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-1.52.2/plotly-latest.min.js"></script>
+<script src="libs/d3-3.5.6/d3.min.js"></script>
+<link href="libs/profvis-0.3.6/profvis.css" rel="stylesheet" />
+<script src="libs/profvis-0.3.6/profvis.js"></script>
+<link href="libs/highlight-6.2.0/textmate.css" rel="stylesheet" />
+<script src="libs/highlight-6.2.0/highlight.js"></script>
+<script src="libs/profvis-binding-0.3.6/profvis.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-163213745-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-163213745-1');
+</script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="lambda.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li>
+<a href="./" style="padding: 10 0 0 15px">
+<img src = "./apple-touch-icon.png" width="55" align="center">&nbsp;&nbsp;&nbsp;&nbsp;Biostat 213 | Fall 2020
+</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a></li>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="2" data-path="Rsetup.html"><a href="Rsetup.html"><i class="fa fa-check"></i><b>2</b> R setup, Packages &amp; Docs</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="Rsetup.html"><a href="Rsetup.html#r"><i class="fa fa-check"></i><b>2.1</b> R</a></li>
+<li class="chapter" data-level="2.2" data-path="Rsetup.html"><a href="Rsetup.html#r-packages"><i class="fa fa-check"></i><b>2.2</b> R packages</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="Rsetup.html"><a href="Rsetup.html#cran"><i class="fa fa-check"></i><b>2.2.1</b> CRAN</a></li>
+<li class="chapter" data-level="2.2.2" data-path="Rsetup.html"><a href="Rsetup.html#github"><i class="fa fa-check"></i><b>2.2.2</b> GitHub</a></li>
+<li class="chapter" data-level="2.2.3" data-path="Rsetup.html"><a href="Rsetup.html#bioconductor"><i class="fa fa-check"></i><b>2.2.3</b> Bioconductor</a></li>
+<li class="chapter" data-level="2.2.4" data-path="Rsetup.html"><a href="Rsetup.html#installed-packages"><i class="fa fa-check"></i><b>2.2.4</b> Installed packages</a></li>
+<li class="chapter" data-level="2.2.5" data-path="Rsetup.html"><a href="Rsetup.html#dependencies"><i class="fa fa-check"></i><b>2.2.5</b> Dependencies</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="Rsetup.html"><a href="Rsetup.html#rstudio-ide"><i class="fa fa-check"></i><b>2.3</b> RStudio IDE</a></li>
+<li class="chapter" data-level="2.4" data-path="Rsetup.html"><a href="Rsetup.html#builtin-documentation"><i class="fa fa-check"></i><b>2.4</b> Builtin Documentation</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="Rsetup.html"><a href="Rsetup.html#get-help-on-a-specific-item"><i class="fa fa-check"></i><b>2.4.1</b> Get help on a specific item</a></li>
+<li class="chapter" data-level="2.4.2" data-path="Rsetup.html"><a href="Rsetup.html#search-the-docs"><i class="fa fa-check"></i><b>2.4.2</b> Search the docs</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="basicops.html"><a href="basicops.html"><i class="fa fa-check"></i><b>3</b> Basic operations</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="basicops.html"><a href="basicops.html#arithmetic"><i class="fa fa-check"></i><b>3.1</b> Arithmetic</a></li>
+<li class="chapter" data-level="3.2" data-path="basicops.html"><a href="basicops.html#logical-operations"><i class="fa fa-check"></i><b>3.2</b> Logical operations</a></li>
+<li class="chapter" data-level="3.3" data-path="basicops.html"><a href="basicops.html#common-descriptive-stats"><i class="fa fa-check"></i><b>3.3</b> Common descriptive stats</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="types.html"><a href="types.html"><i class="fa fa-check"></i><b>4</b> Data Types</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="types.html"><a href="types.html#base-types"><i class="fa fa-check"></i><b>4.1</b> Base types</a></li>
+<li class="chapter" data-level="4.2" data-path="types.html"><a href="types.html#assignment"><i class="fa fa-check"></i><b>4.2</b> Assignment</a></li>
+<li class="chapter" data-level="4.3" data-path="types.html"><a href="types.html#initialize---coerce---test-types"><i class="fa fa-check"></i><b>4.3</b> Initialize - coerce - test (types)</a></li>
+<li class="chapter" data-level="4.4" data-path="types.html"><a href="types.html#logical"><i class="fa fa-check"></i><b>4.4</b> Logical</a></li>
+<li class="chapter" data-level="4.5" data-path="types.html"><a href="types.html#integer"><i class="fa fa-check"></i><b>4.5</b> Integer</a></li>
+<li class="chapter" data-level="4.6" data-path="types.html"><a href="types.html#double"><i class="fa fa-check"></i><b>4.6</b> Double</a></li>
+<li class="chapter" data-level="4.7" data-path="types.html"><a href="types.html#character"><i class="fa fa-check"></i><b>4.7</b> Character</a></li>
+<li class="chapter" data-level="4.8" data-path="types.html"><a href="types.html#environment"><i class="fa fa-check"></i><b>4.8</b> Environment</a></li>
+<li class="chapter" data-level="4.9" data-path="types.html"><a href="types.html#closure-function"><i class="fa fa-check"></i><b>4.9</b> Closure (function)</a></li>
+<li class="chapter" data-level="4.10" data-path="types.html"><a href="types.html#initialize-vectors"><i class="fa fa-check"></i><b>4.10</b> Initialize vectors</a></li>
+<li class="chapter" data-level="4.11" data-path="types.html"><a href="types.html#explicit-coercion"><i class="fa fa-check"></i><b>4.11</b> Explicit coercion</a></li>
+<li class="chapter" data-level="4.12" data-path="types.html"><a href="types.html#implicit-coercion"><i class="fa fa-check"></i><b>4.12</b> Implicit coercion</a></li>
+<li class="chapter" data-level="4.13" data-path="types.html"><a href="types.html#na-missing-values"><i class="fa fa-check"></i><b>4.13</b> <code>NA</code>: Missing Values</a></li>
+<li class="chapter" data-level="4.14" data-path="types.html"><a href="types.html#nan-not-a-number"><i class="fa fa-check"></i><b>4.14</b> <code>NaN</code>: Not a number</a></li>
+<li class="chapter" data-level="4.15" data-path="types.html"><a href="types.html#null-the-empty-object"><i class="fa fa-check"></i><b>4.15</b> <code>NULL</code>: the empty object</a>
+<ul>
+<li class="chapter" data-level="4.15.1" data-path="types.html"><a href="types.html#replacing-with-null"><i class="fa fa-check"></i><b>4.15.1</b> Replacing with NULL</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="structures.html"><a href="structures.html"><i class="fa fa-check"></i><b>5</b> Data Structures</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="structures.html"><a href="structures.html#initialize---coerce---test-structures"><i class="fa fa-check"></i><b>5.1</b> Initialize - coerce - test (structures)</a></li>
+<li class="chapter" data-level="5.2" data-path="structures.html"><a href="structures.html#vectors"><i class="fa fa-check"></i><b>5.2</b> Vectors</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="structures.html"><a href="structures.html#generating-sequences-with-seq"><i class="fa fa-check"></i><b>5.2.1</b> Generating sequences with <code>seq()</code></a></li>
+<li class="chapter" data-level="5.2.2" data-path="structures.html"><a href="structures.html#initializing-a-vector"><i class="fa fa-check"></i><b>5.2.2</b> Initializing a vector</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="structures.html"><a href="structures.html#matrices"><i class="fa fa-check"></i><b>5.3</b> Matrices</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="structures.html"><a href="structures.html#construct-by-row-or-by-column"><i class="fa fa-check"></i><b>5.3.1</b> Construct by row or by column</a></li>
+<li class="chapter" data-level="5.3.2" data-path="structures.html"><a href="structures.html#initialize-a-matrix"><i class="fa fa-check"></i><b>5.3.2</b> Initialize a matrix</a></li>
+<li class="chapter" data-level="5.3.3" data-path="structures.html"><a href="structures.html#bind-vectors-by-column-or-by-row"><i class="fa fa-check"></i><b>5.3.3</b> Bind vectors by column or by row</a></li>
+<li class="chapter" data-level="5.3.4" data-path="structures.html"><a href="structures.html#combine-matrices"><i class="fa fa-check"></i><b>5.3.4</b> Combine matrices</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="structures.html"><a href="structures.html#arrays"><i class="fa fa-check"></i><b>5.4</b> Arrays</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="structures.html"><a href="structures.html#d-array"><i class="fa fa-check"></i><b>5.4.1</b> 1D array</a></li>
+<li class="chapter" data-level="5.4.2" data-path="structures.html"><a href="structures.html#d-array-1"><i class="fa fa-check"></i><b>5.4.2</b> 2D array</a></li>
+<li class="chapter" data-level="5.4.3" data-path="structures.html"><a href="structures.html#nd-array"><i class="fa fa-check"></i><b>5.4.3</b> ND array</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="structures.html"><a href="structures.html#lists"><i class="fa fa-check"></i><b>5.5</b> Lists</a>
+<ul>
+<li class="chapter" data-level="5.5.1" data-path="structures.html"><a href="structures.html#nested-lists"><i class="fa fa-check"></i><b>5.5.1</b> Nested lists</a></li>
+<li class="chapter" data-level="5.5.2" data-path="structures.html"><a href="structures.html#initialize-a-list"><i class="fa fa-check"></i><b>5.5.2</b> Initialize a list</a></li>
+<li class="chapter" data-level="5.5.3" data-path="structures.html"><a href="structures.html#combine-lists"><i class="fa fa-check"></i><b>5.5.3</b> Combine lists</a></li>
+<li class="chapter" data-level="5.5.4" data-path="structures.html"><a href="structures.html#mixing-types-with-c"><i class="fa fa-check"></i><b>5.5.4</b> Mixing types with <code>c()</code></a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="structures.html"><a href="structures.html#data-frames"><i class="fa fa-check"></i><b>5.6</b> Data frames</a></li>
+<li class="chapter" data-level="5.7" data-path="structures.html"><a href="structures.html#attributes"><i class="fa fa-check"></i><b>5.7</b> Attributes</a>
+<ul>
+<li class="chapter" data-level="5.7.1" data-path="structures.html"><a href="structures.html#print-all-attributes"><i class="fa fa-check"></i><b>5.7.1</b> Print all attributes</a></li>
+<li class="chapter" data-level="5.7.2" data-path="structures.html"><a href="structures.html#get-or-set-specific-attributes"><i class="fa fa-check"></i><b>5.7.2</b> Get or set specific attributes</a></li>
+<li class="chapter" data-level="5.7.3" data-path="structures.html"><a href="structures.html#common-builtin-attributes"><i class="fa fa-check"></i><b>5.7.3</b> Common builtin attributes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="factors.html"><a href="factors.html"><i class="fa fa-check"></i><b>6</b> Factors</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="factors.html"><a href="factors.html#the-underlying-integer-vector"><i class="fa fa-check"></i><b>6.1</b> The underlying <strong>integer vector</strong></a></li>
+<li class="chapter" data-level="6.2" data-path="factors.html"><a href="factors.html#the-mapping-of-integers-to-labels"><i class="fa fa-check"></i><b>6.2</b> The <strong>mapping of integers to labels</strong></a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="factors.html"><a href="factors.html#setting-new-level-labels"><i class="fa fa-check"></i><b>6.2.1</b> Setting new level labels</a></li>
+<li class="chapter" data-level="6.2.2" data-path="factors.html"><a href="factors.html#defining-the-mapping-of-labels-to-integers"><i class="fa fa-check"></i><b>6.2.2</b> Defining the mapping of labels to integers</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="factors.html"><a href="factors.html#is-the-factor-ordered"><i class="fa fa-check"></i><b>6.3</b> Is the factor <strong>ordered</strong></a></li>
+<li class="chapter" data-level="6.4" data-path="factors.html"><a href="factors.html#change-order-of-levels-or-labels"><i class="fa fa-check"></i><b>6.4</b> Change (order of levels) or (labels)</a></li>
+<li class="chapter" data-level="6.5" data-path="factors.html"><a href="factors.html#fatal-error-to-avoid"><i class="fa fa-check"></i><b>6.5</b> Fatal error to avoid</a></li>
+<li class="chapter" data-level="6.6" data-path="factors.html"><a href="factors.html#factor-to-numeric"><i class="fa fa-check"></i><b>6.6</b> Factor to numeric</a></li>
+<li class="chapter" data-level="6.7" data-path="factors.html"><a href="factors.html#summary"><i class="fa fa-check"></i><b>6.7</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="indexing.html"><a href="indexing.html"><i class="fa fa-check"></i><b>7</b> Indexing - Subsetting - Slicing</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="indexing.html"><a href="indexing.html#indexvectors"><i class="fa fa-check"></i><b>7.1</b> Vectors</a></li>
+<li class="chapter" data-level="7.2" data-path="indexing.html"><a href="indexing.html#indexmatrices"><i class="fa fa-check"></i><b>7.2</b> Matrices</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="indexing.html"><a href="indexing.html#range-of-rows-and-columns"><i class="fa fa-check"></i><b>7.2.1</b> Range of rows and columns</a></li>
+<li class="chapter" data-level="7.2.2" data-path="indexing.html"><a href="indexing.html#matrix-of-indexes"><i class="fa fa-check"></i><b>7.2.2</b> Matrix of indexes</a></li>
+<li class="chapter" data-level="7.2.3" data-path="indexing.html"><a href="indexing.html#matidl"><i class="fa fa-check"></i><b>7.2.3</b> Logical index</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="indexing.html"><a href="indexing.html#indexlists"><i class="fa fa-check"></i><b>7.3</b> Lists</a>
+<ul>
+<li class="chapter" data-level="7.3.1" data-path="indexing.html"><a href="indexing.html#idllist"><i class="fa fa-check"></i><b>7.3.1</b> Logical index</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="indexing.html"><a href="indexing.html#indexdfs"><i class="fa fa-check"></i><b>7.4</b> Data frames</a>
+<ul>
+<li class="chapter" data-level="7.4.1" data-path="indexing.html"><a href="indexing.html#extract-columns"><i class="fa fa-check"></i><b>7.4.1</b> Extract column(s)</a></li>
+<li class="chapter" data-level="7.4.2" data-path="indexing.html"><a href="indexing.html#extract-rows"><i class="fa fa-check"></i><b>7.4.2</b> Extract rows</a></li>
+<li class="chapter" data-level="7.4.3" data-path="indexing.html"><a href="indexing.html#dfidl"><i class="fa fa-check"></i><b>7.4.3</b> Logical index</a></li>
+</ul></li>
+<li class="chapter" data-level="7.5" data-path="indexing.html"><a href="indexing.html#logical---integer-indexing"><i class="fa fa-check"></i><b>7.5</b> Logical &lt;-&gt; Integer indexing</a>
+<ul>
+<li class="chapter" data-level="7.5.1" data-path="indexing.html"><a href="indexing.html#logical-to-integer-index-with-which"><i class="fa fa-check"></i><b>7.5.1</b> Logical to integer index with <code>which()</code>:</a></li>
+<li class="chapter" data-level="7.5.2" data-path="indexing.html"><a href="indexing.html#integer-to-logical-index"><i class="fa fa-check"></i><b>7.5.2</b> Integer to logical index</a></li>
+</ul></li>
+<li class="chapter" data-level="7.6" data-path="indexing.html"><a href="indexing.html#exclude-cases-using-an-index"><i class="fa fa-check"></i><b>7.6</b> Exclude cases using an index</a></li>
+<li class="chapter" data-level="7.7" data-path="indexing.html"><a href="indexing.html#subset"><i class="fa fa-check"></i><b>7.7</b> <code>subset()</code></a></li>
+<li class="chapter" data-level="7.8" data-path="indexing.html"><a href="indexing.html#split"><i class="fa fa-check"></i><b>7.8</b> <code>split()</code></a></li>
+<li class="chapter" data-level="7.9" data-path="indexing.html"><a href="indexing.html#with"><i class="fa fa-check"></i><b>7.9</b> <code>with()</code></a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="vectorization.html"><a href="vectorization.html"><i class="fa fa-check"></i><b>8</b> Vectorized Operations</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="vectorization.html"><a href="vectorization.html#operations-between-vectors-of-equal-length"><i class="fa fa-check"></i><b>8.1</b> Operations between vectors of equal length</a></li>
+<li class="chapter" data-level="8.2" data-path="vectorization.html"><a href="vectorization.html#operations-between-a-vector-and-a-scalar"><i class="fa fa-check"></i><b>8.2</b> Operations between a vector and a scalar</a></li>
+<li class="chapter" data-level="8.3" data-path="vectorization.html"><a href="vectorization.html#operations-between-vectors-of-unequal-length-value-recycling"><i class="fa fa-check"></i><b>8.3</b> Operations between vectors of unequal length: <strong>value recycling</strong></a></li>
+<li class="chapter" data-level="8.4" data-path="vectorization.html"><a href="vectorization.html#vectorized-matrix-operations"><i class="fa fa-check"></i><b>8.4</b> Vectorized matrix operations</a></li>
+<li class="chapter" data-level="8.5" data-path="vectorization.html"><a href="vectorization.html#vectorized-functions"><i class="fa fa-check"></i><b>8.5</b> Vectorized functions</a></li>
+<li class="chapter" data-level="8.6" data-path="vectorization.html"><a href="vectorization.html#ifelse"><i class="fa fa-check"></i><b>8.6</b> <code>ifelse()</code></a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="dataio.html"><a href="dataio.html"><i class="fa fa-check"></i><b>9</b> Data Input/Output</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="dataio.html"><a href="dataio.html#r-datasets"><i class="fa fa-check"></i><b>9.1</b> R datasets</a>
+<ul>
+<li class="chapter" data-level="9.1.1" data-path="dataio.html"><a href="dataio.html#datasets-included-with-r-in-package-datasets"><i class="fa fa-check"></i><b>9.1.1</b> Datasets included with R (in package ‘datasets’)</a></li>
+<li class="chapter" data-level="9.1.2" data-path="dataio.html"><a href="dataio.html#datasets-included-with-other-packages"><i class="fa fa-check"></i><b>9.1.2</b> Datasets included with other packages</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="dataio.html"><a href="dataio.html#system-commands"><i class="fa fa-check"></i><b>9.2</b> System commands</a></li>
+<li class="chapter" data-level="9.3" data-path="dataio.html"><a href="dataio.html#data-io"><i class="fa fa-check"></i><b>9.3</b> Data I/O</a>
+<ul>
+<li class="chapter" data-level="9.3.1" data-path="dataio.html"><a href="dataio.html#read-local-csv"><i class="fa fa-check"></i><b>9.3.1</b> Read local CSV</a></li>
+<li class="chapter" data-level="9.3.2" data-path="dataio.html"><a href="dataio.html#read-data-from-the-web"><i class="fa fa-check"></i><b>9.3.2</b> Read data from the web</a></li>
+<li class="chapter" data-level="9.3.3" data-path="dataio.html"><a href="dataio.html#read-zipped-data-from-the-web"><i class="fa fa-check"></i><b>9.3.3</b> Read zipped data from the web</a></li>
+<li class="chapter" data-level="9.3.4" data-path="dataio.html"><a href="dataio.html#write-to-csv"><i class="fa fa-check"></i><b>9.3.4</b> Write to CSV</a></li>
+<li class="chapter" data-level="9.3.5" data-path="dataio.html"><a href="dataio.html#read-.xslx-using-openxlsxread.xlsx"><i class="fa fa-check"></i><b>9.3.5</b> Read .xslx using <code>openxlsx::read.xlsx()</code></a></li>
+<li class="chapter" data-level="9.3.6" data-path="dataio.html"><a href="dataio.html#write-an-r-object-to-rds"><i class="fa fa-check"></i><b>9.3.6</b> Write an R object to RDS</a></li>
+<li class="chapter" data-level="9.3.7" data-path="dataio.html"><a href="dataio.html#write-multiple-r-objects-to-rdata-file-using-save"><i class="fa fa-check"></i><b>9.3.7</b> Write multiple R objects to RData file using <code>save</code></a></li>
+<li class="chapter" data-level="9.3.8" data-path="dataio.html"><a href="dataio.html#write-your-entire-workspace-to-a-rdata-image-using-save.image"><i class="fa fa-check"></i><b>9.3.8</b> Write your entire workspace to a RData image using <code>save.image</code></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="controlflow.html"><a href="controlflow.html"><i class="fa fa-check"></i><b>10</b> Control flow</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="controlflow.html"><a href="controlflow.html#if---then---else"><i class="fa fa-check"></i><b>10.1</b> <code>if</code> - <code>then</code> - <code>else</code>:</a></li>
+<li class="chapter" data-level="10.2" data-path="controlflow.html"><a href="controlflow.html#if---then---else-if---else"><i class="fa fa-check"></i><b>10.2</b> <code>if</code> - <code>then</code> - <code>else if</code> - <code>else</code>:</a></li>
+<li class="chapter" data-level="10.3" data-path="controlflow.html"><a href="controlflow.html#conditional-assignment-with-if---else"><i class="fa fa-check"></i><b>10.3</b> Conditional assignment with <code>if</code> - <code>else</code>:</a></li>
+<li class="chapter" data-level="10.4" data-path="controlflow.html"><a href="controlflow.html#conditional-assignment-with-ifelse"><i class="fa fa-check"></i><b>10.4</b> Conditional assignment with <code>ifelse</code>:</a></li>
+<li class="chapter" data-level="10.5" data-path="controlflow.html"><a href="controlflow.html#for-loops"><i class="fa fa-check"></i><b>10.5</b> <code>for</code> loops</a>
+<ul>
+<li class="chapter" data-level="10.5.1" data-path="controlflow.html"><a href="controlflow.html#nested-for-loops"><i class="fa fa-check"></i><b>10.5.1</b> Nested <code>for</code> loops</a></li>
+</ul></li>
+<li class="chapter" data-level="10.6" data-path="controlflow.html"><a href="controlflow.html#select-one-of-multiple-alternatives-with-switch"><i class="fa fa-check"></i><b>10.6</b> Select one of multiple alternatives with <code>switch</code></a>
+<ul>
+<li class="chapter" data-level="10.6.1" data-path="controlflow.html"><a href="controlflow.html#switch-example-http-status-codes"><i class="fa fa-check"></i><b>10.6.1</b> <code>switch</code> example: HTTP Status Codes</a></li>
+</ul></li>
+<li class="chapter" data-level="10.7" data-path="controlflow.html"><a href="controlflow.html#while-loops"><i class="fa fa-check"></i><b>10.7</b> <code>while</code> loops</a></li>
+<li class="chapter" data-level="10.8" data-path="controlflow.html"><a href="controlflow.html#break-stops-execution-of-a-loop"><i class="fa fa-check"></i><b>10.8</b> <code>break</code> stops execution of a loop:</a></li>
+<li class="chapter" data-level="10.9" data-path="controlflow.html"><a href="controlflow.html#next-skips-the-current-iteration"><i class="fa fa-check"></i><b>10.9</b> <code>next</code> skips the current iteration:</a></li>
+<li class="chapter" data-level="10.10" data-path="controlflow.html"><a href="controlflow.html#repeat-loops"><i class="fa fa-check"></i><b>10.10</b> <code>repeat</code> loops</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="loopfns.html"><a href="loopfns.html"><i class="fa fa-check"></i><b>11</b> Loop Functions</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="loopfns.html"><a href="loopfns.html#apply"><i class="fa fa-check"></i><b>11.1</b> <code>apply()</code></a></li>
+<li class="chapter" data-level="11.2" data-path="loopfns.html"><a href="loopfns.html#lapply"><i class="fa fa-check"></i><b>11.2</b> <code>lapply()</code></a></li>
+<li class="chapter" data-level="11.3" data-path="loopfns.html"><a href="loopfns.html#sapply"><i class="fa fa-check"></i><b>11.3</b> <code>sapply()</code></a></li>
+<li class="chapter" data-level="11.4" data-path="loopfns.html"><a href="loopfns.html#vapply"><i class="fa fa-check"></i><b>11.4</b> <code>vapply()</code></a></li>
+<li class="chapter" data-level="11.5" data-path="loopfns.html"><a href="loopfns.html#tapply"><i class="fa fa-check"></i><b>11.5</b> <code>tapply()</code></a></li>
+<li class="chapter" data-level="11.6" data-path="loopfns.html"><a href="loopfns.html#mapply"><i class="fa fa-check"></i><b>11.6</b> <code>mapply()</code></a></li>
+<li class="chapter" data-level="11.7" data-path="loopfns.html"><a href="loopfns.html#iterating-over-a-sequence-instead-of-an-object"><i class="fa fa-check"></i><b>11.7</b> Iterating over a sequence instead of an object</a></li>
+<li class="chapter" data-level="11.8" data-path="loopfns.html"><a href="loopfns.html#applying-on-matrices-vs.-data-frames"><i class="fa fa-check"></i><b>11.8</b> <code>*apply()</code>ing on matrices vs. data frames</a></li>
+<li class="chapter" data-level="11.9" data-path="loopfns.html"><a href="loopfns.html#anonymous-functions"><i class="fa fa-check"></i><b>11.9</b> Anonymous functions</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="summarize.html"><a href="summarize.html"><i class="fa fa-check"></i><b>12</b> Summarizing Data</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="summarize.html"><a href="summarize.html#get-summary-of-an-r-object-with-summary"><i class="fa fa-check"></i><b>12.1</b> Get summary of an R object with <code>summary()</code></a></li>
+<li class="chapter" data-level="12.2" data-path="summarize.html"><a href="summarize.html#fast-builtin-column-and-row-operations"><i class="fa fa-check"></i><b>12.2</b> Fast builtin column and row operations</a></li>
+<li class="chapter" data-level="12.3" data-path="summarize.html"><a href="summarize.html#optimized-matrix-operations-with-matrixstats"><i class="fa fa-check"></i><b>12.3</b> Optimized matrix operations with <strong>matrixStats</strong></a></li>
+<li class="chapter" data-level="12.4" data-path="summarize.html"><a href="summarize.html#grouped-summary-statistics-with-aggregate"><i class="fa fa-check"></i><b>12.4</b> Grouped summary statistics with <code>aggregate()</code></a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>13</b> Functions</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="functions.html"><a href="functions.html#simple-functions"><i class="fa fa-check"></i><b>13.1</b> Simple functions</a></li>
+<li class="chapter" data-level="13.2" data-path="functions.html"><a href="functions.html#arguments-with-prescribed-list-of-allowed-values"><i class="fa fa-check"></i><b>13.2</b> Arguments with prescribed list of allowed values</a></li>
+<li class="chapter" data-level="13.3" data-path="functions.html"><a href="functions.html#passing-extra-arguments-to-another-function-with-the-...-argument"><i class="fa fa-check"></i><b>13.3</b> Passing extra arguments to another function with the <code>...</code> argument</a></li>
+<li class="chapter" data-level="13.4" data-path="functions.html"><a href="functions.html#return-multiple-objects"><i class="fa fa-check"></i><b>13.4</b> Return multiple objects</a></li>
+<li class="chapter" data-level="13.5" data-path="functions.html"><a href="functions.html#warnings-and-errors"><i class="fa fa-check"></i><b>13.5</b> Warnings and errors</a></li>
+<li class="chapter" data-level="13.6" data-path="functions.html"><a href="functions.html#scoping"><i class="fa fa-check"></i><b>13.6</b> Scoping</a></li>
+<li class="chapter" data-level="13.7" data-path="functions.html"><a href="functions.html#pipe"><i class="fa fa-check"></i><b>13.7</b> The pipe operator <code>%&gt;%</code></a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="dataframes.html"><a href="dataframes.html"><i class="fa fa-check"></i><b>14</b> Working with data frames</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="dataframes.html"><a href="dataframes.html#table-joins-i.e.-merging-data.frames"><i class="fa fa-check"></i><b>14.1</b> Table Joins (i.e. Merging data.frames)</a>
+<ul>
+<li class="chapter" data-level="14.1.1" data-path="dataframes.html"><a href="dataframes.html#inner-join"><i class="fa fa-check"></i><b>14.1.1</b> Inner join</a></li>
+<li class="chapter" data-level="14.1.2" data-path="dataframes.html"><a href="dataframes.html#outer-join"><i class="fa fa-check"></i><b>14.1.2</b> Outer join</a></li>
+<li class="chapter" data-level="14.1.3" data-path="dataframes.html"><a href="dataframes.html#left-outer-join"><i class="fa fa-check"></i><b>14.1.3</b> Left outer join</a></li>
+<li class="chapter" data-level="14.1.4" data-path="dataframes.html"><a href="dataframes.html#right-outer-join"><i class="fa fa-check"></i><b>14.1.4</b> Right outer join</a></li>
+</ul></li>
+<li class="chapter" data-level="14.2" data-path="dataframes.html"><a href="dataframes.html#wide-to-long"><i class="fa fa-check"></i><b>14.2</b> Wide to Long</a>
+<ul>
+<li class="chapter" data-level="14.2.1" data-path="dataframes.html"><a href="dataframes.html#base"><i class="fa fa-check"></i><b>14.2.1</b> base</a></li>
+<li class="chapter" data-level="14.2.2" data-path="dataframes.html"><a href="dataframes.html#tidyr"><i class="fa fa-check"></i><b>14.2.2</b> tidyr</a></li>
+<li class="chapter" data-level="14.2.3" data-path="dataframes.html"><a href="dataframes.html#data.table"><i class="fa fa-check"></i><b>14.2.3</b> data.table</a></li>
+</ul></li>
+<li class="chapter" data-level="14.3" data-path="dataframes.html"><a href="dataframes.html#long-to-wide"><i class="fa fa-check"></i><b>14.3</b> Long to Wide</a>
+<ul>
+<li class="chapter" data-level="14.3.1" data-path="dataframes.html"><a href="dataframes.html#base-1"><i class="fa fa-check"></i><b>14.3.1</b> base</a></li>
+<li class="chapter" data-level="14.3.2" data-path="dataframes.html"><a href="dataframes.html#tidyr-1"><i class="fa fa-check"></i><b>14.3.2</b> tidyr</a></li>
+<li class="chapter" data-level="14.3.3" data-path="dataframes.html"><a href="dataframes.html#data.table-1"><i class="fa fa-check"></i><b>14.3.3</b> data.table</a></li>
+</ul></li>
+<li class="chapter" data-level="14.4" data-path="dataframes.html"><a href="dataframes.html#feature-transformation-with-transform"><i class="fa fa-check"></i><b>14.4</b> Feature transformation with <code>transform()</code></a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="datatrans.html"><a href="datatrans.html"><i class="fa fa-check"></i><b>15</b> Data Transformations</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="datatrans.html"><a href="datatrans.html#continuous-variables"><i class="fa fa-check"></i><b>15.1</b> Continuous variables</a>
+<ul>
+<li class="chapter" data-level="15.1.1" data-path="datatrans.html"><a href="datatrans.html#standardization-scaling-centering-with-scale"><i class="fa fa-check"></i><b>15.1.1</b> Standardization / Scaling &amp; Centering with <code>scale()</code></a></li>
+<li class="chapter" data-level="15.1.2" data-path="datatrans.html"><a href="datatrans.html#log-transform-with-log"><i class="fa fa-check"></i><b>15.1.2</b> Log-transform with <code>log()</code></a></li>
+<li class="chapter" data-level="15.1.3" data-path="datatrans.html"><a href="datatrans.html#data-binning-with-cut"><i class="fa fa-check"></i><b>15.1.3</b> Data binning with <code>cut()</code></a></li>
+</ul></li>
+<li class="chapter" data-level="15.2" data-path="datatrans.html"><a href="datatrans.html#categorical-variables"><i class="fa fa-check"></i><b>15.2</b> Categorical variables</a>
+<ul>
+<li class="chapter" data-level="15.2.1" data-path="datatrans.html"><a href="datatrans.html#integer-encoding"><i class="fa fa-check"></i><b>15.2.1</b> Integer encoding</a></li>
+<li class="chapter" data-level="15.2.2" data-path="datatrans.html"><a href="datatrans.html#one-hot-encoding"><i class="fa fa-check"></i><b>15.2.2</b> One-hot encoding</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="stringops.html"><a href="stringops.html"><i class="fa fa-check"></i><b>16</b> String Operations</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="stringops.html"><a href="stringops.html#reminder-create---coerce---check"><i class="fa fa-check"></i><b>16.1</b> Reminder: create - coerce - check</a></li>
+<li class="chapter" data-level="16.2" data-path="stringops.html"><a href="stringops.html#nchar-get-number-of-characters-in-element"><i class="fa fa-check"></i><b>16.2</b> <code>nchar()</code>: Get number of characters in element</a></li>
+<li class="chapter" data-level="16.3" data-path="stringops.html"><a href="stringops.html#substr-get-substring"><i class="fa fa-check"></i><b>16.3</b> <code>substr()</code>: Get substring</a></li>
+<li class="chapter" data-level="16.4" data-path="stringops.html"><a href="stringops.html#strsplit-split-strings"><i class="fa fa-check"></i><b>16.4</b> <code>strsplit()</code>: Split strings</a></li>
+<li class="chapter" data-level="16.5" data-path="stringops.html"><a href="stringops.html#paste-concatenate-strings"><i class="fa fa-check"></i><b>16.5</b> <code>paste()</code>: Concatenate strings</a></li>
+<li class="chapter" data-level="16.6" data-path="stringops.html"><a href="stringops.html#cat-concatenate-and-print"><i class="fa fa-check"></i><b>16.6</b> <code>cat()</code>: Concatenate and <strong>print</strong></a></li>
+<li class="chapter" data-level="16.7" data-path="stringops.html"><a href="stringops.html#string-formatting"><i class="fa fa-check"></i><b>16.7</b> String formatting</a>
+<ul>
+<li class="chapter" data-level="16.7.1" data-path="stringops.html"><a href="stringops.html#change-case-with-toupper-and-tolower"><i class="fa fa-check"></i><b>16.7.1</b> Change case with <code>toupper</code> and <code>tolower</code></a></li>
+<li class="chapter" data-level="16.7.2" data-path="stringops.html"><a href="stringops.html#abbreviate"><i class="fa fa-check"></i><b>16.7.2</b> <code>abbreviate()</code></a></li>
+</ul></li>
+<li class="chapter" data-level="16.8" data-path="stringops.html"><a href="stringops.html#pattern-matching"><i class="fa fa-check"></i><b>16.8</b> Pattern matching</a>
+<ul>
+<li class="chapter" data-level="16.8.1" data-path="stringops.html"><a href="stringops.html#grep-get-an-integer-index-of-elements-that-include-a-pattern"><i class="fa fa-check"></i><b>16.8.1</b> <code>grep</code>: Get an integer index of elements that include a pattern</a></li>
+<li class="chapter" data-level="16.8.2" data-path="stringops.html"><a href="stringops.html#grepl-get-a-logical-index-of-elements-that-include-a-pattern"><i class="fa fa-check"></i><b>16.8.2</b> <code>grepl</code>: Get a logical index of elements that include a pattern</a></li>
+<li class="chapter" data-level="16.8.3" data-path="stringops.html"><a href="stringops.html#sub-find-replace-first-match-of-a-pattern"><i class="fa fa-check"></i><b>16.8.3</b> <code>sub</code>: Find replace <strong>first</strong> match of a pattern</a></li>
+<li class="chapter" data-level="16.8.4" data-path="stringops.html"><a href="stringops.html#gsub-find-and-replace-all-matches-of-a-pattern"><i class="fa fa-check"></i><b>16.8.4</b> <code>gsub</code>: Find and replace <strong>all</strong> matches of a pattern</a></li>
+</ul></li>
+<li class="chapter" data-level="16.9" data-path="stringops.html"><a href="stringops.html#regular-expressions"><i class="fa fa-check"></i><b>16.9</b> Regular expressions</a>
+<ul>
+<li class="chapter" data-level="16.9.1" data-path="stringops.html"><a href="stringops.html#match-a-pattern-at-the-beginning-of-a-linestring-with"><i class="fa fa-check"></i><b>16.9.1</b> Match a pattern at the beginning of a line/string with <code>^</code>/<code>\\&lt;</code>:</a></li>
+<li class="chapter" data-level="16.9.2" data-path="stringops.html"><a href="stringops.html#match-a-pattern-at-the-end-of-a-linestring-with"><i class="fa fa-check"></i><b>16.9.2</b> Match a pattern at the end of a line/string with <code>$</code>/<code>\\&gt;</code></a></li>
+<li class="chapter" data-level="16.9.3" data-path="stringops.html"><a href="stringops.html#match-any-character"><i class="fa fa-check"></i><b>16.9.3</b> <code>.</code>: Match any character</a></li>
+<li class="chapter" data-level="16.9.4" data-path="stringops.html"><a href="stringops.html#match-preceding-character-one-or-more-times"><i class="fa fa-check"></i><b>16.9.4</b> <code>+</code>: Match preceding character one or more times:</a></li>
+<li class="chapter" data-level="16.9.5" data-path="stringops.html"><a href="stringops.html#n-match-preceding-character-n-times"><i class="fa fa-check"></i><b>16.9.5</b> <code>{n}</code>: Match preceding character <code>n</code> times:</a></li>
+<li class="chapter" data-level="16.9.6" data-path="stringops.html"><a href="stringops.html#n-match-preceding-character-n-or-more-times"><i class="fa fa-check"></i><b>16.9.6</b> <code>{n,}</code>: Match preceding character <code>n</code> or more times:</a></li>
+<li class="chapter" data-level="16.9.7" data-path="stringops.html"><a href="stringops.html#nm-match-preceding-character-at-least-n-times-and-no-more-than-m-times"><i class="fa fa-check"></i><b>16.9.7</b> <code>{n,m}</code>: Match preceding character at least <code>n</code> times and no more than <code>m</code> times:</a></li>
+<li class="chapter" data-level="16.9.8" data-path="stringops.html"><a href="stringops.html#escaping-metacharacters"><i class="fa fa-check"></i><b>16.9.8</b> Escaping metacharacters</a></li>
+<li class="chapter" data-level="16.9.9" data-path="stringops.html"><a href="stringops.html#match-a-character-class"><i class="fa fa-check"></i><b>16.9.9</b> Match a character class</a></li>
+<li class="chapter" data-level="16.9.10" data-path="stringops.html"><a href="stringops.html#combine-character-classes"><i class="fa fa-check"></i><b>16.9.10</b> Combine character classes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="dates.html"><a href="dates.html"><i class="fa fa-check"></i><b>17</b> Dates</a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="dates.html"><a href="dates.html#as.date-character-to-date"><i class="fa fa-check"></i><b>17.1</b> <code>as.Date()</code>: Character to Date</a></li>
+<li class="chapter" data-level="17.2" data-path="dates.html"><a href="dates.html#sys.date-get-todays-date"><i class="fa fa-check"></i><b>17.2</b> <code>sys.Date()</code>: Get today’s date</a></li>
+<li class="chapter" data-level="17.3" data-path="dates.html"><a href="dates.html#time-intervals"><i class="fa fa-check"></i><b>17.3</b> Time intervals</a></li>
+<li class="chapter" data-level="17.4" data-path="dates.html"><a href="dates.html#as.posixct-as.posixlt-strptime-character-to-date-time"><i class="fa fa-check"></i><b>17.4</b> <code>as.POSIXct</code>, <code>as.POSIXlt</code>, <code>strptime</code>: Character to Date-Time</a></li>
+<li class="chapter" data-level="17.5" data-path="dates.html"><a href="dates.html#bring-the-guessing-in-with-lubridate"><i class="fa fa-check"></i><b>17.5</b> Bring the guessing in with <code>lubridate</code></a></li>
+<li class="chapter" data-level="17.6" data-path="dates.html"><a href="dates.html#format-dates"><i class="fa fa-check"></i><b>17.6</b> <code>format()</code> Dates</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="missingdata.html"><a href="missingdata.html"><i class="fa fa-check"></i><b>18</b> Handling Missing data</a>
+<ul>
+<li class="chapter" data-level="18.1" data-path="missingdata.html"><a href="missingdata.html#check-for-missing-data"><i class="fa fa-check"></i><b>18.1</b> Check for missing data</a>
+<ul>
+<li class="chapter" data-level="18.1.1" data-path="missingdata.html"><a href="missingdata.html#visualize"><i class="fa fa-check"></i><b>18.1.1</b> Visualize</a></li>
+<li class="chapter" data-level="18.1.2" data-path="missingdata.html"><a href="missingdata.html#summarize-1"><i class="fa fa-check"></i><b>18.1.2</b> Summarize</a></li>
+</ul></li>
+<li class="chapter" data-level="18.2" data-path="missingdata.html"><a href="missingdata.html#handle-missing-data"><i class="fa fa-check"></i><b>18.2</b> Handle missing data</a>
+<ul>
+<li class="chapter" data-level="18.2.1" data-path="missingdata.html"><a href="missingdata.html#do-nothing-decision-trees"><i class="fa fa-check"></i><b>18.2.1</b> Do nothing (decision trees!)</a></li>
+<li class="chapter" data-level="18.2.2" data-path="missingdata.html"><a href="missingdata.html#use-complete-cases-only"><i class="fa fa-check"></i><b>18.2.2</b> Use complete cases only</a></li>
+<li class="chapter" data-level="18.2.3" data-path="missingdata.html"><a href="missingdata.html#replace-with-a-fixed-value-mean-median-vs.-mode-missing"><i class="fa fa-check"></i><b>18.2.3</b> Replace with a fixed value: mean, median vs. mode, “missing”</a></li>
+<li class="chapter" data-level="18.2.4" data-path="missingdata.html"><a href="missingdata.html#last-observation-carried-forward"><i class="fa fa-check"></i><b>18.2.4</b> Last observation carried forward</a></li>
+<li class="chapter" data-level="18.2.5" data-path="missingdata.html"><a href="missingdata.html#replace-missing-values-with-estimated-values"><i class="fa fa-check"></i><b>18.2.5</b> Replace missing values with estimated values</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="19" data-path="classes.html"><a href="classes.html"><i class="fa fa-check"></i><b>19</b> Classes and Object-Oriented Programming</a>
+<ul>
+<li class="chapter" data-level="19.1" data-path="classes.html"><a href="classes.html#s3"><i class="fa fa-check"></i><b>19.1</b> S3</a>
+<ul>
+<li class="chapter" data-level="19.1.1" data-path="classes.html"><a href="classes.html#s3methods"><i class="fa fa-check"></i><b>19.1.1</b> <code>methods()</code></a></li>
+<li class="chapter" data-level="19.1.2" data-path="classes.html"><a href="classes.html#defining-custom-s3-classes"><i class="fa fa-check"></i><b>19.1.2</b> Defining custom S3 classes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="20" data-path="datatable.html"><a href="datatable.html"><i class="fa fa-check"></i><b>20</b> Efficient data analysis with <strong>data.table</strong></a>
+<ul>
+<li class="chapter" data-level="20.1" data-path="datatable.html"><a href="datatable.html#create-a-data.table"><i class="fa fa-check"></i><b>20.1</b> Create a <code>data.table</code></a>
+<ul>
+<li class="chapter" data-level="20.1.1" data-path="datatable.html"><a href="datatable.html#by-assignment-data.table"><i class="fa fa-check"></i><b>20.1.1</b> By assignment: <code>data.table()</code></a></li>
+<li class="chapter" data-level="20.1.2" data-path="datatable.html"><a href="datatable.html#by-coercion-as.data.table"><i class="fa fa-check"></i><b>20.1.2</b> By coercion: <code>as.data.table()</code></a></li>
+<li class="chapter" data-level="20.1.3" data-path="datatable.html"><a href="datatable.html#by-coercion-in-place-setdt"><i class="fa fa-check"></i><b>20.1.3</b> By coercion <strong><em>in-place</em></strong>: <code>setDT()</code></a></li>
+<li class="chapter" data-level="20.1.4" data-path="datatable.html"><a href="datatable.html#read-into-data.table-from-file"><i class="fa fa-check"></i><b>20.1.4</b> Read into <code>data.table</code> from file</a></li>
+<li class="chapter" data-level="20.1.5" data-path="datatable.html"><a href="datatable.html#write-a-data.table-to-file-fwrite"><i class="fa fa-check"></i><b>20.1.5</b> Write a <code>data.table</code> to file: <code>fwrite()</code></a></li>
+</ul></li>
+<li class="chapter" data-level="20.2" data-path="datatable.html"><a href="datatable.html#combine-data.tables"><i class="fa fa-check"></i><b>20.2</b> Combine <code>data.table</code>s</a></li>
+<li class="chapter" data-level="20.3" data-path="datatable.html"><a href="datatable.html#str-works-the-same-and-you-should-keep-using-it"><i class="fa fa-check"></i><b>20.3</b> <code>str</code> works the same (and you should keep using it!)</a></li>
+<li class="chapter" data-level="20.4" data-path="datatable.html"><a href="datatable.html#indexing-a-data.table"><i class="fa fa-check"></i><b>20.4</b> Indexing a <code>data.table</code></a>
+<ul>
+<li class="chapter" data-level="20.4.1" data-path="datatable.html"><a href="datatable.html#conditionally-select-cases"><i class="fa fa-check"></i><b>20.4.1</b> Conditionally select cases:</a></li>
+<li class="chapter" data-level="20.4.2" data-path="datatable.html"><a href="datatable.html#select-columns"><i class="fa fa-check"></i><b>20.4.2</b> Select columns</a></li>
+</ul></li>
+<li class="chapter" data-level="20.5" data-path="datatable.html"><a href="datatable.html#add-new-columns-in-place"><i class="fa fa-check"></i><b>20.5</b> Add new columns <strong><em>in-place</em></strong></a></li>
+<li class="chapter" data-level="20.6" data-path="datatable.html"><a href="datatable.html#add-multiple-columns-in-place"><i class="fa fa-check"></i><b>20.6</b> Add multiple columns <strong><em>in-place</em></strong></a></li>
+<li class="chapter" data-level="20.7" data-path="datatable.html"><a href="datatable.html#convert-column-type"><i class="fa fa-check"></i><b>20.7</b> Convert column type</a></li>
+<li class="chapter" data-level="20.8" data-path="datatable.html"><a href="datatable.html#delete-column-in-place"><i class="fa fa-check"></i><b>20.8</b> Delete column in-place</a></li>
+<li class="chapter" data-level="20.9" data-path="datatable.html"><a href="datatable.html#summarize-2"><i class="fa fa-check"></i><b>20.9</b> Summarize</a>
+<ul>
+<li class="chapter" data-level="20.9.1" data-path="datatable.html"><a href="datatable.html#address-object-location-in-memory"><i class="fa fa-check"></i><b>20.9.1</b> <code>address</code>: Object location in memory</a></li>
+<li class="chapter" data-level="20.9.2" data-path="datatable.html"><a href="datatable.html#reference-semantics-at-work"><i class="fa fa-check"></i><b>20.9.2</b> Reference semantics at work</a></li>
+</ul></li>
+<li class="chapter" data-level="20.10" data-path="datatable.html"><a href="datatable.html#set-set-attributes-in-place"><i class="fa fa-check"></i><b>20.10</b> <code>set*()</code>: Set attributes <strong><em>in-place</em></strong></a></li>
+<li class="chapter" data-level="20.11" data-path="datatable.html"><a href="datatable.html#setorder-set-order-of-data.table"><i class="fa fa-check"></i><b>20.11</b> <code>setorder()</code>: Set order of <code>data.table</code></a></li>
+<li class="chapter" data-level="20.12" data-path="datatable.html"><a href="datatable.html#group-according-to-by"><i class="fa fa-check"></i><b>20.12</b> Group according to <code>by</code></a></li>
+<li class="chapter" data-level="20.13" data-path="datatable.html"><a href="datatable.html#apply-functions-to-columns"><i class="fa fa-check"></i><b>20.13</b> Apply functions to columns</a></li>
+<li class="chapter" data-level="20.14" data-path="datatable.html"><a href="datatable.html#reshape-a-data.table"><i class="fa fa-check"></i><b>20.14</b> Reshape a <code>data.table</code></a>
+<ul>
+<li class="chapter" data-level="20.14.1" data-path="datatable.html"><a href="datatable.html#melt-wide-to-long"><i class="fa fa-check"></i><b>20.14.1</b> <code>melt()</code>: Wide to long</a></li>
+<li class="chapter" data-level="20.14.2" data-path="datatable.html"><a href="datatable.html#dcast-long-to-wide"><i class="fa fa-check"></i><b>20.14.2</b> <code>dcast()</code>: Long to wide</a></li>
+</ul></li>
+<li class="chapter" data-level="20.15" data-path="datatable.html"><a href="datatable.html#table-joins"><i class="fa fa-check"></i><b>20.15</b> Table Joins</a>
+<ul>
+<li class="chapter" data-level="20.15.1" data-path="datatable.html"><a href="datatable.html#inner"><i class="fa fa-check"></i><b>20.15.1</b> Inner</a></li>
+<li class="chapter" data-level="20.15.2" data-path="datatable.html"><a href="datatable.html#outer"><i class="fa fa-check"></i><b>20.15.2</b> Outer</a></li>
+<li class="chapter" data-level="20.15.3" data-path="datatable.html"><a href="datatable.html#left-outer"><i class="fa fa-check"></i><b>20.15.3</b> Left outer</a></li>
+<li class="chapter" data-level="20.15.4" data-path="datatable.html"><a href="datatable.html#right-outer"><i class="fa fa-check"></i><b>20.15.4</b> Right outer</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="21" data-path="basegraphics.html"><a href="basegraphics.html"><i class="fa fa-check"></i><b>21</b> Base Graphics</a>
+<ul>
+<li class="chapter" data-level="21.1" data-path="basegraphics.html"><a href="basegraphics.html#scatter-plot"><i class="fa fa-check"></i><b>21.1</b> Scatter plot</a>
+<ul>
+<li class="chapter" data-level="21.1.1" data-path="basegraphics.html"><a href="basegraphics.html#col-point-color"><i class="fa fa-check"></i><b>21.1.1</b> <strong><code>col</code></strong>: point color</a></li>
+<li class="chapter" data-level="21.1.2" data-path="basegraphics.html"><a href="basegraphics.html#bty-box-type"><i class="fa fa-check"></i><b>21.1.2</b> <strong><code>bty</code></strong>: box type</a></li>
+<li class="chapter" data-level="21.1.3" data-path="basegraphics.html"><a href="basegraphics.html#pch-point-character"><i class="fa fa-check"></i><b>21.1.3</b> <strong><code>pch</code></strong>: point character</a></li>
+<li class="chapter" data-level="21.1.4" data-path="basegraphics.html"><a href="basegraphics.html#grid"><i class="fa fa-check"></i><b>21.1.4</b> grid</a></li>
+<li class="chapter" data-level="21.1.5" data-path="basegraphics.html"><a href="basegraphics.html#main-xlab-ylab-title-and-axes-labels"><i class="fa fa-check"></i><b>21.1.5</b> <strong><code>main</code></strong>, <strong><code>xlab</code></strong>, <strong><code>ylab</code></strong>: Title and axes labels</a></li>
+</ul></li>
+<li class="chapter" data-level="21.2" data-path="basegraphics.html"><a href="basegraphics.html#histogram"><i class="fa fa-check"></i><b>21.2</b> Histogram</a>
+<ul>
+<li class="chapter" data-level="21.2.1" data-path="basegraphics.html"><a href="basegraphics.html#col-bar-color"><i class="fa fa-check"></i><b>21.2.1</b> <strong><code>col</code></strong>: bar color</a></li>
+<li class="chapter" data-level="21.2.2" data-path="basegraphics.html"><a href="basegraphics.html#border-border-color"><i class="fa fa-check"></i><b>21.2.2</b> <strong><code>border</code></strong>: border color</a></li>
+<li class="chapter" data-level="21.2.3" data-path="basegraphics.html"><a href="basegraphics.html#breaks-number-andor-value-of-breakpoints"><i class="fa fa-check"></i><b>21.2.3</b> <code>breaks</code>: number and/or value of breakpoints</a></li>
+</ul></li>
+<li class="chapter" data-level="21.3" data-path="basegraphics.html"><a href="basegraphics.html#density-plot"><i class="fa fa-check"></i><b>21.3</b> Density plot</a></li>
+<li class="chapter" data-level="21.4" data-path="basegraphics.html"><a href="basegraphics.html#barplot"><i class="fa fa-check"></i><b>21.4</b> Barplot</a>
+<ul>
+<li class="chapter" data-level="21.4.1" data-path="basegraphics.html"><a href="basegraphics.html#single-vector"><i class="fa fa-check"></i><b>21.4.1</b> Single vector</a></li>
+<li class="chapter" data-level="21.4.2" data-path="basegraphics.html"><a href="basegraphics.html#matrix"><i class="fa fa-check"></i><b>21.4.2</b> Matrix</a></li>
+</ul></li>
+<li class="chapter" data-level="21.5" data-path="basegraphics.html"><a href="basegraphics.html#boxplot"><i class="fa fa-check"></i><b>21.5</b> Boxplot</a>
+<ul>
+<li class="chapter" data-level="21.5.1" data-path="basegraphics.html"><a href="basegraphics.html#single-vector-1"><i class="fa fa-check"></i><b>21.5.1</b> Single vector</a></li>
+<li class="chapter" data-level="21.5.2" data-path="basegraphics.html"><a href="basegraphics.html#anatomy-of-a-boxplot"><i class="fa fa-check"></i><b>21.5.2</b> Anatomy of a boxplot</a></li>
+<li class="chapter" data-level="21.5.3" data-path="basegraphics.html"><a href="basegraphics.html#multiple-vectors"><i class="fa fa-check"></i><b>21.5.3</b> Multiple vectors</a></li>
+<li class="chapter" data-level="21.5.4" data-path="basegraphics.html"><a href="basegraphics.html#list"><i class="fa fa-check"></i><b>21.5.4</b> List</a></li>
+<li class="chapter" data-level="21.5.5" data-path="basegraphics.html"><a href="basegraphics.html#matrix-1"><i class="fa fa-check"></i><b>21.5.5</b> Matrix</a></li>
+<li class="chapter" data-level="21.5.6" data-path="basegraphics.html"><a href="basegraphics.html#formula-interface"><i class="fa fa-check"></i><b>21.5.6</b> formula interface</a></li>
+<li class="chapter" data-level="21.5.7" data-path="basegraphics.html"><a href="basegraphics.html#names-group-labels"><i class="fa fa-check"></i><b>21.5.7</b> <strong><code>names</code></strong>: group labels</a></li>
+</ul></li>
+<li class="chapter" data-level="21.6" data-path="basegraphics.html"><a href="basegraphics.html#heatmap"><i class="fa fa-check"></i><b>21.6</b> Heatmap</a></li>
+<li class="chapter" data-level="21.7" data-path="basegraphics.html"><a href="basegraphics.html#graphical-parameters"><i class="fa fa-check"></i><b>21.7</b> Graphical parameters</a></li>
+</ul></li>
+<li class="chapter" data-level="22" data-path="graphics3x.html"><a href="graphics3x.html"><i class="fa fa-check"></i><b>22</b> 3x Graphics</a>
+<ul>
+<li class="chapter" data-level="22.1" data-path="graphics3x.html"><a href="graphics3x.html#base-graphics"><i class="fa fa-check"></i><b>22.1</b> Base graphics</a></li>
+<li class="chapter" data-level="22.2" data-path="graphics3x.html"><a href="graphics3x.html#grid-graphics"><i class="fa fa-check"></i><b>22.2</b> Grid graphics</a>
+<ul>
+<li class="chapter" data-level="22.2.1" data-path="graphics3x.html"><a href="graphics3x.html#ggplot2"><i class="fa fa-check"></i><b>22.2.1</b> <code>ggplot2</code></a></li>
+</ul></li>
+<li class="chapter" data-level="22.3" data-path="graphics3x.html"><a href="graphics3x.html#rd-party-apis"><i class="fa fa-check"></i><b>22.3</b> 3rd party APIs</a></li>
+<li class="chapter" data-level="22.4" data-path="graphics3x.html"><a href="graphics3x.html#scatterplot"><i class="fa fa-check"></i><b>22.4</b> Scatterplot</a>
+<ul>
+<li class="chapter" data-level="22.4.1" data-path="graphics3x.html"><a href="graphics3x.html#base-2"><i class="fa fa-check"></i><b>22.4.1</b> base</a></li>
+<li class="chapter" data-level="22.4.2" data-path="graphics3x.html"><a href="graphics3x.html#mplot3"><i class="fa fa-check"></i><b>22.4.2</b> <strong>mplot3</strong></a></li>
+<li class="chapter" data-level="22.4.3" data-path="graphics3x.html"><a href="graphics3x.html#dplot3"><i class="fa fa-check"></i><b>22.4.3</b> <strong>dplot3</strong></a></li>
+<li class="chapter" data-level="22.4.4" data-path="graphics3x.html"><a href="graphics3x.html#ggplot2-1"><i class="fa fa-check"></i><b>22.4.4</b> <strong>ggplot2</strong></a></li>
+<li class="chapter" data-level="22.4.5" data-path="graphics3x.html"><a href="graphics3x.html#plotly"><i class="fa fa-check"></i><b>22.4.5</b> <strong>plotly</strong></a></li>
+<li class="chapter" data-level="22.4.6" data-path="graphics3x.html"><a href="graphics3x.html#grouped"><i class="fa fa-check"></i><b>22.4.6</b> Grouped</a></li>
+</ul></li>
+<li class="chapter" data-level="22.5" data-path="graphics3x.html"><a href="graphics3x.html#scatterplot-with-fit"><i class="fa fa-check"></i><b>22.5</b> Scatterplot with fit</a>
+<ul>
+<li class="chapter" data-level="22.5.1" data-path="graphics3x.html"><a href="graphics3x.html#mplot3-1"><i class="fa fa-check"></i><b>22.5.1</b> <strong>mplot3</strong></a></li>
+<li class="chapter" data-level="22.5.2" data-path="graphics3x.html"><a href="graphics3x.html#dplot3-1"><i class="fa fa-check"></i><b>22.5.2</b> <strong>dplot3</strong></a></li>
+<li class="chapter" data-level="22.5.3" data-path="graphics3x.html"><a href="graphics3x.html#ggplot2-2"><i class="fa fa-check"></i><b>22.5.3</b> <strong>ggplot2</strong></a></li>
+<li class="chapter" data-level="22.5.4" data-path="graphics3x.html"><a href="graphics3x.html#plotly-1"><i class="fa fa-check"></i><b>22.5.4</b> <strong>plotly</strong></a></li>
+</ul></li>
+<li class="chapter" data-level="22.6" data-path="graphics3x.html"><a href="graphics3x.html#density-plot-1"><i class="fa fa-check"></i><b>22.6</b> Density plot</a>
+<ul>
+<li class="chapter" data-level="22.6.1" data-path="graphics3x.html"><a href="graphics3x.html#base-3"><i class="fa fa-check"></i><b>22.6.1</b> base</a></li>
+<li class="chapter" data-level="22.6.2" data-path="graphics3x.html"><a href="graphics3x.html#mplot3-2"><i class="fa fa-check"></i><b>22.6.2</b> <strong>mplot3</strong></a></li>
+<li class="chapter" data-level="22.6.3" data-path="graphics3x.html"><a href="graphics3x.html#dplot3-2"><i class="fa fa-check"></i><b>22.6.3</b> <strong>dplot3</strong></a></li>
+<li class="chapter" data-level="22.6.4" data-path="graphics3x.html"><a href="graphics3x.html#ggplot2-3"><i class="fa fa-check"></i><b>22.6.4</b> <strong>ggplot2</strong></a></li>
+</ul></li>
+<li class="chapter" data-level="22.7" data-path="graphics3x.html"><a href="graphics3x.html#histogram-1"><i class="fa fa-check"></i><b>22.7</b> Histogram</a>
+<ul>
+<li class="chapter" data-level="22.7.1" data-path="graphics3x.html"><a href="graphics3x.html#base-4"><i class="fa fa-check"></i><b>22.7.1</b> base</a></li>
+<li class="chapter" data-level="22.7.2" data-path="graphics3x.html"><a href="graphics3x.html#mplot3-3"><i class="fa fa-check"></i><b>22.7.2</b> <strong>mplot3</strong></a></li>
+<li class="chapter" data-level="22.7.3" data-path="graphics3x.html"><a href="graphics3x.html#dplot3-3"><i class="fa fa-check"></i><b>22.7.3</b> <strong>dplot3</strong></a></li>
+<li class="chapter" data-level="22.7.4" data-path="graphics3x.html"><a href="graphics3x.html#ggplot2-4"><i class="fa fa-check"></i><b>22.7.4</b> <strong>ggplot2</strong></a></li>
+<li class="chapter" data-level="22.7.5" data-path="graphics3x.html"><a href="graphics3x.html#barplot-1"><i class="fa fa-check"></i><b>22.7.5</b> Barplot</a></li>
+<li class="chapter" data-level="22.7.6" data-path="graphics3x.html"><a href="graphics3x.html#base-5"><i class="fa fa-check"></i><b>22.7.6</b> base</a></li>
+<li class="chapter" data-level="22.7.7" data-path="graphics3x.html"><a href="graphics3x.html#mplot3-4"><i class="fa fa-check"></i><b>22.7.7</b> <strong>mplot3</strong></a></li>
+<li class="chapter" data-level="22.7.8" data-path="graphics3x.html"><a href="graphics3x.html#dplot3-4"><i class="fa fa-check"></i><b>22.7.8</b> <strong>dplot3</strong></a></li>
+<li class="chapter" data-level="22.7.9" data-path="graphics3x.html"><a href="graphics3x.html#ggplot2-5"><i class="fa fa-check"></i><b>22.7.9</b> <strong>ggplot2</strong></a></li>
+</ul></li>
+<li class="chapter" data-level="22.8" data-path="graphics3x.html"><a href="graphics3x.html#box-plot"><i class="fa fa-check"></i><b>22.8</b> Box plot</a>
+<ul>
+<li class="chapter" data-level="22.8.1" data-path="graphics3x.html"><a href="graphics3x.html#base-6"><i class="fa fa-check"></i><b>22.8.1</b> base</a></li>
+<li class="chapter" data-level="22.8.2" data-path="graphics3x.html"><a href="graphics3x.html#mplot3-5"><i class="fa fa-check"></i><b>22.8.2</b> <strong>mplot3</strong></a></li>
+<li class="chapter" data-level="22.8.3" data-path="graphics3x.html"><a href="graphics3x.html#dplot3-5"><i class="fa fa-check"></i><b>22.8.3</b> <strong>dplot3</strong></a></li>
+<li class="chapter" data-level="22.8.4" data-path="graphics3x.html"><a href="graphics3x.html#ggplot2-6"><i class="fa fa-check"></i><b>22.8.4</b> <strong>ggplot2</strong></a></li>
+</ul></li>
+<li class="chapter" data-level="22.9" data-path="graphics3x.html"><a href="graphics3x.html#heatmap-1"><i class="fa fa-check"></i><b>22.9</b> Heatmap</a>
+<ul>
+<li class="chapter" data-level="22.9.1" data-path="graphics3x.html"><a href="graphics3x.html#base-7"><i class="fa fa-check"></i><b>22.9.1</b> base</a></li>
+<li class="chapter" data-level="22.9.2" data-path="graphics3x.html"><a href="graphics3x.html#mplot3-6"><i class="fa fa-check"></i><b>22.9.2</b> <strong>mplot3</strong></a></li>
+<li class="chapter" data-level="22.9.3" data-path="graphics3x.html"><a href="graphics3x.html#dplot3-6"><i class="fa fa-check"></i><b>22.9.3</b> <strong>dplot3</strong></a></li>
+<li class="chapter" data-level="22.9.4" data-path="graphics3x.html"><a href="graphics3x.html#ggplot2-7"><i class="fa fa-check"></i><b>22.9.4</b> <strong>ggplot2</strong></a></li>
+</ul></li>
+<li class="chapter" data-level="22.10" data-path="graphics3x.html"><a href="graphics3x.html#saving-plots-to-file"><i class="fa fa-check"></i><b>22.10</b> Saving plots to file</a>
+<ul>
+<li class="chapter" data-level="22.10.1" data-path="graphics3x.html"><a href="graphics3x.html#base-8"><i class="fa fa-check"></i><b>22.10.1</b> base</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="23" data-path="colors.html"><a href="colors.html"><i class="fa fa-check"></i><b>23</b> Colors in R</a>
+<ul>
+<li class="chapter" data-level="23.1" data-path="colors.html"><a href="colors.html#color-names"><i class="fa fa-check"></i><b>23.1</b> Color names</a></li>
+<li class="chapter" data-level="23.2" data-path="colors.html"><a href="colors.html#hexadecimal-codes"><i class="fa fa-check"></i><b>23.2</b> Hexadecimal codes</a></li>
+<li class="chapter" data-level="23.3" data-path="colors.html"><a href="colors.html#rgb"><i class="fa fa-check"></i><b>23.3</b> RGB</a></li>
+<li class="chapter" data-level="23.4" data-path="colors.html"><a href="colors.html#hsv"><i class="fa fa-check"></i><b>23.4</b> HSV</a></li>
+</ul></li>
+<li class="chapter" data-level="24" data-path="profiling.html"><a href="profiling.html"><i class="fa fa-check"></i><b>24</b> Timing &amp; Profiling</a>
+<ul>
+<li class="chapter" data-level="24.1" data-path="profiling.html"><a href="profiling.html#time-the-execution-of-an-expression-with-system.time"><i class="fa fa-check"></i><b>24.1</b> Time the execution of an expression with <code>system.time</code></a></li>
+<li class="chapter" data-level="24.2" data-path="profiling.html"><a href="profiling.html#compare-execution-times-of-different-expressions-with-microbenchmark"><i class="fa fa-check"></i><b>24.2</b> Compare execution times of different expressions with <code>microbenchmark()</code></a></li>
+<li class="chapter" data-level="24.3" data-path="profiling.html"><a href="profiling.html#profile-a-function-with-profvis"><i class="fa fa-check"></i><b>24.3</b> Profile a function with <code>profvis()</code></a></li>
+</ul></li>
+<li class="chapter" data-level="25" data-path="optim.html"><a href="optim.html"><i class="fa fa-check"></i><b>25</b> Optimization with <code>optim()</code></a>
+<ul>
+<li class="chapter" data-level="25.1" data-path="optim.html"><a href="optim.html#data"><i class="fa fa-check"></i><b>25.1</b> Data</a></li>
+<li class="chapter" data-level="25.2" data-path="optim.html"><a href="optim.html#glm-glm-s.glm"><i class="fa fa-check"></i><b>25.2</b> GLM (<code>glm</code>, <code>s.GLM</code>)</a></li>
+<li class="chapter" data-level="25.3" data-path="optim.html"><a href="optim.html#optim-1"><i class="fa fa-check"></i><b>25.3</b> <code>optim</code></a></li>
+</ul></li>
+<li class="chapter" data-level="26" data-path="resampling.html"><a href="resampling.html"><i class="fa fa-check"></i><b>26</b> Resampling</a>
+<ul>
+<li class="chapter" data-level="26.1" data-path="resampling.html"><a href="resampling.html#model-selection-and-assessment"><i class="fa fa-check"></i><b>26.1</b> Model Selection and Assessment</a></li>
+<li class="chapter" data-level="26.2" data-path="resampling.html"><a href="resampling.html#the-resample-function"><i class="fa fa-check"></i><b>26.2</b> The resample function</a></li>
+<li class="chapter" data-level="26.3" data-path="resampling.html"><a href="resampling.html#example-stratified-vs-random-sampling-in-a-binomial-distribution"><i class="fa fa-check"></i><b>26.3</b> Example: Stratified vs random sampling in a binomial distribution</a></li>
+</ul></li>
+<li class="chapter" data-level="27" data-path="glm.html"><a href="glm.html"><i class="fa fa-check"></i><b>27</b> Introduction to the GLM</a>
+<ul>
+<li class="chapter" data-level="27.1" data-path="glm.html"><a href="glm.html#generalized-linear-model-glm"><i class="fa fa-check"></i><b>27.1</b> Generalized Linear Model (GLM)</a></li>
+<li class="chapter" data-level="27.2" data-path="glm.html"><a href="glm.html#mass-univariate-analysis"><i class="fa fa-check"></i><b>27.2</b> Mass-univariate analysis</a></li>
+<li class="chapter" data-level="27.3" data-path="glm.html"><a href="glm.html#multiple-comparison-correction"><i class="fa fa-check"></i><b>27.3</b> Multiple comparison correction</a></li>
+</ul></li>
+<li class="chapter" data-level="28" data-path="supervised.html"><a href="supervised.html"><i class="fa fa-check"></i><b>28</b> Supervised Learning</a>
+<ul>
+<li class="chapter" data-level="28.1" data-path="supervised.html"><a href="supervised.html#installation"><i class="fa fa-check"></i><b>28.1</b> Installation</a></li>
+<li class="chapter" data-level="28.2" data-path="supervised.html"><a href="supervised.html#data-input-for-supervised-learning"><i class="fa fa-check"></i><b>28.2</b> Data Input for Supervised Learning</a>
+<ul>
+<li class="chapter" data-level="28.2.1" data-path="supervised.html"><a href="supervised.html#scenario-1-x.train-y.train-x.test-y.test"><i class="fa fa-check"></i><b>28.2.1</b> Scenario 1 (<code>x.train, y.train, x.test, y.test</code>)</a></li>
+<li class="chapter" data-level="28.2.2" data-path="supervised.html"><a href="supervised.html#scenario-2-x.train-x.test"><i class="fa fa-check"></i><b>28.2.2</b> Scenario 2: (<code>x.train, x.test</code>)</a></li>
+</ul></li>
+<li class="chapter" data-level="28.3" data-path="supervised.html"><a href="supervised.html#regression"><i class="fa fa-check"></i><b>28.3</b> Regression</a>
+<ul>
+<li class="chapter" data-level="28.3.1" data-path="supervised.html"><a href="supervised.html#check-data-with-checkdata"><i class="fa fa-check"></i><b>28.3.1</b> Check Data with <code>checkData()</code></a></li>
+<li class="chapter" data-level="28.3.2" data-path="supervised.html"><a href="supervised.html#single-model"><i class="fa fa-check"></i><b>28.3.2</b> Single Model</a></li>
+<li class="chapter" data-level="28.3.3" data-path="supervised.html"><a href="supervised.html#crossvalidated-model"><i class="fa fa-check"></i><b>28.3.3</b> Crossvalidated Model</a></li>
+</ul></li>
+<li class="chapter" data-level="28.4" data-path="supervised.html"><a href="supervised.html#classification"><i class="fa fa-check"></i><b>28.4</b> Classification</a>
+<ul>
+<li class="chapter" data-level="28.4.1" data-path="supervised.html"><a href="supervised.html#check-data"><i class="fa fa-check"></i><b>28.4.1</b> Check Data</a></li>
+<li class="chapter" data-level="28.4.2" data-path="supervised.html"><a href="supervised.html#single-model-1"><i class="fa fa-check"></i><b>28.4.2</b> Single model</a></li>
+<li class="chapter" data-level="28.4.3" data-path="supervised.html"><a href="supervised.html#crossvalidated-model-1"><i class="fa fa-check"></i><b>28.4.3</b> Crossvalidated Model</a></li>
+</ul></li>
+<li class="chapter" data-level="28.5" data-path="supervised.html"><a href="supervised.html#rtemis-documentation"><i class="fa fa-check"></i><b>28.5</b> <strong>rtemis</strong> documentation</a></li>
+</ul></li>
+<li class="chapter" data-level="29" data-path="unsupervised.html"><a href="unsupervised.html"><i class="fa fa-check"></i><b>29</b> Unsupervised Learning</a>
+<ul>
+<li class="chapter" data-level="29.1" data-path="unsupervised.html"><a href="unsupervised.html#decomposition"><i class="fa fa-check"></i><b>29.1</b> Decomposition / Dimensionality Reduction</a></li>
+<li class="chapter" data-level="29.2" data-path="unsupervised.html"><a href="unsupervised.html#clustering"><i class="fa fa-check"></i><b>29.2</b> Clustering</a>
+<ul>
+<li class="chapter" data-level="29.2.1" data-path="unsupervised.html"><a href="unsupervised.html#k-means"><i class="fa fa-check"></i><b>29.2.1</b> K-Means</a></li>
+<li class="chapter" data-level="29.2.2" data-path="unsupervised.html"><a href="unsupervised.html#partitioning-around-medoids-with-k-estimation-pamk"><i class="fa fa-check"></i><b>29.2.2</b> Partitioning Around Medoids with k estimation (PAMK)</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="30" data-path="git.html"><a href="git.html"><i class="fa fa-check"></i><b>30</b> Git &amp; GitHub: the basics</a>
+<ul>
+<li class="chapter" data-level="30.1" data-path="git.html"><a href="git.html#installing-git"><i class="fa fa-check"></i><b>30.1</b> Installing git</a></li>
+<li class="chapter" data-level="30.2" data-path="git.html"><a href="git.html#basic-git-usage"><i class="fa fa-check"></i><b>30.2</b> Basic git usage</a>
+<ul>
+<li class="chapter" data-level="30.2.1" data-path="git.html"><a href="git.html#cloning-downloading"><i class="fa fa-check"></i><b>30.2.1</b> Cloning (“Downloading”)</a></li>
+<li class="chapter" data-level="30.2.2" data-path="git.html"><a href="git.html#pushing-uploading"><i class="fa fa-check"></i><b>30.2.2</b> Pushing (“Uploading”)</a></li>
+<li class="chapter" data-level="30.2.3" data-path="git.html"><a href="git.html#collaborating"><i class="fa fa-check"></i><b>30.2.3</b> Collaborating</a></li>
+<li class="chapter" data-level="30.2.4" data-path="git.html"><a href="git.html#branching-and-merging"><i class="fa fa-check"></i><b>30.2.4</b> Branching and merging</a></li>
+<li class="chapter" data-level="30.2.5" data-path="git.html"><a href="git.html#pull-request"><i class="fa fa-check"></i><b>30.2.5</b> Pull request</a></li>
+</ul></li>
+<li class="chapter" data-level="30.3" data-path="git.html"><a href="git.html#gists"><i class="fa fa-check"></i><b>30.3</b> Gists</a></li>
+<li class="chapter" data-level="30.4" data-path="git.html"><a href="git.html#git-resources"><i class="fa fa-check"></i><b>30.4</b> Git Resources</a></li>
+<li class="chapter" data-level="30.5" data-path="git.html"><a href="git.html#git-and-github-for-open-and-reproducible-science"><i class="fa fa-check"></i><b>30.5</b> Git and GitHub for open and reproducible science</a></li>
+<li class="chapter" data-level="30.6" data-path="git.html"><a href="git.html#applications-with-builtin-git-support"><i class="fa fa-check"></i><b>30.6</b> Applications with builtin git support</a></li>
+</ul></li>
+<li class="chapter" data-level="31" data-path="shell.html"><a href="shell.html"><i class="fa fa-check"></i><b>31</b> Introduction to the system shell</a>
+<ul>
+<li class="chapter" data-level="31.1" data-path="shell.html"><a href="shell.html#common-shell-commands"><i class="fa fa-check"></i><b>31.1</b> Common shell commands</a></li>
+<li class="chapter" data-level="31.2" data-path="shell.html"><a href="shell.html#running-system-commands-within-r"><i class="fa fa-check"></i><b>31.2</b> Running system commands within R</a></li>
+</ul></li>
+<li class="chapter" data-level="32" data-path="resources.html"><a href="resources.html"><i class="fa fa-check"></i><b>32</b> Resources</a>
+<ul>
+<li class="chapter" data-level="32.1" data-path="resources.html"><a href="resources.html#r-project"><i class="fa fa-check"></i><b>32.1</b> R Project</a></li>
+<li class="chapter" data-level="32.2" data-path="resources.html"><a href="resources.html#r-markdown"><i class="fa fa-check"></i><b>32.2</b> R markdown</a></li>
+<li class="chapter" data-level="32.3" data-path="resources.html"><a href="resources.html#documentation"><i class="fa fa-check"></i><b>32.3</b> Documentation</a></li>
+<li class="chapter" data-level="32.4" data-path="resources.html"><a href="resources.html#r-for-data-science"><i class="fa fa-check"></i><b>32.4</b> R for data science</a></li>
+<li class="chapter" data-level="32.5" data-path="resources.html"><a href="resources.html#graphics"><i class="fa fa-check"></i><b>32.5</b> Graphics</a>
+<ul>
+<li class="chapter" data-level="32.5.1" data-path="resources.html"><a href="resources.html#ggplot2-8"><i class="fa fa-check"></i><b>32.5.1</b> ggplot2</a></li>
+<li class="chapter" data-level="32.5.2" data-path="resources.html"><a href="resources.html#plotly-2"><i class="fa fa-check"></i><b>32.5.2</b> Plotly</a></li>
+</ul></li>
+<li class="chapter" data-level="32.6" data-path="resources.html"><a href="resources.html#advanced-r"><i class="fa fa-check"></i><b>32.6</b> Advanced R</a></li>
+<li class="chapter" data-level="32.7" data-path="resources.html"><a href="resources.html#git-and-github"><i class="fa fa-check"></i><b>32.7</b> Git and GitHub</a></li>
+<li class="chapter" data-level="32.8" data-path="resources.html"><a href="resources.html#machine-learning"><i class="fa fa-check"></i><b>32.8</b> Machine Learning</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://lambdamd.org" target="blank" style="padding: 0 0 30px 35px">
+<img src = "./lcm.png" width="55">
+</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Programming for Data Science in R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="types" class="section level1" number="4">
+<h1><span class="header-section-number">Chapter 4</span> Data Types</h1>
+<STYLE type='text/css' scoped>
+PRE.fansi SPAN {padding-top: .25em; padding-bottom: .25em};
+</STYLE>
+<div class="info">
+<p>
+In R, everything is an object.
+</p>
+<p>
+Every “action” is a function.
+</p>
+<p>
+<a href="functions.html#functions">Functions</a> are also objects, which means they can be passed as arguments to functions or returned from other functions.
+</p>
+<p>
+We shall see the relevance of this, for example, in the <a href="loopfns.html#loopfns">Loop Functions</a> chapter.
+</p>
+</div>
+<div id="base-types" class="section level2" number="4.1">
+<h2><span class="header-section-number">4.1</span> Base types</h2>
+<p>R includes a number of builtin data types.</p>
+<p>These are defined by the R core team: users cannot define their own data types, but they can define their own classes - see section on <a href="classes.html#classes">Classes and Object-Oriented Programming</a>.</p>
+<p>Some of the more popular data types in R are:</p>
+<ul>
+<li>Logical (a.k.a. <a href="https://en.wikipedia.org/wiki/Boolean_data_type">Boolean</a>)</li>
+<li>Numeric, integer</li>
+<li>Numeric, <a href="https://en.wikipedia.org/wiki/Double-precision_floating-point_format">double</a></li>
+<li>Character</li>
+<li>Environment</li>
+<li>Closure (i.e. function)</li>
+</ul>
+<div class="warning">
+<p>
+Many errors in R occur because a variable is, or gets coerced to, the wrong type by accident.
+</p>
+</div>
+<div class="info">
+<p>
+<strong>Check variable types with <code>typeof()</code> and/or <code>str()</code>.</strong>
+</p>
+</div>
+</div>
+<div id="assignment" class="section level2" number="4.2">
+<h2><span class="header-section-number">4.2</span> Assignment</h2>
+<p>Use <code>&lt;-</code> for all assignments</p>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="types.html#cb79-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb79-2"><a href="types.html#cb79-2" aria-hidden="true" tabindex="-1"></a><span class="co"># You can add comments within code blocks using the usual &quot;#&quot; prefix</span></span></code></pre></div>
+<p>Typing the name of an object…</p>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="types.html#cb80-1" aria-hidden="true" tabindex="-1"></a>x</span></code></pre></div>
+<pre><code>[1] 3</code></pre>
+<p>…is equivalent to printing it</p>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="types.html#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(x)</span></code></pre></div>
+<pre><code>[1] 3</code></pre>
+<p>You can also place any assignment in parentheses and this will perform the assignment and print the object:</p>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="types.html#cb84-1" aria-hidden="true" tabindex="-1"></a>(x <span class="ot">&lt;-</span> <span class="dv">3</span>)</span></code></pre></div>
+<pre><code>[1] 3</code></pre>
+<div class="note">
+<p>
+While you <em>could</em> use the equal sign ‘=’ for assignment, you should only use it to pass arguments to functions.
+</p>
+</div>
+<p>You can assign the same value to multiple objects - this can be useful when initializing variables.</p>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="types.html#cb86-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> z <span class="ot">&lt;-</span> init <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb86-2"><a href="types.html#cb86-2" aria-hidden="true" tabindex="-1"></a>x</span></code></pre></div>
+<pre><code>[1] 0</code></pre>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="types.html#cb88-1" aria-hidden="true" tabindex="-1"></a>z</span></code></pre></div>
+<pre><code>[1] 0</code></pre>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="types.html#cb90-1" aria-hidden="true" tabindex="-1"></a>init</span></code></pre></div>
+<pre><code>[1] 0</code></pre>
+<p>Excitingly, R allows assignment in the opposite direction as well:</p>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="types.html#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="dv">10</span> <span class="ot">-&gt;</span> x</span>
+<span id="cb92-2"><a href="types.html#cb92-2" aria-hidden="true" tabindex="-1"></a>x</span></code></pre></div>
+<pre><code>[1] 10</code></pre>
+<p>We shall see later that the <code>-&gt;</code> assignment can be convenient at the end of a <a href="https://class.lambdamd.org/progdatscir/functions.html#the-pipe-operator">pipe</a>.</p>
+<p>You can even do this, which is fun (?) but unlikely to be useful:</p>
+<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="types.html#cb94-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">7</span> <span class="ot">-&gt;</span> z</span>
+<span id="cb94-2"><a href="types.html#cb94-2" aria-hidden="true" tabindex="-1"></a>x</span></code></pre></div>
+<pre><code>[1] 7</code></pre>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="types.html#cb96-1" aria-hidden="true" tabindex="-1"></a>z</span></code></pre></div>
+<pre><code>[1] 7</code></pre>
+<p>Use <code>c()</code> to combine multiple values into a vector - this is one of the most widely used R functions:</p>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="types.html#cb98-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">12</span>, <span class="fl">3.5</span>, <span class="dv">104</span>)</span>
+<span id="cb98-2"><a href="types.html#cb98-2" aria-hidden="true" tabindex="-1"></a>x</span></code></pre></div>
+<pre><code>[1] -12.0   3.5 104.0</code></pre>
+</div>
+<div id="initialize---coerce---test-types" class="section level2" number="4.3">
+<h2><span class="header-section-number">4.3</span> Initialize - coerce - test (types)</h2>
+<p>The following summary table lists the functions to <em>initialize</em>, <em>coerce</em> (=convert), and <em>test</em> the core data types, which are shown in more detail in the following paragraphs:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="right"><strong>Initialize</strong></th>
+<th align="right"><strong>Coerce</strong></th>
+<th align="right"><strong>Test</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right"><code>logical(n)</code></td>
+<td align="right"><code>as.logical(x)</code></td>
+<td align="right"><code>is.logical(x)</code></td>
+</tr>
+<tr class="even">
+<td align="right"><code>integer(n)</code></td>
+<td align="right"><code>as.integer(x)</code></td>
+<td align="right"><code>is.integer(x)</code></td>
+</tr>
+<tr class="odd">
+<td align="right"><code>double(n)</code></td>
+<td align="right"><code>as.double(x)</code></td>
+<td align="right"><code>is.double(x)</code></td>
+</tr>
+<tr class="even">
+<td align="right"><code>character(n)</code></td>
+<td align="right"><code>as.character(x)</code></td>
+<td align="right"><code>is.character(x)</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="logical" class="section level2" number="4.4">
+<h2><span class="header-section-number">4.4</span> Logical</h2>
+<p>If you are writing code, use <code>TRUE</code> and <code>FALSE</code>.<br />
+On the console, you can abbreviate to <code>T</code> and <code>F</code>.</p>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="types.html#cb100-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>)</span>
+<span id="cb100-2"><a href="types.html#cb100-2" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">c</span>(T, F)</span>
+<span id="cb100-3"><a href="types.html#cb100-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">4</span></span>
+<span id="cb100-4"><a href="types.html#cb100-4" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> x <span class="sc">&gt;</span> <span class="dv">10</span></span>
+<span id="cb100-5"><a href="types.html#cb100-5" aria-hidden="true" tabindex="-1"></a>b</span></code></pre></div>
+<pre><code>[1] FALSE</code></pre>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="types.html#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(b)</span></code></pre></div>
+<pre><code> logi FALSE</code></pre>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="types.html#cb104-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(b)</span></code></pre></div>
+<pre><code>[1] &quot;logical&quot;</code></pre>
+</div>
+<div id="integer" class="section level2" number="4.5">
+<h2><span class="header-section-number">4.5</span> Integer</h2>
+<p>Create a range of integers using colon notation <code>start:end</code>:</p>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="types.html#cb106-1" aria-hidden="true" tabindex="-1"></a>(x <span class="ot">&lt;-</span> <span class="dv">11</span><span class="sc">:</span><span class="dv">15</span>)</span></code></pre></div>
+<pre><code>[1] 11 12 13 14 15</code></pre>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="types.html#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(x)</span></code></pre></div>
+<pre><code>[1] &quot;integer&quot;</code></pre>
+<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="types.html#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(x)</span></code></pre></div>
+<pre><code> int [1:5] 11 12 13 14 15</code></pre>
+<p>Note that assigning an integer defaults to type double:</p>
+<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="types.html#cb112-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb112-2"><a href="types.html#cb112-2" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(x)</span></code></pre></div>
+<pre><code>[1] &quot;double&quot;</code></pre>
+<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="types.html#cb114-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(x)</span></code></pre></div>
+<pre><code> num 1</code></pre>
+<p>You can force it to be stored as integer by adding an <code>L</code> suffix:</p>
+<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="types.html#cb116-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> 1L</span>
+<span id="cb116-2"><a href="types.html#cb116-2" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(x)</span></code></pre></div>
+<pre><code>[1] &quot;integer&quot;</code></pre>
+<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="types.html#cb118-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(x)</span></code></pre></div>
+<pre><code> int 1</code></pre>
+<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="types.html#cb120-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(1L, 3L, 5L)</span>
+<span id="cb120-2"><a href="types.html#cb120-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(x)</span></code></pre></div>
+<pre><code> int [1:3] 1 3 5</code></pre>
+</div>
+<div id="double" class="section level2" number="4.6">
+<h2><span class="header-section-number">4.6</span> Double</h2>
+<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="types.html#cb122-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">1.2</span>, <span class="fl">3.4</span>, <span class="fl">10.987632419834556</span>)</span>
+<span id="cb122-2"><a href="types.html#cb122-2" aria-hidden="true" tabindex="-1"></a>x</span></code></pre></div>
+<pre><code>[1]  1.20000  3.40000 10.98763</code></pre>
+<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="types.html#cb124-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(x)</span></code></pre></div>
+<pre><code>[1] &quot;double&quot;</code></pre>
+<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="types.html#cb126-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(x)</span></code></pre></div>
+<pre><code> num [1:3] 1.2 3.4 11</code></pre>
+</div>
+<div id="character" class="section level2" number="4.7">
+<h2><span class="header-section-number">4.7</span> Character</h2>
+<p>A character vector consists of one or more elements, each of which consists of one or more actual characters, i.e. it is <strong>not</strong> a vector of single characters. (The length of a character vector is the number of individual elements, and is not related to the number of characters in each element)</p>
+<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="types.html#cb128-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="st">&quot;word&quot;</span></span>
+<span id="cb128-2"><a href="types.html#cb128-2" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(x)</span></code></pre></div>
+<pre><code>[1] &quot;character&quot;</code></pre>
+<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb130-1"><a href="types.html#cb130-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(x)</span></code></pre></div>
+<pre><code>[1] 1</code></pre>
+<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb132-1"><a href="types.html#cb132-1" aria-hidden="true" tabindex="-1"></a>(x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;gamma&quot;</span>, <span class="st">&quot;delta&quot;</span>))</span></code></pre></div>
+<pre><code>[1] &quot;a&quot;     &quot;b&quot;     &quot;gamma&quot; &quot;delta&quot;</code></pre>
+<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb134-1"><a href="types.html#cb134-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(x)</span></code></pre></div>
+<pre><code>[1] &quot;character&quot;</code></pre>
+<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="types.html#cb136-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(x)</span></code></pre></div>
+<pre><code>[1] 4</code></pre>
+</div>
+<div id="environment" class="section level2" number="4.8">
+<h2><span class="header-section-number">4.8</span> Environment</h2>
+<p>Defining your own environments is probably for advanced use only:</p>
+<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="types.html#cb138-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">new.env</span>()</span>
+<span id="cb138-2"><a href="types.html#cb138-2" aria-hidden="true" tabindex="-1"></a>x<span class="sc">$</span>name <span class="ot">&lt;-</span> <span class="st">&quot;Guava&quot;</span></span>
+<span id="cb138-3"><a href="types.html#cb138-3" aria-hidden="true" tabindex="-1"></a>x<span class="sc">$</span>founded <span class="ot">&lt;-</span> <span class="dv">2020</span></span>
+<span id="cb138-4"><a href="types.html#cb138-4" aria-hidden="true" tabindex="-1"></a>x</span></code></pre></div>
+<pre><code>&lt;environment: 0x7fb65ce87bd8&gt;</code></pre>
+<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="types.html#cb140-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(x)</span></code></pre></div>
+<pre><code>[1] &quot;environment&quot;</code></pre>
+</div>
+<div id="closure-function" class="section level2" number="4.9">
+<h2><span class="header-section-number">4.9</span> Closure (function)</h2>
+<p>Closures are functions - they contain their own variable definitions.<br />
+Read more on <a href="functions.html#functions">functions</a>.</p>
+<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="types.html#cb142-1" aria-hidden="true" tabindex="-1"></a>square <span class="ot">&lt;-</span> <span class="cf">function</span>(x) x<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb142-2"><a href="types.html#cb142-2" aria-hidden="true" tabindex="-1"></a><span class="fu">square</span>(<span class="dv">3</span>)</span></code></pre></div>
+<pre><code>[1] 9</code></pre>
+<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="types.html#cb144-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(square)</span></code></pre></div>
+<pre><code>[1] &quot;closure&quot;</code></pre>
+</div>
+<div id="initialize-vectors" class="section level2" number="4.10">
+<h2><span class="header-section-number">4.10</span> Initialize vectors</h2>
+<p>You can create / initialize vectors of specific type with the <code>vector</code> command and specifying a <code>mode</code> or directly by calling the relevant function:</p>
+<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="types.html#cb146-1" aria-hidden="true" tabindex="-1"></a>(xl <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="at">mode =</span> <span class="st">&quot;logical&quot;</span>, <span class="at">length =</span> <span class="dv">10</span>))</span></code></pre></div>
+<pre><code> [1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</code></pre>
+<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="types.html#cb148-1" aria-hidden="true" tabindex="-1"></a>(xd <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="at">mode =</span> <span class="st">&quot;double&quot;</span>, <span class="at">length =</span> <span class="dv">10</span>))</span></code></pre></div>
+<pre><code> [1] 0 0 0 0 0 0 0 0 0 0</code></pre>
+<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="types.html#cb150-1" aria-hidden="true" tabindex="-1"></a>(xn <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="at">mode =</span> <span class="st">&quot;numeric&quot;</span>, <span class="at">length =</span> <span class="dv">10</span>)) <span class="co"># same as &quot;double&quot;</span></span></code></pre></div>
+<pre><code> [1] 0 0 0 0 0 0 0 0 0 0</code></pre>
+<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="types.html#cb152-1" aria-hidden="true" tabindex="-1"></a>(xi <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="at">mode =</span> <span class="st">&quot;integer&quot;</span>, <span class="at">length =</span> <span class="dv">10</span>))</span></code></pre></div>
+<pre><code> [1] 0 0 0 0 0 0 0 0 0 0</code></pre>
+<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="types.html#cb154-1" aria-hidden="true" tabindex="-1"></a>(xc <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="at">mode =</span> <span class="st">&quot;character&quot;</span>, <span class="at">length =</span> <span class="dv">10</span>))</span></code></pre></div>
+<pre><code> [1] &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot;</code></pre>
+<p>These are aliases of the <code>vector</code> command above (print their source code to see for yourself)</p>
+<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="types.html#cb156-1" aria-hidden="true" tabindex="-1"></a>xl <span class="ot">&lt;-</span> <span class="fu">logical</span>(<span class="dv">10</span>)</span>
+<span id="cb156-2"><a href="types.html#cb156-2" aria-hidden="true" tabindex="-1"></a>xd <span class="ot">&lt;-</span> <span class="fu">double</span>(<span class="dv">10</span>)</span>
+<span id="cb156-3"><a href="types.html#cb156-3" aria-hidden="true" tabindex="-1"></a>xn <span class="ot">&lt;-</span> <span class="fu">numeric</span>(<span class="dv">10</span>) <span class="co"># same as double</span></span>
+<span id="cb156-4"><a href="types.html#cb156-4" aria-hidden="true" tabindex="-1"></a>xi <span class="ot">&lt;-</span> <span class="fu">integer</span>(<span class="dv">10</span>)</span>
+<span id="cb156-5"><a href="types.html#cb156-5" aria-hidden="true" tabindex="-1"></a>xc <span class="ot">&lt;-</span> <span class="fu">character</span>(<span class="dv">10</span>)</span></code></pre></div>
+</div>
+<div id="explicit-coercion" class="section level2" number="4.11">
+<h2><span class="header-section-number">4.11</span> Explicit coercion</h2>
+<p>We can explicitly convert objects of one type to a different type using <code>as.*</code> functions:</p>
+<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="types.html#cb157-1" aria-hidden="true" tabindex="-1"></a>(x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">1.2</span>, <span class="fl">2.3</span>, <span class="fl">3.4</span>))</span></code></pre></div>
+<pre><code>[1] 1.2 2.3 3.4</code></pre>
+<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="types.html#cb159-1" aria-hidden="true" tabindex="-1"></a>(x <span class="ot">&lt;-</span> <span class="fu">as.logical</span>(x))</span></code></pre></div>
+<pre><code>[1] TRUE TRUE TRUE</code></pre>
+<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="types.html#cb161-1" aria-hidden="true" tabindex="-1"></a>(x <span class="ot">&lt;-</span> <span class="fu">as.double</span>(x))</span></code></pre></div>
+<pre><code>[1] 1 1 1</code></pre>
+<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="types.html#cb163-1" aria-hidden="true" tabindex="-1"></a>(x <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(x))</span></code></pre></div>
+<pre><code>[1] 1 1 1</code></pre>
+<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="types.html#cb165-1" aria-hidden="true" tabindex="-1"></a>(x <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(x))</span></code></pre></div>
+<pre><code>[1] 1 1 1</code></pre>
+<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb167-1"><a href="types.html#cb167-1" aria-hidden="true" tabindex="-1"></a>(x <span class="ot">&lt;-</span> <span class="fu">as.character</span>(x))</span></code></pre></div>
+<pre><code>[1] &quot;1&quot; &quot;1&quot; &quot;1&quot;</code></pre>
+<p>Logical vectors are converted to 1s and 0s as expected:</p>
+<p>TRUE becomes 1 and FALSE becomes 0</p>
+<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="types.html#cb169-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>)</span>
+<span id="cb169-2"><a href="types.html#cb169-2" aria-hidden="true" tabindex="-1"></a><span class="fu">as.numeric</span>(x)</span></code></pre></div>
+<pre><code>[1] 1 1 0</code></pre>
+<p>Note that converting from numeric to logical <strong>anything other than zero is TRUE</strong>:</p>
+<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="types.html#cb171-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">2</span>, .<span class="dv">5</span>)</span>
+<span id="cb171-2"><a href="types.html#cb171-2" aria-hidden="true" tabindex="-1"></a><span class="fu">as.logical</span>(x)</span></code></pre></div>
+<pre><code>[1]  TRUE  TRUE  TRUE  TRUE FALSE  TRUE  TRUE  TRUE  TRUE</code></pre>
+<p>Not all conversions are possible.<br />
+There is no meaningful/consistent way to convert a character vector to numeric.<br />
+The following outputs NA values and prints a (helpful) error message.</p>
+<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="types.html#cb173-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;mango&quot;</span>, <span class="st">&quot;banana&quot;</span>, <span class="st">&quot;tangerine&quot;</span>)</span>
+<span id="cb173-2"><a href="types.html#cb173-2" aria-hidden="true" tabindex="-1"></a><span class="fu">as.numeric</span>(x)</span></code></pre></div>
+<pre><code>Warning: NAs introduced by coercion</code></pre>
+<pre><code>[1] NA NA NA</code></pre>
+</div>
+<div id="implicit-coercion" class="section level2" number="4.12">
+<h2><span class="header-section-number">4.12</span> Implicit coercion</h2>
+<p>Remember, the language tries to make life easier and will often automatically coerce from one class to another to make requested operations possible.</p>
+<p>For example, you can sum a logical vector.<br />
+It will automatically be converted to numeric as we saw earlier.</p>
+<div class="sourceCode" id="cb176"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb176-1"><a href="types.html#cb176-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>)</span>
+<span id="cb176-2"><a href="types.html#cb176-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(x)</span></code></pre></div>
+<pre><code>[1] 2</code></pre>
+<p>On the other hand, you cannot sum a factor, for example.<br />
+You get an error with an explanation:</p>
+<div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb178-1"><a href="types.html#cb178-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">&quot;mango&quot;</span>, <span class="st">&quot;banana&quot;</span>, <span class="st">&quot;mango&quot;</span>))</span>
+<span id="cb178-2"><a href="types.html#cb178-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(x)</span></code></pre></div>
+<pre><code>Error in Summary.factor(structure(c(2L, 1L, 2L), .Label = c(&quot;banana&quot;, : &#39;sum&#39; not meaningful for factors</code></pre>
+<div class="note">
+<p>
+Note: We had to add <code>error = TRUE</code> in the Rmarkdown’s code block’s options (not visible in the HTML output), because otherwise compilation of the Rmarkdown document would stop at the error.
+</p>
+</div>
+<p>If for some reason it made sense, you could explicitly coerce to numeric and then sum:</p>
+<div class="sourceCode" id="cb180"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb180-1"><a href="types.html#cb180-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">&quot;mango&quot;</span>, <span class="st">&quot;banana&quot;</span>, <span class="st">&quot;mango&quot;</span>))</span>
+<span id="cb180-2"><a href="types.html#cb180-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">as.numeric</span>(x))</span></code></pre></div>
+<pre><code>[1] 5</code></pre>
+</div>
+<div id="na-missing-values" class="section level2" number="4.13">
+<h2><span class="header-section-number">4.13</span> <code>NA</code>: Missing Values</h2>
+<p>Missing values in any data type - logical, integer, double, or character - are coded using <code>NA</code>.<br />
+To check for the presence of <code>NA</code> values, use <code>is.na()</code>:</p>
+<div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb182-1"><a href="types.html#cb182-1" aria-hidden="true" tabindex="-1"></a>(x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">1.2</span>, <span class="fl">5.3</span>, <span class="fl">4.8</span>, <span class="cn">NA</span>, <span class="fl">9.6</span>))</span></code></pre></div>
+<pre><code>[1] 1.2 5.3 4.8  NA 9.6</code></pre>
+<div class="sourceCode" id="cb184"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb184-1"><a href="types.html#cb184-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is.na</span>(x)</span></code></pre></div>
+<pre><code>[1] FALSE FALSE FALSE  TRUE FALSE</code></pre>
+<div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb186-1"><a href="types.html#cb186-1" aria-hidden="true" tabindex="-1"></a>(x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;mango&quot;</span>, <span class="st">&quot;banana&quot;</span>, <span class="cn">NA</span>, <span class="st">&quot;sugar&quot;</span>, <span class="st">&quot;ackee&quot;</span>))</span></code></pre></div>
+<pre><code>[1] &quot;mango&quot;  &quot;banana&quot; NA       &quot;sugar&quot;  &quot;ackee&quot; </code></pre>
+<div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="types.html#cb188-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is.na</span>(x)</span></code></pre></div>
+<pre><code>[1] FALSE FALSE  TRUE FALSE FALSE</code></pre>
+<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="types.html#cb190-1" aria-hidden="true" tabindex="-1"></a>(x <span class="ot">&lt;-</span> <span class="fu">c</span>(T, T, F, T, F, F, <span class="cn">NA</span>))</span></code></pre></div>
+<pre><code>[1]  TRUE  TRUE FALSE  TRUE FALSE FALSE    NA</code></pre>
+<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="types.html#cb192-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is.na</span>(x)</span></code></pre></div>
+<pre><code>[1] FALSE FALSE FALSE FALSE FALSE FALSE  TRUE</code></pre>
+<p><code>is.na()</code> works similarly on matrices:</p>
+<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="types.html#cb194-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>, <span class="dv">5</span>)</span>
+<span id="cb194-2"><a href="types.html#cb194-2" aria-hidden="true" tabindex="-1"></a>x[<span class="dv">4</span>, <span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb194-3"><a href="types.html#cb194-3" aria-hidden="true" tabindex="-1"></a><span class="fu">is.na</span>(x)</span></code></pre></div>
+<pre><code>      [,1]  [,2]  [,3]  [,4]
+[1,] FALSE FALSE FALSE FALSE
+[2,] FALSE FALSE FALSE FALSE
+[3,] FALSE FALSE FALSE FALSE
+[4,] FALSE FALSE  TRUE FALSE
+[5,] FALSE FALSE FALSE FALSE</code></pre>
+<div class="note">
+<p>
+Note that <code>is.na()</code> returns a response for each element (i.e. is <a href="vectorization.html#vectorization">vectorized</a>) in contrast to <code>is.numeric()</code>, <code>is.logical()</code>, etc. It makes sense, since the latter are chacking the type of a whole object, while the former is checking individual elements.
+</p>
+</div>
+<p><code>anyNA()</code> is a very useful function to check if there an any NA values in an object:</p>
+<div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb196-1"><a href="types.html#cb196-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anyNA</span>(x)</span></code></pre></div>
+<pre><code>[1] TRUE</code></pre>
+<div class="note">
+<p>
+Any operations on an <code>NA</code> results in <code>NA</code>
+</p>
+</div>
+<div class="sourceCode" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb198-1"><a href="types.html#cb198-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">1.2</span>, <span class="fl">5.3</span>, <span class="fl">4.8</span>, <span class="cn">NA</span>, <span class="fl">9.6</span>)</span>
+<span id="cb198-2"><a href="types.html#cb198-2" aria-hidden="true" tabindex="-1"></a>x<span class="sc">*</span><span class="dv">2</span></span></code></pre></div>
+<pre><code>[1]  2.4 10.6  9.6   NA 19.2</code></pre>
+<p>Multiple functions that accept as input an object with multiple values (a vector, a matrix, a data.frame, etc.) will return <code>NA</code> if <em>any</em> element is <code>NA</code>:</p>
+<div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb200-1"><a href="types.html#cb200-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(x)</span></code></pre></div>
+<pre><code>[1] NA</code></pre>
+<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="types.html#cb202-1" aria-hidden="true" tabindex="-1"></a><span class="fu">median</span>(x)</span></code></pre></div>
+<pre><code>[1] NA</code></pre>
+<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb204-1"><a href="types.html#cb204-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(x)</span></code></pre></div>
+<pre><code>[1] NA</code></pre>
+<div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb206-1"><a href="types.html#cb206-1" aria-hidden="true" tabindex="-1"></a><span class="fu">min</span>(x)</span></code></pre></div>
+<pre><code>[1] NA</code></pre>
+<div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb208-1"><a href="types.html#cb208-1" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(x)</span></code></pre></div>
+<pre><code>[1] NA</code></pre>
+<div class="sourceCode" id="cb210"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb210-1"><a href="types.html#cb210-1" aria-hidden="true" tabindex="-1"></a><span class="fu">range</span>(x)</span></code></pre></div>
+<pre><code>[1] NA NA</code></pre>
+<p>First, make sure <code>NA</code> values represent legitimate missing data and not some error.<br />
+Then, decide how you want to handle it.</p>
+<p>In all of the above commands you can pass <code>na.rm = TRUE</code> to ignore <code>NA</code> values:</p>
+<div class="sourceCode" id="cb212"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb212-1"><a href="types.html#cb212-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>[1] 5.225</code></pre>
+<div class="sourceCode" id="cb214"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb214-1"><a href="types.html#cb214-1" aria-hidden="true" tabindex="-1"></a><span class="fu">median</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>[1] 5.05</code></pre>
+<div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb216-1"><a href="types.html#cb216-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>[1] 3.441293</code></pre>
+<div class="sourceCode" id="cb218"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb218-1"><a href="types.html#cb218-1" aria-hidden="true" tabindex="-1"></a><span class="fu">min</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>[1] 1.2</code></pre>
+<div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb220-1"><a href="types.html#cb220-1" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>[1] 9.6</code></pre>
+<div class="sourceCode" id="cb222"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb222-1"><a href="types.html#cb222-1" aria-hidden="true" tabindex="-1"></a><span class="fu">range</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>[1] 1.2 9.6</code></pre>
+<p>The chapter on <a href="missingdata.html#missingdata">Handling Missing Data</a> describes some approaches to handling missing data in the context of statistics or modeling, commonly supervised learning.</p>
+</div>
+<div id="nan-not-a-number" class="section level2" number="4.14">
+<h2><span class="header-section-number">4.14</span> <code>NaN</code>: Not a number</h2>
+<p><code>NaN</code> is a special case of <code>NA</code> and can be the result of undefined mathematical operations:</p>
+<div class="sourceCode" id="cb224"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb224-1"><a href="types.html#cb224-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">log</span>(<span class="sc">-</span><span class="dv">4</span>)</span></code></pre></div>
+<pre><code>Warning in log(-4): NaNs produced</code></pre>
+<p>Note that <code>class()</code> returns “numeric”:</p>
+<div class="sourceCode" id="cb226"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb226-1"><a href="types.html#cb226-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(a)</span></code></pre></div>
+<pre><code>[1] &quot;numeric&quot;</code></pre>
+<p>To test for <code>NaN</code>s, use:</p>
+<div class="sourceCode" id="cb228"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb228-1"><a href="types.html#cb228-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is.nan</span>(a)</span></code></pre></div>
+<pre><code>[1] TRUE</code></pre>
+<p><code>NaN</code>s are also <code>NA</code>:</p>
+<div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb230-1"><a href="types.html#cb230-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is.na</span>(a)</span></code></pre></div>
+<pre><code>[1] TRUE</code></pre>
+<p>But the opposite is not true:</p>
+<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb232-1"><a href="types.html#cb232-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is.nan</span>(<span class="cn">NA</span>)</span></code></pre></div>
+<pre><code>[1] FALSE</code></pre>
+<div class="note">
+<p>
+<code>NaN</code> can be considered a subtype of <code>NA</code>, as such: <code>is.na(NaN)</code> is <code>TRUE</code>, but <code>is.nan(NA)</code> is <code>FALSE</code>.
+</p>
+</div>
+</div>
+<div id="null-the-empty-object" class="section level2" number="4.15">
+<h2><span class="header-section-number">4.15</span> <code>NULL</code>: the empty object</h2>
+<p>The <code>NULL</code> object represents an empty object.</p>
+<div class="note">
+<p>
+<code>NULL</code> means empty, <strong><em>not missing</em></strong>, and is therefore entirely different from <code>NA</code>
+</p>
+</div>
+<p><code>NULL</code> shows up for example when initializing a list:</p>
+<div class="sourceCode" id="cb234"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb234-1"><a href="types.html#cb234-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">&quot;list&quot;</span>, <span class="dv">4</span>)</span>
+<span id="cb234-2"><a href="types.html#cb234-2" aria-hidden="true" tabindex="-1"></a>a</span></code></pre></div>
+<pre><code>[[1]]
+NULL
+
+[[2]]
+NULL
+
+[[3]]
+NULL
+
+[[4]]
+NULL</code></pre>
+<p>and it can be replaced normally:</p>
+<div class="sourceCode" id="cb236"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb236-1"><a href="types.html#cb236-1" aria-hidden="true" tabindex="-1"></a>a[[<span class="dv">1</span>]] <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb236-2"><a href="types.html#cb236-2" aria-hidden="true" tabindex="-1"></a>a</span></code></pre></div>
+<pre><code>[[1]]
+[1] 3
+
+[[2]]
+NULL
+
+[[3]]
+NULL
+
+[[4]]
+NULL</code></pre>
+<div id="replacing-with-null" class="section level3" number="4.15.1">
+<h3><span class="header-section-number">4.15.1</span> Replacing with NULL</h3>
+<p>You cannot replace one or more elements of a vector/matrix/array with <code>NULL</code> because <code>NULL</code> has length 0 and replacement requires object of equal length:</p>
+<div class="sourceCode" id="cb238"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb238-1"><a href="types.html#cb238-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">11</span><span class="sc">:</span><span class="dv">15</span></span>
+<span id="cb238-2"><a href="types.html#cb238-2" aria-hidden="true" tabindex="-1"></a>a</span></code></pre></div>
+<pre><code>[1] 11 12 13 14 15</code></pre>
+<div class="sourceCode" id="cb240"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb240-1"><a href="types.html#cb240-1" aria-hidden="true" tabindex="-1"></a>a[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="cn">NULL</span></span></code></pre></div>
+<pre><code>Error in a[1] &lt;- NULL: replacement has length zero</code></pre>
+<p>However, in lists and therefore also data frames, replacing an element with <code>NULL</code> <strong><em>removes that element</em></strong>:</p>
+<div class="sourceCode" id="cb242"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb242-1"><a href="types.html#cb242-1" aria-hidden="true" tabindex="-1"></a>al <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">alpha =</span> <span class="dv">11</span><span class="sc">:</span><span class="dv">15</span>,</span>
+<span id="cb242-2"><a href="types.html#cb242-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">beta =</span> <span class="fu">rnorm</span>(<span class="dv">10</span>),</span>
+<span id="cb242-3"><a href="types.html#cb242-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">gamma =</span> <span class="fu">c</span>(<span class="st">&quot;mango&quot;</span>, <span class="st">&quot;banana&quot;</span>, <span class="st">&quot;tangerine&quot;</span>))</span>
+<span id="cb242-4"><a href="types.html#cb242-4" aria-hidden="true" tabindex="-1"></a>al</span></code></pre></div>
+<pre><code>$alpha
+[1] 11 12 13 14 15
+
+$beta
+ [1] -0.8209291  1.5560993 -0.8234903 -0.4906565 -0.2223087 -1.2996028
+ [7]  1.8654903  1.1563284 -0.4308980  1.1114791
+
+$gamma
+[1] &quot;mango&quot;     &quot;banana&quot;    &quot;tangerine&quot;</code></pre>
+<div class="sourceCode" id="cb244"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb244-1"><a href="types.html#cb244-1" aria-hidden="true" tabindex="-1"></a>al[[<span class="dv">2</span>]] <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb244-2"><a href="types.html#cb244-2" aria-hidden="true" tabindex="-1"></a>al</span></code></pre></div>
+<pre><code>$alpha
+[1] 11 12 13 14 15
+
+$gamma
+[1] &quot;mango&quot;     &quot;banana&quot;    &quot;tangerine&quot;</code></pre>
+<p>Finally, <code>NULL</code> is often used as the default value in a function’s argument. The function definition must then determine what the default behavior/value should be.</p>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="basicops.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="structures.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": true,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": false,
+"google": true,
+"instapper": false
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

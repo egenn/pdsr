@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 19 Classes and Object-Oriented Programming | Programming for Data Science in R</title>
+  <meta name="description" content="Chapter 19 Classes and Object-Oriented Programming | Programming for Data Science in R is an ongoing project to build an online resource for (Bio)statisticians / Epidemiologists / (Health) Data Scientists" />
+  <meta name="generator" content="bookdown 0.21.2 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 19 Classes and Object-Oriented Programming | Programming for Data Science in R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Chapter 19 Classes and Object-Oriented Programming | Programming for Data Science in R is an ongoing project to build an online resource for (Bio)statisticians / Epidemiologists / (Health) Data Scientists" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 19 Classes and Object-Oriented Programming | Programming for Data Science in R" />
+  
+  <meta name="twitter:description" content="Chapter 19 Classes and Object-Oriented Programming | Programming for Data Science in R is an ongoing project to build an online resource for (Bio)statisticians / Epidemiologists / (Health) Data Scientists" />
+  
+
+<meta name="author" content="Efstathios (Stathis) D. Gennatas, MBBS AICSM PhD" />
+
+
+<meta name="date" content="2020-10-26" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="missingdata.html"/>
+<link rel="next" href="datatable.html"/>
+<script src="libs/header-attrs-2.5/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.5.2/htmlwidgets.js"></script>
+<script src="libs/plotly-binding-4.9.2.1/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.1.0.1/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.1.0.1/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-1.52.2/plotly-latest.min.js"></script>
+<script src="libs/d3-3.5.6/d3.min.js"></script>
+<link href="libs/profvis-0.3.6/profvis.css" rel="stylesheet" />
+<script src="libs/profvis-0.3.6/profvis.js"></script>
+<link href="libs/highlight-6.2.0/textmate.css" rel="stylesheet" />
+<script src="libs/highlight-6.2.0/highlight.js"></script>
+<script src="libs/profvis-binding-0.3.6/profvis.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-163213745-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-163213745-1');
+</script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="lambda.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li>
+<a href="./" style="padding: 10 0 0 15px">
+<img src = "./apple-touch-icon.png" width="55" align="center">&nbsp;&nbsp;&nbsp;&nbsp;Biostat 213 | Fall 2020
+</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a></li>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="2" data-path="Rsetup.html"><a href="Rsetup.html"><i class="fa fa-check"></i><b>2</b> R setup, Packages &amp; Docs</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="Rsetup.html"><a href="Rsetup.html#r"><i class="fa fa-check"></i><b>2.1</b> R</a></li>
+<li class="chapter" data-level="2.2" data-path="Rsetup.html"><a href="Rsetup.html#r-packages"><i class="fa fa-check"></i><b>2.2</b> R packages</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="Rsetup.html"><a href="Rsetup.html#cran"><i class="fa fa-check"></i><b>2.2.1</b> CRAN</a></li>
+<li class="chapter" data-level="2.2.2" data-path="Rsetup.html"><a href="Rsetup.html#github"><i class="fa fa-check"></i><b>2.2.2</b> GitHub</a></li>
+<li class="chapter" data-level="2.2.3" data-path="Rsetup.html"><a href="Rsetup.html#bioconductor"><i class="fa fa-check"></i><b>2.2.3</b> Bioconductor</a></li>
+<li class="chapter" data-level="2.2.4" data-path="Rsetup.html"><a href="Rsetup.html#installed-packages"><i class="fa fa-check"></i><b>2.2.4</b> Installed packages</a></li>
+<li class="chapter" data-level="2.2.5" data-path="Rsetup.html"><a href="Rsetup.html#dependencies"><i class="fa fa-check"></i><b>2.2.5</b> Dependencies</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="Rsetup.html"><a href="Rsetup.html#rstudio-ide"><i class="fa fa-check"></i><b>2.3</b> RStudio IDE</a></li>
+<li class="chapter" data-level="2.4" data-path="Rsetup.html"><a href="Rsetup.html#builtin-documentation"><i class="fa fa-check"></i><b>2.4</b> Builtin Documentation</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="Rsetup.html"><a href="Rsetup.html#get-help-on-a-specific-item"><i class="fa fa-check"></i><b>2.4.1</b> Get help on a specific item</a></li>
+<li class="chapter" data-level="2.4.2" data-path="Rsetup.html"><a href="Rsetup.html#search-the-docs"><i class="fa fa-check"></i><b>2.4.2</b> Search the docs</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="basicops.html"><a href="basicops.html"><i class="fa fa-check"></i><b>3</b> Basic operations</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="basicops.html"><a href="basicops.html#arithmetic"><i class="fa fa-check"></i><b>3.1</b> Arithmetic</a></li>
+<li class="chapter" data-level="3.2" data-path="basicops.html"><a href="basicops.html#logical-operations"><i class="fa fa-check"></i><b>3.2</b> Logical operations</a></li>
+<li class="chapter" data-level="3.3" data-path="basicops.html"><a href="basicops.html#common-descriptive-stats"><i class="fa fa-check"></i><b>3.3</b> Common descriptive stats</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="types.html"><a href="types.html"><i class="fa fa-check"></i><b>4</b> Data Types</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="types.html"><a href="types.html#base-types"><i class="fa fa-check"></i><b>4.1</b> Base types</a></li>
+<li class="chapter" data-level="4.2" data-path="types.html"><a href="types.html#assignment"><i class="fa fa-check"></i><b>4.2</b> Assignment</a></li>
+<li class="chapter" data-level="4.3" data-path="types.html"><a href="types.html#initialize---coerce---test-types"><i class="fa fa-check"></i><b>4.3</b> Initialize - coerce - test (types)</a></li>
+<li class="chapter" data-level="4.4" data-path="types.html"><a href="types.html#logical"><i class="fa fa-check"></i><b>4.4</b> Logical</a></li>
+<li class="chapter" data-level="4.5" data-path="types.html"><a href="types.html#integer"><i class="fa fa-check"></i><b>4.5</b> Integer</a></li>
+<li class="chapter" data-level="4.6" data-path="types.html"><a href="types.html#double"><i class="fa fa-check"></i><b>4.6</b> Double</a></li>
+<li class="chapter" data-level="4.7" data-path="types.html"><a href="types.html#character"><i class="fa fa-check"></i><b>4.7</b> Character</a></li>
+<li class="chapter" data-level="4.8" data-path="types.html"><a href="types.html#environment"><i class="fa fa-check"></i><b>4.8</b> Environment</a></li>
+<li class="chapter" data-level="4.9" data-path="types.html"><a href="types.html#closure-function"><i class="fa fa-check"></i><b>4.9</b> Closure (function)</a></li>
+<li class="chapter" data-level="4.10" data-path="types.html"><a href="types.html#initialize-vectors"><i class="fa fa-check"></i><b>4.10</b> Initialize vectors</a></li>
+<li class="chapter" data-level="4.11" data-path="types.html"><a href="types.html#explicit-coercion"><i class="fa fa-check"></i><b>4.11</b> Explicit coercion</a></li>
+<li class="chapter" data-level="4.12" data-path="types.html"><a href="types.html#implicit-coercion"><i class="fa fa-check"></i><b>4.12</b> Implicit coercion</a></li>
+<li class="chapter" data-level="4.13" data-path="types.html"><a href="types.html#na-missing-values"><i class="fa fa-check"></i><b>4.13</b> <code>NA</code>: Missing Values</a></li>
+<li class="chapter" data-level="4.14" data-path="types.html"><a href="types.html#nan-not-a-number"><i class="fa fa-check"></i><b>4.14</b> <code>NaN</code>: Not a number</a></li>
+<li class="chapter" data-level="4.15" data-path="types.html"><a href="types.html#null-the-empty-object"><i class="fa fa-check"></i><b>4.15</b> <code>NULL</code>: the empty object</a>
+<ul>
+<li class="chapter" data-level="4.15.1" data-path="types.html"><a href="types.html#replacing-with-null"><i class="fa fa-check"></i><b>4.15.1</b> Replacing with NULL</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="structures.html"><a href="structures.html"><i class="fa fa-check"></i><b>5</b> Data Structures</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="structures.html"><a href="structures.html#initialize---coerce---test-structures"><i class="fa fa-check"></i><b>5.1</b> Initialize - coerce - test (structures)</a></li>
+<li class="chapter" data-level="5.2" data-path="structures.html"><a href="structures.html#vectors"><i class="fa fa-check"></i><b>5.2</b> Vectors</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="structures.html"><a href="structures.html#generating-sequences-with-seq"><i class="fa fa-check"></i><b>5.2.1</b> Generating sequences with <code>seq()</code></a></li>
+<li class="chapter" data-level="5.2.2" data-path="structures.html"><a href="structures.html#initializing-a-vector"><i class="fa fa-check"></i><b>5.2.2</b> Initializing a vector</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="structures.html"><a href="structures.html#matrices"><i class="fa fa-check"></i><b>5.3</b> Matrices</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="structures.html"><a href="structures.html#construct-by-row-or-by-column"><i class="fa fa-check"></i><b>5.3.1</b> Construct by row or by column</a></li>
+<li class="chapter" data-level="5.3.2" data-path="structures.html"><a href="structures.html#initialize-a-matrix"><i class="fa fa-check"></i><b>5.3.2</b> Initialize a matrix</a></li>
+<li class="chapter" data-level="5.3.3" data-path="structures.html"><a href="structures.html#bind-vectors-by-column-or-by-row"><i class="fa fa-check"></i><b>5.3.3</b> Bind vectors by column or by row</a></li>
+<li class="chapter" data-level="5.3.4" data-path="structures.html"><a href="structures.html#combine-matrices"><i class="fa fa-check"></i><b>5.3.4</b> Combine matrices</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="structures.html"><a href="structures.html#arrays"><i class="fa fa-check"></i><b>5.4</b> Arrays</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="structures.html"><a href="structures.html#d-array"><i class="fa fa-check"></i><b>5.4.1</b> 1D array</a></li>
+<li class="chapter" data-level="5.4.2" data-path="structures.html"><a href="structures.html#d-array-1"><i class="fa fa-check"></i><b>5.4.2</b> 2D array</a></li>
+<li class="chapter" data-level="5.4.3" data-path="structures.html"><a href="structures.html#nd-array"><i class="fa fa-check"></i><b>5.4.3</b> ND array</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="structures.html"><a href="structures.html#lists"><i class="fa fa-check"></i><b>5.5</b> Lists</a>
+<ul>
+<li class="chapter" data-level="5.5.1" data-path="structures.html"><a href="structures.html#nested-lists"><i class="fa fa-check"></i><b>5.5.1</b> Nested lists</a></li>
+<li class="chapter" data-level="5.5.2" data-path="structures.html"><a href="structures.html#initialize-a-list"><i class="fa fa-check"></i><b>5.5.2</b> Initialize a list</a></li>
+<li class="chapter" data-level="5.5.3" data-path="structures.html"><a href="structures.html#combine-lists"><i class="fa fa-check"></i><b>5.5.3</b> Combine lists</a></li>
+<li class="chapter" data-level="5.5.4" data-path="structures.html"><a href="structures.html#mixing-types-with-c"><i class="fa fa-check"></i><b>5.5.4</b> Mixing types with <code>c()</code></a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="structures.html"><a href="structures.html#data-frames"><i class="fa fa-check"></i><b>5.6</b> Data frames</a></li>
+<li class="chapter" data-level="5.7" data-path="structures.html"><a href="structures.html#attributes"><i class="fa fa-check"></i><b>5.7</b> Attributes</a>
+<ul>
+<li class="chapter" data-level="5.7.1" data-path="structures.html"><a href="structures.html#print-all-attributes"><i class="fa fa-check"></i><b>5.7.1</b> Print all attributes</a></li>
+<li class="chapter" data-level="5.7.2" data-path="structures.html"><a href="structures.html#get-or-set-specific-attributes"><i class="fa fa-check"></i><b>5.7.2</b> Get or set specific attributes</a></li>
+<li class="chapter" data-level="5.7.3" data-path="structures.html"><a href="structures.html#common-builtin-attributes"><i class="fa fa-check"></i><b>5.7.3</b> Common builtin attributes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="factors.html"><a href="factors.html"><i class="fa fa-check"></i><b>6</b> Factors</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="factors.html"><a href="factors.html#the-underlying-integer-vector"><i class="fa fa-check"></i><b>6.1</b> The underlying <strong>integer vector</strong></a></li>
+<li class="chapter" data-level="6.2" data-path="factors.html"><a href="factors.html#the-mapping-of-integers-to-labels"><i class="fa fa-check"></i><b>6.2</b> The <strong>mapping of integers to labels</strong></a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="factors.html"><a href="factors.html#setting-new-level-labels"><i class="fa fa-check"></i><b>6.2.1</b> Setting new level labels</a></li>
+<li class="chapter" data-level="6.2.2" data-path="factors.html"><a href="factors.html#defining-the-mapping-of-labels-to-integers"><i class="fa fa-check"></i><b>6.2.2</b> Defining the mapping of labels to integers</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="factors.html"><a href="factors.html#is-the-factor-ordered"><i class="fa fa-check"></i><b>6.3</b> Is the factor <strong>ordered</strong></a></li>
+<li class="chapter" data-level="6.4" data-path="factors.html"><a href="factors.html#change-order-of-levels-or-labels"><i class="fa fa-check"></i><b>6.4</b> Change (order of levels) or (labels)</a></li>
+<li class="chapter" data-level="6.5" data-path="factors.html"><a href="factors.html#fatal-error-to-avoid"><i class="fa fa-check"></i><b>6.5</b> Fatal error to avoid</a></li>
+<li class="chapter" data-level="6.6" data-path="factors.html"><a href="factors.html#factor-to-numeric"><i class="fa fa-check"></i><b>6.6</b> Factor to numeric</a></li>
+<li class="chapter" data-level="6.7" data-path="factors.html"><a href="factors.html#summary"><i class="fa fa-check"></i><b>6.7</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="indexing.html"><a href="indexing.html"><i class="fa fa-check"></i><b>7</b> Indexing - Subsetting - Slicing</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="indexing.html"><a href="indexing.html#indexvectors"><i class="fa fa-check"></i><b>7.1</b> Vectors</a></li>
+<li class="chapter" data-level="7.2" data-path="indexing.html"><a href="indexing.html#indexmatrices"><i class="fa fa-check"></i><b>7.2</b> Matrices</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="indexing.html"><a href="indexing.html#range-of-rows-and-columns"><i class="fa fa-check"></i><b>7.2.1</b> Range of rows and columns</a></li>
+<li class="chapter" data-level="7.2.2" data-path="indexing.html"><a href="indexing.html#matrix-of-indexes"><i class="fa fa-check"></i><b>7.2.2</b> Matrix of indexes</a></li>
+<li class="chapter" data-level="7.2.3" data-path="indexing.html"><a href="indexing.html#matidl"><i class="fa fa-check"></i><b>7.2.3</b> Logical index</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="indexing.html"><a href="indexing.html#indexlists"><i class="fa fa-check"></i><b>7.3</b> Lists</a>
+<ul>
+<li class="chapter" data-level="7.3.1" data-path="indexing.html"><a href="indexing.html#idllist"><i class="fa fa-check"></i><b>7.3.1</b> Logical index</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="indexing.html"><a href="indexing.html#indexdfs"><i class="fa fa-check"></i><b>7.4</b> Data frames</a>
+<ul>
+<li class="chapter" data-level="7.4.1" data-path="indexing.html"><a href="indexing.html#extract-columns"><i class="fa fa-check"></i><b>7.4.1</b> Extract column(s)</a></li>
+<li class="chapter" data-level="7.4.2" data-path="indexing.html"><a href="indexing.html#extract-rows"><i class="fa fa-check"></i><b>7.4.2</b> Extract rows</a></li>
+<li class="chapter" data-level="7.4.3" data-path="indexing.html"><a href="indexing.html#dfidl"><i class="fa fa-check"></i><b>7.4.3</b> Logical index</a></li>
+</ul></li>
+<li class="chapter" data-level="7.5" data-path="indexing.html"><a href="indexing.html#logical---integer-indexing"><i class="fa fa-check"></i><b>7.5</b> Logical &lt;-&gt; Integer indexing</a>
+<ul>
+<li class="chapter" data-level="7.5.1" data-path="indexing.html"><a href="indexing.html#logical-to-integer-index-with-which"><i class="fa fa-check"></i><b>7.5.1</b> Logical to integer index with <code>which()</code>:</a></li>
+<li class="chapter" data-level="7.5.2" data-path="indexing.html"><a href="indexing.html#integer-to-logical-index"><i class="fa fa-check"></i><b>7.5.2</b> Integer to logical index</a></li>
+</ul></li>
+<li class="chapter" data-level="7.6" data-path="indexing.html"><a href="indexing.html#exclude-cases-using-an-index"><i class="fa fa-check"></i><b>7.6</b> Exclude cases using an index</a></li>
+<li class="chapter" data-level="7.7" data-path="indexing.html"><a href="indexing.html#subset"><i class="fa fa-check"></i><b>7.7</b> <code>subset()</code></a></li>
+<li class="chapter" data-level="7.8" data-path="indexing.html"><a href="indexing.html#split"><i class="fa fa-check"></i><b>7.8</b> <code>split()</code></a></li>
+<li class="chapter" data-level="7.9" data-path="indexing.html"><a href="indexing.html#with"><i class="fa fa-check"></i><b>7.9</b> <code>with()</code></a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="vectorization.html"><a href="vectorization.html"><i class="fa fa-check"></i><b>8</b> Vectorized Operations</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="vectorization.html"><a href="vectorization.html#operations-between-vectors-of-equal-length"><i class="fa fa-check"></i><b>8.1</b> Operations between vectors of equal length</a></li>
+<li class="chapter" data-level="8.2" data-path="vectorization.html"><a href="vectorization.html#operations-between-a-vector-and-a-scalar"><i class="fa fa-check"></i><b>8.2</b> Operations between a vector and a scalar</a></li>
+<li class="chapter" data-level="8.3" data-path="vectorization.html"><a href="vectorization.html#operations-between-vectors-of-unequal-length-value-recycling"><i class="fa fa-check"></i><b>8.3</b> Operations between vectors of unequal length: <strong>value recycling</strong></a></li>
+<li class="chapter" data-level="8.4" data-path="vectorization.html"><a href="vectorization.html#vectorized-matrix-operations"><i class="fa fa-check"></i><b>8.4</b> Vectorized matrix operations</a></li>
+<li class="chapter" data-level="8.5" data-path="vectorization.html"><a href="vectorization.html#vectorized-functions"><i class="fa fa-check"></i><b>8.5</b> Vectorized functions</a></li>
+<li class="chapter" data-level="8.6" data-path="vectorization.html"><a href="vectorization.html#ifelse"><i class="fa fa-check"></i><b>8.6</b> <code>ifelse()</code></a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="dataio.html"><a href="dataio.html"><i class="fa fa-check"></i><b>9</b> Data Input/Output</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="dataio.html"><a href="dataio.html#r-datasets"><i class="fa fa-check"></i><b>9.1</b> R datasets</a>
+<ul>
+<li class="chapter" data-level="9.1.1" data-path="dataio.html"><a href="dataio.html#datasets-included-with-r-in-package-datasets"><i class="fa fa-check"></i><b>9.1.1</b> Datasets included with R (in package ‘datasets’)</a></li>
+<li class="chapter" data-level="9.1.2" data-path="dataio.html"><a href="dataio.html#datasets-included-with-other-packages"><i class="fa fa-check"></i><b>9.1.2</b> Datasets included with other packages</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="dataio.html"><a href="dataio.html#system-commands"><i class="fa fa-check"></i><b>9.2</b> System commands</a></li>
+<li class="chapter" data-level="9.3" data-path="dataio.html"><a href="dataio.html#data-io"><i class="fa fa-check"></i><b>9.3</b> Data I/O</a>
+<ul>
+<li class="chapter" data-level="9.3.1" data-path="dataio.html"><a href="dataio.html#read-local-csv"><i class="fa fa-check"></i><b>9.3.1</b> Read local CSV</a></li>
+<li class="chapter" data-level="9.3.2" data-path="dataio.html"><a href="dataio.html#read-data-from-the-web"><i class="fa fa-check"></i><b>9.3.2</b> Read data from the web</a></li>
+<li class="chapter" data-level="9.3.3" data-path="dataio.html"><a href="dataio.html#read-zipped-data-from-the-web"><i class="fa fa-check"></i><b>9.3.3</b> Read zipped data from the web</a></li>
+<li class="chapter" data-level="9.3.4" data-path="dataio.html"><a href="dataio.html#write-to-csv"><i class="fa fa-check"></i><b>9.3.4</b> Write to CSV</a></li>
+<li class="chapter" data-level="9.3.5" data-path="dataio.html"><a href="dataio.html#read-.xslx-using-openxlsxread.xlsx"><i class="fa fa-check"></i><b>9.3.5</b> Read .xslx using <code>openxlsx::read.xlsx()</code></a></li>
+<li class="chapter" data-level="9.3.6" data-path="dataio.html"><a href="dataio.html#write-an-r-object-to-rds"><i class="fa fa-check"></i><b>9.3.6</b> Write an R object to RDS</a></li>
+<li class="chapter" data-level="9.3.7" data-path="dataio.html"><a href="dataio.html#write-multiple-r-objects-to-rdata-file-using-save"><i class="fa fa-check"></i><b>9.3.7</b> Write multiple R objects to RData file using <code>save</code></a></li>
+<li class="chapter" data-level="9.3.8" data-path="dataio.html"><a href="dataio.html#write-your-entire-workspace-to-a-rdata-image-using-save.image"><i class="fa fa-check"></i><b>9.3.8</b> Write your entire workspace to a RData image using <code>save.image</code></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="controlflow.html"><a href="controlflow.html"><i class="fa fa-check"></i><b>10</b> Control flow</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="controlflow.html"><a href="controlflow.html#if---then---else"><i class="fa fa-check"></i><b>10.1</b> <code>if</code> - <code>then</code> - <code>else</code>:</a></li>
+<li class="chapter" data-level="10.2" data-path="controlflow.html"><a href="controlflow.html#if---then---else-if---else"><i class="fa fa-check"></i><b>10.2</b> <code>if</code> - <code>then</code> - <code>else if</code> - <code>else</code>:</a></li>
+<li class="chapter" data-level="10.3" data-path="controlflow.html"><a href="controlflow.html#conditional-assignment-with-if---else"><i class="fa fa-check"></i><b>10.3</b> Conditional assignment with <code>if</code> - <code>else</code>:</a></li>
+<li class="chapter" data-level="10.4" data-path="controlflow.html"><a href="controlflow.html#conditional-assignment-with-ifelse"><i class="fa fa-check"></i><b>10.4</b> Conditional assignment with <code>ifelse</code>:</a></li>
+<li class="chapter" data-level="10.5" data-path="controlflow.html"><a href="controlflow.html#for-loops"><i class="fa fa-check"></i><b>10.5</b> <code>for</code> loops</a>
+<ul>
+<li class="chapter" data-level="10.5.1" data-path="controlflow.html"><a href="controlflow.html#nested-for-loops"><i class="fa fa-check"></i><b>10.5.1</b> Nested <code>for</code> loops</a></li>
+</ul></li>
+<li class="chapter" data-level="10.6" data-path="controlflow.html"><a href="controlflow.html#select-one-of-multiple-alternatives-with-switch"><i class="fa fa-check"></i><b>10.6</b> Select one of multiple alternatives with <code>switch</code></a>
+<ul>
+<li class="chapter" data-level="10.6.1" data-path="controlflow.html"><a href="controlflow.html#switch-example-http-status-codes"><i class="fa fa-check"></i><b>10.6.1</b> <code>switch</code> example: HTTP Status Codes</a></li>
+</ul></li>
+<li class="chapter" data-level="10.7" data-path="controlflow.html"><a href="controlflow.html#while-loops"><i class="fa fa-check"></i><b>10.7</b> <code>while</code> loops</a></li>
+<li class="chapter" data-level="10.8" data-path="controlflow.html"><a href="controlflow.html#break-stops-execution-of-a-loop"><i class="fa fa-check"></i><b>10.8</b> <code>break</code> stops execution of a loop:</a></li>
+<li class="chapter" data-level="10.9" data-path="controlflow.html"><a href="controlflow.html#next-skips-the-current-iteration"><i class="fa fa-check"></i><b>10.9</b> <code>next</code> skips the current iteration:</a></li>
+<li class="chapter" data-level="10.10" data-path="controlflow.html"><a href="controlflow.html#repeat-loops"><i class="fa fa-check"></i><b>10.10</b> <code>repeat</code> loops</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="loopfns.html"><a href="loopfns.html"><i class="fa fa-check"></i><b>11</b> Loop Functions</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="loopfns.html"><a href="loopfns.html#apply"><i class="fa fa-check"></i><b>11.1</b> <code>apply()</code></a></li>
+<li class="chapter" data-level="11.2" data-path="loopfns.html"><a href="loopfns.html#lapply"><i class="fa fa-check"></i><b>11.2</b> <code>lapply()</code></a></li>
+<li class="chapter" data-level="11.3" data-path="loopfns.html"><a href="loopfns.html#sapply"><i class="fa fa-check"></i><b>11.3</b> <code>sapply()</code></a></li>
+<li class="chapter" data-level="11.4" data-path="loopfns.html"><a href="loopfns.html#vapply"><i class="fa fa-check"></i><b>11.4</b> <code>vapply()</code></a></li>
+<li class="chapter" data-level="11.5" data-path="loopfns.html"><a href="loopfns.html#tapply"><i class="fa fa-check"></i><b>11.5</b> <code>tapply()</code></a></li>
+<li class="chapter" data-level="11.6" data-path="loopfns.html"><a href="loopfns.html#mapply"><i class="fa fa-check"></i><b>11.6</b> <code>mapply()</code></a></li>
+<li class="chapter" data-level="11.7" data-path="loopfns.html"><a href="loopfns.html#iterating-over-a-sequence-instead-of-an-object"><i class="fa fa-check"></i><b>11.7</b> Iterating over a sequence instead of an object</a></li>
+<li class="chapter" data-level="11.8" data-path="loopfns.html"><a href="loopfns.html#applying-on-matrices-vs.-data-frames"><i class="fa fa-check"></i><b>11.8</b> <code>*apply()</code>ing on matrices vs. data frames</a></li>
+<li class="chapter" data-level="11.9" data-path="loopfns.html"><a href="loopfns.html#anonymous-functions"><i class="fa fa-check"></i><b>11.9</b> Anonymous functions</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="summarize.html"><a href="summarize.html"><i class="fa fa-check"></i><b>12</b> Summarizing Data</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="summarize.html"><a href="summarize.html#get-summary-of-an-r-object-with-summary"><i class="fa fa-check"></i><b>12.1</b> Get summary of an R object with <code>summary()</code></a></li>
+<li class="chapter" data-level="12.2" data-path="summarize.html"><a href="summarize.html#fast-builtin-column-and-row-operations"><i class="fa fa-check"></i><b>12.2</b> Fast builtin column and row operations</a></li>
+<li class="chapter" data-level="12.3" data-path="summarize.html"><a href="summarize.html#optimized-matrix-operations-with-matrixstats"><i class="fa fa-check"></i><b>12.3</b> Optimized matrix operations with <strong>matrixStats</strong></a></li>
+<li class="chapter" data-level="12.4" data-path="summarize.html"><a href="summarize.html#grouped-summary-statistics-with-aggregate"><i class="fa fa-check"></i><b>12.4</b> Grouped summary statistics with <code>aggregate()</code></a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>13</b> Functions</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="functions.html"><a href="functions.html#simple-functions"><i class="fa fa-check"></i><b>13.1</b> Simple functions</a></li>
+<li class="chapter" data-level="13.2" data-path="functions.html"><a href="functions.html#arguments-with-prescribed-list-of-allowed-values"><i class="fa fa-check"></i><b>13.2</b> Arguments with prescribed list of allowed values</a></li>
+<li class="chapter" data-level="13.3" data-path="functions.html"><a href="functions.html#passing-extra-arguments-to-another-function-with-the-...-argument"><i class="fa fa-check"></i><b>13.3</b> Passing extra arguments to another function with the <code>...</code> argument</a></li>
+<li class="chapter" data-level="13.4" data-path="functions.html"><a href="functions.html#return-multiple-objects"><i class="fa fa-check"></i><b>13.4</b> Return multiple objects</a></li>
+<li class="chapter" data-level="13.5" data-path="functions.html"><a href="functions.html#warnings-and-errors"><i class="fa fa-check"></i><b>13.5</b> Warnings and errors</a></li>
+<li class="chapter" data-level="13.6" data-path="functions.html"><a href="functions.html#scoping"><i class="fa fa-check"></i><b>13.6</b> Scoping</a></li>
+<li class="chapter" data-level="13.7" data-path="functions.html"><a href="functions.html#pipe"><i class="fa fa-check"></i><b>13.7</b> The pipe operator <code>%&gt;%</code></a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="dataframes.html"><a href="dataframes.html"><i class="fa fa-check"></i><b>14</b> Working with data frames</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="dataframes.html"><a href="dataframes.html#table-joins-i.e.-merging-data.frames"><i class="fa fa-check"></i><b>14.1</b> Table Joins (i.e. Merging data.frames)</a>
+<ul>
+<li class="chapter" data-level="14.1.1" data-path="dataframes.html"><a href="dataframes.html#inner-join"><i class="fa fa-check"></i><b>14.1.1</b> Inner join</a></li>
+<li class="chapter" data-level="14.1.2" data-path="dataframes.html"><a href="dataframes.html#outer-join"><i class="fa fa-check"></i><b>14.1.2</b> Outer join</a></li>
+<li class="chapter" data-level="14.1.3" data-path="dataframes.html"><a href="dataframes.html#left-outer-join"><i class="fa fa-check"></i><b>14.1.3</b> Left outer join</a></li>
+<li class="chapter" data-level="14.1.4" data-path="dataframes.html"><a href="dataframes.html#right-outer-join"><i class="fa fa-check"></i><b>14.1.4</b> Right outer join</a></li>
+</ul></li>
+<li class="chapter" data-level="14.2" data-path="dataframes.html"><a href="dataframes.html#wide-to-long"><i class="fa fa-check"></i><b>14.2</b> Wide to Long</a>
+<ul>
+<li class="chapter" data-level="14.2.1" data-path="dataframes.html"><a href="dataframes.html#base"><i class="fa fa-check"></i><b>14.2.1</b> base</a></li>
+<li class="chapter" data-level="14.2.2" data-path="dataframes.html"><a href="dataframes.html#tidyr"><i class="fa fa-check"></i><b>14.2.2</b> tidyr</a></li>
+<li class="chapter" data-level="14.2.3" data-path="dataframes.html"><a href="dataframes.html#data.table"><i class="fa fa-check"></i><b>14.2.3</b> data.table</a></li>
+</ul></li>
+<li class="chapter" data-level="14.3" data-path="dataframes.html"><a href="dataframes.html#long-to-wide"><i class="fa fa-check"></i><b>14.3</b> Long to Wide</a>
+<ul>
+<li class="chapter" data-level="14.3.1" data-path="dataframes.html"><a href="dataframes.html#base-1"><i class="fa fa-check"></i><b>14.3.1</b> base</a></li>
+<li class="chapter" data-level="14.3.2" data-path="dataframes.html"><a href="dataframes.html#tidyr-1"><i class="fa fa-check"></i><b>14.3.2</b> tidyr</a></li>
+<li class="chapter" data-level="14.3.3" data-path="dataframes.html"><a href="dataframes.html#data.table-1"><i class="fa fa-check"></i><b>14.3.3</b> data.table</a></li>
+</ul></li>
+<li class="chapter" data-level="14.4" data-path="dataframes.html"><a href="dataframes.html#feature-transformation-with-transform"><i class="fa fa-check"></i><b>14.4</b> Feature transformation with <code>transform()</code></a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="datatrans.html"><a href="datatrans.html"><i class="fa fa-check"></i><b>15</b> Data Transformations</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="datatrans.html"><a href="datatrans.html#continuous-variables"><i class="fa fa-check"></i><b>15.1</b> Continuous variables</a>
+<ul>
+<li class="chapter" data-level="15.1.1" data-path="datatrans.html"><a href="datatrans.html#standardization-scaling-centering-with-scale"><i class="fa fa-check"></i><b>15.1.1</b> Standardization / Scaling &amp; Centering with <code>scale()</code></a></li>
+<li class="chapter" data-level="15.1.2" data-path="datatrans.html"><a href="datatrans.html#log-transform-with-log"><i class="fa fa-check"></i><b>15.1.2</b> Log-transform with <code>log()</code></a></li>
+<li class="chapter" data-level="15.1.3" data-path="datatrans.html"><a href="datatrans.html#data-binning-with-cut"><i class="fa fa-check"></i><b>15.1.3</b> Data binning with <code>cut()</code></a></li>
+</ul></li>
+<li class="chapter" data-level="15.2" data-path="datatrans.html"><a href="datatrans.html#categorical-variables"><i class="fa fa-check"></i><b>15.2</b> Categorical variables</a>
+<ul>
+<li class="chapter" data-level="15.2.1" data-path="datatrans.html"><a href="datatrans.html#integer-encoding"><i class="fa fa-check"></i><b>15.2.1</b> Integer encoding</a></li>
+<li class="chapter" data-level="15.2.2" data-path="datatrans.html"><a href="datatrans.html#one-hot-encoding"><i class="fa fa-check"></i><b>15.2.2</b> One-hot encoding</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="stringops.html"><a href="stringops.html"><i class="fa fa-check"></i><b>16</b> String Operations</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="stringops.html"><a href="stringops.html#reminder-create---coerce---check"><i class="fa fa-check"></i><b>16.1</b> Reminder: create - coerce - check</a></li>
+<li class="chapter" data-level="16.2" data-path="stringops.html"><a href="stringops.html#nchar-get-number-of-characters-in-element"><i class="fa fa-check"></i><b>16.2</b> <code>nchar()</code>: Get number of characters in element</a></li>
+<li class="chapter" data-level="16.3" data-path="stringops.html"><a href="stringops.html#substr-get-substring"><i class="fa fa-check"></i><b>16.3</b> <code>substr()</code>: Get substring</a></li>
+<li class="chapter" data-level="16.4" data-path="stringops.html"><a href="stringops.html#strsplit-split-strings"><i class="fa fa-check"></i><b>16.4</b> <code>strsplit()</code>: Split strings</a></li>
+<li class="chapter" data-level="16.5" data-path="stringops.html"><a href="stringops.html#paste-concatenate-strings"><i class="fa fa-check"></i><b>16.5</b> <code>paste()</code>: Concatenate strings</a></li>
+<li class="chapter" data-level="16.6" data-path="stringops.html"><a href="stringops.html#cat-concatenate-and-print"><i class="fa fa-check"></i><b>16.6</b> <code>cat()</code>: Concatenate and <strong>print</strong></a></li>
+<li class="chapter" data-level="16.7" data-path="stringops.html"><a href="stringops.html#string-formatting"><i class="fa fa-check"></i><b>16.7</b> String formatting</a>
+<ul>
+<li class="chapter" data-level="16.7.1" data-path="stringops.html"><a href="stringops.html#change-case-with-toupper-and-tolower"><i class="fa fa-check"></i><b>16.7.1</b> Change case with <code>toupper</code> and <code>tolower</code></a></li>
+<li class="chapter" data-level="16.7.2" data-path="stringops.html"><a href="stringops.html#abbreviate"><i class="fa fa-check"></i><b>16.7.2</b> <code>abbreviate()</code></a></li>
+</ul></li>
+<li class="chapter" data-level="16.8" data-path="stringops.html"><a href="stringops.html#pattern-matching"><i class="fa fa-check"></i><b>16.8</b> Pattern matching</a>
+<ul>
+<li class="chapter" data-level="16.8.1" data-path="stringops.html"><a href="stringops.html#grep-get-an-integer-index-of-elements-that-include-a-pattern"><i class="fa fa-check"></i><b>16.8.1</b> <code>grep</code>: Get an integer index of elements that include a pattern</a></li>
+<li class="chapter" data-level="16.8.2" data-path="stringops.html"><a href="stringops.html#grepl-get-a-logical-index-of-elements-that-include-a-pattern"><i class="fa fa-check"></i><b>16.8.2</b> <code>grepl</code>: Get a logical index of elements that include a pattern</a></li>
+<li class="chapter" data-level="16.8.3" data-path="stringops.html"><a href="stringops.html#sub-find-replace-first-match-of-a-pattern"><i class="fa fa-check"></i><b>16.8.3</b> <code>sub</code>: Find replace <strong>first</strong> match of a pattern</a></li>
+<li class="chapter" data-level="16.8.4" data-path="stringops.html"><a href="stringops.html#gsub-find-and-replace-all-matches-of-a-pattern"><i class="fa fa-check"></i><b>16.8.4</b> <code>gsub</code>: Find and replace <strong>all</strong> matches of a pattern</a></li>
+</ul></li>
+<li class="chapter" data-level="16.9" data-path="stringops.html"><a href="stringops.html#regular-expressions"><i class="fa fa-check"></i><b>16.9</b> Regular expressions</a>
+<ul>
+<li class="chapter" data-level="16.9.1" data-path="stringops.html"><a href="stringops.html#match-a-pattern-at-the-beginning-of-a-linestring-with"><i class="fa fa-check"></i><b>16.9.1</b> Match a pattern at the beginning of a line/string with <code>^</code>/<code>\\&lt;</code>:</a></li>
+<li class="chapter" data-level="16.9.2" data-path="stringops.html"><a href="stringops.html#match-a-pattern-at-the-end-of-a-linestring-with"><i class="fa fa-check"></i><b>16.9.2</b> Match a pattern at the end of a line/string with <code>$</code>/<code>\\&gt;</code></a></li>
+<li class="chapter" data-level="16.9.3" data-path="stringops.html"><a href="stringops.html#match-any-character"><i class="fa fa-check"></i><b>16.9.3</b> <code>.</code>: Match any character</a></li>
+<li class="chapter" data-level="16.9.4" data-path="stringops.html"><a href="stringops.html#match-preceding-character-one-or-more-times"><i class="fa fa-check"></i><b>16.9.4</b> <code>+</code>: Match preceding character one or more times:</a></li>
+<li class="chapter" data-level="16.9.5" data-path="stringops.html"><a href="stringops.html#n-match-preceding-character-n-times"><i class="fa fa-check"></i><b>16.9.5</b> <code>{n}</code>: Match preceding character <code>n</code> times:</a></li>
+<li class="chapter" data-level="16.9.6" data-path="stringops.html"><a href="stringops.html#n-match-preceding-character-n-or-more-times"><i class="fa fa-check"></i><b>16.9.6</b> <code>{n,}</code>: Match preceding character <code>n</code> or more times:</a></li>
+<li class="chapter" data-level="16.9.7" data-path="stringops.html"><a href="stringops.html#nm-match-preceding-character-at-least-n-times-and-no-more-than-m-times"><i class="fa fa-check"></i><b>16.9.7</b> <code>{n,m}</code>: Match preceding character at least <code>n</code> times and no more than <code>m</code> times:</a></li>
+<li class="chapter" data-level="16.9.8" data-path="stringops.html"><a href="stringops.html#escaping-metacharacters"><i class="fa fa-check"></i><b>16.9.8</b> Escaping metacharacters</a></li>
+<li class="chapter" data-level="16.9.9" data-path="stringops.html"><a href="stringops.html#match-a-character-class"><i class="fa fa-check"></i><b>16.9.9</b> Match a character class</a></li>
+<li class="chapter" data-level="16.9.10" data-path="stringops.html"><a href="stringops.html#combine-character-classes"><i class="fa fa-check"></i><b>16.9.10</b> Combine character classes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="dates.html"><a href="dates.html"><i class="fa fa-check"></i><b>17</b> Dates</a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="dates.html"><a href="dates.html#as.date-character-to-date"><i class="fa fa-check"></i><b>17.1</b> <code>as.Date()</code>: Character to Date</a></li>
+<li class="chapter" data-level="17.2" data-path="dates.html"><a href="dates.html#sys.date-get-todays-date"><i class="fa fa-check"></i><b>17.2</b> <code>sys.Date()</code>: Get today’s date</a></li>
+<li class="chapter" data-level="17.3" data-path="dates.html"><a href="dates.html#time-intervals"><i class="fa fa-check"></i><b>17.3</b> Time intervals</a></li>
+<li class="chapter" data-level="17.4" data-path="dates.html"><a href="dates.html#as.posixct-as.posixlt-strptime-character-to-date-time"><i class="fa fa-check"></i><b>17.4</b> <code>as.POSIXct</code>, <code>as.POSIXlt</code>, <code>strptime</code>: Character to Date-Time</a></li>
+<li class="chapter" data-level="17.5" data-path="dates.html"><a href="dates.html#bring-the-guessing-in-with-lubridate"><i class="fa fa-check"></i><b>17.5</b> Bring the guessing in with <code>lubridate</code></a></li>
+<li class="chapter" data-level="17.6" data-path="dates.html"><a href="dates.html#format-dates"><i class="fa fa-check"></i><b>17.6</b> <code>format()</code> Dates</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="missingdata.html"><a href="missingdata.html"><i class="fa fa-check"></i><b>18</b> Handling Missing data</a>
+<ul>
+<li class="chapter" data-level="18.1" data-path="missingdata.html"><a href="missingdata.html#check-for-missing-data"><i class="fa fa-check"></i><b>18.1</b> Check for missing data</a>
+<ul>
+<li class="chapter" data-level="18.1.1" data-path="missingdata.html"><a href="missingdata.html#visualize"><i class="fa fa-check"></i><b>18.1.1</b> Visualize</a></li>
+<li class="chapter" data-level="18.1.2" data-path="missingdata.html"><a href="missingdata.html#summarize-1"><i class="fa fa-check"></i><b>18.1.2</b> Summarize</a></li>
+</ul></li>
+<li class="chapter" data-level="18.2" data-path="missingdata.html"><a href="missingdata.html#handle-missing-data"><i class="fa fa-check"></i><b>18.2</b> Handle missing data</a>
+<ul>
+<li class="chapter" data-level="18.2.1" data-path="missingdata.html"><a href="missingdata.html#do-nothing-decision-trees"><i class="fa fa-check"></i><b>18.2.1</b> Do nothing (decision trees!)</a></li>
+<li class="chapter" data-level="18.2.2" data-path="missingdata.html"><a href="missingdata.html#use-complete-cases-only"><i class="fa fa-check"></i><b>18.2.2</b> Use complete cases only</a></li>
+<li class="chapter" data-level="18.2.3" data-path="missingdata.html"><a href="missingdata.html#replace-with-a-fixed-value-mean-median-vs.-mode-missing"><i class="fa fa-check"></i><b>18.2.3</b> Replace with a fixed value: mean, median vs. mode, “missing”</a></li>
+<li class="chapter" data-level="18.2.4" data-path="missingdata.html"><a href="missingdata.html#last-observation-carried-forward"><i class="fa fa-check"></i><b>18.2.4</b> Last observation carried forward</a></li>
+<li class="chapter" data-level="18.2.5" data-path="missingdata.html"><a href="missingdata.html#replace-missing-values-with-estimated-values"><i class="fa fa-check"></i><b>18.2.5</b> Replace missing values with estimated values</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="19" data-path="classes.html"><a href="classes.html"><i class="fa fa-check"></i><b>19</b> Classes and Object-Oriented Programming</a>
+<ul>
+<li class="chapter" data-level="19.1" data-path="classes.html"><a href="classes.html#s3"><i class="fa fa-check"></i><b>19.1</b> S3</a>
+<ul>
+<li class="chapter" data-level="19.1.1" data-path="classes.html"><a href="classes.html#s3methods"><i class="fa fa-check"></i><b>19.1.1</b> <code>methods()</code></a></li>
+<li class="chapter" data-level="19.1.2" data-path="classes.html"><a href="classes.html#defining-custom-s3-classes"><i class="fa fa-check"></i><b>19.1.2</b> Defining custom S3 classes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="20" data-path="datatable.html"><a href="datatable.html"><i class="fa fa-check"></i><b>20</b> Efficient data analysis with <strong>data.table</strong></a>
+<ul>
+<li class="chapter" data-level="20.1" data-path="datatable.html"><a href="datatable.html#create-a-data.table"><i class="fa fa-check"></i><b>20.1</b> Create a <code>data.table</code></a>
+<ul>
+<li class="chapter" data-level="20.1.1" data-path="datatable.html"><a href="datatable.html#by-assignment-data.table"><i class="fa fa-check"></i><b>20.1.1</b> By assignment: <code>data.table()</code></a></li>
+<li class="chapter" data-level="20.1.2" data-path="datatable.html"><a href="datatable.html#by-coercion-as.data.table"><i class="fa fa-check"></i><b>20.1.2</b> By coercion: <code>as.data.table()</code></a></li>
+<li class="chapter" data-level="20.1.3" data-path="datatable.html"><a href="datatable.html#by-coercion-in-place-setdt"><i class="fa fa-check"></i><b>20.1.3</b> By coercion <strong><em>in-place</em></strong>: <code>setDT()</code></a></li>
+<li class="chapter" data-level="20.1.4" data-path="datatable.html"><a href="datatable.html#read-into-data.table-from-file"><i class="fa fa-check"></i><b>20.1.4</b> Read into <code>data.table</code> from file</a></li>
+<li class="chapter" data-level="20.1.5" data-path="datatable.html"><a href="datatable.html#write-a-data.table-to-file-fwrite"><i class="fa fa-check"></i><b>20.1.5</b> Write a <code>data.table</code> to file: <code>fwrite()</code></a></li>
+</ul></li>
+<li class="chapter" data-level="20.2" data-path="datatable.html"><a href="datatable.html#combine-data.tables"><i class="fa fa-check"></i><b>20.2</b> Combine <code>data.table</code>s</a></li>
+<li class="chapter" data-level="20.3" data-path="datatable.html"><a href="datatable.html#str-works-the-same-and-you-should-keep-using-it"><i class="fa fa-check"></i><b>20.3</b> <code>str</code> works the same (and you should keep using it!)</a></li>
+<li class="chapter" data-level="20.4" data-path="datatable.html"><a href="datatable.html#indexing-a-data.table"><i class="fa fa-check"></i><b>20.4</b> Indexing a <code>data.table</code></a>
+<ul>
+<li class="chapter" data-level="20.4.1" data-path="datatable.html"><a href="datatable.html#conditionally-select-cases"><i class="fa fa-check"></i><b>20.4.1</b> Conditionally select cases:</a></li>
+<li class="chapter" data-level="20.4.2" data-path="datatable.html"><a href="datatable.html#select-columns"><i class="fa fa-check"></i><b>20.4.2</b> Select columns</a></li>
+</ul></li>
+<li class="chapter" data-level="20.5" data-path="datatable.html"><a href="datatable.html#add-new-columns-in-place"><i class="fa fa-check"></i><b>20.5</b> Add new columns <strong><em>in-place</em></strong></a></li>
+<li class="chapter" data-level="20.6" data-path="datatable.html"><a href="datatable.html#add-multiple-columns-in-place"><i class="fa fa-check"></i><b>20.6</b> Add multiple columns <strong><em>in-place</em></strong></a></li>
+<li class="chapter" data-level="20.7" data-path="datatable.html"><a href="datatable.html#convert-column-type"><i class="fa fa-check"></i><b>20.7</b> Convert column type</a></li>
+<li class="chapter" data-level="20.8" data-path="datatable.html"><a href="datatable.html#delete-column-in-place"><i class="fa fa-check"></i><b>20.8</b> Delete column in-place</a></li>
+<li class="chapter" data-level="20.9" data-path="datatable.html"><a href="datatable.html#summarize-2"><i class="fa fa-check"></i><b>20.9</b> Summarize</a>
+<ul>
+<li class="chapter" data-level="20.9.1" data-path="datatable.html"><a href="datatable.html#address-object-location-in-memory"><i class="fa fa-check"></i><b>20.9.1</b> <code>address</code>: Object location in memory</a></li>
+<li class="chapter" data-level="20.9.2" data-path="datatable.html"><a href="datatable.html#reference-semantics-at-work"><i class="fa fa-check"></i><b>20.9.2</b> Reference semantics at work</a></li>
+</ul></li>
+<li class="chapter" data-level="20.10" data-path="datatable.html"><a href="datatable.html#set-set-attributes-in-place"><i class="fa fa-check"></i><b>20.10</b> <code>set*()</code>: Set attributes <strong><em>in-place</em></strong></a></li>
+<li class="chapter" data-level="20.11" data-path="datatable.html"><a href="datatable.html#setorder-set-order-of-data.table"><i class="fa fa-check"></i><b>20.11</b> <code>setorder()</code>: Set order of <code>data.table</code></a></li>
+<li class="chapter" data-level="20.12" data-path="datatable.html"><a href="datatable.html#group-according-to-by"><i class="fa fa-check"></i><b>20.12</b> Group according to <code>by</code></a></li>
+<li class="chapter" data-level="20.13" data-path="datatable.html"><a href="datatable.html#apply-functions-to-columns"><i class="fa fa-check"></i><b>20.13</b> Apply functions to columns</a></li>
+<li class="chapter" data-level="20.14" data-path="datatable.html"><a href="datatable.html#reshape-a-data.table"><i class="fa fa-check"></i><b>20.14</b> Reshape a <code>data.table</code></a>
+<ul>
+<li class="chapter" data-level="20.14.1" data-path="datatable.html"><a href="datatable.html#melt-wide-to-long"><i class="fa fa-check"></i><b>20.14.1</b> <code>melt()</code>: Wide to long</a></li>
+<li class="chapter" data-level="20.14.2" data-path="datatable.html"><a href="datatable.html#dcast-long-to-wide"><i class="fa fa-check"></i><b>20.14.2</b> <code>dcast()</code>: Long to wide</a></li>
+</ul></li>
+<li class="chapter" data-level="20.15" data-path="datatable.html"><a href="datatable.html#table-joins"><i class="fa fa-check"></i><b>20.15</b> Table Joins</a>
+<ul>
+<li class="chapter" data-level="20.15.1" data-path="datatable.html"><a href="datatable.html#inner"><i class="fa fa-check"></i><b>20.15.1</b> Inner</a></li>
+<li class="chapter" data-level="20.15.2" data-path="datatable.html"><a href="datatable.html#outer"><i class="fa fa-check"></i><b>20.15.2</b> Outer</a></li>
+<li class="chapter" data-level="20.15.3" data-path="datatable.html"><a href="datatable.html#left-outer"><i class="fa fa-check"></i><b>20.15.3</b> Left outer</a></li>
+<li class="chapter" data-level="20.15.4" data-path="datatable.html"><a href="datatable.html#right-outer"><i class="fa fa-check"></i><b>20.15.4</b> Right outer</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="21" data-path="basegraphics.html"><a href="basegraphics.html"><i class="fa fa-check"></i><b>21</b> Base Graphics</a>
+<ul>
+<li class="chapter" data-level="21.1" data-path="basegraphics.html"><a href="basegraphics.html#scatter-plot"><i class="fa fa-check"></i><b>21.1</b> Scatter plot</a>
+<ul>
+<li class="chapter" data-level="21.1.1" data-path="basegraphics.html"><a href="basegraphics.html#col-point-color"><i class="fa fa-check"></i><b>21.1.1</b> <strong><code>col</code></strong>: point color</a></li>
+<li class="chapter" data-level="21.1.2" data-path="basegraphics.html"><a href="basegraphics.html#bty-box-type"><i class="fa fa-check"></i><b>21.1.2</b> <strong><code>bty</code></strong>: box type</a></li>
+<li class="chapter" data-level="21.1.3" data-path="basegraphics.html"><a href="basegraphics.html#pch-point-character"><i class="fa fa-check"></i><b>21.1.3</b> <strong><code>pch</code></strong>: point character</a></li>
+<li class="chapter" data-level="21.1.4" data-path="basegraphics.html"><a href="basegraphics.html#grid"><i class="fa fa-check"></i><b>21.1.4</b> grid</a></li>
+<li class="chapter" data-level="21.1.5" data-path="basegraphics.html"><a href="basegraphics.html#main-xlab-ylab-title-and-axes-labels"><i class="fa fa-check"></i><b>21.1.5</b> <strong><code>main</code></strong>, <strong><code>xlab</code></strong>, <strong><code>ylab</code></strong>: Title and axes labels</a></li>
+</ul></li>
+<li class="chapter" data-level="21.2" data-path="basegraphics.html"><a href="basegraphics.html#histogram"><i class="fa fa-check"></i><b>21.2</b> Histogram</a>
+<ul>
+<li class="chapter" data-level="21.2.1" data-path="basegraphics.html"><a href="basegraphics.html#col-bar-color"><i class="fa fa-check"></i><b>21.2.1</b> <strong><code>col</code></strong>: bar color</a></li>
+<li class="chapter" data-level="21.2.2" data-path="basegraphics.html"><a href="basegraphics.html#border-border-color"><i class="fa fa-check"></i><b>21.2.2</b> <strong><code>border</code></strong>: border color</a></li>
+<li class="chapter" data-level="21.2.3" data-path="basegraphics.html"><a href="basegraphics.html#breaks-number-andor-value-of-breakpoints"><i class="fa fa-check"></i><b>21.2.3</b> <code>breaks</code>: number and/or value of breakpoints</a></li>
+</ul></li>
+<li class="chapter" data-level="21.3" data-path="basegraphics.html"><a href="basegraphics.html#density-plot"><i class="fa fa-check"></i><b>21.3</b> Density plot</a></li>
+<li class="chapter" data-level="21.4" data-path="basegraphics.html"><a href="basegraphics.html#barplot"><i class="fa fa-check"></i><b>21.4</b> Barplot</a>
+<ul>
+<li class="chapter" data-level="21.4.1" data-path="basegraphics.html"><a href="basegraphics.html#single-vector"><i class="fa fa-check"></i><b>21.4.1</b> Single vector</a></li>
+<li class="chapter" data-level="21.4.2" data-path="basegraphics.html"><a href="basegraphics.html#matrix"><i class="fa fa-check"></i><b>21.4.2</b> Matrix</a></li>
+</ul></li>
+<li class="chapter" data-level="21.5" data-path="basegraphics.html"><a href="basegraphics.html#boxplot"><i class="fa fa-check"></i><b>21.5</b> Boxplot</a>
+<ul>
+<li class="chapter" data-level="21.5.1" data-path="basegraphics.html"><a href="basegraphics.html#single-vector-1"><i class="fa fa-check"></i><b>21.5.1</b> Single vector</a></li>
+<li class="chapter" data-level="21.5.2" data-path="basegraphics.html"><a href="basegraphics.html#anatomy-of-a-boxplot"><i class="fa fa-check"></i><b>21.5.2</b> Anatomy of a boxplot</a></li>
+<li class="chapter" data-level="21.5.3" data-path="basegraphics.html"><a href="basegraphics.html#multiple-vectors"><i class="fa fa-check"></i><b>21.5.3</b> Multiple vectors</a></li>
+<li class="chapter" data-level="21.5.4" data-path="basegraphics.html"><a href="basegraphics.html#list"><i class="fa fa-check"></i><b>21.5.4</b> List</a></li>
+<li class="chapter" data-level="21.5.5" data-path="basegraphics.html"><a href="basegraphics.html#matrix-1"><i class="fa fa-check"></i><b>21.5.5</b> Matrix</a></li>
+<li class="chapter" data-level="21.5.6" data-path="basegraphics.html"><a href="basegraphics.html#formula-interface"><i class="fa fa-check"></i><b>21.5.6</b> formula interface</a></li>
+<li class="chapter" data-level="21.5.7" data-path="basegraphics.html"><a href="basegraphics.html#names-group-labels"><i class="fa fa-check"></i><b>21.5.7</b> <strong><code>names</code></strong>: group labels</a></li>
+</ul></li>
+<li class="chapter" data-level="21.6" data-path="basegraphics.html"><a href="basegraphics.html#heatmap"><i class="fa fa-check"></i><b>21.6</b> Heatmap</a></li>
+<li class="chapter" data-level="21.7" data-path="basegraphics.html"><a href="basegraphics.html#graphical-parameters"><i class="fa fa-check"></i><b>21.7</b> Graphical parameters</a></li>
+</ul></li>
+<li class="chapter" data-level="22" data-path="graphics3x.html"><a href="graphics3x.html"><i class="fa fa-check"></i><b>22</b> 3x Graphics</a>
+<ul>
+<li class="chapter" data-level="22.1" data-path="graphics3x.html"><a href="graphics3x.html#base-graphics"><i class="fa fa-check"></i><b>22.1</b> Base graphics</a></li>
+<li class="chapter" data-level="22.2" data-path="graphics3x.html"><a href="graphics3x.html#grid-graphics"><i class="fa fa-check"></i><b>22.2</b> Grid graphics</a>
+<ul>
+<li class="chapter" data-level="22.2.1" data-path="graphics3x.html"><a href="graphics3x.html#ggplot2"><i class="fa fa-check"></i><b>22.2.1</b> <code>ggplot2</code></a></li>
+</ul></li>
+<li class="chapter" data-level="22.3" data-path="graphics3x.html"><a href="graphics3x.html#rd-party-apis"><i class="fa fa-check"></i><b>22.3</b> 3rd party APIs</a></li>
+<li class="chapter" data-level="22.4" data-path="graphics3x.html"><a href="graphics3x.html#scatterplot"><i class="fa fa-check"></i><b>22.4</b> Scatterplot</a>
+<ul>
+<li class="chapter" data-level="22.4.1" data-path="graphics3x.html"><a href="graphics3x.html#base-2"><i class="fa fa-check"></i><b>22.4.1</b> base</a></li>
+<li class="chapter" data-level="22.4.2" data-path="graphics3x.html"><a href="graphics3x.html#mplot3"><i class="fa fa-check"></i><b>22.4.2</b> <strong>mplot3</strong></a></li>
+<li class="chapter" data-level="22.4.3" data-path="graphics3x.html"><a href="graphics3x.html#dplot3"><i class="fa fa-check"></i><b>22.4.3</b> <strong>dplot3</strong></a></li>
+<li class="chapter" data-level="22.4.4" data-path="graphics3x.html"><a href="graphics3x.html#ggplot2-1"><i class="fa fa-check"></i><b>22.4.4</b> <strong>ggplot2</strong></a></li>
+<li class="chapter" data-level="22.4.5" data-path="graphics3x.html"><a href="graphics3x.html#plotly"><i class="fa fa-check"></i><b>22.4.5</b> <strong>plotly</strong></a></li>
+<li class="chapter" data-level="22.4.6" data-path="graphics3x.html"><a href="graphics3x.html#grouped"><i class="fa fa-check"></i><b>22.4.6</b> Grouped</a></li>
+</ul></li>
+<li class="chapter" data-level="22.5" data-path="graphics3x.html"><a href="graphics3x.html#scatterplot-with-fit"><i class="fa fa-check"></i><b>22.5</b> Scatterplot with fit</a>
+<ul>
+<li class="chapter" data-level="22.5.1" data-path="graphics3x.html"><a href="graphics3x.html#mplot3-1"><i class="fa fa-check"></i><b>22.5.1</b> <strong>mplot3</strong></a></li>
+<li class="chapter" data-level="22.5.2" data-path="graphics3x.html"><a href="graphics3x.html#dplot3-1"><i class="fa fa-check"></i><b>22.5.2</b> <strong>dplot3</strong></a></li>
+<li class="chapter" data-level="22.5.3" data-path="graphics3x.html"><a href="graphics3x.html#ggplot2-2"><i class="fa fa-check"></i><b>22.5.3</b> <strong>ggplot2</strong></a></li>
+<li class="chapter" data-level="22.5.4" data-path="graphics3x.html"><a href="graphics3x.html#plotly-1"><i class="fa fa-check"></i><b>22.5.4</b> <strong>plotly</strong></a></li>
+</ul></li>
+<li class="chapter" data-level="22.6" data-path="graphics3x.html"><a href="graphics3x.html#density-plot-1"><i class="fa fa-check"></i><b>22.6</b> Density plot</a>
+<ul>
+<li class="chapter" data-level="22.6.1" data-path="graphics3x.html"><a href="graphics3x.html#base-3"><i class="fa fa-check"></i><b>22.6.1</b> base</a></li>
+<li class="chapter" data-level="22.6.2" data-path="graphics3x.html"><a href="graphics3x.html#mplot3-2"><i class="fa fa-check"></i><b>22.6.2</b> <strong>mplot3</strong></a></li>
+<li class="chapter" data-level="22.6.3" data-path="graphics3x.html"><a href="graphics3x.html#dplot3-2"><i class="fa fa-check"></i><b>22.6.3</b> <strong>dplot3</strong></a></li>
+<li class="chapter" data-level="22.6.4" data-path="graphics3x.html"><a href="graphics3x.html#ggplot2-3"><i class="fa fa-check"></i><b>22.6.4</b> <strong>ggplot2</strong></a></li>
+</ul></li>
+<li class="chapter" data-level="22.7" data-path="graphics3x.html"><a href="graphics3x.html#histogram-1"><i class="fa fa-check"></i><b>22.7</b> Histogram</a>
+<ul>
+<li class="chapter" data-level="22.7.1" data-path="graphics3x.html"><a href="graphics3x.html#base-4"><i class="fa fa-check"></i><b>22.7.1</b> base</a></li>
+<li class="chapter" data-level="22.7.2" data-path="graphics3x.html"><a href="graphics3x.html#mplot3-3"><i class="fa fa-check"></i><b>22.7.2</b> <strong>mplot3</strong></a></li>
+<li class="chapter" data-level="22.7.3" data-path="graphics3x.html"><a href="graphics3x.html#dplot3-3"><i class="fa fa-check"></i><b>22.7.3</b> <strong>dplot3</strong></a></li>
+<li class="chapter" data-level="22.7.4" data-path="graphics3x.html"><a href="graphics3x.html#ggplot2-4"><i class="fa fa-check"></i><b>22.7.4</b> <strong>ggplot2</strong></a></li>
+<li class="chapter" data-level="22.7.5" data-path="graphics3x.html"><a href="graphics3x.html#barplot-1"><i class="fa fa-check"></i><b>22.7.5</b> Barplot</a></li>
+<li class="chapter" data-level="22.7.6" data-path="graphics3x.html"><a href="graphics3x.html#base-5"><i class="fa fa-check"></i><b>22.7.6</b> base</a></li>
+<li class="chapter" data-level="22.7.7" data-path="graphics3x.html"><a href="graphics3x.html#mplot3-4"><i class="fa fa-check"></i><b>22.7.7</b> <strong>mplot3</strong></a></li>
+<li class="chapter" data-level="22.7.8" data-path="graphics3x.html"><a href="graphics3x.html#dplot3-4"><i class="fa fa-check"></i><b>22.7.8</b> <strong>dplot3</strong></a></li>
+<li class="chapter" data-level="22.7.9" data-path="graphics3x.html"><a href="graphics3x.html#ggplot2-5"><i class="fa fa-check"></i><b>22.7.9</b> <strong>ggplot2</strong></a></li>
+</ul></li>
+<li class="chapter" data-level="22.8" data-path="graphics3x.html"><a href="graphics3x.html#box-plot"><i class="fa fa-check"></i><b>22.8</b> Box plot</a>
+<ul>
+<li class="chapter" data-level="22.8.1" data-path="graphics3x.html"><a href="graphics3x.html#base-6"><i class="fa fa-check"></i><b>22.8.1</b> base</a></li>
+<li class="chapter" data-level="22.8.2" data-path="graphics3x.html"><a href="graphics3x.html#mplot3-5"><i class="fa fa-check"></i><b>22.8.2</b> <strong>mplot3</strong></a></li>
+<li class="chapter" data-level="22.8.3" data-path="graphics3x.html"><a href="graphics3x.html#dplot3-5"><i class="fa fa-check"></i><b>22.8.3</b> <strong>dplot3</strong></a></li>
+<li class="chapter" data-level="22.8.4" data-path="graphics3x.html"><a href="graphics3x.html#ggplot2-6"><i class="fa fa-check"></i><b>22.8.4</b> <strong>ggplot2</strong></a></li>
+</ul></li>
+<li class="chapter" data-level="22.9" data-path="graphics3x.html"><a href="graphics3x.html#heatmap-1"><i class="fa fa-check"></i><b>22.9</b> Heatmap</a>
+<ul>
+<li class="chapter" data-level="22.9.1" data-path="graphics3x.html"><a href="graphics3x.html#base-7"><i class="fa fa-check"></i><b>22.9.1</b> base</a></li>
+<li class="chapter" data-level="22.9.2" data-path="graphics3x.html"><a href="graphics3x.html#mplot3-6"><i class="fa fa-check"></i><b>22.9.2</b> <strong>mplot3</strong></a></li>
+<li class="chapter" data-level="22.9.3" data-path="graphics3x.html"><a href="graphics3x.html#dplot3-6"><i class="fa fa-check"></i><b>22.9.3</b> <strong>dplot3</strong></a></li>
+<li class="chapter" data-level="22.9.4" data-path="graphics3x.html"><a href="graphics3x.html#ggplot2-7"><i class="fa fa-check"></i><b>22.9.4</b> <strong>ggplot2</strong></a></li>
+</ul></li>
+<li class="chapter" data-level="22.10" data-path="graphics3x.html"><a href="graphics3x.html#saving-plots-to-file"><i class="fa fa-check"></i><b>22.10</b> Saving plots to file</a>
+<ul>
+<li class="chapter" data-level="22.10.1" data-path="graphics3x.html"><a href="graphics3x.html#base-8"><i class="fa fa-check"></i><b>22.10.1</b> base</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="23" data-path="colors.html"><a href="colors.html"><i class="fa fa-check"></i><b>23</b> Colors in R</a>
+<ul>
+<li class="chapter" data-level="23.1" data-path="colors.html"><a href="colors.html#color-names"><i class="fa fa-check"></i><b>23.1</b> Color names</a></li>
+<li class="chapter" data-level="23.2" data-path="colors.html"><a href="colors.html#hexadecimal-codes"><i class="fa fa-check"></i><b>23.2</b> Hexadecimal codes</a></li>
+<li class="chapter" data-level="23.3" data-path="colors.html"><a href="colors.html#rgb"><i class="fa fa-check"></i><b>23.3</b> RGB</a></li>
+<li class="chapter" data-level="23.4" data-path="colors.html"><a href="colors.html#hsv"><i class="fa fa-check"></i><b>23.4</b> HSV</a></li>
+</ul></li>
+<li class="chapter" data-level="24" data-path="profiling.html"><a href="profiling.html"><i class="fa fa-check"></i><b>24</b> Timing &amp; Profiling</a>
+<ul>
+<li class="chapter" data-level="24.1" data-path="profiling.html"><a href="profiling.html#time-the-execution-of-an-expression-with-system.time"><i class="fa fa-check"></i><b>24.1</b> Time the execution of an expression with <code>system.time</code></a></li>
+<li class="chapter" data-level="24.2" data-path="profiling.html"><a href="profiling.html#compare-execution-times-of-different-expressions-with-microbenchmark"><i class="fa fa-check"></i><b>24.2</b> Compare execution times of different expressions with <code>microbenchmark()</code></a></li>
+<li class="chapter" data-level="24.3" data-path="profiling.html"><a href="profiling.html#profile-a-function-with-profvis"><i class="fa fa-check"></i><b>24.3</b> Profile a function with <code>profvis()</code></a></li>
+</ul></li>
+<li class="chapter" data-level="25" data-path="optim.html"><a href="optim.html"><i class="fa fa-check"></i><b>25</b> Optimization with <code>optim()</code></a>
+<ul>
+<li class="chapter" data-level="25.1" data-path="optim.html"><a href="optim.html#data"><i class="fa fa-check"></i><b>25.1</b> Data</a></li>
+<li class="chapter" data-level="25.2" data-path="optim.html"><a href="optim.html#glm-glm-s.glm"><i class="fa fa-check"></i><b>25.2</b> GLM (<code>glm</code>, <code>s.GLM</code>)</a></li>
+<li class="chapter" data-level="25.3" data-path="optim.html"><a href="optim.html#optim-1"><i class="fa fa-check"></i><b>25.3</b> <code>optim</code></a></li>
+</ul></li>
+<li class="chapter" data-level="26" data-path="resampling.html"><a href="resampling.html"><i class="fa fa-check"></i><b>26</b> Resampling</a>
+<ul>
+<li class="chapter" data-level="26.1" data-path="resampling.html"><a href="resampling.html#model-selection-and-assessment"><i class="fa fa-check"></i><b>26.1</b> Model Selection and Assessment</a></li>
+<li class="chapter" data-level="26.2" data-path="resampling.html"><a href="resampling.html#the-resample-function"><i class="fa fa-check"></i><b>26.2</b> The resample function</a></li>
+<li class="chapter" data-level="26.3" data-path="resampling.html"><a href="resampling.html#example-stratified-vs-random-sampling-in-a-binomial-distribution"><i class="fa fa-check"></i><b>26.3</b> Example: Stratified vs random sampling in a binomial distribution</a></li>
+</ul></li>
+<li class="chapter" data-level="27" data-path="glm.html"><a href="glm.html"><i class="fa fa-check"></i><b>27</b> Introduction to the GLM</a>
+<ul>
+<li class="chapter" data-level="27.1" data-path="glm.html"><a href="glm.html#generalized-linear-model-glm"><i class="fa fa-check"></i><b>27.1</b> Generalized Linear Model (GLM)</a></li>
+<li class="chapter" data-level="27.2" data-path="glm.html"><a href="glm.html#mass-univariate-analysis"><i class="fa fa-check"></i><b>27.2</b> Mass-univariate analysis</a></li>
+<li class="chapter" data-level="27.3" data-path="glm.html"><a href="glm.html#multiple-comparison-correction"><i class="fa fa-check"></i><b>27.3</b> Multiple comparison correction</a></li>
+</ul></li>
+<li class="chapter" data-level="28" data-path="supervised.html"><a href="supervised.html"><i class="fa fa-check"></i><b>28</b> Supervised Learning</a>
+<ul>
+<li class="chapter" data-level="28.1" data-path="supervised.html"><a href="supervised.html#installation"><i class="fa fa-check"></i><b>28.1</b> Installation</a></li>
+<li class="chapter" data-level="28.2" data-path="supervised.html"><a href="supervised.html#data-input-for-supervised-learning"><i class="fa fa-check"></i><b>28.2</b> Data Input for Supervised Learning</a>
+<ul>
+<li class="chapter" data-level="28.2.1" data-path="supervised.html"><a href="supervised.html#scenario-1-x.train-y.train-x.test-y.test"><i class="fa fa-check"></i><b>28.2.1</b> Scenario 1 (<code>x.train, y.train, x.test, y.test</code>)</a></li>
+<li class="chapter" data-level="28.2.2" data-path="supervised.html"><a href="supervised.html#scenario-2-x.train-x.test"><i class="fa fa-check"></i><b>28.2.2</b> Scenario 2: (<code>x.train, x.test</code>)</a></li>
+</ul></li>
+<li class="chapter" data-level="28.3" data-path="supervised.html"><a href="supervised.html#regression"><i class="fa fa-check"></i><b>28.3</b> Regression</a>
+<ul>
+<li class="chapter" data-level="28.3.1" data-path="supervised.html"><a href="supervised.html#check-data-with-checkdata"><i class="fa fa-check"></i><b>28.3.1</b> Check Data with <code>checkData()</code></a></li>
+<li class="chapter" data-level="28.3.2" data-path="supervised.html"><a href="supervised.html#single-model"><i class="fa fa-check"></i><b>28.3.2</b> Single Model</a></li>
+<li class="chapter" data-level="28.3.3" data-path="supervised.html"><a href="supervised.html#crossvalidated-model"><i class="fa fa-check"></i><b>28.3.3</b> Crossvalidated Model</a></li>
+</ul></li>
+<li class="chapter" data-level="28.4" data-path="supervised.html"><a href="supervised.html#classification"><i class="fa fa-check"></i><b>28.4</b> Classification</a>
+<ul>
+<li class="chapter" data-level="28.4.1" data-path="supervised.html"><a href="supervised.html#check-data"><i class="fa fa-check"></i><b>28.4.1</b> Check Data</a></li>
+<li class="chapter" data-level="28.4.2" data-path="supervised.html"><a href="supervised.html#single-model-1"><i class="fa fa-check"></i><b>28.4.2</b> Single model</a></li>
+<li class="chapter" data-level="28.4.3" data-path="supervised.html"><a href="supervised.html#crossvalidated-model-1"><i class="fa fa-check"></i><b>28.4.3</b> Crossvalidated Model</a></li>
+</ul></li>
+<li class="chapter" data-level="28.5" data-path="supervised.html"><a href="supervised.html#rtemis-documentation"><i class="fa fa-check"></i><b>28.5</b> <strong>rtemis</strong> documentation</a></li>
+</ul></li>
+<li class="chapter" data-level="29" data-path="unsupervised.html"><a href="unsupervised.html"><i class="fa fa-check"></i><b>29</b> Unsupervised Learning</a>
+<ul>
+<li class="chapter" data-level="29.1" data-path="unsupervised.html"><a href="unsupervised.html#decomposition"><i class="fa fa-check"></i><b>29.1</b> Decomposition / Dimensionality Reduction</a></li>
+<li class="chapter" data-level="29.2" data-path="unsupervised.html"><a href="unsupervised.html#clustering"><i class="fa fa-check"></i><b>29.2</b> Clustering</a>
+<ul>
+<li class="chapter" data-level="29.2.1" data-path="unsupervised.html"><a href="unsupervised.html#k-means"><i class="fa fa-check"></i><b>29.2.1</b> K-Means</a></li>
+<li class="chapter" data-level="29.2.2" data-path="unsupervised.html"><a href="unsupervised.html#partitioning-around-medoids-with-k-estimation-pamk"><i class="fa fa-check"></i><b>29.2.2</b> Partitioning Around Medoids with k estimation (PAMK)</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="30" data-path="git.html"><a href="git.html"><i class="fa fa-check"></i><b>30</b> Git &amp; GitHub: the basics</a>
+<ul>
+<li class="chapter" data-level="30.1" data-path="git.html"><a href="git.html#installing-git"><i class="fa fa-check"></i><b>30.1</b> Installing git</a></li>
+<li class="chapter" data-level="30.2" data-path="git.html"><a href="git.html#basic-git-usage"><i class="fa fa-check"></i><b>30.2</b> Basic git usage</a>
+<ul>
+<li class="chapter" data-level="30.2.1" data-path="git.html"><a href="git.html#cloning-downloading"><i class="fa fa-check"></i><b>30.2.1</b> Cloning (“Downloading”)</a></li>
+<li class="chapter" data-level="30.2.2" data-path="git.html"><a href="git.html#pushing-uploading"><i class="fa fa-check"></i><b>30.2.2</b> Pushing (“Uploading”)</a></li>
+<li class="chapter" data-level="30.2.3" data-path="git.html"><a href="git.html#collaborating"><i class="fa fa-check"></i><b>30.2.3</b> Collaborating</a></li>
+<li class="chapter" data-level="30.2.4" data-path="git.html"><a href="git.html#branching-and-merging"><i class="fa fa-check"></i><b>30.2.4</b> Branching and merging</a></li>
+<li class="chapter" data-level="30.2.5" data-path="git.html"><a href="git.html#pull-request"><i class="fa fa-check"></i><b>30.2.5</b> Pull request</a></li>
+</ul></li>
+<li class="chapter" data-level="30.3" data-path="git.html"><a href="git.html#gists"><i class="fa fa-check"></i><b>30.3</b> Gists</a></li>
+<li class="chapter" data-level="30.4" data-path="git.html"><a href="git.html#git-resources"><i class="fa fa-check"></i><b>30.4</b> Git Resources</a></li>
+<li class="chapter" data-level="30.5" data-path="git.html"><a href="git.html#git-and-github-for-open-and-reproducible-science"><i class="fa fa-check"></i><b>30.5</b> Git and GitHub for open and reproducible science</a></li>
+<li class="chapter" data-level="30.6" data-path="git.html"><a href="git.html#applications-with-builtin-git-support"><i class="fa fa-check"></i><b>30.6</b> Applications with builtin git support</a></li>
+</ul></li>
+<li class="chapter" data-level="31" data-path="shell.html"><a href="shell.html"><i class="fa fa-check"></i><b>31</b> Introduction to the system shell</a>
+<ul>
+<li class="chapter" data-level="31.1" data-path="shell.html"><a href="shell.html#common-shell-commands"><i class="fa fa-check"></i><b>31.1</b> Common shell commands</a></li>
+<li class="chapter" data-level="31.2" data-path="shell.html"><a href="shell.html#running-system-commands-within-r"><i class="fa fa-check"></i><b>31.2</b> Running system commands within R</a></li>
+</ul></li>
+<li class="chapter" data-level="32" data-path="resources.html"><a href="resources.html"><i class="fa fa-check"></i><b>32</b> Resources</a>
+<ul>
+<li class="chapter" data-level="32.1" data-path="resources.html"><a href="resources.html#r-project"><i class="fa fa-check"></i><b>32.1</b> R Project</a></li>
+<li class="chapter" data-level="32.2" data-path="resources.html"><a href="resources.html#r-markdown"><i class="fa fa-check"></i><b>32.2</b> R markdown</a></li>
+<li class="chapter" data-level="32.3" data-path="resources.html"><a href="resources.html#documentation"><i class="fa fa-check"></i><b>32.3</b> Documentation</a></li>
+<li class="chapter" data-level="32.4" data-path="resources.html"><a href="resources.html#r-for-data-science"><i class="fa fa-check"></i><b>32.4</b> R for data science</a></li>
+<li class="chapter" data-level="32.5" data-path="resources.html"><a href="resources.html#graphics"><i class="fa fa-check"></i><b>32.5</b> Graphics</a>
+<ul>
+<li class="chapter" data-level="32.5.1" data-path="resources.html"><a href="resources.html#ggplot2-8"><i class="fa fa-check"></i><b>32.5.1</b> ggplot2</a></li>
+<li class="chapter" data-level="32.5.2" data-path="resources.html"><a href="resources.html#plotly-2"><i class="fa fa-check"></i><b>32.5.2</b> Plotly</a></li>
+</ul></li>
+<li class="chapter" data-level="32.6" data-path="resources.html"><a href="resources.html#advanced-r"><i class="fa fa-check"></i><b>32.6</b> Advanced R</a></li>
+<li class="chapter" data-level="32.7" data-path="resources.html"><a href="resources.html#git-and-github"><i class="fa fa-check"></i><b>32.7</b> Git and GitHub</a></li>
+<li class="chapter" data-level="32.8" data-path="resources.html"><a href="resources.html#machine-learning"><i class="fa fa-check"></i><b>32.8</b> Machine Learning</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://lambdamd.org" target="blank" style="padding: 0 0 30px 35px">
+<img src = "./lcm.png" width="55">
+</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Programming for Data Science in R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="classes" class="section level1" number="19">
+<h1><span class="header-section-number">Chapter 19</span> Classes and Object-Oriented Programming</h1>
+<p>Object-Oriented Programming (OOP) is a programming paradigm built around objects with associated data, known as attributes, and functions, known as methods.</p>
+<p>There are 4 main class systems in R:</p>
+<ul>
+<li>S3: informally defined, minimal, lean, methods dispatch based on class; <code>base</code> and <code>stats</code> packages use S3 exclusively</li>
+<li>S4: formally defined, allows method dispatch on multiple arguments</li>
+<li>RC: Reference class: Reference semantics; similar to other programming languages; methods are part of the object</li>
+<li>R6: 3rd party class system similar to RC, more lightweight, faster</li>
+</ul>
+<p>S3 and S4 methods are part of generic functions. RC and R6 methods are part of the object, but you can (and should) write generic functions for them as well.</p>
+<p>This chapter will focus on the ubiquitous S3 system. For more advanced (and real OOP) applications, we recommend looking into the <a href="https://r6.r-lib.org/index.html">R6</a> system.</p>
+<div id="s3" class="section level2" number="19.1">
+<h2><span class="header-section-number">19.1</span> S3</h2>
+<p>Most R objects we have been using so far are S3 objects. Data frames are some of the most common S3 objects.</p>
+<p>Generic functions are functions that act differently based on the class of the input object. We have already used many of them. For example, <code>summary()</code> works differently on a <code>data.frame</code>, on a <code>factor</code>, or a <code>glm</code> object, etc.</p>
+<p>Generic functions in R are saved as <code>functionname.classname()</code> and called automatically, based on the class of the first argument. This allows the same function, e.g. <code>print()</code>, <code>summary()</code>, <code>c()</code>, to have a different effect on objects of different classes.
+For example, the <code>print()</code> function applied on a data frame, will actually call <code>print.data.frame()</code>, while applied on a factor, it will call <code>print.factor()</code>.<br />
+This means that when you type <code>print(iris)</code> this calls <code>print.data.frame(iris)</code></p>
+<p>Note how the R documentation lists usage information separately for each S3 method, e.g. <code>## S3 method for class 'factor'</code></p>
+<div id="s3methods" class="section level3" number="19.1.1">
+<h3><span class="header-section-number">19.1.1</span> <code>methods()</code></h3>
+<p>To get a list of all available methods defined for a specific class,<br />
+i.e. <strong><em>“What different functions can I use on this object?”</em></strong></p>
+<div class="sourceCode" id="cb1162"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1162-1"><a href="classes.html#cb1162-1" aria-hidden="true" tabindex="-1"></a><span class="fu">methods</span>(<span class="at">class =</span> <span class="st">&quot;data.frame&quot;</span>)</span></code></pre></div>
+<pre><code> [1] [             [[            [[&lt;-          [&lt;-           $&lt;-          
+ [6] aggregate     anyDuplicated anyNA         as.data.frame as.list      
+[11] as.matrix     by            cbind         coerce        dim          
+[16] dimnames      dimnames&lt;-    droplevels    duplicated    edit         
+[21] format        formula       head          initialize    is.na        
+[26] Math          merge         na.exclude    na.omit       Ops          
+[31] plot          print         prompt        rbind         row.names    
+[36] row.names&lt;-   rowsum        show          slotsFromS3   split        
+[41] split&lt;-       stack         str           subset        summary      
+[46] Summary       t             tail          transform     type.convert 
+[51] unique        unstack       within       
+see &#39;?methods&#39; for accessing help and source code</code></pre>
+<p>Conversely, to get a list of all available methods for a generic function (i.e. which classes have)<br />
+(i.e. “What objects can I use this function on?”)</p>
+<div class="sourceCode" id="cb1164"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1164-1"><a href="classes.html#cb1164-1" aria-hidden="true" tabindex="-1"></a><span class="fu">methods</span>(<span class="at">generic.function =</span> <span class="st">&quot;plot&quot;</span>)</span></code></pre></div>
+<pre><code> [1] plot.acf*           plot.data.frame*    plot.decomposed.ts*
+ [4] plot.default        plot.dendrogram*    plot.density*      
+ [7] plot.ecdf           plot.factor*        plot.formula*      
+[10] plot.function       plot.hclust*        plot.histogram*    
+[13] plot.HoltWinters*   plot.isoreg*        plot.lm*           
+[16] plot.medpolish*     plot.mlm*           plot.ppr*          
+[19] plot.prcomp*        plot.princomp*      plot.profile.nls*  
+[22] plot.raster*        plot.spec*          plot.stepfun       
+[25] plot.stl*           plot.table*         plot.ts            
+[28] plot.tskernel*      plot.TukeyHSD*     
+see &#39;?methods&#39; for accessing help and source code</code></pre>
+</div>
+<div id="defining-custom-s3-classes" class="section level3" number="19.1.2">
+<h3><span class="header-section-number">19.1.2</span> Defining custom S3 classes</h3>
+<p>It very simple to assign an object to a new class.<br />
+There is no formal class definition, an object is directly assigned to a class by name. An object can belong to multiple classes:</p>
+<div class="sourceCode" id="cb1166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1166-1"><a href="classes.html#cb1166-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb1166-2"><a href="classes.html#cb1166-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(x) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;specialvector&quot;</span>, <span class="st">&quot;numeric&quot;</span>)</span>
+<span id="cb1166-3"><a href="classes.html#cb1166-3" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(x)</span></code></pre></div>
+<pre><code>[1] &quot;specialvector&quot; &quot;numeric&quot;      </code></pre>
+<p>The hierarchy of classes goes left to right, meaning that generic methods are searched for classes in the order they appear in the output of <code>class()</code>.</p>
+<p>If we print <code>x</code>, since there is no print method for class <code>specialvector</code> or for <code>numeric</code>, the default <code>print.default()</code> command is automatically called:</p>
+<div class="sourceCode" id="cb1168"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1168-1"><a href="classes.html#cb1168-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(x)</span></code></pre></div>
+<pre><code> [1]  1  2  3  4  5  6  7  8  9 10
+attr(,&quot;class&quot;)
+[1] &quot;specialvector&quot; &quot;numeric&quot;      </code></pre>
+<div class="sourceCode" id="cb1170"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1170-1"><a href="classes.html#cb1170-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print.default</span>(x)</span></code></pre></div>
+<pre><code> [1]  1  2  3  4  5  6  7  8  9 10
+attr(,&quot;class&quot;)
+[1] &quot;specialvector&quot; &quot;numeric&quot;      </code></pre>
+<p>To create a custom <code>print()</code> function for out new class <code>specialvector</code>, we define a function named <code>print.[classname]</code>:</p>
+<div class="sourceCode" id="cb1172"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1172-1"><a href="classes.html#cb1172-1" aria-hidden="true" tabindex="-1"></a>print.specialvector <span class="ot">&lt;-</span> <span class="cf">function</span>(x, ...) {</span>
+<span id="cb1172-2"><a href="classes.html#cb1172-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;This is a special vector of length&quot;</span>, <span class="fu">length</span>(x), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb1172-3"><a href="classes.html#cb1172-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;Its mean value is&quot;</span>, <span class="fu">mean</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="st">&quot;and its median is&quot;</span>, <span class="fu">median</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb1172-4"><a href="classes.html#cb1172-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">Here are the first few elements:</span><span class="sc">\n</span><span class="st">&quot;</span>, <span class="fu">head</span>(x), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb1172-5"><a href="classes.html#cb1172-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Now, when you print an object of class <code>specialvector</code>, the custom <code>print()</code> command is invoked:</p>
+<div class="sourceCode" id="cb1173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1173-1"><a href="classes.html#cb1173-1" aria-hidden="true" tabindex="-1"></a>x</span></code></pre></div>
+<pre><code>This is a special vector of length 10 
+Its mean value is 5.5 and its median is 5.5
+Here are the first few elements:
+ 1 2 3 4 5 6 </code></pre>
+<p>If needed, you can call the default or another appropriate method directly:</p>
+<div class="sourceCode" id="cb1175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1175-1"><a href="classes.html#cb1175-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print.default</span>(x)</span></code></pre></div>
+<pre><code> [1]  1  2  3  4  5  6  7  8  9 10
+attr(,&quot;class&quot;)
+[1] &quot;specialvector&quot; &quot;numeric&quot;      </code></pre>
+<p>You can change the vector back to a regular numeric vector, or a different class, just as easily:</p>
+<div class="sourceCode" id="cb1177"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1177-1"><a href="classes.html#cb1177-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(x) <span class="ot">&lt;-</span> <span class="st">&quot;numeric&quot;</span></span>
+<span id="cb1177-2"><a href="classes.html#cb1177-2" aria-hidden="true" tabindex="-1"></a>x</span></code></pre></div>
+<pre><code> [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="missingdata.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="datatable.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": true,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": false,
+"google": true,
+"instapper": false
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

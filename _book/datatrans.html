@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 15 Data Transformations | Programming for Data Science in R</title>
+  <meta name="description" content="Chapter 15 Data Transformations | Programming for Data Science in R is an ongoing project to build an online resource for (Bio)statisticians / Epidemiologists / (Health) Data Scientists" />
+  <meta name="generator" content="bookdown 0.21.2 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 15 Data Transformations | Programming for Data Science in R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Chapter 15 Data Transformations | Programming for Data Science in R is an ongoing project to build an online resource for (Bio)statisticians / Epidemiologists / (Health) Data Scientists" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 15 Data Transformations | Programming for Data Science in R" />
+  
+  <meta name="twitter:description" content="Chapter 15 Data Transformations | Programming for Data Science in R is an ongoing project to build an online resource for (Bio)statisticians / Epidemiologists / (Health) Data Scientists" />
+  
+
+<meta name="author" content="Efstathios (Stathis) D. Gennatas, MBBS AICSM PhD" />
+
+
+<meta name="date" content="2020-10-26" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="dataframes.html"/>
+<link rel="next" href="stringops.html"/>
+<script src="libs/header-attrs-2.5/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.5.2/htmlwidgets.js"></script>
+<script src="libs/plotly-binding-4.9.2.1/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.1.0.1/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.1.0.1/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-1.52.2/plotly-latest.min.js"></script>
+<script src="libs/d3-3.5.6/d3.min.js"></script>
+<link href="libs/profvis-0.3.6/profvis.css" rel="stylesheet" />
+<script src="libs/profvis-0.3.6/profvis.js"></script>
+<link href="libs/highlight-6.2.0/textmate.css" rel="stylesheet" />
+<script src="libs/highlight-6.2.0/highlight.js"></script>
+<script src="libs/profvis-binding-0.3.6/profvis.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-163213745-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-163213745-1');
+</script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="lambda.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li>
+<a href="./" style="padding: 10 0 0 15px">
+<img src = "./apple-touch-icon.png" width="55" align="center">&nbsp;&nbsp;&nbsp;&nbsp;Biostat 213 | Fall 2020
+</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a></li>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="2" data-path="Rsetup.html"><a href="Rsetup.html"><i class="fa fa-check"></i><b>2</b> R setup, Packages &amp; Docs</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="Rsetup.html"><a href="Rsetup.html#r"><i class="fa fa-check"></i><b>2.1</b> R</a></li>
+<li class="chapter" data-level="2.2" data-path="Rsetup.html"><a href="Rsetup.html#r-packages"><i class="fa fa-check"></i><b>2.2</b> R packages</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="Rsetup.html"><a href="Rsetup.html#cran"><i class="fa fa-check"></i><b>2.2.1</b> CRAN</a></li>
+<li class="chapter" data-level="2.2.2" data-path="Rsetup.html"><a href="Rsetup.html#github"><i class="fa fa-check"></i><b>2.2.2</b> GitHub</a></li>
+<li class="chapter" data-level="2.2.3" data-path="Rsetup.html"><a href="Rsetup.html#bioconductor"><i class="fa fa-check"></i><b>2.2.3</b> Bioconductor</a></li>
+<li class="chapter" data-level="2.2.4" data-path="Rsetup.html"><a href="Rsetup.html#installed-packages"><i class="fa fa-check"></i><b>2.2.4</b> Installed packages</a></li>
+<li class="chapter" data-level="2.2.5" data-path="Rsetup.html"><a href="Rsetup.html#dependencies"><i class="fa fa-check"></i><b>2.2.5</b> Dependencies</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="Rsetup.html"><a href="Rsetup.html#rstudio-ide"><i class="fa fa-check"></i><b>2.3</b> RStudio IDE</a></li>
+<li class="chapter" data-level="2.4" data-path="Rsetup.html"><a href="Rsetup.html#builtin-documentation"><i class="fa fa-check"></i><b>2.4</b> Builtin Documentation</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="Rsetup.html"><a href="Rsetup.html#get-help-on-a-specific-item"><i class="fa fa-check"></i><b>2.4.1</b> Get help on a specific item</a></li>
+<li class="chapter" data-level="2.4.2" data-path="Rsetup.html"><a href="Rsetup.html#search-the-docs"><i class="fa fa-check"></i><b>2.4.2</b> Search the docs</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="basicops.html"><a href="basicops.html"><i class="fa fa-check"></i><b>3</b> Basic operations</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="basicops.html"><a href="basicops.html#arithmetic"><i class="fa fa-check"></i><b>3.1</b> Arithmetic</a></li>
+<li class="chapter" data-level="3.2" data-path="basicops.html"><a href="basicops.html#logical-operations"><i class="fa fa-check"></i><b>3.2</b> Logical operations</a></li>
+<li class="chapter" data-level="3.3" data-path="basicops.html"><a href="basicops.html#common-descriptive-stats"><i class="fa fa-check"></i><b>3.3</b> Common descriptive stats</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="types.html"><a href="types.html"><i class="fa fa-check"></i><b>4</b> Data Types</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="types.html"><a href="types.html#base-types"><i class="fa fa-check"></i><b>4.1</b> Base types</a></li>
+<li class="chapter" data-level="4.2" data-path="types.html"><a href="types.html#assignment"><i class="fa fa-check"></i><b>4.2</b> Assignment</a></li>
+<li class="chapter" data-level="4.3" data-path="types.html"><a href="types.html#initialize---coerce---test-types"><i class="fa fa-check"></i><b>4.3</b> Initialize - coerce - test (types)</a></li>
+<li class="chapter" data-level="4.4" data-path="types.html"><a href="types.html#logical"><i class="fa fa-check"></i><b>4.4</b> Logical</a></li>
+<li class="chapter" data-level="4.5" data-path="types.html"><a href="types.html#integer"><i class="fa fa-check"></i><b>4.5</b> Integer</a></li>
+<li class="chapter" data-level="4.6" data-path="types.html"><a href="types.html#double"><i class="fa fa-check"></i><b>4.6</b> Double</a></li>
+<li class="chapter" data-level="4.7" data-path="types.html"><a href="types.html#character"><i class="fa fa-check"></i><b>4.7</b> Character</a></li>
+<li class="chapter" data-level="4.8" data-path="types.html"><a href="types.html#environment"><i class="fa fa-check"></i><b>4.8</b> Environment</a></li>
+<li class="chapter" data-level="4.9" data-path="types.html"><a href="types.html#closure-function"><i class="fa fa-check"></i><b>4.9</b> Closure (function)</a></li>
+<li class="chapter" data-level="4.10" data-path="types.html"><a href="types.html#initialize-vectors"><i class="fa fa-check"></i><b>4.10</b> Initialize vectors</a></li>
+<li class="chapter" data-level="4.11" data-path="types.html"><a href="types.html#explicit-coercion"><i class="fa fa-check"></i><b>4.11</b> Explicit coercion</a></li>
+<li class="chapter" data-level="4.12" data-path="types.html"><a href="types.html#implicit-coercion"><i class="fa fa-check"></i><b>4.12</b> Implicit coercion</a></li>
+<li class="chapter" data-level="4.13" data-path="types.html"><a href="types.html#na-missing-values"><i class="fa fa-check"></i><b>4.13</b> <code>NA</code>: Missing Values</a></li>
+<li class="chapter" data-level="4.14" data-path="types.html"><a href="types.html#nan-not-a-number"><i class="fa fa-check"></i><b>4.14</b> <code>NaN</code>: Not a number</a></li>
+<li class="chapter" data-level="4.15" data-path="types.html"><a href="types.html#null-the-empty-object"><i class="fa fa-check"></i><b>4.15</b> <code>NULL</code>: the empty object</a>
+<ul>
+<li class="chapter" data-level="4.15.1" data-path="types.html"><a href="types.html#replacing-with-null"><i class="fa fa-check"></i><b>4.15.1</b> Replacing with NULL</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="structures.html"><a href="structures.html"><i class="fa fa-check"></i><b>5</b> Data Structures</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="structures.html"><a href="structures.html#initialize---coerce---test-structures"><i class="fa fa-check"></i><b>5.1</b> Initialize - coerce - test (structures)</a></li>
+<li class="chapter" data-level="5.2" data-path="structures.html"><a href="structures.html#vectors"><i class="fa fa-check"></i><b>5.2</b> Vectors</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="structures.html"><a href="structures.html#generating-sequences-with-seq"><i class="fa fa-check"></i><b>5.2.1</b> Generating sequences with <code>seq()</code></a></li>
+<li class="chapter" data-level="5.2.2" data-path="structures.html"><a href="structures.html#initializing-a-vector"><i class="fa fa-check"></i><b>5.2.2</b> Initializing a vector</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="structures.html"><a href="structures.html#matrices"><i class="fa fa-check"></i><b>5.3</b> Matrices</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="structures.html"><a href="structures.html#construct-by-row-or-by-column"><i class="fa fa-check"></i><b>5.3.1</b> Construct by row or by column</a></li>
+<li class="chapter" data-level="5.3.2" data-path="structures.html"><a href="structures.html#initialize-a-matrix"><i class="fa fa-check"></i><b>5.3.2</b> Initialize a matrix</a></li>
+<li class="chapter" data-level="5.3.3" data-path="structures.html"><a href="structures.html#bind-vectors-by-column-or-by-row"><i class="fa fa-check"></i><b>5.3.3</b> Bind vectors by column or by row</a></li>
+<li class="chapter" data-level="5.3.4" data-path="structures.html"><a href="structures.html#combine-matrices"><i class="fa fa-check"></i><b>5.3.4</b> Combine matrices</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="structures.html"><a href="structures.html#arrays"><i class="fa fa-check"></i><b>5.4</b> Arrays</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="structures.html"><a href="structures.html#d-array"><i class="fa fa-check"></i><b>5.4.1</b> 1D array</a></li>
+<li class="chapter" data-level="5.4.2" data-path="structures.html"><a href="structures.html#d-array-1"><i class="fa fa-check"></i><b>5.4.2</b> 2D array</a></li>
+<li class="chapter" data-level="5.4.3" data-path="structures.html"><a href="structures.html#nd-array"><i class="fa fa-check"></i><b>5.4.3</b> ND array</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="structures.html"><a href="structures.html#lists"><i class="fa fa-check"></i><b>5.5</b> Lists</a>
+<ul>
+<li class="chapter" data-level="5.5.1" data-path="structures.html"><a href="structures.html#nested-lists"><i class="fa fa-check"></i><b>5.5.1</b> Nested lists</a></li>
+<li class="chapter" data-level="5.5.2" data-path="structures.html"><a href="structures.html#initialize-a-list"><i class="fa fa-check"></i><b>5.5.2</b> Initialize a list</a></li>
+<li class="chapter" data-level="5.5.3" data-path="structures.html"><a href="structures.html#combine-lists"><i class="fa fa-check"></i><b>5.5.3</b> Combine lists</a></li>
+<li class="chapter" data-level="5.5.4" data-path="structures.html"><a href="structures.html#mixing-types-with-c"><i class="fa fa-check"></i><b>5.5.4</b> Mixing types with <code>c()</code></a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="structures.html"><a href="structures.html#data-frames"><i class="fa fa-check"></i><b>5.6</b> Data frames</a></li>
+<li class="chapter" data-level="5.7" data-path="structures.html"><a href="structures.html#attributes"><i class="fa fa-check"></i><b>5.7</b> Attributes</a>
+<ul>
+<li class="chapter" data-level="5.7.1" data-path="structures.html"><a href="structures.html#print-all-attributes"><i class="fa fa-check"></i><b>5.7.1</b> Print all attributes</a></li>
+<li class="chapter" data-level="5.7.2" data-path="structures.html"><a href="structures.html#get-or-set-specific-attributes"><i class="fa fa-check"></i><b>5.7.2</b> Get or set specific attributes</a></li>
+<li class="chapter" data-level="5.7.3" data-path="structures.html"><a href="structures.html#common-builtin-attributes"><i class="fa fa-check"></i><b>5.7.3</b> Common builtin attributes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="factors.html"><a href="factors.html"><i class="fa fa-check"></i><b>6</b> Factors</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="factors.html"><a href="factors.html#the-underlying-integer-vector"><i class="fa fa-check"></i><b>6.1</b> The underlying <strong>integer vector</strong></a></li>
+<li class="chapter" data-level="6.2" data-path="factors.html"><a href="factors.html#the-mapping-of-integers-to-labels"><i class="fa fa-check"></i><b>6.2</b> The <strong>mapping of integers to labels</strong></a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="factors.html"><a href="factors.html#setting-new-level-labels"><i class="fa fa-check"></i><b>6.2.1</b> Setting new level labels</a></li>
+<li class="chapter" data-level="6.2.2" data-path="factors.html"><a href="factors.html#defining-the-mapping-of-labels-to-integers"><i class="fa fa-check"></i><b>6.2.2</b> Defining the mapping of labels to integers</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="factors.html"><a href="factors.html#is-the-factor-ordered"><i class="fa fa-check"></i><b>6.3</b> Is the factor <strong>ordered</strong></a></li>
+<li class="chapter" data-level="6.4" data-path="factors.html"><a href="factors.html#change-order-of-levels-or-labels"><i class="fa fa-check"></i><b>6.4</b> Change (order of levels) or (labels)</a></li>
+<li class="chapter" data-level="6.5" data-path="factors.html"><a href="factors.html#fatal-error-to-avoid"><i class="fa fa-check"></i><b>6.5</b> Fatal error to avoid</a></li>
+<li class="chapter" data-level="6.6" data-path="factors.html"><a href="factors.html#factor-to-numeric"><i class="fa fa-check"></i><b>6.6</b> Factor to numeric</a></li>
+<li class="chapter" data-level="6.7" data-path="factors.html"><a href="factors.html#summary"><i class="fa fa-check"></i><b>6.7</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="indexing.html"><a href="indexing.html"><i class="fa fa-check"></i><b>7</b> Indexing - Subsetting - Slicing</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="indexing.html"><a href="indexing.html#indexvectors"><i class="fa fa-check"></i><b>7.1</b> Vectors</a></li>
+<li class="chapter" data-level="7.2" data-path="indexing.html"><a href="indexing.html#indexmatrices"><i class="fa fa-check"></i><b>7.2</b> Matrices</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="indexing.html"><a href="indexing.html#range-of-rows-and-columns"><i class="fa fa-check"></i><b>7.2.1</b> Range of rows and columns</a></li>
+<li class="chapter" data-level="7.2.2" data-path="indexing.html"><a href="indexing.html#matrix-of-indexes"><i class="fa fa-check"></i><b>7.2.2</b> Matrix of indexes</a></li>
+<li class="chapter" data-level="7.2.3" data-path="indexing.html"><a href="indexing.html#matidl"><i class="fa fa-check"></i><b>7.2.3</b> Logical index</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="indexing.html"><a href="indexing.html#indexlists"><i class="fa fa-check"></i><b>7.3</b> Lists</a>
+<ul>
+<li class="chapter" data-level="7.3.1" data-path="indexing.html"><a href="indexing.html#idllist"><i class="fa fa-check"></i><b>7.3.1</b> Logical index</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="indexing.html"><a href="indexing.html#indexdfs"><i class="fa fa-check"></i><b>7.4</b> Data frames</a>
+<ul>
+<li class="chapter" data-level="7.4.1" data-path="indexing.html"><a href="indexing.html#extract-columns"><i class="fa fa-check"></i><b>7.4.1</b> Extract column(s)</a></li>
+<li class="chapter" data-level="7.4.2" data-path="indexing.html"><a href="indexing.html#extract-rows"><i class="fa fa-check"></i><b>7.4.2</b> Extract rows</a></li>
+<li class="chapter" data-level="7.4.3" data-path="indexing.html"><a href="indexing.html#dfidl"><i class="fa fa-check"></i><b>7.4.3</b> Logical index</a></li>
+</ul></li>
+<li class="chapter" data-level="7.5" data-path="indexing.html"><a href="indexing.html#logical---integer-indexing"><i class="fa fa-check"></i><b>7.5</b> Logical &lt;-&gt; Integer indexing</a>
+<ul>
+<li class="chapter" data-level="7.5.1" data-path="indexing.html"><a href="indexing.html#logical-to-integer-index-with-which"><i class="fa fa-check"></i><b>7.5.1</b> Logical to integer index with <code>which()</code>:</a></li>
+<li class="chapter" data-level="7.5.2" data-path="indexing.html"><a href="indexing.html#integer-to-logical-index"><i class="fa fa-check"></i><b>7.5.2</b> Integer to logical index</a></li>
+</ul></li>
+<li class="chapter" data-level="7.6" data-path="indexing.html"><a href="indexing.html#exclude-cases-using-an-index"><i class="fa fa-check"></i><b>7.6</b> Exclude cases using an index</a></li>
+<li class="chapter" data-level="7.7" data-path="indexing.html"><a href="indexing.html#subset"><i class="fa fa-check"></i><b>7.7</b> <code>subset()</code></a></li>
+<li class="chapter" data-level="7.8" data-path="indexing.html"><a href="indexing.html#split"><i class="fa fa-check"></i><b>7.8</b> <code>split()</code></a></li>
+<li class="chapter" data-level="7.9" data-path="indexing.html"><a href="indexing.html#with"><i class="fa fa-check"></i><b>7.9</b> <code>with()</code></a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="vectorization.html"><a href="vectorization.html"><i class="fa fa-check"></i><b>8</b> Vectorized Operations</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="vectorization.html"><a href="vectorization.html#operations-between-vectors-of-equal-length"><i class="fa fa-check"></i><b>8.1</b> Operations between vectors of equal length</a></li>
+<li class="chapter" data-level="8.2" data-path="vectorization.html"><a href="vectorization.html#operations-between-a-vector-and-a-scalar"><i class="fa fa-check"></i><b>8.2</b> Operations between a vector and a scalar</a></li>
+<li class="chapter" data-level="8.3" data-path="vectorization.html"><a href="vectorization.html#operations-between-vectors-of-unequal-length-value-recycling"><i class="fa fa-check"></i><b>8.3</b> Operations between vectors of unequal length: <strong>value recycling</strong></a></li>
+<li class="chapter" data-level="8.4" data-path="vectorization.html"><a href="vectorization.html#vectorized-matrix-operations"><i class="fa fa-check"></i><b>8.4</b> Vectorized matrix operations</a></li>
+<li class="chapter" data-level="8.5" data-path="vectorization.html"><a href="vectorization.html#vectorized-functions"><i class="fa fa-check"></i><b>8.5</b> Vectorized functions</a></li>
+<li class="chapter" data-level="8.6" data-path="vectorization.html"><a href="vectorization.html#ifelse"><i class="fa fa-check"></i><b>8.6</b> <code>ifelse()</code></a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="dataio.html"><a href="dataio.html"><i class="fa fa-check"></i><b>9</b> Data Input/Output</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="dataio.html"><a href="dataio.html#r-datasets"><i class="fa fa-check"></i><b>9.1</b> R datasets</a>
+<ul>
+<li class="chapter" data-level="9.1.1" data-path="dataio.html"><a href="dataio.html#datasets-included-with-r-in-package-datasets"><i class="fa fa-check"></i><b>9.1.1</b> Datasets included with R (in package ‘datasets’)</a></li>
+<li class="chapter" data-level="9.1.2" data-path="dataio.html"><a href="dataio.html#datasets-included-with-other-packages"><i class="fa fa-check"></i><b>9.1.2</b> Datasets included with other packages</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="dataio.html"><a href="dataio.html#system-commands"><i class="fa fa-check"></i><b>9.2</b> System commands</a></li>
+<li class="chapter" data-level="9.3" data-path="dataio.html"><a href="dataio.html#data-io"><i class="fa fa-check"></i><b>9.3</b> Data I/O</a>
+<ul>
+<li class="chapter" data-level="9.3.1" data-path="dataio.html"><a href="dataio.html#read-local-csv"><i class="fa fa-check"></i><b>9.3.1</b> Read local CSV</a></li>
+<li class="chapter" data-level="9.3.2" data-path="dataio.html"><a href="dataio.html#read-data-from-the-web"><i class="fa fa-check"></i><b>9.3.2</b> Read data from the web</a></li>
+<li class="chapter" data-level="9.3.3" data-path="dataio.html"><a href="dataio.html#read-zipped-data-from-the-web"><i class="fa fa-check"></i><b>9.3.3</b> Read zipped data from the web</a></li>
+<li class="chapter" data-level="9.3.4" data-path="dataio.html"><a href="dataio.html#write-to-csv"><i class="fa fa-check"></i><b>9.3.4</b> Write to CSV</a></li>
+<li class="chapter" data-level="9.3.5" data-path="dataio.html"><a href="dataio.html#read-.xslx-using-openxlsxread.xlsx"><i class="fa fa-check"></i><b>9.3.5</b> Read .xslx using <code>openxlsx::read.xlsx()</code></a></li>
+<li class="chapter" data-level="9.3.6" data-path="dataio.html"><a href="dataio.html#write-an-r-object-to-rds"><i class="fa fa-check"></i><b>9.3.6</b> Write an R object to RDS</a></li>
+<li class="chapter" data-level="9.3.7" data-path="dataio.html"><a href="dataio.html#write-multiple-r-objects-to-rdata-file-using-save"><i class="fa fa-check"></i><b>9.3.7</b> Write multiple R objects to RData file using <code>save</code></a></li>
+<li class="chapter" data-level="9.3.8" data-path="dataio.html"><a href="dataio.html#write-your-entire-workspace-to-a-rdata-image-using-save.image"><i class="fa fa-check"></i><b>9.3.8</b> Write your entire workspace to a RData image using <code>save.image</code></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="controlflow.html"><a href="controlflow.html"><i class="fa fa-check"></i><b>10</b> Control flow</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="controlflow.html"><a href="controlflow.html#if---then---else"><i class="fa fa-check"></i><b>10.1</b> <code>if</code> - <code>then</code> - <code>else</code>:</a></li>
+<li class="chapter" data-level="10.2" data-path="controlflow.html"><a href="controlflow.html#if---then---else-if---else"><i class="fa fa-check"></i><b>10.2</b> <code>if</code> - <code>then</code> - <code>else if</code> - <code>else</code>:</a></li>
+<li class="chapter" data-level="10.3" data-path="controlflow.html"><a href="controlflow.html#conditional-assignment-with-if---else"><i class="fa fa-check"></i><b>10.3</b> Conditional assignment with <code>if</code> - <code>else</code>:</a></li>
+<li class="chapter" data-level="10.4" data-path="controlflow.html"><a href="controlflow.html#conditional-assignment-with-ifelse"><i class="fa fa-check"></i><b>10.4</b> Conditional assignment with <code>ifelse</code>:</a></li>
+<li class="chapter" data-level="10.5" data-path="controlflow.html"><a href="controlflow.html#for-loops"><i class="fa fa-check"></i><b>10.5</b> <code>for</code> loops</a>
+<ul>
+<li class="chapter" data-level="10.5.1" data-path="controlflow.html"><a href="controlflow.html#nested-for-loops"><i class="fa fa-check"></i><b>10.5.1</b> Nested <code>for</code> loops</a></li>
+</ul></li>
+<li class="chapter" data-level="10.6" data-path="controlflow.html"><a href="controlflow.html#select-one-of-multiple-alternatives-with-switch"><i class="fa fa-check"></i><b>10.6</b> Select one of multiple alternatives with <code>switch</code></a>
+<ul>
+<li class="chapter" data-level="10.6.1" data-path="controlflow.html"><a href="controlflow.html#switch-example-http-status-codes"><i class="fa fa-check"></i><b>10.6.1</b> <code>switch</code> example: HTTP Status Codes</a></li>
+</ul></li>
+<li class="chapter" data-level="10.7" data-path="controlflow.html"><a href="controlflow.html#while-loops"><i class="fa fa-check"></i><b>10.7</b> <code>while</code> loops</a></li>
+<li class="chapter" data-level="10.8" data-path="controlflow.html"><a href="controlflow.html#break-stops-execution-of-a-loop"><i class="fa fa-check"></i><b>10.8</b> <code>break</code> stops execution of a loop:</a></li>
+<li class="chapter" data-level="10.9" data-path="controlflow.html"><a href="controlflow.html#next-skips-the-current-iteration"><i class="fa fa-check"></i><b>10.9</b> <code>next</code> skips the current iteration:</a></li>
+<li class="chapter" data-level="10.10" data-path="controlflow.html"><a href="controlflow.html#repeat-loops"><i class="fa fa-check"></i><b>10.10</b> <code>repeat</code> loops</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="loopfns.html"><a href="loopfns.html"><i class="fa fa-check"></i><b>11</b> Loop Functions</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="loopfns.html"><a href="loopfns.html#apply"><i class="fa fa-check"></i><b>11.1</b> <code>apply()</code></a></li>
+<li class="chapter" data-level="11.2" data-path="loopfns.html"><a href="loopfns.html#lapply"><i class="fa fa-check"></i><b>11.2</b> <code>lapply()</code></a></li>
+<li class="chapter" data-level="11.3" data-path="loopfns.html"><a href="loopfns.html#sapply"><i class="fa fa-check"></i><b>11.3</b> <code>sapply()</code></a></li>
+<li class="chapter" data-level="11.4" data-path="loopfns.html"><a href="loopfns.html#vapply"><i class="fa fa-check"></i><b>11.4</b> <code>vapply()</code></a></li>
+<li class="chapter" data-level="11.5" data-path="loopfns.html"><a href="loopfns.html#tapply"><i class="fa fa-check"></i><b>11.5</b> <code>tapply()</code></a></li>
+<li class="chapter" data-level="11.6" data-path="loopfns.html"><a href="loopfns.html#mapply"><i class="fa fa-check"></i><b>11.6</b> <code>mapply()</code></a></li>
+<li class="chapter" data-level="11.7" data-path="loopfns.html"><a href="loopfns.html#iterating-over-a-sequence-instead-of-an-object"><i class="fa fa-check"></i><b>11.7</b> Iterating over a sequence instead of an object</a></li>
+<li class="chapter" data-level="11.8" data-path="loopfns.html"><a href="loopfns.html#applying-on-matrices-vs.-data-frames"><i class="fa fa-check"></i><b>11.8</b> <code>*apply()</code>ing on matrices vs. data frames</a></li>
+<li class="chapter" data-level="11.9" data-path="loopfns.html"><a href="loopfns.html#anonymous-functions"><i class="fa fa-check"></i><b>11.9</b> Anonymous functions</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="summarize.html"><a href="summarize.html"><i class="fa fa-check"></i><b>12</b> Summarizing Data</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="summarize.html"><a href="summarize.html#get-summary-of-an-r-object-with-summary"><i class="fa fa-check"></i><b>12.1</b> Get summary of an R object with <code>summary()</code></a></li>
+<li class="chapter" data-level="12.2" data-path="summarize.html"><a href="summarize.html#fast-builtin-column-and-row-operations"><i class="fa fa-check"></i><b>12.2</b> Fast builtin column and row operations</a></li>
+<li class="chapter" data-level="12.3" data-path="summarize.html"><a href="summarize.html#optimized-matrix-operations-with-matrixstats"><i class="fa fa-check"></i><b>12.3</b> Optimized matrix operations with <strong>matrixStats</strong></a></li>
+<li class="chapter" data-level="12.4" data-path="summarize.html"><a href="summarize.html#grouped-summary-statistics-with-aggregate"><i class="fa fa-check"></i><b>12.4</b> Grouped summary statistics with <code>aggregate()</code></a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>13</b> Functions</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="functions.html"><a href="functions.html#simple-functions"><i class="fa fa-check"></i><b>13.1</b> Simple functions</a></li>
+<li class="chapter" data-level="13.2" data-path="functions.html"><a href="functions.html#arguments-with-prescribed-list-of-allowed-values"><i class="fa fa-check"></i><b>13.2</b> Arguments with prescribed list of allowed values</a></li>
+<li class="chapter" data-level="13.3" data-path="functions.html"><a href="functions.html#passing-extra-arguments-to-another-function-with-the-...-argument"><i class="fa fa-check"></i><b>13.3</b> Passing extra arguments to another function with the <code>...</code> argument</a></li>
+<li class="chapter" data-level="13.4" data-path="functions.html"><a href="functions.html#return-multiple-objects"><i class="fa fa-check"></i><b>13.4</b> Return multiple objects</a></li>
+<li class="chapter" data-level="13.5" data-path="functions.html"><a href="functions.html#warnings-and-errors"><i class="fa fa-check"></i><b>13.5</b> Warnings and errors</a></li>
+<li class="chapter" data-level="13.6" data-path="functions.html"><a href="functions.html#scoping"><i class="fa fa-check"></i><b>13.6</b> Scoping</a></li>
+<li class="chapter" data-level="13.7" data-path="functions.html"><a href="functions.html#pipe"><i class="fa fa-check"></i><b>13.7</b> The pipe operator <code>%&gt;%</code></a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="dataframes.html"><a href="dataframes.html"><i class="fa fa-check"></i><b>14</b> Working with data frames</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="dataframes.html"><a href="dataframes.html#table-joins-i.e.-merging-data.frames"><i class="fa fa-check"></i><b>14.1</b> Table Joins (i.e. Merging data.frames)</a>
+<ul>
+<li class="chapter" data-level="14.1.1" data-path="dataframes.html"><a href="dataframes.html#inner-join"><i class="fa fa-check"></i><b>14.1.1</b> Inner join</a></li>
+<li class="chapter" data-level="14.1.2" data-path="dataframes.html"><a href="dataframes.html#outer-join"><i class="fa fa-check"></i><b>14.1.2</b> Outer join</a></li>
+<li class="chapter" data-level="14.1.3" data-path="dataframes.html"><a href="dataframes.html#left-outer-join"><i class="fa fa-check"></i><b>14.1.3</b> Left outer join</a></li>
+<li class="chapter" data-level="14.1.4" data-path="dataframes.html"><a href="dataframes.html#right-outer-join"><i class="fa fa-check"></i><b>14.1.4</b> Right outer join</a></li>
+</ul></li>
+<li class="chapter" data-level="14.2" data-path="dataframes.html"><a href="dataframes.html#wide-to-long"><i class="fa fa-check"></i><b>14.2</b> Wide to Long</a>
+<ul>
+<li class="chapter" data-level="14.2.1" data-path="dataframes.html"><a href="dataframes.html#base"><i class="fa fa-check"></i><b>14.2.1</b> base</a></li>
+<li class="chapter" data-level="14.2.2" data-path="dataframes.html"><a href="dataframes.html#tidyr"><i class="fa fa-check"></i><b>14.2.2</b> tidyr</a></li>
+<li class="chapter" data-level="14.2.3" data-path="dataframes.html"><a href="dataframes.html#data.table"><i class="fa fa-check"></i><b>14.2.3</b> data.table</a></li>
+</ul></li>
+<li class="chapter" data-level="14.3" data-path="dataframes.html"><a href="dataframes.html#long-to-wide"><i class="fa fa-check"></i><b>14.3</b> Long to Wide</a>
+<ul>
+<li class="chapter" data-level="14.3.1" data-path="dataframes.html"><a href="dataframes.html#base-1"><i class="fa fa-check"></i><b>14.3.1</b> base</a></li>
+<li class="chapter" data-level="14.3.2" data-path="dataframes.html"><a href="dataframes.html#tidyr-1"><i class="fa fa-check"></i><b>14.3.2</b> tidyr</a></li>
+<li class="chapter" data-level="14.3.3" data-path="dataframes.html"><a href="dataframes.html#data.table-1"><i class="fa fa-check"></i><b>14.3.3</b> data.table</a></li>
+</ul></li>
+<li class="chapter" data-level="14.4" data-path="dataframes.html"><a href="dataframes.html#feature-transformation-with-transform"><i class="fa fa-check"></i><b>14.4</b> Feature transformation with <code>transform()</code></a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="datatrans.html"><a href="datatrans.html"><i class="fa fa-check"></i><b>15</b> Data Transformations</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="datatrans.html"><a href="datatrans.html#continuous-variables"><i class="fa fa-check"></i><b>15.1</b> Continuous variables</a>
+<ul>
+<li class="chapter" data-level="15.1.1" data-path="datatrans.html"><a href="datatrans.html#standardization-scaling-centering-with-scale"><i class="fa fa-check"></i><b>15.1.1</b> Standardization / Scaling &amp; Centering with <code>scale()</code></a></li>
+<li class="chapter" data-level="15.1.2" data-path="datatrans.html"><a href="datatrans.html#log-transform-with-log"><i class="fa fa-check"></i><b>15.1.2</b> Log-transform with <code>log()</code></a></li>
+<li class="chapter" data-level="15.1.3" data-path="datatrans.html"><a href="datatrans.html#data-binning-with-cut"><i class="fa fa-check"></i><b>15.1.3</b> Data binning with <code>cut()</code></a></li>
+</ul></li>
+<li class="chapter" data-level="15.2" data-path="datatrans.html"><a href="datatrans.html#categorical-variables"><i class="fa fa-check"></i><b>15.2</b> Categorical variables</a>
+<ul>
+<li class="chapter" data-level="15.2.1" data-path="datatrans.html"><a href="datatrans.html#integer-encoding"><i class="fa fa-check"></i><b>15.2.1</b> Integer encoding</a></li>
+<li class="chapter" data-level="15.2.2" data-path="datatrans.html"><a href="datatrans.html#one-hot-encoding"><i class="fa fa-check"></i><b>15.2.2</b> One-hot encoding</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="stringops.html"><a href="stringops.html"><i class="fa fa-check"></i><b>16</b> String Operations</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="stringops.html"><a href="stringops.html#reminder-create---coerce---check"><i class="fa fa-check"></i><b>16.1</b> Reminder: create - coerce - check</a></li>
+<li class="chapter" data-level="16.2" data-path="stringops.html"><a href="stringops.html#nchar-get-number-of-characters-in-element"><i class="fa fa-check"></i><b>16.2</b> <code>nchar()</code>: Get number of characters in element</a></li>
+<li class="chapter" data-level="16.3" data-path="stringops.html"><a href="stringops.html#substr-get-substring"><i class="fa fa-check"></i><b>16.3</b> <code>substr()</code>: Get substring</a></li>
+<li class="chapter" data-level="16.4" data-path="stringops.html"><a href="stringops.html#strsplit-split-strings"><i class="fa fa-check"></i><b>16.4</b> <code>strsplit()</code>: Split strings</a></li>
+<li class="chapter" data-level="16.5" data-path="stringops.html"><a href="stringops.html#paste-concatenate-strings"><i class="fa fa-check"></i><b>16.5</b> <code>paste()</code>: Concatenate strings</a></li>
+<li class="chapter" data-level="16.6" data-path="stringops.html"><a href="stringops.html#cat-concatenate-and-print"><i class="fa fa-check"></i><b>16.6</b> <code>cat()</code>: Concatenate and <strong>print</strong></a></li>
+<li class="chapter" data-level="16.7" data-path="stringops.html"><a href="stringops.html#string-formatting"><i class="fa fa-check"></i><b>16.7</b> String formatting</a>
+<ul>
+<li class="chapter" data-level="16.7.1" data-path="stringops.html"><a href="stringops.html#change-case-with-toupper-and-tolower"><i class="fa fa-check"></i><b>16.7.1</b> Change case with <code>toupper</code> and <code>tolower</code></a></li>
+<li class="chapter" data-level="16.7.2" data-path="stringops.html"><a href="stringops.html#abbreviate"><i class="fa fa-check"></i><b>16.7.2</b> <code>abbreviate()</code></a></li>
+</ul></li>
+<li class="chapter" data-level="16.8" data-path="stringops.html"><a href="stringops.html#pattern-matching"><i class="fa fa-check"></i><b>16.8</b> Pattern matching</a>
+<ul>
+<li class="chapter" data-level="16.8.1" data-path="stringops.html"><a href="stringops.html#grep-get-an-integer-index-of-elements-that-include-a-pattern"><i class="fa fa-check"></i><b>16.8.1</b> <code>grep</code>: Get an integer index of elements that include a pattern</a></li>
+<li class="chapter" data-level="16.8.2" data-path="stringops.html"><a href="stringops.html#grepl-get-a-logical-index-of-elements-that-include-a-pattern"><i class="fa fa-check"></i><b>16.8.2</b> <code>grepl</code>: Get a logical index of elements that include a pattern</a></li>
+<li class="chapter" data-level="16.8.3" data-path="stringops.html"><a href="stringops.html#sub-find-replace-first-match-of-a-pattern"><i class="fa fa-check"></i><b>16.8.3</b> <code>sub</code>: Find replace <strong>first</strong> match of a pattern</a></li>
+<li class="chapter" data-level="16.8.4" data-path="stringops.html"><a href="stringops.html#gsub-find-and-replace-all-matches-of-a-pattern"><i class="fa fa-check"></i><b>16.8.4</b> <code>gsub</code>: Find and replace <strong>all</strong> matches of a pattern</a></li>
+</ul></li>
+<li class="chapter" data-level="16.9" data-path="stringops.html"><a href="stringops.html#regular-expressions"><i class="fa fa-check"></i><b>16.9</b> Regular expressions</a>
+<ul>
+<li class="chapter" data-level="16.9.1" data-path="stringops.html"><a href="stringops.html#match-a-pattern-at-the-beginning-of-a-linestring-with"><i class="fa fa-check"></i><b>16.9.1</b> Match a pattern at the beginning of a line/string with <code>^</code>/<code>\\&lt;</code>:</a></li>
+<li class="chapter" data-level="16.9.2" data-path="stringops.html"><a href="stringops.html#match-a-pattern-at-the-end-of-a-linestring-with"><i class="fa fa-check"></i><b>16.9.2</b> Match a pattern at the end of a line/string with <code>$</code>/<code>\\&gt;</code></a></li>
+<li class="chapter" data-level="16.9.3" data-path="stringops.html"><a href="stringops.html#match-any-character"><i class="fa fa-check"></i><b>16.9.3</b> <code>.</code>: Match any character</a></li>
+<li class="chapter" data-level="16.9.4" data-path="stringops.html"><a href="stringops.html#match-preceding-character-one-or-more-times"><i class="fa fa-check"></i><b>16.9.4</b> <code>+</code>: Match preceding character one or more times:</a></li>
+<li class="chapter" data-level="16.9.5" data-path="stringops.html"><a href="stringops.html#n-match-preceding-character-n-times"><i class="fa fa-check"></i><b>16.9.5</b> <code>{n}</code>: Match preceding character <code>n</code> times:</a></li>
+<li class="chapter" data-level="16.9.6" data-path="stringops.html"><a href="stringops.html#n-match-preceding-character-n-or-more-times"><i class="fa fa-check"></i><b>16.9.6</b> <code>{n,}</code>: Match preceding character <code>n</code> or more times:</a></li>
+<li class="chapter" data-level="16.9.7" data-path="stringops.html"><a href="stringops.html#nm-match-preceding-character-at-least-n-times-and-no-more-than-m-times"><i class="fa fa-check"></i><b>16.9.7</b> <code>{n,m}</code>: Match preceding character at least <code>n</code> times and no more than <code>m</code> times:</a></li>
+<li class="chapter" data-level="16.9.8" data-path="stringops.html"><a href="stringops.html#escaping-metacharacters"><i class="fa fa-check"></i><b>16.9.8</b> Escaping metacharacters</a></li>
+<li class="chapter" data-level="16.9.9" data-path="stringops.html"><a href="stringops.html#match-a-character-class"><i class="fa fa-check"></i><b>16.9.9</b> Match a character class</a></li>
+<li class="chapter" data-level="16.9.10" data-path="stringops.html"><a href="stringops.html#combine-character-classes"><i class="fa fa-check"></i><b>16.9.10</b> Combine character classes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="dates.html"><a href="dates.html"><i class="fa fa-check"></i><b>17</b> Dates</a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="dates.html"><a href="dates.html#as.date-character-to-date"><i class="fa fa-check"></i><b>17.1</b> <code>as.Date()</code>: Character to Date</a></li>
+<li class="chapter" data-level="17.2" data-path="dates.html"><a href="dates.html#sys.date-get-todays-date"><i class="fa fa-check"></i><b>17.2</b> <code>sys.Date()</code>: Get today’s date</a></li>
+<li class="chapter" data-level="17.3" data-path="dates.html"><a href="dates.html#time-intervals"><i class="fa fa-check"></i><b>17.3</b> Time intervals</a></li>
+<li class="chapter" data-level="17.4" data-path="dates.html"><a href="dates.html#as.posixct-as.posixlt-strptime-character-to-date-time"><i class="fa fa-check"></i><b>17.4</b> <code>as.POSIXct</code>, <code>as.POSIXlt</code>, <code>strptime</code>: Character to Date-Time</a></li>
+<li class="chapter" data-level="17.5" data-path="dates.html"><a href="dates.html#bring-the-guessing-in-with-lubridate"><i class="fa fa-check"></i><b>17.5</b> Bring the guessing in with <code>lubridate</code></a></li>
+<li class="chapter" data-level="17.6" data-path="dates.html"><a href="dates.html#format-dates"><i class="fa fa-check"></i><b>17.6</b> <code>format()</code> Dates</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="missingdata.html"><a href="missingdata.html"><i class="fa fa-check"></i><b>18</b> Handling Missing data</a>
+<ul>
+<li class="chapter" data-level="18.1" data-path="missingdata.html"><a href="missingdata.html#check-for-missing-data"><i class="fa fa-check"></i><b>18.1</b> Check for missing data</a>
+<ul>
+<li class="chapter" data-level="18.1.1" data-path="missingdata.html"><a href="missingdata.html#visualize"><i class="fa fa-check"></i><b>18.1.1</b> Visualize</a></li>
+<li class="chapter" data-level="18.1.2" data-path="missingdata.html"><a href="missingdata.html#summarize-1"><i class="fa fa-check"></i><b>18.1.2</b> Summarize</a></li>
+</ul></li>
+<li class="chapter" data-level="18.2" data-path="missingdata.html"><a href="missingdata.html#handle-missing-data"><i class="fa fa-check"></i><b>18.2</b> Handle missing data</a>
+<ul>
+<li class="chapter" data-level="18.2.1" data-path="missingdata.html"><a href="missingdata.html#do-nothing-decision-trees"><i class="fa fa-check"></i><b>18.2.1</b> Do nothing (decision trees!)</a></li>
+<li class="chapter" data-level="18.2.2" data-path="missingdata.html"><a href="missingdata.html#use-complete-cases-only"><i class="fa fa-check"></i><b>18.2.2</b> Use complete cases only</a></li>
+<li class="chapter" data-level="18.2.3" data-path="missingdata.html"><a href="missingdata.html#replace-with-a-fixed-value-mean-median-vs.-mode-missing"><i class="fa fa-check"></i><b>18.2.3</b> Replace with a fixed value: mean, median vs. mode, “missing”</a></li>
+<li class="chapter" data-level="18.2.4" data-path="missingdata.html"><a href="missingdata.html#last-observation-carried-forward"><i class="fa fa-check"></i><b>18.2.4</b> Last observation carried forward</a></li>
+<li class="chapter" data-level="18.2.5" data-path="missingdata.html"><a href="missingdata.html#replace-missing-values-with-estimated-values"><i class="fa fa-check"></i><b>18.2.5</b> Replace missing values with estimated values</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="19" data-path="classes.html"><a href="classes.html"><i class="fa fa-check"></i><b>19</b> Classes and Object-Oriented Programming</a>
+<ul>
+<li class="chapter" data-level="19.1" data-path="classes.html"><a href="classes.html#s3"><i class="fa fa-check"></i><b>19.1</b> S3</a>
+<ul>
+<li class="chapter" data-level="19.1.1" data-path="classes.html"><a href="classes.html#s3methods"><i class="fa fa-check"></i><b>19.1.1</b> <code>methods()</code></a></li>
+<li class="chapter" data-level="19.1.2" data-path="classes.html"><a href="classes.html#defining-custom-s3-classes"><i class="fa fa-check"></i><b>19.1.2</b> Defining custom S3 classes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="20" data-path="datatable.html"><a href="datatable.html"><i class="fa fa-check"></i><b>20</b> Efficient data analysis with <strong>data.table</strong></a>
+<ul>
+<li class="chapter" data-level="20.1" data-path="datatable.html"><a href="datatable.html#create-a-data.table"><i class="fa fa-check"></i><b>20.1</b> Create a <code>data.table</code></a>
+<ul>
+<li class="chapter" data-level="20.1.1" data-path="datatable.html"><a href="datatable.html#by-assignment-data.table"><i class="fa fa-check"></i><b>20.1.1</b> By assignment: <code>data.table()</code></a></li>
+<li class="chapter" data-level="20.1.2" data-path="datatable.html"><a href="datatable.html#by-coercion-as.data.table"><i class="fa fa-check"></i><b>20.1.2</b> By coercion: <code>as.data.table()</code></a></li>
+<li class="chapter" data-level="20.1.3" data-path="datatable.html"><a href="datatable.html#by-coercion-in-place-setdt"><i class="fa fa-check"></i><b>20.1.3</b> By coercion <strong><em>in-place</em></strong>: <code>setDT()</code></a></li>
+<li class="chapter" data-level="20.1.4" data-path="datatable.html"><a href="datatable.html#read-into-data.table-from-file"><i class="fa fa-check"></i><b>20.1.4</b> Read into <code>data.table</code> from file</a></li>
+<li class="chapter" data-level="20.1.5" data-path="datatable.html"><a href="datatable.html#write-a-data.table-to-file-fwrite"><i class="fa fa-check"></i><b>20.1.5</b> Write a <code>data.table</code> to file: <code>fwrite()</code></a></li>
+</ul></li>
+<li class="chapter" data-level="20.2" data-path="datatable.html"><a href="datatable.html#combine-data.tables"><i class="fa fa-check"></i><b>20.2</b> Combine <code>data.table</code>s</a></li>
+<li class="chapter" data-level="20.3" data-path="datatable.html"><a href="datatable.html#str-works-the-same-and-you-should-keep-using-it"><i class="fa fa-check"></i><b>20.3</b> <code>str</code> works the same (and you should keep using it!)</a></li>
+<li class="chapter" data-level="20.4" data-path="datatable.html"><a href="datatable.html#indexing-a-data.table"><i class="fa fa-check"></i><b>20.4</b> Indexing a <code>data.table</code></a>
+<ul>
+<li class="chapter" data-level="20.4.1" data-path="datatable.html"><a href="datatable.html#conditionally-select-cases"><i class="fa fa-check"></i><b>20.4.1</b> Conditionally select cases:</a></li>
+<li class="chapter" data-level="20.4.2" data-path="datatable.html"><a href="datatable.html#select-columns"><i class="fa fa-check"></i><b>20.4.2</b> Select columns</a></li>
+</ul></li>
+<li class="chapter" data-level="20.5" data-path="datatable.html"><a href="datatable.html#add-new-columns-in-place"><i class="fa fa-check"></i><b>20.5</b> Add new columns <strong><em>in-place</em></strong></a></li>
+<li class="chapter" data-level="20.6" data-path="datatable.html"><a href="datatable.html#add-multiple-columns-in-place"><i class="fa fa-check"></i><b>20.6</b> Add multiple columns <strong><em>in-place</em></strong></a></li>
+<li class="chapter" data-level="20.7" data-path="datatable.html"><a href="datatable.html#convert-column-type"><i class="fa fa-check"></i><b>20.7</b> Convert column type</a></li>
+<li class="chapter" data-level="20.8" data-path="datatable.html"><a href="datatable.html#delete-column-in-place"><i class="fa fa-check"></i><b>20.8</b> Delete column in-place</a></li>
+<li class="chapter" data-level="20.9" data-path="datatable.html"><a href="datatable.html#summarize-2"><i class="fa fa-check"></i><b>20.9</b> Summarize</a>
+<ul>
+<li class="chapter" data-level="20.9.1" data-path="datatable.html"><a href="datatable.html#address-object-location-in-memory"><i class="fa fa-check"></i><b>20.9.1</b> <code>address</code>: Object location in memory</a></li>
+<li class="chapter" data-level="20.9.2" data-path="datatable.html"><a href="datatable.html#reference-semantics-at-work"><i class="fa fa-check"></i><b>20.9.2</b> Reference semantics at work</a></li>
+</ul></li>
+<li class="chapter" data-level="20.10" data-path="datatable.html"><a href="datatable.html#set-set-attributes-in-place"><i class="fa fa-check"></i><b>20.10</b> <code>set*()</code>: Set attributes <strong><em>in-place</em></strong></a></li>
+<li class="chapter" data-level="20.11" data-path="datatable.html"><a href="datatable.html#setorder-set-order-of-data.table"><i class="fa fa-check"></i><b>20.11</b> <code>setorder()</code>: Set order of <code>data.table</code></a></li>
+<li class="chapter" data-level="20.12" data-path="datatable.html"><a href="datatable.html#group-according-to-by"><i class="fa fa-check"></i><b>20.12</b> Group according to <code>by</code></a></li>
+<li class="chapter" data-level="20.13" data-path="datatable.html"><a href="datatable.html#apply-functions-to-columns"><i class="fa fa-check"></i><b>20.13</b> Apply functions to columns</a></li>
+<li class="chapter" data-level="20.14" data-path="datatable.html"><a href="datatable.html#reshape-a-data.table"><i class="fa fa-check"></i><b>20.14</b> Reshape a <code>data.table</code></a>
+<ul>
+<li class="chapter" data-level="20.14.1" data-path="datatable.html"><a href="datatable.html#melt-wide-to-long"><i class="fa fa-check"></i><b>20.14.1</b> <code>melt()</code>: Wide to long</a></li>
+<li class="chapter" data-level="20.14.2" data-path="datatable.html"><a href="datatable.html#dcast-long-to-wide"><i class="fa fa-check"></i><b>20.14.2</b> <code>dcast()</code>: Long to wide</a></li>
+</ul></li>
+<li class="chapter" data-level="20.15" data-path="datatable.html"><a href="datatable.html#table-joins"><i class="fa fa-check"></i><b>20.15</b> Table Joins</a>
+<ul>
+<li class="chapter" data-level="20.15.1" data-path="datatable.html"><a href="datatable.html#inner"><i class="fa fa-check"></i><b>20.15.1</b> Inner</a></li>
+<li class="chapter" data-level="20.15.2" data-path="datatable.html"><a href="datatable.html#outer"><i class="fa fa-check"></i><b>20.15.2</b> Outer</a></li>
+<li class="chapter" data-level="20.15.3" data-path="datatable.html"><a href="datatable.html#left-outer"><i class="fa fa-check"></i><b>20.15.3</b> Left outer</a></li>
+<li class="chapter" data-level="20.15.4" data-path="datatable.html"><a href="datatable.html#right-outer"><i class="fa fa-check"></i><b>20.15.4</b> Right outer</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="21" data-path="basegraphics.html"><a href="basegraphics.html"><i class="fa fa-check"></i><b>21</b> Base Graphics</a>
+<ul>
+<li class="chapter" data-level="21.1" data-path="basegraphics.html"><a href="basegraphics.html#scatter-plot"><i class="fa fa-check"></i><b>21.1</b> Scatter plot</a>
+<ul>
+<li class="chapter" data-level="21.1.1" data-path="basegraphics.html"><a href="basegraphics.html#col-point-color"><i class="fa fa-check"></i><b>21.1.1</b> <strong><code>col</code></strong>: point color</a></li>
+<li class="chapter" data-level="21.1.2" data-path="basegraphics.html"><a href="basegraphics.html#bty-box-type"><i class="fa fa-check"></i><b>21.1.2</b> <strong><code>bty</code></strong>: box type</a></li>
+<li class="chapter" data-level="21.1.3" data-path="basegraphics.html"><a href="basegraphics.html#pch-point-character"><i class="fa fa-check"></i><b>21.1.3</b> <strong><code>pch</code></strong>: point character</a></li>
+<li class="chapter" data-level="21.1.4" data-path="basegraphics.html"><a href="basegraphics.html#grid"><i class="fa fa-check"></i><b>21.1.4</b> grid</a></li>
+<li class="chapter" data-level="21.1.5" data-path="basegraphics.html"><a href="basegraphics.html#main-xlab-ylab-title-and-axes-labels"><i class="fa fa-check"></i><b>21.1.5</b> <strong><code>main</code></strong>, <strong><code>xlab</code></strong>, <strong><code>ylab</code></strong>: Title and axes labels</a></li>
+</ul></li>
+<li class="chapter" data-level="21.2" data-path="basegraphics.html"><a href="basegraphics.html#histogram"><i class="fa fa-check"></i><b>21.2</b> Histogram</a>
+<ul>
+<li class="chapter" data-level="21.2.1" data-path="basegraphics.html"><a href="basegraphics.html#col-bar-color"><i class="fa fa-check"></i><b>21.2.1</b> <strong><code>col</code></strong>: bar color</a></li>
+<li class="chapter" data-level="21.2.2" data-path="basegraphics.html"><a href="basegraphics.html#border-border-color"><i class="fa fa-check"></i><b>21.2.2</b> <strong><code>border</code></strong>: border color</a></li>
+<li class="chapter" data-level="21.2.3" data-path="basegraphics.html"><a href="basegraphics.html#breaks-number-andor-value-of-breakpoints"><i class="fa fa-check"></i><b>21.2.3</b> <code>breaks</code>: number and/or value of breakpoints</a></li>
+</ul></li>
+<li class="chapter" data-level="21.3" data-path="basegraphics.html"><a href="basegraphics.html#density-plot"><i class="fa fa-check"></i><b>21.3</b> Density plot</a></li>
+<li class="chapter" data-level="21.4" data-path="basegraphics.html"><a href="basegraphics.html#barplot"><i class="fa fa-check"></i><b>21.4</b> Barplot</a>
+<ul>
+<li class="chapter" data-level="21.4.1" data-path="basegraphics.html"><a href="basegraphics.html#single-vector"><i class="fa fa-check"></i><b>21.4.1</b> Single vector</a></li>
+<li class="chapter" data-level="21.4.2" data-path="basegraphics.html"><a href="basegraphics.html#matrix"><i class="fa fa-check"></i><b>21.4.2</b> Matrix</a></li>
+</ul></li>
+<li class="chapter" data-level="21.5" data-path="basegraphics.html"><a href="basegraphics.html#boxplot"><i class="fa fa-check"></i><b>21.5</b> Boxplot</a>
+<ul>
+<li class="chapter" data-level="21.5.1" data-path="basegraphics.html"><a href="basegraphics.html#single-vector-1"><i class="fa fa-check"></i><b>21.5.1</b> Single vector</a></li>
+<li class="chapter" data-level="21.5.2" data-path="basegraphics.html"><a href="basegraphics.html#anatomy-of-a-boxplot"><i class="fa fa-check"></i><b>21.5.2</b> Anatomy of a boxplot</a></li>
+<li class="chapter" data-level="21.5.3" data-path="basegraphics.html"><a href="basegraphics.html#multiple-vectors"><i class="fa fa-check"></i><b>21.5.3</b> Multiple vectors</a></li>
+<li class="chapter" data-level="21.5.4" data-path="basegraphics.html"><a href="basegraphics.html#list"><i class="fa fa-check"></i><b>21.5.4</b> List</a></li>
+<li class="chapter" data-level="21.5.5" data-path="basegraphics.html"><a href="basegraphics.html#matrix-1"><i class="fa fa-check"></i><b>21.5.5</b> Matrix</a></li>
+<li class="chapter" data-level="21.5.6" data-path="basegraphics.html"><a href="basegraphics.html#formula-interface"><i class="fa fa-check"></i><b>21.5.6</b> formula interface</a></li>
+<li class="chapter" data-level="21.5.7" data-path="basegraphics.html"><a href="basegraphics.html#names-group-labels"><i class="fa fa-check"></i><b>21.5.7</b> <strong><code>names</code></strong>: group labels</a></li>
+</ul></li>
+<li class="chapter" data-level="21.6" data-path="basegraphics.html"><a href="basegraphics.html#heatmap"><i class="fa fa-check"></i><b>21.6</b> Heatmap</a></li>
+<li class="chapter" data-level="21.7" data-path="basegraphics.html"><a href="basegraphics.html#graphical-parameters"><i class="fa fa-check"></i><b>21.7</b> Graphical parameters</a></li>
+</ul></li>
+<li class="chapter" data-level="22" data-path="graphics3x.html"><a href="graphics3x.html"><i class="fa fa-check"></i><b>22</b> 3x Graphics</a>
+<ul>
+<li class="chapter" data-level="22.1" data-path="graphics3x.html"><a href="graphics3x.html#base-graphics"><i class="fa fa-check"></i><b>22.1</b> Base graphics</a></li>
+<li class="chapter" data-level="22.2" data-path="graphics3x.html"><a href="graphics3x.html#grid-graphics"><i class="fa fa-check"></i><b>22.2</b> Grid graphics</a>
+<ul>
+<li class="chapter" data-level="22.2.1" data-path="graphics3x.html"><a href="graphics3x.html#ggplot2"><i class="fa fa-check"></i><b>22.2.1</b> <code>ggplot2</code></a></li>
+</ul></li>
+<li class="chapter" data-level="22.3" data-path="graphics3x.html"><a href="graphics3x.html#rd-party-apis"><i class="fa fa-check"></i><b>22.3</b> 3rd party APIs</a></li>
+<li class="chapter" data-level="22.4" data-path="graphics3x.html"><a href="graphics3x.html#scatterplot"><i class="fa fa-check"></i><b>22.4</b> Scatterplot</a>
+<ul>
+<li class="chapter" data-level="22.4.1" data-path="graphics3x.html"><a href="graphics3x.html#base-2"><i class="fa fa-check"></i><b>22.4.1</b> base</a></li>
+<li class="chapter" data-level="22.4.2" data-path="graphics3x.html"><a href="graphics3x.html#mplot3"><i class="fa fa-check"></i><b>22.4.2</b> <strong>mplot3</strong></a></li>
+<li class="chapter" data-level="22.4.3" data-path="graphics3x.html"><a href="graphics3x.html#dplot3"><i class="fa fa-check"></i><b>22.4.3</b> <strong>dplot3</strong></a></li>
+<li class="chapter" data-level="22.4.4" data-path="graphics3x.html"><a href="graphics3x.html#ggplot2-1"><i class="fa fa-check"></i><b>22.4.4</b> <strong>ggplot2</strong></a></li>
+<li class="chapter" data-level="22.4.5" data-path="graphics3x.html"><a href="graphics3x.html#plotly"><i class="fa fa-check"></i><b>22.4.5</b> <strong>plotly</strong></a></li>
+<li class="chapter" data-level="22.4.6" data-path="graphics3x.html"><a href="graphics3x.html#grouped"><i class="fa fa-check"></i><b>22.4.6</b> Grouped</a></li>
+</ul></li>
+<li class="chapter" data-level="22.5" data-path="graphics3x.html"><a href="graphics3x.html#scatterplot-with-fit"><i class="fa fa-check"></i><b>22.5</b> Scatterplot with fit</a>
+<ul>
+<li class="chapter" data-level="22.5.1" data-path="graphics3x.html"><a href="graphics3x.html#mplot3-1"><i class="fa fa-check"></i><b>22.5.1</b> <strong>mplot3</strong></a></li>
+<li class="chapter" data-level="22.5.2" data-path="graphics3x.html"><a href="graphics3x.html#dplot3-1"><i class="fa fa-check"></i><b>22.5.2</b> <strong>dplot3</strong></a></li>
+<li class="chapter" data-level="22.5.3" data-path="graphics3x.html"><a href="graphics3x.html#ggplot2-2"><i class="fa fa-check"></i><b>22.5.3</b> <strong>ggplot2</strong></a></li>
+<li class="chapter" data-level="22.5.4" data-path="graphics3x.html"><a href="graphics3x.html#plotly-1"><i class="fa fa-check"></i><b>22.5.4</b> <strong>plotly</strong></a></li>
+</ul></li>
+<li class="chapter" data-level="22.6" data-path="graphics3x.html"><a href="graphics3x.html#density-plot-1"><i class="fa fa-check"></i><b>22.6</b> Density plot</a>
+<ul>
+<li class="chapter" data-level="22.6.1" data-path="graphics3x.html"><a href="graphics3x.html#base-3"><i class="fa fa-check"></i><b>22.6.1</b> base</a></li>
+<li class="chapter" data-level="22.6.2" data-path="graphics3x.html"><a href="graphics3x.html#mplot3-2"><i class="fa fa-check"></i><b>22.6.2</b> <strong>mplot3</strong></a></li>
+<li class="chapter" data-level="22.6.3" data-path="graphics3x.html"><a href="graphics3x.html#dplot3-2"><i class="fa fa-check"></i><b>22.6.3</b> <strong>dplot3</strong></a></li>
+<li class="chapter" data-level="22.6.4" data-path="graphics3x.html"><a href="graphics3x.html#ggplot2-3"><i class="fa fa-check"></i><b>22.6.4</b> <strong>ggplot2</strong></a></li>
+</ul></li>
+<li class="chapter" data-level="22.7" data-path="graphics3x.html"><a href="graphics3x.html#histogram-1"><i class="fa fa-check"></i><b>22.7</b> Histogram</a>
+<ul>
+<li class="chapter" data-level="22.7.1" data-path="graphics3x.html"><a href="graphics3x.html#base-4"><i class="fa fa-check"></i><b>22.7.1</b> base</a></li>
+<li class="chapter" data-level="22.7.2" data-path="graphics3x.html"><a href="graphics3x.html#mplot3-3"><i class="fa fa-check"></i><b>22.7.2</b> <strong>mplot3</strong></a></li>
+<li class="chapter" data-level="22.7.3" data-path="graphics3x.html"><a href="graphics3x.html#dplot3-3"><i class="fa fa-check"></i><b>22.7.3</b> <strong>dplot3</strong></a></li>
+<li class="chapter" data-level="22.7.4" data-path="graphics3x.html"><a href="graphics3x.html#ggplot2-4"><i class="fa fa-check"></i><b>22.7.4</b> <strong>ggplot2</strong></a></li>
+<li class="chapter" data-level="22.7.5" data-path="graphics3x.html"><a href="graphics3x.html#barplot-1"><i class="fa fa-check"></i><b>22.7.5</b> Barplot</a></li>
+<li class="chapter" data-level="22.7.6" data-path="graphics3x.html"><a href="graphics3x.html#base-5"><i class="fa fa-check"></i><b>22.7.6</b> base</a></li>
+<li class="chapter" data-level="22.7.7" data-path="graphics3x.html"><a href="graphics3x.html#mplot3-4"><i class="fa fa-check"></i><b>22.7.7</b> <strong>mplot3</strong></a></li>
+<li class="chapter" data-level="22.7.8" data-path="graphics3x.html"><a href="graphics3x.html#dplot3-4"><i class="fa fa-check"></i><b>22.7.8</b> <strong>dplot3</strong></a></li>
+<li class="chapter" data-level="22.7.9" data-path="graphics3x.html"><a href="graphics3x.html#ggplot2-5"><i class="fa fa-check"></i><b>22.7.9</b> <strong>ggplot2</strong></a></li>
+</ul></li>
+<li class="chapter" data-level="22.8" data-path="graphics3x.html"><a href="graphics3x.html#box-plot"><i class="fa fa-check"></i><b>22.8</b> Box plot</a>
+<ul>
+<li class="chapter" data-level="22.8.1" data-path="graphics3x.html"><a href="graphics3x.html#base-6"><i class="fa fa-check"></i><b>22.8.1</b> base</a></li>
+<li class="chapter" data-level="22.8.2" data-path="graphics3x.html"><a href="graphics3x.html#mplot3-5"><i class="fa fa-check"></i><b>22.8.2</b> <strong>mplot3</strong></a></li>
+<li class="chapter" data-level="22.8.3" data-path="graphics3x.html"><a href="graphics3x.html#dplot3-5"><i class="fa fa-check"></i><b>22.8.3</b> <strong>dplot3</strong></a></li>
+<li class="chapter" data-level="22.8.4" data-path="graphics3x.html"><a href="graphics3x.html#ggplot2-6"><i class="fa fa-check"></i><b>22.8.4</b> <strong>ggplot2</strong></a></li>
+</ul></li>
+<li class="chapter" data-level="22.9" data-path="graphics3x.html"><a href="graphics3x.html#heatmap-1"><i class="fa fa-check"></i><b>22.9</b> Heatmap</a>
+<ul>
+<li class="chapter" data-level="22.9.1" data-path="graphics3x.html"><a href="graphics3x.html#base-7"><i class="fa fa-check"></i><b>22.9.1</b> base</a></li>
+<li class="chapter" data-level="22.9.2" data-path="graphics3x.html"><a href="graphics3x.html#mplot3-6"><i class="fa fa-check"></i><b>22.9.2</b> <strong>mplot3</strong></a></li>
+<li class="chapter" data-level="22.9.3" data-path="graphics3x.html"><a href="graphics3x.html#dplot3-6"><i class="fa fa-check"></i><b>22.9.3</b> <strong>dplot3</strong></a></li>
+<li class="chapter" data-level="22.9.4" data-path="graphics3x.html"><a href="graphics3x.html#ggplot2-7"><i class="fa fa-check"></i><b>22.9.4</b> <strong>ggplot2</strong></a></li>
+</ul></li>
+<li class="chapter" data-level="22.10" data-path="graphics3x.html"><a href="graphics3x.html#saving-plots-to-file"><i class="fa fa-check"></i><b>22.10</b> Saving plots to file</a>
+<ul>
+<li class="chapter" data-level="22.10.1" data-path="graphics3x.html"><a href="graphics3x.html#base-8"><i class="fa fa-check"></i><b>22.10.1</b> base</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="23" data-path="colors.html"><a href="colors.html"><i class="fa fa-check"></i><b>23</b> Colors in R</a>
+<ul>
+<li class="chapter" data-level="23.1" data-path="colors.html"><a href="colors.html#color-names"><i class="fa fa-check"></i><b>23.1</b> Color names</a></li>
+<li class="chapter" data-level="23.2" data-path="colors.html"><a href="colors.html#hexadecimal-codes"><i class="fa fa-check"></i><b>23.2</b> Hexadecimal codes</a></li>
+<li class="chapter" data-level="23.3" data-path="colors.html"><a href="colors.html#rgb"><i class="fa fa-check"></i><b>23.3</b> RGB</a></li>
+<li class="chapter" data-level="23.4" data-path="colors.html"><a href="colors.html#hsv"><i class="fa fa-check"></i><b>23.4</b> HSV</a></li>
+</ul></li>
+<li class="chapter" data-level="24" data-path="profiling.html"><a href="profiling.html"><i class="fa fa-check"></i><b>24</b> Timing &amp; Profiling</a>
+<ul>
+<li class="chapter" data-level="24.1" data-path="profiling.html"><a href="profiling.html#time-the-execution-of-an-expression-with-system.time"><i class="fa fa-check"></i><b>24.1</b> Time the execution of an expression with <code>system.time</code></a></li>
+<li class="chapter" data-level="24.2" data-path="profiling.html"><a href="profiling.html#compare-execution-times-of-different-expressions-with-microbenchmark"><i class="fa fa-check"></i><b>24.2</b> Compare execution times of different expressions with <code>microbenchmark()</code></a></li>
+<li class="chapter" data-level="24.3" data-path="profiling.html"><a href="profiling.html#profile-a-function-with-profvis"><i class="fa fa-check"></i><b>24.3</b> Profile a function with <code>profvis()</code></a></li>
+</ul></li>
+<li class="chapter" data-level="25" data-path="optim.html"><a href="optim.html"><i class="fa fa-check"></i><b>25</b> Optimization with <code>optim()</code></a>
+<ul>
+<li class="chapter" data-level="25.1" data-path="optim.html"><a href="optim.html#data"><i class="fa fa-check"></i><b>25.1</b> Data</a></li>
+<li class="chapter" data-level="25.2" data-path="optim.html"><a href="optim.html#glm-glm-s.glm"><i class="fa fa-check"></i><b>25.2</b> GLM (<code>glm</code>, <code>s.GLM</code>)</a></li>
+<li class="chapter" data-level="25.3" data-path="optim.html"><a href="optim.html#optim-1"><i class="fa fa-check"></i><b>25.3</b> <code>optim</code></a></li>
+</ul></li>
+<li class="chapter" data-level="26" data-path="resampling.html"><a href="resampling.html"><i class="fa fa-check"></i><b>26</b> Resampling</a>
+<ul>
+<li class="chapter" data-level="26.1" data-path="resampling.html"><a href="resampling.html#model-selection-and-assessment"><i class="fa fa-check"></i><b>26.1</b> Model Selection and Assessment</a></li>
+<li class="chapter" data-level="26.2" data-path="resampling.html"><a href="resampling.html#the-resample-function"><i class="fa fa-check"></i><b>26.2</b> The resample function</a></li>
+<li class="chapter" data-level="26.3" data-path="resampling.html"><a href="resampling.html#example-stratified-vs-random-sampling-in-a-binomial-distribution"><i class="fa fa-check"></i><b>26.3</b> Example: Stratified vs random sampling in a binomial distribution</a></li>
+</ul></li>
+<li class="chapter" data-level="27" data-path="glm.html"><a href="glm.html"><i class="fa fa-check"></i><b>27</b> Introduction to the GLM</a>
+<ul>
+<li class="chapter" data-level="27.1" data-path="glm.html"><a href="glm.html#generalized-linear-model-glm"><i class="fa fa-check"></i><b>27.1</b> Generalized Linear Model (GLM)</a></li>
+<li class="chapter" data-level="27.2" data-path="glm.html"><a href="glm.html#mass-univariate-analysis"><i class="fa fa-check"></i><b>27.2</b> Mass-univariate analysis</a></li>
+<li class="chapter" data-level="27.3" data-path="glm.html"><a href="glm.html#multiple-comparison-correction"><i class="fa fa-check"></i><b>27.3</b> Multiple comparison correction</a></li>
+</ul></li>
+<li class="chapter" data-level="28" data-path="supervised.html"><a href="supervised.html"><i class="fa fa-check"></i><b>28</b> Supervised Learning</a>
+<ul>
+<li class="chapter" data-level="28.1" data-path="supervised.html"><a href="supervised.html#installation"><i class="fa fa-check"></i><b>28.1</b> Installation</a></li>
+<li class="chapter" data-level="28.2" data-path="supervised.html"><a href="supervised.html#data-input-for-supervised-learning"><i class="fa fa-check"></i><b>28.2</b> Data Input for Supervised Learning</a>
+<ul>
+<li class="chapter" data-level="28.2.1" data-path="supervised.html"><a href="supervised.html#scenario-1-x.train-y.train-x.test-y.test"><i class="fa fa-check"></i><b>28.2.1</b> Scenario 1 (<code>x.train, y.train, x.test, y.test</code>)</a></li>
+<li class="chapter" data-level="28.2.2" data-path="supervised.html"><a href="supervised.html#scenario-2-x.train-x.test"><i class="fa fa-check"></i><b>28.2.2</b> Scenario 2: (<code>x.train, x.test</code>)</a></li>
+</ul></li>
+<li class="chapter" data-level="28.3" data-path="supervised.html"><a href="supervised.html#regression"><i class="fa fa-check"></i><b>28.3</b> Regression</a>
+<ul>
+<li class="chapter" data-level="28.3.1" data-path="supervised.html"><a href="supervised.html#check-data-with-checkdata"><i class="fa fa-check"></i><b>28.3.1</b> Check Data with <code>checkData()</code></a></li>
+<li class="chapter" data-level="28.3.2" data-path="supervised.html"><a href="supervised.html#single-model"><i class="fa fa-check"></i><b>28.3.2</b> Single Model</a></li>
+<li class="chapter" data-level="28.3.3" data-path="supervised.html"><a href="supervised.html#crossvalidated-model"><i class="fa fa-check"></i><b>28.3.3</b> Crossvalidated Model</a></li>
+</ul></li>
+<li class="chapter" data-level="28.4" data-path="supervised.html"><a href="supervised.html#classification"><i class="fa fa-check"></i><b>28.4</b> Classification</a>
+<ul>
+<li class="chapter" data-level="28.4.1" data-path="supervised.html"><a href="supervised.html#check-data"><i class="fa fa-check"></i><b>28.4.1</b> Check Data</a></li>
+<li class="chapter" data-level="28.4.2" data-path="supervised.html"><a href="supervised.html#single-model-1"><i class="fa fa-check"></i><b>28.4.2</b> Single model</a></li>
+<li class="chapter" data-level="28.4.3" data-path="supervised.html"><a href="supervised.html#crossvalidated-model-1"><i class="fa fa-check"></i><b>28.4.3</b> Crossvalidated Model</a></li>
+</ul></li>
+<li class="chapter" data-level="28.5" data-path="supervised.html"><a href="supervised.html#rtemis-documentation"><i class="fa fa-check"></i><b>28.5</b> <strong>rtemis</strong> documentation</a></li>
+</ul></li>
+<li class="chapter" data-level="29" data-path="unsupervised.html"><a href="unsupervised.html"><i class="fa fa-check"></i><b>29</b> Unsupervised Learning</a>
+<ul>
+<li class="chapter" data-level="29.1" data-path="unsupervised.html"><a href="unsupervised.html#decomposition"><i class="fa fa-check"></i><b>29.1</b> Decomposition / Dimensionality Reduction</a></li>
+<li class="chapter" data-level="29.2" data-path="unsupervised.html"><a href="unsupervised.html#clustering"><i class="fa fa-check"></i><b>29.2</b> Clustering</a>
+<ul>
+<li class="chapter" data-level="29.2.1" data-path="unsupervised.html"><a href="unsupervised.html#k-means"><i class="fa fa-check"></i><b>29.2.1</b> K-Means</a></li>
+<li class="chapter" data-level="29.2.2" data-path="unsupervised.html"><a href="unsupervised.html#partitioning-around-medoids-with-k-estimation-pamk"><i class="fa fa-check"></i><b>29.2.2</b> Partitioning Around Medoids with k estimation (PAMK)</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="30" data-path="git.html"><a href="git.html"><i class="fa fa-check"></i><b>30</b> Git &amp; GitHub: the basics</a>
+<ul>
+<li class="chapter" data-level="30.1" data-path="git.html"><a href="git.html#installing-git"><i class="fa fa-check"></i><b>30.1</b> Installing git</a></li>
+<li class="chapter" data-level="30.2" data-path="git.html"><a href="git.html#basic-git-usage"><i class="fa fa-check"></i><b>30.2</b> Basic git usage</a>
+<ul>
+<li class="chapter" data-level="30.2.1" data-path="git.html"><a href="git.html#cloning-downloading"><i class="fa fa-check"></i><b>30.2.1</b> Cloning (“Downloading”)</a></li>
+<li class="chapter" data-level="30.2.2" data-path="git.html"><a href="git.html#pushing-uploading"><i class="fa fa-check"></i><b>30.2.2</b> Pushing (“Uploading”)</a></li>
+<li class="chapter" data-level="30.2.3" data-path="git.html"><a href="git.html#collaborating"><i class="fa fa-check"></i><b>30.2.3</b> Collaborating</a></li>
+<li class="chapter" data-level="30.2.4" data-path="git.html"><a href="git.html#branching-and-merging"><i class="fa fa-check"></i><b>30.2.4</b> Branching and merging</a></li>
+<li class="chapter" data-level="30.2.5" data-path="git.html"><a href="git.html#pull-request"><i class="fa fa-check"></i><b>30.2.5</b> Pull request</a></li>
+</ul></li>
+<li class="chapter" data-level="30.3" data-path="git.html"><a href="git.html#gists"><i class="fa fa-check"></i><b>30.3</b> Gists</a></li>
+<li class="chapter" data-level="30.4" data-path="git.html"><a href="git.html#git-resources"><i class="fa fa-check"></i><b>30.4</b> Git Resources</a></li>
+<li class="chapter" data-level="30.5" data-path="git.html"><a href="git.html#git-and-github-for-open-and-reproducible-science"><i class="fa fa-check"></i><b>30.5</b> Git and GitHub for open and reproducible science</a></li>
+<li class="chapter" data-level="30.6" data-path="git.html"><a href="git.html#applications-with-builtin-git-support"><i class="fa fa-check"></i><b>30.6</b> Applications with builtin git support</a></li>
+</ul></li>
+<li class="chapter" data-level="31" data-path="shell.html"><a href="shell.html"><i class="fa fa-check"></i><b>31</b> Introduction to the system shell</a>
+<ul>
+<li class="chapter" data-level="31.1" data-path="shell.html"><a href="shell.html#common-shell-commands"><i class="fa fa-check"></i><b>31.1</b> Common shell commands</a></li>
+<li class="chapter" data-level="31.2" data-path="shell.html"><a href="shell.html#running-system-commands-within-r"><i class="fa fa-check"></i><b>31.2</b> Running system commands within R</a></li>
+</ul></li>
+<li class="chapter" data-level="32" data-path="resources.html"><a href="resources.html"><i class="fa fa-check"></i><b>32</b> Resources</a>
+<ul>
+<li class="chapter" data-level="32.1" data-path="resources.html"><a href="resources.html#r-project"><i class="fa fa-check"></i><b>32.1</b> R Project</a></li>
+<li class="chapter" data-level="32.2" data-path="resources.html"><a href="resources.html#r-markdown"><i class="fa fa-check"></i><b>32.2</b> R markdown</a></li>
+<li class="chapter" data-level="32.3" data-path="resources.html"><a href="resources.html#documentation"><i class="fa fa-check"></i><b>32.3</b> Documentation</a></li>
+<li class="chapter" data-level="32.4" data-path="resources.html"><a href="resources.html#r-for-data-science"><i class="fa fa-check"></i><b>32.4</b> R for data science</a></li>
+<li class="chapter" data-level="32.5" data-path="resources.html"><a href="resources.html#graphics"><i class="fa fa-check"></i><b>32.5</b> Graphics</a>
+<ul>
+<li class="chapter" data-level="32.5.1" data-path="resources.html"><a href="resources.html#ggplot2-8"><i class="fa fa-check"></i><b>32.5.1</b> ggplot2</a></li>
+<li class="chapter" data-level="32.5.2" data-path="resources.html"><a href="resources.html#plotly-2"><i class="fa fa-check"></i><b>32.5.2</b> Plotly</a></li>
+</ul></li>
+<li class="chapter" data-level="32.6" data-path="resources.html"><a href="resources.html#advanced-r"><i class="fa fa-check"></i><b>32.6</b> Advanced R</a></li>
+<li class="chapter" data-level="32.7" data-path="resources.html"><a href="resources.html#git-and-github"><i class="fa fa-check"></i><b>32.7</b> Git and GitHub</a></li>
+<li class="chapter" data-level="32.8" data-path="resources.html"><a href="resources.html#machine-learning"><i class="fa fa-check"></i><b>32.8</b> Machine Learning</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://lambdamd.org" target="blank" style="padding: 0 0 30px 35px">
+<img src = "./lcm.png" width="55">
+</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Programming for Data Science in R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="datatrans" class="section level1" number="15">
+<h1><span class="header-section-number">Chapter 15</span> Data Transformations</h1>
+<STYLE type='text/css' scoped>
+PRE.fansi SPAN {padding-top: .25em; padding-bottom: .25em};
+</STYLE>
+<div class="sourceCode" id="cb951"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb951-1"><a href="datatrans.html#cb951-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rtemis)</span></code></pre></div>
+<pre><code>  .:rtemis 0.8.0: Welcome, egenn
+  [x86_64-apple-darwin17.0 (64-bit): Defaulting to 4/4 available cores]
+  Documentation &amp; vignettes: https://rtemis.lambdamd.org</code></pre>
+<div id="continuous-variables" class="section level2" number="15.1">
+<h2><span class="header-section-number">15.1</span> Continuous variables</h2>
+<div id="standardization-scaling-centering-with-scale" class="section level3" number="15.1.1">
+<h3><span class="header-section-number">15.1.1</span> Standardization / Scaling &amp; Centering with <code>scale()</code></h3>
+<p>Depending on your modeling needs / algorithms you plan to use, it is often important to scale and/or center your data. Note that many functions, but not all, will automatically scale and center data internally if it is required by the algorithm. Check the function documentation.<br />
+If you manually scale and/or center your data, you must:</p>
+<ul>
+<li>Perform scaling and centering on your training data</li>
+<li>Save the centering and scaling parameters for each feature</li>
+<li>Apply the training set-dervied centering and scaling parameters to the test set prior to prediction/inference</li>
+</ul>
+<p>A common mistake is to either scale training and testing data together in the beginning, or scale them separately.</p>
+<p>Standardizing, i.e. converting to Z-scores, involving subtracting the mean and dividing by the standard deviation.
+Scaling and centering in R is performed with the <code>scale</code> function. By default, both arguments <code>scale</code> and <code>center</code> are TRUE:</p>
+<div class="sourceCode" id="cb953"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb953-1"><a href="datatrans.html#cb953-1" aria-hidden="true" tabindex="-1"></a>iris.scaled <span class="ot">&lt;-</span> <span class="fu">scale</span>(iris[, <span class="sc">-</span><span class="dv">5</span>])</span></code></pre></div>
+<p>First, let’s check that it did what we were hoping:</p>
+<div class="sourceCode" id="cb954"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb954-1"><a href="datatrans.html#cb954-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colMeans</span>(iris.scaled)</span></code></pre></div>
+<pre><code> Sepal.Length   Sepal.Width  Petal.Length   Petal.Width 
+-4.480675e-16  2.035409e-16 -2.844947e-17 -3.714621e-17 </code></pre>
+<div class="sourceCode" id="cb956"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb956-1"><a href="datatrans.html#cb956-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(iris.scaled, <span class="dv">2</span>, sd)</span></code></pre></div>
+<pre><code>Sepal.Length  Sepal.Width Petal.Length  Petal.Width 
+           1            1            1            1 </code></pre>
+<p>Good - We got mean of 0 (effectively) and standard deviation of 1 for each column.</p>
+<p>Now, let’s get the scale and center attributes:</p>
+<div class="sourceCode" id="cb958"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb958-1"><a href="datatrans.html#cb958-1" aria-hidden="true" tabindex="-1"></a><span class="fu">attributes</span>(iris.scaled)</span></code></pre></div>
+<pre><code>$dim
+[1] 150   4
+
+$dimnames
+$dimnames[[1]]
+NULL
+
+$dimnames[[2]]
+[1] &quot;Sepal.Length&quot; &quot;Sepal.Width&quot;  &quot;Petal.Length&quot; &quot;Petal.Width&quot; 
+
+
+$`scaled:center`
+Sepal.Length  Sepal.Width Petal.Length  Petal.Width 
+    5.843333     3.057333     3.758000     1.199333 
+
+$`scaled:scale`
+Sepal.Length  Sepal.Width Petal.Length  Petal.Width 
+   0.8280661    0.4358663    1.7652982    0.7622377 </code></pre>
+<p>Let’s save the scale and center attributes and then check some values so that we are clear what is happening:</p>
+<div class="sourceCode" id="cb960"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb960-1"><a href="datatrans.html#cb960-1" aria-hidden="true" tabindex="-1"></a>(.center <span class="ot">&lt;-</span> <span class="fu">attr</span>(iris.scaled, <span class="st">&quot;scaled:center&quot;</span>))</span></code></pre></div>
+<pre><code>Sepal.Length  Sepal.Width Petal.Length  Petal.Width 
+    5.843333     3.057333     3.758000     1.199333 </code></pre>
+<div class="sourceCode" id="cb962"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb962-1"><a href="datatrans.html#cb962-1" aria-hidden="true" tabindex="-1"></a>(.scale <span class="ot">&lt;-</span> <span class="fu">attr</span>(iris.scaled, <span class="st">&quot;scaled:scale&quot;</span>))</span></code></pre></div>
+<pre><code>Sepal.Length  Sepal.Width Petal.Length  Petal.Width 
+   0.8280661    0.4358663    1.7652982    0.7622377 </code></pre>
+<div class="sourceCode" id="cb964"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb964-1"><a href="datatrans.html#cb964-1" aria-hidden="true" tabindex="-1"></a>Sepal.Length_scaled <span class="ot">&lt;-</span> (iris<span class="sc">$</span>Sepal.Length <span class="sc">-</span> .center[<span class="dv">1</span>]) <span class="sc">/</span> .scale[<span class="dv">1</span>]</span>
+<span id="cb964-2"><a href="datatrans.html#cb964-2" aria-hidden="true" tabindex="-1"></a><span class="fu">all</span>(Sepal.Length_scaled <span class="sc">==</span> iris.scaled[, <span class="st">&quot;Sepal.Length&quot;</span>])</span></code></pre></div>
+<pre><code>[1] TRUE</code></pre>
+<p>Note: Due to limitation in numerical precision, checking sets of floats for equality after multiple operations is not recommended. Always a good idea to plot:</p>
+<div class="sourceCode" id="cb966"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb966-1"><a href="datatrans.html#cb966-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mplot3.fit</span>(Sepal.Length_scaled, iris.scaled[, <span class="st">&quot;Sepal.Length&quot;</span>])</span></code></pre></div>
+<p><img src="72-DataTrans_files/figure-html/unnamed-chunk-9-1.png" width="960" /></p>
+</div>
+<div id="log-transform-with-log" class="section level3" number="15.1.2">
+<h3><span class="header-section-number">15.1.2</span> Log-transform with <code>log()</code></h3>
+<p>For the following example, <code>x</code> is an unknown feature in a new dataset we were just given.<br />
+We start by plotting its distribution:</p>
+<div class="sourceCode" id="cb967"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb967-1"><a href="datatrans.html#cb967-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mplot3.x</span>(x)</span></code></pre></div>
+<p><img src="72-DataTrans_files/figure-html/unnamed-chunk-11-1.png" width="960" /></p>
+<p>We can see it is highly skewed. A log transform may help here.<br />
+Let’s check:</p>
+<div class="sourceCode" id="cb968"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb968-1"><a href="datatrans.html#cb968-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mplot3.x</span>(<span class="fu">log</span>(x))</span></code></pre></div>
+<p><img src="72-DataTrans_files/figure-html/unnamed-chunk-12-1.png" width="960" /></p>
+<p>Looks like a good deal.</p>
+</div>
+<div id="data-binning-with-cut" class="section level3" number="15.1.3">
+<h3><span class="header-section-number">15.1.3</span> Data binning with <code>cut()</code></h3>
+<p>Another approach for the above variable might be to bin it.<br />
+Let’s look at a few different ways to bin continuous data.</p>
+<div id="equal-interval-cuts" class="section level4" number="15.1.3.1">
+<h4><span class="header-section-number">15.1.3.1</span> Equal-interval cuts</h4>
+<p>By passing an integer to <code>cut()</code>’s <code>breaks</code> argument, we get that many equally-spaced intervals:</p>
+<div class="sourceCode" id="cb969"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb969-1"><a href="datatrans.html#cb969-1" aria-hidden="true" tabindex="-1"></a>x_cut4 <span class="ot">&lt;-</span> <span class="fu">cut</span>(x, <span class="at">breaks =</span> <span class="dv">4</span>)</span>
+<span id="cb969-2"><a href="datatrans.html#cb969-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(x_cut4)</span></code></pre></div>
+<pre><code>x_cut4
+(0.248,189]   (189,377]   (377,565]   (565,754] 
+        981          17           1           1 </code></pre>
+<p>Because the data is so skewed, equal intervals are not helpful in this case. The majority of the data gets grouped into a single bin.<br />
+Let’s visualize the cuts.</p>
+<div class="sourceCode" id="cb971"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb971-1"><a href="datatrans.html#cb971-1" aria-hidden="true" tabindex="-1"></a>(xcuts5 <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fu">min</span>(x), <span class="fu">max</span>(x), <span class="at">length.out =</span> <span class="dv">5</span>))</span></code></pre></div>
+<pre><code>[1]   1.0000 189.0175 377.0350 565.0525 753.0700</code></pre>
+<div class="sourceCode" id="cb973"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb973-1"><a href="datatrans.html#cb973-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mplot3.x</span>(x, <span class="at">par.reset =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb973-2"><a href="datatrans.html#cb973-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> xcuts5, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="fl">1.5</span>)</span></code></pre></div>
+<p><img src="72-DataTrans_files/figure-html/unnamed-chunk-14-1.png" width="960" /></p>
+<p>Note: We used <code>par.reset = FALSE</code> to stop <code>mplot3.x</code> from resetting its custom <code>par()</code> settings so that we can continue adding elements to the same plot, in this case with the <code>abline</code> command.</p>
+</div>
+<div id="quantile-cuts" class="section level4" number="15.1.3.2">
+<h4><span class="header-section-number">15.1.3.2</span> Quantile cuts</h4>
+<p>Instead, we can get quantiles. We ask for 5 quantiles which corresponds to 4 intervals:</p>
+<div class="sourceCode" id="cb974"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb974-1"><a href="datatrans.html#cb974-1" aria-hidden="true" tabindex="-1"></a>(xquants5 <span class="ot">&lt;-</span> <span class="fu">quantile</span>(x, <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">5</span>)))</span></code></pre></div>
+<pre><code>       0%       25%       50%       75%      100% 
+  1.00000  10.65099  20.04102  39.21473 753.06995 </code></pre>
+<div class="sourceCode" id="cb976"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb976-1"><a href="datatrans.html#cb976-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mplot3.x</span>(x, <span class="at">par.reset =</span> F)</span>
+<span id="cb976-2"><a href="datatrans.html#cb976-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> xquants5, <span class="at">col =</span> <span class="st">&quot;green&quot;</span>, <span class="at">lwd =</span> <span class="fl">1.5</span>)</span></code></pre></div>
+<p><img src="72-DataTrans_files/figure-html/unnamed-chunk-15-1.png" width="960" /></p>
+<p>We can use the quantiles as breaks in <code>cut()</code>:</p>
+<div class="sourceCode" id="cb977"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb977-1"><a href="datatrans.html#cb977-1" aria-hidden="true" tabindex="-1"></a>x_cutq4 <span class="ot">&lt;-</span> <span class="fu">cut</span>(x, <span class="at">breaks =</span> xquants5)</span>
+<span id="cb977-2"><a href="datatrans.html#cb977-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(x_cutq4)</span></code></pre></div>
+<pre><code>x_cutq4
+  (1,10.7]  (10.7,20]  (20,39.2] (39.2,753] 
+       249        250        250        250 </code></pre>
+<p>With quantile cuts, each bin contains the same number of observations (+/- 1).</p>
+<p>We just got a new mystery <code>x</code>! Let’s plot it:</p>
+<div class="sourceCode" id="cb979"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb979-1"><a href="datatrans.html#cb979-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mplot3.x</span>(x)</span></code></pre></div>
+<p><img src="72-DataTrans_files/figure-html/unnamed-chunk-18-1.png" width="960" /></p>
+<p>It may be worth binning into 2. Let’s look at equal-interval and quantile cuts:</p>
+<div class="sourceCode" id="cb980"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb980-1"><a href="datatrans.html#cb980-1" aria-hidden="true" tabindex="-1"></a>(xcuts3 <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fu">min</span>(x), <span class="fu">max</span>(x), <span class="at">length.out =</span> <span class="dv">3</span>))</span></code></pre></div>
+<pre><code>[1]  6.53193 25.73907 44.94622</code></pre>
+<div class="sourceCode" id="cb982"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb982-1"><a href="datatrans.html#cb982-1" aria-hidden="true" tabindex="-1"></a>(xquants3 <span class="ot">&lt;-</span> <span class="fu">quantile</span>(x, <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">3</span>)))</span></code></pre></div>
+<pre><code>      0%      50%     100% 
+ 6.53193 10.59441 44.94622 </code></pre>
+<div class="sourceCode" id="cb984"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb984-1"><a href="datatrans.html#cb984-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mplot3.x</span>(x, <span class="at">par.reset =</span> F)</span>
+<span id="cb984-2"><a href="datatrans.html#cb984-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> xcuts3, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="fl">1.5</span>)</span></code></pre></div>
+<p><img src="72-DataTrans_files/figure-html/unnamed-chunk-20-1.png" width="960" /></p>
+<div class="sourceCode" id="cb985"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb985-1"><a href="datatrans.html#cb985-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mplot3.x</span>(x, <span class="at">par.reset =</span> F)</span>
+<span id="cb985-2"><a href="datatrans.html#cb985-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> xquants3, <span class="at">col =</span> <span class="st">&quot;green&quot;</span>, <span class="at">lwd =</span> <span class="fl">1.5</span>)</span></code></pre></div>
+<p><img src="72-DataTrans_files/figure-html/unnamed-chunk-20-2.png" width="960" /></p>
+<div class="sourceCode" id="cb986"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb986-1"><a href="datatrans.html#cb986-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dplot3.x</span>(x)</span></code></pre></div>
+<div id="htmlwidget-1416c423bac26d791d8d" style="width:960px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1416c423bac26d791d8d">{"x":{"visdat":{"fe4b1c30f175":["function () ","plotlyVisDat"]},"cur_data":"fe4b1c30f175","attrs":{"fe4b1c30f175":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":[-1.22461979693614,-1.11908675288137,-1.0135537088266,-0.908020664771825,-0.802487620717053,-0.696954576662282,-0.59142153260751,-0.485888488552739,-0.380355444497967,-0.274822400443196,-0.169289356388425,-0.0637563123336531,0.0417767317211184,0.14730977577589,0.252842819830661,0.358375863885433,0.463908907940204,0.569441951994976,0.674974996049747,0.780508040104519,0.88604108415929,0.991574128214062,1.09710717226883,1.2026402163236,1.30817326037838,1.41370630443315,1.51923934848792,1.62477239254269,1.73030543659746,1.83583848065223,1.941371524707,2.04690456876178,2.15243761281655,2.25797065687132,2.36350370092609,2.46903674498086,2.57456978903563,2.6801028330904,2.78563587714518,2.89116892119995,2.99670196525472,3.10223500930949,3.20776805336426,3.31330109741903,3.4188341414738,3.52436718552858,3.62990022958335,3.73543327363812,3.84096631769289,3.94649936174766,4.05203240580243,4.1575654498572,4.26309849391198,4.36863153796675,4.47416458202152,4.57969762607629,4.68523067013106,4.79076371418583,4.8962967582406,5.00182980229538,5.10736284635015,5.21289589040492,5.31842893445969,5.42396197851446,5.52949502256923,5.63502806662401,5.74056111067878,5.84609415473355,5.95162719878832,6.05716024284309,6.16269328689786,6.26822633095263,6.37375937500741,6.47929241906218,6.58482546311695,6.69035850717172,6.79589155122649,6.90142459528126,7.00695763933603,7.1124906833908,7.21802372744558,7.32355677150035,7.42908981555512,7.53462285960989,7.64015590366466,7.74568894771943,7.8512219917742,7.95675503582898,8.06228807988375,8.16782112393852,8.27335416799329,8.37888721204806,8.48442025610283,8.5899533001576,8.69548634421238,8.80101938826715,8.90655243232192,9.01208547637669,9.11761852043146,9.22315156448623,9.32868460854101,9.43421765259578,9.53975069665055,9.64528374070532,9.75081678476009,9.85634982881486,9.96188287286963,10.0674159169244,10.1729489609792,10.2784820050339,10.3840150490887,10.4895480931435,10.5950811371983,10.700614181253,10.8061472253078,10.9116802693626,11.0172133134173,11.1227463574721,11.2282794015269,11.3338124455817,11.4393454896364,11.5448785336912,11.650411577746,11.7559446218007,11.8614776658555,11.9670107099103,12.0725437539651,12.1780767980198,12.2836098420746,12.3891428861294,12.4946759301841,12.6002089742389,12.7057420182937,12.8112750623485,12.9168081064032,13.022341150458,13.1278741945128,13.2334072385675,13.3389402826223,13.4444733266771,13.5500063707319,13.6555394147866,13.7610724588414,13.8666055028962,13.9721385469509,14.0776715910057,14.1832046350605,14.2887376791153,14.39427072317,14.4998037672248,14.6053368112796,14.7108698553343,14.8164028993891,14.9219359434439,15.0274689874987,15.1330020315534,15.2385350756082,15.344068119663,15.4496011637177,15.5551342077725,15.6606672518273,15.7662002958821,15.8717333399368,15.9772663839916,16.0827994280464,16.1883324721011,16.2938655161559,16.3993985602107,16.5049316042655,16.6104646483202,16.715997692375,16.8215307364298,16.9270637804845,17.0325968245393,17.1381298685941,17.2436629126489,17.3491959567036,17.4547290007584,17.5602620448132,17.6657950888679,17.7713281329227,17.8768611769775,17.9823942210323,18.087927265087,18.1934603091418,18.2989933531966,18.4045263972513,18.5100594413061,18.6155924853609,18.7211255294157,18.8266585734704,18.9321916175252,19.03772466158,19.1432577056347,19.2487907496895,19.3543237937443,19.4598568377991,19.5653898818538,19.6709229259086,19.7764559699634,19.8819890140181,19.9875220580729,20.0930551021277,20.1985881461825,20.3041211902372,20.409654234292,20.5151872783468,20.6207203224015,20.7262533664563,20.8317864105111,20.9373194545659,21.0428524986206,21.1483855426754,21.2539185867302,21.3594516307849,21.4649846748397,21.5705177188945,21.6760507629493,21.781583807004,21.8871168510588,21.9926498951136,22.0981829391683,22.2037159832231,22.3092490272779,22.4147820713327,22.5203151153874,22.6258481594422,22.731381203497,22.8369142475517,22.9424472916065,23.0479803356613,23.1535133797161,23.2590464237708,23.3645794678256,23.4701125118804,23.5756455559352,23.6811785999899,23.7867116440447,23.8922446880995,23.9977777321542,24.103310776209,24.2088438202638,24.3143768643186,24.4199099083733,24.5254429524281,24.6309759964829,24.7365090405376,24.8420420845924,24.9475751286472,25.053108172702,25.1586412167567,25.2641742608115,25.3697073048663,25.475240348921,25.5807733929758,25.6863064370306,25.7918394810854,25.8973725251401,26.0029055691949,26.1084386132497,26.2139716573044,26.3195047013592,26.425037745414,26.5305707894688,26.6361038335235,26.7416368775783,26.8471699216331,26.9527029656878,27.0582360097426,27.1637690537974,27.2693020978522,27.3748351419069,27.4803681859617,27.5859012300165,27.6914342740712,27.796967318126,27.9025003621808,28.0080334062356,28.1135664502903,28.2190994943451,28.3246325383999,28.4301655824546,28.5356986265094,28.6412316705642,28.746764714619,28.8522977586737,28.9578308027285,29.0633638467833,29.168896890838,29.2744299348928,29.3799629789476,29.4854960230024,29.5910290670571,29.6965621111119,29.8020951551667,29.9076281992214,30.0131612432762,30.118694287331,30.2242273313858,30.3297603754405,30.4352934194953,30.5408264635501,30.6463595076048,30.7518925516596,30.8574255957144,30.9629586397691,31.0684916838239,31.1740247278787,31.2795577719335,31.3850908159882,31.490623860043,31.5961569040978,31.7016899481525,31.8072229922073,31.9127560362621,32.0182890803169,32.1238221243716,32.2293551684264,32.3348882124812,32.4404212565359,32.5459543005907,32.6514873446455,32.7570203887003,32.862553432755,32.9680864768098,33.0736195208646,33.1791525649193,33.2846856089741,33.3902186530289,33.4957516970837,33.6012847411384,33.7068177851932,33.812350829248,33.9178838733027,34.0234169173575,34.1289499614123,34.2344830054671,34.3400160495218,34.4455490935766,34.5510821376314,34.6566151816861,34.7621482257409,34.8676812697957,34.9732143138505,35.0787473579052,35.18428040196,35.2898134460148,35.3953464900695,35.5008795341243,35.6064125781791,35.7119456222339,35.8174786662886,35.9230117103434,36.0285447543982,36.1340777984529,36.2396108425077,36.3451438865625,36.4506769306173,36.556209974672,36.6617430187268,36.7672760627816,36.8728091068363,36.9783421508911,37.0838751949459,37.1894082390007,37.2949412830554,37.4004743271102,37.506007371165,37.6115404152197,37.7170734592745,37.8226065033293,37.9281395473841,38.0336725914388,38.1392056354936,38.2447386795484,38.3502717236032,38.4558047676579,38.5613378117127,38.6668708557675,38.7724038998222,38.877936943877,38.9834699879318,39.0890030319866,39.1945360760413,39.3000691200961,39.4056021641509,39.5111352082056,39.6166682522604,39.7222012963152,39.82773434037,39.9332673844247,40.0388004284795,40.1443334725343,40.249866516589,40.3553995606438,40.4609326046986,40.5664656487534,40.6719986928081,40.7775317368629,40.8830647809177,40.9885978249724,41.0941308690272,41.199663913082,41.3051969571368,41.4107300011915,41.5162630452463,41.6217960893011,41.7273291333558,41.8328621774106,41.9383952214654,42.0439282655202,42.1494613095749,42.2549943536297,42.3605273976845,42.4660604417392,42.571593485794,42.6771265298488,42.7826595739036,42.8881926179583,42.9937256620131,43.0992587060679,43.2047917501226,43.3103247941774,43.4158578382322,43.521390882287,43.6269239263417,43.7324569703965,43.8379900144513,43.943523058506,44.0490561025608,44.1545891466156,44.2601221906704,44.3656552347251,44.4711882787799,44.5767213228347,44.6822543668894,44.7877874109442,44.893320454999,44.9988534990538,45.1043865431085,45.2099195871633,45.3154526312181,45.4209856752728,45.5265187193276,45.6320517633824,45.7375848074372,45.8431178514919,45.9486508955467,46.0541839396015,46.1597169836562,46.265250027711,46.3707830717658,46.4763161158206,46.5818491598753,46.6873822039301,46.7929152479849,46.8984482920396,47.0039813360944,47.1095143801492,47.215047424204,47.3205804682587,47.4261135123135,47.5316465563683,47.637179600423,47.7427126444778,47.8482456885326,47.9537787325874,48.0593117766421,48.1648448206969,48.2703778647517,48.3759109088064,48.4814439528612,48.586976996916,48.6925100409708,48.7980430850255,48.9035761290803,49.0091091731351,49.1146422171898,49.2201752612446,49.3257083052994,49.4312413493542,49.5367743934089,49.6423074374637,49.7478404815185,49.8533735255732,49.958906569628,50.0644396136828,50.1699726577376,50.2755057017923,50.3810387458471,50.4865717899019,50.5921048339566,50.6976378780114,50.8031709220662,50.908703966121,51.0142370101757,51.1197700542305,51.2253030982853,51.33083614234,51.4363691863948,51.5419022304496,51.6474352745044,51.7529683185591,51.8585013626139,51.9640344066687,52.0695674507234,52.1751004947782,52.280633538833,52.3861665828878,52.4916996269425,52.5972326709973,52.7027657150521],"y":[3.3001611859902e-05,3.83798015652772e-05,4.44403289083111e-05,5.12295353663994e-05,5.94221757152976e-05,6.86428678599002e-05,7.89629100671881e-05,9.0799965393506e-05,0.000104613265411414,0.00012005380777853,0.00013722235276687,0.000157344639714354,0.000180087865217145,0.000205342495429347,0.000233601268193085,0.000266592682982127,0.000303159068599211,0.000343504639714248,0.000389538438002724,0.000441670513683986,0.000499078290175207,0.000562030618017262,0.000635103176856439,0.000715519964949428,0.000803521256583497,0.000901522285648998,0.00101244779567846,0.00113353078409452,0.00126523310455696,0.00141412764080823,0.00157814711027652,0.00175607998589206,0.00194995982832949,0.00216873356800197,0.00240534777178643,0.00266049429443249,0.00294214916994423,0.00325189629358855,0.00358484285900034,0.00394177437132072,0.00433985475806871,0.00476744304042782,0.00522429849550627,0.00571792818235366,0.00625838411495375,0.00683370599975203,0.00744479545950271,0.0081104499180225,0.00882327041879284,0.00957747124843788,0.0103769756126039,0.0112458420332984,0.0121612995272337,0.0131240911262017,0.0141507699148176,0.015243459865022,0.0163875788019286,0.0175836701473727,0.0188624287816377,0.0201986627428814,0.0215890709574203,0.0230436833284189,0.0245769563131488,0.0261644181191605,0.0278058203315783,0.0295229934193018,0.0313022446416838,0.0331321400387722,0.035014117761449,0.036970523333815,0.0389710981477284,0.0410144307222017,0.0431096466797026,0.0452525172846162,0.0474275815983451,0.0496328789056481,0.0518766582917535,0.0541409315964674,0.0564208964987458,0.0587148238107134,0.0610157745019699,0.0633150062151071,0.0656095159304254,0.0678885564143607,0.070143835530203,0.0723744696848695,0.0745763244223687,0.0767191478194401,0.0788163937899294,0.0808647290281616,0.0828438291477812,0.0847372210582547,0.0865611503966368,0.0883124674924065,0.0899430782466952,0.0914766126652604,0.0929192160617165,0.0942545252983468,0.0954395059555546,0.0965184537910797,0.0974893860127729,0.0983061907255004,0.0989789250102793,0.0995337981753698,0.099969466276439,0.100208495896948,0.100324984091169,0.100318841360491,0.10015977481563,0.0998327563045925,0.0993850798177698,0.0988175463320497,0.0980749934716783,0.0972036232776045,0.0962208208732062,0.0951165866948065,0.0938556543022376,0.0924964317318891,0.0910414308865622,0.0894633239867694,0.0877797782645778,0.0860180281246496,0.0841810792235688,0.0822367910137238,0.0802328414792023,0.0781739887135823,0.0760544606092175,0.0738779982895811,0.0716677542733019,0.069427075275124,0.0671526453060609,0.0648615977198271,0.0625605919432293,0.0602529779603291,0.0579482955707401,0.0556524048241478,0.0533680231803792,0.0511057223571879,0.0488731770749739,0.0466677200152775,0.0444915870285781,0.0423698864095881,0.0402891546990447,0.0382494308110811,0.0362618357033649,0.0343409561050678,0.0324693379635562,0.0306479731517796,0.0289019777769821,0.0272193886138565,0.0255913204324959,0.024022005918519,0.0225392737381774,0.0211123823374449,0.0197412555902878,0.0184430301596743,0.0172167283114319,0.0160446001757966,0.0149262324669218,0.0138895650732501,0.0129071297321965,0.011974753262004,0.0111001606588144,0.0102934319921164,0.00953192762371513,0.00881480750904657,0.00815825192158777,0.00754993684064574,0.00698047270199146,0.00645056044297787,0.00597657309851273,0.00553578621635346,0.00512731946940771,0.00475852876344122,0.00442772542851162,0.00412387190872564,0.00384614978674446,0.00360557834506869,0.00338919267498027,0.00319415110501434,0.00302262107854349,0.00287830793746854,0.0027511631377867,0.00264058826960746,0.00255154738824673,0.0024795621325069,0.00242076049980815,0.0023749111205851,0.00234742930495237,0.002330386623569,0.00232341761666085,0.0023284281701893,0.00234508689072815,0.00236978447840747,0.00240224388426574,0.00244553739342082,0.00249614517440178,0.00255309361337211,0.00261694002209561,0.0026892071816648,0.00276682187946438,0.00284966443914598,0.00293940524738902,0.00303507884429775,0.00313540722547086,0.00324032266389105,0.00335245402513957,0.00346894128504494,0.00358976347637039,0.00371593875955707,0.00384800700776926,0.00398435862164884,0.00412499941213121,0.00427206802672559,0.00442408546964605,0.0045805053880354,0.0047418550682601,0.00491002667696798,0.00508279184585318,0.00526018489340544,0.00544394406056339,0.00563376637934358,0.00582843363559412,0.0060279792103016,0.00623545873982715,0.00644807735889218,0.0066657469558698,0.00688963216144325,0.00712068808659308,0.00735687998244846,0.00759821049433456,0.00784706953504966,0.00810181871298984,0.00836163179995899,0.00862692713802767,0.00889979295816726,0.00917747801997205,0.00945992283037973,0.00974855723778403,0.0100429122605654,0.0103415457519661,0.0106443650832044,0.0109533684829753,0.0112661336288694,0.0115823509807319,0.011902465075213,0.0122266397759415,0.0125533280655366,0.0128823626018973,0.0132142390589484,0.0135478532904395,0.0138826540192019,0.0142184736752613,0.0145549304909439,0.0148912673754635,0.0152272643907982,0.0155622871228743,0.0158955499918479,0.0162270512542036,0.0165565606116796,0.0168820805316399,0.0172042095551469,0.0175228885504704,0.017837105294655,0.0181449805885487,0.0184479823540661,0.0187458920242018,0.0190359114019029,0.0193186144358902,0.0195949189254371,0.0198643108184699,0.0201224804063713,0.0203730975653165,0.0206160001474542,0.0208485954974061,0.0210700098458146,0.0212827923288652,0.0214868154915437,0.021676982337426,0.0218570200634841,0.0220276542034641,0.0221872882882636,0.0223326975753057,0.0224682963752737,0.0225940435818396,0.0227059012882626,0.0228055677820115,0.0228952550540784,0.0229747394813607,0.0230382921282794,0.0230919508489932,0.0231357515972027,0.0231671475473827,0.0231854368524505,0.0231941744872723,0.0231934227473704,0.0231785805736903,0.0231536027956417,0.023119616783574,0.0230755561770087,0.0230186201037089,0.0229532651406802,0.0228795934976197,0.022794752672477,0.0227001747321185,0.0225979585360681,0.0224882157708937,0.022366757198442,0.0222383805453422,0.0221032065364941,0.0219598179982196,0.0218077631993176,0.0216496592900908,0.0214856258147662,0.021313174780229,0.0211346703713577,0.0209509877660704,0.0207617247349968,0.0205653395782209,0.0203645183807691,0.0201593774308642,0.0199486877064827,0.0197331934328849,0.0195141004334224,0.0192915216062026,0.0190638277244914,0.0188331593352522,0.0185996963775404,0.0183630274767996,0.0181230731008089,0.0178809845974183,0.0176368637053823,0.0173900914656014,0.0171415270048363,0.0168915462019855,0.0166401511804864,0.0163871353394725,0.0161332767286629,0.0158786615185353,0.0156232520779385,0.0153673544911376,0.0151112175336109,0.0148549196060476,0.014598668603107,0.0143426482616481,0.0140869257491169,0.0138316866516931,0.0135772687564322,0.0133235610411353,0.0130706249581156,0.012818991194265,0.012568599517253,0.0123193428995701,0.012071365124885,0.0118254728052302,0.0115810471584215,0.0113381381647054,0.0110973351780725,0.0108588089986854,0.0106221051100844,0.0103872708899447,0.0101555230036111,0.00992602460246541,0.00969868747182488,0.00947397315004033,0.00925265312134363,0.00903377980449806,0.00881739801538402,0.00860469178360771,0.00839523088419912,0.00818853889210379,0.00798478688854653,0.00778565883804245,0.0075895633726915,0.00739653977352342,0.00720756139755705,0.00702290339637829,0.0068415476647678,0.0066635274427366,0.00649073196028523,0.00632172964233627,0.00615623569870291,0.00599482906957621,0.00583868574951153,0.005686155777484,0.00553724774681388,0.00539342467043798,0.00525404720928575,0.00511829362616575,0.00498623366281062,0.00485990733573954,0.00473710970742348,0.00461781396316539,0.00450289168885427,0.00439253511673222,0.0042854653890617,0.00418164013829416,0.00408254836282375,0.00398678833657424,0.00389394925915305,0.00380432926663291,0.00371869997838674,0.00363559745030929,0.00355495370691475,0.00347750510744009,0.00340271267239259,0.00332993325158948,0.00325909440559178,0.0031910893855884,0.00312464303919177,0.00305968259356447,0.00299642483680548,0.00293480551604697,0.00287424337873768,0.00281467437958573,0.00275637298558149,0.00269886679897937,0.00264199094017402,0.00258574009256305,0.00253015451970785,0.00247491298770142,0.0024199791422497,0.00236537125599384,0.002310973472916,0.00225670372522034,0.00220254035585044,0.00214848161812004,0.00209446331225922,0.00204048022800519,0.00198653234582387,0.00193263002678953,0.00187877341343685,0.00182497078189592,0.00177128297312723,0.00171773151841594,0.00166432391864782,0.00161109736678631,0.00155821250355897,0.00150560700401708,0.00145330563279188,0.00140147227942802,0.00135018190099985,0.00129935967416189,0.00124903236128702,0.00119959174197463,0.00115081210489673,0.00110269286261776,0.00105541143621044,0.00100921548347557,0.000963829249428966,0.000919274067316498,0.000875981675541079,0.000833777641746642,0.000792519625117058,0.000752288836626767,0.000713613633129593,0.000675963466329885,0.000639346634932524,0.000604101735171886,0.000570250016228958,0.000537464468166758,0.000505747263110384,0.000475690762397298,0.000446769471530548,0.000418905637165107,0.000392277888700752,0.000367144789450378,0.000343027037080036,0.000319915346574042,0.000298202666684409,0.00027763660918182,0.000258005183520359,0.000239333557036271,0.000222057662638042,0.000205628240183688,0.000190030008201809,0.000175466919431334,0.000161921456451723,0.000149107885324224,0.000137010067698735,0.000125948682706374,0.000115578479439225,0.000105822176522139,9.67481770864407e-05,8.84812161278146e-05,8.0729461288106e-05,7.34778316677193e-05,6.68827540890336e-05,6.08159561849881e-05,5.51589405282724e-05,4.99053444639629e-05,4.52296486438176e-05,4.08827381305612e-05,3.68529508705618e-05,3.31992769896299e-05,2.99100910635681e-05,2.68696914571428e-05,2.40681486838011e-05,2.15937422636287e-05,1.93349437079312e-05,1.72594937345335e-05,1.53793076901093e-05,1.37275014429989e-05,1.22135644490794e-05,1.08312288784153e-05,9.61334852964317e-06,8.52638351446269e-06,7.53632622608378e-06,6.63825440446359e-06,5.87032785001148e-06,5.17241864305435e-06,4.54087067073942e-06],"type":"scatter","mode":"none","fill":"tozeroy","fillcolor":"rgba(68,166,172,0.75)","name":null,"text":"mean = 16.24 <br />sd = 9.96","hoverinfo":"text","showlegend":false,"inherit":true}},"layout":{"margin":{"b":50,"l":50,"t":50,"r":20},"xaxis":{"domain":[0,1],"automargin":true,"title":{"text":"x","font":{"family":"Helvetica","size":16,"color":"rgba(0,0,0,1)"}},"showline":false,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":1,"tickcolor":"rgba(0,0,0,1)","tickfont":{"family":"Helvetica","size":16,"color":"rgba(0,0,0,1)"},"zeroline":false},"title":{"text":[],"font":{"family":"Helvetica","size":16,"color":"rgba(0,0,0,1)"},"xref":"paper","x":0},"paper_bgcolor":"rgba(255,255,255,1)","plot_bgcolor":"rgba(230,230,230,1)","showlegend":false,"legend":{"x":0,"y":1,"font":{"family":"Helvetica","size":16,"color":"rgba(0,0,0,1)"},"bgcolor":"#FFFFFF00","bordercolor":"#FFFFFF00"},"yaxis":{"domain":[0,1],"automargin":true,"title":{"text":"Density","font":{"family":"Helvetica","size":16,"color":"rgba(0,0,0,1)"}},"showline":false,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":1,"tickcolor":"rgba(0,0,0,1)","tickfont":{"family":"Helvetica","size":16,"color":"rgba(0,0,0,1)"},"zeroline":false},"hovermode":"closest"},"source":"A","config":{"showSendToCloud":false},"data":[{"fillcolor":"rgba(68,166,172,0.75)","x":[-1.22461979693614,-1.11908675288137,-1.0135537088266,-0.908020664771825,-0.802487620717053,-0.696954576662282,-0.59142153260751,-0.485888488552739,-0.380355444497967,-0.274822400443196,-0.169289356388425,-0.0637563123336531,0.0417767317211184,0.14730977577589,0.252842819830661,0.358375863885433,0.463908907940204,0.569441951994976,0.674974996049747,0.780508040104519,0.88604108415929,0.991574128214062,1.09710717226883,1.2026402163236,1.30817326037838,1.41370630443315,1.51923934848792,1.62477239254269,1.73030543659746,1.83583848065223,1.941371524707,2.04690456876178,2.15243761281655,2.25797065687132,2.36350370092609,2.46903674498086,2.57456978903563,2.6801028330904,2.78563587714518,2.89116892119995,2.99670196525472,3.10223500930949,3.20776805336426,3.31330109741903,3.4188341414738,3.52436718552858,3.62990022958335,3.73543327363812,3.84096631769289,3.94649936174766,4.05203240580243,4.1575654498572,4.26309849391198,4.36863153796675,4.47416458202152,4.57969762607629,4.68523067013106,4.79076371418583,4.8962967582406,5.00182980229538,5.10736284635015,5.21289589040492,5.31842893445969,5.42396197851446,5.52949502256923,5.63502806662401,5.74056111067878,5.84609415473355,5.95162719878832,6.05716024284309,6.16269328689786,6.26822633095263,6.37375937500741,6.47929241906218,6.58482546311695,6.69035850717172,6.79589155122649,6.90142459528126,7.00695763933603,7.1124906833908,7.21802372744558,7.32355677150035,7.42908981555512,7.53462285960989,7.64015590366466,7.74568894771943,7.8512219917742,7.95675503582898,8.06228807988375,8.16782112393852,8.27335416799329,8.37888721204806,8.48442025610283,8.5899533001576,8.69548634421238,8.80101938826715,8.90655243232192,9.01208547637669,9.11761852043146,9.22315156448623,9.32868460854101,9.43421765259578,9.53975069665055,9.64528374070532,9.75081678476009,9.85634982881486,9.96188287286963,10.0674159169244,10.1729489609792,10.2784820050339,10.3840150490887,10.4895480931435,10.5950811371983,10.700614181253,10.8061472253078,10.9116802693626,11.0172133134173,11.1227463574721,11.2282794015269,11.3338124455817,11.4393454896364,11.5448785336912,11.650411577746,11.7559446218007,11.8614776658555,11.9670107099103,12.0725437539651,12.1780767980198,12.2836098420746,12.3891428861294,12.4946759301841,12.6002089742389,12.7057420182937,12.8112750623485,12.9168081064032,13.022341150458,13.1278741945128,13.2334072385675,13.3389402826223,13.4444733266771,13.5500063707319,13.6555394147866,13.7610724588414,13.8666055028962,13.9721385469509,14.0776715910057,14.1832046350605,14.2887376791153,14.39427072317,14.4998037672248,14.6053368112796,14.7108698553343,14.8164028993891,14.9219359434439,15.0274689874987,15.1330020315534,15.2385350756082,15.344068119663,15.4496011637177,15.5551342077725,15.6606672518273,15.7662002958821,15.8717333399368,15.9772663839916,16.0827994280464,16.1883324721011,16.2938655161559,16.3993985602107,16.5049316042655,16.6104646483202,16.715997692375,16.8215307364298,16.9270637804845,17.0325968245393,17.1381298685941,17.2436629126489,17.3491959567036,17.4547290007584,17.5602620448132,17.6657950888679,17.7713281329227,17.8768611769775,17.9823942210323,18.087927265087,18.1934603091418,18.2989933531966,18.4045263972513,18.5100594413061,18.6155924853609,18.7211255294157,18.8266585734704,18.9321916175252,19.03772466158,19.1432577056347,19.2487907496895,19.3543237937443,19.4598568377991,19.5653898818538,19.6709229259086,19.7764559699634,19.8819890140181,19.9875220580729,20.0930551021277,20.1985881461825,20.3041211902372,20.409654234292,20.5151872783468,20.6207203224015,20.7262533664563,20.8317864105111,20.9373194545659,21.0428524986206,21.1483855426754,21.2539185867302,21.3594516307849,21.4649846748397,21.5705177188945,21.6760507629493,21.781583807004,21.8871168510588,21.9926498951136,22.0981829391683,22.2037159832231,22.3092490272779,22.4147820713327,22.5203151153874,22.6258481594422,22.731381203497,22.8369142475517,22.9424472916065,23.0479803356613,23.1535133797161,23.2590464237708,23.3645794678256,23.4701125118804,23.5756455559352,23.6811785999899,23.7867116440447,23.8922446880995,23.9977777321542,24.103310776209,24.2088438202638,24.3143768643186,24.4199099083733,24.5254429524281,24.6309759964829,24.7365090405376,24.8420420845924,24.9475751286472,25.053108172702,25.1586412167567,25.2641742608115,25.3697073048663,25.475240348921,25.5807733929758,25.6863064370306,25.7918394810854,25.8973725251401,26.0029055691949,26.1084386132497,26.2139716573044,26.3195047013592,26.425037745414,26.5305707894688,26.6361038335235,26.7416368775783,26.8471699216331,26.9527029656878,27.0582360097426,27.1637690537974,27.2693020978522,27.3748351419069,27.4803681859617,27.5859012300165,27.6914342740712,27.796967318126,27.9025003621808,28.0080334062356,28.1135664502903,28.2190994943451,28.3246325383999,28.4301655824546,28.5356986265094,28.6412316705642,28.746764714619,28.8522977586737,28.9578308027285,29.0633638467833,29.168896890838,29.2744299348928,29.3799629789476,29.4854960230024,29.5910290670571,29.6965621111119,29.8020951551667,29.9076281992214,30.0131612432762,30.118694287331,30.2242273313858,30.3297603754405,30.4352934194953,30.5408264635501,30.6463595076048,30.7518925516596,30.8574255957144,30.9629586397691,31.0684916838239,31.1740247278787,31.2795577719335,31.3850908159882,31.490623860043,31.5961569040978,31.7016899481525,31.8072229922073,31.9127560362621,32.0182890803169,32.1238221243716,32.2293551684264,32.3348882124812,32.4404212565359,32.5459543005907,32.6514873446455,32.7570203887003,32.862553432755,32.9680864768098,33.0736195208646,33.1791525649193,33.2846856089741,33.3902186530289,33.4957516970837,33.6012847411384,33.7068177851932,33.812350829248,33.9178838733027,34.0234169173575,34.1289499614123,34.2344830054671,34.3400160495218,34.4455490935766,34.5510821376314,34.6566151816861,34.7621482257409,34.8676812697957,34.9732143138505,35.0787473579052,35.18428040196,35.2898134460148,35.3953464900695,35.5008795341243,35.6064125781791,35.7119456222339,35.8174786662886,35.9230117103434,36.0285447543982,36.1340777984529,36.2396108425077,36.3451438865625,36.4506769306173,36.556209974672,36.6617430187268,36.7672760627816,36.8728091068363,36.9783421508911,37.0838751949459,37.1894082390007,37.2949412830554,37.4004743271102,37.506007371165,37.6115404152197,37.7170734592745,37.8226065033293,37.9281395473841,38.0336725914388,38.1392056354936,38.2447386795484,38.3502717236032,38.4558047676579,38.5613378117127,38.6668708557675,38.7724038998222,38.877936943877,38.9834699879318,39.0890030319866,39.1945360760413,39.3000691200961,39.4056021641509,39.5111352082056,39.6166682522604,39.7222012963152,39.82773434037,39.9332673844247,40.0388004284795,40.1443334725343,40.249866516589,40.3553995606438,40.4609326046986,40.5664656487534,40.6719986928081,40.7775317368629,40.8830647809177,40.9885978249724,41.0941308690272,41.199663913082,41.3051969571368,41.4107300011915,41.5162630452463,41.6217960893011,41.7273291333558,41.8328621774106,41.9383952214654,42.0439282655202,42.1494613095749,42.2549943536297,42.3605273976845,42.4660604417392,42.571593485794,42.6771265298488,42.7826595739036,42.8881926179583,42.9937256620131,43.0992587060679,43.2047917501226,43.3103247941774,43.4158578382322,43.521390882287,43.6269239263417,43.7324569703965,43.8379900144513,43.943523058506,44.0490561025608,44.1545891466156,44.2601221906704,44.3656552347251,44.4711882787799,44.5767213228347,44.6822543668894,44.7877874109442,44.893320454999,44.9988534990538,45.1043865431085,45.2099195871633,45.3154526312181,45.4209856752728,45.5265187193276,45.6320517633824,45.7375848074372,45.8431178514919,45.9486508955467,46.0541839396015,46.1597169836562,46.265250027711,46.3707830717658,46.4763161158206,46.5818491598753,46.6873822039301,46.7929152479849,46.8984482920396,47.0039813360944,47.1095143801492,47.215047424204,47.3205804682587,47.4261135123135,47.5316465563683,47.637179600423,47.7427126444778,47.8482456885326,47.9537787325874,48.0593117766421,48.1648448206969,48.2703778647517,48.3759109088064,48.4814439528612,48.586976996916,48.6925100409708,48.7980430850255,48.9035761290803,49.0091091731351,49.1146422171898,49.2201752612446,49.3257083052994,49.4312413493542,49.5367743934089,49.6423074374637,49.7478404815185,49.8533735255732,49.958906569628,50.0644396136828,50.1699726577376,50.2755057017923,50.3810387458471,50.4865717899019,50.5921048339566,50.6976378780114,50.8031709220662,50.908703966121,51.0142370101757,51.1197700542305,51.2253030982853,51.33083614234,51.4363691863948,51.5419022304496,51.6474352745044,51.7529683185591,51.8585013626139,51.9640344066687,52.0695674507234,52.1751004947782,52.280633538833,52.3861665828878,52.4916996269425,52.5972326709973,52.7027657150521],"y":[3.3001611859902e-05,3.83798015652772e-05,4.44403289083111e-05,5.12295353663994e-05,5.94221757152976e-05,6.86428678599002e-05,7.89629100671881e-05,9.0799965393506e-05,0.000104613265411414,0.00012005380777853,0.00013722235276687,0.000157344639714354,0.000180087865217145,0.000205342495429347,0.000233601268193085,0.000266592682982127,0.000303159068599211,0.000343504639714248,0.000389538438002724,0.000441670513683986,0.000499078290175207,0.000562030618017262,0.000635103176856439,0.000715519964949428,0.000803521256583497,0.000901522285648998,0.00101244779567846,0.00113353078409452,0.00126523310455696,0.00141412764080823,0.00157814711027652,0.00175607998589206,0.00194995982832949,0.00216873356800197,0.00240534777178643,0.00266049429443249,0.00294214916994423,0.00325189629358855,0.00358484285900034,0.00394177437132072,0.00433985475806871,0.00476744304042782,0.00522429849550627,0.00571792818235366,0.00625838411495375,0.00683370599975203,0.00744479545950271,0.0081104499180225,0.00882327041879284,0.00957747124843788,0.0103769756126039,0.0112458420332984,0.0121612995272337,0.0131240911262017,0.0141507699148176,0.015243459865022,0.0163875788019286,0.0175836701473727,0.0188624287816377,0.0201986627428814,0.0215890709574203,0.0230436833284189,0.0245769563131488,0.0261644181191605,0.0278058203315783,0.0295229934193018,0.0313022446416838,0.0331321400387722,0.035014117761449,0.036970523333815,0.0389710981477284,0.0410144307222017,0.0431096466797026,0.0452525172846162,0.0474275815983451,0.0496328789056481,0.0518766582917535,0.0541409315964674,0.0564208964987458,0.0587148238107134,0.0610157745019699,0.0633150062151071,0.0656095159304254,0.0678885564143607,0.070143835530203,0.0723744696848695,0.0745763244223687,0.0767191478194401,0.0788163937899294,0.0808647290281616,0.0828438291477812,0.0847372210582547,0.0865611503966368,0.0883124674924065,0.0899430782466952,0.0914766126652604,0.0929192160617165,0.0942545252983468,0.0954395059555546,0.0965184537910797,0.0974893860127729,0.0983061907255004,0.0989789250102793,0.0995337981753698,0.099969466276439,0.100208495896948,0.100324984091169,0.100318841360491,0.10015977481563,0.0998327563045925,0.0993850798177698,0.0988175463320497,0.0980749934716783,0.0972036232776045,0.0962208208732062,0.0951165866948065,0.0938556543022376,0.0924964317318891,0.0910414308865622,0.0894633239867694,0.0877797782645778,0.0860180281246496,0.0841810792235688,0.0822367910137238,0.0802328414792023,0.0781739887135823,0.0760544606092175,0.0738779982895811,0.0716677542733019,0.069427075275124,0.0671526453060609,0.0648615977198271,0.0625605919432293,0.0602529779603291,0.0579482955707401,0.0556524048241478,0.0533680231803792,0.0511057223571879,0.0488731770749739,0.0466677200152775,0.0444915870285781,0.0423698864095881,0.0402891546990447,0.0382494308110811,0.0362618357033649,0.0343409561050678,0.0324693379635562,0.0306479731517796,0.0289019777769821,0.0272193886138565,0.0255913204324959,0.024022005918519,0.0225392737381774,0.0211123823374449,0.0197412555902878,0.0184430301596743,0.0172167283114319,0.0160446001757966,0.0149262324669218,0.0138895650732501,0.0129071297321965,0.011974753262004,0.0111001606588144,0.0102934319921164,0.00953192762371513,0.00881480750904657,0.00815825192158777,0.00754993684064574,0.00698047270199146,0.00645056044297787,0.00597657309851273,0.00553578621635346,0.00512731946940771,0.00475852876344122,0.00442772542851162,0.00412387190872564,0.00384614978674446,0.00360557834506869,0.00338919267498027,0.00319415110501434,0.00302262107854349,0.00287830793746854,0.0027511631377867,0.00264058826960746,0.00255154738824673,0.0024795621325069,0.00242076049980815,0.0023749111205851,0.00234742930495237,0.002330386623569,0.00232341761666085,0.0023284281701893,0.00234508689072815,0.00236978447840747,0.00240224388426574,0.00244553739342082,0.00249614517440178,0.00255309361337211,0.00261694002209561,0.0026892071816648,0.00276682187946438,0.00284966443914598,0.00293940524738902,0.00303507884429775,0.00313540722547086,0.00324032266389105,0.00335245402513957,0.00346894128504494,0.00358976347637039,0.00371593875955707,0.00384800700776926,0.00398435862164884,0.00412499941213121,0.00427206802672559,0.00442408546964605,0.0045805053880354,0.0047418550682601,0.00491002667696798,0.00508279184585318,0.00526018489340544,0.00544394406056339,0.00563376637934358,0.00582843363559412,0.0060279792103016,0.00623545873982715,0.00644807735889218,0.0066657469558698,0.00688963216144325,0.00712068808659308,0.00735687998244846,0.00759821049433456,0.00784706953504966,0.00810181871298984,0.00836163179995899,0.00862692713802767,0.00889979295816726,0.00917747801997205,0.00945992283037973,0.00974855723778403,0.0100429122605654,0.0103415457519661,0.0106443650832044,0.0109533684829753,0.0112661336288694,0.0115823509807319,0.011902465075213,0.0122266397759415,0.0125533280655366,0.0128823626018973,0.0132142390589484,0.0135478532904395,0.0138826540192019,0.0142184736752613,0.0145549304909439,0.0148912673754635,0.0152272643907982,0.0155622871228743,0.0158955499918479,0.0162270512542036,0.0165565606116796,0.0168820805316399,0.0172042095551469,0.0175228885504704,0.017837105294655,0.0181449805885487,0.0184479823540661,0.0187458920242018,0.0190359114019029,0.0193186144358902,0.0195949189254371,0.0198643108184699,0.0201224804063713,0.0203730975653165,0.0206160001474542,0.0208485954974061,0.0210700098458146,0.0212827923288652,0.0214868154915437,0.021676982337426,0.0218570200634841,0.0220276542034641,0.0221872882882636,0.0223326975753057,0.0224682963752737,0.0225940435818396,0.0227059012882626,0.0228055677820115,0.0228952550540784,0.0229747394813607,0.0230382921282794,0.0230919508489932,0.0231357515972027,0.0231671475473827,0.0231854368524505,0.0231941744872723,0.0231934227473704,0.0231785805736903,0.0231536027956417,0.023119616783574,0.0230755561770087,0.0230186201037089,0.0229532651406802,0.0228795934976197,0.022794752672477,0.0227001747321185,0.0225979585360681,0.0224882157708937,0.022366757198442,0.0222383805453422,0.0221032065364941,0.0219598179982196,0.0218077631993176,0.0216496592900908,0.0214856258147662,0.021313174780229,0.0211346703713577,0.0209509877660704,0.0207617247349968,0.0205653395782209,0.0203645183807691,0.0201593774308642,0.0199486877064827,0.0197331934328849,0.0195141004334224,0.0192915216062026,0.0190638277244914,0.0188331593352522,0.0185996963775404,0.0183630274767996,0.0181230731008089,0.0178809845974183,0.0176368637053823,0.0173900914656014,0.0171415270048363,0.0168915462019855,0.0166401511804864,0.0163871353394725,0.0161332767286629,0.0158786615185353,0.0156232520779385,0.0153673544911376,0.0151112175336109,0.0148549196060476,0.014598668603107,0.0143426482616481,0.0140869257491169,0.0138316866516931,0.0135772687564322,0.0133235610411353,0.0130706249581156,0.012818991194265,0.012568599517253,0.0123193428995701,0.012071365124885,0.0118254728052302,0.0115810471584215,0.0113381381647054,0.0110973351780725,0.0108588089986854,0.0106221051100844,0.0103872708899447,0.0101555230036111,0.00992602460246541,0.00969868747182488,0.00947397315004033,0.00925265312134363,0.00903377980449806,0.00881739801538402,0.00860469178360771,0.00839523088419912,0.00818853889210379,0.00798478688854653,0.00778565883804245,0.0075895633726915,0.00739653977352342,0.00720756139755705,0.00702290339637829,0.0068415476647678,0.0066635274427366,0.00649073196028523,0.00632172964233627,0.00615623569870291,0.00599482906957621,0.00583868574951153,0.005686155777484,0.00553724774681388,0.00539342467043798,0.00525404720928575,0.00511829362616575,0.00498623366281062,0.00485990733573954,0.00473710970742348,0.00461781396316539,0.00450289168885427,0.00439253511673222,0.0042854653890617,0.00418164013829416,0.00408254836282375,0.00398678833657424,0.00389394925915305,0.00380432926663291,0.00371869997838674,0.00363559745030929,0.00355495370691475,0.00347750510744009,0.00340271267239259,0.00332993325158948,0.00325909440559178,0.0031910893855884,0.00312464303919177,0.00305968259356447,0.00299642483680548,0.00293480551604697,0.00287424337873768,0.00281467437958573,0.00275637298558149,0.00269886679897937,0.00264199094017402,0.00258574009256305,0.00253015451970785,0.00247491298770142,0.0024199791422497,0.00236537125599384,0.002310973472916,0.00225670372522034,0.00220254035585044,0.00214848161812004,0.00209446331225922,0.00204048022800519,0.00198653234582387,0.00193263002678953,0.00187877341343685,0.00182497078189592,0.00177128297312723,0.00171773151841594,0.00166432391864782,0.00161109736678631,0.00155821250355897,0.00150560700401708,0.00145330563279188,0.00140147227942802,0.00135018190099985,0.00129935967416189,0.00124903236128702,0.00119959174197463,0.00115081210489673,0.00110269286261776,0.00105541143621044,0.00100921548347557,0.000963829249428966,0.000919274067316498,0.000875981675541079,0.000833777641746642,0.000792519625117058,0.000752288836626767,0.000713613633129593,0.000675963466329885,0.000639346634932524,0.000604101735171886,0.000570250016228958,0.000537464468166758,0.000505747263110384,0.000475690762397298,0.000446769471530548,0.000418905637165107,0.000392277888700752,0.000367144789450378,0.000343027037080036,0.000319915346574042,0.000298202666684409,0.00027763660918182,0.000258005183520359,0.000239333557036271,0.000222057662638042,0.000205628240183688,0.000190030008201809,0.000175466919431334,0.000161921456451723,0.000149107885324224,0.000137010067698735,0.000125948682706374,0.000115578479439225,0.000105822176522139,9.67481770864407e-05,8.84812161278146e-05,8.0729461288106e-05,7.34778316677193e-05,6.68827540890336e-05,6.08159561849881e-05,5.51589405282724e-05,4.99053444639629e-05,4.52296486438176e-05,4.08827381305612e-05,3.68529508705618e-05,3.31992769896299e-05,2.99100910635681e-05,2.68696914571428e-05,2.40681486838011e-05,2.15937422636287e-05,1.93349437079312e-05,1.72594937345335e-05,1.53793076901093e-05,1.37275014429989e-05,1.22135644490794e-05,1.08312288784153e-05,9.61334852964317e-06,8.52638351446269e-06,7.53632622608378e-06,6.63825440446359e-06,5.87032785001148e-06,5.17241864305435e-06,4.54087067073942e-06],"type":"scatter","mode":"none","fill":"tozeroy","name":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],"text":["mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96","mean = 16.24 <br />sd = 9.96"],"hoverinfo":["text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text"],"showlegend":false,"marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"line":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<div class="sourceCode" id="cb987"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb987-1"><a href="datatrans.html#cb987-1" aria-hidden="true" tabindex="-1"></a>xcutm <span class="ot">&lt;-</span> <span class="fu">cut</span>(x, <span class="at">breaks =</span> <span class="fu">c</span>(<span class="fu">min</span>(x), <span class="dv">19</span>, <span class="fu">max</span>(x)))</span></code></pre></div>
+<div class="sourceCode" id="cb988"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb988-1"><a href="datatrans.html#cb988-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mplot3.x</span>(x, <span class="at">par.reset =</span> F)</span>
+<span id="cb988-2"><a href="datatrans.html#cb988-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fu">c</span>(<span class="fu">min</span>(x), <span class="dv">19</span>, <span class="fu">max</span>(x)), <span class="at">col =</span> <span class="st">&quot;yellow&quot;</span>, <span class="at">lwd =</span> <span class="fl">1.5</span>)</span></code></pre></div>
+<p><img src="72-DataTrans_files/figure-html/unnamed-chunk-23-1.png" width="960" /></p>
+</div>
+</div>
+</div>
+<div id="categorical-variables" class="section level2" number="15.2">
+<h2><span class="header-section-number">15.2</span> Categorical variables</h2>
+<p>Many algorithms, or their implementations, do not support categorical variables directly and to use them, you must convert all categorical variables to some type of numeric encoding.</p>
+<div id="integer-encoding" class="section level3" number="15.2.1">
+<h3><span class="header-section-number">15.2.1</span> Integer encoding</h3>
+<p>If the categorical data is ordinal, you simply convert them to integers.<br />
+For example, the following ordered factor:</p>
+<div class="sourceCode" id="cb989"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb989-1"><a href="datatrans.html#cb989-1" aria-hidden="true" tabindex="-1"></a>(brightness <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">&quot;bright&quot;</span>, <span class="st">&quot;brightest&quot;</span>, <span class="st">&quot;darkest&quot;</span>,</span>
+<span id="cb989-2"><a href="datatrans.html#cb989-2" aria-hidden="true" tabindex="-1"></a>                    <span class="st">&quot;bright&quot;</span>, <span class="st">&quot;dark&quot;</span>, <span class="st">&quot;dim&quot;</span>, <span class="st">&quot;dark&quot;</span>),</span>
+<span id="cb989-3"><a href="datatrans.html#cb989-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;darkest&quot;</span>, <span class="st">&quot;dark&quot;</span>, <span class="st">&quot;dim&quot;</span>, <span class="st">&quot;bright&quot;</span>, <span class="st">&quot;brightest&quot;</span>),</span>
+<span id="cb989-4"><a href="datatrans.html#cb989-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">ordered =</span> <span class="cn">TRUE</span>))</span></code></pre></div>
+<pre><code>[1] bright    brightest darkest   bright    dark      dim       dark     
+Levels: darkest &lt; dark &lt; dim &lt; bright &lt; brightest</code></pre>
+<p>…can be directly coerced to integer:</p>
+<div class="sourceCode" id="cb991"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb991-1"><a href="datatrans.html#cb991-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.integer</span>(brightness)</span></code></pre></div>
+<pre><code>[1] 4 5 1 4 2 3 2</code></pre>
+</div>
+<div id="one-hot-encoding" class="section level3" number="15.2.2">
+<h3><span class="header-section-number">15.2.2</span> One-hot encoding</h3>
+<p>When categorical features are <strong>not</strong> ordinal, and your algorithm cannot handle them directly, you can one-hot encode them. (This is similar to creating dummy variables in statistics). In one-hot encoding, each categorical feature is converted to k binary features, where k = number of unique values in the input, such that only one feature is 1 per case.</p>
+<div class="sourceCode" id="cb993"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb993-1"><a href="datatrans.html#cb993-1" aria-hidden="true" tabindex="-1"></a>admission_reasons <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;plannedSurgery&quot;</span>, <span class="st">&quot;emergencySurgery&quot;</span>, <span class="st">&quot;medical&quot;</span>)</span>
+<span id="cb993-2"><a href="datatrans.html#cb993-2" aria-hidden="true" tabindex="-1"></a>(admission <span class="ot">&lt;-</span> <span class="fu">sample</span>(admission_reasons, <span class="dv">10</span>, T))</span></code></pre></div>
+<pre><code> [1] &quot;plannedSurgery&quot;   &quot;medical&quot;          &quot;plannedSurgery&quot;   &quot;medical&quot;         
+ [5] &quot;medical&quot;          &quot;emergencySurgery&quot; &quot;emergencySurgery&quot; &quot;emergencySurgery&quot;
+ [9] &quot;emergencySurgery&quot; &quot;emergencySurgery&quot;</code></pre>
+<p>We can use the <strong>rtemis</strong> <code>oneHot()</code> function:</p>
+<div class="sourceCode" id="cb995"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb995-1"><a href="datatrans.html#cb995-1" aria-hidden="true" tabindex="-1"></a>(admission_oneHot <span class="ot">&lt;-</span> <span class="fu">oneHot</span>(admission))</span></code></pre></div>
+<pre><code>      admission.emergencySurgery admission.medical admission.plannedSurgery
+ [1,]                          0                 0                        1
+ [2,]                          0                 1                        0
+ [3,]                          0                 0                        1
+ [4,]                          0                 1                        0
+ [5,]                          0                 1                        0
+ [6,]                          1                 0                        0
+ [7,]                          1                 0                        0
+ [8,]                          1                 0                        0
+ [9,]                          1                 0                        0
+[10,]                          1                 0                        0</code></pre>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="dataframes.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="stringops.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": true,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": false,
+"google": true,
+"instapper": false
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

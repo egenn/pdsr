@@ -158,7 +158,7 @@ hist(x, col = "slategrey", border = "white",
      breaks = 8)
 ```
 
-## Density plot ====
+## Density plot
 
 Input: numeric vector
 
@@ -280,13 +280,23 @@ Let's use the built-in `sleep` dataset which shows the effect of two different d
 boxplot(extra ~ group, sleep)
 ```
 
-The `**col**` and `**border**` arguments work as expected. Here we define two custom colors using their hexadecimal RGB code and use the solid version for the border and a 50% transparent version for the fill:
+The `**col**` and `**border**` arguments work as expected. Here we define two custom colors using their hexadecimal RGB code and use the solid version for the border and a 50% transparent version for the fill. Note that we do not need two separate colors to produce an unambiguous plot since they are clearly labeled in the y-axis. It is often considered desirable/prefered to use the minimum number of different colors that is necessary. (Color coding like the following could be useful if for example data from the two groups were used on a different plot, like a scatterplot, in a multi-panel figure).
 
 ```{r}
 border <- c("#18A3AC", "#F48024")
 col <- c(adjustcolor("#18A3AC", .5), adjustcolor("#F48024", .5))
 boxplot(extra ~ group, sleep,
         col = col, border = border)
+```
+
+### `**names**`: group labels
+
+The x-axis group names can be defined with the `names` argument:
+
+```{r}
+boxplot(extra ~ group, sleep,
+        col = col, border = border,
+        names = c("Drug A", "Drug B"))
 ```
 
 ## Heatmap

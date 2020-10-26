@@ -215,6 +215,43 @@ itfn <- function(y, lr = 1) {
 itfn(3)
 ```
 
+### function vs. for loop
+
+Let's z-score the built-in `mtcars` dataset once with a for loop and once with a custom function. This links back to the example seen earlier in the [for loop](#fordata) section. In practice this is performed with the `scale()` command:
+
+Within the for loop, we are assigning columns directly to the object outside the loop. In the following example, we print the environment outside and inside the loop function to see that it is the same. This is purely for demonstration:
+
+```{r}
+# initialize new object 'mtcars_z'
+mtcars_z <- mtcars
+cat("environment outside for loop is: ")
+print(environment())
+
+# z-score one column at a time in a for loop
+for (i in 1:ncol(mtcars)) {
+  mtcars_z[, i] <- (mtcars[, i] - mean(mtcars[, i])) / sd(mtcars[, i])
+  cat("environment inside for loop is: ")
+  print(environment())
+}
+```
+
+With a function, all operations remain local within the function and the output must be returned:
+
+```{r}
+ztransform <- function(x) {
+  cat("environment inside function body is: ")
+  print(environment())
+  z <- as.data.frame(sapply(mtcars, function(i) (i - mean(i))/sd(i)))
+  rownames(z) <- rownames(x)
+  z
+}
+mtcars_z2 <- ztransform(mtcars)
+cat("environment outside function body is: ")
+print(environment())
+```
+
+Notice how the environment outside and inside the loop function is the same, it is the Global environemnt, but the environment within the function is different. That is why any objects created or changed within a function must be returned if we want to make them available.
+
 ## The pipe operator `%>%` {#pipe}
 
 ```{r FigRpipes, echo = FALSE, out.width = "80%", fig.align = 'center', fig.cap = "Illustration of pipes in R"}

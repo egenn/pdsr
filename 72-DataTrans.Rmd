@@ -21,16 +21,20 @@ library(rtemis)
 ### Standardization / Scaling & Centering with `scale()` {#zscore}
 
 Depending on your modeling needs / algorithms you plan to use, it is often important to scale and/or center your data. Note that many functions, but not all, will automatically scale and center data internally if it is required by the algorithm. Check the function documentation.  
-If you manually scale and/or center your data, you must:  
 
-* Perform scaling and centering on your training data
-* Save the centering and scaling parameters for each feature
-* Apply the training set-dervied centering and scaling parameters to the test set prior to prediction/inference
 
-A common mistake is to either scale training and testing data together in the beginning, or scale them separately.  
+```{block, type="Note"}
+If you are manually scaling and/or centering data for **supervised learning**, you must:  
 
-Standardizing, i.e. converting to Z-scores, involving subtracting the mean and dividing by the standard deviation. 
-Scaling and centering in R is performed with the `scale` function. By default, both arguments `scale` and `center` are TRUE:
+* Perform scaling and centering on your **training data**
+* Save the **centering and scaling parameters** for each feature
+* Apply the training set-derived centering and scaling parameters to the **test set** *prior to prediction/inference*.
+```
+
+A common mistake is to either scale training and testing data together in the beginning, or scale them independently.  
+
+Standardizing, i.e. converting to Z-scores, involves subtracting the mean and dividing by the standard deviation. 
+Scaling and centering in R is performed with the `scale` function. By default, both arguments `scale` and `center` are set to `TRUE`:
 
 ```{r}
 iris.scaled <- scale(iris[, -5])

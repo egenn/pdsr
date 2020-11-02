@@ -18,24 +18,27 @@ library(rtemis)
 
 Missing data is a very common issue in statistics and data science.
 
-Data may be missing for a variety of reasons. We often characterize the type of missingness using the following three types:  
+Data may be missing for a variety of reasons. We often characterize the type of missingness using the following three types[@mack2018managing]:  
 
-* **Missing completely at random (MCAR)**
+* **Missing completely at random (MCAR)**:
 “The fact that the data are missing is independent of the observed and unobserved data”
-* **Missing at random (MAR)**
+* **Missing at random (MAR)**:
 "The fact that the data are missing is systematically related to the observed but not the unobserved data”
-* **Missing not at random (MNAR)**
+* **Missing not at random (MNAR)**:
 “The fact that the data are missing is systematically related to the unobserved data”
 
 ## Check for missing data
 
 You can use your favorite base commands to check for missing data, by row, by column, total, etc.
 
-Let's load the `PimaIndiansDiabetes2` dataset from package **mlbench** and make a copy of it to variable `dat`:
+Let's load the `PimaIndiansDiabetes2` dataset from package **mlbench** and make a copy of it to variable `dat`. Remember to check the class of a new object you didn't create yourself with `class()`, check its dimensions, if applicable, with `dim()`, and a get a summary of its structure including data types with `str()`:
 
 ```{r}
 data("PimaIndiansDiabetes2", package = "mlbench")
 dat <- PimaIndiansDiabetes2
+class(dat)
+dim(dat)
+str(dat)
 ```
 
 Check if there are any missing values anywhere in the data.frame with `anyNA()`:
@@ -50,38 +53,50 @@ We can create a logical index of NA values using `is.na()`. This will be the sam
 
 ```{r}
 na_index <- is.na(dat)
+dim(na_index)
 head(na_index)
 ```
 
-You can count the number of missing values using `sum()`. Remember that a logical array is coerced to an integer array for mathematical operations, where `TRUE` becomes and `FALSE` becomes 0. Therefore calling `sum()` on a logical index counts the number of `TRUE` elements. Since we are applying it on the index of `NA` values, it counts the number of elements with missing values:
+One way to count missing values is with `sum(is.na())`. Remember that a logical array is coerced to an integer array for mathematical operations, where `TRUE` becomes 1 and `FALSE` becomes 0. Therefore, calling `sum()` on a logical index counts the number of `TRUE` elements (and since we are applying it on the index of `NA` values, it counts the number of elements with missing values):
 
 ```{r}
 sum(is.na(dat))
 ```
-There are 652 `NA` values in total.
+There are 652 `NA` values in total in the data.frame.
 
-Let's count the number of missing values per feature i.e. column using `sapply()`:
+Let's count the number of missing values per feature (i.e. column) using `sapply()`:
 
 ```{r}
 sapply(dat, function(i) sum(is.na(i)))
 ```
 The features `insulin` and `triceps` have the most NA values.
 
-Let's count the number of missing values per case i.r. row:
+Let's count the number of missing values per case (i.e. row):
 
 ```{r}
 sapply(1:nrow(dat), function(i) sum(is.na(dat[i, ])))
 ```
 
+If we wanted to get the row with the most missing values, we can use `which.max()`:
+
+```{r}
+which.max(sapply(1:nrow(dat), function(i) sum(is.na(dat[i, ]))))
+```
+```{r}
+sum(is.na(dat[50, ]))
+```
+Row 50 has 4 missing values.
 
 ### Visualize
 
-It may be helpful to visualize missing data to get a quick impression of missingness. In **rtemis** you can use `mplot.missing()`. 
+It may be helpful to visualize missing data to get a quick impression of missingness. With **rtemis**, you can use `mplot.missing()`. 
 
 ```{r}
 library(rtemis)
 mplot.missing(dat)
 ```
+
+Missing data is shown in magenta by default. The row below the image shows total `NA` values per column
 
 ### Summarize
 
@@ -102,8 +117,8 @@ checkData(dat)
 Different approaches can be used to handle missing data:  
 
 * Do nothing! - if your algorithm(s) can handle missing data (decision trees!)
-* Exclude data: Use complete cases only
-* Make up data: Replace or Impute
+* **Exclude** data: Use complete cases only
+* **Fill in** (make up) data: Replace or Impute
     * Replace with median/mean
     * Predict missing from present
         * Single imputation
@@ -119,7 +134,7 @@ dat.cart <- s.CART(dat)
 
 ### Use complete cases only
 
-R's builtin `complete.cases()` function returns a logical index of cases that have no missing values, i.e. are complete.
+R's builtin `complete.cases()` function returns, as the name suggests, a logical index of cases (i.e. rows) that have no missing values, i.e. are complete.
 
 ```{r}
 dim(dat)
@@ -128,12 +143,12 @@ dat_cc <- dat[index_cc, ]
 dim(dat_cc)
 ```
 
-We lost `r nrow(dat) - nrow(dat_cc)` cases in the above example. That's a lot, so we probably want to look at options were we do not exclude cases.
+We lost `r nrow(dat) - nrow(dat_cc)` cases in the above example. That's quite a few, so, for this dataset, we probably want to look at options that do not exclude cases.
 
 ### Replace with a fixed value
 
-We can manually replace missing values with the mean or median for continuous variables, or with the mode for categorical features.  
-For example, to replace the first feature's missing values with the mean
+We can manually replace missing values with the mean or median in the case of a continuous variable, or with the mode in the case of a categorical feature.  
+For example, to replace the first feature's missing values with the mean:
 
 ```{r}
 pressure_mean <- mean(dat$pressure, na.rm = TRUE)
@@ -188,7 +203,7 @@ anyNA(dat_pre2$diabetes)
 levels(dat_pre2$diabetes)
 ```
 
-### Last observation carried forward
+### Last observation carried forward (LOCF)
 
 In longitudinal / timeseries data, we may want to replace missing values with the last observed value. This is called last observation carried forward (LOCF). As always, whether this procedure is appropriate depend the reasons for missingness. The `zoo` and `DescTool` packages provide commands to perform LOCF.  
 

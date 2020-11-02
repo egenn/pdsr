@@ -12,24 +12,31 @@ old.hooks <- fansi::set_knit_hooks(knitr::knit_hooks)
 options(crayon.enabled = TRUE)
 ```
 
-The [__data.table__](https://github.com/Rdatatable/data.table) package provides a modern and highly optimized version of R's data.frame structure. It is highly memory efficient and automatically parallelizes internal operations to achieve substantial speed improvements over data.frames. The `data.table` package weighs in at just a few kilobytes, has zero dependencies, and maintains compatibility with R versions going as far back as possible.  
+The [**data.table**](https://github.com/Rdatatable/data.table) package provides a modern and highly optimized version of R's data.frame structure. It is highly memory efficient and automatically parallelizes internal operations to achieve substantial speed improvements over data.frames. The **data.table** package weighs in at just a few kilobytes, has zero dependencies, and maintains compatibility with R versions going as far back as possible.  
 
-There are two main ways in which `data.table` differs from `data.frame`:  
+### Installation
 
-* You can perform many operations ***"in-place"*** without creating a copy (i.e. make changes to a `data.table` without having to assign it back to itself).
-* There is a lot more than indexing and slicing that you can do within a `data.table`'s "frame" i.e. the square brackets after a `data.table`, like applying any custom function to specific columns and/or cases.
+You can install **data.table** from CRAN or GitHub. Check out the [data.table wiki](https://github.com/Rdatatable/data.table/wiki/Installation) for more info.
+
+### `data.table` significantly extends the `data.frame`
+
+There are two main ways in which a `data.table` differs from a `data.frame`:  
+
+- You can perform many operations ***"in-place"*** without creating a copy (i.e. make changes to a `data.table` without having to assign it back to itself).
+- There is a lot more than indexing and slicing that you can do within a `data.table`'s "frame" i.e. the square brackets after a `data.table`, like applying any custom function to specific columns and/or cases.
 
 ```{r}
 library(rtemis)
 library(data.table)
 ```
 
-Let's look at `data.table` vs. `data.frame` operations:
+`data.table` operations remain as close as possible to `data.frame` operations, trying to extend rather than replace the latter's functionality. This is great because a lot of what an R user would already be familiar with in using data.frames is applicable here as well.
 
 ## Create a `data.table`
 
 ### By assignment: `data.table()`
-Same syntax with `data.frame()`:
+
+Same syntax as `data.frame()`:
 
 ```{r}
 (df <- data.frame(A = 1:5,
@@ -42,8 +49,15 @@ class(df)
 class(dt)
 ```
 
-Notice how `data.table` inherits from `data.frame`. This means that if a method does not exist for `data.table`, the method for `data.frame` will be used.  
-One difference from `data.frame()` is that, as you can see above, is that `stringsAsFactors` defaults to FALSE in `data.table()`. Also, as part of efficiency improvements, data.tables do away with row names, which are rarely used. Instead of using rownames, you can always add an extra column with the same information - this is advisable when working with data.frame as well.
+Notice how `data.table` inherits from `data.frame`. This means that if a method does not exist for `data.table`, the method for `data.frame` will be used (review [classes and generic functions](#classes).
+One difference from `data.frame()`, as you can see above, is that `stringsAsFactors` defaults to FALSE in `data.table()`. As part improving efficieny, data.tables do away with row names, which are rarely used. Instead of using rownames, you can and should add an extra column with the same information - this is advisable when working with data.frames as well.
+
+A rather convenient option is to have data.tables print each column's class below the column name. You can pass the argument `class = TRUE` to `print()` or set the global option `datatable.print.class` using `options()`
+
+```{r}
+options(datatable.print.class = TRUE)
+dt
+```
 
 ```{r}
 (dt <- data.table(A = 1:5,
@@ -177,7 +191,6 @@ The data.table equivalent is probably simplest:
 ```{r}
 dt[A > mean(A) & B > mean(B)]
 ```
-
 
 ```{r}
 (a <- rnormmat(10, 5, seed = 2020, return.df = TRUE))
@@ -426,7 +439,6 @@ You can combine `.SDcols` and `by`:
 dt2[, lapply(.SD, median), .SDcols = c("B", "C"), by = Group]
 ```
 
-
 Create multiple new columns from transformation of existing and store with custom prefix:
 ```{r}
 dt1
@@ -470,17 +482,17 @@ dcast(dt_long, ID ~ Timepoint,
 
 ```{r}
 (a <- data.table(PID = c(1:9),
-                Hospital = c("UCSF", "HUP", "Stanford", 
-                             "Stanford", "UCSF", "HUP", 
-                             "HUP", "Stanford", "UCSF"),
-                Age = c(22, 34, 41, 19, 53, 21, 63, 22, 19),
-                Sex = c(1, 1, 0, 1, 0, 0, 1, 0, 0)))
+                 Hospital = c("UCSF", "HUP", "Stanford", 
+                              "Stanford", "UCSF", "HUP", 
+                              "HUP", "Stanford", "UCSF"),
+                 Age = c(22, 34, 41, 19, 53, 21, 63, 22, 19),
+                 Sex = c(1, 1, 0, 1, 0, 0, 1, 0, 0)))
 
-(b  <- data.table(PID = c(6:12),
-                  V1 = c(153, 89, 112, 228,  91, 190, 101),
-                  Department = c("Neurology", "Radiology", "Emergency",
-                                 "Cardiology", "Surgery", "Neurology",
-                                 "Psychiatry")))
+(b <- data.table(PID = c(6:12),
+                 V1 = c(153, 89, 112, 228,  91, 190, 101),
+                 Department = c("Neurology", "Radiology", "Emergency",
+                                "Cardiology", "Surgery", "Neurology",
+                                "Psychiatry")))
 ```
 
 ### Inner

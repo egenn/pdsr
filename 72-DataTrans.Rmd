@@ -123,7 +123,7 @@ mplot3.x(x, par.reset = FALSE)
 abline(v = xcuts5, col = "red", lwd = 1.5)
 ```
 
-Note: We used `par.reset = FALSE` to stop `mplot3.x` from resetting its custom `par()` settings so that we can continue adding elements to the same plot, in this case with the `abline` command.  
+Note: We used `par.reset = FALSE` to stop `mplot3.x()` from resetting its custom `par()` settings so that we can continue adding elements to the same plot, in this case with the `abline()` command.  
 
 #### Quantile cuts
 
@@ -189,18 +189,18 @@ abline(v = c(min(x), 19, max(x)), col = "yellow", lwd = 1.5)
 
 ## Categorical variables
 
-Many algorithms, or their implementations, do not support categorical variables directly and to use them, you must convert all categorical variables to some type of numeric encoding.
+Many algorithms, or their implementations, do not support categorical variables directly. To use them, you must therefore convert all categorical variables to some type of numerical encoding.
 
 ### Integer encoding
 
-If the categorical data is ordinal, you simply convert them to integers.  
+If the categorical data is ordinal, you can simply convert it to integers.  
 For example, the following ordered factor:
 
 ```{r}
 (brightness <- factor(c("bright", "brightest", "darkest",
-                    "bright", "dark", "dim", "dark"),
-                  levels = c("darkest", "dark", "dim", "bright", "brightest"),
-                  ordered = TRUE))
+                        "bright", "dark", "dim", "dark"),
+                      levels = c("darkest", "dark", "dim", "bright", "brightest"),
+                      ordered = TRUE))
 ```
 
 ...can be directly coerced to integer:

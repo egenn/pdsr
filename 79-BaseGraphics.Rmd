@@ -435,3 +435,30 @@ Always make sure that your plotting characters, axis labels and titles are legib
 Note: All of these can be set either with a call to `par()` prior to plotting or passed as arguments in a plotting command, like `plot()`.  
 
 There is one important distinction: `cex` set with `par()` (which defaults to 1), sets the baseline and all other `cex` parameters multiply it. However, `cex` set within `plot()` still multiplies `cex` set with `par()`, but only affects the plotting character size.
+
+## Multipanel plots
+
+There are different ways to create multipanel plots, but probably the most straightforward is to use either the `mfrow` or the `mfcol` argument of `par()`.
+
+```{r}
+set.seed(2020)
+x <- rnorm(500)
+y <- x^3 + rnorm(500) * 2
+z <- x^2 + rnorm(500)
+```
+
+Both `mfrow` and `mfcol` accept an integer vector of length 2 indicating number of rows and number of columns, respectively. With `mfrow`, the plots are drawn row-wise and with `mfcol` they are drawn column-wise. Remember to reset `mfrow` or `mfcol` back to `c(1, 1)`
+
+For example, let's plot a 2-by-3 panel of plots, drawn row-wise:
+
+```{r fig.width=8, fig.height=4}
+par(mfrow = c(2, 3))
+hist(x)
+hist(y)
+hist(x)
+plot(x, y)
+plot(x, z)
+plot(y, z)
+par(mfrow = c(1, 1))
+```
+

@@ -1,6 +1,6 @@
-Welcome to Programming for Data Science in R!
+# Programming for Data Science in R (PDSR)
 
-This repository holds the code for the online book found at
+This repository holds the code for the online PDSR book found at
 https://class.lambdamd.org/pdsr
 
 EDG

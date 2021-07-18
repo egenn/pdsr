@@ -2,28 +2,33 @@
 
 
 
-<STYLE type='text/css' scoped>
-PRE.fansi SPAN {padding-top: .25em; padding-bottom: .25em};
-</STYLE>
-
 ## Reminder: create - coerce - check
+
 * `character()`: Initialize empty character vector
 * `as.character()`: Coerce any vector to a character vector
 * `is.character()`: Check object is character
 
+
 ```r
 x <- character(10)
+x
+```
+
+```
+ [1] "" "" "" "" "" "" "" "" "" ""
 ```
 
 
 ```r
 v <- c(10, 20, 22, 43)
-(x <- as.character(v))
+x <- as.character(v)
+x
 ```
 
 ```
 [1] "10" "20" "22" "43"
 ```
+
 
 ```r
 x <- c("PID", "Age", "Sex", "Handedness")
@@ -35,7 +40,9 @@ is.character(x)
 ```
 
 ## `nchar()`: Get number of characters in element
-`nchar` counts the number of characters in each **element** of type character in a vector:
+
+`nchar()` counts the number of characters in each **element** of type character in a vector:
+
 
 ```r
 x <- c("a", "bb", "ccc")
@@ -48,6 +55,7 @@ nchar(x)
 
 ## `substr()`: Get substring
 
+
 ```r
 x <- c("001Emergency", "010Cardiology", "018Neurology", 
        "020Anesthesia", "021Surgery", "051Psychiatry")
@@ -57,8 +65,10 @@ substr(x, start = 1, stop = 3)
 ```
 [1] "001" "010" "018" "020" "021" "051"
 ```
-Neither `start` nor `stop` need to be valid character indices.  
+
+Neither `start` nor `stop` need to be valid character positions.  
 For example, if you want to get all characters from the fourth one to the last one, you can specify a very large `stop`
+
 
 ```r
 substr(x, 4, 99)
@@ -70,6 +80,7 @@ substr(x, 4, 99)
 ```
 
 If you start with too high an index, you end up with empty strings:
+
 
 ```r
 substr(x, 20, 24)
@@ -84,6 +95,7 @@ substr(x, 20, 24)
 
 ## `strsplit()`: Split strings
 
+
 ```r
 x <- "This is one sentence"
 strsplit(x, " ")
@@ -93,6 +105,7 @@ strsplit(x, " ")
 [[1]]
 [1] "This"     "is"       "one"      "sentence"
 ```
+
 
 ```r
 x <- "In the beginning, there was the command line"
@@ -104,10 +117,11 @@ strsplit(x, ",")
 [1] "In the beginning"            " there was the command line"
 ```
 
-
 ## `paste()`: Concatenate strings
+
 `paste()` and `paste0()` are particularly useful commands.  
 In it simplest form, it acts like `as.character()`:
+
 
 ```r
 v <- c(10, 20, 22, 43)
@@ -119,6 +133,7 @@ paste(v)
 ```
 
 Combine strings from multiple vectors, elementwise:
+
 
 ```r
 id = c("001", "010", "018", "020", "021", "051")
@@ -132,7 +147,8 @@ paste(id, dept)
 [5] "021 Surgery"    "051 Psychiatry"
 ```
 
-Use `sep` to define separator:
+Use the `sep` argument to define separator:
+
 
 ```r
 paste(id, dept, sep = "+++")
@@ -145,6 +161,7 @@ paste(id, dept, sep = "+++")
 
 `paste0()` is an alias for the commonly used `paste(..., sep = "")`:
 
+
 ```r
 paste0(id, dept)
 ```
@@ -155,6 +172,7 @@ paste0(id, dept)
 ```
 
 As with other vectorized operations, value recycling can be very convenient:
+
 
 ```r
 paste0("Feature_", 1:10)
@@ -167,6 +185,7 @@ paste0("Feature_", 1:10)
 
 The argument `collapse` helps output a *single* character element after collapsing with some string:
 
+
 ```r
 paste0("Feature_", 1:10, collapse = ", ")
 ```
@@ -176,7 +195,9 @@ paste0("Feature_", 1:10, collapse = ", ")
 ```
 
 ## `cat()`: Concatenate and **print**
+
 `cat()` concatenates strings in order to print to screen (console) or to file. It does not return any value. It is therefore useful to produce informative messages in your programs.
+
 
 ```r
 sbp <- 130
@@ -190,11 +211,21 @@ The blood pressure was 130 and the temperature was 98.4
 
 ## String formatting
 
-### Change case with `toupper` and `tolower`
+### Change case with `toupper()` and `tolower()`
+
 
 ```r
 features <- c("id", "age", "sex", "sbp", "dbp", "hct", "urea", "creatinine")
-(features <- toupper(features))
+features
+```
+
+```
+[1] "id"         "age"        "sex"        "sbp"        "dbp"       
+[6] "hct"        "urea"       "creatinine"
+```
+
+```r
+toupper(features)
 ```
 
 ```
@@ -203,7 +234,7 @@ features <- c("id", "age", "sex", "sbp", "dbp", "hct", "urea", "creatinine")
 ```
 
 ```r
-(features <- tolower(features))
+tolower(features)
 ```
 
 ```
@@ -213,9 +244,9 @@ features <- c("id", "age", "sex", "sbp", "dbp", "hct", "urea", "creatinine")
 
 ### `abbreviate()`
 
+
 ```r
 x <- c("Emergency", "Cardiology", "Surgery", "Anesthesia", "Neurology", "Psychiatry", "Clinical Psychology")
-# x <- c("University of California San Francisco")
 abbreviate(x)
 ```
 
@@ -237,13 +268,14 @@ abbreviate(x, minlength = 3)
               "Nrl"               "Psy"               "ClP" 
 ```
 
-
 ## Pattern matching
-A very common task in programming is to find +/- replace string patterns in a vector of strings.  
-`grep` and `grepl` help find strings that contain a given pattern.  
-`sub` and `gsub` help find and replace strings.
 
-### `grep`: Get an integer index of elements that include a pattern
+A very common task in programming is to find +/- replace string patterns in a vector of strings.  
+`grep()` and `grepl()` help find strings that contain a given pattern.  
+`sub()` and `gsub()` help find and replace strings.
+
+### `grep()`: Get an integer index of elements that include a pattern
+
 
 ```r
 x <- c("001Age", "002Sex", "010Temp", "014SBP", "018Hct", "022PFratio", "030GCS", "112SBP-DBP")
@@ -256,6 +288,7 @@ grep(pattern = "SBP", x = x)
 
 `grep()`'s `value` arguments which defaults to `FALSE`, allows returning the matched string itself (the value of the element) instead of its integer index:
 
+
 ```r
 grep("SBP", x, value = TRUE)
 ```
@@ -264,8 +297,10 @@ grep("SBP", x, value = TRUE)
 [1] "014SBP"     "112SBP-DBP"
 ```
 
-### `grepl`: Get a logical index of elements that include a pattern
-`grepl` is similar to `grep`, but reuturns a logical index instead:
+### `grepl()`: Get a logical index of elements that include a pattern
+
+`grepl()` is similar to `grep()`, but returns a logical index instead:
+
 
 ```r
 grepl("SBP", x)
@@ -275,7 +310,8 @@ grepl("SBP", x)
 [1] FALSE FALSE FALSE  TRUE FALSE FALSE FALSE  TRUE
 ```
 
-### `sub`: Find replace **first** match of a pattern
+### `sub()`: Find replace **first** match of a pattern
+
 
 ```r
 x <- c("The most important variable was PF ratio. Other significant variables are listed in the supplementary information.")
@@ -285,7 +321,9 @@ sub(pattern = "variable", replacement = "feature", x = x)
 ```
 [1] "The most important feature was PF ratio. Other significant variables are listed in the supplementary information."
 ```
+
 "First match" refers to each element of a character vector:
+
 
 ```r
 x <- c("var 1, var 2", "var 3, var 4")
@@ -296,7 +334,8 @@ sub("var", "feat", x)
 [1] "feat 1, var 2" "feat 3, var 4"
 ```
 
-### `gsub`: Find and replace **all** matches of a pattern
+### `gsub()`: Find and replace **all** matches of a pattern
+
 
 ```r
 x <- c("The most important variable was PF ratio. Other significant variables are listed in the supplementary information.")
@@ -306,7 +345,9 @@ gsub(pattern = "variable", replacement = "feature", x = x)
 ```
 [1] "The most important feature was PF ratio. Other significant features are listed in the supplementary information."
 ```
+
 "All matches" means all matches across all elements:
+
 
 ```r
 x <- c("var 1, var 2", "var 3, var 4")
@@ -318,14 +359,17 @@ gsub("var", "feat", x)
 ```
 
 ## Regular expressions
+
 Regular expressions allow you to perform flexible pattern matching. For example, you can look for a pattern specifically at the beginning or the end of a word, or for a variable pattern with certain characteristics.  
 Regular expressions are very powerful and heavily used. They exist in multiple programming languages - with many similarities and a few differences.  
 There are many rules in defining regular expression. You can read the R manual by typing `?base::regex`.  
 Here are some of the most important rules:
 
 ### Match a pattern at the beginning of a line/string with `^`/`\\<`:
+
 Use the caret sign `^` in the **beginning** of a pattern to only match strings that begin with this pattern.  
 pattern `012` matches both 2nd and 3rd elements:
+
 
 ```r
 (x <- c("001xyz993", "012qwe764", "029aqw012"))
@@ -342,7 +386,9 @@ grep("012", x)
 ```
 [1] 2 3
 ```
+
 By adding `^` or `\\<`, only the 2nd element matches:
+
 
 ```r
 grep("^012", x)
@@ -361,7 +407,9 @@ grep("\\<012", x)
 ```
 
 ### Match a pattern at the end of a line/string with `$`/`\\>`
+
 The dollar sign `$` is used at the **end** of a pattern to only match strings which end with this pattern:
+
 
 ```r
 x
@@ -407,6 +455,7 @@ grep("one\\>", x)
 
 ### `.`: Match any character
 
+
 ```r
 grep("e.X", c("eX", "enX", "ennX", "ennnX", "ennnnX"))
 ```
@@ -416,6 +465,7 @@ grep("e.X", c("eX", "enX", "ennX", "ennnX", "ennnnX"))
 ```
 
 ### `+`: Match preceding character one or more times:
+
 
 ```r
 grep("en+X", c("eX", "enX", "ennX", "ennnX", "ennnnX"))
@@ -428,6 +478,7 @@ grep("en+X", c("eX", "enX", "ennX", "ennnX", "ennnnX"))
 
 ### `{n}`: Match preceding character `n` times:
 
+
 ```r
 grep("en{2}X", c("eX", "enX", "ennX", "ennnX", "ennnnX"))
 ```
@@ -437,6 +488,7 @@ grep("en{2}X", c("eX", "enX", "ennX", "ennnX", "ennnnX"))
 ```
 
 ### `{n,}`: Match preceding character `n` or more times:
+
 
 ```r
 grep("en{2,}X", c("eX", "enX", "ennX", "ennnX", "ennnnX"))
@@ -448,6 +500,7 @@ grep("en{2,}X", c("eX", "enX", "ennX", "ennnX", "ennnnX"))
 
 ### `{n,m}`: Match preceding character at least `n` times and no more than `m` times:
 
+
 ```r
 grep("en{2,3}X", c("eX", "enX", "ennX", "ennnX", "ennnnX"))
 ```
@@ -457,8 +510,10 @@ grep("en{2,3}X", c("eX", "enX", "ennX", "ennnX", "ennnnX"))
 ```
 
 ### Escaping metacharacters
+
 The following are defined as metacharacters, because they have special meaning within a regular expression: `. \ | ( ) [ { ^ $ * + ?`.  
 If you want to match one of these characters itself, you must "escape" it using a double backslash:
+
 
 ```r
 x <- c("dn3ONE", "d.3TWO", "dx3FIVE")
@@ -470,8 +525,10 @@ grep("d\\.3", x)
 ```
 
 ### Match a character class
+
 You can use brackets, `[ ]` to define sets of characters to match in any order, if present.  
 Here we want to replace `$` and `@` with an underscore:
+
 
 ```r
 x <- c("Feat1$alpha", "Feat2$gamma", "Feat9@field2")
@@ -496,6 +553,7 @@ A number of character classes are predefined. They are themselves surrounded by 
 Let's look at some examples.  
 Here we us `[:digit:]` to remove all numbers:
 
+
 ```r
 x <- c("001Emergency", "010Cardiology", "018Neurology", "020Anesthesia", 
        "021Surgery", "051Psychiatry")
@@ -509,6 +567,7 @@ gsub("[[:digit:]]", "", x)
 
 We can use `[:alpha:]` to remove all letters:
 
+
 ```r
 gsub("[[:alpha:]]", "", x)
 ```
@@ -518,6 +577,7 @@ gsub("[[:alpha:]]", "", x)
 ```
 
 We can use a caret `^` in the beginning of a character class to match any character *not* in the character set:
+
 
 ```r
 x <- c("001$Emergency", "010@Cardiology", "018*Neurology", "020!Anesthesia", 
@@ -531,7 +591,9 @@ gsub("[^[:alnum:]]", "_", x)
 ```
 
 ### Combine character classes
+
 Use `|` to match from multiple character classes:
+
 
 ```r
 x <- c("123#$%alphaBeta")
@@ -542,5 +604,6 @@ gsub("[[:digit:]|[:punct:]]", "", x)
 [1] "alphaBeta"
 ```
 
-
-For more information on regular expressions, start by reading the builtin documentation: `?regex`
+<div class="rmdinfo">
+<p>For more information on regular expressions, start by reading the built-in documentation: <code>?regex</code></p>
+</div>

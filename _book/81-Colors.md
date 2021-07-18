@@ -106,10 +106,10 @@ In the following plot, the values around the polar plot represent hue. Moving in
 mplot.hsv()
 ```
 
-![](81-Colors_files/figure-latex/unnamed-chunk-8-1.pdf)<!-- --> 
+<img src="81-Colors_files/figure-html/unnamed-chunk-8-1.png" width="480" />
 
 ```r
 mplot.hsv(v = .5)
 ```
 
-![](81-Colors_files/figure-latex/unnamed-chunk-8-2.pdf)<!-- --> 
+<img src="81-Colors_files/figure-html/unnamed-chunk-8-2.png" width="480" />

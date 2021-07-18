@@ -6,12 +6,18 @@
 PRE.fansi SPAN {padding-top: .25em; padding-bottom: .25em};
 </STYLE>
 
-The [__data.table__](https://github.com/Rdatatable/data.table) package provides a modern and highly optimized version of R's data.frame structure. It is highly memory efficient and automatically parallelizes internal operations to achieve substantial speed improvements over data.frames. The `data.table` package weighs in at just a few kilobytes, has zero dependencies, and maintains compatibility with R versions going as far back as possible.  
+The [**data.table**](https://github.com/Rdatatable/data.table) package provides a modern and highly optimized version of R's data.frame structure. It is highly memory efficient and automatically parallelizes internal operations to achieve substantial speed improvements over data.frames. The **data.table** package weighs in at just a few kilobytes, has zero dependencies, and maintains compatibility with R versions going as far back as possible.  
 
-There are two main ways in which `data.table` differs from `data.frame`:  
+### Installation
 
-* You can perform many operations ***"in-place"*** without creating a copy (i.e. make changes to a `data.table` without having to assign it back to itself).
-* There is a lot more than indexing and slicing that you can do within a `data.table`'s "frame" i.e. the square brackets after a `data.table`, like applying any custom function to specific columns and/or cases.
+You can install **data.table** from CRAN or GitHub. Check out the [data.table wiki](https://github.com/Rdatatable/data.table/wiki/Installation) for more info.
+
+### `data.table` significantly extends the `data.frame`
+
+There are two main ways in which a `data.table` differs from a `data.frame`:  
+
+- You can perform many operations ***"in-place"*** without creating a copy (i.e. make changes to a `data.table` without having to assign it back to itself).
+- There is a lot more than indexing and slicing that you can do within a `data.table`'s "frame" i.e. the square brackets after a `data.table`, like applying any custom function to specific columns and/or cases.
 
 
 ```r
@@ -19,7 +25,7 @@ library(rtemis)
 ```
 
 ```
-  .:rtemis 0.8.0: Welcome, egenn
+  .:rtemis 0.8.1: Welcome, egenn
   [x86_64-apple-darwin17.0 (64-bit): Defaulting to 4/4 available cores]
   Documentation & vignettes: https://rtemis.lambdamd.org
 ```
@@ -39,12 +45,13 @@ The following object is masked from 'package:rtemis':
     cube
 ```
 
-Let's look at `data.table` vs. `data.frame` operations:
+`data.table` operations remain as close as possible to `data.frame` operations, trying to extend rather than replace the latter's functionality. This is great because a lot of what an R user would already be familiar with in using data.frames is applicable here as well.
 
 ## Create a `data.table`
 
 ### By assignment: `data.table()`
-Same syntax with `data.frame()`:
+
+Same syntax as `data.frame()`:
 
 
 ```r
@@ -77,12 +84,13 @@ class(df)
 ```
 
 ```
-   A   B C
-1: 1 1.2 a
-2: 2 4.3 b
-3: 3 9.7 b
-4: 4 5.6 a
-5: 5 8.1 a
+       A     B      C
+   <int> <num> <char>
+1:     1   1.2      a
+2:     2   4.3      b
+3:     3   9.7      b
+4:     4   5.6      a
+5:     5   8.1      a
 ```
 
 ```r
@@ -93,8 +101,26 @@ class(dt)
 [1] "data.table" "data.frame"
 ```
 
-Notice how `data.table` inherits from `data.frame`. This means that if a method does not exist for `data.table`, the method for `data.frame` will be used.  
-One difference from `data.frame()` is that, as you can see above, is that `stringsAsFactors` defaults to FALSE in `data.table()`. Also, as part of efficiency improvements, data.tables do away with row names, which are rarely used. Instead of using rownames, you can always add an extra column with the same information - this is advisable when working with data.frame as well.
+Notice how `data.table` inherits from `data.frame`. This means that if a method does not exist for `data.table`, the method for `data.frame` will be used (review [classes and generic functions](#classes).
+One difference from `data.frame()`, as you can see above, is that `stringsAsFactors` defaults to FALSE in `data.table()`. As part of improving efficieny, data.tables do away with row names. Instead of using rownames, you can and should add an extra column with the same information - this is advisable when working with data.frames as well.
+
+A rather convenient option is to have data.tables print each column's class below the column name. You can pass the argument `class = TRUE` to `print()` or set the global option `datatable.print.class` using `options()`
+
+
+```r
+options(datatable.print.class = TRUE)
+dt
+```
+
+```
+       A     B      C
+   <int> <num> <char>
+1:     1   1.2      a
+2:     2   4.3      b
+3:     3   9.7      b
+4:     4   5.6      a
+5:     5   8.1      a
+```
 
 
 ```r
@@ -105,12 +131,13 @@ One difference from `data.frame()` is that, as you can see above, is that `strin
 ```
 
 ```
-   A   B C
-1: 1 1.2 a
-2: 2 4.3 b
-3: 3 9.7 b
-4: 4 5.6 a
-5: 5 8.1 a
+       A     B      C
+   <int> <num> <fctr>
+1:     1   1.2      a
+2:     2   4.3      b
+3:     3   9.7      b
+4:     4   5.6      a
+5:     5   8.1      a
 ```
 
 ### By coercion: `as.data.table()`
@@ -124,12 +151,13 @@ dat <- data.frame(A = 1:5,
 ```
 
 ```
-   A   B C
-1: 1 1.2 a
-2: 2 4.3 b
-3: 3 9.7 b
-4: 4 5.6 a
-5: 5 8.1 a
+       A     B      C
+   <int> <num> <char>
+1:     1   1.2      a
+2:     2   4.3      b
+3:     3   9.7      b
+4:     4   5.6      a
+5:     5   8.1      a
 ```
 
 
@@ -201,12 +229,13 @@ cbind(dt1, dt2)
 ```
 
 ```
-   a  b
-1: 1 11
-2: 2 12
-3: 3 13
-4: 4 14
-5: 5 15
+       a     b
+   <int> <int>
+1:     1    11
+2:     2    12
+3:     3    13
+4:     4    14
+5:     5    15
 ```
 
 ```r
@@ -214,17 +243,18 @@ rbind(dt1, dt1)
 ```
 
 ```
-    a
- 1: 1
- 2: 2
- 3: 3
- 4: 4
- 5: 5
- 6: 1
- 7: 2
- 8: 3
- 9: 4
-10: 5
+        a
+    <int>
+ 1:     1
+ 2:     2
+ 3:     3
+ 4:     4
+ 5:     5
+ 6:     1
+ 7:     2
+ 8:     3
+ 9:     4
+10:     5
 ```
 
 ## `str` works the same (and you should keep using it!)
@@ -273,8 +303,9 @@ dt[1, ]
 ```
 
 ```
-   A   B C
-1: 1 1.2 a
+       A     B      C
+   <int> <num> <fctr>
+1:     1   1.2      a
 ```
 
 Selecting a single column with integer indexing in `data.table` does not drop to a vector (i.e. similar to `drop = FALSE` in a data.frame):
@@ -306,12 +337,13 @@ dt[, 1]
 ```
 
 ```
-   A
-1: 1
-2: 2
-3: 3
-4: 4
-5: 5
+       A
+   <int>
+1:     1
+2:     2
+3:     3
+4:     4
+5:     5
 ```
 
 In `data.table`, you can access column names directly without quoting or using `$`:
@@ -369,10 +401,11 @@ dt[B > 5, ]
 ```
 
 ```
-   A   B C
-1: 3 9.7 b
-2: 4 5.6 a
-3: 5 8.1 a
+       A     B      C
+   <int> <num> <fctr>
+1:     3   9.7      b
+2:     4   5.6      a
+3:     5   8.1      a
 ```
 
 Think of working inside the `data.table` frame (i.e. the "[...]") like an environment. You have direct access to the variables within it.  
@@ -393,12 +426,13 @@ dt[, ..varname]
 ```
 
 ```
-   C
-1: a
-2: b
-3: b
-4: a
-5: a
+        C
+   <fctr>
+1:      a
+2:      b
+3:      b
+4:      a
+5:      a
 ```
 
 This tells the `data.table` "don't look for 'varname' in the data.table, go outside to find it"
@@ -445,10 +479,10 @@ dt[A > mean(A) & B > mean(B)]
 ```
 
 ```
-   A   B C
-1: 5 8.1 a
+       A     B      C
+   <int> <num> <fctr>
+1:     5   8.1      a
 ```
-
 
 
 ```r
@@ -496,6 +530,7 @@ adt[!is.na(V3)]
 
 ```
            V1          V2          V3          V4          V5
+        <num>       <num>       <num>       <num>       <num>
 1:  0.3015484  0.90925918  1.09818265 -0.74370217 -0.50505960
 2: -1.0980232  1.19637296  0.31822032          NA -0.30100401
 3: -1.1304059 -0.37158390 -0.07314756  2.43537371 -0.72603598
@@ -515,12 +550,13 @@ dt[, 2]
 ```
 
 ```
-     B
-1: 1.2
-2: 4.3
-3: 9.7
-4: 5.6
-5: 8.1
+       B
+   <num>
+1:   1.2
+2:   4.3
+3:   9.7
+4:   5.6
+5:   8.1
 ```
 
 ```r
@@ -528,12 +564,13 @@ dt[, 2:3]
 ```
 
 ```
-     B C
-1: 1.2 a
-2: 4.3 b
-3: 9.7 b
-4: 5.6 a
-5: 8.1 a
+       B      C
+   <num> <fctr>
+1:   1.2      a
+2:   4.3      b
+3:   9.7      b
+4:   5.6      a
+5:   8.1      a
 ```
 
 ```r
@@ -541,12 +578,13 @@ dt[, c(1, 3)]
 ```
 
 ```
-   A C
-1: 1 a
-2: 2 b
-3: 3 b
-4: 4 a
-5: 5 a
+       A      C
+   <int> <fctr>
+1:     1      a
+2:     2      b
+3:     3      b
+4:     4      a
+5:     5      a
 ```
 
 by name: selecting a single column by name returns a vector:
@@ -568,12 +606,13 @@ dt[, .(A)]
 ```
 
 ```
-   A
-1: 1
-2: 2
-3: 3
-4: 4
-5: 5
+       A
+   <int>
+1:     1
+2:     2
+3:     3
+4:     4
+5:     5
 ```
 
 ```r
@@ -581,12 +620,13 @@ dt[, .(A, B)]
 ```
 
 ```
-   A   B
-1: 1 1.2
-2: 2 4.3
-3: 3 9.7
-4: 4 5.6
-5: 5 8.1
+       A     B
+   <int> <num>
+1:     1   1.2
+2:     2   4.3
+3:     3   9.7
+4:     4   5.6
+5:     5   8.1
 ```
 
 ## Add new columns ***in-place***
@@ -608,12 +648,13 @@ dt
 ```
 
 ```
-   A   B C AplusC
-1: 1 1.2 a     NA
-2: 2 4.3 b     NA
-3: 3 9.7 b     NA
-4: 4 5.6 a     NA
-5: 5 8.1 a     NA
+       A     B      C AplusC
+   <int> <num> <fctr> <lgcl>
+1:     1   1.2      a     NA
+2:     2   4.3      b     NA
+3:     3   9.7      b     NA
+4:     4   5.6      a     NA
+5:     5   8.1      a     NA
 ```
 
 ## Add multiple columns ***in-place***
@@ -638,12 +679,13 @@ dt
 ```
 
 ```
-   A   B C AplusC AminusC AoverC
-1: 1 1.2 a     NA      NA     NA
-2: 2 4.3 b     NA      NA     NA
-3: 3 9.7 b     NA      NA     NA
-4: 4 5.6 a     NA      NA     NA
-5: 5 8.1 a     NA      NA     NA
+       A     B      C AplusC AminusC AoverC
+   <int> <num> <fctr> <lgcl>  <lgcl> <lgcl>
+1:     1   1.2      a     NA      NA     NA
+2:     2   4.3      b     NA      NA     NA
+3:     3   9.7      b     NA      NA     NA
+4:     4   5.6      a     NA      NA     NA
+5:     5   8.1      a     NA      NA     NA
 ```
 
 ## Convert column type
@@ -655,12 +697,13 @@ dt
 ```
 
 ```
-   A   B C AplusC AminusC AoverC
-1: 1 1.2 a     NA      NA     NA
-2: 2 4.3 b     NA      NA     NA
-3: 3 9.7 b     NA      NA     NA
-4: 4 5.6 a     NA      NA     NA
-5: 5 8.1 a     NA      NA     NA
+       A     B      C AplusC AminusC AoverC
+   <num> <num> <fctr> <lgcl>  <lgcl> <lgcl>
+1:     1   1.2      a     NA      NA     NA
+2:     2   4.3      b     NA      NA     NA
+3:     3   9.7      b     NA      NA     NA
+4:     4   5.6      a     NA      NA     NA
+5:     5   8.1      a     NA      NA     NA
 ```
 
 ## Delete column in-place
@@ -674,12 +717,13 @@ dt
 ```
 
 ```
-   A   B C AplusC AminusC
-1: 1 1.2 a     NA      NA
-2: 2 4.3 b     NA      NA
-3: 3 9.7 b     NA      NA
-4: 4 5.6 a     NA      NA
-5: 5 8.1 a     NA      NA
+       A     B      C AplusC AminusC
+   <num> <num> <fctr> <lgcl>  <lgcl>
+1:     1   1.2      a     NA      NA
+2:     2   4.3      b     NA      NA
+3:     3   9.7      b     NA      NA
+4:     4   5.6      a     NA      NA
+5:     5   8.1      a     NA      NA
 ```
 
 Same awkward notation as earlier to delete multiple columns:
@@ -691,12 +735,13 @@ dt
 ```
 
 ```
-   A   B C
-1: 1 1.2 a
-2: 2 4.3 b
-3: 3 9.7 b
-4: 4 5.6 a
-5: 5 8.1 a
+       A     B      C
+   <num> <num> <fctr>
+1:     1   1.2      a
+2:     2   4.3      b
+3:     3   9.7      b
+4:     4   5.6      a
+5:     5   8.1      a
 ```
 
 ## Summarize
@@ -710,8 +755,9 @@ Asummary
 ```
 
 ```
-   Amax Amin      Asd
-1:    5    1 1.581139
+    Amax  Amin      Asd
+   <num> <num>    <num>
+1:     5     1 1.581139
 ```
 
 ### `address`: Object location in memory
@@ -725,7 +771,7 @@ address(df1)
 ```
 
 ```
-[1] "0x7fa3652795c8"
+[1] "0x7fc79f15ecc8"
 ```
 
 ```r
@@ -734,7 +780,7 @@ address(df1)
 ```
 
 ```
-[1] "0x7fa3657152e8"
+[1] "0x7fc79f3a1788"
 ```
 
 When you add a new column in a data.table ***in-place*** its address remains unchanged:
@@ -746,7 +792,7 @@ address(dt1)
 ```
 
 ```
-[1] "0x7fa365c70e00"
+[1] "0x7fc79d9c1200"
 ```
 
 ```r
@@ -755,7 +801,7 @@ address(dt1)
 ```
 
 ```
-[1] "0x7fa365c70e00"
+[1] "0x7fc79d9c1200"
 ```
 
 ### Reference semantics at work
@@ -821,7 +867,7 @@ address(df1)
 ```
 
 ```
-[1] "0x7fa3669faa68"
+[1] "0x7fc79d01f3f0"
 ```
 
 ```r
@@ -829,7 +875,7 @@ address(df2)
 ```
 
 ```
-[1] "0x7fa366a34448"
+[1] "0x7fc798522368"
 ```
 
 `data.table` uses "reference semantics" or "pass-by-reference". Be very careful or you might be mightily confused:
@@ -840,12 +886,13 @@ address(df2)
 ```
 
 ```
-   a
-1: 1
-2: 1
-3: 1
-4: 1
-5: 1
+       a
+   <num>
+1:     1
+2:     1
+3:     1
+4:     1
+5:     1
 ```
 
 ```r
@@ -853,12 +900,13 @@ address(df2)
 ```
 
 ```
-   a
-1: 1
-2: 1
-3: 1
-4: 1
-5: 1
+       a
+   <num>
+1:     1
+2:     1
+3:     1
+4:     1
+5:     1
 ```
 
 ```r
@@ -867,12 +915,13 @@ dt2
 ```
 
 ```
-   a
-1: 2
-2: 2
-3: 2
-4: 2
-5: 2
+       a
+   <num>
+1:     2
+2:     2
+3:     2
+4:     2
+5:     2
 ```
 
 ```r
@@ -880,12 +929,13 @@ dt1
 ```
 
 ```
-   a
-1: 2
-2: 2
-3: 2
-4: 2
-5: 2
+       a
+   <num>
+1:     2
+2:     2
+3:     2
+4:     2
+5:     2
 ```
 
 ```r
@@ -893,7 +943,7 @@ address(dt1)
 ```
 
 ```
-[1] "0x7fa364294e00"
+[1] "0x7fc79b695600"
 ```
 
 ```r
@@ -901,12 +951,12 @@ address(dt2)
 ```
 
 ```
-[1] "0x7fa364294e00"
+[1] "0x7fc79b695600"
 ```
 
-\begin{note}
-If you want to create a copy of a data.table, use \texttt{copy()}:
-\end{note}
+<div class="rmdnote">
+<p>If you want to create a copy of a data.table, use <code>copy()</code>:</p>
+</div>
 
 
 ```r
@@ -914,12 +964,13 @@ If you want to create a copy of a data.table, use \texttt{copy()}:
 ```
 
 ```
-   a
-1: 2
-2: 2
-3: 2
-4: 2
-5: 2
+       a
+   <num>
+1:     2
+2:     2
+3:     2
+4:     2
+5:     2
 ```
 
 ```r
@@ -927,7 +978,7 @@ address(dt3)
 ```
 
 ```
-[1] "0x7fa3616f6400"
+[1] "0x7fc7a00f8000"
 ```
 
 ```r
@@ -936,12 +987,13 @@ dt3
 ```
 
 ```
-   a
-1: 4
-2: 4
-3: 4
-4: 4
-5: 4
+       a
+   <num>
+1:     4
+2:     4
+3:     4
+4:     4
+5:     4
 ```
 
 ```r
@@ -949,12 +1001,13 @@ dt1
 ```
 
 ```
-   a
-1: 2
-2: 2
-3: 2
-4: 2
-5: 2
+       a
+   <num>
+1:     2
+2:     2
+3:     2
+4:     2
+5:     2
 ```
 
 ## `set*()`: Set attributes ***in-place***
@@ -968,7 +1021,7 @@ address(df)
 ```
 
 ```
-[1] "0x7fa3617992e8"
+[1] "0x7fc79ea42ba8"
 ```
 
 ```r
@@ -977,7 +1030,7 @@ address(df)
 ```
 
 ```
-[1] "0x7fa3652707a8"
+[1] "0x7fc79b69bf08"
 ```
 
 Use `setnames()` to edit a `data.table`'s column names ***in-place***:
@@ -988,7 +1041,7 @@ address(dt)
 ```
 
 ```
-[1] "0x7fa363242a00"
+[1] "0x7fc7a00ab200"
 ```
 
 ```r
@@ -997,7 +1050,7 @@ address(dt)
 ```
 
 ```
-[1] "0x7fa363242a00"
+[1] "0x7fc7a00ab200"
 ```
 
 ## `setorder()`: Set order of `data.table`
@@ -1012,12 +1065,13 @@ dt
 ```
 
 ```
-   A   B Group
-1: 1 1.2     a
-2: 4 5.6     a
-3: 5 8.1     a
-4: 2 4.3     b
-5: 3 9.7     b
+       A     B  Group
+   <num> <num> <fctr>
+1:     1   1.2      a
+2:     4   5.6      a
+3:     5   8.1      a
+4:     2   4.3      b
+5:     3   9.7      b
 ```
 
 Order by Group and then by decreasing B:
@@ -1029,12 +1083,13 @@ dt
 ```
 
 ```
-   A   B Group
-1: 5 8.1     a
-2: 4 5.6     a
-3: 1 1.2     a
-4: 3 9.7     b
-5: 2 4.3     b
+       A     B  Group
+   <num> <num> <fctr>
+1:     5   8.1      a
+2:     4   5.6      a
+3:     1   1.2      a
+4:     3   9.7      b
+5:     2   4.3      b
 ```
 
 ## Group according to `by`
@@ -1042,23 +1097,16 @@ dt
 Up to now, we have learned how to use the `data.table` frame `dat[i, j]` to filter cases in `i` or add/remove/transform columns in-place in `j`. There is a whole other dimension in the `data.table` frame: `by`.  
 
 
-\begin{info}
-The complete \texttt{data.table} syntax is:
-
-\texttt{dt{[}i,\ j,\ by{]}}
-
-\begin{itemize}
-\tightlist
-\item
-  Take data.table \texttt{dt}
-\item
-  Subset rows using \texttt{i}
-\item
-  Manipulate columns with \texttt{j}
-\item
-  Grouped according to \texttt{by}
-\end{itemize}
-\end{info}
+<div class="rmdtip">
+<p>The complete <code>data.table</code> syntax is:</p>
+<p><code>dt[i, j, by]</code></p>
+<ul>
+<li>Take data.table <code>dt</code></li>
+<li>Subset rows using <code>i</code></li>
+<li>Manipulate columns with <code>j</code></li>
+<li>Grouped according to <code>by</code></li>
+</ul>
+</div>
 
 Again, using `.()` or `list()` in `j`, returns a new `data.table`:
 
@@ -1068,9 +1116,10 @@ dt[, .(meanAbyGroup = mean(A)), by = Group]
 ```
 
 ```
-   Group meanAbyGroup
-1:     a     3.333333
-2:     b     2.500000
+    Group meanAbyGroup
+   <fctr>        <num>
+1:      a     3.333333
+2:      b     2.500000
 ```
 
 ```r
@@ -1078,9 +1127,10 @@ dt[, list(medianBbyGroup = median(B)), by = Group]
 ```
 
 ```
-   Group medianBbyGroup
-1:     a            5.6
-2:     b            7.0
+    Group medianBbyGroup
+   <fctr>          <num>
+1:      a            5.6
+2:      b            7.0
 ```
 
 Making an assignment with `:=` in `j`, adds a column in-place. Since here we are grouping, the same value will be assigned to all cases of the group:
@@ -1092,12 +1142,13 @@ dt
 ```
 
 ```
-   A   B Group meanAbyGroup
-1: 5 8.1     a     3.333333
-2: 4 5.6     a     3.333333
-3: 1 1.2     a     3.333333
-4: 3 9.7     b     2.500000
-5: 2 4.3     b     2.500000
+       A     B  Group meanAbyGroup
+   <num> <num> <fctr>        <num>
+1:     5   8.1      a     3.333333
+2:     4   5.6      a     3.333333
+3:     1   1.2      a     3.333333
+4:     3   9.7      b     2.500000
+5:     2   4.3      b     2.500000
 ```
 
 For more complex operations, you may need to refer to the slice of the `data.table` defined by `by` within `j`. There is a special notation for this: `.SD` (think sub-`data.table`):
@@ -1109,19 +1160,18 @@ dt
 ```
 
 ```
-   A   B Group meanAbyGroup A_DiffFromGroupMin
-1: 5 8.1     a     3.333333                  4
-2: 4 5.6     a     3.333333                  3
-3: 1 1.2     a     3.333333                  0
-4: 3 9.7     b     2.500000                  1
-5: 2 4.3     b     2.500000                  0
+       A     B  Group meanAbyGroup A_DiffFromGroupMin
+   <num> <num> <fctr>        <num>              <num>
+1:     5   8.1      a     3.333333                  4
+2:     4   5.6      a     3.333333                  3
+3:     1   1.2      a     3.333333                  0
+4:     3   9.7      b     2.500000                  1
+5:     2   4.3      b     2.500000                  0
 ```
 
-\begin{note}
-By now, it should be clearer that the \texttt{data.table} frame provides
-a very flexible way to perform a very wide range of operations with
-minimal new notation.
-\end{note}
+<div class="rmdnote">
+<p>By now, it should be clearer that the <code>data.table</code> frame provides a very flexible way to perform a very wide range of operations with minimal new notation.</p>
+</div>
 
 ## Apply functions to columns
 Any function that returns a list can be used in `j` to return a new data.table - therefore lapply is perfect for getting summary on multiple columns:
@@ -1132,6 +1182,7 @@ Any function that returns a list can be used in `j` to return a new data.table -
 
 ```
             V1          V2          V3
+         <num>       <num>       <num>
  1:  0.3769721 -0.85312282  2.17436525
  2:  0.3015484  0.90925918  1.09818265
  3: -1.0980232  1.19637296  0.31822032
@@ -1151,6 +1202,7 @@ dt1[, lapply(.SD, mean)]
 
 ```
         Alpha       Beta     Gamma
+        <num>      <num>     <num>
 1: -0.1039628 -0.1007732 0.6748199
 ```
 
@@ -1165,12 +1217,13 @@ dt2
 ```
 
 ```
-   A   B          C Group
-1: 1 1.2 -0.8125047     a
-2: 2 4.3 -0.7437022     b
-3: 3 9.7  1.0953451     b
-4: 4 5.6  2.4353737     a
-5: 5 8.1  0.3881185     a
+       A     B          C  Group
+   <int> <num>      <num> <char>
+1:     1   1.2 -0.8125047      a
+2:     2   4.3 -0.7437022      b
+3:     3   9.7  1.0953451      b
+4:     4   5.6  2.4353737      a
+5:     5   8.1  0.3881185      a
 ```
 
 ```r
@@ -1178,8 +1231,9 @@ dt2[, lapply(.SD, mean), .SDcols = 1:2]
 ```
 
 ```
-   A    B
-1: 3 5.78
+       A     B
+   <num> <num>
+1:     3  5.78
 ```
 
 ```r
@@ -1188,8 +1242,9 @@ dt2[, lapply(.SD, mean), .SDcols = c("A", "B")]
 ```
 
 ```
-   A    B
-1: 3 5.78
+       A     B
+   <num> <num>
+1:     3  5.78
 ```
 
 ```r
@@ -1198,8 +1253,9 @@ dt2[, lapply(.SD, mean), .SDcols = cols]
 ```
 
 ```
-   A    B
-1: 3 5.78
+       A     B
+   <num> <num>
+1:     3  5.78
 ```
 
 You can combine `.SDcols` and `by`:
@@ -1209,11 +1265,11 @@ dt2[, lapply(.SD, median), .SDcols = c("B", "C"), by = Group]
 ```
 
 ```
-   Group   B         C
-1:     a 5.6 0.3881185
-2:     b 7.0 0.1758215
+    Group     B         C
+   <char> <num>     <num>
+1:      a   5.6 0.3881185
+2:      b   7.0 0.1758215
 ```
-
 
 Create multiple new columns from transformation of existing and store with custom prefix:
 
@@ -1223,6 +1279,7 @@ dt1
 
 ```
          Alpha        Beta       Gamma
+         <num>       <num>       <num>
  1:  0.3769721 -0.85312282  2.17436525
  2:  0.3015484  0.90925918  1.09818265
  3: -1.0980232  1.19637296  0.31822032
@@ -1242,6 +1299,7 @@ dt1
 
 ```
          Alpha        Beta       Gamma Alpha_abs   Beta_abs  Gamma_abs
+         <num>       <num>       <num>     <num>      <num>      <num>
  1:  0.3769721 -0.85312282  2.17436525 0.3769721 0.85312282 2.17436525
  2:  0.3015484  0.90925918  1.09818265 0.3015484 0.90925918 1.09818265
  3: -1.0980232  1.19637296  0.31822032 1.0980232 1.19637296 0.31822032
@@ -1260,12 +1318,13 @@ dt2
 ```
 
 ```
-   A   B          C Group
-1: 1 1.2 -0.8125047     a
-2: 2 4.3 -0.7437022     b
-3: 3 9.7  1.0953451     b
-4: 4 5.6  2.4353737     a
-5: 5 8.1  0.3881185     a
+       A     B          C  Group
+   <int> <num>      <num> <char>
+1:     1   1.2 -0.8125047      a
+2:     2   4.3 -0.7437022      b
+3:     3   9.7  1.0953451      b
+4:     4   5.6  2.4353737      a
+5:     5   8.1  0.3881185      a
 ```
 
 ```r
@@ -1275,15 +1334,53 @@ dt2
 ```
 
 ```
-   A   B          C Group A_groupMean C_groupMean
-1: 1 1.2 -0.8125047     a    3.333333   0.6703292
-2: 2 4.3 -0.7437022     b    2.500000   0.1758215
-3: 3 9.7  1.0953451     b    2.500000   0.1758215
-4: 4 5.6  2.4353737     a    3.333333   0.6703292
-5: 5 8.1  0.3881185     a    3.333333   0.6703292
+       A     B          C  Group A_groupMean C_groupMean
+   <int> <num>      <num> <char>       <num>       <num>
+1:     1   1.2 -0.8125047      a    3.333333   0.6703292
+2:     2   4.3 -0.7437022      b    2.500000   0.1758215
+3:     3   9.7  1.0953451      b    2.500000   0.1758215
+4:     4   5.6  2.4353737      a    3.333333   0.6703292
+5:     5   8.1  0.3881185      a    3.333333   0.6703292
 ```
 
-## Reshape a `data.table`
+## Row-wise operations
+
+
+```r
+dt <- data.table(a = 1:5, b = 11:15, c = 21:25, d = 31:35, e = 41:45)
+dt
+```
+
+```
+       a     b     c     d     e
+   <int> <int> <int> <int> <int>
+1:     1    11    21    31    41
+2:     2    12    22    32    42
+3:     3    13    23    33    43
+4:     4    14    24    34    44
+5:     5    15    25    35    45
+```
+
+To operate row-wise, we can use `by = 1:nrow(dt)`.
+For example, to add a column, in-place, with row-wise sums of variables b through d:
+
+
+```r
+dt[, bcd.sum := sum(.SD[, b:d]), by = 1:nrow(dt)]
+dt
+```
+
+```
+       a     b     c     d     e bcd.sum
+   <int> <int> <int> <int> <int>   <int>
+1:     1    11    21    31    41      63
+2:     2    12    22    32    42      66
+3:     3    13    23    33    43      69
+4:     4    14    24    34    44      72
+5:     5    15    25    35    45      75
+```
+
+## Wide <=> Long
 
 ### `melt()`: Wide to long
 
@@ -1295,11 +1392,12 @@ dt_wide
 ```
 
 ```
-   ID Timepoint_A Timepoint_B Timepoint_C
-1:  1          11          21          51
-2:  2          12          22          52
-3:  3          13          23          53
-4:  4          14          24          54
+      ID Timepoint_A Timepoint_B Timepoint_C
+   <int>       <int>       <int>       <int>
+1:     1          11          21          51
+2:     2          12          22          52
+3:     3          13          23          53
+4:     4          14          24          54
 ```
 
 ```r
@@ -1311,19 +1409,20 @@ dt_long
 ```
 
 ```
-    ID   Timepoint Score
- 1:  1 Timepoint_A    11
- 2:  2 Timepoint_A    12
- 3:  3 Timepoint_A    13
- 4:  4 Timepoint_A    14
- 5:  1 Timepoint_B    21
- 6:  2 Timepoint_B    22
- 7:  3 Timepoint_B    23
- 8:  4 Timepoint_B    24
- 9:  1 Timepoint_C    51
-10:  2 Timepoint_C    52
-11:  3 Timepoint_C    53
-12:  4 Timepoint_C    54
+       ID   Timepoint Score
+    <int>      <fctr> <int>
+ 1:     1 Timepoint_A    11
+ 2:     2 Timepoint_A    12
+ 3:     3 Timepoint_A    13
+ 4:     4 Timepoint_A    14
+ 5:     1 Timepoint_B    21
+ 6:     2 Timepoint_B    22
+ 7:     3 Timepoint_B    23
+ 8:     4 Timepoint_B    24
+ 9:     1 Timepoint_C    51
+10:     2 Timepoint_C    52
+11:     3 Timepoint_C    53
+12:     4 Timepoint_C    54
 ```
 
 ### `dcast()`: Long to wide
@@ -1334,19 +1433,20 @@ dt_long
 ```
 
 ```
-    ID   Timepoint Score
- 1:  1 Timepoint_A    11
- 2:  2 Timepoint_A    12
- 3:  3 Timepoint_A    13
- 4:  4 Timepoint_A    14
- 5:  1 Timepoint_B    21
- 6:  2 Timepoint_B    22
- 7:  3 Timepoint_B    23
- 8:  4 Timepoint_B    24
- 9:  1 Timepoint_C    51
-10:  2 Timepoint_C    52
-11:  3 Timepoint_C    53
-12:  4 Timepoint_C    54
+       ID   Timepoint Score
+    <int>      <fctr> <int>
+ 1:     1 Timepoint_A    11
+ 2:     2 Timepoint_A    12
+ 3:     3 Timepoint_A    13
+ 4:     4 Timepoint_A    14
+ 5:     1 Timepoint_B    21
+ 6:     2 Timepoint_B    22
+ 7:     3 Timepoint_B    23
+ 8:     4 Timepoint_B    24
+ 9:     1 Timepoint_C    51
+10:     2 Timepoint_C    52
+11:     3 Timepoint_C    53
+12:     4 Timepoint_C    54
 ```
 
 ```r
@@ -1355,58 +1455,84 @@ dcast(dt_long, ID ~ Timepoint,
 ```
 
 ```
-   ID Timepoint_A Timepoint_B Timepoint_C
-1:  1          11          21          51
-2:  2          12          22          52
-3:  3          13          23          53
-4:  4          14          24          54
+Key: <ID>
+      ID Timepoint_A Timepoint_B Timepoint_C
+   <int>       <int>       <int>       <int>
+1:     1          11          21          51
+2:     2          12          22          52
+3:     3          13          23          53
+4:     4          14          24          54
 ```
 
 ## Table Joins
 
-`data.table` allow you to perform table joins either with the base R `merge()` or with its own bracket notation:
+`data.table` allow you to perform table joins with the base `merge()` function using the same syntax as for data.frame objects or the "data.table way" using bracket notation:
 
 
 ```r
-(a <- data.table(PID = c(1:9),
+a <- data.table(PID = c(1:9),
                 Hospital = c("UCSF", "HUP", "Stanford", 
                              "Stanford", "UCSF", "HUP", 
                              "HUP", "Stanford", "UCSF"),
                 Age = c(22, 34, 41, 19, 53, 21, 63, 22, 19),
-                Sex = c(1, 1, 0, 1, 0, 0, 1, 0, 0)))
+                Sex = c(1, 1, 0, 1, 0, 0, 1, 0, 0),
+                key = "PID")
+a
 ```
 
 ```
-   PID Hospital Age Sex
-1:   1     UCSF  22   1
-2:   2      HUP  34   1
-3:   3 Stanford  41   0
-4:   4 Stanford  19   1
-5:   5     UCSF  53   0
-6:   6      HUP  21   0
-7:   7      HUP  63   1
-8:   8 Stanford  22   0
-9:   9     UCSF  19   0
+Key: <PID>
+     PID Hospital   Age   Sex
+   <int>   <char> <num> <num>
+1:     1     UCSF    22     1
+2:     2      HUP    34     1
+3:     3 Stanford    41     0
+4:     4 Stanford    19     1
+5:     5     UCSF    53     0
+6:     6      HUP    21     0
+7:     7      HUP    63     1
+8:     8 Stanford    22     0
+9:     9     UCSF    19     0
 ```
 
 ```r
-(b  <- data.table(PID = c(6:12),
-                  V1 = c(153, 89, 112, 228,  91, 190, 101),
-                  Department = c("Neurology", "Radiology", "Emergency",
-                                 "Cardiology", "Surgery", "Neurology",
-                                 "Psychiatry")))
+b <- data.table(PID = c(6:12),
+                V1 = c(153, 89, 112, 228,  91, 190, 101),
+                Department = c("Neurology", "Radiology", "Emergency",
+                               "Cardiology", "Surgery", "Neurology",
+                               "Psychiatry"),
+                key = "PID")
+b
 ```
 
 ```
-   PID  V1 Department
-1:   6 153  Neurology
-2:   7  89  Radiology
-3:   8 112  Emergency
-4:   9 228 Cardiology
-5:  10  91    Surgery
-6:  11 190  Neurology
-7:  12 101 Psychiatry
+Key: <PID>
+     PID    V1 Department
+   <int> <num>     <char>
+1:     6   153  Neurology
+2:     7    89  Radiology
+3:     8   112  Emergency
+4:     9   228 Cardiology
+5:    10    91    Surgery
+6:    11   190  Neurology
+7:    12   101 Psychiatry
 ```
+
+In the above command we use the `key` argument to set `PID` as key. This can be performed after the `data.table` has been created using the `setkey()` command:
+
+
+```r
+setkey(a, PID)
+```
+
+Multiple keys can be set, in order, with the same `setkey()` command, separated by commas, e.g.:
+
+
+```r
+setkey(a, PID, Hospital)
+```
+
+Keys sort the data.table by the corresponding columns and can be used to perform left and right joins with bracket notation seen later.
 
 ### Inner
 
@@ -1416,11 +1542,13 @@ merge(a, b)
 ```
 
 ```
-   PID Hospital Age Sex  V1 Department
-1:   6      HUP  21   0 153  Neurology
-2:   7      HUP  63   1  89  Radiology
-3:   8 Stanford  22   0 112  Emergency
-4:   9     UCSF  19   0 228 Cardiology
+Key: <PID>
+     PID Hospital   Age   Sex    V1 Department
+   <int>   <char> <num> <num> <num>     <char>
+1:     6      HUP    21     0   153  Neurology
+2:     7      HUP    63     1    89  Radiology
+3:     8 Stanford    22     0   112  Emergency
+4:     9     UCSF    19     0   228 Cardiology
 ```
 
 ### Outer
@@ -1431,22 +1559,26 @@ merge(a, b, all = TRUE)
 ```
 
 ```
-    PID Hospital Age Sex  V1 Department
- 1:   1     UCSF  22   1  NA       <NA>
- 2:   2      HUP  34   1  NA       <NA>
- 3:   3 Stanford  41   0  NA       <NA>
- 4:   4 Stanford  19   1  NA       <NA>
- 5:   5     UCSF  53   0  NA       <NA>
- 6:   6      HUP  21   0 153  Neurology
- 7:   7      HUP  63   1  89  Radiology
- 8:   8 Stanford  22   0 112  Emergency
- 9:   9     UCSF  19   0 228 Cardiology
-10:  10     <NA>  NA  NA  91    Surgery
-11:  11     <NA>  NA  NA 190  Neurology
-12:  12     <NA>  NA  NA 101 Psychiatry
+Key: <PID>
+      PID Hospital   Age   Sex    V1 Department
+    <int>   <char> <num> <num> <num>     <char>
+ 1:     1     UCSF    22     1    NA       <NA>
+ 2:     2      HUP    34     1    NA       <NA>
+ 3:     3 Stanford    41     0    NA       <NA>
+ 4:     4 Stanford    19     1    NA       <NA>
+ 5:     5     UCSF    53     0    NA       <NA>
+ 6:     6      HUP    21     0   153  Neurology
+ 7:     7      HUP    63     1    89  Radiology
+ 8:     8 Stanford    22     0   112  Emergency
+ 9:     9     UCSF    19     0   228 Cardiology
+10:    10     <NA>    NA    NA    91    Surgery
+11:    11     <NA>    NA    NA   190  Neurology
+12:    12     <NA>    NA    NA   101 Psychiatry
 ```
 
 ### Left outer
+
+Using `merge()`:
 
 
 ```r
@@ -1454,25 +1586,21 @@ merge(a, b, all.x = TRUE)
 ```
 
 ```
-   PID Hospital Age Sex  V1 Department
-1:   1     UCSF  22   1  NA       <NA>
-2:   2      HUP  34   1  NA       <NA>
-3:   3 Stanford  41   0  NA       <NA>
-4:   4 Stanford  19   1  NA       <NA>
-5:   5     UCSF  53   0  NA       <NA>
-6:   6      HUP  21   0 153  Neurology
-7:   7      HUP  63   1  89  Radiology
-8:   8 Stanford  22   0 112  Emergency
-9:   9     UCSF  19   0 228 Cardiology
+Key: <PID>
+     PID Hospital   Age   Sex    V1 Department
+   <int>   <char> <num> <num> <num>     <char>
+1:     1     UCSF    22     1    NA       <NA>
+2:     2      HUP    34     1    NA       <NA>
+3:     3 Stanford    41     0    NA       <NA>
+4:     4 Stanford    19     1    NA       <NA>
+5:     5     UCSF    53     0    NA       <NA>
+6:     6      HUP    21     0   153  Neurology
+7:     7      HUP    63     1    89  Radiology
+8:     8 Stanford    22     0   112  Emergency
+9:     9     UCSF    19     0   228 Cardiology
 ```
 
-One way to allow fast joins with bracket notation is to set keys:
-
-
-```r
-setkey(a, "PID")
-setkey(b, "PID")
-```
+Using bracket notation:
 
 
 ```r
@@ -1480,17 +1608,45 @@ b[a, ]
 ```
 
 ```
-   PID  V1 Department Hospital Age Sex
-1:   1  NA       <NA>     UCSF  22   1
-2:   2  NA       <NA>      HUP  34   1
-3:   3  NA       <NA> Stanford  41   0
-4:   4  NA       <NA> Stanford  19   1
-5:   5  NA       <NA>     UCSF  53   0
-6:   6 153  Neurology      HUP  21   0
-7:   7  89  Radiology      HUP  63   1
-8:   8 112  Emergency Stanford  22   0
-9:   9 228 Cardiology     UCSF  19   0
+Key: <PID>
+     PID    V1 Department Hospital   Age   Sex
+   <int> <num>     <char>   <char> <num> <num>
+1:     1    NA       <NA>     UCSF    22     1
+2:     2    NA       <NA>      HUP    34     1
+3:     3    NA       <NA> Stanford    41     0
+4:     4    NA       <NA> Stanford    19     1
+5:     5    NA       <NA>     UCSF    53     0
+6:     6   153  Neurology      HUP    21     0
+7:     7    89  Radiology      HUP    63     1
+8:     8   112  Emergency Stanford    22     0
+9:     9   228 Cardiology     UCSF    19     0
 ```
+
+If keys were not set for a and b, you could specify the column to match on using the `on` argument:
+
+
+```r
+b[a, on = "PID"]
+```
+
+```
+Key: <PID>
+     PID    V1 Department Hospital   Age   Sex
+   <int> <num>     <char>   <char> <num> <num>
+1:     1    NA       <NA>     UCSF    22     1
+2:     2    NA       <NA>      HUP    34     1
+3:     3    NA       <NA> Stanford    41     0
+4:     4    NA       <NA> Stanford    19     1
+5:     5    NA       <NA>     UCSF    53     0
+6:     6   153  Neurology      HUP    21     0
+7:     7    89  Radiology      HUP    63     1
+8:     8   112  Emergency Stanford    22     0
+9:     9   228 Cardiology     UCSF    19     0
+```
+
+<div class="rmdnote">
+<p>The easy way to understand the bracket notation merges is to think that the data.table inside the bracket is used to index the data.table on the outside, therefore the resulting table will have rows dictated by the inside table’s key.</p>
+</div>
 
 ### Right outer
 
@@ -1500,15 +1656,19 @@ merge(a, b, all.y = TRUE)
 ```
 
 ```
-   PID Hospital Age Sex  V1 Department
-1:   6      HUP  21   0 153  Neurology
-2:   7      HUP  63   1  89  Radiology
-3:   8 Stanford  22   0 112  Emergency
-4:   9     UCSF  19   0 228 Cardiology
-5:  10     <NA>  NA  NA  91    Surgery
-6:  11     <NA>  NA  NA 190  Neurology
-7:  12     <NA>  NA  NA 101 Psychiatry
+Key: <PID>
+     PID Hospital   Age   Sex    V1 Department
+   <int>   <char> <num> <num> <num>     <char>
+1:     6      HUP    21     0   153  Neurology
+2:     7      HUP    63     1    89  Radiology
+3:     8 Stanford    22     0   112  Emergency
+4:     9     UCSF    19     0   228 Cardiology
+5:    10     <NA>    NA    NA    91    Surgery
+6:    11     <NA>    NA    NA   190  Neurology
+7:    12     <NA>    NA    NA   101 Psychiatry
 ```
+
+Using bracket notation:
 
 
 ```r
@@ -1516,12 +1676,14 @@ a[b, ]
 ```
 
 ```
-   PID Hospital Age Sex  V1 Department
-1:   6      HUP  21   0 153  Neurology
-2:   7      HUP  63   1  89  Radiology
-3:   8 Stanford  22   0 112  Emergency
-4:   9     UCSF  19   0 228 Cardiology
-5:  10     <NA>  NA  NA  91    Surgery
-6:  11     <NA>  NA  NA 190  Neurology
-7:  12     <NA>  NA  NA 101 Psychiatry
+Key: <PID>
+     PID Hospital   Age   Sex    V1 Department
+   <int>   <char> <num> <num> <num>     <char>
+1:     6      HUP    21     0   153  Neurology
+2:     7      HUP    63     1    89  Radiology
+3:     8 Stanford    22     0   112  Emergency
+4:     9     UCSF    19     0   228 Cardiology
+5:    10     <NA>    NA    NA    91    Surgery
+6:    11     <NA>    NA    NA   190  Neurology
+7:    12     <NA>    NA    NA   101 Psychiatry
 ```

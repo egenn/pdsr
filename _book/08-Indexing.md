@@ -276,7 +276,7 @@ $one
 [1] 1 2 3 4
 
 $two
- [1] 36.8 58.7  2.2 56.3  5.4 66.5 94.8  7.5 74.5 83.0
+ [1] 54.1 23.5 49.6 40.4 77.2 88.7 24.8 22.7 36.8 60.3
 
 $three
 [1] "mango"     "banana"    "tangerine"
@@ -284,7 +284,7 @@ $three
 $four
 function (x, na.rm = FALSE, ...) 
 UseMethod("median")
-<bytecode: 0x7fe1e20ae190>
+<bytecode: 0x7fcfb4395140>
 <environment: namespace:stats>
 ```
 
@@ -397,7 +397,7 @@ x[2:3]
 
 ```
 $two
- [1] 36.8 58.7  2.2 56.3  5.4 66.5 94.8  7.5 74.5 83.0
+ [1] 54.1 23.5 49.6 40.4 77.2 88.7 24.8 22.7 36.8 60.3
 
 $three
 [1] "mango"     "banana"    "tangerine"
@@ -422,7 +422,7 @@ x[[2:3]]
 ```
 
 ```
-[1] 2.2
+[1] 49.6
 ```
 
 You can convert a list to one lone vector containing all the individual components of the original list using `unlist()`. Notice how names are automatically created based on the original structure:
@@ -436,13 +436,13 @@ You can convert a list to one lone vector containing all the individual componen
 
 ```
 $alpha
- [1] 86 77  1 38 36 37 21 44 97 59
+ [1]  6 82 11 92 98 34  4 62 85 26
 
 $beta
- [1]  7 59 58 64 88 85 34 41 51 87
+ [1]  65  18  49  64 100  83  60  88   6   4
 
 $gamma
- [1] 41 76 18  5 40 50 28 92 65 93
+ [1] 90 74  8  2 13 84 34 24 19 99
 ```
 
 ```r
@@ -451,11 +451,11 @@ unlist(x)
 
 ```
  alpha1  alpha2  alpha3  alpha4  alpha5  alpha6  alpha7  alpha8  alpha9 alpha10 
-     86      77       1      38      36      37      21      44      97      59 
+      6      82      11      92      98      34       4      62      85      26 
   beta1   beta2   beta3   beta4   beta5   beta6   beta7   beta8   beta9  beta10 
-      7      59      58      64      88      85      34      41      51      87 
+     65      18      49      64     100      83      60      88       6       4 
  gamma1  gamma2  gamma3  gamma4  gamma5  gamma6  gamma7  gamma8  gamma9 gamma10 
-     41      76      18       5      40      50      28      92      65      93 
+     90      74       8       2      13      84      34      24      19      99 
 ```
 
 ### Logical index {#idllist}
@@ -469,10 +469,10 @@ x[c(T, F, T, F)]
 
 ```
 $alpha
- [1] 86 77  1 38 36 37 21 44 97 59
+ [1]  6 82 11 92 98 34  4 62 85 26
 
 $gamma
- [1] 41 76 18  5 40 50 28 92 65 93
+ [1] 90 74  8  2 13 84 34 24 19 99
 ```
 
 ## Data frames {#indexdfs}
@@ -481,10 +481,9 @@ We've already seen above that a data frame can be indexed in the same ways as a 
 At the same time, we know that a data frame is a rectangular list. Like a list, its elements are vectors of any type (integer, double, character, factor, and more) but, unlike a list, they have to be of the same length. A data frame can also be indexed the same way as a list.  
 Similar to indexing a list, notice that some methods return a smaller data frame, while others return vectors.  
 
-\begin{info}
-You can index a data frame using all the ways you can index a list and
-all the ways you can index a matrix.
-\end{info}
+<div class="rmdtip">
+<p>You can index a data frame using all the ways you can index a list and all the ways you can index a matrix.</p>
+</div>
 
 Let's create a simple data frame:
 
@@ -498,11 +497,11 @@ x
 
 ```
   Feat_1     Feat_2 Feat_3
-1     21  0.1865855 rnd_37
-2     22 -0.6720045 rnd_38
-3     23  1.7228147 rnd_55
-4     24 -0.9739142 rnd_58
-5     25  0.2165614 rnd_65
+1     21 -1.2500908 rnd_27
+2     22  0.7961200 rnd_19
+3     23  0.8611944 rnd_38
+4     24 -0.2457623 rnd_54
+5     25  0.5752587 rnd_36
 ```
 
 ### Extract column(s)
@@ -515,7 +514,7 @@ x$Feat_2
 ```
 
 ```
-[1]  0.1865855 -0.6720045  1.7228147 -0.9739142  0.2165614
+[1] -1.2500908  0.7961200  0.8611944 -0.2457623  0.5752587
 ```
 
 ```r
@@ -535,11 +534,11 @@ x["Feat_2"]
 
 ```
       Feat_2
-1  0.1865855
-2 -0.6720045
-3  1.7228147
-4 -0.9739142
-5  0.2165614
+1 -1.2500908
+2  0.7961200
+3  0.8611944
+4 -0.2457623
+5  0.5752587
 ```
 
 ```r
@@ -558,7 +557,7 @@ x[["Feat_2"]]
 ```
 
 ```
-[1]  0.1865855 -0.6720045  1.7228147 -0.9739142  0.2165614
+[1] -1.2500908  0.7961200  0.8611944 -0.2457623  0.5752587
 ```
 
 Accessing a column by `[row, column]` either by position or name, return a vector by default:
@@ -569,7 +568,7 @@ x[, 2]
 ```
 
 ```
-[1]  0.1865855 -0.6720045  1.7228147 -0.9739142  0.2165614
+[1] -1.2500908  0.7961200  0.8611944 -0.2457623  0.5752587
 ```
 
 ```r
@@ -585,7 +584,7 @@ x[, "Feat_2"]
 ```
 
 ```
-[1]  0.1865855 -0.6720045  1.7228147 -0.9739142  0.2165614
+[1] -1.2500908  0.7961200  0.8611944 -0.2457623  0.5752587
 ```
 
 ```r
@@ -626,11 +625,11 @@ x[idi]
 
 ```
       Feat_2
-1  0.1865855
-2 -0.6720045
-3  1.7228147
-4 -0.9739142
-5  0.2165614
+1 -1.2500908
+2  0.7961200
+3  0.8611944
+4 -0.2457623
+5  0.5752587
 ```
 
 ```r
@@ -639,11 +638,11 @@ x[idc]
 
 ```
       Feat_2
-1  0.1865855
-2 -0.6720045
-3  1.7228147
-4 -0.9739142
-5  0.2165614
+1 -1.2500908
+2  0.7961200
+3  0.8611944
+4 -0.2457623
+5  0.5752587
 ```
 
 ```r
@@ -651,7 +650,7 @@ x[[idi]]
 ```
 
 ```
-[1]  0.1865855 -0.6720045  1.7228147 -0.9739142  0.2165614
+[1] -1.2500908  0.7961200  0.8611944 -0.2457623  0.5752587
 ```
 
 ```r
@@ -659,7 +658,7 @@ x[[idc]]
 ```
 
 ```
-[1]  0.1865855 -0.6720045  1.7228147 -0.9739142  0.2165614
+[1] -1.2500908  0.7961200  0.8611944 -0.2457623  0.5752587
 ```
 
 ```r
@@ -667,7 +666,7 @@ x[, idi]
 ```
 
 ```
-[1]  0.1865855 -0.6720045  1.7228147 -0.9739142  0.2165614
+[1] -1.2500908  0.7961200  0.8611944 -0.2457623  0.5752587
 ```
 
 ```r
@@ -675,7 +674,7 @@ x[, idc]
 ```
 
 ```
-[1]  0.1865855 -0.6720045  1.7228147 -0.9739142  0.2165614
+[1] -1.2500908  0.7961200  0.8611944 -0.2457623  0.5752587
 ```
 
 ```r
@@ -684,11 +683,11 @@ x[, idi, drop = F]
 
 ```
       Feat_2
-1  0.1865855
-2 -0.6720045
-3  1.7228147
-4 -0.9739142
-5  0.2165614
+1 -1.2500908
+2  0.7961200
+3  0.8611944
+4 -0.2457623
+5  0.5752587
 ```
 
 ```r
@@ -697,11 +696,11 @@ x[, idc, drop = F]
 
 ```
       Feat_2
-1  0.1865855
-2 -0.6720045
-3  1.7228147
-4 -0.9739142
-5  0.2165614
+1 -1.2500908
+2  0.7961200
+3  0.8611944
+4 -0.2457623
+5  0.5752587
 ```
 
 Extracting multiple columns returns a data frame:
@@ -713,11 +712,11 @@ x[, 2:3]
 
 ```
       Feat_2 Feat_3
-1  0.1865855 rnd_37
-2 -0.6720045 rnd_38
-3  1.7228147 rnd_55
-4 -0.9739142 rnd_58
-5  0.2165614 rnd_65
+1 -1.2500908 rnd_27
+2  0.7961200 rnd_19
+3  0.8611944 rnd_38
+4 -0.2457623 rnd_54
+5  0.5752587 rnd_36
 ```
 
 ```r
@@ -739,7 +738,7 @@ x[1, ]
 
 ```
   Feat_1    Feat_2 Feat_3
-1     21 0.1865855 rnd_37
+1     21 -1.250091 rnd_27
 ```
 
 ```r
@@ -762,10 +761,10 @@ $Feat_1
 [1] 21
 
 $Feat_2
-[1] 0.1865855
+[1] -1.250091
 
 $Feat_3
-[1] "rnd_37"
+[1] "rnd_27"
 ```
 
 ```r
@@ -785,7 +784,7 @@ unlist(x[1, ])
 
 ```
              Feat_1              Feat_2              Feat_3 
-               "21" "0.186585475386487"            "rnd_37" 
+               "21" "-1.25009077603879"            "rnd_27" 
 ```
 
 ```r
@@ -805,28 +804,22 @@ x[x$Feat_1 > 22, ]
 
 ```
   Feat_1     Feat_2 Feat_3
-3     23  1.7228147 rnd_55
-4     24 -0.9739142 rnd_58
-5     25  0.2165614 rnd_65
+3     23  0.8611944 rnd_38
+4     24 -0.2457623 rnd_54
+5     25  0.5752587 rnd_36
 ```
 
 ## Logical <-> Integer indexing
 
 As we saw, there are two types of indexes/indices: integer and logical.  
 
-\begin{note}
-\begin{itemize}
-\item
-  A logical index needs to be of the same dimensions as the object it is
-  indexing (unless you really want to recycle values - see chapter on
-  \protect\hyperlink{vectorization}{vectorization}):\\
-  you are specifying whether to include or exclude each element
-\item
-  An integer index will be shorter than the object it is indexing: you
-  are specifying which subset of elements to include (or with a
-  \texttt{-} in front, which elements to exclude)
-\end{itemize}
-\end{note}
+<div class="rmdnote">
+<ul>
+<li><p>A logical index needs to be of the same dimensions as the object it is indexing (unless you really want to recycle values - see chapter on <a href="#vectorization">vectorization</a>):<br />
+you are specifying whether to include or exclude each element</p></li>
+<li><p>An integer index will be shorter than the object it is indexing: you are specifying which subset of elements to include (or with a <code>-</code> in front, which elements to exclude)</p></li>
+</ul>
+</div>
 
 It's easy to convert between the two types.  
 
@@ -857,12 +850,10 @@ logical_index
 ### Logical to integer index with `which()`:
 
 
-\begin{warning}
-The common mistake is to attempt to convert a logical index to an
-integer index using \texttt{as.integer()}. This results in a vector of
-1's and 0's, NOT an integer index.\\
-\texttt{which()} converts a logical index to an integer index.
-\end{warning}
+<div class="rmdcaution">
+<p>The common mistake is to attempt to convert a logical index to an integer index using <code>as.integer()</code>. This results in a vector of 1’s and 0’s, NOT an integer index.<br />
+<code>which()</code> converts a logical index to an integer index.</p>
+</div>
 
 `which()` literally gives the position of all `TRUE` elements in a vector, thus converting a logical to an integer index:
 
@@ -878,10 +869,9 @@ integer_index
 i.e. positions 4, 5, 6, 7 of the `logical_index` are TRUE
 
 
-\begin{note}
-A logical and an integer index are equivalent if they select the exact
-same elements
-\end{note}
+<div class="rmdnote">
+<p>A logical and an integer index are equivalent if they select the exact same elements</p>
+</div>
 
 Let's check than when used to index `x`, they both return the same result:
 
@@ -988,11 +978,9 @@ x[-integer_index]
 [1] 21 22 23 28 29 30
 ```
 
-\begin{note}
-To get the complement of an index, you negate a logical index
-(\texttt{!logical\_index}) or you subtract an integer index
-(\texttt{-integer\_index}):
-\end{note}
+<div class="rmdnote">
+<p>To get the complement of an index, you negate a logical index (<code>!logical_index</code>) or you subtract an integer index (<code>-integer_index</code>):</p>
+</div>
 
 ## `subset()`
 
@@ -1030,11 +1018,12 @@ subset(x, subset = two > 0, select = two)
 ```
 
 ```
-        two
-3 0.3229268
-4 0.8261063
-5 0.5371031
-9 0.3025462
+         two
+1  0.9776445
+2  0.5870055
+3  0.2034255
+4  1.0399724
+10 0.3564357
 ```
 
 ```r
@@ -1042,11 +1031,12 @@ subset(x, two > 0, -one)
 ```
 
 ```
-        two group
-3 0.3229268 alpha
-4 0.8261063 alpha
-5 0.5371031  beta
-9 0.3025462  beta
+         two group
+1  0.9776445 alpha
+2  0.5870055 alpha
+3  0.2034255 alpha
+4  1.0399724 alpha
+10 0.3564357  beta
 ```
 
 ```r
@@ -1054,11 +1044,12 @@ subset(x, two > 0, two:one)
 ```
 
 ```
-        two one
-3 0.3229268   3
-4 0.8261063   4
-5 0.5371031   5
-9 0.3025462   9
+         two one
+1  0.9776445   1
+2  0.5870055   2
+3  0.2034255   3
+4  1.0399724   4
+10 0.3564357  10
 ```
 
 ```r
@@ -1066,11 +1057,12 @@ subset(x, two > 0, two:group)
 ```
 
 ```
-        two group
-3 0.3229268 alpha
-4 0.8261063 alpha
-5 0.5371031  beta
-9 0.3025462  beta
+         two group
+1  0.9776445 alpha
+2  0.5870055 alpha
+3  0.2034255 alpha
+4  1.0399724 alpha
+10 0.3564357  beta
 ```
 
 ## `split()`
@@ -1092,11 +1084,11 @@ with(x, x[group == "alpha", ])
 ```
 
 ```
-  one         two group
-1   1 -0.02064675 alpha
-2   2 -0.46339186 alpha
-3   3  0.32292683 alpha
-4   4  0.82610626 alpha
+  one       two group
+1   1 0.9776445 alpha
+2   2 0.5870055 alpha
+3   3 0.2034255 alpha
+4   4 1.0399724 alpha
 ```
 
 ```r
@@ -1104,9 +1096,10 @@ with(x, x[two > 0, ])
 ```
 
 ```
-  one       two group
-3   3 0.3229268 alpha
-4   4 0.8261063 alpha
-5   5 0.5371031  beta
-9   9 0.3025462  beta
+   one       two group
+1    1 0.9776445 alpha
+2    2 0.5870055 alpha
+3    3 0.2034255 alpha
+4    4 1.0399724 alpha
+10  10 0.3564357  beta
 ```

@@ -252,13 +252,21 @@ print(environment())
 
 Notice how the environment outside and inside the loop function is the same, it is the Global environemnt, but the environment within the function is different. That is why any objects created or changed within a function must be returned if we want to make them available.
 
-## The pipe operator `%>%` {#pipe}
+## The pipe operator {#pipe}
 
 ```{r FigRpipes, echo = FALSE, out.width = "80%", fig.align = 'center', fig.cap = "Illustration of pipes in R"}
 knitr::include_graphics("./R_pipes.png")
 ```
 
-A pipe allows writing `f(x)` as `x %>% f`. It is often used to replace multiple temporary assignments in a multistep procedure, or as an alternative to nesting functions. Some packages and developers promote its use, other discourage it. As always, there is a big subjective component here and you should try and see if and when it suits you.
+A pipe operator was first introduced to R with the [magrittr](https://magrittr.tidyverse.org/) 
+package with the `%>%` symbol. Note that a number of other packages that allow or endorse the use of pipes export the pipe operator as well.  
+
+Starting with R version 4.1, a native pipe operator is included in the language with the `|>` symbol.
+
+A pipe allows writing `f(x)` as `x |> f()` (native pipe) or `x %>% f` (magrittr). 
+Note that the native pipe requires parentheses, but magrittr works with or without them.
+
+A pipe is often used to avoid multiple temporary assignments in a multistep procedure, or as an alternative to nesting functions. Some packages and developers promote its use, other discourage it. As always, there is a big subjective component here and you should try and see if and when it suits you.
 
 
 The following:
@@ -278,22 +286,18 @@ x <- f3(f2(f1(x)))
 is equivalent to:
 
 ```{r eval = FALSE}
-x <- x %>% f1 %>% f2 %>% f3
+x <- x |> f1() |> f2() |> f3()
 ```
 
-The pipe operator was originally introduced in the **magrittr** package. Note that a number of other packages that allow or endorse the use of pipes export the pipe operator as well.
-
 ```{r}
-library(magrittr)
-(iris[, -5] %>%
-  split(iris$Species) %>%
-  lapply(function(i) sapply(i, mean)) -> iris_mean_bySpecies)
+iris[, -5] |>
+  split(iris$Species) |>
+  lapply(function(i) sapply(i, mean))
 ```
 
 Pipes are used extensively in the [tidyverse](https://www.tidyverse.org) packages.  
 You can learn more about the pipe operator in the [magrittr vignette](https://cran.r-project.org/web/packages/magrittr/vignettes/magrittr.html)
 
-```{block, type="info"}
-In [RStudio](https://rstudio.com/) the keyboard shortcut for the pipe operator `%>%` is `Shift Command M` (MacOS) or `Ctrl Shift M` (Windows)
+```{block, type="rmdtip"}
+In [RStudio](https://rstudio.com/) the keyboard shortcut for the pipe operator is `Shift Command M` (MacOS) or `Ctrl Shift M` (Windows)
 ```
-

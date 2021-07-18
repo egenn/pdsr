@@ -68,9 +68,9 @@ methods(generic.function = "plot")
 [13] plot.HoltWinters*   plot.isoreg*        plot.lm*           
 [16] plot.medpolish*     plot.mlm*           plot.ppr*          
 [19] plot.prcomp*        plot.princomp*      plot.profile.nls*  
-[22] plot.raster*        plot.spec*          plot.stepfun       
-[25] plot.stl*           plot.table*         plot.ts            
-[28] plot.tskernel*      plot.TukeyHSD*     
+[22] plot.R6*            plot.raster*        plot.spec*         
+[25] plot.stepfun        plot.stl*           plot.table*        
+[28] plot.ts             plot.tskernel*      plot.TukeyHSD*     
 see '?methods' for accessing help and source code
 ```
 

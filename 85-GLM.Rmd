@@ -2,7 +2,15 @@
 
 ```{r echo = FALSE}
 knitr::opts_chunk$set(fig.width = 4.5, fig.height = 4.5,
-                      comment = NA, cache = TRUE) 
+                      comment = NA, cache = TRUE)
+options(rt.theme = "lightgrid")
+options(rt.fit.theme = "lightgrid")
+library(rtemis)
+```
+
+```{r, comment="", results="asis", echo=FALSE}
+old.hooks <- fansi::set_knit_hooks(knitr::knit_hooks)
+options(crayon.enabled = TRUE)
 ```
 
 ## Generalized Linear Model (GLM)
@@ -17,6 +25,7 @@ str(mtcars)
 ```{r}
 mod <- glm(hp ~ ., family = "gaussian", data = mtcars)
 mod
+class(mod)
 ```
 The `glm()` function accepts a formula that defines the model.  
 The formula `hp ~ .` means "regress hp on all other variables". The `family` argument defines we are performing regression and the `data` argument points to the data frame where the covariates used in the formula are found.
@@ -26,7 +35,9 @@ For a gaussian output, we can also use the `lm()` function. There are minor diff
 ```{r}
 mod <- lm(hp ~ ., data = mtcars)
 mod
+class(mod)
 ```
+### Summary
 
 Get summary of the model using `summary()`:
 
@@ -37,10 +48,74 @@ summary(mod)
 Note how R prints stars next to covariates whose p-values falls within certain limits, described right below the table of estimates.  
 Above, for example, the p-value for `disp` falls between 0.001 and 0.01 and therefore gets highlighted with 2 stars.  
 
+### Coefficients
+
+```{r}
+coefficients(mod)
+# or
+mod$coefficients
+```
+
+### Fitted values
+
+```{r}
+fitted(mod)
+# or
+mod$fitted.values
+```
+
+### Residuals
+
+```{r}
+residuals(mod)
+# or
+mod$residuals
+```
+
+
+### p-values
+
 To extract the p-values of the intercept and each coefficient, we use `coef()` on `summary()`. The final (4th) column lists the p-values:
 
 ```{r}
 coef(summary(mod))
+```
+
+### Plot linear fit
+
+You use `lines()` to add a line on top of a scatterplot drawn with `plot()`.  
+`lines()` accepts `x` and `y` vectors of coordinates:
+
+```{r}
+set.seed(2020)
+x <- rnorm(500)
+y <- .73 * x + .5 * rnorm(500)
+xy.fit <- lm(y~x)$fitted
+plot(x, y, pch = 16, col = "#18A3AC99")
+lines(x, xy.fit, col = "#178CCB", lwd = 2)
+```
+
+In **rtemis**, you can use argument `fit` to use any supported algorithm (see `modSelect()`) to estimate the fit:
+
+```{r}
+mplot3.xy(x, y, fit = "glm")
+```
+
+### Classification
+
+For classification, you use `glm()` with `family = binomial`
+
+```{r}
+data(PimaIndiansDiabetes2, package = 'mlbench')
+str(PimaIndiansDiabetes2)
+```
+```{r}
+diabetes_mod <- glm(diabetes ~ ., PimaIndiansDiabetes2, family = "binomial")
+diabetes_mod
+```
+
+```{r}
+summary(diabetes_mod)
 ```
 
 ## Mass-univariate analysis

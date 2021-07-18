@@ -8,7 +8,7 @@ PRE.fansi SPAN {padding-top: .25em; padding-bottom: .25em};
 
 
 ```
-  .:rtemis 0.8.0: Welcome, egenn
+  .:rtemis 0.8.1: Welcome, egenn
   [x86_64-apple-darwin17.0 (64-bit): Defaulting to 4/4 available cores]
   Documentation & vignettes: https://rtemis.lambdamd.org
 ```
@@ -71,7 +71,7 @@ Or, using _rtemis_:
 mod.glm <- s.GLM(x, y)
 ```
 
-<PRE class="fansi fansi-output"><CODE><span style='color: #555555;'>[2020-10-19 20:19:53</span><span style='color: #555555;font-weight: bold;'> s.GLM</span><span style='color: #555555;'>] Hello,</span><span> </span><span style='color: #555555;'>egenn</span><span> 
+<PRE class="fansi fansi-output"><CODE><span style='color: #555555;'>[2020-11-09 01:08:30</span><span style='color: #555555;font-weight: bold;'> s.GLM</span><span style='color: #555555;'>] Hello,</span><span> </span><span style='color: #555555;'>egenn</span><span> 
 
 </span><span style='color: #555555;font-weight: bold;'>[[ </span><span style='font-weight: bold;'>Regression Input Summary</span><span style='color: #555555;font-weight: bold;'> ]]
 </span><span>   Training features: </span><span style='font-weight: bold;'>500 x 10 
@@ -79,7 +79,7 @@ mod.glm <- s.GLM(x, y)
 </span><span>    Testing features: Not available
      Testing outcome: Not available
 
-</span><span style='color: #555555;'>[2020-10-19 20:19:58</span><span style='color: #555555;font-weight: bold;'> s.GLM</span><span style='color: #555555;'>] </span><span>Training GLM... 
+</span><span style='color: #555555;'>[2020-11-09 01:08:32</span><span style='color: #555555;font-weight: bold;'> s.GLM</span><span style='color: #555555;'>] </span><span>Training GLM... 
 
 </span><span style='color: #555555;font-weight: bold;'>[[ </span><span style='font-weight: bold;'>GLM Regression Training Summary</span><span style='color: #555555;font-weight: bold;'> ]]
 </span><span>    MSE = 0.90 (93.87%)
@@ -88,8 +88,8 @@ mod.glm <- s.GLM(x, y)
       r = 0.97 (p = 5.3e-304)
     rho = 0.97 (p = 0.00)
    R sq = </span><span style='color: #00BBBB;font-weight: bold;'>0.94</span><span>
-</span></CODE></PRE>![](83-Optimization_files/figure-latex/unnamed-chunk-6-1.pdf)<!-- --> <PRE class="fansi fansi-output"><CODE>
-<span style='color: #555555;'>[2020-10-19 20:19:58</span><span style='color: #555555;font-weight: bold;'> s.GLM</span><span style='color: #555555;'>] Run completed in 0.07 minutes (Real: 4.49; User: 1.51; System: 0.11)</span><span> 
+</span></CODE></PRE><img src="83-Optimization_files/figure-html/unnamed-chunk-6-1.png" width="432" /><PRE class="fansi fansi-output"><CODE>
+<span style='color: #555555;'>[2020-11-09 01:08:32</span><span style='color: #555555;font-weight: bold;'> s.GLM</span><span style='color: #555555;'>] Run completed in 0.03 minutes (Real: 1.64; User: 1.19; System: 0.09)</span><span> 
 </span></CODE></PRE>
 
 ```r
@@ -168,7 +168,7 @@ estimated.optim <- cbind(1, x) %*% coeffs.optim
 mplot3.fit(y, estimated.optim)
 ```
 
-![](83-Optimization_files/figure-latex/unnamed-chunk-9-1.pdf)<!-- --> 
+<img src="83-Optimization_files/figure-html/unnamed-chunk-9-1.png" width="432" />
 
 ```r
 coeffs.glm <- mod.glm$mod$coefficients
@@ -176,11 +176,11 @@ estimated.glm <- cbind(1, x) %*% coeffs.glm
 mplot3.fit(y, estimated.glm)
 ```
 
-![](83-Optimization_files/figure-latex/unnamed-chunk-9-2.pdf)<!-- --> 
+<img src="83-Optimization_files/figure-html/unnamed-chunk-9-2.png" width="432" />
 
 
 ```r
 mplot3.fit(coeffs.glm, coeffs.optim)
 ```
 
-![](83-Optimization_files/figure-latex/unnamed-chunk-10-1.pdf)<!-- --> 
+<img src="83-Optimization_files/figure-html/unnamed-chunk-10-1.png" width="432" />

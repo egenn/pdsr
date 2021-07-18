@@ -6,18 +6,12 @@
 PRE.fansi SPAN {padding-top: .25em; padding-bottom: .25em};
 </STYLE>
 
-\begin{info}
-In R, everything is an object.
-
-Every ``action'' is a function.
-
-\protect\hyperlink{functions}{Functions} are also objects, which means
-they can be passed as arguments to functions or returned from other
-functions.
-
-We shall see the relevance of this, for example, in the
-\protect\hyperlink{loopfns}{Loop Functions} chapter.
-\end{info}
+<div class="rmdtip">
+<p>In R, everything is an object.</p>
+<p>Every “action” is a function.</p>
+<p><a href="#functions">Functions</a> are also objects, which means they can be passed as arguments to functions or returned from other functions.</p>
+<p>We shall see the relevance of this, for example, in the <a href="#loopfns">Loop Functions</a> chapter.</p>
+</div>
 
 ## Base types
 
@@ -34,25 +28,27 @@ Some of the more popular data types in R are:
 * Environment
 * Closure (i.e. function)
 
-\begin{warning}
-Many errors in R occur because a variable is, or gets coerced to, the
-wrong type by accident.
-\end{warning}
+<div class="rmdcaution">
+<p>Many errors in R occur because a variable is, or gets coerced to, the wrong type by accident.</p>
+</div>
 
-\begin{info}
-\textbf{Check variable types with \texttt{typeof()} and/or
-\texttt{str()}.}
-\end{info}
+<div class="rmdtip">
+<p><strong>Check variable types with <code>typeof()</code> and/or <code>str()</code>.</strong></p>
+</div>
 
 ## Assignment
 
-Use `<-` for all assignments
+Use `<-` for all assignments:
 
 
 ```r
 x <- 3
 # You can add comments within code blocks using the usual "#" prefix
 ```
+
+<div class="rmdtip">
+<p>In <a href="https://rstudio.com/">RStudio</a> the keyboard shortcut for the assignment operator <code>&lt;-</code> is <code>Option -</code> (MacOS) or <code>Alt -</code> (Windows).</p>
+</div>
 
 Typing the name of an object...
 
@@ -86,10 +82,9 @@ You can also place any assignment in parentheses and this will perform the assig
 [1] 3
 ```
 
-\begin{note}
-While you \emph{could} use the equal sign `=' for assignment, you should
-only use it to pass arguments to functions.
-\end{note}
+<div class="rmdnote">
+<p>While you <em>could</em> use the equal sign ‘=’ for assignment, you should only use it to pass arguments to functions.</p>
+</div>
 
 You can assign the same value to multiple objects - this can be useful when initializing variables.
 
@@ -377,7 +372,7 @@ x
 ```
 
 ```
-<environment: 0x7fd44e73e818>
+<environment: 0x7ff24b08ef48>
 ```
 
 ```r
@@ -594,11 +589,9 @@ sum(x)
 Error in Summary.factor(structure(c(2L, 1L, 2L), .Label = c("banana", : 'sum' not meaningful for factors
 ```
 
-\begin{note}
-Note: We had to add \texttt{error\ =\ TRUE} in the Rmarkdown's code
-block's options (not visible in the HTML output), because otherwise
-compilation of the Rmarkdown document would stop at the error.
-\end{note}
+<div class="rmdnote">
+<p>Note: We had to add <code>error = TRUE</code> in the Rmarkdown’s code block’s options (not visible in the HTML output), because otherwise compilation of the Rmarkdown document would stop at the error.</p>
+</div>
 
 If for some reason it made sense, you could explicitly coerce to numeric and then sum:
 
@@ -686,13 +679,9 @@ is.na(x)
 [5,] FALSE FALSE FALSE FALSE
 ```
 
-\begin{note}
-Note that \texttt{is.na()} returns a response for each element (i.e.~is
-\protect\hyperlink{vectorization}{vectorized}) in contrast to
-\texttt{is.numeric()}, \texttt{is.logical()}, etc. It makes sense, since
-the latter are chacking the type of a whole object, while the former is
-checking individual elements.
-\end{note}
+<div class="rmdnote">
+<p>Note that <code>is.na()</code> returns a response for each element (i.e. is <a href="#vectorization">vectorized</a>) in contrast to <code>is.numeric()</code>, <code>is.logical()</code>, etc. It makes sense, since the latter are chacking the type of a whole object, while the former is checking individual elements.</p>
+</div>
 
 `anyNA()` is a very useful function to check if there an any NA values in an object:
 
@@ -706,9 +695,9 @@ anyNA(x)
 ```
 
 
-\begin{note}
-Any operations on an \texttt{NA} results in \texttt{NA}
-\end{note}
+<div class="rmdnote">
+<p>Any operations on an <code>NA</code> results in <code>NA</code></p>
+</div>
 
 
 ```r
@@ -880,21 +869,18 @@ is.nan(NA)
 ```
 [1] FALSE
 ```
-\begin{note}
-\texttt{NaN} can be considered a subtype of \texttt{NA}, as such:
-\texttt{is.na(NaN)} is \texttt{TRUE}, but \texttt{is.nan(NA)} is
-\texttt{FALSE}.
-\end{note}
+<div class="rmdnote">
+<p><code>NaN</code> can be considered a subtype of <code>NA</code>, as such: <code>is.na(NaN)</code> is <code>TRUE</code>, but <code>is.nan(NA)</code> is <code>FALSE</code>.</p>
+</div>
 
 
 ## `NULL`: the empty object
 
 The `NULL` object represents an empty object.
 
-\begin{note}
-\texttt{NULL} means empty, \textbf{\emph{not missing}}, and is therefore
-entirely different from \texttt{NA}
-\end{note}
+<div class="rmdnote">
+<p><code>NULL</code> means empty, <strong><em>not missing</em></strong>, and is therefore entirely different from <code>NA</code></p>
+</div>
 
 `NULL` shows up for example when initializing a list:
 
@@ -977,8 +963,8 @@ $alpha
 [1] 11 12 13 14 15
 
 $beta
- [1]  0.34280670  1.07661321 -0.80748006 -0.30374722 -0.02766314 -0.21652049
- [7]  0.55670508  0.55847086 -2.35314815  0.90843017
+ [1]  0.48374522 -0.30304136 -0.83162050  0.03965321 -0.42187083  0.20580496
+ [7] -0.12728272 -0.26500108  0.40817366  0.32006139
 
 $gamma
 [1] "mango"     "banana"    "tangerine"

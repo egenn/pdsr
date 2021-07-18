@@ -50,7 +50,7 @@ class(dt)
 ```
 
 Notice how `data.table` inherits from `data.frame`. This means that if a method does not exist for `data.table`, the method for `data.frame` will be used (review [classes and generic functions](#classes).
-One difference from `data.frame()`, as you can see above, is that `stringsAsFactors` defaults to FALSE in `data.table()`. As part improving efficieny, data.tables do away with row names, which are rarely used. Instead of using rownames, you can and should add an extra column with the same information - this is advisable when working with data.frames as well.
+One difference from `data.frame()`, as you can see above, is that `stringsAsFactors` defaults to FALSE in `data.table()`. As part of improving efficieny, data.tables do away with row names. Instead of using rownames, you can and should add an extra column with the same information - this is advisable when working with data.frames as well.
 
 A rather convenient option is to have data.tables print each column's class below the column name. You can pass the argument `class = TRUE` to `print()` or set the global option `datatable.print.class` using `options()`
 
@@ -323,7 +323,7 @@ address(dt1)
 address(dt2)
 ```
 
-```{block, type="note"}
+```{block, type="rmdnote"}
 If you want to create a copy of a data.table, use `copy()`:
 ```
 
@@ -376,7 +376,7 @@ dt
 Up to now, we have learned how to use the `data.table` frame `dat[i, j]` to filter cases in `i` or add/remove/transform columns in-place in `j`. There is a whole other dimension in the `data.table` frame: `by`.  
 
 
-```{block, type="info"}
+```{block, type="rmdtip"}
 The complete `data.table` syntax is:
 
 `dt[i, j, by]`  
@@ -408,7 +408,7 @@ dt[, A_DiffFromGroupMin := .SD[, 1] - min(.SD[, 1]), by = Group]
 dt
 ```
 
-```{block, type="note"}
+```{block, type="rmdnote"}
 By now, it should be clearer that the `data.table` frame provides a very flexible way to perform a very wide range of operations with minimal new notation.
 ```
 
@@ -468,7 +468,7 @@ dt[, bcd.sum := sum(.SD[, b:d]), by = 1:nrow(dt)]
 dt
 ```
 
-## Reshape a `data.table` Wide <=> Long
+## Wide <=> Long
 
 ### `melt()`: Wide to long
 
@@ -560,7 +560,7 @@ If keys were not set for a and b, you could specify the column to match on using
 b[a, on = "PID"]
 ```
 
-```{block, type="note"}
+```{block, type="rmdnote"}
 The easy way to understand the bracket notation merges is to think that the data.table inside the bracket is used to index the data.table on the outside, therefore the resulting table will have rows dictated by the inside table's key.
 ```
 

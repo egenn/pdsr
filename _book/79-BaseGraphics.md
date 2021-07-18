@@ -6,7 +6,7 @@
 PRE.fansi SPAN {padding-top: .25em; padding-bottom: .25em};
 </STYLE>
 
-R has powerful graphical capabilities built in to the core language. This chapter is an introduction to what is known as base graphics which is provided by the **graphics** builtin package. Their defaults produce minimalist plots, but they can be customized extensively. In this chapter we shall begin with default plots and demonstrate some of the more common/useful ways to customize them.
+R has powerful graphical capabilities built in to the core language. This chapter is an introduction to what is known as base graphics which is provided by the **graphics** built-in package. Their defaults produce minimalist plots, but they can be customized extensively. In this chapter we shall begin with default plots and demonstrate some of the more common/useful ways to customize them.
 
 | Plot type     | Command                  |
 |--------------:|:-------------------------|
@@ -18,7 +18,7 @@ R has powerful graphical capabilities built in to the core language. This chapte
 | Boxplot       | `boxplot(x)`             |
 | Heatmap       | `heatmap(x)`             |
 
-R documentation for each of the above commands provides extensive coverage of graphical parameters. `?par` gives the main documentation file for a long list of graphical parameters. These can be set either with the `par()` command ahed before using any plotting command 
+R documentation for each of the above commands provides extensive coverage of graphical parameters. `?par` gives the main documentation file for a long list of graphical parameters. These can be set either with the `par()` command before using any plotting command. 
 
 Let's create some synthetic data:
 
@@ -41,7 +41,7 @@ A 2D scatterplot displays of two numeric vectors as X and Y coordinates.
 plot(x, y)
 ```
 
-![](79-BaseGraphics_files/figure-latex/unnamed-chunk-4-1.pdf)<!-- --> 
+<img src="79-BaseGraphics_files/figure-html/unnamed-chunk-4-1.png" width="480" />
 
 ### **`col`**: point color
 
@@ -57,7 +57,7 @@ Some common ways include:
 plot(x, y, col = "slateblue")
 ```
 
-![](79-BaseGraphics_files/figure-latex/unnamed-chunk-5-1.pdf)<!-- --> 
+<img src="79-BaseGraphics_files/figure-html/unnamed-chunk-5-1.png" width="480" />
 
 ### **`bty`**: box type
 
@@ -70,14 +70,14 @@ They produce a box that resembles the corresponding symbol.
 plot(x, y, bty = "l")
 ```
 
-![](79-BaseGraphics_files/figure-latex/unnamed-chunk-6-1.pdf)<!-- --> 
+<img src="79-BaseGraphics_files/figure-html/unnamed-chunk-6-1.png" width="480" />
 
 
 ```r
 plot(x, y, bty = "none")
 ```
 
-![](79-BaseGraphics_files/figure-latex/unnamed-chunk-7-1.pdf)<!-- --> 
+<img src="79-BaseGraphics_files/figure-html/unnamed-chunk-7-1.png" width="480" />
 
 
 ### **`pch`**: point character
@@ -94,7 +94,7 @@ Here's a preview of all 25 `pch` options.
 plot(1:25, rep(1, 25), pch = 1:25, bg = "blue")
 ```
 
-![](79-BaseGraphics_files/figure-latex/unnamed-chunk-8-1.pdf)<!-- --> 
+<img src="79-BaseGraphics_files/figure-html/unnamed-chunk-8-1.png" width="480" />
 
 Let's use a solid disc:
 
@@ -103,7 +103,7 @@ Let's use a solid disc:
 plot(x, y, bty = "n", pch = 16)
 ```
 
-![](79-BaseGraphics_files/figure-latex/unnamed-chunk-9-1.pdf)<!-- --> 
+<img src="79-BaseGraphics_files/figure-html/unnamed-chunk-9-1.png" width="480" />
 
 We cannot tell how many points are overlapping in the middle and therefore it's a good idea to make the points a little transparent.
 
@@ -116,11 +116,11 @@ plot(x, y,
      col = adjustcolor("slateblue", alpha.f = .5))
 ```
 
-![](79-BaseGraphics_files/figure-latex/unnamed-chunk-10-1.pdf)<!-- --> 
+<img src="79-BaseGraphics_files/figure-html/unnamed-chunk-10-1.png" width="480" />
 
 ### grid
 
-We can add a grid behind the plot area using the `panel.first`, which accepts a graphical expression (a function that draws something), which is evaluated before plotting the points on the graph (therefore appears behind the points as required).
+We can add a grid behind the plot area using the `panel.first` argument, which accepts a graphical expression (a function that draws something), which will be evaluated before plotting the points on the graph (therefore appears behind the points).
 
 
 ```r
@@ -130,7 +130,7 @@ plot(x, y,
      panel.first = grid(lty = 1, col = 'gray90'))
 ```
 
-![](79-BaseGraphics_files/figure-latex/unnamed-chunk-11-1.pdf)<!-- --> 
+<img src="79-BaseGraphics_files/figure-html/unnamed-chunk-11-1.png" width="480" />
 
 ### **`main`**, **`xlab`**, **`ylab`**: Title and axes labels
 
@@ -141,11 +141,11 @@ plot(x, y,
      col = adjustcolor("slateblue", alpha.f = .5),
      panel.first = grid(lty = 1, col = 'gray90'),
      main = "y vs. x",
-     xlab = "This is variable x (xunits)",
-     ylab = "This is variable y (yunits)")
+     xlab = "Variable x (xunits)",
+     ylab = "Variable y (yunits)")
 ```
 
-![](79-BaseGraphics_files/figure-latex/unnamed-chunk-12-1.pdf)<!-- --> 
+<img src="79-BaseGraphics_files/figure-html/unnamed-chunk-12-1.png" width="480" />
 
 Note that depending on where you intend to display the plot, you may leave the title blank and instead place it in the figure caption along with an explanation of the data (e.g. in a journal article)
 
@@ -153,14 +153,14 @@ Note that depending on where you intend to display the plot, you may leave the t
 
 Input: **numeric vector**
 
-A histogram displays an approximation of the distribution of a numeric vector. First the data is binned and then the number of elements that falls in each bin is counted. The histogram plot draws bars ofr each bin whose heights corresponds to the count of elements in the corresponding interval.
+A histogram displays an approximation of the distribution of a numeric vector. First the data is binned and then the number of elements that falls in each bin is counted. The histogram plot draws bars for each bin whose heights corresponds to the count of elements in the corresponding interval.
 
 
 ```r
 hist(x)
 ```
 
-![](79-BaseGraphics_files/figure-latex/unnamed-chunk-13-1.pdf)<!-- --> 
+<img src="79-BaseGraphics_files/figure-html/unnamed-chunk-13-1.png" width="480" />
 
 ### **`col`**: bar color
 
@@ -169,7 +169,7 @@ hist(x)
 hist(x, col = "slategrey")
 ```
 
-![](79-BaseGraphics_files/figure-latex/unnamed-chunk-14-1.pdf)<!-- --> 
+<img src="79-BaseGraphics_files/figure-html/unnamed-chunk-14-1.png" width="480" />
 
 ### **`border`**: border color
 
@@ -180,9 +180,9 @@ Setting border color to the same as the background gives a clean look:
 hist(x, col = "slategrey", border = "white")
 ```
 
-![](79-BaseGraphics_files/figure-latex/unnamed-chunk-15-1.pdf)<!-- --> 
+<img src="79-BaseGraphics_files/figure-html/unnamed-chunk-15-1.png" width="480" />
 
-### `breaks`: number and/or value of breakpoints
+### `breaks`: number or value of breakpoints
 
 The `breaks` argument can be used to define the breakpoints to use for the binning of the values of the input to `hist()`. See the documentation in `?hist` for the full range of options. An easy way to control the number of bins is to pass an integer to the `breaks` argument. Depending on the length of x and its distribution, it may or may not be possible to use the exact number requested, but the closest possible number will be automatically chosen.
 
@@ -192,7 +192,7 @@ hist(x, col = "slategrey", border = "white",
      breaks = 8)
 ```
 
-![](79-BaseGraphics_files/figure-latex/unnamed-chunk-16-1.pdf)<!-- --> 
+<img src="79-BaseGraphics_files/figure-html/unnamed-chunk-16-1.png" width="480" />
 
 ## Density plot
 
@@ -205,7 +205,8 @@ A density plot is a different way to display an approximation of the distributio
 plot(density(x))
 ```
 
-![](79-BaseGraphics_files/figure-latex/unnamed-chunk-17-1.pdf)<!-- --> 
+<img src="79-BaseGraphics_files/figure-html/unnamed-chunk-17-1.png" width="480" />
+
 You can use `main = NA` or `main = ""` to suppress printing a title.
 
 
@@ -215,7 +216,7 @@ plot(density(x), col = "blue",
      main = NA)
 ```
 
-![](79-BaseGraphics_files/figure-latex/unnamed-chunk-18-1.pdf)<!-- --> 
+<img src="79-BaseGraphics_files/figure-html/unnamed-chunk-18-1.png" width="480" />
 
 ## Barplot
 
@@ -232,14 +233,14 @@ We can plot a single column or row. Note how R automatically gets the correspond
 barplot(VADeaths[, 1])
 ```
 
-![](79-BaseGraphics_files/figure-latex/unnamed-chunk-19-1.pdf)<!-- --> 
+<img src="79-BaseGraphics_files/figure-html/unnamed-chunk-19-1.png" width="480" />
 
 
 ```r
 barplot(VADeaths[1, ])
 ```
 
-![](79-BaseGraphics_files/figure-latex/unnamed-chunk-20-1.pdf)<!-- --> 
+<img src="79-BaseGraphics_files/figure-html/unnamed-chunk-20-1.png" width="480" />
 
 #### **`col`** and **`border`**: bar fill and border color
 
@@ -251,7 +252,7 @@ barplot(VADeaths[, 1],
         col = "aquamarine3", border = NA)
 ```
 
-![](79-BaseGraphics_files/figure-latex/unnamed-chunk-21-1.pdf)<!-- --> 
+<img src="79-BaseGraphics_files/figure-html/unnamed-chunk-21-1.png" width="480" />
 
 ### Matrix
 
@@ -262,7 +263,8 @@ We can draw barplots of multiple columns at the same time by passing a matrix in
 barplot(VADeaths, legend.text = TRUE)
 ```
 
-![](79-BaseGraphics_files/figure-latex/unnamed-chunk-22-1.pdf)<!-- --> 
+<img src="79-BaseGraphics_files/figure-html/unnamed-chunk-22-1.png" width="480" />
+
 Alternatively, we can draw groups of bars beside each other with the argument `beside = TRUE`:
 
 
@@ -271,7 +273,7 @@ barplot(VADeaths, beside = TRUE,
         legend.text = TRUE, args.legend = list(x = "topright"))
 ```
 
-![](79-BaseGraphics_files/figure-latex/unnamed-chunk-23-1.pdf)<!-- --> 
+<img src="79-BaseGraphics_files/figure-html/unnamed-chunk-23-1.png" width="672" />
 
 To use custom colors, we pass a vector of length equal to the number of bars within each group. These will get recycled across groups, giving a consistent color coding.  
 Here, we use the `adjustcolor()` function again to produce 5 shades of navy.
@@ -286,7 +288,9 @@ barplot(VADeaths,
         legend.text = TRUE, args.legend = list(x = "topright"))
 ```
 
-![](79-BaseGraphics_files/figure-latex/unnamed-chunk-24-1.pdf)<!-- --> 
+<img src="79-BaseGraphics_files/figure-html/unnamed-chunk-24-1.png" width="672" />
+
+### Formula interface
 
 ## Boxplot
 
@@ -311,7 +315,7 @@ a <- rnorm(500, mean = 12, sd = 2)
 boxplot(a)
 ```
 
-![](79-BaseGraphics_files/figure-latex/unnamed-chunk-25-1.pdf)<!-- --> 
+<img src="79-BaseGraphics_files/figure-html/unnamed-chunk-25-1.png" width="480" />
 
 ### Anatomy of a boxplot
 
@@ -319,11 +323,13 @@ A boxplot shows:
 
 - the median
 - first and third quartiles
-- outliers (defines as `x < Q1 - 1.5 * IQR | x > Q3 + 1.5 * IQR`)
+- outliers (defined as `x < Q1 - 1.5 * IQR | x > Q3 + 1.5 * IQR`)
 - range after excluding outliers
 
-![(\#fig:boxanat)Boxplot abatomy](79-BaseGraphics_files/figure-latex/boxanat-1.pdf) 
-
+<div class="figure">
+<img src="79-BaseGraphics_files/figure-html/boxanat-1.png" alt="Boxplot anatomy" width="480" />
+<p class="caption">(\#fig:boxanat)Boxplot anatomy</p>
+</div>
 
 Some synthetic data:
 
@@ -342,7 +348,7 @@ dl <- list(alpha = alpha, beta = beta, gamma = gamma)
 boxplot(alpha, beta, gamma)
 ```
 
-![](79-BaseGraphics_files/figure-latex/unnamed-chunk-27-1.pdf)<!-- --> 
+<img src="79-BaseGraphics_files/figure-html/unnamed-chunk-27-1.png" width="480" />
 
 ### List
 
@@ -351,7 +357,7 @@ boxplot(alpha, beta, gamma)
 boxplot(dl)
 ```
 
-![](79-BaseGraphics_files/figure-latex/unnamed-chunk-28-1.pdf)<!-- --> 
+<img src="79-BaseGraphics_files/figure-html/unnamed-chunk-28-1.png" width="480" />
 
 ### Matrix
 
@@ -363,9 +369,9 @@ mat <- sapply(seq(5), function(i) rnorm(20))
 boxplot(mat)
 ```
 
-![](79-BaseGraphics_files/figure-latex/unnamed-chunk-29-1.pdf)<!-- --> 
+<img src="79-BaseGraphics_files/figure-html/unnamed-chunk-29-1.png" width="480" />
 
-### formula interface
+### Formula interface
 
 The formula interface can be used to group any vector by a factor of the same length.
 
@@ -376,9 +382,9 @@ Let's use the built-in `sleep` dataset which shows the effect of two different d
 boxplot(extra ~ group, sleep)
 ```
 
-![](79-BaseGraphics_files/figure-latex/unnamed-chunk-30-1.pdf)<!-- --> 
+<img src="79-BaseGraphics_files/figure-html/unnamed-chunk-30-1.png" width="480" />
 
-The **`col`** and **`border`** arguments work as expected. Here we define two custom colors using their hexadecimal RGB code and use the solid version for the border and a 50% transparent version for the fill. Note that we do not need two separate colors to produce an unambiguous plot since they are clearly labeled in the y-axis. It is often considered desirable/prefered to use the minimum number of different colors that is necessary. (Color coding like the following could be useful if for example data from the two groups were used on a different plot, like a scatterplot, in a multi-panel figure).
+The **`col`** and **`border`** arguments work as expected. Here we define two custom colors using their hexadecimal RGB code and use the solid version for the border and a 50% transparent version for the fill. Note that we do not need two separate colors to produce an unambiguous plot since they are clearly labeled in the y-axis. It is often considered desirable/preferred to use the minimum number of different colors that is necessary. (Color coding like the following could be useful if for example data from the two groups were used on a different plot, like a scatterplot, in a multi-panel figure).
 
 
 ```r
@@ -388,7 +394,7 @@ boxplot(extra ~ group, sleep,
         col = col, border = border)
 ```
 
-![](79-BaseGraphics_files/figure-latex/unnamed-chunk-31-1.pdf)<!-- --> 
+<img src="79-BaseGraphics_files/figure-html/unnamed-chunk-31-1.png" width="480" />
 
 ### **`names`**: group labels
 
@@ -401,7 +407,7 @@ boxplot(extra ~ group, sleep,
         names = c("Drug A", "Drug B"))
 ```
 
-![](79-BaseGraphics_files/figure-latex/unnamed-chunk-32-1.pdf)<!-- --> 
+<img src="79-BaseGraphics_files/figure-html/unnamed-chunk-32-1.png" width="480" />
 
 ## Heatmap
 
@@ -422,7 +428,7 @@ By default, the `heatmap()` function draws marginal dendrograms and rearranges r
 heatmap(x_cor, Rowv = NA, Colv = NA)
 ```
 
-![](79-BaseGraphics_files/figure-latex/unnamed-chunk-34-1.pdf)<!-- --> 
+<img src="79-BaseGraphics_files/figure-html/unnamed-chunk-34-1.png" width="480" />
 
 To allow clustering and row and column reordering, use the defaults:
 
@@ -431,7 +437,7 @@ To allow clustering and row and column reordering, use the defaults:
 heatmap(x_cor)
 ```
 
-![](79-BaseGraphics_files/figure-latex/unnamed-chunk-35-1.pdf)<!-- --> 
+<img src="79-BaseGraphics_files/figure-html/unnamed-chunk-35-1.png" width="480" />
 
 ## Graphical parameters
 
@@ -457,4 +463,37 @@ Always make sure that your plotting characters, axis labels and titles are legib
 
 Note: All of these can be set either with a call to `par()` prior to plotting or passed as arguments in a plotting command, like `plot()`.  
 
-There is one important distinction: `cex` set with `par()` (which defaults to 1), sets the baseline and all other `cex` parameters multiply it. However, `cex` set within `plot()` still multiplies `cex` set with `par()`, but only affectts the plotting character size.
+There is one important distinction: `cex` set with `par()` (which defaults to 1), sets the baseline and all other `cex` parameters multiply it. However, `cex` set within `plot()` still multiplies `cex` set with `par()`, but only affects the plotting character size.
+
+## Multipanel plots
+
+There are different ways to create multipanel plots, but probably the most straightforward is to use either the `mfrow` or the `mfcol` argument of `par()`.
+
+
+```r
+set.seed(2020)
+x <- rnorm(500)
+y <- x^3 + rnorm(500) * 2
+z <- x^2 + rnorm(500)
+```
+
+Both `mfrow` and `mfcol` accept an integer vector of length 2 indicating number of rows and number of columns, respectively. With `mfrow`, the plots are drawn row-wise and with `mfcol` they are drawn column-wise. Remember to reset `mfrow` or `mfcol` back to `c(1, 1)`
+
+For example, let's plot a 2-by-3 panel of plots, drawn row-wise:
+
+
+```r
+par(mfrow = c(2, 3))
+hist(x)
+hist(y)
+hist(z)
+plot(x, y)
+plot(x, z)
+plot(y, z)
+```
+
+<img src="79-BaseGraphics_files/figure-html/unnamed-chunk-37-1.png" width="672" />
+
+```r
+par(mfrow = c(1, 1))
+```

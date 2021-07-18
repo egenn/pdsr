@@ -98,7 +98,7 @@ x
 ```
 
 ```
-[1] -5
+[1] 9
 ```
 
 ```r
@@ -106,7 +106,7 @@ square.pos(x)
 ```
 
 ```
-The input was left unchanged
+[1] 81
 ```
 
 Multiple arguments, with and without defaults:
@@ -122,7 +122,7 @@ x
 ```
 
 ```
-[1] 1
+[1] 6
 ```
 
 ```r
@@ -130,7 +130,7 @@ raise(x)
 ```
 
 ```
-[1] 1
+[1] 36
 ```
 
 ```r
@@ -138,7 +138,7 @@ raise(x, power = 3)
 ```
 
 ```
-[1] 1
+[1] 216
 ```
 
 ```r
@@ -146,7 +146,7 @@ raise(x, 3)
 ```
 
 ```
-[1] 1
+[1] 216
 ```
 
 ## Arguments with prescribed list of allowed values
@@ -265,7 +265,7 @@ function(x) {
   out <- x^2
   out
 }
-<bytecode: 0x7fb44a983720>
+<bytecode: 0x7fa226688400>
 ```
 
 ## Warnings and errors
@@ -346,18 +346,106 @@ itfn(3)
 [1] 24
 ```
 
-## The pipe operator `%>%` {#pipe}
+### function vs. for loop
 
-\begin{figure}
+Let's z-score the built-in `mtcars` dataset once with a for loop and once with a custom function. This links back to the example seen earlier in the [for loop](#fordata) section. In practice this is performed with the `scale()` command:
 
-{\centering \includegraphics[width=0.8\linewidth]{./R_pipes} 
+Within the for loop, we are assigning columns directly to the object outside the loop. In the following example, we print the environment outside and inside the loop function to see that it is the same. This is purely for demonstration:
 
+
+```r
+# initialize new object 'mtcars_z'
+mtcars_z <- mtcars
+cat("environment outside for loop is: ")
+```
+
+```
+environment outside for loop is: 
+```
+
+```r
+print(environment())
+```
+
+```
+<environment: R_GlobalEnv>
+```
+
+```r
+# z-score one column at a time in a for loop
+for (i in 1:ncol(mtcars)) {
+  mtcars_z[, i] <- (mtcars[, i] - mean(mtcars[, i])) / sd(mtcars[, i])
+  cat("environment inside for loop is: ")
+  print(environment())
 }
+```
 
-\caption{Illustration of pipes in R}(\#fig:FigRpipes)
-\end{figure}
+```
+environment inside for loop is: <environment: R_GlobalEnv>
+environment inside for loop is: <environment: R_GlobalEnv>
+environment inside for loop is: <environment: R_GlobalEnv>
+environment inside for loop is: <environment: R_GlobalEnv>
+environment inside for loop is: <environment: R_GlobalEnv>
+environment inside for loop is: <environment: R_GlobalEnv>
+environment inside for loop is: <environment: R_GlobalEnv>
+environment inside for loop is: <environment: R_GlobalEnv>
+environment inside for loop is: <environment: R_GlobalEnv>
+environment inside for loop is: <environment: R_GlobalEnv>
+environment inside for loop is: <environment: R_GlobalEnv>
+```
 
-A pipe allows writing `f(x)` as `x %>% f`. It is often used to replace multiple temporary assignments in a multistep procedure, or as an alternative to nesting functions. Some packages and developers promote its use, other discourage it. As always, there is a big subjective component here and you should try and see if and when it suits you.
+With a function, all operations remain local within the function and the output must be returned:
+
+
+```r
+ztransform <- function(x) {
+  cat("environment inside function body is: ")
+  print(environment())
+  z <- as.data.frame(sapply(mtcars, function(i) (i - mean(i))/sd(i)))
+  rownames(z) <- rownames(x)
+  z
+}
+mtcars_z2 <- ztransform(mtcars)
+```
+
+```
+environment inside function body is: <environment: 0x7fa226b456a0>
+```
+
+```r
+cat("environment outside function body is: ")
+```
+
+```
+environment outside function body is: 
+```
+
+```r
+print(environment())
+```
+
+```
+<environment: R_GlobalEnv>
+```
+
+Notice how the environment outside and inside the loop function is the same, it is the Global environemnt, but the environment within the function is different. That is why any objects created or changed within a function must be returned if we want to make them available.
+
+## The pipe operator {#pipe}
+
+<div class="figure" style="text-align: center">
+<img src="./R_pipes.png" alt="Illustration of pipes in R" width="80%" />
+<p class="caption">(\#fig:FigRpipes)Illustration of pipes in R</p>
+</div>
+
+A pipe operator was first introduced to R with the [magrittr](https://magrittr.tidyverse.org/) 
+package with the `%>%` symbol. Note that a number of other packages that allow or endorse the use of pipes export the pipe operator as well.  
+
+Starting with R version 4.1, a native pipe operator is included in the language with the `|>` symbol.
+
+A pipe allows writing `f(x)` as `x |> f()` (native pipe) or `x %>% f` (magrittr). 
+Note that the native pipe requires parentheses, but magrittr works with or without them.
+
+A pipe is often used to avoid multiple temporary assignments in a multistep procedure, or as an alternative to nesting functions. Some packages and developers promote its use, other discourage it. As always, there is a big subjective component here and you should try and see if and when it suits you.
 
 
 The following:
@@ -380,17 +468,14 @@ is equivalent to:
 
 
 ```r
-x <- x %>% f1 %>% f2 %>% f3
+x <- x |> f1() |> f2() |> f3()
 ```
-
-The pipe operator was originally introduced in the **magrittr** package. Note that a number of other packages that allow or endorse the use of pipes export the pipe operator as well.
 
 
 ```r
-library(magrittr)
-(iris[, -5] %>%
-  split(iris$Species) %>%
-  lapply(function(i) sapply(i, mean)) -> iris_mean_bySpecies)
+iris[, -5] |>
+  split(iris$Species) |>
+  lapply(function(i) sapply(i, mean))
 ```
 
 ```
@@ -409,3 +494,7 @@ Sepal.Length  Sepal.Width Petal.Length  Petal.Width
 
 Pipes are used extensively in the [tidyverse](https://www.tidyverse.org) packages.  
 You can learn more about the pipe operator in the [magrittr vignette](https://cran.r-project.org/web/packages/magrittr/vignettes/magrittr.html)
+
+<div class="rmdtip">
+<p>In <a href="https://rstudio.com/">RStudio</a> the keyboard shortcut for the pipe operator is <code>Shift Command M</code> (MacOS) or <code>Ctrl Shift M</code> (Windows)</p>
+</div>

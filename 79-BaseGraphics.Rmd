@@ -149,7 +149,7 @@ Setting border color to the same as the background gives a clean look:
 hist(x, col = "slategrey", border = "white")
 ```
 
-### `breaks`: number and/or value of breakpoints
+### `breaks`: number or value of breakpoints
 
 The `breaks` argument can be used to define the breakpoints to use for the binning of the values of the input to `hist()`. See the documentation in `?hist` for the full range of options. An easy way to control the number of bins is to pass an integer to the `breaks` argument. Depending on the length of x and its distribution, it may or may not be possible to use the exact number requested, but the closest possible number will be automatically chosen.
 
@@ -167,6 +167,7 @@ A density plot is a different way to display an approximation of the distributio
 ```{r}
 plot(density(x))
 ```
+
 You can use `main = NA` or `main = ""` to suppress printing a title.
 
 ```{r}
@@ -209,6 +210,7 @@ We can draw barplots of multiple columns at the same time by passing a matrix in
 ```{r}
 barplot(VADeaths, legend.text = TRUE)
 ```
+
 Alternatively, we can draw groups of bars beside each other with the argument `beside = TRUE`:
 
 ```{r fig.width= 7, fig.height=5}
@@ -326,7 +328,6 @@ points(rep(1, sum(.outliers)), x[.outliers], col = "red", pch = 1)
 text(1, .min, "outliers", col = "red", adj = c(0, 1.5), xpd = TRUE)
 text(1, .max, "outliers", col = "red", adj = c(0, -1), xpd = TRUE)
 ```
-
 
 Some synthetic data:
 
@@ -451,14 +452,13 @@ Both `mfrow` and `mfcol` accept an integer vector of length 2 indicating number 
 
 For example, let's plot a 2-by-3 panel of plots, drawn row-wise:
 
-```{r fig.width=8, fig.height=4}
+```{r fig.width=7, fig.height=5}
 par(mfrow = c(2, 3))
 hist(x)
 hist(y)
-hist(x)
+hist(z)
 plot(x, y)
 plot(x, z)
 plot(y, z)
 par(mfrow = c(1, 1))
 ```
-

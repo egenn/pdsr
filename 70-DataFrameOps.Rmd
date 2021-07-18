@@ -5,9 +5,58 @@ knitr::opts_chunk$set(fig.width = 10, fig.height = 5,
                       comment = NA, cache = TRUE)
 ```
 
+## Column and row names
+
+Example data.frame:
+
+```{r}
+df <- data.frame(PID = c(111:119),
+                Hospital = c("UCSF", "HUP", "Stanford",
+                             "Stanford", "UCSF", "HUP", 
+                             "HUP", "Stanford", "UCSF"),
+                Age = c(22, 34, 41, 19, 53, 21, 63, 22, 19),
+                Sex = c(1, 1, 0, 1, 0, 0, 1, 0, 0),
+                row.names = "PID")
+```
+
+Get column names and row names with `colnames()` and `rownames()`:
+
+```{r}
+colnames(df)
+rownames(df)
+```
+
+To set new column or row names use the form 
+
+`colnames(df) <- new.names` 
+
+where `new.names` is a character vector:
+
+```{r}
+colnames(df) <- c("Center", "Age_at_Dx", "Sex")
+rownames(df) <- paste0("Patient_", 1:9)
+df
+```
+
+## Delete columns or rows
+
+To delete a data.frame column, set it to [NULL](#replacing-with-null):
+
+```{r}
+df$Sex <- NULL
+df
+```
+
+To delete a data.frame row, you can "index it out". For example, to remove the third row:
+
+```{r}
+df <- df[-3, ]
+df
+```
+
 ## Table Joins (i.e. Merging data.frames)
 
-Scenario: You have received two or more tables with data. Each table consists of a unique identifier (ID), which is shared among the tables, plus a number of variables in columns, which may be unique to each table. You want to merge them into one big table so that for each ID you have all available information.  
+Scenario: You have received two or more tables with data. Each table consists of a unique identifier (ID), which is shared among the tables, plus a number of variables in columns, which may be unique to each table. You want to merge them into one big table so that for each ID you have all available variables.  
 
 Let's make up some data:
 

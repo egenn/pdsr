@@ -4,14 +4,10 @@
 
 Factors in R are used to store **categorical variables** and therefore have many important uses in statistics / data science / machine learning.  
 
-\begin{figure}
-
-{\centering \includegraphics[width=0.8\linewidth]{./R_factors} 
-
-}
-
-\caption{Factors in R - Best to read through this chapter first and then refer back to this figure}(\#fig:FigRFactors)
-\end{figure}
+<div class="figure" style="text-align: center">
+<img src="./R_factors.png" alt="Factors in R - Best to read through this chapter first and then refer back to this figure" width="80%" />
+<p class="caption">(\#fig:FigRFactors)Factors in R - Best to read through this chapter first and then refer back to this figure</p>
+</div>
 
 You can create a factor by passing a numeric or character vector to `factor()` or `as.factor()`.  
 The difference is that `as.factor()` does not accept any arguments while `factor()` does - and they can be very important. More on this right below.
@@ -54,19 +50,14 @@ class(xftoo)
 [1] "factor"
 ```
 
-\begin{note}
-A factor contains three crucial pieces of information:
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\item
-  The underlying \textbf{integer vector}
-\item
-  The \textbf{mapping of integers to labels}
-\item
-  Whether the factor is \textbf{ordered}
-\end{enumerate}
-\end{note}
+<div class="rmdnote">
+<p>A factor contains three crucial pieces of information:</p>
+<ol style="list-style-type: decimal">
+<li><p>The underlying <strong>integer vector</strong></p></li>
+<li><p>The <strong>mapping of integers to labels</strong></p></li>
+<li><p>Whether the factor is <strong>ordered</strong></p></li>
+</ol>
+</div>
 
 Let's unpack these.  
 
@@ -141,9 +132,9 @@ xf
 
 ```
  [1] patient_status_negative patient_status_negative patient_status_negative
- [4] patient_status_positive patient_status_negative patient_status_negative
+ [4] patient_status_negative patient_status_positive patient_status_negative
  [7] patient_status_negative patient_status_negative patient_status_positive
-[10] patient_status_negative
+[10] patient_status_positive
 Levels: patient_status_positive patient_status_negative
 ```
 
@@ -162,8 +153,8 @@ xf
 ```
 
 ```
- [1] negative negative negative positive negative negative negative negative
- [9] positive negative
+ [1] negative negative negative negative positive negative negative negative
+ [9] positive positive
 Levels: positive negative
 ```
 
@@ -259,13 +250,10 @@ This can affect how some applications treat the different levels.
 
 On top of the order of the mapping, you can further define if there is a *quantitative relationship* among levels of the form `level 1 < level 2 < ... < level n`. This, in turn, can affect how the factor is treated by some functions, like some functions that fit statistical models.
 
-\begin{note}
-All factors' levels appear in some order or other.
-
-An \textbf{ordered factor} indicates that its levels have a quantitative
-relationship of the form
-\texttt{level\ 1\ \textless{}\ level\ 2\ \textless{}\ ...\ \textless{}\ level\ n}.
-\end{note}
+<div class="rmdnote">
+<p>All factors’ levels appear in some order or other.</p>
+<p>An <strong>ordered factor</strong> indicates that its levels have a quantitative relationship of the form <code>level 1 &lt; level 2 &lt; ... &lt; level n</code>.</p>
+</div>
 
 First an unordered factor:
 
@@ -277,7 +265,7 @@ x
 ```
 
 ```
- [1] medium small  large  large  small  small  small  medium large  large 
+ [1] medium medium medium large  medium large  medium large  medium small 
 Levels: large medium small
 ```
 
@@ -292,7 +280,7 @@ x
 ```
 
 ```
- [1] medium small  large  large  small  small  small  medium large  large 
+ [1] medium medium medium large  medium large  medium large  medium small 
 Levels: small < medium < large
 ```
 
@@ -349,10 +337,9 @@ x
 Levels: hit decoy
 ```
 
-\begin{warning}
-Changing the levels of a factor with \texttt{levels()} does not change
-the internal integer representation but changes every elements labels
-\end{warning}
+<div class="rmdcaution">
+<p>Changing the levels of a factor with <code>levels()</code> does not change the internal integer representation but changes every element’s label.</p>
+</div>
 
 ## Fatal error to avoid
 
@@ -476,18 +463,16 @@ as.numeric(as.character(f))
 
 ## Summary
 
-\begin{note}
-\begin{itemize}
-\item
-  Factors in R are \textbf{integer vectors} with labels.
-\item
-  A factor's internal integer values range from 1 to the number of
-  levels, i.e.~categories.
-\item
-  Each integer corresponds to a label.
-\item
-  Use \texttt{factor(levels\ =\ c(...))} to order levels
-\item
-  Use \texttt{levels(x)} to change levels' labels
-\end{itemize}
-\end{note}
+<div class="rmdnote">
+<ul>
+<li><p>Factors in R are <strong>integer vectors</strong> with labels.</p></li>
+<li><p>A factor’s internal integer values range from 1 to the number of levels, i.e. categories.</p></li>
+<li><p>Each integer corresponds to a label.</p></li>
+<li><p>Use <code>factor(levels = c(...))</code> to order levels</p></li>
+<li><p>Use <code>levels(x)</code> to change levels’ labels</p></li>
+</ul>
+</div>
+
+<div class="rmdnote">
+<p>To avoid confusion, do not use numbers as level labels, if possible.</p>
+</div>

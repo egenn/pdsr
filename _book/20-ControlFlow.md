@@ -42,7 +42,7 @@ a
 ```
 
 ```
-[1] 0.5
+[1] -0.5
 ```
 
 ```r
@@ -57,7 +57,7 @@ result
 ```
 
 ```
-[1] "positive"
+[1] "negative"
 ```
 
 ## Conditional assignment with `if` - `else`:
@@ -100,9 +100,11 @@ a <- 1:10
 
 ## `for` loops
 
-Use `for` loops to repeat execution of a block of code a certain number of times.
+<div class="rmdtip">
+<p>Use <code>for</code> loops to repeat execution of a block of code a certain number of times.</p>
+</div>
 
-The syntax is `for (var in vector) expression`.  
+The  for loop syntax is `for (var in vector) expression`.  
 The `expression` is usually surrounded by curly brackets and can include any number of lines, any amount of code:
 
 
@@ -161,6 +163,95 @@ d is a letter!
 e is a letter!
 ```
 
+### Working on data within a for loop {fordata}
+
+A common scenario involves working on a data object, whether a vector, matrix, list, data.frame, and performing an operation on each elements, one at a time. While a lot of these operations are often performed using [loop functions](#loopfns) instead, for loops can certainly be used.
+
+You can start by initializing an object of the appropriate class and dimensions to hold the output. Then, each iteration of the for loop will assign its output to the corresponding element/s of this object.
+
+In the following example we transform the `mtcars` built-in dataset's features to [z-scores](#zscore).
+The built-in command `scale()` will do this for quickly and conveniently, this is for demonstration purposes:
+
+First, initialize the output to be the desired class and dimensions:
+
+
+```r
+class(mtcars)
+```
+
+```
+[1] "data.frame"
+```
+
+```r
+dim(mtcars)
+```
+
+```
+[1] 32 11
+```
+
+```r
+mtcars_z <- data.frame(matrix(0, 32, 11))
+colnames(mtcars_z) <- colnames(mtcars)
+```
+or, it is much simpler to just make a copy of `mtcars` to be overwritten by the for loop later:
+
+
+```r
+mtcars_z <- mtcars
+```
+
+Standardization involves subtracting the mean and dividing by the standard deviation.
+
+Here is the for loop - we iterate through each column and assign the transformed data:
+
+
+```r
+for (i in 1:ncol(mtcars)) {
+  mtcars_z[, i] <- (mtcars[, i] - mean(mtcars[, i])) / sd(mtcars[, i])
+}
+```
+
+Let's compare to the output of the `scale()` command by print the first 3 rows and columns of each:
+
+
+```r
+mtcars_z2 <- as.data.frame(scale(mtcars))
+mtcars_z[1:3, 1:3]
+```
+
+```
+                    mpg        cyl       disp
+Mazda RX4     0.1508848 -0.1049878 -0.5706198
+Mazda RX4 Wag 0.1508848 -0.1049878 -0.5706198
+Datsun 710    0.4495434 -1.2248578 -0.9901821
+```
+
+```r
+mtcars_z2[1:3, 1:3]
+```
+
+```
+                    mpg        cyl       disp
+Mazda RX4     0.1508848 -0.1049878 -0.5706198
+Mazda RX4 Wag 0.1508848 -0.1049878 -0.5706198
+Datsun 710    0.4495434 -1.2248578 -0.9901821
+```
+
+Note that we wrapped `scale()` around `as.data.frame()` because it outputs a matrix.
+
+We can check that all elements are the same with `all()`:
+
+
+```r
+all(mtcars_z == mtcars_z2)
+```
+
+```
+[1] TRUE
+```
+
 ### Nested `for` loops
 
 
@@ -196,7 +287,7 @@ y
 ```
 
 ```
-[1] "h"
+[1] "e"
 ```
 
 ```r
@@ -213,7 +304,7 @@ output
 ```
 
 ```
-[1] "This is not even a possible grade"
+[1] "This is bad"
 ```
 
 
@@ -223,7 +314,7 @@ a
 ```
 
 ```
-[1] -0.5205781
+[1] 0.3697853
 ```
 
 ```r
@@ -234,7 +325,7 @@ out
 ```
 
 ```
-NULL
+[1] "Input is positive"
 ```
 
 
@@ -244,7 +335,7 @@ a
 ```
 
 ```
-[1] 0.004367281
+[1] 0.6376295
 ```
 
 ```r
@@ -267,7 +358,7 @@ status
 ```
 
 ```
-[1] 406
+[1] 408
 ```
 
 ```r
@@ -287,7 +378,7 @@ response
 ```
 
 ```
-[1] "Not Acceptable"
+[1] "Request Timeout"
 ```
 
 ## `while` loops

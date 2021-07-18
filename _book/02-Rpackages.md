@@ -17,7 +17,7 @@ sessionInfo()
 ```
 R version 4.0.3 (2020-10-10)
 Platform: x86_64-apple-darwin17.0 (64-bit)
-Running under: macOS Catalina 10.15.6
+Running under: macOS Catalina 10.15.7
 
 Matrix products: default
 BLAS:   /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRblas.dylib
@@ -30,14 +30,23 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 loaded via a namespace (and not attached):
- [1] compiler_4.0.3  magrittr_1.5    bookdown_0.20   htmltools_0.5.0
- [5] tools_4.0.3     yaml_2.2.1      stringi_1.5.3   rmarkdown_2.4.4
- [9] knitr_1.29      stringr_1.4.0   digest_0.6.25   xfun_0.17      
-[13] rlang_0.4.7     evaluate_0.14  
+ [1] rstudioapi_0.11      knitr_1.30.2         xml2_1.3.2          
+ [4] magrittr_1.5         rappdirs_0.3.1       downlit_0.2.1       
+ [7] R6_2.5.0             rlang_0.4.8          stringr_1.4.0       
+[10] tools_4.0.3          xfun_0.19            jquerylib_0.1.2     
+[13] htmltools_0.5.0.9002 ellipsis_0.3.1       yaml_2.2.1          
+[16] digest_0.6.27        tibble_3.0.4         lifecycle_0.2.0     
+[19] crayon_1.3.4         bookdown_0.21.4      sass_0.2.0.9005     
+[22] vctrs_0.3.4          fs_1.5.0             evaluate_0.14       
+[25] rmarkdown_2.5.3      stringi_1.5.3        compiler_4.0.3      
+[28] bslib_0.2.1.9000     pillar_1.4.6         jsonlite_1.7.1      
+[31] pkgconfig_2.0.3     
 ```
 
 ## R packages
+
 ### CRAN
+
 The Comprehensive R Archive Network (CRAN) is the official R package repository and currently hosts 16271 packages (as of 2020-09-13). To install a package from CRAN, use the builtin `install.packages` command:
 
 ```r

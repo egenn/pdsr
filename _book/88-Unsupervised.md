@@ -8,7 +8,7 @@ PRE.fansi SPAN {padding-top: .25em; padding-bottom: .25em};
 
 
 ```
-  .:rtemis 0.8.0: Welcome, egenn
+  .:rtemis 0.8.1: Welcome, egenn
   [x86_64-apple-darwin17.0 (64-bit): Defaulting to 4/4 available cores]
   Documentation & vignettes: https://rtemis.lambdamd.org
 ```
@@ -59,12 +59,12 @@ x <- iris[, 1:4]
 iris.PCA <- d.PCA(x)
 ```
 
-<PRE class="fansi fansi-output"><CODE><span style='color: #555555;'>[2020-10-19 20:20:56</span><span style='color: #555555;font-weight: bold;'> d.PCA</span><span style='color: #555555;'>] Hello,</span><span> </span><span style='color: #555555;'>egenn</span><span> 
-</span><span style='color: #555555;'>[2020-10-19 20:20:56</span><span style='color: #555555;font-weight: bold;'> d.PCA</span><span style='color: #555555;'>] </span><span>||| Input has dimensions 150 rows by 4 columns, 
-</span><span style='color: #555555;'>[2020-10-19 20:20:56</span><span style='color: #555555;font-weight: bold;'> d.PCA</span><span style='color: #555555;'>] </span><span>    interpreted as 150 cases with 4 features. 
-</span><span style='color: #555555;'>[2020-10-19 20:20:56</span><span style='color: #555555;font-weight: bold;'> d.PCA</span><span style='color: #555555;'>] </span><span>Performing Principal Component Analysis... 
+<PRE class="fansi fansi-output"><CODE><span style='color: #555555;'>[2020-11-09 01:08:54</span><span style='color: #555555;font-weight: bold;'> d.PCA</span><span style='color: #555555;'>] Hello,</span><span> </span><span style='color: #555555;'>egenn</span><span> 
+</span><span style='color: #555555;'>[2020-11-09 01:08:54</span><span style='color: #555555;font-weight: bold;'> d.PCA</span><span style='color: #555555;'>] </span><span>||| Input has dimensions 150 rows by 4 columns, 
+</span><span style='color: #555555;'>[2020-11-09 01:08:54</span><span style='color: #555555;font-weight: bold;'> d.PCA</span><span style='color: #555555;'>] </span><span>    interpreted as 150 cases with 4 features. 
+</span><span style='color: #555555;'>[2020-11-09 01:08:54</span><span style='color: #555555;font-weight: bold;'> d.PCA</span><span style='color: #555555;'>] </span><span>Performing Principal Component Analysis... 
 
-</span><span style='color: #555555;'>[2020-10-19 20:20:56</span><span style='color: #555555;font-weight: bold;'> d.PCA</span><span style='color: #555555;'>] Run completed in 6e-04 minutes (Real: 0.04; User: 0.01; System: 3e-03)</span><span> 
+</span><span style='color: #555555;'>[2020-11-09 01:08:54</span><span style='color: #555555;font-weight: bold;'> d.PCA</span><span style='color: #555555;'>] Run completed in 4.3e-04 minutes (Real: 0.03; User: 0.01; System: 1e-03)</span><span> 
 </span></CODE></PRE>
 
 ```r
@@ -72,7 +72,7 @@ mplot3.xy(iris.PCA$projections.train[, 1], iris.PCA$projections.train[, 2], grou
           xlab = "1st PCA component", ylab = "2nd PCA component", main = "PCA on iris")
 ```
 
-![](88-Unsupervised_files/figure-latex/unnamed-chunk-5-1.pdf)<!-- --> 
+<img src="88-Unsupervised_files/figure-html/unnamed-chunk-5-1.png" width="480" />
 
 #### Independent Component Analysis (ICA)
 
@@ -81,12 +81,12 @@ mplot3.xy(iris.PCA$projections.train[, 1], iris.PCA$projections.train[, 2], grou
 iris.ICA <- d.ICA(x, k = 2)
 ```
 
-<PRE class="fansi fansi-output"><CODE><span style='color: #555555;'>[2020-10-19 20:20:57</span><span style='color: #555555;font-weight: bold;'> d.ICA</span><span style='color: #555555;'>] Hello,</span><span> </span><span style='color: #555555;'>egenn</span><span> 
-</span><span style='color: #555555;'>[2020-10-19 20:20:57</span><span style='color: #555555;font-weight: bold;'> d.ICA</span><span style='color: #555555;'>] </span><span>||| Input has dimensions 150 rows by 4 columns, 
-</span><span style='color: #555555;'>[2020-10-19 20:20:57</span><span style='color: #555555;font-weight: bold;'> d.ICA</span><span style='color: #555555;'>] </span><span>    interpreted as 150 cases with 4 features. 
-</span><span style='color: #555555;'>[2020-10-19 20:20:57</span><span style='color: #555555;font-weight: bold;'> d.ICA</span><span style='color: #555555;'>] </span><span>Running Independent Component Analysis... 
+<PRE class="fansi fansi-output"><CODE><span style='color: #555555;'>[2020-11-09 01:08:54</span><span style='color: #555555;font-weight: bold;'> d.ICA</span><span style='color: #555555;'>] Hello,</span><span> </span><span style='color: #555555;'>egenn</span><span> 
+</span><span style='color: #555555;'>[2020-11-09 01:08:54</span><span style='color: #555555;font-weight: bold;'> d.ICA</span><span style='color: #555555;'>] </span><span>||| Input has dimensions 150 rows by 4 columns, 
+</span><span style='color: #555555;'>[2020-11-09 01:08:54</span><span style='color: #555555;font-weight: bold;'> d.ICA</span><span style='color: #555555;'>] </span><span>    interpreted as 150 cases with 4 features. 
+</span><span style='color: #555555;'>[2020-11-09 01:08:54</span><span style='color: #555555;font-weight: bold;'> d.ICA</span><span style='color: #555555;'>] </span><span>Running Independent Component Analysis... 
 
-</span><span style='color: #555555;'>[2020-10-19 20:20:57</span><span style='color: #555555;font-weight: bold;'> d.ICA</span><span style='color: #555555;'>] Run completed in 1.3e-03 minutes (Real: 0.08; User: 0.01; System: 4e-03)</span><span> 
+</span><span style='color: #555555;'>[2020-11-09 01:08:54</span><span style='color: #555555;font-weight: bold;'> d.ICA</span><span style='color: #555555;'>] Run completed in 3.5e-04 minutes (Real: 0.02; User: 0.01; System: 3e-03)</span><span> 
 </span></CODE></PRE>
 
 ```r
@@ -94,7 +94,7 @@ mplot3.xy(iris.ICA$projections.train[, 1], iris.ICA$projections.train[, 2], grou
           xlab = "1st ICA component", ylab = "2nd ICA component", main = "ICA on iris")
 ```
 
-![](88-Unsupervised_files/figure-latex/unnamed-chunk-6-1.pdf)<!-- --> 
+<img src="88-Unsupervised_files/figure-html/unnamed-chunk-6-1.png" width="480" />
 
 #### Non-negative Matrix Factorization (NMF)
 
@@ -103,12 +103,12 @@ mplot3.xy(iris.ICA$projections.train[, 1], iris.ICA$projections.train[, 2], grou
 iris.NMF <- d.NMF(x, k = 2)
 ```
 
-<PRE class="fansi fansi-output"><CODE><span style='color: #555555;'>[2020-10-19 20:20:58</span><span style='color: #555555;font-weight: bold;'> d.NMF</span><span style='color: #555555;'>] Hello,</span><span> </span><span style='color: #555555;'>egenn</span><span> 
-</span><span style='color: #555555;'>[2020-10-19 20:21:01</span><span style='color: #555555;font-weight: bold;'> d.NMF</span><span style='color: #555555;'>] </span><span>||| Input has dimensions 150 rows by 4 columns, 
-</span><span style='color: #555555;'>[2020-10-19 20:21:01</span><span style='color: #555555;font-weight: bold;'> d.NMF</span><span style='color: #555555;'>] </span><span>    interpreted as 150 cases with 4 features. 
-</span><span style='color: #555555;'>[2020-10-19 20:21:01</span><span style='color: #555555;font-weight: bold;'> d.NMF</span><span style='color: #555555;'>] </span><span>Running Non-negative Matrix Factorization... 
+<PRE class="fansi fansi-output"><CODE><span style='color: #555555;'>[2020-11-09 01:08:54</span><span style='color: #555555;font-weight: bold;'> d.NMF</span><span style='color: #555555;'>] Hello,</span><span> </span><span style='color: #555555;'>egenn</span><span> 
+</span><span style='color: #555555;'>[2020-11-09 01:08:56</span><span style='color: #555555;font-weight: bold;'> d.NMF</span><span style='color: #555555;'>] </span><span>||| Input has dimensions 150 rows by 4 columns, 
+</span><span style='color: #555555;'>[2020-11-09 01:08:56</span><span style='color: #555555;font-weight: bold;'> d.NMF</span><span style='color: #555555;'>] </span><span>    interpreted as 150 cases with 4 features. 
+</span><span style='color: #555555;'>[2020-11-09 01:08:56</span><span style='color: #555555;font-weight: bold;'> d.NMF</span><span style='color: #555555;'>] </span><span>Running Non-negative Matrix Factorization... 
 
-</span><span style='color: #555555;'>[2020-10-19 20:21:07</span><span style='color: #555555;font-weight: bold;'> d.NMF</span><span style='color: #555555;'>] Run completed in 0.16 minutes (Real: 9.38; User: 4.10; System: 0.20)</span><span> 
+</span><span style='color: #555555;'>[2020-11-09 01:08:58</span><span style='color: #555555;font-weight: bold;'> d.NMF</span><span style='color: #555555;'>] Run completed in 0.06 minutes (Real: 3.58; User: 2.98; System: 0.13)</span><span> 
 </span></CODE></PRE>
 
 ```r
@@ -116,7 +116,7 @@ mplot3.xy(iris.NMF$projections.train[, 1], iris.NMF$projections.train[, 2], grou
           xlab = "1st NMF component", ylab = "2nd NMF component", main = "NMF on iris")
 ```
 
-![](88-Unsupervised_files/figure-latex/unnamed-chunk-7-1.pdf)<!-- --> 
+<img src="88-Unsupervised_files/figure-html/unnamed-chunk-7-1.png" width="480" />
 
 ## Clustering
 
@@ -152,12 +152,12 @@ x <- iris[, 1:4]
 iris.NMF <- d.NMF(x, k = 2)
 ```
 
-<PRE class="fansi fansi-output"><CODE><span style='color: #555555;'>[2020-10-19 20:21:08</span><span style='color: #555555;font-weight: bold;'> d.NMF</span><span style='color: #555555;'>] Hello,</span><span> </span><span style='color: #555555;'>egenn</span><span> 
-</span><span style='color: #555555;'>[2020-10-19 20:21:08</span><span style='color: #555555;font-weight: bold;'> d.NMF</span><span style='color: #555555;'>] </span><span>||| Input has dimensions 150 rows by 4 columns, 
-</span><span style='color: #555555;'>[2020-10-19 20:21:08</span><span style='color: #555555;font-weight: bold;'> d.NMF</span><span style='color: #555555;'>] </span><span>    interpreted as 150 cases with 4 features. 
-</span><span style='color: #555555;'>[2020-10-19 20:21:08</span><span style='color: #555555;font-weight: bold;'> d.NMF</span><span style='color: #555555;'>] </span><span>Running Non-negative Matrix Factorization... 
+<PRE class="fansi fansi-output"><CODE><span style='color: #555555;'>[2020-11-09 01:08:58</span><span style='color: #555555;font-weight: bold;'> d.NMF</span><span style='color: #555555;'>] Hello,</span><span> </span><span style='color: #555555;'>egenn</span><span> 
+</span><span style='color: #555555;'>[2020-11-09 01:08:58</span><span style='color: #555555;font-weight: bold;'> d.NMF</span><span style='color: #555555;'>] </span><span>||| Input has dimensions 150 rows by 4 columns, 
+</span><span style='color: #555555;'>[2020-11-09 01:08:58</span><span style='color: #555555;font-weight: bold;'> d.NMF</span><span style='color: #555555;'>] </span><span>    interpreted as 150 cases with 4 features. 
+</span><span style='color: #555555;'>[2020-11-09 01:08:58</span><span style='color: #555555;font-weight: bold;'> d.NMF</span><span style='color: #555555;'>] </span><span>Running Non-negative Matrix Factorization... 
 
-</span><span style='color: #555555;'>[2020-10-19 20:21:11</span><span style='color: #555555;font-weight: bold;'> d.NMF</span><span style='color: #555555;'>] Run completed in 0.05 minutes (Real: 2.94; User: 1.07; System: 0.06)</span><span> 
+</span><span style='color: #555555;'>[2020-11-09 01:08:59</span><span style='color: #555555;font-weight: bold;'> d.NMF</span><span style='color: #555555;'>] Run completed in 0.01 minutes (Real: 0.88; User: 0.76; System: 0.05)</span><span> 
 </span></CODE></PRE>
 
 ### K-Means
@@ -167,10 +167,10 @@ iris.NMF <- d.NMF(x, k = 2)
 iris.KMEANS <- u.KMEANS(x, k = 3)
 ```
 
-<PRE class="fansi fansi-output"><CODE><span style='color: #555555;'>[2020-10-19 20:21:11</span><span style='color: #555555;font-weight: bold;'> u.KMEANS</span><span style='color: #555555;'>] Hello,</span><span> </span><span style='color: #555555;'>egenn</span><span> 
-</span><span style='color: #555555;'>[2020-10-19 20:21:12</span><span style='color: #555555;font-weight: bold;'> u.KMEANS</span><span style='color: #555555;'>] </span><span>Performing K-means Clustering with k = 3... 
+<PRE class="fansi fansi-output"><CODE><span style='color: #555555;'>[2020-11-09 01:08:59</span><span style='color: #555555;font-weight: bold;'> u.KMEANS</span><span style='color: #555555;'>] Hello,</span><span> </span><span style='color: #555555;'>egenn</span><span> 
+</span><span style='color: #555555;'>[2020-11-09 01:08:59</span><span style='color: #555555;font-weight: bold;'> u.KMEANS</span><span style='color: #555555;'>] </span><span>Performing K-means Clustering with k = 3... 
 
-</span><span style='color: #555555;'>[2020-10-19 20:21:12</span><span style='color: #555555;font-weight: bold;'> u.KMEANS</span><span style='color: #555555;'>] Run completed in 0.02 minutes (Real: 1.16; User: 0.35; System: 0.03)</span><span> 
+</span><span style='color: #555555;'>[2020-11-09 01:08:59</span><span style='color: #555555;font-weight: bold;'> u.KMEANS</span><span style='color: #555555;'>] Run completed in 0.01 minutes (Real: 0.37; User: 0.26; System: 0.02)</span><span> 
 </span></CODE></PRE>
 
 ```r
@@ -179,7 +179,7 @@ mplot3.xy(iris.NMF$projections.train[, 1], iris.NMF$projections.train[, 2],
           xlab = "1st NMF component", ylab = "2nd NMF component", main = "KMEANS on iris")
 ```
 
-![](88-Unsupervised_files/figure-latex/unnamed-chunk-10-1.pdf)<!-- --> 
+<img src="88-Unsupervised_files/figure-html/unnamed-chunk-10-1.png" width="480" />
 
 ### Partitioning Around Medoids with k estimation (PAMK)
 
@@ -188,11 +188,11 @@ mplot3.xy(iris.NMF$projections.train[, 1], iris.NMF$projections.train[, 2],
 iris.pamk <- u.PAMK(x, krange = 3:10)
 ```
 
-<PRE class="fansi fansi-output"><CODE><span style='color: #555555;'>[2020-10-19 20:21:13</span><span style='color: #555555;font-weight: bold;'> u.PAMK</span><span style='color: #555555;'>] Hello,</span><span> </span><span style='color: #555555;'>egenn</span><span> 
-</span><span style='color: #555555;'>[2020-10-19 20:21:17</span><span style='color: #555555;font-weight: bold;'> u.PAMK</span><span style='color: #555555;'>] </span><span>Partitioning Around Medoids... 
-</span><span style='color: #555555;'>[2020-10-19 20:21:17</span><span style='color: #555555;font-weight: bold;'> u.PAMK</span><span style='color: #555555;'>] </span><span>Estimated optimal number of clusters: 3 
+<PRE class="fansi fansi-output"><CODE><span style='color: #555555;'>[2020-11-09 01:09:00</span><span style='color: #555555;font-weight: bold;'> u.PAMK</span><span style='color: #555555;'>] Hello,</span><span> </span><span style='color: #555555;'>egenn</span><span> 
+</span><span style='color: #555555;'>[2020-11-09 01:09:01</span><span style='color: #555555;font-weight: bold;'> u.PAMK</span><span style='color: #555555;'>] </span><span>Partitioning Around Medoids... 
+</span><span style='color: #555555;'>[2020-11-09 01:09:01</span><span style='color: #555555;font-weight: bold;'> u.PAMK</span><span style='color: #555555;'>] </span><span>Estimated optimal number of clusters: 3 
 
-</span><span style='color: #555555;'>[2020-10-19 20:21:17</span><span style='color: #555555;font-weight: bold;'> u.PAMK</span><span style='color: #555555;'>] Run completed in 0.06 minutes (Real: 3.66; User: 1.28; System: 0.09)</span><span> 
+</span><span style='color: #555555;'>[2020-11-09 01:09:01</span><span style='color: #555555;font-weight: bold;'> u.PAMK</span><span style='color: #555555;'>] Run completed in 0.02 minutes (Real: 1.04; User: 0.80; System: 0.05)</span><span> 
 </span></CODE></PRE>
 
 ```r
@@ -201,4 +201,4 @@ mplot3.xy(iris.NMF$projections.train[, 1], iris.NMF$projections.train[, 2],
           xlab = "1st NMF component", ylab = "2nd NMF component", main = "PAM on iris")
 ```
 
-![](88-Unsupervised_files/figure-latex/unnamed-chunk-11-1.pdf)<!-- --> 
+<img src="88-Unsupervised_files/figure-html/unnamed-chunk-11-1.png" width="480" />

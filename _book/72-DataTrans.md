@@ -12,26 +12,19 @@ library(rtemis)
 ```
 
 ```
-  .:rtemis 0.8.0: Welcome, egenn
+  .:rtemis 0.8.1: Welcome, egenn
   [x86_64-apple-darwin17.0 (64-bit): Defaulting to 4/4 available cores]
   Documentation & vignettes: https://rtemis.lambdamd.org
 ```
 
 ## Continuous variables
 
-### Standardization / Scaling & Centering with `scale()`
+### Standardization / Scaling & Centering with `scale()` {#zscore}
 
-Depending on your modeling needs / algorithms you plan to use, it is often important to scale and/or center your data. Note that many functions, but not all, will automatically scale and center data internally if it is required by the algorithm. Check the function documentation.  
-If you manually scale and/or center your data, you must:  
+Depending on your modeling needs / the algorithms you plan to use, it is often important to scale and/or center your data. Note that many functions, but not all, will automatically scale and center data internally if it is required by the algorithm. Check the function documentation.  
 
-* Perform scaling and centering on your training data
-* Save the centering and scaling parameters for each feature
-* Apply the training set-dervied centering and scaling parameters to the test set prior to prediction/inference
-
-A common mistake is to either scale training and testing data together in the beginning, or scale them separately.  
-
-Standardizing, i.e. converting to Z-scores, involving subtracting the mean and dividing by the standard deviation. 
-Scaling and centering in R is performed with the `scale` function. By default, both arguments `scale` and `center` are TRUE:
+Standardizing, i.e. converting to Z-scores, involves subtracting the mean and dividing by the standard deviation. 
+Scaling and centering in R is performed with the `scale` function. By default, both arguments `scale` and `center` are set to `TRUE`:
 
 
 ```r
@@ -60,9 +53,19 @@ Sepal.Length  Sepal.Width Petal.Length  Petal.Width
            1            1            1            1 
 ```
 
-Good - We got mean of 0 (effectively) and standard deviation of 1 for each column.  
+Good - We got effectively 0 mean and standard deviation of 1 for each column.  
 
-Now, let's get the scale and center attributes:
+<div class="rmdnote">
+<p>If you are manually scaling and/or centering data for <strong>supervised learning</strong>, you must:</p>
+<ul>
+<li>Perform scaling and centering on your <strong>training data</strong></li>
+<li>Save the <strong>centering and scaling parameters</strong> for each feature</li>
+<li>Apply the training set-derived centering and scaling parameters to the <strong>test set</strong> <em>prior to prediction/inference</em>.</li>
+</ul>
+</div>
+
+A common mistake is to either scale training and testing data together in the beginning, or scale them independently.  
+Let's get the scale and center attributes:
 
 
 ```r
@@ -120,14 +123,14 @@ all(Sepal.Length_scaled == iris.scaled[, "Sepal.Length"])
 [1] TRUE
 ```
 
-Note: Due to limitation in numerical precision, checking sets of floats for equality after multiple operations is not recommended. Always a good idea to plot:
+Note: Due to limitation in numerical precision, checking sets of floats for equality after multiple operations is not recommended. A good option is to plot, if possible:
 
 
 ```r
 mplot3.fit(Sepal.Length_scaled, iris.scaled[, "Sepal.Length"])
 ```
 
-![](72-DataTrans_files/figure-latex/unnamed-chunk-9-1.pdf)<!-- --> 
+<img src="72-DataTrans_files/figure-html/unnamed-chunk-10-1.png" width="960" />
 
 ### Log-transform with `log()`
 
@@ -141,7 +144,7 @@ We start by plotting its distribution:
 mplot3.x(x)
 ```
 
-![](72-DataTrans_files/figure-latex/unnamed-chunk-11-1.pdf)<!-- --> 
+<img src="72-DataTrans_files/figure-html/unnamed-chunk-12-1.png" width="960" />
 
 We can see it is highly skewed. A log transform may help here.  
 Let's check:
@@ -151,31 +154,45 @@ Let's check:
 mplot3.x(log(x))
 ```
 
-![](72-DataTrans_files/figure-latex/unnamed-chunk-12-1.pdf)<!-- --> 
+<img src="72-DataTrans_files/figure-html/unnamed-chunk-13-1.png" width="960" />
 
 Looks like a good deal.
 
 ### Data binning with `cut()`
 
-Another approach for the above variable might be to bin it.  
+A different approach for the above variable might be to bin it.  
 Let's look at a few different ways to bin continuous data.
 
+#### Evenly-spaced interval
 
-#### Equal-interval cuts
-
-By passing an integer to `cut()`'s `breaks` argument, we get that many equally-spaced intervals:
+`cut()` allows us to bin a numeric variable into evenly-spaced intervals.  
+The `breaks` argument defines the number of intervals:
 
 
 ```r
 x_cut4 <- cut(x, breaks = 4)
+head(x_cut4)
+```
+
+```
+[1] (0.291,178] (0.291,178] (0.291,178] (0.291,178] (0.291,178] (0.291,178]
+Levels: (0.291,178] (178,355] (355,533] (533,711]
+```
+
+```r
 table(x_cut4)
 ```
 
 ```
 x_cut4
-(0.248,189]   (189,377]   (377,565]   (565,754] 
-        981          17           1           1 
+(0.291,178]   (178,355]   (355,533]   (533,711] 
+        977          19           3           1 
 ```
+
+<div class="rmdtip">
+<p><strong>Interval Notation</strong></p>
+<p><code>[3, 9)</code> represents the interval of <a href="https://en.wikipedia.org/wiki/Real_number">real numbers</a> between 3 and 9, <strong>including</strong> 3 and <strong>excluding</strong> 9.</p>
+</div>
 
 Because the data is so skewed, equal intervals are not helpful in this case. The majority of the data gets grouped into a single bin.  
 Let's visualize the cuts.
@@ -186,21 +203,22 @@ Let's visualize the cuts.
 ```
 
 ```
-[1]   1.0000 189.0175 377.0350 565.0525 753.0700
+[1]   1.0000 178.2453 355.4905 532.7358 709.9811
 ```
 
 ```r
 mplot3.x(x, par.reset = FALSE)
+# plot(density(x)) # in base R
 abline(v = xcuts5, col = "red", lwd = 1.5)
 ```
 
-![](72-DataTrans_files/figure-latex/unnamed-chunk-14-1.pdf)<!-- --> 
+<img src="72-DataTrans_files/figure-html/unnamed-chunk-16-1.png" width="960" />
 
-Note: We used `par.reset = FALSE` to stop `mplot3.x` from resetting its custom `par()` settings so that we can continue adding elements to the same plot, in this case with the `abline` command.  
+Note: We used `par.reset = FALSE` to stop `mplot3.x()` from resetting its custom `par()` settings so that we can continue adding elements to the same plot, in this case with the `abline()` command.  
 
 #### Quantile cuts
 
-Instead, we can get quantiles. We ask for 5 quantiles which corresponds to 4 intervals:
+Instead, we can get quantiles with `quantile()`. We ask for 5 quantiles using the `lngth.out` argument, which corresponds to 4 intervals:
 
 
 ```r
@@ -209,112 +227,49 @@ Instead, we can get quantiles. We ask for 5 quantiles which corresponds to 4 int
 
 ```
        0%       25%       50%       75%      100% 
-  1.00000  10.65099  20.04102  39.21473 753.06995 
+  1.00000  11.53621  23.24769  47.20410 709.98108 
 ```
 
 ```r
 mplot3.x(x, par.reset = F)
+# plot(density(x)) # in base R
 abline(v = xquants5, col = "green", lwd = 1.5)
 ```
 
-![](72-DataTrans_files/figure-latex/unnamed-chunk-15-1.pdf)<!-- --> 
-
-We can use the quantiles as breaks in `cut()`:
+<img src="72-DataTrans_files/figure-html/unnamed-chunk-17-1.png" width="960" />
+The `breaks` argument of `cut()` allows us to pass either an integer to define evenly-spaced breaks, or a numeric vector define the position of breaks.  
+We can therefore pass the quantile values as break points.  
+Since the quantile values begin at the lowest value in the data, we need to define `include.lowest = TRUE` so that the first interval is inclusive of the lowest value:
 
 
 ```r
-x_cutq4 <- cut(x, breaks = xquants5)
+x_cutq4 <- cut(x, breaks = xquants5, include.lowest = TRUE)
 table(x_cutq4)
 ```
 
 ```
 x_cutq4
-  (1,10.7]  (10.7,20]  (20,39.2] (39.2,753] 
-       249        250        250        250 
+   [1,11.5] (11.5,23.2] (23.2,47.2]  (47.2,710] 
+        250         250         250         250 
 ```
 
-With quantile cuts, each bin contains the same number of observations (+/- 1).  
-
-
-
-We just got a new mystery `x`! Let's plot it:
-
-```r
-mplot3.x(x)
-```
-
-![](72-DataTrans_files/figure-latex/unnamed-chunk-18-1.pdf)<!-- --> 
-
-It may be worth binning into 2. Let's look at equal-interval and quantile cuts:  
-
-
-```r
-(xcuts3 <- seq(min(x), max(x), length.out = 3))
-```
-
-```
-[1]  6.53193 25.73907 44.94622
-```
-
-```r
-(xquants3 <- quantile(x, seq(0, 1, length.out = 3)))
-```
-
-```
-      0%      50%     100% 
- 6.53193 10.59441 44.94622 
-```
-
-
-```r
-mplot3.x(x, par.reset = F)
-abline(v = xcuts3, col = "red", lwd = 1.5)
-```
-
-![](72-DataTrans_files/figure-latex/unnamed-chunk-20-1.pdf)<!-- --> 
-
-```r
-mplot3.x(x, par.reset = F)
-abline(v = xquants3, col = "green", lwd = 1.5)
-```
-
-![](72-DataTrans_files/figure-latex/unnamed-chunk-20-2.pdf)<!-- --> 
-
-
-```r
-dplot3.x(x)
-```
-
-![](72-DataTrans_files/figure-latex/unnamed-chunk-21-1.pdf)<!-- --> 
-
-
-```r
-xcutm <- cut(x, breaks = c(min(x), 19, max(x)))
-```
-
-
-```r
-mplot3.x(x, par.reset = F)
-abline(v = c(min(x), 19, max(x)), col = "yellow", lwd = 1.5)
-```
-
-![](72-DataTrans_files/figure-latex/unnamed-chunk-23-1.pdf)<!-- --> 
+With quantile cuts, each bin contains the same or roughly the same number of observations (+/- 1).  
 
 ## Categorical variables
 
-Many algorithms, or their implementations, do not support categorical variables directly and to use them, you must convert all categorical variables to some type of numeric encoding.
+Many algorithms (or their implementations) do not directly support categorical variables. To use them, you must therefore convert all categorical variables to some type of numerical encoding.
 
 ### Integer encoding
 
-If the categorical data is ordinal, you simply convert them to integers.  
-For example, the following ordered factor:
+If the categorical data is ordinal, you can simply convert it to integers.  
+For example, the following **ordered factor**:
 
 
 ```r
 (brightness <- factor(c("bright", "brightest", "darkest",
-                    "bright", "dark", "dim", "dark"),
-                  levels = c("darkest", "dark", "dim", "bright", "brightest"),
-                  ordered = TRUE))
+                        "bright", "dark", "dim", "dark"),
+                      levels = c("darkest", "dark", "dim", "bright", "brightest"),
+                      ordered = TRUE))
 ```
 
 ```
@@ -335,7 +290,7 @@ as.integer(brightness)
 
 ### One-hot encoding
 
-When categorical features are **not** ordinal, and your algorithm cannot handle them directly, you can one-hot encode them. (This is similar to creating dummy variables in statistics). In one-hot encoding, each categorical feature is converted to k binary features, where k = number of unique values in the input, such that only one feature is 1 per case.
+When categorical features are **not** ordinal, and your algorithm cannot handle them directly, you can one-hot encode them. In one-hot encoding, each categorical feature is converted to k binary features, where k = number of unique values in the input, such that only one feature has the value 1 per case. This is similar to creating dummy variables in statistics, with the difference that dummy variables create `k - 1` new variables.
 
 
 ```r
@@ -344,9 +299,9 @@ admission_reasons <- c("plannedSurgery", "emergencySurgery", "medical")
 ```
 
 ```
- [1] "plannedSurgery"   "emergencySurgery" "emergencySurgery" "plannedSurgery"  
- [5] "plannedSurgery"   "plannedSurgery"   "medical"          "emergencySurgery"
- [9] "medical"          "plannedSurgery"  
+ [1] "emergencySurgery" "medical"          "medical"          "emergencySurgery"
+ [5] "medical"          "emergencySurgery" "medical"          "medical"         
+ [9] "emergencySurgery" "emergencySurgery"
 ```
 
 We can use the **rtemis** `oneHot()` function:
@@ -357,15 +312,15 @@ We can use the **rtemis** `oneHot()` function:
 ```
 
 ```
-      admission.emergencySurgery admission.medical admission.plannedSurgery
- [1,]                          0                 0                        1
- [2,]                          1                 0                        0
- [3,]                          1                 0                        0
- [4,]                          0                 0                        1
- [5,]                          0                 0                        1
- [6,]                          0                 0                        1
- [7,]                          0                 1                        0
- [8,]                          1                 0                        0
- [9,]                          0                 1                        0
-[10,]                          0                 0                        1
+      admission.emergencySurgery admission.medical
+ [1,]                          1                 0
+ [2,]                          0                 1
+ [3,]                          0                 1
+ [4,]                          1                 0
+ [5,]                          0                 1
+ [6,]                          1                 0
+ [7,]                          0                 1
+ [8,]                          0                 1
+ [9,]                          1                 0
+[10,]                          1                 0
 ```

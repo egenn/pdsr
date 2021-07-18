@@ -6,14 +6,14 @@
 
 ### Datasets included with R (in package 'datasets')
 
-List builtin datasets with `data` and no arguments:
+List built-in datasets with `data()` and no arguments:
 
 
 ```r
 data()
 ```
 
-These builtin datasets are normally readily available in the R console (because the `datasets` package is automatically loaded)  
+These built-in datasets are normally readily available in the R console (because the **datasets** package is automatically loaded)  
 You can check if this is the case using `search()`
 
 
@@ -76,6 +76,11 @@ Note: See issue [here](https://stackoverflow.com/questions/27388964/rmarkdown-no
 
 ## Data I/O
 
+<div class="figure" style="text-align: center">
+<img src="./R_dataio.png" alt="Common Data Input/Output commands in R" width="80%" />
+<p class="caption">(\#fig:FigRDataIO)Common Data Input/Output commands in R</p>
+</div>
+
 ### Read local CSV
 
 `read.table()` is the core function that reads data from formatted text files in R, where cases correspond to lines and variables to columns. Its many arguments allow to read different formats.  
@@ -84,7 +89,7 @@ Note: See issue [here](https://stackoverflow.com/questions/27388964/rmarkdown-no
 Some important arguments for `read.table()` listed here with their default values for `read.csv()`:
 
 * `sep = ","`: Character that separate entries. Default is a comma; use "\t" for tab-separated files (default setting in `read.delim()`)
-* `dec = "."`: Character for the decimal point. Defaultis a dot; in some cases where a comma is used as the decimal point, the entry separator `sep` may be a semicolon (default setting in `read.csv2()`)
+* `dec = "."`: Character for the decimal point. Default is a dot; in some cases where a comma is used as the decimal point, the entry separator `sep` may be a semicolon (default setting in `read.csv2()`)
 * `na.strings = "NA"`: Character vector of strings to be coded as "NA"
 
 
@@ -108,7 +113,7 @@ The above files are read from two very popular online [data repositories](https:
 
 ### Read zipped data from the web 
 
-#### using base gzcon and csv.read
+#### using `gzcon()` and `csv.read()`
 
 `read.table()` /`read.csv()` also accepts a "connection" as input.  
 Here we define a connection to a zipped file by nesting `gzcon()` and `url()`:
@@ -179,14 +184,14 @@ all(iris == iris2)
 
 ### Write an R object to RDS
 
-You can write any R object directly to file so that you can recover it at any time, share it, etc. Remember that since a list can contain any number of objects of any type, you can save any collection of objects as an RDS file. For multiple objects, see also the `save.image` command below.
+You can write any R object directly to file so that you can recover it at any time, share it, etc. Remember that since a list can contain any number of objects of any type, you can save any collection of objects as an RDS file. For multiple objects, see also the `save.image()` command below.
 
 
 ```r
 saveRDS(iris, "iris.rds")
 ```
 
-To load an object saved in an rds file, assign it to an object  usig `readRDS`:
+To load an object saved in an rds file, assign it to an object  using `readRDS()`:
 
 
 ```r
@@ -194,7 +199,7 @@ iris_fromFile <- readRDS("iris.rds")
 all(iris == iris_fromFile)
 ```
 
-### Write multiple R objects to RData file using `save`
+### Write multiple R objects to RData file using `save()`
 
 
 ```r
@@ -203,27 +208,27 @@ mat2 <- sapply(seq_len(10), function(i) rnorm(500))
 save(mat1, mat2, file = "./mat.RData")
 ```
 
-Note: we will learn how to use `sapply` later under "Loop functions"
+Note: we will learn how to use `sapply()` later under "Loop functions"
 
-To load the variables in the `.RData` file you saved, use the `load` command:
+To load the variables in the `.RData` file you saved, use the `load()` command:
 
 
 ```r
 load("./Rmd/mat.RData")
 ```
 
-Note that `load` adds the objects to your workspace using with their original names. You do not assign them to a new object, unlike with the `readRDS` call above.
+Note that `load()` adds the objects to your workspace using with their original names. You do not assign them to a new object, unlike with the `readRDS()` call above.
 
-### Write your entire workspace to a RData image using `save.image`
+### Write your entire workspace to a RData image using `save.image()`
 
-You can save your entire workspace to a RData file using the `save.image` function.  
+You can save your entire workspace to a RData file using the `save.image()` function.  
 
 
 ```r
 save.image("workspace_10_05_2020.RData")
 ```
 
-Same as above, to re-load the workspace saved in the `.RData` file, use the `load` command:
+Same as above, to re-load the workspace saved in the `.RData` file, use the `load()` command:
 
 
 ```r

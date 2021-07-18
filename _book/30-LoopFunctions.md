@@ -12,25 +12,19 @@ They can result in more compact and readable code and are often faster to execut
 * `tapply()`: Apply a function to elements of groups defined by a factor
 * `mapply()`: Multivariate version of `sapply()`: Apply a function using the first elements of the inputs vectors, then using the second, third, and so on
 
-\begin{figure}
-
-{\centering \includegraphics[width=0.75\linewidth]{./R_applyfam} 
-
-}
-
-\caption{`*apply()` function family summary (Best to read through this chapter first and then refer back to this figure)}(\#fig:FigRapplyfam)
-\end{figure}
+<div class="figure" style="text-align: center">
+<img src="./R_applyfam.png" alt="`*apply()` function family summary (Best to read through this chapter first and then refer back to this figure)" width="75%" />
+<p class="caption">(\#fig:FigRapplyfam)`*apply()` function family summary (Best to read through this chapter first and then refer back to this figure)</p>
+</div>
 
 Before starting to use the above functions, we need to learn about anonymous functions, which are often used within the apply functions.
 
 ## `apply()`
 
-\begin{info}
-\texttt{apply()} applies a function over one or more dimensions of an
-array of 2 dimensions or more (this includes matrices) or a data frame:
-
-\texttt{apply(array,\ MARGIN,\ FUN)}
-\end{info}
+<div class="rmdtip">
+<p><code>apply()</code> applies a function over one or more dimensions of an array of 2 dimensions or more (this includes matrices) or a data frame:</p>
+<p><code>apply(array, MARGIN, FUN)</code></p>
+</div>
 
 `MARGIN` can be an integer vector or character indicating the dimensions over which 'FUN' will be applied.
 
@@ -54,12 +48,10 @@ Sepal.Length  Sepal.Width Petal.Length  Petal.Width
     5.843333     3.057333     3.758000     1.199333 
 ```
 
-\begin{note}
-Hint: It is possibly easiest to think of the ``MARGIN'' as the
-\textbf{\emph{dimension you want to keep}}.\\
-In the above case, we want the mean for each variable, i.e.~we want to
-keep columns and collapse rows.
-\end{note}
+<div class="rmdnote">
+<p>Hint: It is possibly easiest to think of the “MARGIN” as the <strong><em>dimension you want to keep</em></strong>.<br />
+In the above case, we want the mean for each variable, i.e. we want to keep columns and collapse rows.</p>
+</div>
 
 The above is equivalent to:
 
@@ -90,28 +82,22 @@ head(apply(x, 1, mean))
 [1] 2.550 2.375 2.350 2.350 2.550 2.850
 ```
 
-\begin{note}
-\texttt{apply()} only works on objects with defined (i.e.~non-NULL)
-\texttt{dim()}, i.e.~arrays.
-\end{note}
+<div class="rmdnote">
+<p><code>apply()</code> only works on objects with defined (i.e. non-NULL) <code>dim()</code>, i.e. arrays.</p>
+</div>
 
-\begin{note}
-Try to think why you can't use \texttt{apply()} to apply a function
-\texttt{fn()} on a vector \texttt{v}.
-
-\ldots{}
-
-\ldots{}
-
-Because that would be \texttt{fn(v)}
-\end{note}
+<div class="rmdnote">
+<p>Try to think why you can’t use <code>apply()</code> to apply a function <code>fn()</code> on a vector <code>v</code>.</p>
+<p>…</p>
+<p>…</p>
+<p>Because that would be <code>fn(v)</code></p>
+</div>
 
 ## `lapply()`
 
-\begin{info}
-\texttt{lapply()} applies a \textbf{function} on \textbf{each element of
-its input} and returns a \textbf{list} of the outputs.
-\end{info}
+<div class="rmdtip">
+<p><code>lapply()</code> applies a <strong>function</strong> on <strong>each element of its input</strong> and returns a <strong>list</strong> of the outputs.</p>
+</div>
 
 
 Note: The 'elements' of a data frame are its columns (remember, a data frame is a list with equal-length elements). The 'elements' of a matrix are each cell one by one, by column. Therefore `lapply()` has a very different effect on a data frame and a matrix. `lapply()` is commonly used to iterate over the columns of a data frame.
@@ -155,11 +141,9 @@ for (i in 1:4) {
 (Check the source code for `sapply()` by typing `sapply` at the console and hitting Enter).  
 
 
-\begin{note}
-Unlike \texttt{lapply()}, the output of \texttt{sapply()} is variable:
-it is the simplest R object that can hold the data type(s) resulting
-from the operations, i.e.~a vector, matrix, data frame, or list.
-\end{note}
+<div class="rmdnote">
+<p>Unlike <code>lapply()</code>, the output of <code>sapply()</code> is variable: it is the simplest R object that can hold the data type(s) resulting from the operations, i.e. a vector, matrix, data frame, or list.</p>
+</div>
 
 
 ```r

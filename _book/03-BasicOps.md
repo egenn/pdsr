@@ -128,10 +128,9 @@ round(x - (x %/% y) * y, 5) == round(x %% y, 5)
 [16] TRUE TRUE TRUE TRUE TRUE
 ```
 
-\begin{info}
-\texttt{round(x,\ digits)} rounds \texttt{x} to the desired number of
-digits and is used to overcome rounding errors.
-\end{info}
+<div class="rmdtip">
+<p><code>round(x, digits)</code> rounds <code>x</code> to the desired number of digits and is used to overcome rounding errors.</p>
+</div>
 ## Logical operations
 
 Logical AND with `&`
@@ -246,7 +245,7 @@ mean(x)
 ```
 
 ```
-[1] 0.07256893
+[1] -0.0828043
 ```
 
 ```r
@@ -254,7 +253,7 @@ median(x)
 ```
 
 ```
-[1] 0.03077537
+[1] 0.01934113
 ```
 
 ```r
@@ -262,7 +261,7 @@ sd(x) # standard deviation
 ```
 
 ```
-[1] 0.9328076
+[1] 0.9655848
 ```
 
 ```r
@@ -270,7 +269,7 @@ min(x)
 ```
 
 ```
-[1] -2.476455
+[1] -3.032641
 ```
 
 ```r
@@ -278,7 +277,7 @@ max(x)
 ```
 
 ```
-[1] 2.897475
+[1] 2.117493
 ```
 
 ```r
@@ -286,7 +285,7 @@ range(x)
 ```
 
 ```
-[1] -2.476455  2.897475
+[1] -3.032641  2.117493
 ```
 
 ```r
@@ -295,5 +294,5 @@ summary(x)
 
 ```
     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
--2.47646 -0.53167  0.03078  0.07257  0.82637  2.89748 
+-3.03264 -0.68628  0.01934 -0.08280  0.56595  2.11749 
 ```

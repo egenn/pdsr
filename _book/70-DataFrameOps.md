@@ -2,9 +2,112 @@
 
 
 
+## Column and row names
+
+Example data.frame:
+
+
+```r
+df <- data.frame(PID = c(111:119),
+                Hospital = c("UCSF", "HUP", "Stanford",
+                             "Stanford", "UCSF", "HUP", 
+                             "HUP", "Stanford", "UCSF"),
+                Age = c(22, 34, 41, 19, 53, 21, 63, 22, 19),
+                Sex = c(1, 1, 0, 1, 0, 0, 1, 0, 0),
+                row.names = "PID")
+```
+
+Get column names and row names with `colnames()` and `rownames()`:
+
+
+```r
+colnames(df)
+```
+
+```
+[1] "Hospital" "Age"      "Sex"     
+```
+
+```r
+rownames(df)
+```
+
+```
+[1] "111" "112" "113" "114" "115" "116" "117" "118" "119"
+```
+
+To set new column or row names use the form 
+
+`colnames(df) <- new.names` 
+
+where `new.names` is a character vector:
+
+
+```r
+colnames(df) <- c("Center", "Age_at_Dx", "Sex")
+rownames(df) <- paste0("Patient_", 1:9)
+df
+```
+
+```
+            Center Age_at_Dx Sex
+Patient_1     UCSF        22   1
+Patient_2      HUP        34   1
+Patient_3 Stanford        41   0
+Patient_4 Stanford        19   1
+Patient_5     UCSF        53   0
+Patient_6      HUP        21   0
+Patient_7      HUP        63   1
+Patient_8 Stanford        22   0
+Patient_9     UCSF        19   0
+```
+
+## Delete columns or rows
+
+To delete a data.frame column, set it to [NULL](#replacing-with-null):
+
+
+```r
+df$Sex <- NULL
+df
+```
+
+```
+    Center Age_at_Dx
+1     UCSF        22
+2      HUP        34
+3 Stanford        41
+4 Stanford        19
+5     UCSF        53
+6      HUP        21
+7      HUP        63
+8 Stanford        22
+9     UCSF        19
+```
+
+To delete a data.frame row, you can "index it out". For example, to remove the third row:
+
+
+```r
+df <- df[-3, ]
+df
+```
+
+```
+    Center Age_at_Dx
+1     UCSF        22
+2      HUP        34
+4 Stanford        19
+5     UCSF        53
+6      HUP        21
+7      HUP        63
+8 Stanford        22
+9     UCSF        19
+```
+
 ## Table Joins (i.e. Merging data.frames)
 
-Scenario: You have received two or more tables with data. Each table consists of a unique identifier (ID), which is shared among the tables, plus a number of variables in columns, which may be unique to each table. You want to merge them into one big table so that for each ID you have all available information.  
+Scenario: You have received two or more tables with data. Each table consists of a unique identifier (ID), which is shared among the tables, plus a number of variables in columns, which may be unique to each table. You want to merge them into one big table so that for each ID you have all available variables.  
 
 Let's make up some data:
 
@@ -71,14 +174,10 @@ dim(b)
 
 There are four main types of join operations:
 
-\begin{figure}
-
-{\centering \includegraphics[width=1\linewidth]{R_joins} 
-
-}
-
-\caption{Common Join Operations}(\#fig:unnamed-chunk-3)
-\end{figure}
+<div class="figure" style="text-align: center">
+<img src="R_joins.png" alt="Common Join Operations" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-8)Common Join Operations</p>
+</div>
 
 ### Inner join
 
@@ -220,14 +319,10 @@ Note how the resulting data frame contains all IDs present in the right input da
 
 ## Wide to Long
 
-\begin{figure}
-
-{\centering \includegraphics[width=1\linewidth]{wide_long} 
-
-}
-
-\caption{Wide and Long data format example. Take a moment to notice how the wide table on the left with 3 cases (3 IDs) and 3 variables gets converted from a 3 x 4 table to a 9 x 3 long table on the right. The values (outlined in magenta) are present once in each table: on the wide table they form an **ID x Variable** matrix, while on the long they are stacked on a **single column**. The IDs have to be repeated on the long table, once for each variable and there is a new 'Variable' column to provide the information present in the wide table's column names.}(\#fig:wideLong)
-\end{figure}
+<div class="figure" style="text-align: center">
+<img src="wide_long.png" alt="Wide and Long data format example. Take a moment to notice how the wide table on the left with 3 cases (3 IDs) and 3 variables gets converted from a 3 x 4 table to a 9 x 3 long table on the right. The values (outlined in magenta) are present once in each table: on the wide table they form an **ID x Variable** matrix, while on the long they are stacked on a **single column**. The IDs have to be repeated on the long table, once for each variable and there is a new 'Variable' column to provide the information present in the wide table's column names." width="100%" />
+<p class="caption">(\#fig:wideLong)Wide and Long data format example. Take a moment to notice how the wide table on the left with 3 cases (3 IDs) and 3 variables gets converted from a 3 x 4 table to a 9 x 3 long table on the right. The values (outlined in magenta) are present once in each table: on the wide table they form an **ID x Variable** matrix, while on the long they are stacked on a **single column**. The IDs have to be repeated on the long table, once for each variable and there is a new 'Variable' column to provide the information present in the wide table's column names.</p>
+</div>
 
 
 ```r
@@ -256,14 +351,10 @@ Let's create an example data frame:
 
 The `reshape()` function is probably one of the most complicated because the documentation is not clear, specifically with regards to which arguments refer to the input vs. output data frame. Use the following figure as a guide to understand `reshape()`'s syntax. You can use it as a reference when building your own `reshape()` command by following steps 1 through 5:
 
-\begin{figure}
-
-{\centering \includegraphics[width=1\linewidth]{R_reshape_wide2long} 
-
-}
-
-\caption{`reshape()` syntax for Wide to Long transformation.}(\#fig:wideLongSyntax)
-\end{figure}
+<div class="figure" style="text-align: center">
+<img src="R_reshape_wide2long.png" alt="`reshape()` syntax for Wide to Long transformation." width="100%" />
+<p class="caption">(\#fig:wideLongSyntax)`reshape()` syntax for Wide to Long transformation.</p>
+</div>
 
 
 ```r
@@ -378,16 +469,17 @@ dat_wide2long_dt
 ```
 
 ```
-   ID     Fruit Score
-1:  1     mango   1.1
-2:  1    banana   1.2
-3:  1 tangerine   1.3
-4:  2     mango   2.1
-5:  2    banana   2.2
-6:  2 tangerine   2.3
-7:  3     mango   3.1
-8:  3    banana   3.2
-9:  3 tangerine   3.3
+      ID     Fruit Score
+   <num>    <fctr> <num>
+1:     1     mango   1.1
+2:     1    banana   1.2
+3:     1 tangerine   1.3
+4:     2     mango   2.1
+5:     2    banana   2.2
+6:     2 tangerine   2.3
+7:     3     mango   3.1
+8:     3    banana   3.2
+9:     3 tangerine   3.3
 ```
 
 ## Long to Wide
@@ -420,14 +512,10 @@ Let's create a long dataset:
 
 Using base `reshape()` for long-to-wide transformation is simpler than wide-to-long:
 
-\begin{figure}
-
-{\centering \includegraphics[width=1\linewidth]{R_reshape_long2wide} 
-
-}
-
-\caption{`reshape()` syntax for Long to Wide transformation.}(\#fig:longWideSyntax)
-\end{figure}
+<div class="figure" style="text-align: center">
+<img src="R_reshape_long2wide.png" alt="`reshape()` syntax for Long to Wide transformation." width="100%" />
+<p class="caption">(\#fig:longWideSyntax)`reshape()` syntax for Long to Wide transformation.</p>
+</div>
 
 
 ```r
@@ -482,10 +570,12 @@ dat_long2wide_dt
 ```
 
 ```
-   ID banana mango tangerine
-1:  1    1.2   1.1       1.3
-2:  2    2.2   2.1       2.3
-3:  3    3.2   3.1       3.3
+Key: <ID>
+      ID banana mango tangerine
+   <num>  <num> <num>     <num>
+1:     1    1.2   1.1       1.3
+2:     2    2.2   2.1       2.3
+3:     3    3.2   3.1       3.3
 ```
 
 ## Feature transformation with `transform()`
@@ -526,20 +616,6 @@ but can be useful when adding multiple variables and/or used in a [pipe](#pipe):
 
 ```r
 library(magrittr)
-```
-
-```
-
-Attaching package: 'magrittr'
-```
-
-```
-The following object is masked from 'package:tidyr':
-
-    extract
-```
-
-```r
 dat %>% 
   subset(Sex == 0) %>%
   transform(DeltaWeightFromMean = Weight - mean(Weight),

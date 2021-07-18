@@ -12,18 +12,14 @@ There are 5 main data structures in R:
 
 Homogeneous vs. hetereogeneous refers to the kind of data types (integer, double, character, logical, factor, etc.) that a structure can hold. This means a matrix can hold only numbers or only characters, but a data frame can hold different types in different columns. That is why data frames are very popular data structure for statistical work.
 
-\begin{figure}
+<div class="figure" style="text-align: center">
+<img src="./R_datastructures.png" alt="R Data Structure summary - Best to read through this chapter first and then refer back to this figure" width="100%" />
+<p class="caption">(\#fig:FigRDataStructures)R Data Structure summary - Best to read through this chapter first and then refer back to this figure</p>
+</div>
 
-{\centering \includegraphics[width=18.83in]{./R_datastructures} 
-
-}
-
-\caption{R Data Structure summary - Best to read through this chapter first and then refer back to this figure}(\#fig:FigRDataStructures)
-\end{figure}
-
-\begin{info}
-\textbf{Check object class with \texttt{class()} and/or \texttt{str()}.}
-\end{info}
+<div class="rmdtip">
+<p><strong>Check object class with <code>class()</code> and/or <code>str()</code>.</strong></p>
+</div>
 
 ## Initialize - coerce - test (structures)
 
@@ -99,8 +95,8 @@ NULL
 ```
 
 ```
- [1] -0.58371358 -0.89986818 -1.21984954 -1.69780709  0.67515971 -0.46769460
- [7]  0.08998513 -0.47471458 -2.61724883 -0.23993454
+ [1] -1.35729355 -0.17401927  0.72204532 -0.58666196 -0.27635526  0.11403352
+ [7]  0.21980288  0.60820531  1.07122077  0.08645424
 ```
 
 ```r
@@ -124,7 +120,7 @@ seq(10)
 ```
 
 ```
- [1] 74 88 62  3 58 86 50  7 21  6 80 44 14 59 63  9 65  5  1 89
+ [1] 81 25 27 18 69 19 55 28 68 77  3 23 30 89 88 47 83 59 74  9
 ```
 
 ### Generating sequences with `seq()`
@@ -224,16 +220,16 @@ x
 
 ```
       [,1] [,2] [,3]
- [1,]  789  753  375
- [2,]  185  162   64
- [3,]  813  583  275
- [4,]  166  850  777
- [5,]    3  159   34
- [6,]  870  737  436
- [7,]  308   59  507
- [8,]  550   83  338
- [9,]  837  427  426
-[10,]  417  421  822
+ [1,]   16  179    6
+ [2,]  709  333  334
+ [3,]  944  528  959
+ [4,]  304  223  817
+ [5,]  833   37  137
+ [6,]  946  943  531
+ [7,]  373  812  337
+ [8,]   38   91  371
+ [9,]  753  686  814
+[10,]  644  770  573
 ```
 
 ```r
@@ -244,12 +240,9 @@ class(x)
 [1] "matrix" "array" 
 ```
 
-\begin{note}
-A matrix has length (\texttt{length(x)}) equal to the number of all (i,
-j) elements or nrow * ncol (if \texttt{i} is the row index and
-\texttt{j} is the column index) and dimensions (\texttt{dim(x)}) as
-expected:
-\end{note}
+<div class="rmdnote">
+<p>A matrix has length (<code>length(x)</code>) equal to the number of all (i, j) elements or nrow * ncol (if <code>i</code> is the row index and <code>j</code> is the column index) and dimensions (<code>dim(x)</code>) as expected:</p>
+</div>
 
 
 ```r
@@ -607,7 +600,7 @@ plot(NULL, NULL,
 rasterImage(x/255, 0, 0, 100, 100)
 ```
 
-![](06-DataStructures_files/figure-latex/unnamed-chunk-24-1.pdf)<!-- --> 
+<img src="06-DataStructures_files/figure-html/unnamed-chunk-24-1.png" width="960" />
 
 ## Lists
 
@@ -634,7 +627,7 @@ str(x)
 ```
 List of 4
  $ one  : int [1:4] 1 2 3 4
- $ two  : num [1:10] 42 50.9 53.1 11.2 0 47.9 55.4 56.8 64.2 55.2
+ $ two  : num [1:10] 93 88.3 1.5 6.4 59 0.3 47.6 21.3 10 70.8
  $ three: chr [1:3] "mango" "banana" "tangerine"
  $ four :function (x, na.rm = FALSE, ...)  
 ```
@@ -655,19 +648,19 @@ x
 
 ```
 $alpha
-[1] "r" "z" "m" "t"
+[1] "h" "o" "j" "s"
 
 $beta
- [1]  2 10  3  5  1  6  8  9  7 11  4 12
+ [1] 10  3  8  6  2  5 12  1 11  4  7  9
 
 $gamma
 $gamma$i
- [1] -0.6668076  2.0549929 -0.4238642 -0.4842669 -0.8476532 -0.5907072
- [7]  0.7108277 -1.8806911 -1.1756815  0.6060033
+ [1]  0.5290556 -1.2398235 -1.6173183 -0.6789616 -0.9134492 -2.0005783
+ [7] -0.5454861 -1.5152150  0.7971989  0.7048375
 
 $gamma$j
- [1] 0.22827651 0.97811864 0.04831228 0.79990941 0.65935084 0.43072323
- [7] 0.63118740 0.65953034 0.06062042 0.09970150
+ [1] 0.91233849 0.65399351 0.01894437 0.09168926 0.02034618 0.15613555
+ [7] 0.93340396 0.07713521 0.27690165 0.20806928
 
 $gamma$j
  [1]    0.0000  111.1111  222.2222  333.3333  444.4444  555.5556  666.6667
@@ -785,7 +778,7 @@ If you pass more types of objects (which cannot be coerced to character) you get
 [[2]]
 function (x, ...) 
 UseMethod("mean")
-<bytecode: 0x7fe8e21d9350>
+<bytecode: 0x7f9d0f06be08>
 <environment: namespace:base>
 
 [[3]]
@@ -800,19 +793,15 @@ class(x)
 [1] "list"
 ```
 
-\begin{note}
-Other than concatenating vectors of the same type or lists into a larger
-list, it probably best to avoid using \texttt{c()} and directly
-constructing the object you want using, e.g.~\texttt{list()}.
-\end{note}
+<div class="rmdnote">
+<p>Other than concatenating vectors of the same type or lists into a larger list, it probably best to avoid using <code>c()</code> and directly constructing the object you want using, e.g. <code>list()</code>.</p>
+</div>
 
 ##  Data frames
 
-\begin{note}
-A data frames is a \textbf{special type of list} where each element has
-the same length and forms a column, resulting in a 2D structure. Unlike
-matrices, each column can contain a different data type.
-\end{note}
+<div class="rmdnote">
+<p>A data frames is a <strong>special type of list</strong> where each element has the same length and forms a column, resulting in a 2D structure. Unlike matrices, each column can contain a different data type.</p>
+</div>
 
 
 ```r
@@ -824,11 +813,11 @@ x
 
 ```
   Feat_1     Feat_2 Feat_3
-1      1  0.1139031 rnd_32
-2      2  0.8674226 rnd_21
-3      3 -1.1174872 rnd_15
-4      4 -0.4318017 rnd_10
-5      5  0.4467293 rnd_46
+1      1  0.6474669 rnd_77
+2      2 -0.7492012 rnd_40
+3      3  1.1259356 rnd_92
+4      4  1.4090972 rnd_46
+5      5 -0.4387670 rnd_64
 ```
 
 ```r
@@ -846,8 +835,8 @@ str(x)
 ```
 'data.frame':	5 obs. of  3 variables:
  $ Feat_1: int  1 2 3 4 5
- $ Feat_2: num  0.114 0.867 -1.117 -0.432 0.447
- $ Feat_3: chr  "rnd_32" "rnd_21" "rnd_15" "rnd_10" ...
+ $ Feat_2: num  0.647 -0.749 1.126 1.409 -0.439
+ $ Feat_3: chr  "rnd_77" "rnd_40" "rnd_92" "rnd_46" ...
 ```
 
 ```r
@@ -1050,10 +1039,10 @@ x
 ```
 
 ```
-      Value1       Value2       Value3       Value4       Value5       Value6 
--0.262001868  0.914904183 -1.721527420 -1.599504301  0.654998648  0.525585734 
-      Value7       Value8       Value9      Value10 
- 0.938582676 -0.121320715 -0.519416220 -0.006049031 
+     Value1      Value2      Value3      Value4      Value5      Value6 
+-0.48529017 -0.57484697  0.70412738 -0.58856069 -0.10195199  0.62762803 
+     Value7      Value8      Value9     Value10 
+ 0.84235051  0.41880560  0.06155904  0.94806511 
 ```
 
 Matrices and data frames can have column names (`colnames`) and row names (`rownames`):

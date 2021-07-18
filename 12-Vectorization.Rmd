@@ -1,0 +1,121 @@
+# Vectorized Operations {#vectorization}
+
+```{r echo = FALSE}
+knitr::opts_chunk$set(fig.width = 10, fig.height = 5,
+                      comment = NA, cache = TRUE) 
+```
+
+Most built-in R functions are vectorized and many functions from external packages are as well.
+
+```{block, type="rmdtip"}
+A vectorized function operates on all elements of a vector at the same time.
+```
+
+Vectorization is very efficient: it can save both human (your) time and machine time.  
+In many cases, applying a function on all elements simultaneously may seem obvious or expected behavior, but since not all functions are vectorized, make sure to check the documentation if unsure.
+
+## Operations between vectors of equal length
+
+Such operations are applied between corresponding elements of each vector:
+
+```{r}
+x <- 1:10
+z <- 11:20
+x
+z
+x + z
+```
+i.e. the above is equal to `c(x[1] + z[1], x[2] + z[2], ..., x[n] + z[n])`
+
+## Operations between a vector and a scalar
+
+In this cases, the scalar is essentially recycled, i.e. repeated to match the length of the vector:
+
+```{r}
+(x + 10)
+(x * 2)
+(x / 10)
+(x ^ 2)
+```
+
+## Operations between vectors of unequal length: **value recycling**
+
+Operations between a vector and a scalar are a special case of operations between vectors of unequal length. Whenever you perform an operation between two objects of different length, ***the shorter object's elements are recycled***:
+
+```{r}
+x + c(2:1)
+```
+
+```{block, type="rmdcaution"}
+Operations between objects of unequal length can occur by mistake. If the shorter object's length is a multiple of the longer object's length, there will be *no error or warning*, as above. Otherwise, there is a warning (which may be confusing at first) BUT ***recycling still happens and is highly unlikely to be intentional***:
+```
+
+```{r}
+x + c(1, 3, 9)
+```
+
+## Vectorized matrix operations
+
+Operations between matrices are similarly vectorized, i.e. performed between corresponding elements:
+
+```{r}
+a <- matrix(1:4, 2)
+b <- matrix(11:14, 2)
+a
+b
+a + b
+a * b
+a / b
+```
+
+## Vectorized functions
+
+Some examples of common mathematical operations that are vectorized:
+
+```{r}
+log(x)
+sqrt(x)
+sin(x)
+cos(x)
+```
+
+## `ifelse()`
+
+`ifelse()` is vectorized and can be a great and compact alternative to a more complicated expression:
+
+```{r}
+a <- 1:10
+(y <- ifelse(a > 5, 11:20, 21:30))
+```
+
+so what did this do?
+
+It is equivalent to:
+
+```{r}
+idl <- a > 5
+yes <- 11:20
+no <- 21:30
+out <- vector("numeric", 10)
+for (i in seq(a)) {
+  if (idl[i]) {
+    out[i] <- yes[i]
+  } else {
+    out[i] <- no[i]
+  }
+}
+out
+```
+i.e.
+
+* Create a logical index using `test`
+* for each element `i` in `test`:
+    * if the element `i` is TRUE, return `yes[i]`, else `no[i]`
+
+For another example, lets take integers `1:11` and square the odd ones and cube the even ones. We use the modulo operation `%%` to test if each element is odd or even:
+
+```{r}
+x <- 1:11
+xsc <- ifelse(x %% 2 == 0, c(1:11)^3, c(1:11)^2)
+xsc
+```

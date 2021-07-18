@@ -1,4 +1,4 @@
-# Introduction
+# Introduction {#introduction}
 
 
 
@@ -15,10 +15,10 @@ x[1:20]
 ```
 
 ```
- [1]  1.36733704  1.36923924 -1.80234101  1.39115214 -0.55392449 -0.88017063
- [7]  0.40075800  0.01844506  0.40376335  1.10458735  0.82321280 -1.25445959
-[13]  0.96665185  0.92676550 -2.62644808  1.83369051 -0.01109560 -0.95149158
-[19] -0.23366163  0.53709415
+ [1] -0.13906780 -1.64420314 -0.48452659 -0.71603328 -1.15571102  0.72398398
+ [7]  0.30011492  0.80836850 -1.12984315 -0.32822436  0.99793257  1.17067472
+[13] -2.04040837 -0.26386836 -0.79917908 -0.16000738  0.12311188 -0.98353748
+[19]  0.06112871 -1.66684105
 ```
 
 Notice that R adds numbers in brackets in the beginning of each row. This happens when R prints the contents of a vector. The number is the integer index of the first element in that row. Therefore, the first one is always `[1]` and the number of the subsequent rows depends on how many elements fit in each line. If the output is a single element, it will still have `[1]` in front of it.  
@@ -48,19 +48,27 @@ y
 
 Note that if you mouse over the input code box, a clickable "Copy to clipboard" appears on the top right of the box allowing you to copy paste into an R session or file.
 
-Lastly, you will see the following Info, Note, or Warning boxes at times:
+Lastly, you will see the following informational boxes at times:
 
-\begin{info}
-This is some info
-\end{info}
+<div class="rmdnote">
+<p>Note</p>
+</div>
 
-\begin{note}
-This is a note
-\end{note}
+<div class="rmdtip">
+<p>Tip</p>
+</div>
 
-\begin{warning}
-This is a warning
-\end{warning}
+<div class="rmdimportant">
+<p>Important</p>
+</div>
+
+<div class="rmdwarning">
+<p>Warning</p>
+</div>
+
+<div class="rmdcaution">
+<p>Caution</p>
+</div>
 
 This book was created using [bookdown](https://CRAN.R-project.org/package=bookdown) [@R-bookdown]
 <br/>  

@@ -12,16 +12,16 @@ old.hooks <- fansi::set_knit_hooks(knitr::knit_hooks)
 options(crayon.enabled = TRUE)
 ```
 
-This is a very brief introduction to machine learning using the [**rtemis**](https://rtemis.lambdamd.org) package. **rtemis** includes a large number of functions for:
+This is a very brief introduction to machine learning using the [**rtemis**](https://rtemis.lambdamd.org) package. **rtemis** includes functions for:
 
+- Visualization: static & interactive plots
 - Data preprocessing
 - Unsupervised learning: clustering & dimensionality reduction
 - Supervised learning: regression & classification
-- Visualization: static & dynamic (interactive) plots
 
 ## Installation
 
-If you do not have the **remotes** package, install it first:
+install the **remotes** package, if you don't have it: 
 
 ```{r eval=FALSE}
 install.packages("remotes")
@@ -33,9 +33,9 @@ Install **rtemis**:
 remotes::install_github("egenn/rtemis")
 ```
 
-**rtemis** uses multiple packages under the hood. Since you would not ever need to use all of the functions that rely on all of the packages, they are not installed by default as that would be very wasteful. Every time you call an **rtemis** function, it first checks if the required packages are present, and if not it identifies which one/s is/are needed by the specific function so that you can install them and procede.  
+**rtemis** uses a large number of packages under the hood. Since you would not need to use all of them, they are not installed by default. Each time an **rtemis** function is called, a dependency check is run and a message is printed if any packages need to be installed. 
 
-For this short tutorial, start by installing the following, if not already on your system:
+For this short tutorial, start by installing **ranger**, if it is not already installed on your system:
 
 ```{r eval=FALSE}
 install.packages("ranger")
@@ -103,7 +103,6 @@ The `dataPrepare()` function will check data dimensions and determine whether da
 
 In either scenario, Regression will be performed if the outcome is numeric and Classification if the outcome is a factor.
 
-
 ## Regression
 
 ### Check Data with `checkData()`
@@ -121,7 +120,6 @@ dat.test <- dat[-res$Subsample_1, ]
 ```{r}
 checkData(x)
 ```
-
 
 ### Single Model
 
@@ -145,7 +143,6 @@ mod$describe()
 mod$plot()
 ```
 
-
 ## Classification
 
 ### Check Data
@@ -163,7 +160,6 @@ sonar.test <- Sonar[-res$Subsample_1, ]
 ```{r}
 mod <- s.RANGER(sonar.train, sonar.test)
 ```
-
 
 ### Crossvalidated Model
 
@@ -187,6 +183,68 @@ mod$plotROC()
 mod$plotPR()
 ```
 
-## **rtemis** documentation
+### Evaluation of a binary classifier
+
+```{r Classification, echo = FALSE, out.width = "100%", fig.align = 'center', fig.cap = "Evaluation metrics for a binary classifier"}
+knitr::include_graphics("./Classification.png")
+```
+
+## Understanding Overfitting
+
+Overfitting occurs when a model fits noise in the outcome. To make this clear, consider the following example:
+
+Assume a random variable **x**:
+
+```{r}
+set.seed(2020)
+x <- sort(rnorm(500))
+```
+
+and a data-generating function `fn()`:
+
+```{r}
+fn <- function(x) 12 + x^5
+```
+
+The true y is therefore equal to `fn(x)`:
+
+```{r}
+y_true <- fn(x)
+```
+
+However, assume y is recorded with some noise, in this case gaussian:
+
+```{r}
+y_noise <- fn(x) + rnorm(500, sd = sd(y_true))
+```
+
+We plot:
+
+```{r}
+mplot3.xy(x, list(y_noise = y_noise, y_true = y_true))
+```
+
+We want to find a model that best approximates `y_true`, but we only know `y_noise`.  
+
+A maximally overfitted model would model noise perfectly:
+
+```{r}
+mplot3.xy(x, list(Overfitted_model = y_noise, Ideal_model = y_true), type = "l")
+```
+
+An example of an SVM set up to overfit heavily:
+
+```{r}
+mplot3.xy(x, y_noise, fit = "svm",
+          fit.params = list(kernel = "radial", cost = 100, gamma = 100))
+```
+
+An example of a good approximation of `fn` using a GAM with penalized splines:
+
+```{r}
+mplot3.xy(x, y_noise, fit = "gam")
+```
+
+## **rtemis** Documentation
 
 For more information on using **rtemis**, see the [rtemis online documentation and vignettes](https://rtemis.lambdamd.prg)

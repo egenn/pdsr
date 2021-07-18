@@ -1,4 +1,6 @@
-Welcome to Programming for Data Science in R!
+# Programming for Data Science in R (PDSR)
 
-San Francisco, Fall 2020
+This repository holds the code for the online PDSR book found at
+https://class.lambdamd.org/pdsr
+
 EDG

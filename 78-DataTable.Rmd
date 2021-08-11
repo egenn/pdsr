@@ -491,6 +491,43 @@ dcast(dt_long, ID ~ Timepoint,
       value.var = "Score")
 ```
 
+#### `dcast()` + aggregate
+
+If your `ID ~ Timepoint` combination does not define a unique row in your input dataset, you need to specify an aggregate function.
+
+For example, suppose you have four subjects with IDs "A", "B", "C", "D" who had a couple variables measured 3 times in the AM and 3 times in the PM.
+
+```{r}
+dt_long2 <- data.table(ID = rep(LETTERS[1:4], each = 6),
+                      Timepoint = rep(c("AM", "PM"), length.out = 24, each = 3),
+                      Var1 = rnorm(24, 10),
+                      Var2 = rnorm(24, 20))
+
+dt_long2[sample(24, 4), Var1 := NA]
+dt_long2[sample(24, 4), Var2 := NA]
+dt_long2
+```
+
+If you wanted to convert the above data.table to wide format and get mean AM and PM values using the `fun.aggregate` argument:
+
+```{r}
+dcast(dt_long2,
+      ID ~ Timepoint,
+      value.var = c("Var1", "Var2"),
+      fun.aggregate = mean, na.rm = T)
+```
+
+You can apply multiple aggregating functions by passing a list to `fun.aggregate`:
+
+```{r}
+dcast(dt_long2,
+      ID ~ Timepoint,
+      value.var = c("Var1", "Var2"),
+      fun.aggregate = list(mean, max, min), na.rm = T)
+```
+
+Note how `na.rm = T` was successfully applied to all aggregating functions
+
 ## Table Joins
 
 `data.table` allow you to perform table joins with the base `merge()` function using the same syntax as for data.frame objects or the "data.table way" using bracket notation:

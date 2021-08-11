@@ -73,13 +73,15 @@ knitr::include_graphics("./R_dataio.png")
 ### Read local CSV
 
 `read.table()` is the core function that reads data from formatted text files in R, where cases correspond to lines and variables to columns. Its many arguments allow to read different formats.  
-`read.csv()` is an alias for `read.table()` that defaults to commas as separators and dots for decimal points. (Run `read.csv` in the console to print its source and see for yourself and read the documentation with `?read.table`). 
+
+`read.csv()` is an alias for `read.table()` that defaults to commas as separators and dots for decimal points. (Run `read.csv` in the console to print its source read the documentation with `?read.table`). 
 
 Some important arguments for `read.table()` listed here with their default values for `read.csv()`:
 
 * `sep = ","`: Character that separate entries. Default is a comma; use "\t" for tab-separated files (default setting in `read.delim()`)
 * `dec = "."`: Character for the decimal point. Default is a dot; in some cases where a comma is used as the decimal point, the entry separator `sep` may be a semicolon (default setting in `read.csv2()`)
 * `na.strings = "NA"`: Character vector of strings to be coded as "NA"
+* `colClasses = NA`: Either a character vector defining each column's type (e.g. c("character", "numeric", "numeric") recycled as necessary *or* a named vector defining specific columns' types (e.g. c(ICD9 = "character", Sex = "factor", SBP = "numeric", DOB = "Date")). Unspecified columns automatically determined. Note: Set a column to "NULL" (with quotes) to exclude column.
 
 ```{r eval = FALSE}
 men <-  read.csv("../Data/pone.0204161.s001.csv")

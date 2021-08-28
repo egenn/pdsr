@@ -7,20 +7,20 @@ knitr::opts_chunk$set(fig.width = 10, fig.height = 5,
 
 Code is often not executed linearly (i.e. line-by-line). Control flow (or flow of control) operations define the order in which code segments are executed.
 
-Execution is often conditional (`if - then - else` or `switch`).
+Execution is often conditional (`if - else` or `switch`).
 
 Segments of code may be repeated multiple times (`for`) or as long as certain conditions are met (`while`).
 
 Control flow operations form some of the fundamental building blocks of programs. Each operation is very simple - combine enough of them and you can build up to any amount of complexity.
 
-* `if` [Condition] `then` [Expression] `else` [Alternate Expression]
+* `if` [Condition] [Expression] `else` [Alternate Expression]
 * `for` [Variable in Sequence] do [Expression]
 * `while` [Condition] do [Expression]
 * `repeat` [Expression] until `break`
 * `break`: break out of `for`, `while` or `repeat` loop
 * `next`: skip current iteration and proceed to next
 
-## `if` - `then` - `else`:
+## `if` - `else`:
 
 ```{r}
 a <- 4
@@ -31,7 +31,7 @@ if (a < 10) {
 }
 ```
 
-## `if` - `then` - `else if` - `else`:
+## `if` - `else if` - `else`:
 
 ```{r}
 a <- sample(seq(-2, 2, .5), 1)
@@ -79,11 +79,12 @@ a <- 1:10
 Use `for` loops to repeat execution of a block of code a certain number of times.
 ```
 
-The  for loop syntax is `for (var in vector) expression`.  
+The for loop syntax is `for (var in vector) expression`.
+
 The `expression` is usually surrounded by curly brackets and can include any number of lines, any amount of code:
 
 ```{r}
-for (i in 1:5) {
+for (i in 1:3) {
   print("I love coffee")
 }
 ```
@@ -106,7 +107,7 @@ for (letter in letters[1:5]) {
 }
 ```
 
-### Working on data within a for loop {fordata}
+### Working on data within a for loop {#fordata}
 
 A common scenario involves working on a data object, whether a vector, matrix, list, data.frame, and performing an operation on each elements, one at a time. While a lot of these operations are often performed using [loop functions](#loopfns) instead, for loops can certainly be used.
 
@@ -123,6 +124,7 @@ dim(mtcars)
 mtcars_z <- data.frame(matrix(0, 32, 11))
 colnames(mtcars_z) <- colnames(mtcars)
 ```
+
 or, it is much simpler to just make a copy of `mtcars` to be overwritten by the for loop later:
 
 ```{r}
@@ -163,6 +165,40 @@ for (i in seq(3)) {
   for (j in seq(3)) {
     cat("  a[", i, ",", j, "] is ", a[i, j], "\n", sep = "")
   }
+}
+```
+
+### Printing within a `for` loop
+
+In the R console objects get printed just by typing their name:
+
+```{r}
+a <- 4
+a
+# same as
+print(a)
+```
+
+This "automatic printing" does not happen within a `for` loop, so you simply use `print()` 
+(or `cat()` as preferred):
+
+The following loop does not print out anything:
+
+```{r}
+a <- 0
+for (i in 1:4) {
+  a <- a + i^2
+  a
+}
+```
+
+but this does:
+
+```{r}
+a <- 0
+for (i in 1:4) {
+  a <- a + i^2
+  print(a)
 }
 ```
 
@@ -238,7 +274,7 @@ cat("when all is said and done, a is", a)
 
 ```{r}
 for (i in seq(10)) {
-  if (i == 5) break()
+  if (i == 5) break
   cat(i, "squared is", i^2, "\n")
 }
 ```
@@ -247,20 +283,20 @@ for (i in seq(10)) {
 
 ```{r}
 for (i in seq(7)) {
-  if (i == 5) next()
+  if (i == 5) next
   cat(i, "squared is", i^2, "\n")
 }
 ```
 
 ## `repeat` loops
 
-`repeat` initiates an infinite loop and you **must** use `break` to exit. Probably best to use any other type of loop instead.
+A `repeat` block initiates an infinite loop and you **must** use `break` to exit.
 
 ```{r}
 i <- 10
 repeat {
  i <- i - 1
- if (i == 0) break()
+ if (i == 0) break
  cat("i is", i, "\n")
 }
 ```

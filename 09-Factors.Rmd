@@ -7,15 +7,42 @@ knitr::opts_chunk$set(fig.width = 5, fig.height = 5,
 
 Factors in R are used to store **categorical variables** and therefore have many important uses in statistics / data science / machine learning.  
 
+For example, factors can be used to store information on sex, race, diagnosis, treatment
+group, etc.
+
 ```{r FigRFactors, echo = FALSE, out.width = "80%", fig.align = 'center', fig.cap = "Factors in R - Best to read through this chapter first and then refer back to this figure"}
 knitr::include_graphics("./R_factors.png")
 ```
 
-You can create a factor by passing a numeric or character vector to `factor()` or `as.factor()`.  
-The difference is that `as.factor()` does not accept any arguments while `factor()` does - and they can be very important. More on this right below.
+If you are new to R and to factors, read the "Factors (introductory)" section.
+
+## Factors (introductory)
+
+```{block, type="rmdnote"}
+Factors in R are a special type of vector.
+
+- Each element can take a value from a set of values known as the factor's levels
+
+- A factor's levels are stored in a particular order, which affects how that factor is treated by some functions.
+
+- You can specify whether the order of the levels defines a quantitative relationship such that level1 < level2, etc.
+```
+
+You can create a factor by passing a numeric or character vector to `factor()` or to `as.factor()`.  
+The difference is that `as.factor()` does not accept any arguments while `factor()` does.
+
+Let's start with a character vector that includes three unique values - "a", "b", and "c":
 
 ```{r}
-x <- c("a", "c", "d", "b", "a", "a", "d", "c")
+x <- c("a", "c", "b", "b", "a", "a", "b", "c")
+x
+```
+
+Assume that "a", "b", and "c" define three different groups and we want to convert this 
+character vector to a factor.  
+`as.factor()` and `factor()` without any arguments produce the same output:
+
+```{r}
 xf <- factor(x)
 xf
 class(xf)
@@ -24,7 +51,117 @@ xftoo
 class(xftoo)
 ```
 
+Notice that when a factor is printed in the R console: 
+
+- The elements are printed without double quotes around them, differentiating them from character 
+vectors.
+- The factor levels are printed below the vector values.
+
+`table()` is a very useful function for factors - it gives the counts for each level:
+
+```{r}
+table(xf)
+```
+
+Let's look at a different example. We define a factor to identify cases and controls:
+
+```{r}
+g <- factor(c("case", "control", "control", "case", "control"))
+g
+```
+
+By default, the levels are ordered alphabeticaly.
+
+### Set the order of factor levels
+
+You can define the order of the factor levels with the `level` argument of the `factor()` function.
+
+(For example, the first factor level is used as the baseline in some statistical operations, e.g. `glm()`, in which case the "control" level should be first.)
+
+```{r}
+g <- factor(c("case", "control", "control", "case", "control"),
+            levels = c("control", "case"))
+g
+```
+
+The `levels` argument can include values not present in the input data vector. This may be used for example when some known categories are not present in your sample, but may be added in the future, 
+or you want specifically show they are absent in a table or a plot, etc.
+
+
+```{r}
+g <- factor(c("Type I", "Type III", "Type III", "Type I"),
+            levels = c("Type I", "Type II", "Type III"))
+g
+```
+
+On the other hand, if the `levels` argument is specified and does not include one or more of the values present in the input data vector, the corresponding elements become `NA`:
+
+```{r}
+g <- factor(c("case", "control", "undefined", "control", "case", "control", "undefined"),
+            levels = c("control", "case"))
+g
+```
+
+### Define level labels
+
+You can define level names or labels other than the values in the input vector using
+the `labels` argument:
+
+Assume you started with the following character vector
+
+```{r}
+x <- c("female", "female", "male", "female", "male")
+```
+
+You can attach different labels to each level rather than default to "female" and "male"
+by passing a character vector to the `labels` arguments:
+
+```{r}
+xf <- factor(x, labels = c("F", "M"))
+xf
+```
+
+The order of names in the `labels` argument must match the order of levels. In the above example, the levels default to `c("female", "male")` because they are sorted alphabeticaly if not specified.
+Otherwise, we can specify both the `levels` and `labels` arguments to define both order of levels and provide new labels:
+
+```{r}
+xf <- factor(x, levels = c("male", "female"), labels = c("M", "F"))
+xf
+```
+
+### Change level labels of existing factor
+
+We can change the level labels of a factor object 
+
+- using the `factor()` command in the same way we create a factor from a character or other vector
+- using the `levels()` command
+
+Start with a factor of two groups and change labels using the `factor()` command:
+
+```{r}
+xf <- factor(c("GroupA", "GroupB", "GroupB", "GroupA"))
+xf <- factor(xf, labels = c("A", "B"))
+xf
+```
+
+Start with the same factor and  change labels using the `levels()` command.
+
+This is similar to using `colnames()` on a data.frame and is much faster than using `factor()` as above:
+
+```{r}
+xf <- factor(c("GroupA", "GroupB", "GroupB", "GroupA"))
+levels(xf) <- c("A", "B")
+xf
+```
+
+```{block, type="rmdcaution"}
+The `levels()` command changes the names of the levels. It cannot be used to change the order of levels, which must be done with `factor()`
+```
+
+## Factors (advanced)
+
 ```{block, type="rmdnote"}
+A factor is a vector
 A factor contains three crucial pieces of information:
 
 1. The underlying **integer vector**
@@ -47,7 +184,7 @@ Internally, the command sees there are two distinct labels, female and male, and
 
 Printing a factor prints the vector of labels followed by the levels, i.e. the unique labels.  
 
-## The underlying **integer vector**
+### The underlying **integer vector**
 
 Each level is assigned an integer. (Internally, this is the "data" that forms the elements of a factor vector). You don't see these integers unless you convert the factor to numeric (`as.numeric()`) or look at the (truncated) output of `str()`
 
@@ -55,7 +192,7 @@ Each level is assigned an integer. (Internally, this is the "data" that forms th
 as.numeric(x)
 ```
 
-## The **mapping of integers to labels**
+### The **mapping of integers to labels**
 
 This defines which integer is mapped to which label, i.e. whether 1 is mapped to male or female. You can store the same information regardless which one you choose to call 1 and 2. 
 
@@ -64,16 +201,18 @@ To get the mapping you can use `levels()`. It prints the labels in order:
 ```{r}
 levels(x)
 ```
+
 Again, this means that female is mapped to 1 and male is mapped to 2.
 
 ```{r}
 str(x)
 ```
+
 The above tells you that x is a factor,  
 it has two levels labeled as "female" and "male", in that order, i.e. female is level 1 and male is level 2.    
 The last part shows that the first five elements (in this case the whole vector) consists of three elements of level 1 (female) followed by 2 elements of level 2 (male)
 
-### Setting new level labels
+#### Setting new level labels
 
 You can use the `levels()` command with an assignment to assign new labels to a factor (same syntax to how you use `rownames()` or `colnames()` to assign new row or column names to a matrix or data frame)
 
@@ -89,7 +228,7 @@ levels(xf) <- c("positive", "negative")
 xf
 ```
 
-### Defining the mapping of labels to integers
+#### Defining the mapping of labels to integers
 
 If you want to define the mapping of labels to their integer representation (and not default to them sorted alphabeticaly), you use the `levels` arguments of the `factor()` function.  
 
@@ -135,7 +274,7 @@ x
 table(x)
 ```
 
-## Is the factor **ordered**
+### Is the factor **ordered**
 
 We looked at how you can define the order of levels using the `levels` argument in `factor()`, which affects the integer mapping to each label.
 
@@ -168,7 +307,7 @@ x
 
 Note how the levels now include the `<` sign between levels to indicate the ordering.
 
-## Change (order of levels) or (labels)
+### Change order of levels or labels
 
 We've seen how to create a factor with defined order of levels and how to change level labels already. Because these are prone to serious accidents, let's look at them again, together.
 
@@ -185,6 +324,7 @@ Change the order so that target is first (i.e. corresponds to 1:
 x <- factor(x, levels = c("target", "control"))
 x
 ```
+
 **To change the labels of the levels** use `levels()`:
 
 ```{r}
@@ -197,7 +337,7 @@ x
 Changing the levels of a factor with `levels()` does not change the internal integer representation but changes every element's label. 
 ```
 
-## Fatal error to avoid
+### Fatal error to avoid
 
 Example scenario: You receive a dataset for classification where the outcome is a factor of 1s and 0s:
 
@@ -218,13 +358,9 @@ outcome
 
 All zeros became ones and ones became zeros.
 
-You don't notice because how would you.
-
 Your model does the exact opposite of what you intended.
 
--> Don't ever do this.
-
-## Factor to numeric
+### Factor to numeric
 
 While it often makes sense to have factors with words for labels, they can be any character and that includes numbers (i.e. numbers which are treated as labels)
 
@@ -274,9 +410,9 @@ as.numeric(as.character(f))
 
 - Each integer corresponds to a label.
 
-- Use `factor(levels = c(...))` to order levels
+- **To set order of levels**: `factor(x, levels = levels_in_desired_order)` to order levels
 
-- Use `levels(x)` to change levels' labels
+- **To change labels**: `levels(x) <- newlabels` or `factor(x, labels = newlabels)`   
 ```
 
 ```{block, type="rmdnote"}

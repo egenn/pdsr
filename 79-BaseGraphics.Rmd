@@ -21,6 +21,7 @@ R has powerful graphical capabilities built in to the core language. This chapte
 | Barplot       | `barplot(x)`             |
 | Boxplot       | `boxplot(x)`             |
 | Heatmap       | `heatmap(x)`             |
+| Mosaic plot   | `mosaicplot(table(x))`   |
 
 R documentation for each of the above commands provides extensive coverage of graphical parameters. `?par` gives the main documentation file for a long list of graphical parameters. These can be set either with the `par()` command before using any plotting command. 
 
@@ -53,7 +54,7 @@ Some common ways include:
 - By RGB code
 
 ```{r}
-plot(x, y, col = "slateblue")
+plot(x, y, col = "red")
 ```
 
 ### **`bty`**: box type
@@ -411,10 +412,47 @@ To allow clustering and row and column reordering, use the defaults:
 heatmap(x_cor)
 ```
 
+## Mosaic plot
+
+Mosaic plots are used to visualize contingency tables. They can be informative to look at during data exploration. They are less likely to be included in a research article where the table itself is more likely to be included.
+
+Synthetic data:
+
+```{r}
+set.seed(2021)
+Cohort <- factor(sample(c("Control", "Case"), 500, TRUE),
+                 levels = c("Control", "Case"))
+Sex <- factor(
+  sapply(seq(Cohort), \(i) sample(c("Male", "Female"), 1,
+                                  prob = if (Cohort[i] == "Control") c(1, 1) else c(2, 1))))
+```
+
+Use `mosaicplot()` on the output of `table()`:
+
+```{r}
+mosaicplot(table(Cohort), main = "Cases vs. Controls")
+```
+
+We can plot the breakdown of sexes, this time also adding color:
+
+```{r}
+mosaicplot(table(Sex), main = "Males vs. Females",
+           col = c("orchid", "skyblue"))
+```
+
+Cross-tabulating is usually most informatively. We us the same color for the sexes, which will be recycled. We also remove the border for a cleaner look:
+
+```{r}
+mosaicplot(table(Cohort, Sex),
+           color = c("orchid", "skyblue"),
+           border = NA,
+           main = "Cohort x Sex")
+```
+
 ## Graphical parameters
 
-The `par` function allows setting or querying graphical parameters of the base graphics system. Have a look at its documentation (`?par`).  
-Some graphical parameters can only be set with a call to `par` prior to using a base plotting function. However, many parameters can also be passed using the `...` construct of each base plotting function.  
+The `par()` function allows setting or querying graphical parameters of the base graphics system. Have a look at its documentation (`?par`).  
+Some graphical parameters can only be set with a call to `par()` prior to using a base plotting function. However, many parameters can also be passed using the `...` construct of each base plotting function.  
 
 Some common base graphical parameters:  
 

@@ -505,37 +505,3 @@ x.cor.long <- data.frame(NodeA = rownames(x.cor)[row(x.cor)],
 (p <- ggplot(x.cor.long, aes(NodeA, NodeB, fill = Weight)) +
     geom_tile() + coord_equal())
 ```
-
-## Saving plots to file
-
-### base
-
-You can save base graphics to disk using a number of different file formats. To do this, you have to:  
-
-* Open a graphic device - e.g. `pdf("path/to/xy_scatter.pdf")`
-* Write to it - e.g. `plot(x, y)`
-* Close graphic device - `dev.off()`
-
-The following commands are used to open graphical devices that will save to a file of the corresponding type:  
-
-* `bmp(filename = "path/to/file", width = [in pixels], height = [in pixels])`
-* `jpeg(filename = "path/to/file", width = [in pixels], height = [in pixels])`
-* `png(filename = "path/to/file", width = [in pixels], height = [in pixels])`
-* `tiff(filename = "path/to/file", width = [in pixels], height = [in pixels])`
-* `svg(filename = "path/to/file", width = [in INCHES], height = [in INCHES]`
-* `pdf(file = "path/to/file", width = [in INCHES], height = [in INCHES])`
-
-Notice that when writing to a vector graphics format (svg and pdf), you defined width and height in inches, not pixels. Also, you specify `file` instead of `filename` in 
-Notice the difference when writing to PDF: you define a `file` instead of a `filename`, and width and height are in INCHES, not pixels.  
-It is recommended to save plots in PDF format because it handles vector graphics therefore plots will scale, and it is easy to export to other graphics formats later on if needed.
-
-```{r eval = FALSE}
-pdf("~/Desktop/plot.pdf", width = 5, height = 5)
-plot(iris$Sepal.Length, iris$Petal.Length,
-     pch = 16,
-     col = "#18A3AC66",
-     cex = 1.8,
-     bty = "n", # also try "l"
-     xlab = "Sepal Length", ylab = "Petal Length")
-dev.off()
-```

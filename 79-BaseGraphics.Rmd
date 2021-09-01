@@ -38,7 +38,7 @@ y <- 12 + x^3 + 2.5 * rnorm(300)*1.5
 
 Input: 2 **numeric vectors**
 
-A 2D scatterplot displays of two numeric vectors as X and Y coordinates.
+A 2D scatterplot displays points using two numeric vectors as X and Y coordinates.
 
 ```{r}
 plot(x, y)
@@ -98,7 +98,7 @@ There are different ways to add transparency (see [Colors](#colors)). The easies
 ```{r}
 plot(x, y,
      bty = "n", pch = 16,
-     col = adjustcolor("slateblue", alpha.f = .5))
+     col = adjustcolor("skyblue", alpha.f = .5))
 ```
 
 ### grid
@@ -108,7 +108,7 @@ We can add a grid behind the plot area using the `panel.first` argument, which a
 ```{r}
 plot(x, y,
      bty = "n", pch = 16,
-     col = adjustcolor("slateblue", alpha.f = .5),
+     col = adjustcolor("skyblue", alpha.f = .5),
      panel.first = grid(lty = 1, col = 'gray90'))
 ```
 
@@ -117,7 +117,7 @@ plot(x, y,
 ```{r}
 plot(x, y,
      bty = "n", pch = 16,
-     col = adjustcolor("slateblue", alpha.f = .5),
+     col = adjustcolor("skyblue", alpha.f = .5),
      panel.first = grid(lty = 1, col = 'gray90'),
      main = "y vs. x",
      xlab = "Variable x (xunits)",
@@ -185,13 +185,13 @@ Let's look at the VADeaths built-in dataset which describes death rater per 1000
 
 ### Single vector
 
-We can plot a single column or row. Note how R automatically gets the corresponding dimension names:
+We can plot a single column or row. Note how R automatically gets the corresponding dimension names. For this example we use the builtin VADeaths dataset, which is a matrix.
 
-```{r}
+```{r, fig.width=6}
 barplot(VADeaths[, 1])
 ```
 
-```{r}
+```{r, fig.width=6}
 barplot(VADeaths[1, ])
 ```
 
@@ -199,7 +199,7 @@ barplot(VADeaths[1, ])
 
 As in most plotting functions, color is controlled by the **`col`** argument. **`border`** can be set to any color separately, or to `NA` to omit, which gives a clean look:
 
-```{r}
+```{r, fig.width=6}
 barplot(VADeaths[, 1],
         col = "aquamarine3", border = NA)
 ```
@@ -266,13 +266,14 @@ A boxplot shows:
 
 ```{r boxanat, echo=FALSE, fig.height=6, fig.width=5, fig.cap="Boxplot anatomy"}
 lty <- 3
-lwd <- 3
+lwd <- 2
+bg <- "gray10"
 
 # Data
 set.seed(2020)
 x <- rnorm(600)
-l <- .65
-r <- 1.35
+l <- .7
+r <- 1.3
 .min <- min(x)
 .max <- max(x)
 .median <- median(x)
@@ -287,12 +288,11 @@ r <- 1.35
 .max <- max(x)
 
 # boxplot
-par(bty = "none", bg = "black", mar = c(1, .5, 1, .5))
-boxplot(x, axes = FALSE, col = "gray40", border = "white")
-axis(2, col = "white", col.ticks = "white", col.axis = "white")
+par(bty = "none", bg = bg, mar = c(1, .5, 1, .5))
+boxplot(x, axes = FALSE, col = "gray40", border = "white", boxwex = .35)
 
 # '- median
-segments(l + .03, .median, r - .03, .median, 
+segments(l + .025, .median, r - .025, .median, 
          col = "#53FEBE", lty = lty, lwd = lwd)
 text(r, .median, "median", col = "#53FEBE", adj = c(0, .5))
 
@@ -322,7 +322,7 @@ segments(l - .085, .r[1], r + .085, .r[1],
 segments(l - .085, .r[2], r + .085, .r[2],
          col = "#FE4AA3", lty = lty, lwd = lwd)
 arrows(l - .085, .r[1], l - .085, .r[2], code = 3, col = "#FE4AA3")
-text(l - .11, .median, "Range excl. outliers", col = "#FE4AA3", adj = c(.5, 0), srt = 90)
+text(l - .11, .median, "Range excluding outliers", col = "#FE4AA3", adj = c(.5, 0), srt = 90)
 
 # '- outliers
 points(rep(1, sum(.outliers)), x[.outliers], col = "red", pch = 1)
@@ -456,24 +456,63 @@ Some graphical parameters can only be set with a call to `par()` prior to using 
 
 Some common base graphical parameters:  
 
-* *pch*: Point character
-* *col*: Color
-* *cex*: Character expansion, i.e. relative size
-* *bty*: Box type
-* *xlab*: x-axis label
-* *ylab*: y-axis label
-* *main*: Main title
+* ***pch***: Point character
+* ***col***: Color
+* ***cex***: Character expansion, i.e. relative size
+* ***bty***: Box type
+* ***xlab***: x-axis label
+* ***ylab***: y-axis label
+* ***main***: Main title
+* ***mar***: Plot margins
+
+You can see what the current value of these parameters is by calling `par()` or directly accessing a specific parameter:
+
+```{r}
+par()$mar
+```
+
+`mar` sets the plot margins. It is a vector of length 4 and each number corresponds to the bottom-left-top-right margin, in that order. Use it to reduce empty white space between plots or add space if labels are getting cropped, for example.
 
 Always make sure that your plotting characters, axis labels and titles are legible. You must avoid, at all costs, ever using a huge graph with tiny letters spread over an entire slide in a presentation.  
 
-* *cex*: Character expansion for the plotting characters
-* *cex.axis*: cex for axis annotation
-* *cex.lab*: cex for x and y labels
-* *cex.main*: cex for main title
+* ***cex***: Character expansion for the plotting characters
+* ***cex.axis***: cex for axis annotation
+* ***cex.lab***: cex for x and y labels
+* ***cex.main***: cex for main title
 
 Note: All of these can be set either with a call to `par()` prior to plotting or passed as arguments in a plotting command, like `plot()`.  
 
 There is one important distinction: `cex` set with `par()` (which defaults to 1), sets the baseline and all other `cex` parameters multiply it. However, `cex` set within `plot()` still multiplies `cex` set with `par()`, but only affects the plotting character size.
+
+### Save and reload graphical parameters
+
+You can make a copy of all current graphical parameters:
+
+```{r}
+par_default <- par()
+```
+
+There are a few parameters that you cannot control, those are read-only. You can optionally exclude those since you cannot edit them anyway:
+
+```{r}
+par_default <- par(no.readonly = T)
+```
+
+If you make changes to `par()` to produce plots and you want to recover the parameters you saved above, you can use reload them by passing them to `par()`:
+
+```{r}
+par(par_default)
+```
+
+Alternatively, you can always restart the graphics device using `dev.off()` and then making a new plot. 
+
+Note: here "device" does not refere to a physical device but software graphics interfaces that show a plot to screen or [save to file](#saveplots).
+
+```{r}
+dev.off() # shuts down graphics device
+plot(rnorm(10))
+```
+
 
 ## Multipanel plots
 
@@ -499,4 +538,36 @@ plot(x, y, col = "#05204955", pch = 16, bty = "n")
 plot(x, z, col = "#05204955", pch = 16, bty = "n")
 plot(y, z, col = "#05204955", pch = 16, bty = "n")
 par(mfrow = c(1, 1))
+```
+
+## Saving plots to file {#saveplots}
+
+You can save base graphics to disk using a number of different file formats. To do this, you have to:  
+
+* Open a graphic device - e.g. `pdf("path/to/xy_scatter.pdf")`
+* Write to it - e.g. `plot(x, y)`
+* Close graphic device - `dev.off()`
+
+The following commands are used to open graphical devices that will save to a file of the corresponding type:  
+
+* `bmp(filename = "path/to/file", width = [in pixels], height = [in pixels])`
+* `jpeg(filename = "path/to/file", width = [in pixels], height = [in pixels])`
+* `png(filename = "path/to/file", width = [in pixels], height = [in pixels])`
+* `tiff(filename = "path/to/file", width = [in pixels], height = [in pixels])`
+* `svg(filename = "path/to/file", width = [in INCHES], height = [in INCHES]`
+* `pdf(file = "path/to/file", width = [in INCHES], height = [in INCHES])`
+
+Notice that when writing to a vector graphics format (svg and pdf), you defined width and height in inches, not pixels. Also, you specify `file` instead of `filename` in 
+Notice the difference when writing to PDF: you define a `file` instead of a `filename`, and width and height are in INCHES, not pixels.  
+It is recommended to save plots in PDF format because it handles vector graphics therefore plots will scale, and it is easy to export to other graphics formats later on if needed.
+
+```{r eval = FALSE}
+pdf("~/Desktop/plot.pdf", width = 5, height = 5)
+plot(iris$Sepal.Length, iris$Petal.Length,
+     pch = 16,
+     col = "#18A3AC66",
+     cex = 1.8,
+     bty = "n", # also try "l"
+     xlab = "Sepal Length", ylab = "Petal Length")
+dev.off()
 ```

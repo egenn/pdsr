@@ -174,21 +174,49 @@ lfn(3)
 
 ## Warnings and errors
 
-You can produce a warning at any point during a function evaluation using `warning("warning message here")`. This cause `warning message here` to be printed to the console as a warning, but does not stop function evaluation.  
+You can use `warning("some warning message")` at any point inside a function to produce a warning message during execution. The message gets printed to the R console, but function execution is **not** stopped.  
 
-To stop function execution, e.g. if an error is encountered, use `stop()`. The following function calculates
+On the other hand, you can use `stop("some error message")` to print an error message to console and stop function execution.
+
+The following function (`el10`) calculates:
 $$ e^{log_{10}(x)} $$
-which is not defined for negative `x`. In this case we could let R give an error when it tries to compute `log10(x)`, or check x ourselves and write a custom error:
+
+```{r}
+el10 <- function(x) {
+  exp(log10(x))
+}
+```
+
+which is not defined for negative `x`. In this case, we could let R give a warning when it tries to compute `log10(x)`:
+
+```{r}
+val1 <- el10(-3)
+```
+
+We could instead produce our own warning message:
+
+```{r}
+el10 <- function(x) {
+  if (x < 0) warning("x must be positive")
+  exp(log10(x))
+}
+val2 <- el10(-3)
+val2
+```
+
+As you see, the output (`NaN`) still gets returned.
+
+Alternatively, we can use `stop()` to end function execution:
 
 ```{r error=TRUE}
 el10 <- function(x) {
   if (x < 0) stop("x must be positive")
   exp(log10(x))
 }
-
-el10(-3)
-el10(3)
+val3 <- el10(-3)
 ```
+
+Note how, in this case, function evalutation is stopped and no value is returned.
 
 ## Scoping
 
@@ -207,7 +235,7 @@ fn(x, y)
 cat("Outside the function, x = ", x, " and y = ", y, "\n")
 ```
 
-However, if a variable is referenced within a function but no local definition exists, the interpreter will look for the variable at the parent directory. It is best to not rely on this and instead make sure all variables are passed to the functions that need them.  
+However, if a variable is referenced within a function but no local definition exists, the interpreter will look for the variable at the parent directory. It is best ensure all objects needed within a function are specified as arguments and passed appropriately when the function is called.  
 
 In the following example, `x` is only defined outside the function definition, but referenced within it.
 
@@ -223,9 +251,10 @@ itfn(3)
 
 ### function vs. for loop
 
-Let's z-score the built-in `mtcars` dataset once with a for loop and once with a custom function. This links back to the example seen earlier in the [for loop](#fordata) section. In practice this is performed with the `scale()` command:
+Let's z-score the built-in `mtcars` dataset once with a for loop and once with a custom function. This links back to the example seen earlier in the [for loop](#fordata) section. In practice, this would be performed with the `scale()` command:
 
-Within the for loop, we are assigning columns directly to the object outside the loop. In the following example, we print the environment outside and inside the loop function to see that it is the same. This is purely for demonstration:
+Within the for loop, we are assigning columns directly to the object initialized before the loop. 
+In the following example, we use `print(environment())` to print the environment outside and inside the loop function to show that it is the same. This is purely for demonstration:
 
 ```{r}
 # initialize new object 'mtcars_z'
@@ -241,7 +270,7 @@ for (i in 1:ncol(mtcars)) {
 }
 ```
 
-With a function, all operations remain local within the function and the output must be returned:
+In contrast, all operations remain local within a function and the output must be returned:
 
 ```{r}
 ztransform <- function(x) {

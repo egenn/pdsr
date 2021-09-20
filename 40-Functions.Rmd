@@ -13,11 +13,12 @@ Whenever you find yourself repeating pieces of code.
 
 *Why is it important?*
 
-Writing functions helps reduce the total amount of code, which reduces the chances of error, and makes your code more readable.  
+Writing functions helps reduce the total amount of code, which increases efficiency, reduces the 
+chance of error, and can make code more readable.  
 
-Reminder: Functions in R are "first class objects".  
-This means you can pass them in and out of other functions or objects like any other R structure.  
-For example, we have seen that you can use a command like `apply(mat, 2, mean)`   
+Functions in R are "first-class objects".  
+This means they can be passed in and out of other functions or objects like any other R structure.  
+For example, you can use a command like `apply(mat, 2, mean)`   
 
 Functions in R are *for the most part* like mathematical functions: they have one or more inputs and 
 one output. The inputs are known as the function arguments. If you want to return multiple outputs, 
@@ -63,16 +64,6 @@ A function returns either:
 - an object passed to `return()`
 - the value of the last expression within the function definition such as `out` or `x^2` above.
 
-Note that the following function definition does not return anything:
-
-```{r}
-sq <- function(x) {
-  out <- x^2
-}
-
-sq(5)
-```
-
 `return()` is a way to end evaluation early:
 
 ```{r}
@@ -104,7 +95,18 @@ raise(x, power = 3)
 raise(x, 3)
 ```
 
-## Arguments with prescribed list of allowed values
+## Argument matching
+
+R will match unambiguous abbreviations of arguments:
+
+```{r}
+fn <- function(alpha = 2, beta = 3, gamma = 4) {
+  alpha * beta + gamma
+}
+fn(g = 2)
+```
+
+## Arguments with prescribed set of allowed values
 
 You can match specific values for an argument using `match.arg()`:
 

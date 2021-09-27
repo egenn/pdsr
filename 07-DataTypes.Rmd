@@ -352,7 +352,6 @@ Note that `is.na()` returns a response for each element (i.e. is [vectorized](#v
 anyNA(x)
 ```
 
-
 ```{block, type="rmdnote"}
 Any operations on an `NA` results in `NA`
 ```
@@ -384,6 +383,21 @@ sd(x, na.rm = TRUE)
 min(x, na.rm = TRUE)
 max(x, na.rm = TRUE)
 range(x, na.rm = TRUE)
+```
+
+More generally, you can use `na.exclude()` to exclude NA values from R objects. This can be very useful for function that do not include a `na.rm` or similar argument to handle `NA` values.
+
+```{r}
+x <- c(1, 2, NA, 4)
+na.exclude(x)
+```
+
+On a data.frame, `na.exclude()` excludes rows with any `NA`s:
+
+```{r}
+df <- data.frame(a = c(1, 2, NA, 4),
+                 b = c(11, NA, 13, 14))
+na.exclude(df)
 ```
 
 The chapter on [Handling Missing Data](#missingdata) describes some approaches to handling missing data in the context of statistics or modeling, commonly supervised learning.

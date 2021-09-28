@@ -1,4 +1,4 @@
-# Indexing - Subsetting - Slicing {#indexing}
+# Indexing - Slicing {#indexing}
 
 ```{r echo = FALSE}
 knitr::opts_chunk$set(fig.width = 10, fig.height = 5,
@@ -547,44 +547,4 @@ x[-integer_index]
 
 ```{block, type="rmdnote"}
 To get the complement of an index, you negate a logical index (`!logical_index`) or you subtract an integer index (`-integer_index`):
-```
-
-## `subset()`
-
-`subset()` allows you to filter cases that meet certain conditions using the `subset` argument, and optionally also select columns using the `select` argument:  
-
-(`head()` returns the first few lines of a data frame. We use it to avoid printing too many lines)
-
-```{r}
-head(iris)
-iris_sl.gt.med <- subset(iris, Sepal.Length > median(Sepal.Length))
-```
-
-Note: You can use the column name Sepal.Length directly, i.e. unquoted and you don't need to use `iris$Sepal.Length`. (This is called Non-Standard Evaluation, NSE)
-
-```{r}
-x <- data.frame(one = 1:10,
-                two = rnorm(10),
-                group = c(rep("alpha", 4),  rep("beta", 6)))
-subset(x, subset = two > 0, select = two)
-subset(x, two > 0, -one)
-subset(x, two > 0, two:one)
-subset(x, two > 0, two:group)
-```
-
-## `split()`
-
-Split a data frame into multiple data frames by groups defined by a factor:
-
-```{r}
-x_by_group <- split(x, x$group)
-```
-
-## `with()`
-
-Within a `with()` expression, you can access data.frame columns without quoting or using the `$` operator:
-
-```{r}
-with(x, x[group == "alpha", ])
-with(x, x[two > 0, ])
 ```

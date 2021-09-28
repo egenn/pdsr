@@ -5,13 +5,17 @@ knitr::opts_chunk$set(fig.width = 10, fig.height = 5,
                       comment = NA, cache = TRUE)
 ```
 
+R's data.frame is the main object used to hold data for statistical analysis, visualization, and predictive modeling.
+
+See the [Data frames](#dataframes) section in the [Data Structures](#structures) chapter for basic info on data.frames.
+
 ## Column and row names
 
-Example data.frame:
+Let's start with a simple example data.frame:
 
 ```{r}
 df <- data.frame(PID = c(111:119),
-                Hospital = c("UCSF", "HUP", "Stanford",
+                 Hospital = c("UCSF", "HUP", "Stanford",
                              "Stanford", "UCSF", "HUP", 
                              "HUP", "Stanford", "UCSF"),
                 Age = c(22, 34, 41, 19, 53, 21, 63, 22, 19),
@@ -19,18 +23,20 @@ df <- data.frame(PID = c(111:119),
                 row.names = "PID")
 ```
 
-Get column names and row names with `colnames()` and `rownames()`:
+We can get column names and row names with `colnames()` and `rownames()`, respectively:
 
 ```{r}
 colnames(df)
 rownames(df)
 ```
 
-To set new column or row names use the form 
+To set new column or row names use the form:
 
-`colnames(df) <- new.names` 
+`colnames(df) <- new.colnames` 
 
-where `new.names` is a character vector:
+`rownames(df) <- new.rownames` 
+
+where `new.colnames` and `new.rownames` is a character vector:
 
 ```{r}
 colnames(df) <- c("Center", "Age_at_Dx", "Sex")
@@ -47,18 +53,29 @@ df$Sex <- NULL
 df
 ```
 
-To delete a data.frame row, you can "index it out". For example, to remove the third row:
+To delete a data.frame row, you can "index it out".  
+
+For example, to remove the third and fifths rows of the above data.frame using an integer index:
 
 ```{r}
-df <- df[-3, ]
+df <- df[-c(3, 5), ]
 df
 ```
 
-## Table Joins (i.e. Merging data.frames)
+You can similarly exclude a row using a logical index. Logical indexing occurs usually following some filtering condition. 
+
+For example, exclude patients under 20 years old:
+
+```{r}
+df <- df[!df$Age < 20, ]
+df
+```
+
+## Table Joins (i.e. Merging data.frames) {#tablejoins}
 
 Scenario: You have received two or more tables with data. Each table consists of a unique identifier (ID), which is shared among the tables, plus a number of variables in columns, which may be unique to each table. You want to merge them into one big table so that for each ID you have all available variables.  
 
-Let's make up some data:
+Let's make up two datasets:
 
 ```{r}
 a <- data.frame(PID = c(1:9),
@@ -267,6 +284,46 @@ dat_long2wide_dt <- dcast(dat_long_dt,
                           ID ~ Fruit,
                           value.var = "Score")
 dat_long2wide_dt
+```
+
+## `subset()`
+
+`subset()` allows you to filter cases that meet certain conditions using the `subset` argument, and optionally also select columns using the `select` argument:  
+
+(`head()` returns the first few lines of a data frame. We use it to avoid printing too many lines)
+
+```{r}
+head(iris)
+iris_sl.gt.med <- subset(iris, Sepal.Length > median(Sepal.Length))
+```
+
+Note: You can use the column name Sepal.Length directly, i.e. unquoted and you don't need to use `iris$Sepal.Length`. This is called Non-Standard Evaluation (NSE).
+
+```{r}
+x <- data.frame(one = 1:10,
+                two = rnorm(10),
+                group = c(rep("alpha", 4),  rep("beta", 6)))
+subset(x, subset = two > 0, select = two)
+subset(x, two > 0, -one)
+subset(x, two > 0, two:one)
+subset(x, two > 0, two:group)
+```
+
+## `split()`
+
+Split a data frame into multiple data frames by groups defined by a factor:
+
+```{r}
+x_by_group <- split(x, x$group)
+```
+
+## `with()`
+
+Within a `with()` expression, you can access data.frame columns without quoting or using the `$` operator:
+
+```{r}
+with(x, x[group == "alpha", ])
+with(x, x[two > 0, ])
 ```
 
 ## Feature transformation with `transform()`

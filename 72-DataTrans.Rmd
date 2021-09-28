@@ -1,8 +1,7 @@
 # Data Transformations {#datatrans}
 
 ```{r echo = FALSE}
-knitr::opts_chunk$set(fig.width = 10, fig.height = 5,
-                      comment = NA, cache = TRUE) 
+knitr::opts_chunk$set(comment = NA, cache = TRUE) 
 options(rt.theme = "lightgrid")
 options(rt.fit.theme = "lightgrid")
 ```
@@ -20,10 +19,14 @@ library(rtemis)
 
 ### Standardization / Scaling & Centering with `scale()` {#zscore}
 
-Depending on your modeling needs / the algorithms you plan to use, it is often important to scale and/or center your data. Note that many functions, but not all, will automatically scale and center data internally if it is required by the algorithm. Check the function documentation.  
+Depending on your modeling needs / the algorithms you plan to use, it is often important to scale 
+and/or center your data. Note that many functions, but not all, will automatically scale and center 
+data internally if it is required by the algorithm. Check the function documentation.  
 
-Standardizing, i.e. converting to Z-scores, involves subtracting the mean and dividing by the standard deviation. 
-Scaling and centering in R is performed with the `scale` function. By default, both arguments `scale` and `center` are set to `TRUE`:
+Standardizing, i.e. converting to Z-scores, involves subtracting the mean and dividing by the 
+standard deviation. 
+Scaling and centering in R is performed with the `scale` function. By default, both arguments 
+`scale` and `center` are set to `TRUE`:
 
 ```{r}
 iris.scaled <- scale(iris[, -5])
@@ -49,14 +52,17 @@ If you are manually scaling and/or centering data for **supervised learning**, y
 * Apply the training set-derived centering and scaling parameters to the **test set** *prior to prediction/inference*.
 ```
 
-A common mistake is to either scale training and testing data together in the beginning, or scale them independently.  
+A common mistake is to either scale training and testing data together in the beginning, or scale 
+them independently.  
+
 Let's get the scale and center attributes:
 
 ```{r}
 attributes(iris.scaled)
 ```
 
-Let's save the scale and center attributes and then check some values so that we are clear what is happening:
+Let's save the scale and center attributes and then check some values so that we are clear what is 
+happening:
 
 ```{r}
 (.center <- attr(iris.scaled, "scaled:center"))
@@ -116,10 +122,12 @@ table(x_cut4)
 ```{block, type="rmdtip"}
 **Interval Notation**
 
-`[3, 9)` represents the interval of [real numbers](https://en.wikipedia.org/wiki/Real_number) between 3 and 9, **including** 3 and **excluding** 9.
+`[3, 9)` represents the interval of [real numbers](https://en.wikipedia.org/wiki/Real_number) 
+between 3 and 9, **including** 3 and **excluding** 9.
 ```
 
-Because the data is so skewed, equal intervals are not helpful in this case. The majority of the data gets grouped into a single bin.  
+Because the data is so skewed, equal intervals are not helpful in this case. The majority of the 
+data gets grouped into a single bin.  
 Let's visualize the cuts.
 
 ```{r}
@@ -129,11 +137,13 @@ mplot3.x(x, par.reset = FALSE)
 abline(v = xcuts5, col = "red", lwd = 1.5)
 ```
 
-Note: We used `par.reset = FALSE` to stop `mplot3.x()` from resetting its custom `par()` settings so that we can continue adding elements to the same plot, in this case with the `abline()` command.  
+Note: We used `par.reset = FALSE` to stop `mplot3.x()` from resetting its custom `par()` settings so 
+that we can continue adding elements to the same plot, in this case with the `abline()` command.  
 
 #### Quantile cuts
 
-Instead, we can get quantiles with `quantile()`. We ask for 5 quantiles using the `lngth.out` argument, which corresponds to 4 intervals:
+Instead, we can get quantiles with `quantile()`. We ask for 5 quantiles using the `lngth.out` 
+argument, which corresponds to 4 intervals:
 
 ```{r}
 (xquants5 <- quantile(x, seq(0, 1, length.out = 5)))
@@ -141,9 +151,11 @@ mplot3.x(x, par.reset = F)
 # plot(density(x)) # in base R
 abline(v = xquants5, col = "green", lwd = 1.5)
 ```
-The `breaks` argument of `cut()` allows us to pass either an integer to define evenly-spaced breaks, or a numeric vector define the position of breaks.  
+The `breaks` argument of `cut()` allows us to pass either an integer to define evenly-spaced breaks, 
+or a numeric vector define the position of breaks.  
 We can therefore pass the quantile values as break points.  
-Since the quantile values begin at the lowest value in the data, we need to define `include.lowest = TRUE` so that the first interval is inclusive of the lowest value:
+Since the quantile values begin at the lowest value in the data, we need to define 
+`include.lowest = TRUE` so that the first interval is inclusive of the lowest value:
 
 ```{r}
 x_cutq4 <- cut(x, breaks = xquants5, include.lowest = TRUE)
@@ -154,7 +166,8 @@ With quantile cuts, each bin contains the same or roughly the same number of obs
 
 ## Categorical variables
 
-Many algorithms (or their implementations) do not directly support categorical variables. To use them, you must therefore convert all categorical variables to some type of numerical encoding.
+Many algorithms (or their implementations) do not directly support categorical variables. To use 
+them, you must therefore convert all categorical variables to some type of numerical encoding.
 
 ### Integer encoding
 
@@ -162,10 +175,11 @@ If the categorical data is ordinal, you can simply convert it to integers.
 For example, the following **ordered factor**:
 
 ```{r}
-(brightness <- factor(c("bright", "brightest", "darkest",
+brightness <- factor(c("bright", "brightest", "darkest",
                         "bright", "dark", "dim", "dark"),
                       levels = c("darkest", "dark", "dim", "bright", "brightest"),
-                      ordered = TRUE))
+                      ordered = TRUE)
+brightness
 ```
 
 ...can be directly coerced to integer:
@@ -176,7 +190,11 @@ as.integer(brightness)
 
 ### One-hot encoding
 
-When categorical features are **not** ordinal, and your algorithm cannot handle them directly, you can one-hot encode them. In one-hot encoding, each categorical feature is converted to k binary features, where k = number of unique values in the input, such that only one feature has the value 1 per case. This is similar to creating dummy variables in statistics, with the difference that dummy variables create `k - 1` new variables.
+When categorical features are **not** ordinal, and your algorithm cannot handle them directly, you 
+can one-hot encode them. In one-hot encoding, each categorical feature is converted to k binary 
+features, where k = number of unique values in the input, such that only one feature has the value 1 
+per case. This is similar to creating dummy variables in statistics, with the difference that dummy 
+variables create `k - 1` new variables.
 
 ```{r}
 admission_reasons <- c("plannedSurgery", "emergencySurgery", "medical")
@@ -186,5 +204,5 @@ admission_reasons <- c("plannedSurgery", "emergencySurgery", "medical")
 We can use the **rtemis** `oneHot()` function:
 
 ```{r}
-(admission_oneHot <- oneHot(admission))
+admission_oneHot <- oneHot(admission)
 ```

@@ -1,0 +1,347 @@
+# Common statistical tests {#stats}
+
+```{r echo = FALSE}
+knitr::opts_chunk$set(fig.width = 5, fig.height = 5,
+                      comment = NA, cache = TRUE)
+```
+
+R includes a large number of functions to perform statistical hypothesis testing in the built-in `stats` package. This chapter includes a brief overview of the syntax for some common tests along with code to produce relevant plots of your data.
+
+## Correlation test
+
+```{r}
+set.seed(2020)
+x <- rnorm(100)
+y1 <- .1 * x + rnorm(100)
+y2 <- .3 * x + rnorm(100)
+y3 <- x + rnorm(100)/5
+y4 <- x^2 + rnorm(100)
+```
+
+Scatterplot with linear fit:
+
+```{r}
+plot(x, y1,
+     col = "#00000077",
+     pch = 16, bty = "none")
+abline(lm(y1 ~ x), col = "red", lwd = 2)
+```
+
+```{r}
+plot(x, y2,
+     col = "#00000077",
+     pch = 16, bty = "none")
+abline(lm(y3 ~ x), col = "red", lwd = 2)
+```
+
+```{r}
+plot(x, y3,
+     col = "#00000077",
+     pch = 16, bty = "none")
+abline(lm(y3 ~ x), col = "red", lwd = 2)
+```
+
+Scatterplot with a LOESS fit
+
+```{r}
+scatter.smooth(x, y4,
+               col = "#00000077",
+               pch = 16, bty = "none",
+               lpars = list(col = "red", lwd = 2))
+```
+
+```{r}
+cor.test(x, y1)
+cor.test(x, y2)
+cor.test(x, y3)
+cor.test(x, y4)
+```
+## Student's t-test
+
+```{r}
+set.seed(2021)
+x0 <- rnorm(500)
+x1 <- rnorm(500, mean = .7)
+```
+
+For all tests of differences in means, a boxplot is a good way to visualize. It accepts individual vectors, list or data.frame of vectors, or a formula to split a vector into groups by a factor.
+
+```{r}
+boxplot(x0, x1,
+        col = "#05204999", border = "#052049",
+        boxwex = .3, names = c("x0", "x1"))
+```
+
+
+### One sample t-test
+
+```{r}
+t.test(x0)
+```
+```{r}
+t.test(x1)
+```
+
+```{r}
+boxplot(extra ~ group, sleep,
+        col = "#05204999", border = "#052049",
+        boxwex = .3)
+```
+
+### Two-sample T-test
+
+```{r}
+t.test(extra ~ group, sleep)
+```
+
+## Wilcoxon test
+
+Data from R Documentation:
+
+```{r}
+## Hollander & Wolfe (1973), 29f.
+## Hamilton depression scale factor measurements in 9 patients with
+##  mixed anxiety and depression, taken at the first (x) and second
+##  (y) visit after initiation of a therapy (administration of a
+##  tranquilizer).
+x <- c(1.83,  0.50,  1.62,  2.48, 1.68, 1.88, 1.55, 3.06, 1.30)
+y <- c(0.878, 0.647, 0.598, 2.05, 1.06, 1.29, 1.06, 3.14, 1.29)
+depression <- data.frame(first = x, second = y, change = y - x)
+```
+
+### One-sample Wilcoxon 
+
+```{r}
+wilcox.test(depression$change)
+```
+
+### Two-sample Wilcoxon rank sum test (unpaired)
+
+a.k.a Mann-Whitney U test a.k.a. Mann–Whitney–Wilcoxon (MWW) a.k.a. Wilcoxon–Mann–Whitney test
+
+```{r}
+x1 <- rnorm(500, 3, 1.5)
+x2 <- rnorm(500, 5, 2)
+wilcox.test(x1, x2)
+```
+
+### Two-sample Wilcoxon signed-rank test (paired)
+
+```{r}
+wilcox.test(x, y, paired = TRUE)
+```
+
+```{r}
+wilcox.test(x, y, paired = TRUE, alternative = "greater")
+```
+
+## Kruskal-Wallis test
+
+Kruskal-Wallis rank sum test of the null that the location parameters of the distribution of x are the same in each group (sample). The alternative is that they differ in at least one.
+
+(like Wilcoxon but for >2 samples)
+
+From the R Documentation:
+
+```{r}
+## Hollander & Wolfe (1973), 116.
+## Mucociliary efficiency from the rate of removal of dust in normal
+##  subjects, subjects with obstructive airway disease, and subjects
+##  with asbestosis.
+x <- c(2.9, 3.0, 2.5, 2.6, 3.2) # normal subjects
+y <- c(3.8, 2.7, 4.0, 2.4)      # with obstructive airway disease
+z <- c(2.8, 3.4, 3.7, 2.2, 2.0) # with asbestosis
+kruskal.test(list(x, y, z))
+```
+
+```{r}
+boxplot(Ozone ~ Month, data = airquality,
+        col = "#05204999", border = "#052049",
+        boxwex = .3)
+```
+
+```{r}
+kruskal.test(Ozone ~ Month, data = airquality)
+```
+
+## Chi-squared Test
+
+Pearson's chi-squared test for count data
+
+From the R documentation on `chisq.test`:
+
+```{r}
+M <- as.table(rbind(c(762, 327, 468), c(484, 239, 477)))
+dimnames(M) <- list(gender = c("F", "M"),
+                    party = c("Democrat","Independent", "Republican"))
+(Xsq <- chisq.test(M))  # Prints test summary
+Xsq$observed   # observed counts (same as M)
+Xsq$expected   # expected counts under the null
+Xsq$residuals  # Pearson residuals
+Xsq$stdres     # standardized residuals
+```
+
+### Mosaic Plot
+
+```{r}
+mosaicplot(M, color = c("blue", "orange", "red"), border = F, main = "")
+```
+
+Or using the formula interface:
+
+```{r}
+mosaicplot(~gender + party, M, color = c("blue", "orange", "red"), border = F, main = "")
+```
+
+## Fisher's exact test
+
+Fisher's exact test for count data
+
+From R Documentation:
+
+```{r}
+TeaTasting <- matrix(c(3, 1, 1, 3),
+                     nrow = 2,
+                     dimnames = list(Guess = c("Milk", "Tea"),
+                                     Truth = c("Milk", "Tea")))
+TeaTasting
+```
+
+```{r}
+fisher.test(TeaTasting, alternative = "greater")
+## => p = 0.2429, association could not be established
+```
+
+```{r}
+Convictions <- matrix(c(2, 10, 15, 3), nrow = 2,
+	              dimnames =
+	       list(c("Dizygotic", "Monozygotic"),
+		    c("Convicted", "Not convicted")))
+Convictions
+fisher.test(Convictions, alternative = "less")
+fisher.test(Convictions, conf.int = FALSE)
+fisher.test(Convictions, conf.level = 0.95)$conf.int
+fisher.test(Convictions, conf.level = 0.99)$conf.int
+```
+
+### Mosaic plot
+
+```{r}
+mosaicplot(Convictions, color = c("red", "blue"), border = NA)
+```
+
+## F Test to compare two variances
+
+```{r}
+x1 <- rnorm(500, sd = 1)
+x2 <- rnorm(400, sd = 1.5)
+var.test(x1, x2)
+```
+
+```{r}
+boxplot(x1, x2,
+        col = "#05204999", border = "#052049",
+        boxwex = .3)
+```
+
+From R Documentation:
+
+```{r}
+x <- rnorm(50, mean = 0, sd = 2)
+y <- rnorm(30, mean = 1, sd = 1)
+var.test(x, y)                  # Do x and y have the same variance?
+var.test(lm(x ~ 1), lm(y ~ 1))  # same
+```
+
+## Bartlett test of homogeneity of variances
+
+Performs Bartlett's test of the null that the variances in each of the groups (samples) are the same.
+
+From the R Documentation:
+
+```{r}
+plot(count ~ spray, data = InsectSprays)
+```
+
+```{r}
+bartlett.test(InsectSprays$count, InsectSprays$spray)
+```
+
+```{r}
+bartlett.test(count ~ spray, data = InsectSprays)
+```
+
+## Fligner-Killeen test of homogeneity of variances
+
+Performs a Fligner-Killeen (median) test of the 
+null that the variances in each of the groups (samples) are the same.
+
+```{r}
+boxplot(count ~ spray, data = InsectSprays)
+# works the same if you do plot(count ~ spray, data = InsectSprays)
+fligner.test(InsectSprays$count, InsectSprays$spray)
+fligner.test(count ~ spray, data = InsectSprays)
+```
+
+## Ansari-Bradley test
+
+Performs the Ansari-Bradley two-sample test for a difference in scale parameters.
+
+```{r}
+ramsay <- c(111, 107, 100, 99, 102, 106, 109, 108, 104, 99,
+            101, 96, 97, 102, 107, 113, 116, 113, 110, 98)
+jung.parekh <- c(107, 108, 106, 98, 105, 103, 110, 105, 104,
+            100, 96, 108, 103, 104, 114, 114, 113, 108, 106, 99)
+ansari.test(ramsay, jung.parekh)
+```
+
+```{r}
+x <- rnorm(40, sd = 1.5)
+y <- rnorm(40, sd = 2.5)
+ansari.test(x, y)
+```
+
+## Mood two-sample test of scale
+
+```{r}
+mood.test(x, y)
+```
+
+## Kolmogorov-Smirnoff test
+
+Perform a one- or two-sample Kolmogorov-Smirnov test
+Null: x and y were drawn from the same continuous distribution.
+
+```{r}
+x1 <- rnorm(200, 0, 1)
+x2 <- rnorm(200, -.5, 1.5)
+ks.test(x1, x2)
+```
+
+## Shapiro-Wilk test of normality
+
+```{r}
+set.seed(2021)
+x <- rnorm(2000)
+y1 <- .7 * x
+y2 <- x + x^3
+```
+
+### Q-Q Plot
+
+```{r}
+qqplot(rnorm(300), y1, pch = 16, col = "#00000077")
+qqline(y1, col = "red", lwd = 2)
+```
+
+```{r}
+qqplot(rnorm(300), y2, pch = 16, col = "#00000077")
+qqline(y2, col = "red", lwd = 2)
+```
+
+## Shapiro-Wilk test
+
+```{r}
+shapiro.test(y1)
+shapiro.test(y2)
+```

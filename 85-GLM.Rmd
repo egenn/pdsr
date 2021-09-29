@@ -27,6 +27,7 @@ mod <- glm(hp ~ ., family = "gaussian", data = mtcars)
 mod
 class(mod)
 ```
+
 The `glm()` function accepts a formula that defines the model.  
 The formula `hp ~ .` means "regress hp on all other variables". The `family` argument defines we are performing regression and the `data` argument points to the data frame where the covariates used in the formula are found.
 
@@ -37,6 +38,7 @@ mod <- lm(hp ~ ., data = mtcars)
 mod
 class(mod)
 ```
+
 ### Summary
 
 Get summary of the model using `summary()`:
@@ -71,7 +73,6 @@ residuals(mod)
 # or
 mod$residuals
 ```
-
 
 ### p-values
 
@@ -145,20 +146,26 @@ names(mod.xy.massuni) <- paste0("mod", seq(x))
 
 To extract p-values for each model, we must find where exactly to look.  
 Let's look into the first model:
+
 ```{r}
 (ms1 <- summary(mod.xy.massuni$mod1))
 ms1$coefficients
 ```
 
 The p-values for each feature is stored in row 1, column 4 fo the coefficients matrix. Let's extract all of them:
+
 ```{r}
 mod.xy.massuni.pvals <- sapply(mod.xy.massuni, function(i) summary(i)$coefficients[2, 4])
 ```
+
 Let's see which variable are significant at the 0.05:
+
 ```{r}
 which(mod.xy.massuni.pvals < .05)
 ```
+
 ...and which are significant at the 0.01 level:
+
 ```{r}
 which(mod.xy.massuni.pvals < .01)
 ```
@@ -179,3 +186,7 @@ which(mod.xy.massuni.pvals.holm_adjusted < .05)
 ```
 
 These are indeed the correct features (not surprisingly, still reassuringly).
+
+## Resources
+
+- [Regression Methods in Biostatistics: Linear, Logistic, Survival, and Repeated Measures Models](https://regression.ucsf.edu/)

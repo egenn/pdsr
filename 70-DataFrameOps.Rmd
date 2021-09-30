@@ -73,19 +73,21 @@ df
 
 ## Table Joins (i.e. Merging data.frames) {#tablejoins}
 
-Scenario: You have received two or more tables with data. Each table consists of a unique identifier (ID), which is shared among the tables, plus a number of variables in columns, which may be unique to each table. You want to merge them into one big table so that for each ID you have all available variables.  
+We often have data from separate sources that we want to combine into a single data.frame. Table joins allow you to specify how to perform such a merge.
 
-Let's make up two datasets:
+Scenario: You have received two tables with clinical data. Each table contains a column with a unique identifier (ID) plus a number of variables which are unique to each table. You want to merge them into one big table so that for each ID you have all available variables. You want to make sure that the same ID number (e.g. 108) corresponds to the same case in both datasets, but not all IDs needs to be present in both datasets.
+
+Let's make up some synthetic data:
 
 ```{r}
-a <- data.frame(PID = c(1:9),
+a <- data.frame(PID = c(101:109),
                 Hospital = c("UCSF", "HUP", "Stanford",
                              "Stanford", "UCSF", "HUP", 
                              "HUP", "Stanford", "UCSF"),
                 Age = c(22, 34, 41, 19, 53, 21, 63, 22, 19),
                 Sex = c(1, 1, 0, 1, 0, 0, 1, 0, 0))
 
-b  <- data.frame(PID = c(6:12),
+b  <- data.frame(PID = c(106:112),
                  V1 = c(153, 89, 112, 228,  91, 190, 101),
                  Department = c("Neurology", "Radiology",
                                 "Emergency", "Cardiology",
@@ -114,7 +116,7 @@ The default arguments of `merge()` perform an **inner join**:
 (ab.inner <- merge(a, b, all = FALSE))
 ```
 
-Note that the resulting table only contains cases found in both data frames (i.e. IDs 6 through 9)
+Note that the resulting table only contains ***cases found in both datasets***, i.e. IDs 106 through 109
 
 ### Outer join
 
@@ -125,7 +127,7 @@ You can perform an **outer join** by specifying `all = TRUE`:
 (ab.outer <- merge(a, b, by = "PID", all = TRUE))
 ```
 
-Note that the resulting data frame contains all IDs found in either input data frame and missing values are represented with `NA`
+Note that the resulting data frame contains ***all cases found in either dataset*** and missing values are represented with `NA`.
 
 ### Left outer join
 
@@ -135,7 +137,7 @@ You can perform a **left outer join** by specifying `all.x = TRUE`:
 (ab.leftOuter <- merge(a, b, all.x = TRUE))
 ```
 
-Note how the resulting data frame contains all IDs present in the left input data frame only. 
+Note that the resulting data frame contains ***all cases present in the left input dataset*** (i.e. the one defined first in the arguments) only. 
 
 ### Right outer join
 
@@ -145,13 +147,15 @@ You can perform a **right outer join** by specifying `all.y = TRUE`:
 (ab.rightOuter <- merge(a, b, all.y = TRUE))
 ```
 
-Note how the resulting data frame contains all IDs present in the right input data frame only.
+Note how the resulting data frame contains ***all cases present in the right input dataset*** (i.e. the one defined seecond in the arguments) only.
 
 ## Wide to Long
 
 ```{r wideLong, echo = FALSE, out.width = "100%", fig.align = "center", fig.cap = "Wide and Long data format example. Take a moment to notice how the wide table on the left with 3 cases (3 IDs) and 3 variables gets converted from a 3 x 4 table to a 9 x 3 long table on the right. The values (outlined in magenta) are present once in each table: on the wide table they form an **ID x Variable** matrix, while on the long they are stacked on a **single column**. The IDs have to be repeated on the long table, once for each variable and there is a new 'Variable' column to provide the information present in the wide table's column names." }
 knitr::include_graphics("wide_long.png", dpi = NA)
 ```
+
+A wide dataset contains only a single row per case (e.g. patient), while a long dataset can contain multiple rows per case (e.g. for multiple timepoints). We want to be able to convert from one format to the other because different programs (e.g. statistical models, visualization) may expect data in one of the other format for different applications (e.g. longitudinal modeling or grouped visualizations).
 
 ```{r}
 library(tidyr)
@@ -169,7 +173,7 @@ Let's create an example data frame:
 
 ### base
 
-The `reshape()` function is probably one of the most complicated because the documentation is not clear, specifically with regards to which arguments refer to the input vs. output data frame. Use the following figure as a guide to understand `reshape()`'s syntax. You can use it as a reference when building your own `reshape()` command by following steps 1 through 5:
+The `reshape()` function is probably one of the more complicated because the documentation is not entirely clear, especially if you're not used to the jargon and specifically with regards to which arguments refer to the input vs. output data frame. Use the following figure as a guide to understand `reshape()`'s syntax. You can use it as a reference when building your own `reshape()` command by following steps 1 through 5:
 
 ```{r wideLongSyntax, echo = FALSE, out.width = "100%", fig.align = "center", fig.cap = "`reshape()` syntax for Wide to Long transformation."}
 knitr::include_graphics("R_reshape_wide2long.png", dpi = NA)
@@ -195,7 +199,8 @@ dat_wide2long <- reshape(# Data in wide format
                          direction = "long") 
 ```
 
-You can also define 'varying' with a character vector:  
+You can also define `varying` with a character vector:
+
 `varying = list(c("mango", "banana","tangerine")`  
 
 Explore the resulting data frame's attributes:
@@ -204,7 +209,7 @@ Explore the resulting data frame's attributes:
 attributes(dat_wide2long)
 ```
 
-These attributes and present if and only if a long data set was created from a wide as above. In that case, reshaping back to a wide data frame is as easy as:
+These attributes are present if and only if a long data set was created from a wide as above. In that case, reshaping back to a wide data frame is as easy as:
 
 ```{r}
 reshape(dat_wide2long)

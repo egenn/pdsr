@@ -14,11 +14,11 @@ options(crayon.enabled = TRUE)
 
 The [**data.table**](https://github.com/Rdatatable/data.table) package provides a modern and highly optimized version of R's data.frame structure. It is highly memory efficient and automatically parallelizes internal operations to achieve substantial speed improvements over data.frames. The **data.table** package weighs in at just a few kilobytes, has zero dependencies, and maintains compatibility with R versions going as far back as possible.  
 
-### Installation
+### Installation {#dtinstallation}
 
 You can install **data.table** from CRAN or GitHub. Check out the [data.table wiki](https://github.com/Rdatatable/data.table/wiki/Installation) for more info.
 
-### `data.table` significantly extends the `data.frame`
+### `data.table` significantly extends the `data.frame` structure
 
 There are two main ways in which a `data.table` differs from a `data.frame`:  
 
@@ -74,7 +74,6 @@ dat <- data.frame(A = 1:5,
                   C = c("a", "b", "b", "a", "a"))
 (dat2 <- as.data.table(dat))
 ```
-
 
 ### By coercion ***in-place***: `setDT()`
 
@@ -375,7 +374,6 @@ dt
 
 Up to now, we have learned how to use the `data.table` frame `dat[i, j]` to filter cases in `i` or add/remove/transform columns in-place in `j`. There is a whole other dimension in the `data.table` frame: `by`.  
 
-
 ```{block, type="rmdtip"}
 The complete `data.table` syntax is:
 
@@ -413,7 +411,9 @@ By now, it should be clearer that the `data.table` frame provides a very flexibl
 ```
 
 ## Apply functions to columns
+
 Any function that returns a list can be used in `j` to return a new data.table - therefore lapply is perfect for getting summary on multiple columns:
+
 ```{r}
 (dt1 <- as.data.table(rnormmat(10, 3, seed = 2020)))
 setnames(dt1, c("Alpha", "Beta", "Gamma"))
@@ -421,6 +421,7 @@ dt1[, lapply(.SD, mean)]
 ```
 
 You can specify which columns to operate on by adding the `.SDcols` argument:
+
 ```{r}
 dt2 <- data.table(A = 1:5,
                   B = c(1.2, 4.3, 9.7, 5.6, 8.1),
@@ -435,11 +436,13 @@ dt2[, lapply(.SD, mean), .SDcols = cols]
 ```
 
 You can combine `.SDcols` and `by`:
+
 ```{r}
 dt2[, lapply(.SD, median), .SDcols = c("B", "C"), by = Group]
 ```
 
 Create multiple new columns from transformation of existing and store with custom prefix:
+
 ```{r}
 dt1
 dt1[, paste0(names(dt1), "_abs") := lapply(.SD, abs)]

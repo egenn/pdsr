@@ -93,7 +93,7 @@ flightsDF <- as.data.frame(flights)
 
 Compare performance base R vs. dplyr in calculating mean arrival delay by carrier using either a data.frame or a tibble:
 
-```{r warning=FALSE}
+```{r eval=FALSE}
 dbc <- microbenchmark(
   df_aggregate = aggregate(flightsDF$arr_delay, by = list(flightsDF$carrier), mean, na.rm = TRUE),
   tb_aggregate = aggregate(flights$arr_delay, by = list(flights$carrier), mean, na.rm = TRUE),
@@ -104,7 +104,7 @@ dbc <- microbenchmark(
 dbc
 ```
 
-```{r}
+```{r eval=FALSE}
 plot(dbc)
 ```
 

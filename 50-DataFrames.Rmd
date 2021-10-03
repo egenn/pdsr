@@ -19,9 +19,32 @@ df <- data.frame(PID = c(111:119),
                              "Stanford", "UCSF", "HUP", 
                              "HUP", "Stanford", "UCSF"),
                 Age = c(22, 34, 41, 19, 53, 21, 63, 22, 19),
+                Sex = c(1, 1, 0, 1, 0, 0, 1, 0, 0))
+df
+```
+
+The optional `row.names` argument (see `data.frame` usage in the R documentation) can be used to define row names at the time of the data frame creation. It accepts either 
+- a single integer or a character specifying a column of the data.frame being created whose values should be used as row names, or 
+- a vector of values (character or integer) of the row names to be used
+
+For example, we can use the "PID" column:
+
+```{r}
+df <- data.frame(PID = c(111:119),
+                 Hospital = c("UCSF", "HUP", "Stanford",
+                             "Stanford", "UCSF", "HUP", 
+                             "HUP", "Stanford", "UCSF"),
+                Age = c(22, 34, 41, 19, 53, 21, 63, 22, 19),
                 Sex = c(1, 1, 0, 1, 0, 0, 1, 0, 0),
                 row.names = "PID")
 ```
+
+```{block, type="rmdimportant"}
+It is recommended to **not** use/depend on row names to identify or index data.frames, and instead include an column of case IDs
+
+```
+
+
 
 We can get column names and row names with `colnames()` and `rownames()`, respectively:
 
@@ -113,13 +136,15 @@ Split a data frame into multiple data frames by groups defined by a factor:
 
 ```{r}
 x_by_group <- split(x, x$group)
+x_by_group
 ```
 
 ## `with()`
 
-Within a `with()` expression, you can access data.frame columns without quoting or using the `$` operator:
+Within a `with()` expression, you can access list elements or data.frame columns without quoting or using the `$` operator:
 
 ```{r}
+with(x, one + two)
 with(x, x[group == "alpha", ])
 with(x, x[two > 0, ])
 ```
@@ -153,4 +178,23 @@ dat |>
   transform(DeltaWeightFromMean = Weight - mean(Weight),
             BMI = Weight/Height^2,
             CI = Weight/Height^3)
+```
+
+## Identify and remove duplicated row with `duplicated()` and `unique()`
+
+The `duplicated()` function when applied on a data.frame returns a logical index specifying the location of duplicated rows - specifically, of row which are the duplicate of another row further up the data.frame. This means that if rows 20 and 23 are identical, `duplicated()` will return `TRUE` for row 23.
+
+On the other hand, `unique()` will remove duplicate rows from a data.frame.
+
+```{r}
+x <- data.frame(ID = c(203, 808, 909, 707, 808),
+                Age = c(23, 44, 33, 42, 44))
+```
+
+```{r}
+duplicated(x)
+```
+
+```{r}
+unique(x)
 ```

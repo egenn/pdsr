@@ -1,0 +1,113 @@
+# Aggregate {#aggregate}
+
+`aggregate()` is a powerful way to apply functions on splits of your data. It can replicate 
+functionality of the `*apply()` family, but can be more flexible. This may come with a performance
+penalty, only noticeable with big data, in which case it is recommended to use 
+[data.table](#datatable) for fast group-by data summarization.
+
+`aggregate()` can work either with a formula notation or directly on data.frames and vectors. We 
+show how to perform each operation below with either approach. The formula interface might be easier 
+to work with interactivly on the console. While you *can* code with the formula interface, the 
+regular approach is a lot more straightforward to do so.
+
+For this example, we get the penguin data:
+
+```{r}
+library(palmerpenguins)
+str(penguins)
+```
+
+See example below for 1 or multiple variables by 1 or more groups using either the formula 
+interface, or working directly on objects with `$` indexing or using `with()`:
+
+## Single variable by single group
+
+Note that the formula method defaults to na.action = na.omit
+
+Using the formula interface:
+
+```{r}
+aggregate(bill_length_mm ~ species,
+          penguins, mean)
+```
+
+Directly working with vectors:
+
+```{r}
+aggregate(penguins$bill_length_mm,
+          by = list(penguins$species),
+          mean, na.rm = T)
+```
+
+Using `with()`:
+
+```{r}
+with(penguins,
+     aggregate(bill_length_mm,
+               by = list(species),
+               mean, na.rm = TRUE))
+```
+
+## Multiple variables by single group
+
+```{r}
+aggregate(cbind(bill_length_mm, flipper_length_mm) ~ species,
+          penguins, mean)
+```
+
+```{r}
+aggregate(penguins[, c("bill_length_mm", "flipper_length_mm")],
+          by = list(penguins$species),
+          mean, na.rm = TRUE)
+```
+
+```{r}
+with(penguins,
+     aggregate(cbind(bill_length_mm, flipper_length_mm),
+               by = list(species),
+               mean, na.rm = TRUE))
+```
+
+## Single variable by multiple groups
+
+```{r}
+aggregate(bill_length_mm ~ species + island, penguins, mean)
+```
+
+```{r}
+aggregate(penguins$bill_length_mm,
+          by = list(penguins$species, penguins$island),
+          mean, na.rm = TRUE)
+```
+
+```{r}
+with(penguins,
+     aggregate(bill_length_mm,
+               by = list(species, island),
+               mean, na.rm = TRUE))
+```
+
+## Multiple variables by multiple groups
+
+```{r}
+aggregate(cbind(bill_length_mm, flipper_length_mm) ~ species + island,
+          penguins, mean)
+```
+
+```{r}
+aggregate(penguins[, c("bill_length_mm", "flipper_length_mm")],
+          by = list(penguins$species, penguins$island),
+          mean, na.rm = TRUE)
+```
+
+```{r}
+with(penguins,
+     aggregate(cbind(bill_length_mm, flipper_length_mm),
+               by = list(species, island),
+               mean, na.rm = TRUE))
+```
+
+## See also
+
+[`tapply()`]({#tapply}) for an alternative methods of applying function on subsets of a single 
+variable (probably faster)

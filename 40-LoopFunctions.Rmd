@@ -21,7 +21,7 @@ knitr::include_graphics("./R_applyfam.png")
 
 Before starting to use the above functions, we need to learn about anonymous functions, which are often used within the apply functions.
 
-## `apply()`
+## `apply()` {#apply}
 
 ```{block, type="rmdtip"}
 `apply()` applies a function over one or more dimensions of an array of 2 dimensions or more (this includes matrices) or a data frame:
@@ -83,7 +83,7 @@ Try to think why you can't use `apply()` to apply a function `fn()` on a vector 
 Because that would be `fn(v)`
 ```
 
-## `lapply()`
+## `lapply()` {#lapply}
 
 ```{block, type="rmdtip"}
 `lapply()` applies a **function** on **each element of its input** and returns a **list** of the outputs.  
@@ -109,7 +109,7 @@ for (i in 1:4) {
 }
 ```
 
-## `sapply()`
+## `sapply()` {#sapply}
 
 `sapply()` is an alias for `lapply()`, followed by a call to `simplify2array()`.  
 (Check the source code for `sapply()` by typing `sapply` at the console and hitting Enter).  
@@ -130,7 +130,7 @@ iris.summary <- data.frame(Mean = sapply(iris[, -5], mean),
 iris.summary
 ```
 
-## `vapply()`
+## `vapply()` {#vapply}
 
 Much less commonly used (possibly *underused*) than `lapply()` or `sapply()`, `vapply()` allows you to specify what the expected output looks like - for example a numeric vector of length 2, a character vector of length 1.
 
@@ -161,7 +161,7 @@ If `FUN.VALUE` does not match the returned value, we get an informative error:
 vapply(iris[, -5], range, FUN.VALUE = .1)
 ```
 
-## `tapply()`
+## `tapply()` {#tapply}
 
 `tapply()` is one way (of many) to apply a function on **subgroups of data** as defined by one or more factors.  
 In the following example, we calculate the mean Sepal.Length by species on the iris dataset:
@@ -185,7 +185,7 @@ for (i in seq(species)) {
 mean_Sepal.Length_by_Species
 ```
 
-## `mapply()`
+## `mapply()` {#mapply}
 
 The above functions all work well when you iterating over elements of a single object.  
 `mapply()` allows you to execute a function that accepts two or more inputs, say `fn(x, z)` using the i-th element of each input, and will return:  
@@ -282,7 +282,7 @@ sapply(1:ncol(amat), function(i) mean(amat[, i]))
 This is shown to help emphasize the differences between the function and the data structures. In practice, you would use `apply()` on a matrix.
 
 
-## Anonymous functions
+## Anonymous functions {#anonfns}
 
 Anonymous functions are just like regular functions but they are not assigned to an object - i.e. they are not "named".  
 They are usually passed as arguments to other functions to be used once, hence no need to name them.  

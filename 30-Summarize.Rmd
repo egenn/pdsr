@@ -76,49 +76,7 @@ rowMeans2(a)
 
 Note: **matrixStats** provides replacement functions named almost identically to their base counterpart - so they are easy to find - but are different - so they don't mask the base functions (this is important and good software design).
 
-## Grouped summary statistics with `aggregate()`
 
-`aggregate()` is a powerful way to apply functions on splits of your data. It can replicate functionality of the `*apply()` family, but can be more flexible/powerful and supports a formula input.
+## See alos
 
-```{r}
-aggregate(iris[, -5], by = list(iris$Species), mean)
-```
-
-Alternatively, the more compact **formula notation** can be used here to get the same result.  
-The `.` on the left hand side represents all features, excluding those on the right hand side:
-
-```{r}
-aggregate(. ~ Species, iris, mean)
-```
-
-To define multiple specific variables on the left hand side of the formula, use `cbind()`:
-
-```{r}
-aggregate(cbind(Sepal.Length, Sepal.Width) ~ Species, iris, mean)
-```
-
-
-Let's make up a second grouping:
-
-```{r}
-irisd <- iris
-irisd$Group2 <- rep(1:2, 3, each = 25)
-irisd$Group2
-```
-
-This "Group2" divides each iris Species in the first and last 25 cases.  
-Let's aggregate by both Species and Group2:
-
-```{r}
-aggregate(irisd[, -c(5, 6)],
-          by = list(Species = irisd$Species, Group2 = irisd$Group2),
-          mean)
-```
-
-The compact formula notation can be very convenient here:
-
-```{r}
-aggregate(. ~ Species + Group2, irisd, mean)
-```
-
-Note: Using aggregate with the `by = list()` argument is easier to code with. The formula notation might be easier to work with in real time on the console. You *can* code with the formula notation, but if there is an alternative it's unlikely to be worth the extra steps.
+[`aggregate()`](#aggregate) for grouped summary statistics

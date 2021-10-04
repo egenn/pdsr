@@ -31,6 +31,32 @@ There are four main types of join operations:
 knitr::include_graphics("R_joins.png")
 ```
 
+## `merge()`
+
+The `merge()` command in R is used to perform table joins.
+
+Syntax: 
+
+`merge(x, y, by)`
+
+where `x` and `y` and the two data.frames to join, and `by` is the column name of the ID variable used to identify rows. If the two datasets' ID column has a different name, e.g. "PatientID" in one and "PID" in the other, you can either rename one of them,
+or probably best, use the following syntax:
+
+`merge(x, y, by.x, by.y)`
+
+where `by.x` should be the name of the ID column for the `x` dataset and `by.y` should be the name
+of the ID column for the `y` dataset.
+
+If you do not specify `by` or `by.x` and `by.y` arguments, `merge()` defaults to using the intersection of column names of the two input datasets. Look at the `merge()`'s documentation:
+
+`by = intersect(names(x), names(y))`
+
+In our example datasets above, this works as expected and identifies "PID" as the common column:
+
+```{r}
+intersect(names(a), names(b))
+```
+
 ## Inner join
 
 The default arguments of `merge()` perform an **inner join**:
@@ -75,3 +101,26 @@ You can perform a **right outer join** by specifying `all.y = TRUE`:
 ```
 
 Note how the resulting data frame contains ***all cases present in the right input dataset*** (i.e. the one defined seecond in the arguments) only.
+
+## Specifying columns 
+
+As mentioned above, if the ID columns in the two data.frames to be merged do not have the same name, you can specify them directly:
+
+```{r}
+a <- data.frame(PID = c(101:109),
+                Hospital = c("UCSF", "HUP", "Stanford",
+                             "Stanford", "UCSF", "HUP", 
+                             "HUP", "Stanford", "UCSF"),
+                Age = c(22, 34, 41, 19, 53, 21, 63, 22, 19),
+                Sex = c(1, 1, 0, 1, 0, 0, 1, 0, 0))
+
+b  <- data.frame(PatientID = c(106:112),
+                 V1 = c(153, 89, 112, 228,  91, 190, 101),
+                 Department = c("Neurology", "Radiology",
+                                "Emergency", "Cardiology",
+                                "Surgery", "Neurology", "Psychiatry"))
+```
+
+```{r}
+merge(a, b, by.x = "PID", by.y = "PatientID")
+```

@@ -328,17 +328,7 @@ grep("en{2,}X", c("eX", "enX", "ennX", "ennnX", "ennnnX"))
 grep("en{2,3}X", c("eX", "enX", "ennX", "ennnX", "ennnnX"))
 ```
 
-### Escaping metacharacters
-
-The following are defined as metacharacters, because they have special meaning within a regular expression: `. \ | ( ) [ { ^ $ * + ?`.  
-If you want to match one of these characters itself, you must "escape" it using a double backslash:
-
-```{r}
-x <- c("dn3ONE", "d.3TWO", "dx3FIVE")
-grep("d\\.3", x)
-```
-
-### Character classes
+### Character classes {#characterclasses}
 
 You can define a set of characters to be matched using square brackets. Any number of the characters in the set will be matched.
 
@@ -387,7 +377,7 @@ x <- c("001$Emergency", "010@Cardiology", "018*Neurology", "020!Anesthesia",
 gsub("[^[:alnum:]]", "_", x)
 ```
 
-### Combine character classes
+### Combining character classes
 
 Use `|` to match from multiple character classes:
 
@@ -398,4 +388,46 @@ gsub("[[:digit:]|[:punct:]]", "", x)
 
 ```{block, type="rmdinfo"}
 For more information on regular expressions, start by reading the built-in documentation: `?regex`
+```
+
+### Escaping metacharacters
+
+Metacharacters are characters that have a special meaning within a regular expression. They include:
+
+`. \ | ( ) [ { ^ $ * + ?`.  
+
+For example, we have seen above that the period matches any character and the square brackets are used to define [character classes](#characterclasses)
+If you want to match one of these characters itself, you must "escape" it using a double backslash. Escaping a character simply means "this is not part of a regular expression, match it as is".
+
+For example, to match a period (`.`) and replace it with underscores:
+
+```{r}
+x <- c("systolic.blood.pressure", "diastolic.blood.pressure")
+x
+gsub("\\.", "_", x)
+```
+
+If we didn't escape the period above, it would have matched every character:
+
+```{r}
+gsub(".", "_", x)
+```
+
+Another example, include an escaped metacharacter within a regular expression. In the example below we want to remove everything up to and including the dollar sign:
+
+```{r}
+x <- c("df$ID", "df$Age")
+gsub(".*\\$", "", x)
+```
+
+Our regular expression `.*\\$`, decomposed:
+
+- `.`: match any character
+- `.*`: match any character any number of times
+- `.*\\$`: match any character any number of times till you find a dollar sign
+
+If we had not escaped the `$`, it wouldn't have worked:
+
+```{r}
+gsub(".*$", "", x)
 ```

@@ -205,66 +205,63 @@ kruskal.test(Ozone ~ Month, data = airquality)
 
 Pearson's chi-squared test for count data
 
-From the R documentation on `chisq.test`:
+Some synthetic data:
 
 ```{r}
-M <- as.table(rbind(c(762, 327, 468), c(484, 239, 477)))
-dimnames(M) <- list(gender = c("F", "M"),
-                    party = c("Democrat","Independent", "Republican"))
-(Xsq <- chisq.test(M))  # Prints test summary
-Xsq$observed   # observed counts (same as M)
-Xsq$expected   # expected counts under the null
-Xsq$residuals  # Pearson residuals
-Xsq$stdres     # standardized residuals
+set.seed(2021)
+set.seed(2021)
+Cohort <- factor(sample(c("Control", "Case"), 500, TRUE),
+                 levels = c("Control", "Case"))
+Sex <- factor(
+  sapply(seq(Cohort), \(i) sample(c("Male", "Female"), 1,
+                                  prob = if (Cohort[i] == "Control") c(1, 1) else c(2, 1))))
+dat <- data.frame(Cohort, Sex)
+head(dat)
 ```
 
-### Mosaic Plot
+You can lot count data using a [mosaic plot](#mosaicplot), with either a table or formula input:
 
 ```{r}
-mosaicplot(M, color = c("blue", "orange", "red"), border = F, main = "")
+mosaicplot(table(Cohort, Sex),
+           color = c("orchid", "skyblue"),
+           border = NA,
+           main = "Cohort x Sex")
 ```
-
-Or using the formula interface:
 
 ```{r}
-mosaicplot(~gender + party, M, color = c("blue", "orange", "red"), border = F, main = "")
+mosaicplot(Cohort ~ Sex, dat,
+           color = c("orchid", "skyblue"),
+           border = NA,
+           main = "Cohort x Sex")
 ```
+
+`chisq.test()` accepts either two factors, or a table:
+
+```{r}
+cohort_sex_chisq <- chisq.test(dat$Cohort, dat$Sex)
+cohort_sex_chisq
+```
+
+```{r}
+cohort_sex_chisq <- chisq.test(table(dat$Cohort, dat$Sex))
+cohort_sex_chisq
+```
+
 
 ## Fisher's exact test
 
 Fisher's exact test for count data
 
-From R Documentation:
+Working on the same data as above, `fisher.test()` also accepts either two factors or a table as input:
 
 ```{r}
-TeaTasting <- matrix(c(3, 1, 1, 3),
-                     nrow = 2,
-                     dimnames = list(Guess = c("Milk", "Tea"),
-                                     Truth = c("Milk", "Tea")))
-TeaTasting
+cohort_sex_fisher <- fisher.test(dat$Cohort, dat$Sex)
+cohort_sex_fisher
 ```
 
 ```{r}
-fisher.test(TeaTasting, alternative = "greater")
-## => p = 0.2429, association could not be established
-```
-
-```{r}
-Convictions <- matrix(c(2, 10, 15, 3), nrow = 2,
-	              dimnames =
-	       list(c("Dizygotic", "Monozygotic"),
-		    c("Convicted", "Not convicted")))
-Convictions
-fisher.test(Convictions, alternative = "less")
-fisher.test(Convictions, conf.int = FALSE)
-fisher.test(Convictions, conf.level = 0.95)$conf.int
-fisher.test(Convictions, conf.level = 0.99)$conf.int
-```
-
-### Mosaic plot
-
-```{r}
-mosaicplot(Convictions, color = c("red", "blue"), border = NA)
+cohort_sex_fisher <- fisher.test(table(dat$Cohort, dat$Sex))
+cohort_sex_fisher
 ```
 
 ## F Test to compare two variances

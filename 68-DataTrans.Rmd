@@ -197,12 +197,34 @@ per case. This is similar to creating dummy variables in statistics, with the di
 variables create `k - 1` new variables.
 
 ```{r}
+set.seed(21)
 admission_reasons <- c("plannedSurgery", "emergencySurgery", "medical")
-(admission <- sample(admission_reasons, 10, T))
+admission <- sample(admission_reasons, 12, T)
+admission
 ```
 
-We can use the **rtemis** `oneHot()` function:
+Multiple packages include functions that perform one-hot encoding. It's a simple operation and we don't necessarily need to install a large package with many dependencies.
+
+Let's write a simple function to perform one-hot encoding. We'll use a straightforward for-loop. It may not be the most efficient way, but it is easy to understand, a good review for writing our own function, and still plenty fast for most cases
 
 ```{r}
-admission_oneHot <- oneHot(admission)
+onehot <- function(x, xname = NULL) {
+  if (is.null(xname)) xname <- deparse(substitute(x))
+  x <- factor(x)
+  .levels <- levels(x)      # Get factor levels
+  ncases <- NROW(x)         # Get number of cases
+  index <- as.integer(x)    # Convert levels to integer
+  oh <- matrix(0, ncases, length(.levels))   # Initialize zeros matrix
+  colnames(oh) <- paste(xname, .levels, sep = "_")  # Name columns by levels
+  for (i in seq(ncases)) oh[i, index[i]] <- 1  # Assign "1" to appropriate level
+  oh
+}
 ```
+
+Let's apply our new function to the admission vector:
+
+```{r}
+onehot(admission)
+```
+
+Note: `deparse(substitute(x))` above is used to automatically get the name of the input object (in this case "admission"). This is similar to how many of R's internal functions (e.g. `plot()`) get the names of input objects.

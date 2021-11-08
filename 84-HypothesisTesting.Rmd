@@ -72,7 +72,6 @@ boxplot(x0, x1,
         boxwex = .3, names = c("x0", "x1"))
 ```
 
-
 ### One sample t-test
 
 ```{r}
@@ -89,6 +88,9 @@ boxplot(extra ~ group, sleep,
 ```
 
 ### Two-sample T-test
+
+Both `t.test()` and `wilcox.test()` (below) either accept input as two vectors, 
+`t.test(x, y)` or a formula of the form `t.test(x ~ group)`.
 
 ```{r}
 t.test(extra ~ group, sleep)
@@ -134,6 +136,41 @@ wilcox.test(x, y, paired = TRUE)
 ```{r}
 wilcox.test(x, y, paired = TRUE, alternative = "greater")
 ```
+
+## Analysis of Variance
+
+```{r}
+BP_drug <- data.frame(Group = factor(rep(c("Placebo", "Drug_A", "Drug_B"), each = 20),
+                                     levels = c("Placebo", "Drug_A", "Drug_B")),
+                  SBP = c(rnorm(20, 140, 2.2), rnorm(20, 132, 2.1), rnorm(20, 138, 2)))
+```
+
+```{r}
+boxplot(SBP ~ Group, BP_drug,
+        col = "#05204999", border = "#052049",
+        boxwex = .3)
+```
+
+
+```{r}
+SBP_aov <- aov(SBP ~ Group, BP_drug)
+SBP_aov
+```
+
+```{r}
+summary(SBP_aov)
+```
+
+The analysis of variance p-value is highly significant, but doesn't tell us which levels of the Group factor are significantly different from each other. The boxplot already gives us a pretty good idea, but we can follow up with a pairwise t-test 
+
+### Pot-hoc pairwise t-tests
+
+```{r}
+pairwise.t.test(BP_drug$SBP, BP_drug$Group,
+                p.adj = "holm")
+```
+
+The pairwise tests suggest that the difference between Placebo and Drug_A and between Drug_a and Drug_b are highly significant (p <2e-16), while difference between Placebo and Drub_B is not (p = 0.061)
 
 ## Kruskal-Wallis test
 

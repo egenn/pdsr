@@ -19,20 +19,34 @@ library(rtemis)
 
 ### Standardization / Scaling & Centering with `scale()` {#zscore}
 
-Depending on your modeling needs / the algorithms you plan to use, it is often important to scale 
-and/or center your data. Note that many functions, but not all, will automatically scale and center 
-data internally if it is required by the algorithm. Check the function documentation.  
+**Scaling** of a numeric vector is achieved by elementwise division with the standard deviation. A scaled vector therefore has standard deviation equal to 1.
 
-Standardizing, i.e. converting to Z-scores, involves subtracting the mean and dividing by the 
-standard deviation. 
-Scaling and centering in R is performed with the `scale` function. By default, both arguments 
-`scale` and `center` are set to `TRUE`:
+**Centering** of a numeric vector is achieved by elementwise subtraction of its mean. A centered vector therefore has mean equal to 0.
+
+**Standardizing**, a.k.a. converting to Z-scores, involves scaling and centering. Scaling and centering is performed in R with the `scale()` function.
+
+Depending on your modeling needs / the algorithms you plan to use, it is often important to scale and/or center your data. Note that many functions, but not all, may automatically scale and center data internally if it is required by the algorithm. Check the function documentation to see if you should manually scale or not.
+
+`scale()` can be applied to a single vector or a matrix/data.frame.
+In the case of a matrix or data.frame, scaling is applied on each column individually.
+By default, both arguments `scale` and `center` are set to `TRUE`.
+
+Scale a vector:
+
+```{r}
+head(iris$Sepal.Length)
+Petal.Length_scaled <- scale(iris$Petal.Length)
+head(Petal.Length_scaled)
+```
+
+Scale multiple columns of a matrix/data.frame:
 
 ```{r}
 iris.scaled <- scale(iris[, -5])
+head(iris.scaled)
 ```
 
-First, let's check that it did what we were hoping:  
+First, let's verify that `scale()` did what we wanted:  
 
 ```{r}
 colMeans(iris.scaled)
@@ -42,7 +56,57 @@ colMeans(iris.scaled)
 apply(iris.scaled, 2, sd)
 ```
 
-Good - We got effectively 0 mean and standard deviation of 1 for each column.  
+We got effectively 0 mean and standard deviation of 1 for each column.  
+
+`scale()` outputs the scaled vector(s) along with the scaling and/or centering parameters saved as attributes in the output.
+
+Note that in both cases, whether a vector input or data.frame, the output is a **matrix**:
+
+```{r}
+class(Petal.Length_scaled)
+class(iris.scaled)
+```
+
+Get the output attributes:
+
+```{r}
+attributes(Petal.Length_scaled)
+```
+
+`center` is the mean:
+
+```{r}
+mean(iris$Petal.Length)
+```
+
+`scale` is the standard deviation:
+
+```{r}
+sd(iris$Petal.Length)
+```
+
+For a matrix/data.frame input, you get `center` and `scale` attributes per column:
+
+```{r}
+attributes(iris.scaled)
+```
+
+Let's save the scale and center attributes and then double check the calculations:
+
+```{r}
+.center <- attr(iris.scaled, "scaled:center")
+.center
+.scale <- attr(iris.scaled, "scaled:scale")
+.scale
+Sepal.Length_scaled <- (iris$Sepal.Length - .center[1]) / .scale[1]
+all(Sepal.Length_scaled == iris.scaled[, "Sepal.Length"])
+```
+
+Note: Due to limitation in numerical precision, checking sets of floats for equality after multiple operations is not recommended. One simple option is to plot:
+
+```{r}
+mplot3.fit(Sepal.Length_scaled, iris.scaled[, "Sepal.Length"])
+```
 
 ```{block, type="rmdnote"}
 If you are manually scaling and/or centering data for **supervised learning**, you must:  
@@ -52,29 +116,44 @@ If you are manually scaling and/or centering data for **supervised learning**, y
 * Apply the training set-derived centering and scaling parameters to the **test set** *prior to prediction/inference*.
 ```
 
-A common mistake is to either scale training and testing data together in the beginning, or scale 
-them independently.  
+A common mistake is to either scale training and testing data together in the beginning, or scale them independently.  
 
-Let's get the scale and center attributes:
+### Normalization
+
+**Normalization** has different meanings in different contexts; in the context of a numeric variable it usually refers to converting to a 0-1 range.
+
+Let's write a simple function to achieve this:
 
 ```{r}
-attributes(iris.scaled)
+normalize <- function(x) {
+  .min <- min(x, na.rm = TRUE)
+  (x - .min) / max(x - .min, na.rm = TRUE)
+}
 ```
 
-Let's save the scale and center attributes and then check some values so that we are clear what is 
-happening:
-
 ```{r}
-(.center <- attr(iris.scaled, "scaled:center"))
-(.scale <- attr(iris.scaled, "scaled:scale"))
-Sepal.Length_scaled <- (iris$Sepal.Length - .center[1]) / .scale[1]
-all(Sepal.Length_scaled == iris.scaled[, "Sepal.Length"])
+x <- rnorm(20, 13, 1.4)
+x
 ```
 
-Note: Due to limitation in numerical precision, checking sets of floats for equality after multiple operations is not recommended. A good option is to plot, if possible:
+```{r}
+x_normalized <- normalize(x)
+x_normalized
+min(x_normalized)
+max(x_normalized)
+```
+
+Note that it is easy to make the `normalize()` function more general, by adding `lo` and `hi` arguments to convert to any range:
 
 ```{r}
-mplot3.fit(Sepal.Length_scaled, iris.scaled[, "Sepal.Length"])
+dr <- function(x, lo = 0, hi = 1) {
+    .min <- min(x, na.rm = TRUE)
+   (x - .min) / max(x - .min, na.rm = TRUE) * (hi - lo) + lo
+  }
+```
+
+```{r}
+dr(x, -1, 1)
 ```
 
 ### Log-transform with `log()`
@@ -94,14 +173,11 @@ We start by plotting its distribution:
 mplot3.x(x)
 ```
 
-We can see it is highly skewed. A log transform may help here.  
-Let's check:
+We can see it is skewed right. A log transform can help here:
 
 ```{r}
 mplot3.x(log(x))
 ```
-
-Looks like a good deal.
 
 ### Data binning with `cut()`
 
@@ -126,34 +202,39 @@ table(x_cut4)
 between 3 and 9, **including** 3 and **excluding** 9.
 ```
 
-Because the data is so skewed, equal intervals are not helpful in this case. The majority of the 
-data gets grouped into a single bin.  
-Let's visualize the cuts.
+Because the data is so skewed, equal intervals are not helpful in this case. The majority of the data points get grouped into a single bin.
+
+Let's visualize the cuts:
 
 ```{r}
-(xcuts5 <- seq(min(x), max(x), length.out = 5))
+xcuts5 <- seq(min(x), max(x), length.out = 5)
+xcuts5
+```
+
+```{r}
 mplot3.x(x, par.reset = FALSE)
 # plot(density(x)) # in base R
 abline(v = xcuts5, col = "red", lwd = 1.5)
 ```
 
-Note: We used `par.reset = FALSE` to stop `mplot3.x()` from resetting its custom `par()` settings so 
-that we can continue adding elements to the same plot, in this case with the `abline()` command.  
+[Note: We used `par.reset = FALSE` to stop `mplot3.x()` from resetting its custom `par()` settings so that we can continue adding elements to the same plot, in this case with the `abline()` command.]
 
 #### Quantile cuts
 
-Instead, we can get quantiles with `quantile()`. We ask for 5 quantiles using the `lngth.out` 
-argument, which corresponds to 4 intervals:
+Instead of evenly-spaced intervals, we can get quantiles with `quantile()`. We ask for 5 quantiles using the `length.out` argument, which corresponds to 4 intervals:
 
 ```{r}
-(xquants5 <- quantile(x, seq(0, 1, length.out = 5)))
+xquants5 <- quantile(x, seq(0, 1, length.out = 5))
+xquants5 <- quantile(x, seq(0, 1, length.out = 5))
 mplot3.x(x, par.reset = F)
 # plot(density(x)) # in base R
 abline(v = xquants5, col = "green", lwd = 1.5)
 ```
-The `breaks` argument of `cut()` allows us to pass either an integer to define evenly-spaced breaks, 
-or a numeric vector define the position of breaks.  
-We can therefore pass the quantile values as break points.  
+
+The `breaks` argument of `cut()` allows us to pass either an integer to define the number of evenly-spaced breaks, or a numeric vector defining the position of breaks.
+
+We can therefore pass the quantile values as break points.
+
 Since the quantile values begin at the lowest value in the data, we need to define 
 `include.lowest = TRUE` so that the first interval is inclusive of the lowest value:
 
@@ -162,7 +243,7 @@ x_cutq4 <- cut(x, breaks = xquants5, include.lowest = TRUE)
 table(x_cutq4)
 ```
 
-With quantile cuts, each bin contains the same or roughly the same number of observations (+/- 1).  
+With quantile cuts, each bin contains roughly the same number of observations (+/- 1).  
 
 ## Categorical variables
 
@@ -182,7 +263,7 @@ brightness <- factor(c("bright", "brightest", "darkest",
 brightness
 ```
 
-...can be directly coerced to integer:
+...can be directly coerced to an integer:
 
 ```{r}
 as.integer(brightness)
@@ -205,7 +286,7 @@ admission
 
 Multiple packages include functions that perform one-hot encoding. It's a simple operation and we don't necessarily need to install a large package with many dependencies.
 
-Let's write a simple function to perform one-hot encoding. We'll use a straightforward for-loop. It may not be the most efficient way, but it is easy to understand, a good review for writing our own function, and still plenty fast for most cases
+Let's write a simple function to perform one-hot encoding. (Note: you may have heard that for loops can be slow in R, but that depends on the operations performed. Here, we loop over an integer matrix and it is plenty fast)
 
 ```{r}
 onehot <- function(x, xname = NULL) {

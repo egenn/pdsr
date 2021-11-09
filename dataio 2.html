@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>10 Data Input/Output | Programming for Data Science in R</title>
+
+    <meta name="author" content="Efstathios (Stathis) D. Gennatas, MBBS AICSM PhD" />
+  
+   <meta name="description" content="10 Data Input/Output | Programming for Data Science in R is a project to build an online resource for (Bio)statisticians / Epidemiologists / (Health) Data Scientists" />
+   <meta name="generator" content="placeholder" />
+  <meta property="og:title" content="10 Data Input/Output | Programming for Data Science in R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="10 Data Input/Output | Programming for Data Science in R is a project to build an online resource for (Bio)statisticians / Epidemiologists / (Health) Data Scientists" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="10 Data Input/Output | Programming for Data Science in R" />
+  
+  <meta name="twitter:description" content="10 Data Input/Output | Programming for Data Science in R is a project to build an online resource for (Bio)statisticians / Epidemiologists / (Health) Data Scientists" />
+  
+  <!-- JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script>
+  <script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script>
+    <script src="libs/header-attrs-2.11/header-attrs.js"></script>
+    <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet" />
+    <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script>
+    <script src="libs/bs3compat-0.3.1/transition.js"></script>
+    <script src="libs/bs3compat-0.3.1/tabs.js"></script>
+    <script src="libs/bs3compat-0.3.1/bs3compat.js"></script>
+    <link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet" />
+    <script src="libs/bs4_book-1.0.0/bs4_book.js"></script>
+    <script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+    <script src="libs/plotly-binding-4.9.4.1/plotly.js"></script>
+    <script src="libs/typedarray-0.1/typedarray.min.js"></script>
+    <link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
+    <script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
+    <link href="libs/plotly-htmlwidgets-css-1.57.1/plotly-htmlwidgets.css" rel="stylesheet" />
+    <script src="libs/plotly-main-1.57.1/plotly-latest.min.js"></script>
+    <script src="libs/d3-3.5.6/d3.min.js"></script>
+    <link href="libs/profvis-0.3.6.9000/profvis.css" rel="stylesheet" />
+    <script src="libs/profvis-0.3.6.9000/profvis.js"></script>
+    <script src="libs/profvis-0.3.6.9000/scroll.js"></script>
+    <link href="libs/highlight-6.2.0/textmate.css" rel="stylesheet" />
+    <script src="libs/highlight-6.2.0/highlight.js"></script>
+    <script src="libs/profvis-binding-0.3.7/profvis.js"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-163213745-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-163213745-1');
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script>
+
+  <!-- CSS -->
+    <link rel="stylesheet" href="bootstrap.lambdamd.css" />
+  
+</head>
+
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book">
+    <a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">Programming for Data Science in R</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+      </form>
+
+      <nav aria-label="Table of contents">
+        <h2>Table of contents</h2>
+        <div id="book-toc"></div>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="#">View book source <i class="fab fa-github"></i></a></li></p>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="col-sm-12 col-md-9 col-lg-7" id="content">
+<div id="dataio" class="section level1" number="10">
+<h1><span class="header-section-number">10</span> Data Input/Output</h1>
+<div id="r-datasets" class="section level2" number="10.1">
+<h2><span class="header-section-number">10.1</span> R datasets</h2>
+<div id="datasets-included-with-r-in-package-datasets" class="section level3" number="10.1.1">
+<h3><span class="header-section-number">10.1.1</span> Datasets included with R (in package ‘datasets’)</h3>
+<p>List built-in datasets with <code>data()</code> and no arguments:</p>
+<div class="sourceCode" id="cb727"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb727-1"><a href="dataio.html#cb727-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>()</span></code></pre></div>
+<p>These built-in datasets are normally readily available in the R console (because the <strong>datasets</strong> package is automatically loaded)<br />
+You can check if this is the case using <code>search()</code></p>
+<div class="sourceCode" id="cb728"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb728-1"><a href="dataio.html#cb728-1" aria-hidden="true" tabindex="-1"></a><span class="fu">search</span>()</span></code></pre></div>
+<pre><code>[1] &quot;.GlobalEnv&quot;        &quot;package:stats&quot;     &quot;package:graphics&quot; 
+[4] &quot;package:grDevices&quot; &quot;package:utils&quot;     &quot;package:datasets&quot; 
+[7] &quot;package:methods&quot;   &quot;Autoloads&quot;         &quot;package:base&quot;     </code></pre>
+</div>
+<div id="datasets-included-with-other-packages" class="section level3" number="10.1.2">
+<h3><span class="header-section-number">10.1.2</span> Datasets included with other packages</h3>
+<p>List a dataset included with some R package:</p>
+<div class="sourceCode" id="cb730"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb730-1"><a href="dataio.html#cb730-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="at">package =</span> <span class="st">&quot;glmnet&quot;</span>)</span>
+<span id="cb730-2"><a href="dataio.html#cb730-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="at">package =</span> <span class="st">&quot;MASS&quot;</span>)</span>
+<span id="cb730-3"><a href="dataio.html#cb730-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="at">package =</span> <span class="st">&quot;mlbench&quot;</span>)</span></code></pre></div>
+<p>Load a dataset from some R package:</p>
+<div class="sourceCode" id="cb731"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb731-1"><a href="dataio.html#cb731-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(Sonar, <span class="at">package =</span> <span class="st">&quot;mlbench&quot;</span>)</span></code></pre></div>
+<p>Note: quotes around “Sonar” in the <code>data()</code> command above are optional.</p>
+</div>
+</div>
+<div id="system-commands" class="section level2" number="10.2">
+<h2><span class="header-section-number">10.2</span> System commands</h2>
+<p>Get working directory with <code>getwd()</code></p>
+<div class="sourceCode" id="cb732"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb732-1"><a href="dataio.html#cb732-1" aria-hidden="true" tabindex="-1"></a><span class="fu">getwd</span>()</span></code></pre></div>
+<p>You can set a different working directory with <code>setwd()</code></p>
+<p>List files in current directory:</p>
+<div class="sourceCode" id="cb733"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb733-1"><a href="dataio.html#cb733-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dir</span>()</span></code></pre></div>
+<p>You can execute a command of you operating system (OS) -i.e. MacOS, Linux, Windows- from within R using the <code>system()</code> function:</p>
+<div class="sourceCode" id="cb734"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb734-1"><a href="dataio.html#cb734-1" aria-hidden="true" tabindex="-1"></a><span class="fu">system</span>(<span class="st">&quot;uname -a&quot;</span>)</span></code></pre></div>
+<p>Note: See issue <a href="https://stackoverflow.com/questions/27388964/rmarkdown-not-outputting-results-of-system-command-to-html-file">here</a></p>
+</div>
+<div id="data-io" class="section level2" number="10.3">
+<h2><span class="header-section-number">10.3</span> Data I/O</h2>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:FigRDataIO"></span>
+<img src="R_dataio.png" alt="Common Data Input/Output commands in R" width="80%" />
+<p class="caption">
+Figure 10.1: Common Data Input/Output commands in R
+</p>
+</div>
+<div id="read-local-csv" class="section level3" number="10.3.1">
+<h3><span class="header-section-number">10.3.1</span> Read local CSV</h3>
+<p><code>read.table()</code> is the core function that reads data from formatted text files in R, where cases correspond to lines and variables to columns. Its many arguments allow to read different formats.</p>
+<p><code>read.csv()</code> is an alias for <code>read.table()</code> that defaults to commas as separators and dots for decimal points. (Run <code>read.csv</code> in the console to print its source read the documentation with <code>?read.table</code>).</p>
+<p>Some important arguments for <code>read.table()</code> listed here with their default values for <code>read.csv()</code>:</p>
+<ul>
+<li><code>sep = ","</code>: Character that separate entries. Default is a comma; use “ for tab-separated files (default setting in <code>read.delim()</code>)</li>
+<li><code>dec = "."</code>: Character for the decimal point. Default is a dot; in some cases where a comma is used as the decimal point, the entry separator <code>sep</code> may be a semicolon (default setting in <code>read.csv2()</code>)</li>
+<li><code>na.strings = "NA"</code>: Character vector of strings to be coded as “NA”</li>
+<li><code>colClasses = NA</code>: Either a character vector defining each column’s type (e.g. c(“character”, “numeric”, “numeric”) recycled as necessary <em>or</em> a named vector defining specific columns’ types (e.g. c(ICD9 = “character”, Sex = “factor”, SBP = “numeric”, DOB = “Date”)). Unspecified columns automatically determined. Note: Set a column to “NULL” (with quotes) to exclude column.</li>
+</ul>
+<div class="sourceCode" id="cb735"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb735-1"><a href="dataio.html#cb735-1" aria-hidden="true" tabindex="-1"></a>men <span class="ot">&lt;-</span>  <span class="fu">read.csv</span>(<span class="st">&quot;../Data/pone.0204161.s001.csv&quot;</span>)</span></code></pre></div>
+</div>
+<div id="read-data-from-the-web" class="section level3" number="10.3.2">
+<h3><span class="header-section-number">10.3.2</span> Read data from the web</h3>
+<p><code>read.csv()</code> can directly read an online file. In the second example below, we also define that missing data is coded with <code>?</code> using the <code>na.strings</code> argument:</p>
+<div class="sourceCode" id="cb736"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb736-1"><a href="dataio.html#cb736-1" aria-hidden="true" tabindex="-1"></a>parkinsons <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;https://archive.ics.uci.edu/ml/machine-learning-databases/parkinsons/parkinsons.data&quot;</span>)</span>
+<span id="cb736-2"><a href="dataio.html#cb736-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb736-3"><a href="dataio.html#cb736-3" aria-hidden="true" tabindex="-1"></a>sleep <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;https://www.openml.org/data/get_csv/53273/sleep.arff&quot;</span>,</span>
+<span id="cb736-4"><a href="dataio.html#cb736-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">na.strings =</span> <span class="st">&quot;?&quot;</span>)</span></code></pre></div>
+<p>The above files are read from two very popular online <a href="https://rtemis.lambdamd.org/resources.html#datasets">data repositories</a>. Confusingly, neither file ends in <code>.csv</code>, but they both work with <code>read.csv()</code>. Always look at the plain text file first to determine if it can work with <code>read.table()</code> /<code>read.csv()</code> and what settings to use.</p>
+</div>
+<div id="read-zipped-data-from-the-web" class="section level3" number="10.3.3">
+<h3><span class="header-section-number">10.3.3</span> Read zipped data from the web</h3>
+<div id="using-gzcon-and-csv.read" class="section level4" number="10.3.3.1">
+<h4><span class="header-section-number">10.3.3.1</span> using <code>gzcon()</code> and <code>csv.read()</code></h4>
+<p><code>read.table()</code> /<code>read.csv()</code> also accepts a “connection” as input.<br />
+Here we define a connection to a zipped file by nesting <code>gzcon()</code> and <code>url()</code>:</p>
+<div class="sourceCode" id="cb737"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb737-1"><a href="dataio.html#cb737-1" aria-hidden="true" tabindex="-1"></a>con <span class="ot">&lt;-</span> <span class="fu">gzcon</span>(<span class="fu">url</span>(<span class="st">&quot;https://github.com/EpistasisLab/pmlb/raw/master/datasets/breast_cancer_wisconsin/breast_cancer_wisconsin.tsv.gz&quot;</span>),</span>
+<span id="cb737-2"><a href="dataio.html#cb737-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">text =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p>We read the connection and specify the file is tab-separated, or call <code>read.delim()</code>:</p>
+<div class="sourceCode" id="cb738"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb738-1"><a href="dataio.html#cb738-1" aria-hidden="true" tabindex="-1"></a>bcw <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(con, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>)</span>
+<span id="cb738-2"><a href="dataio.html#cb738-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb738-3"><a href="dataio.html#cb738-3" aria-hidden="true" tabindex="-1"></a><span class="co">#same as</span></span>
+<span id="cb738-4"><a href="dataio.html#cb738-4" aria-hidden="true" tabindex="-1"></a>bcw <span class="ot">&lt;-</span> <span class="fu">read.delim</span>(con, <span class="at">header =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+</div>
+<div id="using-data.tables-fread" class="section level4" number="10.3.3.2">
+<h4><span class="header-section-number">10.3.3.2</span> using <strong>data.table</strong>’s <code>fread()</code></h4>
+<p>You can also use <strong>data.table</strong>’s <code>fread()</code>, which will directly handle zipped files:</p>
+<div class="sourceCode" id="cb739"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb739-1"><a href="dataio.html#cb739-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(data.table)</span>
+<span id="cb739-2"><a href="dataio.html#cb739-2" aria-hidden="true" tabindex="-1"></a>bcw2 <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">&quot;https://github.com/EpistasisLab/penn-ml-benchmarks/raw/master/datasets/classification/breast-cancer-wisconsin/breast-cancer-wisconsin.tsv.gz&quot;</span>)</span></code></pre></div>
+<p>If you want to stick to using data frames, set the argument <code>data.table</code> to <code>FALSE</code>:</p>
+<div class="sourceCode" id="cb740"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb740-1"><a href="dataio.html#cb740-1" aria-hidden="true" tabindex="-1"></a>bcw2 <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">&quot;https://github.com/EpistasisLab/penn-ml-benchmarks/raw/master/datasets/classification/breast-cancer-wisconsin/breast-cancer-wisconsin.tsv.gz&quot;</span>,</span>
+<span id="cb740-2"><a href="dataio.html#cb740-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">data.table =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+</div>
+</div>
+<div id="write-to-csv" class="section level3" number="10.3.4">
+<h3><span class="header-section-number">10.3.4</span> Write to CSV</h3>
+<p>Use the <code>write.csv()</code> function to write an R object (usually data frame or matrix) to a CSV file. Setting <code>row.names = FALSE</code> is usually a good idea. (Instead of storing data in rownames, it’s usually best to create a new column.)</p>
+<div class="sourceCode" id="cb741"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb741-1"><a href="dataio.html#cb741-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(iris, <span class="st">&quot;../Data/iris.csv&quot;</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<p>Note that in this case we did not need to save row names (which are just integers 1 to 150 and would add a useless extra column in the output)</p>
+</div>
+<div id="read-.xslx-using-openxlsxread.xlsx" class="section level3" number="10.3.5">
+<h3><span class="header-section-number">10.3.5</span> Read .xslx using <code>openxlsx::read.xlsx()</code></h3>
+<p>As an example, we can read the csv we saved earlier into Excel and then save it as a .xlsx file.</p>
+<div class="sourceCode" id="cb742"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb742-1"><a href="dataio.html#cb742-1" aria-hidden="true" tabindex="-1"></a>iris.path <span class="ot">&lt;-</span> <span class="fu">normalizePath</span>(<span class="st">&quot;../Data/iris.xlsx&quot;</span>)</span>
+<span id="cb742-2"><a href="dataio.html#cb742-2" aria-hidden="true" tabindex="-1"></a>iris2 <span class="ot">&lt;-</span> openxlsx<span class="sc">::</span><span class="fu">read.xlsx</span>(iris.path)</span></code></pre></div>
+<p>Note: <code>openxlsx::read.xlsx()</code> does not work with a relative path like <code>"./Data/iris.xlsc"</code>. Therefore we used the <code>normalizePath()</code> function to give us the full path of the file without having to type it out.</p>
+<p>Check that the data is still identical:</p>
+<div class="sourceCode" id="cb743"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb743-1"><a href="dataio.html#cb743-1" aria-hidden="true" tabindex="-1"></a><span class="fu">all</span>(iris <span class="sc">==</span> iris2)</span></code></pre></div>
+</div>
+<div id="write-an-r-object-to-rds" class="section level3" number="10.3.6">
+<h3><span class="header-section-number">10.3.6</span> Write an R object to RDS</h3>
+<p>You can write any R object directly to file so that you can recover it at any time, share it, etc. Remember that since a list can contain any number of objects of any type, you can save any collection of objects as an RDS file. For multiple objects, see also the <code>save.image()</code> command below.</p>
+<div class="sourceCode" id="cb744"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb744-1"><a href="dataio.html#cb744-1" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(iris, <span class="st">&quot;iris.rds&quot;</span>)</span></code></pre></div>
+<p>To load an object saved in an rds file, assign it to an object using <code>readRDS()</code>:</p>
+<div class="sourceCode" id="cb745"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb745-1"><a href="dataio.html#cb745-1" aria-hidden="true" tabindex="-1"></a>iris_fromFile <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">&quot;iris.rds&quot;</span>)</span>
+<span id="cb745-2"><a href="dataio.html#cb745-2" aria-hidden="true" tabindex="-1"></a><span class="fu">all</span>(iris <span class="sc">==</span> iris_fromFile)</span></code></pre></div>
+</div>
+<div id="write-multiple-r-objects-to-rdata-file-using-save" class="section level3" number="10.3.7">
+<h3><span class="header-section-number">10.3.7</span> Write multiple R objects to RData file using <code>save()</code></h3>
+<div class="sourceCode" id="cb746"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb746-1"><a href="dataio.html#cb746-1" aria-hidden="true" tabindex="-1"></a>mat1 <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="fu">seq_len</span>(<span class="dv">10</span>), <span class="cf">function</span>(i) <span class="fu">rnorm</span>(<span class="dv">500</span>))</span>
+<span id="cb746-2"><a href="dataio.html#cb746-2" aria-hidden="true" tabindex="-1"></a>mat2 <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="fu">seq_len</span>(<span class="dv">10</span>), <span class="cf">function</span>(i) <span class="fu">rnorm</span>(<span class="dv">500</span>))</span>
+<span id="cb746-3"><a href="dataio.html#cb746-3" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(mat1, mat2, <span class="at">file =</span> <span class="st">&quot;./mat.RData&quot;</span>)</span></code></pre></div>
+<p>Note: we will learn how to use <code>sapply()</code> later under “Loop functions”</p>
+<p>To load the variables in the <code>.RData</code> file you saved, use the <code>load()</code> command:</p>
+<div class="sourceCode" id="cb747"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb747-1"><a href="dataio.html#cb747-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;./Rmd/mat.RData&quot;</span>)</span></code></pre></div>
+<p>Note that <code>load()</code> adds the objects to your workspace using with their original names. You do not assign them to a new object, unlike with the <code>readRDS()</code> call above.</p>
+</div>
+<div id="write-your-entire-workspace-to-a-rdata-image-using-save.image" class="section level3" number="10.3.8">
+<h3><span class="header-section-number">10.3.8</span> Write your entire workspace to a RData image using <code>save.image()</code></h3>
+<p>You can save your entire workspace to a RData file using the <code>save.image()</code> function.</p>
+<div class="sourceCode" id="cb748"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb748-1"><a href="dataio.html#cb748-1" aria-hidden="true" tabindex="-1"></a><span class="fu">save.image</span>(<span class="st">&quot;workspace_10_05_2020.RData&quot;</span>)</span></code></pre></div>
+<p>Same as above, to re-load the workspace saved in the <code>.RData</code> file, use the <code>load()</code> command:</p>
+<div class="sourceCode" id="cb749"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb749-1"><a href="dataio.html#cb749-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;workspace_10_05_2020.RData&quot;</span>)</span></code></pre></div>
+
+</div>
+</div>
+</div>
+  </main>
+
+  <div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page">
+      <h2>On this page</h2>
+      <div id="book-on-this-page"></div>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          <li><a id="book-source" href="#">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="#">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5">
+  <div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Programming for Data Science in R</strong>" was written by Efstathios (Stathis) D. Gennatas, MBBS AICSM PhD. It was last built on 2021-11-07.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer>
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+<script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+
+</html>

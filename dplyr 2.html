@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>25 Introduction to dplyr | Programming for Data Science in R</title>
+
+    <meta name="author" content="Efstathios (Stathis) D. Gennatas, MBBS AICSM PhD" />
+  
+   <meta name="description" content="25 Introduction to dplyr | Programming for Data Science in R is a project to build an online resource for (Bio)statisticians / Epidemiologists / (Health) Data Scientists" />
+   <meta name="generator" content="placeholder" />
+  <meta property="og:title" content="25 Introduction to dplyr | Programming for Data Science in R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="25 Introduction to dplyr | Programming for Data Science in R is a project to build an online resource for (Bio)statisticians / Epidemiologists / (Health) Data Scientists" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="25 Introduction to dplyr | Programming for Data Science in R" />
+  
+  <meta name="twitter:description" content="25 Introduction to dplyr | Programming for Data Science in R is a project to build an online resource for (Bio)statisticians / Epidemiologists / (Health) Data Scientists" />
+  
+  <!-- JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script>
+  <script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script>
+    <script src="libs/header-attrs-2.11/header-attrs.js"></script>
+    <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet" />
+    <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script>
+    <script src="libs/bs3compat-0.3.1/transition.js"></script>
+    <script src="libs/bs3compat-0.3.1/tabs.js"></script>
+    <script src="libs/bs3compat-0.3.1/bs3compat.js"></script>
+    <link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet" />
+    <script src="libs/bs4_book-1.0.0/bs4_book.js"></script>
+    <script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+    <script src="libs/plotly-binding-4.9.4.1/plotly.js"></script>
+    <script src="libs/typedarray-0.1/typedarray.min.js"></script>
+    <link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
+    <script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
+    <link href="libs/plotly-htmlwidgets-css-1.57.1/plotly-htmlwidgets.css" rel="stylesheet" />
+    <script src="libs/plotly-main-1.57.1/plotly-latest.min.js"></script>
+    <script src="libs/d3-3.5.6/d3.min.js"></script>
+    <link href="libs/profvis-0.3.6.9000/profvis.css" rel="stylesheet" />
+    <script src="libs/profvis-0.3.6.9000/profvis.js"></script>
+    <script src="libs/profvis-0.3.6.9000/scroll.js"></script>
+    <link href="libs/highlight-6.2.0/textmate.css" rel="stylesheet" />
+    <script src="libs/highlight-6.2.0/highlight.js"></script>
+    <script src="libs/profvis-binding-0.3.7/profvis.js"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-163213745-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-163213745-1');
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script>
+
+  <!-- CSS -->
+    <link rel="stylesheet" href="bootstrap.lambdamd.css" />
+  
+</head>
+
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book">
+    <a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">Programming for Data Science in R</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+      </form>
+
+      <nav aria-label="Table of contents">
+        <h2>Table of contents</h2>
+        <div id="book-toc"></div>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="#">View book source <i class="fab fa-github"></i></a></li></p>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="col-sm-12 col-md-9 col-lg-7" id="content">
+<div id="dplyr" class="section level1" number="25">
+<h1><span class="header-section-number">25</span> Introduction to dplyr</h1>
+<p>The <a href="https://dplyr.tidyverse.org/"><strong>dplyr</strong></a> package offers functionality for data
+manipulation and is part of what is known as the <a href="https://www.tidyverse.org/"><strong>tidyverse</strong></a>.</p>
+<p>dplyr’s functions are named after verbs and depend heavily on the usage of the pipe operator to
+build pipelines. The package offers a large number of functions in total, often with multiple
+versions of the same “verb”. It has undergone many major changes since its introduction, so always
+make sure to consult the latest documentation. Some of the welcome recent changes aim to reduce
+the total number of functions exported by the package.</p>
+<p>Core operations include:</p>
+<ul>
+<li><code>filter()</code>: identify cases</li>
+<li><code>select()</code>: identify columns</li>
+<li><code>mutate()</code>: create new variables as function of existing ones</li>
+<li><code>arrange()</code>: reorder the rows/cases of a dataset</li>
+<li><code>summarize()</code>: apply functions on columns</li>
+<li><code>groupby()</code>: identify columns to group cases by: all the above can be combined with <code>groupby()</code></li>
+</ul>
+<p><strong>dplyr</strong> operates on data.frames as well as the tidyverse’s data.frame replacement, known by the
+bizarre name of <a href="https://tibble.tidyverse.org/"><strong>tibble</strong></a>. Here, we convert iris to a tibble as an easy way to limit the number of rows printed by default in the output (without changing other Rmarkdown options, custom hooks, etc.) and as an introduction to tiblles.</p>
+<p>Note that <strong>dplyr</strong> masks a number of builtin functions when loaded.</p>
+<div class="sourceCode" id="cb1663"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1663-1"><a href="dplyr.html#cb1663-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code></pre></div>
+<pre><code>
+Attaching package: &#39;dplyr&#39;</code></pre>
+<pre><code>The following objects are masked from &#39;package:stats&#39;:
+
+    filter, lag</code></pre>
+<pre><code>The following objects are masked from &#39;package:base&#39;:
+
+    intersect, setdiff, setequal, union</code></pre>
+<div class="sourceCode" id="cb1667"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1667-1"><a href="dplyr.html#cb1667-1" aria-hidden="true" tabindex="-1"></a>iris <span class="sc">|&gt;</span> <span class="fu">as_tibble</span>() <span class="ot">-&gt;</span> iris</span></code></pre></div>
+<div id="filter" class="section level2" number="25.1">
+<h2><span class="header-section-number">25.1</span> Filter</h2>
+<div class="sourceCode" id="cb1668"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1668-1"><a href="dplyr.html#cb1668-1" aria-hidden="true" tabindex="-1"></a>iris <span class="sc">|&gt;</span> <span class="fu">filter</span>(Species <span class="sc">==</span> <span class="st">&quot;setosa&quot;</span>)</span></code></pre></div>
+<pre><code># A tibble: 50 × 5
+   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  
+ 1          5.1         3.5          1.4         0.2 setosa 
+ 2          4.9         3            1.4         0.2 setosa 
+ 3          4.7         3.2          1.3         0.2 setosa 
+ 4          4.6         3.1          1.5         0.2 setosa 
+ 5          5           3.6          1.4         0.2 setosa 
+ 6          5.4         3.9          1.7         0.4 setosa 
+ 7          4.6         3.4          1.4         0.3 setosa 
+ 8          5           3.4          1.5         0.2 setosa 
+ 9          4.4         2.9          1.4         0.2 setosa 
+10          4.9         3.1          1.5         0.1 setosa 
+# … with 40 more rows</code></pre>
+</div>
+<div id="select" class="section level2" number="25.2">
+<h2><span class="header-section-number">25.2</span> Select</h2>
+<div class="sourceCode" id="cb1670"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1670-1"><a href="dplyr.html#cb1670-1" aria-hidden="true" tabindex="-1"></a>iris <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="st">&quot;Sepal.Length&quot;</span>)</span></code></pre></div>
+<pre><code># A tibble: 150 × 1
+   Sepal.Length
+          &lt;dbl&gt;
+ 1          5.1
+ 2          4.9
+ 3          4.7
+ 4          4.6
+ 5          5  
+ 6          5.4
+ 7          4.6
+ 8          5  
+ 9          4.4
+10          4.9
+# … with 140 more rows</code></pre>
+</div>
+<div id="mutate" class="section level2" number="25.3">
+<h2><span class="header-section-number">25.3</span> Mutate</h2>
+<div class="sourceCode" id="cb1672"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1672-1"><a href="dplyr.html#cb1672-1" aria-hidden="true" tabindex="-1"></a>iris <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">Sepal_minus_Petal_length =</span> Sepal.Length <span class="sc">-</span> Petal.Length)</span></code></pre></div>
+<pre><code># A tibble: 150 × 6
+   Sepal.Length Sepal.Width Petal.Length Petal.Width Species Sepal_minus_Petal_…
+          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;                 &lt;dbl&gt;
+ 1          5.1         3.5          1.4         0.2 setosa                  3.7
+ 2          4.9         3            1.4         0.2 setosa                  3.5
+ 3          4.7         3.2          1.3         0.2 setosa                  3.4
+ 4          4.6         3.1          1.5         0.2 setosa                  3.1
+ 5          5           3.6          1.4         0.2 setosa                  3.6
+ 6          5.4         3.9          1.7         0.4 setosa                  3.7
+ 7          4.6         3.4          1.4         0.3 setosa                  3.2
+ 8          5           3.4          1.5         0.2 setosa                  3.5
+ 9          4.4         2.9          1.4         0.2 setosa                  3  
+10          4.9         3.1          1.5         0.1 setosa                  3.4
+# … with 140 more rows</code></pre>
+<div id="grouped" class="section level3" number="25.3.1">
+<h3><span class="header-section-number">25.3.1</span> Grouped</h3>
+<div class="sourceCode" id="cb1674"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1674-1"><a href="dplyr.html#cb1674-1" aria-hidden="true" tabindex="-1"></a>iris <span class="sc">|&gt;</span> </span>
+<span id="cb1674-2"><a href="dplyr.html#cb1674-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Species) <span class="sc">|&gt;</span> </span>
+<span id="cb1674-3"><a href="dplyr.html#cb1674-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Sepal.Length_minus_mean =</span> Sepal.Length <span class="sc">-</span> <span class="fu">mean</span>(Sepal.Length))</span></code></pre></div>
+<pre><code># A tibble: 150 × 6
+# Groups:   Species [3]
+   Sepal.Length Sepal.Width Petal.Length Petal.Width Species Sepal.Length_minus…
+          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;                 &lt;dbl&gt;
+ 1          5.1         3.5          1.4         0.2 setosa              0.0940 
+ 2          4.9         3            1.4         0.2 setosa             -0.106  
+ 3          4.7         3.2          1.3         0.2 setosa             -0.306  
+ 4          4.6         3.1          1.5         0.2 setosa             -0.406  
+ 5          5           3.6          1.4         0.2 setosa             -0.00600
+ 6          5.4         3.9          1.7         0.4 setosa              0.394  
+ 7          4.6         3.4          1.4         0.3 setosa             -0.406  
+ 8          5           3.4          1.5         0.2 setosa             -0.00600
+ 9          4.4         2.9          1.4         0.2 setosa             -0.606  
+10          4.9         3.1          1.5         0.1 setosa             -0.106  
+# … with 140 more rows</code></pre>
+</div>
+</div>
+<div id="summarize-3" class="section level2" number="25.4">
+<h2><span class="header-section-number">25.4</span> Summarize</h2>
+<div id="single-variable" class="section level3" number="25.4.1">
+<h3><span class="header-section-number">25.4.1</span> Single variable</h3>
+<div class="sourceCode" id="cb1676"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1676-1"><a href="dplyr.html#cb1676-1" aria-hidden="true" tabindex="-1"></a>iris <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="fu">mean</span>(Sepal.Length))</span></code></pre></div>
+<pre><code># A tibble: 1 × 1
+  `mean(Sepal.Length)`
+                 &lt;dbl&gt;
+1                 5.84</code></pre>
+</div>
+<div id="multiple-variables" class="section level3" number="25.4.2">
+<h3><span class="header-section-number">25.4.2</span> Multiple variables</h3>
+<div class="sourceCode" id="cb1678"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1678-1"><a href="dplyr.html#cb1678-1" aria-hidden="true" tabindex="-1"></a>iris <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="fu">across</span>(<span class="fu">c</span>(Sepal.Length, Petal.Length), mean))</span></code></pre></div>
+<pre><code># A tibble: 1 × 2
+  Sepal.Length Petal.Length
+         &lt;dbl&gt;        &lt;dbl&gt;
+1         5.84         3.76</code></pre>
+</div>
+<div id="grouped-single-var" class="section level3" number="25.4.3">
+<h3><span class="header-section-number">25.4.3</span> Grouped single var</h3>
+<div class="sourceCode" id="cb1680"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1680-1"><a href="dplyr.html#cb1680-1" aria-hidden="true" tabindex="-1"></a>iris <span class="sc">|&gt;</span> </span>
+<span id="cb1680-2"><a href="dplyr.html#cb1680-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Species) <span class="sc">|&gt;</span> </span>
+<span id="cb1680-3"><a href="dplyr.html#cb1680-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="fu">mean</span>(Sepal.Length))</span></code></pre></div>
+<pre><code># A tibble: 3 × 2
+  Species    `mean(Sepal.Length)`
+  &lt;fct&gt;                     &lt;dbl&gt;
+1 setosa                     5.01
+2 versicolor                 5.94
+3 virginica                  6.59</code></pre>
+</div>
+<div id="grouped-multivar" class="section level3" number="25.4.4">
+<h3><span class="header-section-number">25.4.4</span> Grouped multivar</h3>
+<div class="sourceCode" id="cb1682"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1682-1"><a href="dplyr.html#cb1682-1" aria-hidden="true" tabindex="-1"></a>iris <span class="sc">|&gt;</span> </span>
+<span id="cb1682-2"><a href="dplyr.html#cb1682-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Species) <span class="sc">|&gt;</span> </span>
+<span id="cb1682-3"><a href="dplyr.html#cb1682-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="fu">across</span>(<span class="fu">c</span>(Sepal.Length, Petal.Length), mean))</span></code></pre></div>
+<pre><code># A tibble: 3 × 3
+  Species    Sepal.Length Petal.Length
+  &lt;fct&gt;             &lt;dbl&gt;        &lt;dbl&gt;
+1 setosa             5.01         1.46
+2 versicolor         5.94         4.26
+3 virginica          6.59         5.55</code></pre>
+</div>
+</div>
+<div id="arrange" class="section level2" number="25.5">
+<h2><span class="header-section-number">25.5</span> Arrange</h2>
+<div class="sourceCode" id="cb1684"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1684-1"><a href="dplyr.html#cb1684-1" aria-hidden="true" tabindex="-1"></a>iris <span class="sc">|&gt;</span> <span class="fu">arrange</span>(Sepal.Length)</span></code></pre></div>
+<pre><code># A tibble: 150 × 5
+   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  
+ 1          4.3         3            1.1         0.1 setosa 
+ 2          4.4         2.9          1.4         0.2 setosa 
+ 3          4.4         3            1.3         0.2 setosa 
+ 4          4.4         3.2          1.3         0.2 setosa 
+ 5          4.5         2.3          1.3         0.3 setosa 
+ 6          4.6         3.1          1.5         0.2 setosa 
+ 7          4.6         3.4          1.4         0.3 setosa 
+ 8          4.6         3.6          1           0.2 setosa 
+ 9          4.6         3.2          1.4         0.2 setosa 
+10          4.7         3.2          1.3         0.2 setosa 
+# … with 140 more rows</code></pre>
+<div id="grouped-1" class="section level3" number="25.5.1">
+<h3><span class="header-section-number">25.5.1</span> Grouped</h3>
+<div class="sourceCode" id="cb1686"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1686-1"><a href="dplyr.html#cb1686-1" aria-hidden="true" tabindex="-1"></a>iris <span class="sc">|&gt;</span> </span>
+<span id="cb1686-2"><a href="dplyr.html#cb1686-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Species) <span class="sc">|&gt;</span> </span>
+<span id="cb1686-3"><a href="dplyr.html#cb1686-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(Sepal.Length)</span></code></pre></div>
+<pre><code># A tibble: 150 × 5
+# Groups:   Species [3]
+   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  
+ 1          4.3         3            1.1         0.1 setosa 
+ 2          4.4         2.9          1.4         0.2 setosa 
+ 3          4.4         3            1.3         0.2 setosa 
+ 4          4.4         3.2          1.3         0.2 setosa 
+ 5          4.5         2.3          1.3         0.3 setosa 
+ 6          4.6         3.1          1.5         0.2 setosa 
+ 7          4.6         3.4          1.4         0.3 setosa 
+ 8          4.6         3.6          1           0.2 setosa 
+ 9          4.6         3.2          1.4         0.2 setosa 
+10          4.7         3.2          1.3         0.2 setosa 
+# … with 140 more rows</code></pre>
+</div>
+</div>
+<div id="specifying-multiple-variables" class="section level2" number="25.6">
+<h2><span class="header-section-number">25.6</span> Specifying multiple variables</h2>
+<p>dplyr includes a number of ways to identify multiple variables.
+The latest version of dplyr suggests using <code>across()</code> within dplyr functions that allow specifying columns.</p>
+<p>This replaces separate functions previously used for each of <code>filter/select/mutate/summarize/arrange</code> that had independent functions ending with <code>*_all()</code>, <code>*_at()</code>, <code>*_each()</code>, <code>*_if()</code>.</p>
+<p>We’ll use <code>summarize()</code> to demonstrate.</p>
+<div id="by-integer-column-index" class="section level3" number="25.6.1">
+<h3><span class="header-section-number">25.6.1</span> By integer column index</h3>
+<div class="sourceCode" id="cb1688"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1688-1"><a href="dplyr.html#cb1688-1" aria-hidden="true" tabindex="-1"></a>iris <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="fu">across</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, mean))</span></code></pre></div>
+<pre><code># A tibble: 1 × 4
+  Sepal.Length Sepal.Width Petal.Length Petal.Width
+         &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;
+1         5.84        3.06         3.76        1.20</code></pre>
+</div>
+<div id="by-character-name-range" class="section level3" number="25.6.2">
+<h3><span class="header-section-number">25.6.2</span> By character name range</h3>
+<div class="sourceCode" id="cb1690"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1690-1"><a href="dplyr.html#cb1690-1" aria-hidden="true" tabindex="-1"></a>iris <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="fu">across</span>(Sepal.Length<span class="sc">:</span>Petal.Width, mean))</span></code></pre></div>
+<pre><code># A tibble: 1 × 4
+  Sepal.Length Sepal.Width Petal.Length Petal.Width
+         &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;
+1         5.84        3.06         3.76        1.20</code></pre>
+</div>
+<div id="pattern-matching-1" class="section level3" number="25.6.3">
+<h3><span class="header-section-number">25.6.3</span> Pattern-matching</h3>
+<div class="sourceCode" id="cb1692"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1692-1"><a href="dplyr.html#cb1692-1" aria-hidden="true" tabindex="-1"></a>iris <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="fu">across</span>(<span class="fu">starts_with</span>(<span class="st">&quot;Sepal&quot;</span>), mean))</span></code></pre></div>
+<pre><code># A tibble: 1 × 2
+  Sepal.Length Sepal.Width
+         &lt;dbl&gt;       &lt;dbl&gt;
+1         5.84        3.06</code></pre>
+<div class="sourceCode" id="cb1694"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1694-1"><a href="dplyr.html#cb1694-1" aria-hidden="true" tabindex="-1"></a>iris <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="fu">across</span>(<span class="fu">ends_with</span>(<span class="st">&quot;Length&quot;</span>), mean))</span></code></pre></div>
+<pre><code># A tibble: 1 × 2
+  Sepal.Length Petal.Length
+         &lt;dbl&gt;        &lt;dbl&gt;
+1         5.84         3.76</code></pre>
+</div>
+<div id="using-predicate-function-wrapped-in-where" class="section level3" number="25.6.4">
+<h3><span class="header-section-number">25.6.4</span> Using predicate function wrapped in <code>where()</code></h3>
+<div class="sourceCode" id="cb1696"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1696-1"><a href="dplyr.html#cb1696-1" aria-hidden="true" tabindex="-1"></a>iris <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), mean))</span></code></pre></div>
+<pre><code># A tibble: 1 × 4
+  Sepal.Length Sepal.Width Petal.Length Petal.Width
+         &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;
+1         5.84        3.06         3.76        1.20</code></pre>
+<p>Using <code>table()</code> in this way does not output level names:</p>
+<div class="sourceCode" id="cb1698"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1698-1"><a href="dplyr.html#cb1698-1" aria-hidden="true" tabindex="-1"></a>iris <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.factor), table))</span></code></pre></div>
+<pre><code># A tibble: 3 × 1
+  Species
+  &lt;table&gt;
+1 50     
+2 50     
+3 50     </code></pre>
+</div>
+</div>
+<div id="dplyrresources" class="section level2" number="25.7">
+<h2><span class="header-section-number">25.7</span> Resources</h2>
+<ul>
+<li><a href="https://dplyr.tidyverse.org/">dplyr website</a></li>
+<li><a href="https://github.com/rstudio/cheatsheets/blob/master/data-transformation.pdf">dplyr cheatsheet</a></li>
+</ul>
+
+</div>
+</div>
+  </main>
+
+  <div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page">
+      <h2>On this page</h2>
+      <div id="book-on-this-page"></div>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          <li><a id="book-source" href="#">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="#">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5">
+  <div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Programming for Data Science in R</strong>" was written by Efstathios (Stathis) D. Gennatas, MBBS AICSM PhD. It was last built on 2021-11-07.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer>
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+<script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+
+</html>

@@ -18,12 +18,17 @@ options(crayon.enabled = TRUE)
 The Generalized Linear Model is one of the most common and important models in statistics.  
 Let's look at an example using the GLM for regression. We will use the `mtcars` builtin dataset to predict horsepower (`hp`) of 32 cars from 10 other features:
 
-```{r}
-str(mtcars)
-```
+We'll use the diabetes dataset from the `mlbench` package as an example.
 
 ```{r}
-mod <- glm(hp ~ ., family = "gaussian", data = mtcars)
+data(PimaIndiansDiabetes2, package = 'mlbench')
+str(PimaIndiansDiabetes2)
+```
+
+Let's fit a model predicting glucose level from all other covariates:
+
+```{r}
+mod <- glm(glucose ~ ., family = "gaussian", data = PimaIndiansDiabetes2)
 mod
 class(mod)
 ```
@@ -34,9 +39,9 @@ The formula `hp ~ .` means "regress hp on all other variables". The `family` arg
 For a gaussian output, we can also use the `lm()` function. There are minor differences in the output created, but the model is the same:
 
 ```{r}
-mod <- lm(hp ~ ., data = mtcars)
-mod
-class(mod)
+mod_lm <- lm(glucose ~ ., data = PimaIndiansDiabetes2)
+mod_lm
+class(mod_lm)
 ```
 
 ### Summary
@@ -48,7 +53,8 @@ summary(mod)
 ```
 
 Note how R prints stars next to covariates whose p-values falls within certain limits, described right below the table of estimates.  
-Above, for example, the p-value for `disp` falls between 0.001 and 0.01 and therefore gets highlighted with 2 stars.  
+
+Also notice that categorical variables of n levels get n-1 separate coefficients; the first level is considered the baseline. Therefore, make sure to set up [factors](#factors) appropriately before modeling to ensure the correct level is used as baseline.
 
 ### Coefficients
 
@@ -61,17 +67,17 @@ mod$coefficients
 ### Fitted values
 
 ```{r}
-fitted(mod)
+fitted(mod) |> head()
 # or
-mod$fitted.values
+mod$fitted.values |> head()
 ```
 
 ### Residuals
 
 ```{r}
-residuals(mod)
+residuals(mod) |> head()
 # or
-mod$residuals
+mod$residuals |> head()
 ```
 
 ### p-values
@@ -96,22 +102,21 @@ plot(x, y, pch = 16, col = "#18A3AC99")
 lines(x, xy.fit, col = "#178CCB", lwd = 2)
 ```
 
-In **rtemis**, you can use argument `fit` to use any supported algorithm (see `modSelect()`) to estimate the fit:
+In [**rtemis**](https://rtemis.lambdamd.org/), you can use argument `fit` to use any supported algorithm (see `modSelect()`) to estimate the fit:
 
 ```{r}
 mplot3.xy(x, y, fit = "glm")
 ```
 
-### Classification
+### Logistic Regression
 
-For classification, you use `glm()` with `family = binomial`
+For logistic regression, i.e. classification, you can use `glm()` with `family = binomial`
+
+Using the same dataset, let's predict diabetes status:
 
 ```{r}
-data(PimaIndiansDiabetes2, package = 'mlbench')
-str(PimaIndiansDiabetes2)
-```
-```{r}
-diabetes_mod <- glm(diabetes ~ ., PimaIndiansDiabetes2, family = "binomial")
+diabetes_mod <- glm(diabetes ~ ., PimaIndiansDiabetes2, 
+                    family = "binomial")
 diabetes_mod
 ```
 
@@ -170,7 +175,7 @@ which(mod.xy.massuni.pvals < .05)
 which(mod.xy.massuni.pvals < .01)
 ```
 
-## Multiple comparison correction
+## Correction for multiple comparisons
 
 We've performed a large number of tests and before reporting the results, we need to control for [multiple comparisons](https://en.wikipedia.org/wiki/Multiple_comparisons_problem).  
 To do that, we use R's `p.adjust()` function. It adjusts a vector of p-values to account for multiple comparisons using one of multiple methods. The default, and recommended, is the [Holm method](https://en.wikipedia.org/wiki/Holm%E2%80%93Bonferroni_method). It ensures that `FWER < α`, i.e. controls the [family-wise error rate](https://en.wikipedia.org/wiki/Family-wise_error_rate), a.k.a. the probability of making one or more false discoveries (Type I errors) 

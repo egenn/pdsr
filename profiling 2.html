@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>29 Timing &amp; Profiling | Programming for Data Science in R</title>
+
+    <meta name="author" content="Efstathios (Stathis) D. Gennatas, MBBS AICSM PhD" />
+  
+   <meta name="description" content="29 Timing &amp; Profiling | Programming for Data Science in R is a project to build an online resource for (Bio)statisticians / Epidemiologists / (Health) Data Scientists" />
+   <meta name="generator" content="placeholder" />
+  <meta property="og:title" content="29 Timing &amp; Profiling | Programming for Data Science in R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="29 Timing &amp; Profiling | Programming for Data Science in R is a project to build an online resource for (Bio)statisticians / Epidemiologists / (Health) Data Scientists" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="29 Timing &amp; Profiling | Programming for Data Science in R" />
+  
+  <meta name="twitter:description" content="29 Timing &amp; Profiling | Programming for Data Science in R is a project to build an online resource for (Bio)statisticians / Epidemiologists / (Health) Data Scientists" />
+  
+  <!-- JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script>
+  <script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script>
+    <script src="libs/header-attrs-2.11/header-attrs.js"></script>
+    <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet" />
+    <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script>
+    <script src="libs/bs3compat-0.3.1/transition.js"></script>
+    <script src="libs/bs3compat-0.3.1/tabs.js"></script>
+    <script src="libs/bs3compat-0.3.1/bs3compat.js"></script>
+    <link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet" />
+    <script src="libs/bs4_book-1.0.0/bs4_book.js"></script>
+    <script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+    <script src="libs/plotly-binding-4.9.4.1/plotly.js"></script>
+    <script src="libs/typedarray-0.1/typedarray.min.js"></script>
+    <link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
+    <script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
+    <link href="libs/plotly-htmlwidgets-css-1.57.1/plotly-htmlwidgets.css" rel="stylesheet" />
+    <script src="libs/plotly-main-1.57.1/plotly-latest.min.js"></script>
+    <script src="libs/d3-3.5.6/d3.min.js"></script>
+    <link href="libs/profvis-0.3.6.9000/profvis.css" rel="stylesheet" />
+    <script src="libs/profvis-0.3.6.9000/profvis.js"></script>
+    <script src="libs/profvis-0.3.6.9000/scroll.js"></script>
+    <link href="libs/highlight-6.2.0/textmate.css" rel="stylesheet" />
+    <script src="libs/highlight-6.2.0/highlight.js"></script>
+    <script src="libs/profvis-binding-0.3.7/profvis.js"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-163213745-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-163213745-1');
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script>
+
+  <!-- CSS -->
+    <link rel="stylesheet" href="bootstrap.lambdamd.css" />
+  
+</head>
+
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book">
+    <a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">Programming for Data Science in R</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+      </form>
+
+      <nav aria-label="Table of contents">
+        <h2>Table of contents</h2>
+        <div id="book-toc"></div>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="#">View book source <i class="fab fa-github"></i></a></li></p>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="col-sm-12 col-md-9 col-lg-7" id="content">
+<div id="profiling" class="section level1" number="29">
+<h1><span class="header-section-number">29</span> Timing &amp; Profiling</h1>
+<STYLE type='text/css' scoped>
+PRE.fansi SPAN {padding-top: .25em; padding-bottom: .25em};
+</STYLE>
+<p>Profiling your code involves timing the execution of different steps of a program. This is usually performed in order to identify bottlenecks that slow down the execution of your code and it helps you prioritize which parts to optimize. A</p>
+<div id="time-the-execution-of-an-expression-with-system.time" class="section level2" number="29.1">
+<h2><span class="header-section-number">29.1</span> Time the execution of an expression with <code>system.time</code></h2>
+<p>If you want to time how long it takes for an R expression to complete, you can use the base command <code>system.time</code>.<br />
+“elapsed” time is real time in seconds. “user” and “system” are time used by the CPU on different types of tasks (see <code>?proc.time</code>)</p>
+<div class="sourceCode" id="cb1836"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1836-1"><a href="profiling.html#cb1836-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">9999</span>)</span>
+<span id="cb1836-2"><a href="profiling.html#cb1836-2" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>({</span>
+<span id="cb1836-3"><a href="profiling.html#cb1836-3" aria-hidden="true" tabindex="-1"></a>    y <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">&quot;numeric&quot;</span>, <span class="dv">9999</span>)</span>
+<span id="cb1836-4"><a href="profiling.html#cb1836-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">9999</span>) y[i] <span class="ot">&lt;-</span> x[i]<span class="sc">^</span><span class="dv">3</span></span>
+<span id="cb1836-5"><a href="profiling.html#cb1836-5" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div>
+<pre><code>   user  system elapsed 
+  0.007   0.000   0.008 </code></pre>
+<div class="sourceCode" id="cb1838"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1838-1"><a href="profiling.html#cb1838-1" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(x<span class="sc">^</span><span class="dv">3</span>)</span></code></pre></div>
+<pre><code>   user  system elapsed 
+  0.000   0.000   0.001 </code></pre>
+<p>You can use <code>replicate()</code> to get a measure of time over multiple executions and average it:</p>
+<div class="sourceCode" id="cb1840"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1840-1"><a href="profiling.html#cb1840-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mgcv)</span>
+<span id="cb1840-2"><a href="profiling.html#cb1840-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glmnet)</span>
+<span id="cb1840-3"><a href="profiling.html#cb1840-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2020</span>)</span>
+<span id="cb1840-4"><a href="profiling.html#cb1840-4" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">100</span>, <span class="fu">rnorm</span>(<span class="dv">5000</span>))</span>
+<span id="cb1840-5"><a href="profiling.html#cb1840-5" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> x[, <span class="dv">1</span>]<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> x[, <span class="dv">5</span>]<span class="sc">^</span><span class="dv">3</span> <span class="sc">+</span> <span class="dv">12</span> <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">5000</span>)</span>
+<span id="cb1840-6"><a href="profiling.html#cb1840-6" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(x, y)</span>
+<span id="cb1840-7"><a href="profiling.html#cb1840-7" aria-hidden="true" tabindex="-1"></a>fit.glm <span class="ot">&lt;-</span> <span class="cf">function</span>(dat) mod <span class="ot">&lt;-</span> <span class="fu">glm</span>(y <span class="sc">~</span> x, <span class="at">family =</span> gaussian, <span class="at">data =</span> dat)</span>
+<span id="cb1840-8"><a href="profiling.html#cb1840-8" aria-hidden="true" tabindex="-1"></a>fit.gam <span class="ot">&lt;-</span> <span class="cf">function</span>(dat) mod <span class="ot">&lt;-</span> <span class="fu">gam</span>(y <span class="sc">~</span> x, <span class="at">family =</span> gaussian, <span class="at">data =</span> dat)</span>
+<span id="cb1840-9"><a href="profiling.html#cb1840-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1840-10"><a href="profiling.html#cb1840-10" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(<span class="fu">replicate</span>(<span class="dv">1000</span>, fit.glm))</span></code></pre></div>
+<pre><code>   user  system elapsed 
+  0.003   0.000   0.003 </code></pre>
+<div class="sourceCode" id="cb1842"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1842-1"><a href="profiling.html#cb1842-1" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(<span class="fu">replicate</span>(<span class="dv">1000</span>, fit.gam))</span></code></pre></div>
+<pre><code>   user  system elapsed 
+  0.003   0.001   0.004 </code></pre>
+</div>
+<div id="compare-execution-times-of-different-expressions-with-microbenchmark" class="section level2" number="29.2">
+<h2><span class="header-section-number">29.2</span> Compare execution times of different expressions with <code>microbenchmark()</code></h2>
+<p><code>microbenchmark()</code> allows you to time the execution of multiple expressions with sub-millisecond accuracy. It will execute each command a number of times as defined by the <code>times</code> argument (default = 100), and output statistics of execution time per expression in nanoseconds. Using <code>plot()</code> on the output produces a boxplot comparing the time distributions.</p>
+<div class="sourceCode" id="cb1844"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1844-1"><a href="profiling.html#cb1844-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(microbenchmark)</span></code></pre></div>
+<p>To start, we compare two very simple and fast operations, using base and dplyr to add two columns of 1000 integers:</p>
+<div class="sourceCode" id="cb1845"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1845-1"><a href="profiling.html#cb1845-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2000</span>, <span class="dv">1000</span>))</span>
+<span id="cb1845-2"><a href="profiling.html#cb1845-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(dat)</span></code></pre></div>
+<pre><code>[1] 1000    2</code></pre>
+<div class="sourceCode" id="cb1847"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1847-1"><a href="profiling.html#cb1847-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code></pre></div>
+<div class="sourceCode" id="cb1848"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1848-1"><a href="profiling.html#cb1848-1" aria-hidden="true" tabindex="-1"></a>add2k <span class="ot">&lt;-</span> <span class="fu">microbenchmark</span>(</span>
+<span id="cb1848-2"><a href="profiling.html#cb1848-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">base =</span> dat<span class="sc">$</span>V1 <span class="sc">+</span> dat<span class="sc">$</span>V2,</span>
+<span id="cb1848-3"><a href="profiling.html#cb1848-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">dplyr =</span> <span class="fu">mutate</span>(dat, <span class="at">a =</span> V1 <span class="sc">+</span> V2))</span></code></pre></div>
+<p>You can print microbenchmark’s output:</p>
+<div class="sourceCode" id="cb1849"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1849-1"><a href="profiling.html#cb1849-1" aria-hidden="true" tabindex="-1"></a>add2k</span></code></pre></div>
+<pre><code>Unit: microseconds
+  expr      min        lq      mean    median        uq       max neval
+  base    5.161    6.0435   10.7321    8.6575   11.8975    53.338   100
+ dplyr 1297.464 1671.3755 2588.2207 2083.1865 2673.7130 11454.411   100</code></pre>
+<p>and plot it:</p>
+<div class="sourceCode" id="cb1851"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1851-1"><a href="profiling.html#cb1851-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(add2k)</span></code></pre></div>
+<p><img src="82-Profiling_files/figure-html/unnamed-chunk-10-1.png" width="480" /></p>
+<p>Now let’s use the <strong>nycflights13</strong> dataset which includes data on 336776 flights that departed from any of the three NY area airports in 2013. Because the data comes as a <a href="https://tibble.tidyverse.org/">tibble</a>, we shall perform all operations on the tibble and a data.frame of the same data to compare.</p>
+<div class="sourceCode" id="cb1852"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1852-1"><a href="profiling.html#cb1852-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nycflights13)</span>
+<span id="cb1852-2"><a href="profiling.html#cb1852-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(flights)</span></code></pre></div>
+<pre><code>[1] &quot;tbl_df&quot;     &quot;tbl&quot;        &quot;data.frame&quot;</code></pre>
+<div class="sourceCode" id="cb1854"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1854-1"><a href="profiling.html#cb1854-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(flights)</span></code></pre></div>
+<pre><code>[1] 336776     19</code></pre>
+<div class="sourceCode" id="cb1856"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1856-1"><a href="profiling.html#cb1856-1" aria-hidden="true" tabindex="-1"></a>flightsDF <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(flights)</span></code></pre></div>
+<p>Compare performance base R vs. dplyr in calculating mean arrival delay by carrier using either a data.frame or a tibble:</p>
+<div class="sourceCode" id="cb1857"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1857-1"><a href="profiling.html#cb1857-1" aria-hidden="true" tabindex="-1"></a>dbc <span class="ot">&lt;-</span> <span class="fu">microbenchmark</span>(</span>
+<span id="cb1857-2"><a href="profiling.html#cb1857-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">df_aggregate =</span> <span class="fu">aggregate</span>(flightsDF<span class="sc">$</span>arr_delay, <span class="at">by =</span> <span class="fu">list</span>(flightsDF<span class="sc">$</span>carrier), mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb1857-3"><a href="profiling.html#cb1857-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">tb_aggregate =</span> <span class="fu">aggregate</span>(flights<span class="sc">$</span>arr_delay, <span class="at">by =</span> <span class="fu">list</span>(flights<span class="sc">$</span>carrier), mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb1857-4"><a href="profiling.html#cb1857-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">df_tapply =</span> <span class="fu">tapply</span>(flightsDF<span class="sc">$</span>arr_delay, flightsDF<span class="sc">$</span>carrier, mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb1857-5"><a href="profiling.html#cb1857-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">tb_tapply =</span> <span class="fu">tapply</span>(flights<span class="sc">$</span>arr_delay, flights<span class="sc">$</span>carrier, mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb1857-6"><a href="profiling.html#cb1857-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">df_dplyr =</span> flightsDF <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(carrier) <span class="sc">%&gt;%</span> <span class="fu">summarize</span>(<span class="fu">mean</span>(arr_delay, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)),</span>
+<span id="cb1857-7"><a href="profiling.html#cb1857-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">tb_dplyr =</span> flights <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(carrier) <span class="sc">%&gt;%</span> <span class="fu">summarize</span>(<span class="fu">mean</span>(arr_delay, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)))</span>
+<span id="cb1857-8"><a href="profiling.html#cb1857-8" aria-hidden="true" tabindex="-1"></a>dbc</span></code></pre></div>
+<div class="sourceCode" id="cb1858"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1858-1"><a href="profiling.html#cb1858-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(dbc)</span></code></pre></div>
+<div class="sourceCode" id="cb1859"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1859-1"><a href="profiling.html#cb1859-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rpart)</span>
+<span id="cb1859-2"><a href="profiling.html#cb1859-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(Sonar, <span class="at">package =</span> <span class="st">&quot;mlbench&quot;</span>)</span>
+<span id="cb1859-3"><a href="profiling.html#cb1859-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1859-4"><a href="profiling.html#cb1859-4" aria-hidden="true" tabindex="-1"></a>glmVSrpart <span class="ot">&lt;-</span> <span class="fu">microbenchmark</span>(</span>
+<span id="cb1859-5"><a href="profiling.html#cb1859-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">glm =</span> <span class="fu">glm</span>(Class <span class="sc">~</span> ., <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>, Sonar),</span>
+<span id="cb1859-6"><a href="profiling.html#cb1859-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">rpart =</span> <span class="fu">rpart</span>(Class <span class="sc">~</span> ., Sonar, <span class="at">method =</span> <span class="st">&quot;class&quot;</span>),</span>
+<span id="cb1859-7"><a href="profiling.html#cb1859-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">times =</span> <span class="dv">50</span>)</span>
+<span id="cb1859-8"><a href="profiling.html#cb1859-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1859-9"><a href="profiling.html#cb1859-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(glmVSrpart)</span></code></pre></div>
+<p><img src="82-Profiling_files/figure-html/unnamed-chunk-14-1.png" width="480" /></p>
+</div>
+<div id="profile-a-function-with-profvis" class="section level2" number="29.3">
+<h2><span class="header-section-number">29.3</span> Profile a function with <code>profvis()</code></h2>
+<p><code>profvis</code> provides an interactive output to visualize how much time is spent in different calls within an algorithm.</p>
+<div class="sourceCode" id="cb1860"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1860-1"><a href="profiling.html#cb1860-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(profvis)</span>
+<span id="cb1860-2"><a href="profiling.html#cb1860-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rtemis)</span>
+<span id="cb1860-3"><a href="profiling.html#cb1860-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(Sonar, <span class="at">package =</span> <span class="st">&#39;mlbench&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1861"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1861-1"><a href="profiling.html#cb1861-1" aria-hidden="true" tabindex="-1"></a><span class="fu">profvis</span>(rpart<span class="sc">::</span><span class="fu">rpart</span>(Class <span class="sc">~</span> ., Sonar))</span></code></pre></div>
+<div id="htmlwidget-4d84af34f42f1250b9b7" style="width:100%;height:600px;" class="profvis html-widget"></div>
+<script type="application/json" data-for="htmlwidget-4d84af34f42f1250b9b7">{"x":{"message":{"prof":{"time":[1,1,2,2,3,3],"depth":[2,1,2,1,2,1],"label":[".Call","local",".Call","local",".Call","local"],"filenum":[null,null,null,null,null,null],"linenum":[null,null,null,null,null,null],"memalloc":[26.6169281005859,26.6169281005859,26.6172332763672,26.6172332763672,26.6172332763672,26.6172332763672],"meminc":[0,0,0.00030517578125,0,0,0],"filename":[null,null,null,null,null,null]},"interval":10,"files":[],"prof_output":"/var/folders/05/lsy6wgrj20bghdzndf_dnzrm0000gn/T//RtmpzyzZf2/file6958707943d9.prof","highlight":{"output":["^output\\$"],"gc":["^<GC>$"],"stacktrace":["^\\.\\.stacktraceo(n|ff)\\.\\.$"]},"split":"h"}},"evals":[],"jsHooks":[]}</script>
+
+</div>
+</div>
+  </main>
+
+  <div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page">
+      <h2>On this page</h2>
+      <div id="book-on-this-page"></div>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          <li><a id="book-source" href="#">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="#">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5">
+  <div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Programming for Data Science in R</strong>" was written by Efstathios (Stathis) D. Gennatas, MBBS AICSM PhD. It was last built on 2021-11-07.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer>
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+<script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+
+</html>

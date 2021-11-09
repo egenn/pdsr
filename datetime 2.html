@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>21 Date and Time | Programming for Data Science in R</title>
+
+    <meta name="author" content="Efstathios (Stathis) D. Gennatas, MBBS AICSM PhD" />
+  
+   <meta name="description" content="21 Date and Time | Programming for Data Science in R is a project to build an online resource for (Bio)statisticians / Epidemiologists / (Health) Data Scientists" />
+   <meta name="generator" content="placeholder" />
+  <meta property="og:title" content="21 Date and Time | Programming for Data Science in R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="21 Date and Time | Programming for Data Science in R is a project to build an online resource for (Bio)statisticians / Epidemiologists / (Health) Data Scientists" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="21 Date and Time | Programming for Data Science in R" />
+  
+  <meta name="twitter:description" content="21 Date and Time | Programming for Data Science in R is a project to build an online resource for (Bio)statisticians / Epidemiologists / (Health) Data Scientists" />
+  
+  <!-- JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script>
+  <script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script>
+    <script src="libs/header-attrs-2.11/header-attrs.js"></script>
+    <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet" />
+    <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script>
+    <script src="libs/bs3compat-0.3.1/transition.js"></script>
+    <script src="libs/bs3compat-0.3.1/tabs.js"></script>
+    <script src="libs/bs3compat-0.3.1/bs3compat.js"></script>
+    <link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet" />
+    <script src="libs/bs4_book-1.0.0/bs4_book.js"></script>
+    <script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+    <script src="libs/plotly-binding-4.9.4.1/plotly.js"></script>
+    <script src="libs/typedarray-0.1/typedarray.min.js"></script>
+    <link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
+    <script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
+    <link href="libs/plotly-htmlwidgets-css-1.57.1/plotly-htmlwidgets.css" rel="stylesheet" />
+    <script src="libs/plotly-main-1.57.1/plotly-latest.min.js"></script>
+    <script src="libs/d3-3.5.6/d3.min.js"></script>
+    <link href="libs/profvis-0.3.6.9000/profvis.css" rel="stylesheet" />
+    <script src="libs/profvis-0.3.6.9000/profvis.js"></script>
+    <script src="libs/profvis-0.3.6.9000/scroll.js"></script>
+    <link href="libs/highlight-6.2.0/textmate.css" rel="stylesheet" />
+    <script src="libs/highlight-6.2.0/highlight.js"></script>
+    <script src="libs/profvis-binding-0.3.7/profvis.js"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-163213745-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-163213745-1');
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script>
+
+  <!-- CSS -->
+    <link rel="stylesheet" href="bootstrap.lambdamd.css" />
+  
+</head>
+
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book">
+    <a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">Programming for Data Science in R</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+      </form>
+
+      <nav aria-label="Table of contents">
+        <h2>Table of contents</h2>
+        <div id="book-toc"></div>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="#">View book source <i class="fab fa-github"></i></a></li></p>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="col-sm-12 col-md-9 col-lg-7" id="content">
+<div id="datetime" class="section level1" number="21">
+<h1><span class="header-section-number">21</span> Date and Time</h1>
+<p>R includes builtin support for working with date +/- time data. A number of external packages further extend this support.</p>
+<p>There are three builtin classes:</p>
+<ul>
+<li><code>Date</code>: Represents <strong>date</strong> information (not time)</li>
+<li><code>POSIXct</code>: Represents <strong>date and time</strong> information as the signed number of seconds since January 1, 1970 (<a href="https://en.wikipedia.org/wiki/Unix_time">Unix Time a.k.a. POSIX time a.k.a. Epoch time</a>)</li>
+<li><code>POSIXlt</code>: Represents <strong>date and time</strong> information as a named list (See <code>base::DateTimeClasses</code>)</li>
+</ul>
+<p>Background info: <a href="https://en.wikipedia.org/wiki/POSIX">Portable Operating System Interface (POSIX)</a> is a set of standards for maintaining compatibility among operating systems.</p>
+<div id="date-objects" class="section level2" number="21.1">
+<h2><span class="header-section-number">21.1</span> Date objects</h2>
+<div id="character-to-date-as.date" class="section level3" number="21.1.1">
+<h3><span class="header-section-number">21.1.1</span> Character to Date: <code>as.Date()</code></h3>
+<p>You can create a <code>Date</code> object from a string:</p>
+<div class="sourceCode" id="cb1263"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1263-1"><a href="datetime.html#cb1263-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(<span class="st">&quot;1981-02-12&quot;</span>)</span>
+<span id="cb1263-2"><a href="datetime.html#cb1263-2" aria-hidden="true" tabindex="-1"></a>x</span></code></pre></div>
+<pre><code>[1] &quot;1981-02-12&quot;</code></pre>
+<div class="sourceCode" id="cb1265"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1265-1"><a href="datetime.html#cb1265-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(x)</span></code></pre></div>
+<pre><code>[1] &quot;Date&quot;</code></pre>
+<p>The <code>tryFormats</code> argument defines which formats are recognized.</p>
+<p>The default is <code>tryFormats = c("%Y-%m-%d", "%Y/%m/%d")</code>, i.e. a date of the form “2020-11-16” or “2020/11/16”</p>
+</div>
+<div id="get-current-date-time" class="section level3" number="21.1.2">
+<h3><span class="header-section-number">21.1.2</span> Get current date &amp; time</h3>
+<p>Get current data:</p>
+<div class="sourceCode" id="cb1267"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1267-1"><a href="datetime.html#cb1267-1" aria-hidden="true" tabindex="-1"></a>today <span class="ot">&lt;-</span> <span class="fu">Sys.Date</span>()</span>
+<span id="cb1267-2"><a href="datetime.html#cb1267-2" aria-hidden="true" tabindex="-1"></a>today</span></code></pre></div>
+<pre><code>[1] &quot;2021-10-01&quot;</code></pre>
+<div class="sourceCode" id="cb1269"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1269-1"><a href="datetime.html#cb1269-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(today)</span></code></pre></div>
+<pre><code>[1] &quot;Date&quot;</code></pre>
+<p>Get current date and time:</p>
+<div class="sourceCode" id="cb1271"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1271-1"><a href="datetime.html#cb1271-1" aria-hidden="true" tabindex="-1"></a>now <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb1271-2"><a href="datetime.html#cb1271-2" aria-hidden="true" tabindex="-1"></a>now</span></code></pre></div>
+<pre><code>[1] &quot;2021-10-01 19:48:13 PDT&quot;</code></pre>
+<div class="sourceCode" id="cb1273"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1273-1"><a href="datetime.html#cb1273-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(now)</span></code></pre></div>
+<pre><code>[1] &quot;POSIXct&quot; &quot;POSIXt&quot; </code></pre>
+<p>Get local timezone:</p>
+<div class="sourceCode" id="cb1275"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1275-1"><a href="datetime.html#cb1275-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.timezone</span>()</span></code></pre></div>
+<pre><code>[1] &quot;America/Los_Angeles&quot;</code></pre>
+</div>
+<div id="math-on-dates" class="section level3" number="21.1.3">
+<h3><span class="header-section-number">21.1.3</span> Math on Dates</h3>
+<p>The reason we care about Date objects in R is because we can apply useful mathematical operations on them.</p>
+<p>For example, we can substract date objects to get time intervals:</p>
+<div class="sourceCode" id="cb1277"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1277-1"><a href="datetime.html#cb1277-1" aria-hidden="true" tabindex="-1"></a>start_date <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(<span class="st">&quot;2020-09-15&quot;</span>)</span>
+<span id="cb1277-2"><a href="datetime.html#cb1277-2" aria-hidden="true" tabindex="-1"></a>time_diff <span class="ot">&lt;-</span> <span class="fu">Sys.Date</span>() <span class="sc">-</span> start_date</span>
+<span id="cb1277-3"><a href="datetime.html#cb1277-3" aria-hidden="true" tabindex="-1"></a>time_diff</span></code></pre></div>
+<pre><code>Time difference of 381 days</code></pre>
+<div class="sourceCode" id="cb1279"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1279-1"><a href="datetime.html#cb1279-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(time_diff)</span></code></pre></div>
+<pre><code>[1] &quot;difftime&quot;</code></pre>
+<p>Note: While you can use the subtraction operator <code>-</code>, it is advised you use the <code>difftime()</code> function to perform subtraction on dates instead, because it allows you to specify units:</p>
+<div class="sourceCode" id="cb1281"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1281-1"><a href="datetime.html#cb1281-1" aria-hidden="true" tabindex="-1"></a>timepoint1 <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(<span class="st">&quot;2020-01-07&quot;</span>)</span>
+<span id="cb1281-2"><a href="datetime.html#cb1281-2" aria-hidden="true" tabindex="-1"></a>timepoint2 <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(<span class="st">&quot;2020-02-03&quot;</span>)</span>
+<span id="cb1281-3"><a href="datetime.html#cb1281-3" aria-hidden="true" tabindex="-1"></a><span class="fu">difftime</span>(timepoint2, timepoint1, <span class="at">units =</span> <span class="st">&quot;weeks&quot;</span>)</span></code></pre></div>
+<pre><code>Time difference of 3.857143 weeks</code></pre>
+<div class="sourceCode" id="cb1283"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1283-1"><a href="datetime.html#cb1283-1" aria-hidden="true" tabindex="-1"></a><span class="fu">difftime</span>(timepoint2, timepoint1, <span class="at">units =</span> <span class="st">&quot;days&quot;</span>)</span></code></pre></div>
+<pre><code>Time difference of 27 days</code></pre>
+<div class="sourceCode" id="cb1285"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1285-1"><a href="datetime.html#cb1285-1" aria-hidden="true" tabindex="-1"></a><span class="fu">difftime</span>(timepoint2, timepoint1, <span class="at">units =</span> <span class="st">&quot;hours&quot;</span>)</span></code></pre></div>
+<pre><code>Time difference of 648 hours</code></pre>
+<div class="sourceCode" id="cb1287"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1287-1"><a href="datetime.html#cb1287-1" aria-hidden="true" tabindex="-1"></a><span class="fu">difftime</span>(timepoint2, timepoint1, <span class="at">units =</span> <span class="st">&quot;mins&quot;</span>)</span></code></pre></div>
+<pre><code>Time difference of 38880 mins</code></pre>
+<div class="sourceCode" id="cb1289"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1289-1"><a href="datetime.html#cb1289-1" aria-hidden="true" tabindex="-1"></a><span class="fu">difftime</span>(timepoint2, timepoint1, <span class="at">units =</span> <span class="st">&quot;secs&quot;</span>)</span></code></pre></div>
+<pre><code>Time difference of 2332800 secs</code></pre>
+<div class="warning">
+<p>
+Why is there no option for “months” or “years” in units?
+</p>
+<p>
+Think about it.
+</p>
+<p>
+Because, unlike seconds, minutes, hours, days, and weeks, months and years do not have fixed length, i.e. literally a month or a year are not “units” of time.
+</p>
+<p>
+You can always get a difference in days and divide by 365 (or <a href="https://www.nist.gov/pml/time-and-frequency-division/popular-links/time-frequency-z/time-and-frequency-z-l">365.242</a>.
+</p>
+</div>
+<div class="sourceCode" id="cb1291"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1291-1"><a href="datetime.html#cb1291-1" aria-hidden="true" tabindex="-1"></a>DOB <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(<span class="st">&quot;1969-08-04&quot;</span>)</span>
+<span id="cb1291-2"><a href="datetime.html#cb1291-2" aria-hidden="true" tabindex="-1"></a>Age <span class="ot">&lt;-</span> <span class="fu">Sys.Date</span>() <span class="sc">-</span> DOB</span>
+<span id="cb1291-3"><a href="datetime.html#cb1291-3" aria-hidden="true" tabindex="-1"></a>Age</span></code></pre></div>
+<pre><code>Time difference of 19051 days</code></pre>
+<div class="sourceCode" id="cb1293"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1293-1"><a href="datetime.html#cb1293-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Age today is&quot;</span>, <span class="fu">round</span>(Age<span class="sc">/</span><span class="dv">365</span>), <span class="st">&quot;years&quot;</span>)</span></code></pre></div>
+<pre><code>Age today is 52 years</code></pre>
+</div>
+<div id="meanmedian-date" class="section level3" number="21.1.4">
+<h3><span class="header-section-number">21.1.4</span> mean/median Date</h3>
+<div class="sourceCode" id="cb1295"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1295-1"><a href="datetime.html#cb1295-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(<span class="fu">c</span>(<span class="dv">5480</span>, <span class="dv">5723</span>, <span class="dv">5987</span>, <span class="dv">6992</span>), <span class="at">origin =</span> <span class="st">&quot;1970-01-01&quot;</span>)</span>
+<span id="cb1295-2"><a href="datetime.html#cb1295-2" aria-hidden="true" tabindex="-1"></a>x</span></code></pre></div>
+<pre><code>[1] &quot;1985-01-02&quot; &quot;1985-09-02&quot; &quot;1986-05-24&quot; &quot;1989-02-22&quot;</code></pre>
+<div class="sourceCode" id="cb1297"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1297-1"><a href="datetime.html#cb1297-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(x)</span></code></pre></div>
+<pre><code>[1] &quot;1986-07-21&quot;</code></pre>
+<div class="sourceCode" id="cb1299"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1299-1"><a href="datetime.html#cb1299-1" aria-hidden="true" tabindex="-1"></a><span class="fu">median</span>(x)</span></code></pre></div>
+<pre><code>[1] &quot;1986-01-12&quot;</code></pre>
+<p>To check the median, we can do a mathematical operation using mmultiplication subtraction and addition, and the result is still a Date(!):</p>
+<div class="sourceCode" id="cb1301"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1301-1"><a href="datetime.html#cb1301-1" aria-hidden="true" tabindex="-1"></a>x[<span class="dv">2</span>] <span class="sc">+</span> .<span class="dv">5</span> <span class="sc">*</span> (x[<span class="dv">3</span>] <span class="sc">-</span> x[<span class="dv">2</span>])</span></code></pre></div>
+<pre><code>[1] &quot;1986-01-12&quot;</code></pre>
+</div>
+<div id="sequence-of-dates" class="section level3" number="21.1.5">
+<h3><span class="header-section-number">21.1.5</span> Sequence of dates</h3>
+<p>You can create a sequence of dates using <code>seq()</code>.<br />
+If an integer is passed to <code>by</code>, the unit is assumed to be days:</p>
+<div class="sourceCode" id="cb1303"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1303-1"><a href="datetime.html#cb1303-1" aria-hidden="true" tabindex="-1"></a>start_date <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(<span class="st">&quot;2020-09-14&quot;</span>)</span>
+<span id="cb1303-2"><a href="datetime.html#cb1303-2" aria-hidden="true" tabindex="-1"></a>end_date <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(<span class="st">&quot;2020-12-07&quot;</span>)</span>
+<span id="cb1303-3"><a href="datetime.html#cb1303-3" aria-hidden="true" tabindex="-1"></a><span class="fu">seq</span>(<span class="at">from =</span> start_date, <span class="at">to =</span> end_date, <span class="at">by =</span> <span class="dv">7</span>)</span></code></pre></div>
+<pre><code> [1] &quot;2020-09-14&quot; &quot;2020-09-21&quot; &quot;2020-09-28&quot; &quot;2020-10-05&quot; &quot;2020-10-12&quot;
+ [6] &quot;2020-10-19&quot; &quot;2020-10-26&quot; &quot;2020-11-02&quot; &quot;2020-11-09&quot; &quot;2020-11-16&quot;
+[11] &quot;2020-11-23&quot; &quot;2020-11-30&quot; &quot;2020-12-07&quot;</code></pre>
+<p>Unlike mathematical operations like <code>difftime()</code> which require strict units of time, <code>seq()</code> can work with months and years.</p>
+<p><code>by</code> can be one of:</p>
+<p>“day”, “week”, “month”, “quarter”, “year”.</p>
+<p>The above is therefore equivalent to:</p>
+<div class="sourceCode" id="cb1305"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1305-1"><a href="datetime.html#cb1305-1" aria-hidden="true" tabindex="-1"></a><span class="fu">seq</span>(<span class="at">from =</span> start_date, <span class="at">to =</span> end_date, <span class="at">by =</span> <span class="st">&quot;week&quot;</span>)</span></code></pre></div>
+<pre><code> [1] &quot;2020-09-14&quot; &quot;2020-09-21&quot; &quot;2020-09-28&quot; &quot;2020-10-05&quot; &quot;2020-10-12&quot;
+ [6] &quot;2020-10-19&quot; &quot;2020-10-26&quot; &quot;2020-11-02&quot; &quot;2020-11-09&quot; &quot;2020-11-16&quot;
+[11] &quot;2020-11-23&quot; &quot;2020-11-30&quot; &quot;2020-12-07&quot;</code></pre>
+<p>As with numeric sequences, you can also define the <code>length.out</code> argument:</p>
+<div class="sourceCode" id="cb1307"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1307-1"><a href="datetime.html#cb1307-1" aria-hidden="true" tabindex="-1"></a>start_date <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(<span class="st">&quot;2020-01-20&quot;</span>)</span>
+<span id="cb1307-2"><a href="datetime.html#cb1307-2" aria-hidden="true" tabindex="-1"></a><span class="fu">seq</span>(<span class="at">from =</span> start_date, <span class="at">by =</span> <span class="st">&quot;year&quot;</span>, <span class="at">length.out =</span> <span class="dv">4</span>)</span></code></pre></div>
+<pre><code>[1] &quot;2020-01-20&quot; &quot;2021-01-20&quot; &quot;2022-01-20&quot; &quot;2023-01-20&quot;</code></pre>
+<p>An integer can be provided as part of character input to <code>by</code>:</p>
+<div class="sourceCode" id="cb1309"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1309-1"><a href="datetime.html#cb1309-1" aria-hidden="true" tabindex="-1"></a>start_date <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(<span class="st">&quot;2020-01-20&quot;</span>)</span>
+<span id="cb1309-2"><a href="datetime.html#cb1309-2" aria-hidden="true" tabindex="-1"></a>end_date <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(<span class="st">&quot;2021-01-20&quot;</span>)</span>
+<span id="cb1309-3"><a href="datetime.html#cb1309-3" aria-hidden="true" tabindex="-1"></a><span class="fu">seq</span>(start_date, end_date, <span class="at">by =</span> <span class="st">&quot;2 months&quot;</span>)</span></code></pre></div>
+<pre><code>[1] &quot;2020-01-20&quot; &quot;2020-03-20&quot; &quot;2020-05-20&quot; &quot;2020-07-20&quot; &quot;2020-09-20&quot;
+[6] &quot;2020-11-20&quot; &quot;2021-01-20&quot;</code></pre>
+</div>
+</div>
+<div id="date-time-objects" class="section level2" number="21.2">
+<h2><span class="header-section-number">21.2</span> Date-Time objects</h2>
+<div id="character-to-date-time-as.posixct-as.posixlt-strptime" class="section level3" number="21.2.1">
+<h3><span class="header-section-number">21.2.1</span> Character to Date-Time: <code>as.POSIXct()</code>, <code>as.POSIXlt()</code>, <code>strptime()</code>:</h3>
+<p>(As always, it can be very informative to look at the source code. Many of these functions call eachother internally)</p>
+<p>Read <code>strptime()</code>’s documentation for conversion specifications. These define the order and format of characters to be read as year, month, day, hour, minute, and second information.</p>
+<p>For example, the ISO 8601 international standard is defined as:<br />
+<code>"%Y-%m-%d %H:%M:%S"</code></p>
+<ul>
+<li><strong><code>%Y</code></strong>: Year with century, (0-9999 accepted) e.g. <code>2020</code></li>
+<li><strong><code>%m</code></strong>: Month, 01-12, e.g. <code>03</code></li>
+<li><strong><code>%d</code></strong>: Day, 01-31, e.g. <code>04</code></li>
+<li><strong><code>%H</code></strong>: Hours, 00-23, e.g. <code>13</code></li>
+<li><strong><code>%M</code></strong>: Minutes, 00-59, e.g. <code>38</code></li>
+<li><strong><code>%S</code></strong>: Seconds, 00-61 (!) allowing for up to two leap seconds, e.g. <code>54</code></li>
+</ul>
+<div class="sourceCode" id="cb1311"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1311-1"><a href="datetime.html#cb1311-1" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="st">&quot;2020-03-04 13:38:54&quot;</span></span>
+<span id="cb1311-2"><a href="datetime.html#cb1311-2" aria-hidden="true" tabindex="-1"></a>dt</span></code></pre></div>
+<pre><code>[1] &quot;2020-03-04 13:38:54&quot;</code></pre>
+<div class="sourceCode" id="cb1313"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1313-1"><a href="datetime.html#cb1313-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(dt)</span></code></pre></div>
+<pre><code>[1] &quot;character&quot;</code></pre>
+<p>Use <code>attributres()</code> to see the difference between the <code>POSIXct</code> and <code>POSIXlt</code> classes:</p>
+<div class="sourceCode" id="cb1315"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1315-1"><a href="datetime.html#cb1315-1" aria-hidden="true" tabindex="-1"></a>dt_posixct <span class="ot">&lt;-</span> <span class="fu">as.POSIXct</span>(dt)</span>
+<span id="cb1315-2"><a href="datetime.html#cb1315-2" aria-hidden="true" tabindex="-1"></a>dt_posixct</span></code></pre></div>
+<pre><code>[1] &quot;2020-03-04 13:38:54 PST&quot;</code></pre>
+<div class="sourceCode" id="cb1317"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1317-1"><a href="datetime.html#cb1317-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(dt_posixct)</span></code></pre></div>
+<pre><code>[1] &quot;POSIXct&quot; &quot;POSIXt&quot; </code></pre>
+<div class="sourceCode" id="cb1319"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1319-1"><a href="datetime.html#cb1319-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(dt_posixct)</span></code></pre></div>
+<pre><code> POSIXct[1:1], format: &quot;2020-03-04 13:38:54&quot;</code></pre>
+<div class="sourceCode" id="cb1321"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1321-1"><a href="datetime.html#cb1321-1" aria-hidden="true" tabindex="-1"></a><span class="fu">attributes</span>(dt_posixct)</span></code></pre></div>
+<pre><code>$class
+[1] &quot;POSIXct&quot; &quot;POSIXt&quot; 
+
+$tzone
+[1] &quot;&quot;</code></pre>
+<div class="sourceCode" id="cb1323"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1323-1"><a href="datetime.html#cb1323-1" aria-hidden="true" tabindex="-1"></a>dt_posixlt <span class="ot">&lt;-</span> <span class="fu">as.POSIXlt</span>(dt)</span>
+<span id="cb1323-2"><a href="datetime.html#cb1323-2" aria-hidden="true" tabindex="-1"></a>dt_posixlt</span></code></pre></div>
+<pre><code>[1] &quot;2020-03-04 13:38:54 PST&quot;</code></pre>
+<div class="sourceCode" id="cb1325"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1325-1"><a href="datetime.html#cb1325-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(dt_posixlt)</span></code></pre></div>
+<pre><code>[1] &quot;POSIXlt&quot; &quot;POSIXt&quot; </code></pre>
+<div class="sourceCode" id="cb1327"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1327-1"><a href="datetime.html#cb1327-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(dt_posixlt)</span></code></pre></div>
+<pre><code> POSIXlt[1:1], format: &quot;2020-03-04 13:38:54&quot;</code></pre>
+<div class="sourceCode" id="cb1329"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1329-1"><a href="datetime.html#cb1329-1" aria-hidden="true" tabindex="-1"></a>dt_posixlt<span class="sc">$</span>year</span></code></pre></div>
+<pre><code>[1] 120</code></pre>
+<div class="sourceCode" id="cb1331"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1331-1"><a href="datetime.html#cb1331-1" aria-hidden="true" tabindex="-1"></a><span class="fu">attributes</span>(dt_posixlt)</span></code></pre></div>
+<pre><code>$names
+ [1] &quot;sec&quot;    &quot;min&quot;    &quot;hour&quot;   &quot;mday&quot;   &quot;mon&quot;    &quot;year&quot;   &quot;wday&quot;   &quot;yday&quot;  
+ [9] &quot;isdst&quot;  &quot;zone&quot;   &quot;gmtoff&quot;
+
+$class
+[1] &quot;POSIXlt&quot; &quot;POSIXt&quot; </code></pre>
+<p>You can compose a really large number of combination formats to match your data.</p>
+<div class="sourceCode" id="cb1333"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1333-1"><a href="datetime.html#cb1333-1" aria-hidden="true" tabindex="-1"></a>dt2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;03.04.20 01:38.54 pm&quot;</span>)</span>
+<span id="cb1333-2"><a href="datetime.html#cb1333-2" aria-hidden="true" tabindex="-1"></a>dt2_posix <span class="ot">&lt;-</span> <span class="fu">as.POSIXct</span>(dt2, <span class="at">format =</span> <span class="st">&quot;%m.%d.%y %I:%M.%S %p&quot;</span>)</span>
+<span id="cb1333-3"><a href="datetime.html#cb1333-3" aria-hidden="true" tabindex="-1"></a>dt2_posix</span></code></pre></div>
+<pre><code>[1] &quot;2020-03-04 13:38:54 PST&quot;</code></pre>
+</div>
+</div>
+<div id="format-dates" class="section level2" number="21.3">
+<h2><span class="header-section-number">21.3</span> <code>format()</code> Dates</h2>
+<p><code>format()</code> operates on Date and POSIX objects to convert between representations</p>
+<p>Define Date in US format:</p>
+<div class="sourceCode" id="cb1335"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1335-1"><a href="datetime.html#cb1335-1" aria-hidden="true" tabindex="-1"></a>dt_us <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(<span class="st">&quot;07-04-2020&quot;</span>, <span class="at">format =</span> <span class="st">&quot;%m-%d-%Y&quot;</span>)</span>
+<span id="cb1335-2"><a href="datetime.html#cb1335-2" aria-hidden="true" tabindex="-1"></a>dt_us</span></code></pre></div>
+<pre><code>[1] &quot;2020-07-04&quot;</code></pre>
+<p>Convert to European format:</p>
+<div class="sourceCode" id="cb1337"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1337-1"><a href="datetime.html#cb1337-1" aria-hidden="true" tabindex="-1"></a>dt_eu <span class="ot">&lt;-</span> <span class="fu">format</span>(dt_us, <span class="st">&quot;%d.%m.%y&quot;</span>)</span>
+<span id="cb1337-2"><a href="datetime.html#cb1337-2" aria-hidden="true" tabindex="-1"></a>dt_eu</span></code></pre></div>
+<pre><code>[1] &quot;04.07.20&quot;</code></pre>
+</div>
+<div id="extract-partial-date-information" class="section level2" number="21.4">
+<h2><span class="header-section-number">21.4</span> Extract partial date information</h2>
+<ul>
+<li><strong>weekdays()</strong>: Get name of day of the week</li>
+<li><strong>months()</strong>: Get name of month</li>
+<li><strong>quarters()</strong>: Get quarter</li>
+<li><strong>julia()</strong>: Get number of days since a specific origin</li>
+</ul>
+<div class="sourceCode" id="cb1339"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1339-1"><a href="datetime.html#cb1339-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(<span class="fu">c</span>(<span class="dv">18266</span>, <span class="dv">18299</span>, <span class="dv">18359</span>, <span class="dv">18465</span>), <span class="at">origin =</span> <span class="st">&quot;1970-01-01&quot;</span>)</span>
+<span id="cb1339-2"><a href="datetime.html#cb1339-2" aria-hidden="true" tabindex="-1"></a>x</span></code></pre></div>
+<pre><code>[1] &quot;2020-01-05&quot; &quot;2020-02-07&quot; &quot;2020-04-07&quot; &quot;2020-07-22&quot;</code></pre>
+<div class="sourceCode" id="cb1341"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1341-1"><a href="datetime.html#cb1341-1" aria-hidden="true" tabindex="-1"></a><span class="fu">weekdays</span>(x)</span></code></pre></div>
+<pre><code>[1] &quot;Sunday&quot;    &quot;Friday&quot;    &quot;Tuesday&quot;   &quot;Wednesday&quot;</code></pre>
+<div class="sourceCode" id="cb1343"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1343-1"><a href="datetime.html#cb1343-1" aria-hidden="true" tabindex="-1"></a><span class="fu">months</span>(x)</span></code></pre></div>
+<pre><code>[1] &quot;January&quot;  &quot;February&quot; &quot;April&quot;    &quot;July&quot;    </code></pre>
+<div class="sourceCode" id="cb1345"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1345-1"><a href="datetime.html#cb1345-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quarters</span>(x)</span></code></pre></div>
+<pre><code>[1] &quot;Q1&quot; &quot;Q1&quot; &quot;Q2&quot; &quot;Q3&quot;</code></pre>
+<div class="sourceCode" id="cb1347"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1347-1"><a href="datetime.html#cb1347-1" aria-hidden="true" tabindex="-1"></a><span class="fu">julian</span>(x)</span></code></pre></div>
+<pre><code>[1] 18266 18299 18359 18465
+attr(,&quot;origin&quot;)
+[1] &quot;1970-01-01&quot;</code></pre>
+<div class="sourceCode" id="cb1349"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1349-1"><a href="datetime.html#cb1349-1" aria-hidden="true" tabindex="-1"></a><span class="fu">julian</span>(x, <span class="at">origin =</span> <span class="fu">as.Date</span>(<span class="st">&quot;2020-01-01&quot;</span>))</span></code></pre></div>
+<pre><code>[1]   4  37  97 203
+attr(,&quot;origin&quot;)
+[1] &quot;2020-01-01&quot;</code></pre>
+</div>
+<div id="handling-dates-with-lubridate" class="section level2" number="21.5">
+<h2><span class="header-section-number">21.5</span> Handling dates with <strong>lubridate</strong></h2>
+<p>Instead of defining Date and/or time formats using POSIX standard abbreviations, we can let the <a href="https://lubridate.tidyverse.org/"><strong>lubridate</strong></a> package do some guesswork for us, which works well most of the time.</p>
+<div class="sourceCode" id="cb1351"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1351-1"><a href="datetime.html#cb1351-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb1351-2"><a href="datetime.html#cb1351-2" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;2020-03-04 13:38:54&quot;</span>)</span>
+<span id="cb1351-3"><a href="datetime.html#cb1351-3" aria-hidden="true" tabindex="-1"></a>dt_posix <span class="ot">&lt;-</span> <span class="fu">as_datetime</span>(dt)</span>
+<span id="cb1351-4"><a href="datetime.html#cb1351-4" aria-hidden="true" tabindex="-1"></a>dt_posix</span></code></pre></div>
+<pre><code>[1] &quot;2020-03-04 13:38:54 UTC&quot;</code></pre>
+<p>Note that timezone defaults to UTC (<a href="https://en.wikipedia.org/wiki/Coordinated_Universal_Time">Coordinated Universal Time</a>) and must be set manually. PST is defined with “America/Los_Angeles” or the (officially deprecated) “US/Pacific” (<a href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones">tz database</a>)</p>
+<div class="sourceCode" id="cb1353"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1353-1"><a href="datetime.html#cb1353-1" aria-hidden="true" tabindex="-1"></a>dt_posix <span class="ot">&lt;-</span> <span class="fu">as_datetime</span>(dt, <span class="at">tz =</span> <span class="st">&quot;America/Los_Angeles&quot;</span>)</span>
+<span id="cb1353-2"><a href="datetime.html#cb1353-2" aria-hidden="true" tabindex="-1"></a>dt_posix</span></code></pre></div>
+<pre><code>[1] &quot;2020-03-04 13:38:54 PST&quot;</code></pre>
+<div class="sourceCode" id="cb1355"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1355-1"><a href="datetime.html#cb1355-1" aria-hidden="true" tabindex="-1"></a>dt2_posix <span class="ot">&lt;-</span> <span class="fu">as_datetime</span>(dt2)</span>
+<span id="cb1355-2"><a href="datetime.html#cb1355-2" aria-hidden="true" tabindex="-1"></a>dt2_posix</span></code></pre></div>
+<pre><code>[1] &quot;2003-04-20 13:38:54 UTC&quot;</code></pre>
+<p><code>dt2</code> got misinterpreted as year-month-day.<br />
+For these cases, <strong>lubridate</strong> includes a number of convenient functions to narrow down the guessing. The functions are named using all permutations of <code>y</code>, <code>m</code>, and <code>d</code>. The letter order signifies the order the information appears in the character you are trying to import, i.e. <code>ymd</code>, <code>dmy</code>, <code>mdy</code>, <code>ydm</code>, <code>myd</code></p>
+<div class="sourceCode" id="cb1357"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1357-1"><a href="datetime.html#cb1357-1" aria-hidden="true" tabindex="-1"></a>dt2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;03.04.20 01:38.54 pm&quot;</span>)</span>
+<span id="cb1357-2"><a href="datetime.html#cb1357-2" aria-hidden="true" tabindex="-1"></a>dt2_posix <span class="ot">&lt;-</span> <span class="fu">mdy_hms</span>(dt2, <span class="at">tz =</span> <span class="st">&quot;America/Los_Angeles&quot;</span>)</span>
+<span id="cb1357-3"><a href="datetime.html#cb1357-3" aria-hidden="true" tabindex="-1"></a>dt2_posix</span></code></pre></div>
+<pre><code>[1] &quot;2020-03-04 13:38:54 PST&quot;</code></pre>
+
+</div>
+</div>
+  </main>
+
+  <div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page">
+      <h2>On this page</h2>
+      <div id="book-on-this-page"></div>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          <li><a id="book-source" href="#">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="#">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5">
+  <div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Programming for Data Science in R</strong>" was written by Efstathios (Stathis) D. Gennatas, MBBS AICSM PhD. It was last built on 2021-11-07.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer>
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+<script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+
+</html>

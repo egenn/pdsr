@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>17 Table joins | Programming for Data Science in R</title>
+
+    <meta name="author" content="Efstathios (Stathis) D. Gennatas, MBBS AICSM PhD" />
+  
+   <meta name="description" content="17 Table joins | Programming for Data Science in R is a project to build an online resource for (Bio)statisticians / Epidemiologists / (Health) Data Scientists" />
+   <meta name="generator" content="placeholder" />
+  <meta property="og:title" content="17 Table joins | Programming for Data Science in R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="17 Table joins | Programming for Data Science in R is a project to build an online resource for (Bio)statisticians / Epidemiologists / (Health) Data Scientists" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="17 Table joins | Programming for Data Science in R" />
+  
+  <meta name="twitter:description" content="17 Table joins | Programming for Data Science in R is a project to build an online resource for (Bio)statisticians / Epidemiologists / (Health) Data Scientists" />
+  
+  <!-- JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script>
+  <script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script>
+    <script src="libs/header-attrs-2.11/header-attrs.js"></script>
+    <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet" />
+    <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script>
+    <script src="libs/bs3compat-0.3.1/transition.js"></script>
+    <script src="libs/bs3compat-0.3.1/tabs.js"></script>
+    <script src="libs/bs3compat-0.3.1/bs3compat.js"></script>
+    <link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet" />
+    <script src="libs/bs4_book-1.0.0/bs4_book.js"></script>
+    <script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+    <script src="libs/plotly-binding-4.9.4.1/plotly.js"></script>
+    <script src="libs/typedarray-0.1/typedarray.min.js"></script>
+    <link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
+    <script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
+    <link href="libs/plotly-htmlwidgets-css-1.57.1/plotly-htmlwidgets.css" rel="stylesheet" />
+    <script src="libs/plotly-main-1.57.1/plotly-latest.min.js"></script>
+    <script src="libs/d3-3.5.6/d3.min.js"></script>
+    <link href="libs/profvis-0.3.6.9000/profvis.css" rel="stylesheet" />
+    <script src="libs/profvis-0.3.6.9000/profvis.js"></script>
+    <script src="libs/profvis-0.3.6.9000/scroll.js"></script>
+    <link href="libs/highlight-6.2.0/textmate.css" rel="stylesheet" />
+    <script src="libs/highlight-6.2.0/highlight.js"></script>
+    <script src="libs/profvis-binding-0.3.7/profvis.js"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-163213745-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-163213745-1');
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script>
+
+  <!-- CSS -->
+    <link rel="stylesheet" href="bootstrap.lambdamd.css" />
+  
+</head>
+
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book">
+    <a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">Programming for Data Science in R</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+      </form>
+
+      <nav aria-label="Table of contents">
+        <h2>Table of contents</h2>
+        <div id="book-toc"></div>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="#">View book source <i class="fab fa-github"></i></a></li></p>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="col-sm-12 col-md-9 col-lg-7" id="content">
+<div id="tablejoins" class="section level1" number="17">
+<h1><span class="header-section-number">17</span> Table joins</h1>
+<p>We often have data from separate sources that we want to combine into a single data.frame. Table joins allow you to specify how to perform such a merge.</p>
+<p>Scenario: You have received two tables with clinical data. Each table contains a column with a unique identifier (ID) plus a number of variables which are unique to each table. You want to merge them into one big table so that for each ID you have all available variables. You want to make sure that the same ID number (e.g. 108) corresponds to the same case in both datasets, but not all IDs needs to be present in both datasets.</p>
+<p>Let’s make up some synthetic data:</p>
+<div class="sourceCode" id="cb1054"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1054-1"><a href="tablejoins.html#cb1054-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">PID =</span> <span class="fu">c</span>(<span class="dv">101</span><span class="sc">:</span><span class="dv">109</span>),</span>
+<span id="cb1054-2"><a href="tablejoins.html#cb1054-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">Hospital =</span> <span class="fu">c</span>(<span class="st">&quot;UCSF&quot;</span>, <span class="st">&quot;HUP&quot;</span>, <span class="st">&quot;Stanford&quot;</span>,</span>
+<span id="cb1054-3"><a href="tablejoins.html#cb1054-3" aria-hidden="true" tabindex="-1"></a>                             <span class="st">&quot;Stanford&quot;</span>, <span class="st">&quot;UCSF&quot;</span>, <span class="st">&quot;HUP&quot;</span>, </span>
+<span id="cb1054-4"><a href="tablejoins.html#cb1054-4" aria-hidden="true" tabindex="-1"></a>                             <span class="st">&quot;HUP&quot;</span>, <span class="st">&quot;Stanford&quot;</span>, <span class="st">&quot;UCSF&quot;</span>),</span>
+<span id="cb1054-5"><a href="tablejoins.html#cb1054-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">Age =</span> <span class="fu">c</span>(<span class="dv">22</span>, <span class="dv">34</span>, <span class="dv">41</span>, <span class="dv">19</span>, <span class="dv">53</span>, <span class="dv">21</span>, <span class="dv">63</span>, <span class="dv">22</span>, <span class="dv">19</span>),</span>
+<span id="cb1054-6"><a href="tablejoins.html#cb1054-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">Sex =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>))</span>
+<span id="cb1054-7"><a href="tablejoins.html#cb1054-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1054-8"><a href="tablejoins.html#cb1054-8" aria-hidden="true" tabindex="-1"></a>b  <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">PID =</span> <span class="fu">c</span>(<span class="dv">106</span><span class="sc">:</span><span class="dv">112</span>),</span>
+<span id="cb1054-9"><a href="tablejoins.html#cb1054-9" aria-hidden="true" tabindex="-1"></a>                 <span class="at">V1 =</span> <span class="fu">c</span>(<span class="dv">153</span>, <span class="dv">89</span>, <span class="dv">112</span>, <span class="dv">228</span>,  <span class="dv">91</span>, <span class="dv">190</span>, <span class="dv">101</span>),</span>
+<span id="cb1054-10"><a href="tablejoins.html#cb1054-10" aria-hidden="true" tabindex="-1"></a>                 <span class="at">Department =</span> <span class="fu">c</span>(<span class="st">&quot;Neurology&quot;</span>, <span class="st">&quot;Radiology&quot;</span>,</span>
+<span id="cb1054-11"><a href="tablejoins.html#cb1054-11" aria-hidden="true" tabindex="-1"></a>                                <span class="st">&quot;Emergency&quot;</span>, <span class="st">&quot;Cardiology&quot;</span>,</span>
+<span id="cb1054-12"><a href="tablejoins.html#cb1054-12" aria-hidden="true" tabindex="-1"></a>                                <span class="st">&quot;Surgery&quot;</span>, <span class="st">&quot;Neurology&quot;</span>, <span class="st">&quot;Psychiatry&quot;</span>))</span>
+<span id="cb1054-13"><a href="tablejoins.html#cb1054-13" aria-hidden="true" tabindex="-1"></a>a</span></code></pre></div>
+<pre><code>##   PID Hospital Age Sex
+## 1 101     UCSF  22   1
+## 2 102      HUP  34   1
+## 3 103 Stanford  41   0
+## 4 104 Stanford  19   1
+## 5 105     UCSF  53   0
+## 6 106      HUP  21   0
+## 7 107      HUP  63   1
+## 8 108 Stanford  22   0
+## 9 109     UCSF  19   0</code></pre>
+<div class="sourceCode" id="cb1056"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1056-1"><a href="tablejoins.html#cb1056-1" aria-hidden="true" tabindex="-1"></a>b</span></code></pre></div>
+<pre><code>##   PID  V1 Department
+## 1 106 153  Neurology
+## 2 107  89  Radiology
+## 3 108 112  Emergency
+## 4 109 228 Cardiology
+## 5 110  91    Surgery
+## 6 111 190  Neurology
+## 7 112 101 Psychiatry</code></pre>
+<div class="sourceCode" id="cb1058"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1058-1"><a href="tablejoins.html#cb1058-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(a)</span></code></pre></div>
+<pre><code>## [1] 9 4</code></pre>
+<div class="sourceCode" id="cb1060"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1060-1"><a href="tablejoins.html#cb1060-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(b)</span></code></pre></div>
+<pre><code>## [1] 7 3</code></pre>
+<p>There are four main types of join operations:</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-2"></span>
+<img src="R_joins.png" alt="Common Join Operations" width="100%" />
+<p class="caption">
+Figure 17.1: Common Join Operations
+</p>
+</div>
+<div id="merge" class="section level2" number="17.1">
+<h2><span class="header-section-number">17.1</span> <code>merge()</code></h2>
+<p>The <code>merge()</code> command in R is used to perform table joins.</p>
+<p>Syntax:</p>
+<p><code>merge(x, y, by)</code></p>
+<p>where <code>x</code> and <code>y</code> and the two data.frames to join, and <code>by</code> is the column name of the ID variable used to identify rows. If the two datasets’ ID column has a different name, e.g. “PatientID” in one and “PID” in the other, you can either rename one of them,
+or probably best, use the following syntax:</p>
+<p><code>merge(x, y, by.x, by.y)</code></p>
+<p>where <code>by.x</code> should be the name of the ID column for the <code>x</code> dataset and <code>by.y</code> should be the name
+of the ID column for the <code>y</code> dataset.</p>
+<p>If you do not specify <code>by</code> or <code>by.x</code> and <code>by.y</code> arguments, <code>merge()</code> defaults to using the intersection of column names of the two input datasets. Look at the <code>merge()</code>’s documentation:</p>
+<p><code>by = intersect(names(x), names(y))</code></p>
+<p>In our example datasets above, this works as expected and identifies “PID” as the common column:</p>
+<div class="sourceCode" id="cb1062"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1062-1"><a href="tablejoins.html#cb1062-1" aria-hidden="true" tabindex="-1"></a><span class="fu">intersect</span>(<span class="fu">names</span>(a), <span class="fu">names</span>(b))</span></code></pre></div>
+<pre><code>## [1] &quot;PID&quot;</code></pre>
+</div>
+<div id="inner-join" class="section level2" number="17.2">
+<h2><span class="header-section-number">17.2</span> Inner join</h2>
+<p>The default arguments of <code>merge()</code> perform an <strong>inner join</strong>:</p>
+<div class="sourceCode" id="cb1064"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1064-1"><a href="tablejoins.html#cb1064-1" aria-hidden="true" tabindex="-1"></a>(ab.inner <span class="ot">&lt;-</span> <span class="fu">merge</span>(a, b))</span></code></pre></div>
+<pre><code>##   PID Hospital Age Sex  V1 Department
+## 1 106      HUP  21   0 153  Neurology
+## 2 107      HUP  63   1  89  Radiology
+## 3 108 Stanford  22   0 112  Emergency
+## 4 109     UCSF  19   0 228 Cardiology</code></pre>
+<div class="sourceCode" id="cb1066"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1066-1"><a href="tablejoins.html#cb1066-1" aria-hidden="true" tabindex="-1"></a><span class="co"># same as</span></span>
+<span id="cb1066-2"><a href="tablejoins.html#cb1066-2" aria-hidden="true" tabindex="-1"></a>(ab.inner <span class="ot">&lt;-</span> <span class="fu">merge</span>(a, b, <span class="at">by =</span> <span class="st">&quot;PID&quot;</span>))</span></code></pre></div>
+<pre><code>##   PID Hospital Age Sex  V1 Department
+## 1 106      HUP  21   0 153  Neurology
+## 2 107      HUP  63   1  89  Radiology
+## 3 108 Stanford  22   0 112  Emergency
+## 4 109     UCSF  19   0 228 Cardiology</code></pre>
+<div class="sourceCode" id="cb1068"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1068-1"><a href="tablejoins.html#cb1068-1" aria-hidden="true" tabindex="-1"></a><span class="co"># same as</span></span>
+<span id="cb1068-2"><a href="tablejoins.html#cb1068-2" aria-hidden="true" tabindex="-1"></a>(ab.inner <span class="ot">&lt;-</span> <span class="fu">merge</span>(a, b, <span class="at">all =</span> <span class="cn">FALSE</span>))</span></code></pre></div>
+<pre><code>##   PID Hospital Age Sex  V1 Department
+## 1 106      HUP  21   0 153  Neurology
+## 2 107      HUP  63   1  89  Radiology
+## 3 108 Stanford  22   0 112  Emergency
+## 4 109     UCSF  19   0 228 Cardiology</code></pre>
+<p>Note that the resulting table only contains <strong><em>cases found in both datasets</em></strong>, i.e. IDs 106 through 109</p>
+</div>
+<div id="outer-join" class="section level2" number="17.3">
+<h2><span class="header-section-number">17.3</span> Outer join</h2>
+<p>You can perform an <strong>outer join</strong> by specifying <code>all = TRUE</code>:</p>
+<div class="sourceCode" id="cb1070"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1070-1"><a href="tablejoins.html#cb1070-1" aria-hidden="true" tabindex="-1"></a>(ab.outer <span class="ot">&lt;-</span> <span class="fu">merge</span>(a, b, <span class="at">all =</span> <span class="cn">TRUE</span>))</span></code></pre></div>
+<pre><code>##    PID Hospital Age Sex  V1 Department
+## 1  101     UCSF  22   1  NA       &lt;NA&gt;
+## 2  102      HUP  34   1  NA       &lt;NA&gt;
+## 3  103 Stanford  41   0  NA       &lt;NA&gt;
+## 4  104 Stanford  19   1  NA       &lt;NA&gt;
+## 5  105     UCSF  53   0  NA       &lt;NA&gt;
+## 6  106      HUP  21   0 153  Neurology
+## 7  107      HUP  63   1  89  Radiology
+## 8  108 Stanford  22   0 112  Emergency
+## 9  109     UCSF  19   0 228 Cardiology
+## 10 110     &lt;NA&gt;  NA  NA  91    Surgery
+## 11 111     &lt;NA&gt;  NA  NA 190  Neurology
+## 12 112     &lt;NA&gt;  NA  NA 101 Psychiatry</code></pre>
+<div class="sourceCode" id="cb1072"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1072-1"><a href="tablejoins.html#cb1072-1" aria-hidden="true" tabindex="-1"></a>(ab.outer <span class="ot">&lt;-</span> <span class="fu">merge</span>(a, b, <span class="at">by =</span> <span class="st">&quot;PID&quot;</span>, <span class="at">all =</span> <span class="cn">TRUE</span>))</span></code></pre></div>
+<pre><code>##    PID Hospital Age Sex  V1 Department
+## 1  101     UCSF  22   1  NA       &lt;NA&gt;
+## 2  102      HUP  34   1  NA       &lt;NA&gt;
+## 3  103 Stanford  41   0  NA       &lt;NA&gt;
+## 4  104 Stanford  19   1  NA       &lt;NA&gt;
+## 5  105     UCSF  53   0  NA       &lt;NA&gt;
+## 6  106      HUP  21   0 153  Neurology
+## 7  107      HUP  63   1  89  Radiology
+## 8  108 Stanford  22   0 112  Emergency
+## 9  109     UCSF  19   0 228 Cardiology
+## 10 110     &lt;NA&gt;  NA  NA  91    Surgery
+## 11 111     &lt;NA&gt;  NA  NA 190  Neurology
+## 12 112     &lt;NA&gt;  NA  NA 101 Psychiatry</code></pre>
+<p>Note that the resulting data frame contains <strong><em>all cases found in either dataset</em></strong> and missing values are represented with <code>NA</code>.</p>
+</div>
+<div id="left-outer-join" class="section level2" number="17.4">
+<h2><span class="header-section-number">17.4</span> Left outer join</h2>
+<p>You can perform a <strong>left outer join</strong> by specifying <code>all.x = TRUE</code>:</p>
+<div class="sourceCode" id="cb1074"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1074-1"><a href="tablejoins.html#cb1074-1" aria-hidden="true" tabindex="-1"></a>(ab.leftOuter <span class="ot">&lt;-</span> <span class="fu">merge</span>(a, b, <span class="at">all.x =</span> <span class="cn">TRUE</span>))</span></code></pre></div>
+<pre><code>##   PID Hospital Age Sex  V1 Department
+## 1 101     UCSF  22   1  NA       &lt;NA&gt;
+## 2 102      HUP  34   1  NA       &lt;NA&gt;
+## 3 103 Stanford  41   0  NA       &lt;NA&gt;
+## 4 104 Stanford  19   1  NA       &lt;NA&gt;
+## 5 105     UCSF  53   0  NA       &lt;NA&gt;
+## 6 106      HUP  21   0 153  Neurology
+## 7 107      HUP  63   1  89  Radiology
+## 8 108 Stanford  22   0 112  Emergency
+## 9 109     UCSF  19   0 228 Cardiology</code></pre>
+<p>Note that the resulting data frame contains <strong><em>all cases present in the left input dataset</em></strong> (i.e. the one defined first in the arguments) only.</p>
+</div>
+<div id="right-outer-join" class="section level2" number="17.5">
+<h2><span class="header-section-number">17.5</span> Right outer join</h2>
+<p>You can perform a <strong>right outer join</strong> by specifying <code>all.y = TRUE</code>:</p>
+<div class="sourceCode" id="cb1076"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1076-1"><a href="tablejoins.html#cb1076-1" aria-hidden="true" tabindex="-1"></a>(ab.rightOuter <span class="ot">&lt;-</span> <span class="fu">merge</span>(a, b, <span class="at">all.y =</span> <span class="cn">TRUE</span>))</span></code></pre></div>
+<pre><code>##   PID Hospital Age Sex  V1 Department
+## 1 106      HUP  21   0 153  Neurology
+## 2 107      HUP  63   1  89  Radiology
+## 3 108 Stanford  22   0 112  Emergency
+## 4 109     UCSF  19   0 228 Cardiology
+## 5 110     &lt;NA&gt;  NA  NA  91    Surgery
+## 6 111     &lt;NA&gt;  NA  NA 190  Neurology
+## 7 112     &lt;NA&gt;  NA  NA 101 Psychiatry</code></pre>
+<p>Note how the resulting data frame contains <strong><em>all cases present in the right input dataset</em></strong> (i.e. the one defined seecond in the arguments) only.</p>
+</div>
+<div id="specifying-columns" class="section level2" number="17.6">
+<h2><span class="header-section-number">17.6</span> Specifying columns</h2>
+<p>As mentioned above, if the ID columns in the two data.frames to be merged do not have the same name, you can specify them directly:</p>
+<div class="sourceCode" id="cb1078"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1078-1"><a href="tablejoins.html#cb1078-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">PID =</span> <span class="fu">c</span>(<span class="dv">101</span><span class="sc">:</span><span class="dv">109</span>),</span>
+<span id="cb1078-2"><a href="tablejoins.html#cb1078-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">Hospital =</span> <span class="fu">c</span>(<span class="st">&quot;UCSF&quot;</span>, <span class="st">&quot;HUP&quot;</span>, <span class="st">&quot;Stanford&quot;</span>,</span>
+<span id="cb1078-3"><a href="tablejoins.html#cb1078-3" aria-hidden="true" tabindex="-1"></a>                             <span class="st">&quot;Stanford&quot;</span>, <span class="st">&quot;UCSF&quot;</span>, <span class="st">&quot;HUP&quot;</span>, </span>
+<span id="cb1078-4"><a href="tablejoins.html#cb1078-4" aria-hidden="true" tabindex="-1"></a>                             <span class="st">&quot;HUP&quot;</span>, <span class="st">&quot;Stanford&quot;</span>, <span class="st">&quot;UCSF&quot;</span>),</span>
+<span id="cb1078-5"><a href="tablejoins.html#cb1078-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">Age =</span> <span class="fu">c</span>(<span class="dv">22</span>, <span class="dv">34</span>, <span class="dv">41</span>, <span class="dv">19</span>, <span class="dv">53</span>, <span class="dv">21</span>, <span class="dv">63</span>, <span class="dv">22</span>, <span class="dv">19</span>),</span>
+<span id="cb1078-6"><a href="tablejoins.html#cb1078-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">Sex =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>))</span>
+<span id="cb1078-7"><a href="tablejoins.html#cb1078-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1078-8"><a href="tablejoins.html#cb1078-8" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">PatientID =</span> <span class="fu">c</span>(<span class="dv">106</span><span class="sc">:</span><span class="dv">112</span>),</span>
+<span id="cb1078-9"><a href="tablejoins.html#cb1078-9" aria-hidden="true" tabindex="-1"></a>                 <span class="at">V1 =</span> <span class="fu">c</span>(<span class="dv">153</span>, <span class="dv">89</span>, <span class="dv">112</span>, <span class="dv">228</span>,  <span class="dv">91</span>, <span class="dv">190</span>, <span class="dv">101</span>),</span>
+<span id="cb1078-10"><a href="tablejoins.html#cb1078-10" aria-hidden="true" tabindex="-1"></a>                 <span class="at">Department =</span> <span class="fu">c</span>(<span class="st">&quot;Neurology&quot;</span>, <span class="st">&quot;Radiology&quot;</span>,</span>
+<span id="cb1078-11"><a href="tablejoins.html#cb1078-11" aria-hidden="true" tabindex="-1"></a>                                <span class="st">&quot;Emergency&quot;</span>, <span class="st">&quot;Cardiology&quot;</span>,</span>
+<span id="cb1078-12"><a href="tablejoins.html#cb1078-12" aria-hidden="true" tabindex="-1"></a>                                <span class="st">&quot;Surgery&quot;</span>, <span class="st">&quot;Neurology&quot;</span>, <span class="st">&quot;Psychiatry&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb1079"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1079-1"><a href="tablejoins.html#cb1079-1" aria-hidden="true" tabindex="-1"></a><span class="fu">merge</span>(a, b, <span class="at">by.x =</span> <span class="st">&quot;PID&quot;</span>, <span class="at">by.y =</span> <span class="st">&quot;PatientID&quot;</span>)</span></code></pre></div>
+<pre><code>##   PID Hospital Age Sex  V1 Department
+## 1 106      HUP  21   0 153  Neurology
+## 2 107      HUP  63   1  89  Radiology
+## 3 108 Stanford  22   0 112  Emergency
+## 4 109     UCSF  19   0 228 Cardiology</code></pre>
+
+</div>
+</div>
+  </main>
+
+  <div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page">
+      <h2>On this page</h2>
+      <div id="book-on-this-page"></div>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          <li><a id="book-source" href="#">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="#">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5">
+  <div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Programming for Data Science in R</strong>" was written by Efstathios (Stathis) D. Gennatas, MBBS AICSM PhD. It was last built on 2021-11-07.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer>
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+<script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+
+</html>

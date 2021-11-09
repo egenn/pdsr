@@ -90,10 +90,10 @@ boxplot(extra ~ group, sleep,
 ### Two-sample T-test
 
 Both `t.test()` and `wilcox.test()` (below) either accept input as two vectors, 
-`t.test(x, y)` or a formula of the form `t.test(x ~ group)`.
+`t.test(x, y)` or a formula of the form `t.test(x ~ group)`. The `paired` argument allows us to define a paired test. Since the `sleep` dataset includes measurements on the same cases in two conditions, we set `paired = TRUE`.
 
 ```{r}
-t.test(extra ~ group, sleep)
+t.test(extra ~ group, sleep, paired = TRUE)
 ```
 
 ## Wilcoxon test
@@ -140,6 +140,7 @@ wilcox.test(x, y, paired = TRUE, alternative = "greater")
 ## Analysis of Variance
 
 ```{r}
+set.seed(20)
 BP_drug <- data.frame(Group = factor(rep(c("Placebo", "Drug_A", "Drug_B"), each = 20),
                                      levels = c("Placebo", "Drug_A", "Drug_B")),
                   SBP = c(rnorm(20, 140, 2.2), rnorm(20, 132, 2.1), rnorm(20, 138, 2)))
@@ -170,13 +171,11 @@ pairwise.t.test(BP_drug$SBP, BP_drug$Group,
                 p.adj = "holm")
 ```
 
-The pairwise tests suggest that the difference between Placebo and Drug_A and between Drug_a and Drug_b are highly significant (p <2e-16), while difference between Placebo and Drub_B is not (p = 0.061)
+The pairwise tests suggest that the difference between Placebo and Drug_A and between Drug_a and Drug_b are highly significant, while difference between Placebo and Drub_B is not (p = 0.065).
 
 ## Kruskal-Wallis test
 
-Kruskal-Wallis rank sum test of the null that the location parameters of the distribution of x are the same in each group (sample). The alternative is that they differ in at least one.
-
-(like Wilcoxon but for >2 samples)
+Kruskal-Wallis rank sum test of the null that the location parameters of the distribution of x are the same in each group (sample). The alternative is that they differ in at least one. It is a generalization of the Wilcoxon test to multiple independent samples.
 
 From the R Documentation:
 

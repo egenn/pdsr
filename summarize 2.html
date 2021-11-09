@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>12 Summarizing Data | Programming for Data Science in R</title>
+
+    <meta name="author" content="Efstathios (Stathis) D. Gennatas, MBBS AICSM PhD" />
+  
+   <meta name="description" content="12 Summarizing Data | Programming for Data Science in R is a project to build an online resource for (Bio)statisticians / Epidemiologists / (Health) Data Scientists" />
+   <meta name="generator" content="placeholder" />
+  <meta property="og:title" content="12 Summarizing Data | Programming for Data Science in R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="12 Summarizing Data | Programming for Data Science in R is a project to build an online resource for (Bio)statisticians / Epidemiologists / (Health) Data Scientists" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="12 Summarizing Data | Programming for Data Science in R" />
+  
+  <meta name="twitter:description" content="12 Summarizing Data | Programming for Data Science in R is a project to build an online resource for (Bio)statisticians / Epidemiologists / (Health) Data Scientists" />
+  
+  <!-- JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script>
+  <script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script>
+    <script src="libs/header-attrs-2.11/header-attrs.js"></script>
+    <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet" />
+    <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script>
+    <script src="libs/bs3compat-0.3.1/transition.js"></script>
+    <script src="libs/bs3compat-0.3.1/tabs.js"></script>
+    <script src="libs/bs3compat-0.3.1/bs3compat.js"></script>
+    <link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet" />
+    <script src="libs/bs4_book-1.0.0/bs4_book.js"></script>
+    <script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+    <script src="libs/plotly-binding-4.9.4.1/plotly.js"></script>
+    <script src="libs/typedarray-0.1/typedarray.min.js"></script>
+    <link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
+    <script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
+    <link href="libs/plotly-htmlwidgets-css-1.57.1/plotly-htmlwidgets.css" rel="stylesheet" />
+    <script src="libs/plotly-main-1.57.1/plotly-latest.min.js"></script>
+    <script src="libs/d3-3.5.6/d3.min.js"></script>
+    <link href="libs/profvis-0.3.6.9000/profvis.css" rel="stylesheet" />
+    <script src="libs/profvis-0.3.6.9000/profvis.js"></script>
+    <script src="libs/profvis-0.3.6.9000/scroll.js"></script>
+    <link href="libs/highlight-6.2.0/textmate.css" rel="stylesheet" />
+    <script src="libs/highlight-6.2.0/highlight.js"></script>
+    <script src="libs/profvis-binding-0.3.7/profvis.js"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-163213745-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-163213745-1');
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script>
+
+  <!-- CSS -->
+    <link rel="stylesheet" href="bootstrap.lambdamd.css" />
+  
+</head>
+
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book">
+    <a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">Programming for Data Science in R</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+      </form>
+
+      <nav aria-label="Table of contents">
+        <h2>Table of contents</h2>
+        <div id="book-toc"></div>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="#">View book source <i class="fab fa-github"></i></a></li></p>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="col-sm-12 col-md-9 col-lg-7" id="content">
+<div id="summarize" class="section level1" number="12">
+<h1><span class="header-section-number">12</span> Summarizing Data</h1>
+<p>Let’s read in a dataset from OpenML:</p>
+<div class="sourceCode" id="cb815"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb815-1"><a href="summarize.html#cb815-1" aria-hidden="true" tabindex="-1"></a>heart <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;https://www.openml.org/data/get_csv/51/dataset_51_heart-h.arff&quot;</span>,</span>
+<span id="cb815-2"><a href="summarize.html#cb815-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">na.strings =</span> <span class="st">&quot;?&quot;</span>)</span></code></pre></div>
+<div id="get-summary-of-an-r-object-with-summary" class="section level2" number="12.1">
+<h2><span class="header-section-number">12.1</span> Get summary of an R object with <code>summary()</code></h2>
+<p>R includes <code>summary()</code> <a href="classes.html#s3methods">methods</a> for a number of different objects.</p>
+<div class="sourceCode" id="cb816"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb816-1"><a href="summarize.html#cb816-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(heart)</span></code></pre></div>
+<pre><code>      age            sex             chest_pain           trestbps    
+ Min.   :28.00   Length:294         Length:294         Min.   : 92.0  
+ 1st Qu.:42.00   Class :character   Class :character   1st Qu.:120.0  
+ Median :49.00   Mode  :character   Mode  :character   Median :130.0  
+ Mean   :47.83                                         Mean   :132.6  
+ 3rd Qu.:54.00                                         3rd Qu.:140.0  
+ Max.   :66.00                                         Max.   :200.0  
+                                                       NA&#39;s   :1      
+      chol           fbs              restecg             thalach     
+ Min.   : 85.0   Length:294         Length:294         Min.   : 82.0  
+ 1st Qu.:209.0   Class :character   Class :character   1st Qu.:122.0  
+ Median :243.0   Mode  :character   Mode  :character   Median :140.0  
+ Mean   :250.8                                         Mean   :139.1  
+ 3rd Qu.:282.5                                         3rd Qu.:155.0  
+ Max.   :603.0                                         Max.   :190.0  
+ NA&#39;s   :23                                            NA&#39;s   :1      
+    exang              oldpeak          slope                 ca     
+ Length:294         Min.   :0.0000   Length:294         Min.   :0    
+ Class :character   1st Qu.:0.0000   Class :character   1st Qu.:0    
+ Mode  :character   Median :0.0000   Mode  :character   Median :0    
+                    Mean   :0.5861                      Mean   :0    
+                    3rd Qu.:1.0000                      3rd Qu.:0    
+                    Max.   :5.0000                      Max.   :0    
+                                                        NA&#39;s   :291  
+     thal               num           
+ Length:294         Length:294        
+ Class :character   Class :character  
+ Mode  :character   Mode  :character  
+                                      
+                                      
+                                      
+                                      </code></pre>
+</div>
+<div id="fast-builtin-column-and-row-operations" class="section level2" number="12.2">
+<h2><span class="header-section-number">12.2</span> Fast builtin column and row operations</h2>
+<p>We saw in <a href="loopfns.html#loopfns">Loop Functions</a> how we can apply functions on rows, columns, or other subsets of our data. R has optimized builtin functions for some very common operations, with self-explanatory names:</p>
+<ul>
+<li><code>colSums()</code>: column sums</li>
+<li><code>rowSums()</code>: row sums</li>
+<li><code>colMeans()</code>: column means</li>
+<li><code>rowMeans()</code>: row means</li>
+</ul>
+<div class="sourceCode" id="cb818"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb818-1"><a href="summarize.html#cb818-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>, <span class="dv">5</span>)</span>
+<span id="cb818-2"><a href="summarize.html#cb818-2" aria-hidden="true" tabindex="-1"></a>a</span></code></pre></div>
+<pre><code>     [,1] [,2] [,3] [,4]
+[1,]    1    6   11   16
+[2,]    2    7   12   17
+[3,]    3    8   13   18
+[4,]    4    9   14   19
+[5,]    5   10   15   20</code></pre>
+<div class="sourceCode" id="cb820"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb820-1"><a href="summarize.html#cb820-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(a)</span></code></pre></div>
+<pre><code>[1] 15 40 65 90</code></pre>
+<div class="sourceCode" id="cb822"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb822-1"><a href="summarize.html#cb822-1" aria-hidden="true" tabindex="-1"></a><span class="co"># same as</span></span>
+<span id="cb822-2"><a href="summarize.html#cb822-2" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(a, <span class="dv">2</span>, sum)</span></code></pre></div>
+<pre><code>[1] 15 40 65 90</code></pre>
+<div class="sourceCode" id="cb824"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb824-1"><a href="summarize.html#cb824-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rowSums</span>(a)</span></code></pre></div>
+<pre><code>[1] 34 38 42 46 50</code></pre>
+<div class="sourceCode" id="cb826"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb826-1"><a href="summarize.html#cb826-1" aria-hidden="true" tabindex="-1"></a><span class="co"># same as</span></span>
+<span id="cb826-2"><a href="summarize.html#cb826-2" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(a, <span class="dv">1</span>, sum)</span></code></pre></div>
+<pre><code>[1] 34 38 42 46 50</code></pre>
+<div class="sourceCode" id="cb828"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb828-1"><a href="summarize.html#cb828-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colMeans</span>(a)</span></code></pre></div>
+<pre><code>[1]  3  8 13 18</code></pre>
+<div class="sourceCode" id="cb830"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb830-1"><a href="summarize.html#cb830-1" aria-hidden="true" tabindex="-1"></a><span class="co"># same as</span></span>
+<span id="cb830-2"><a href="summarize.html#cb830-2" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(a, <span class="dv">2</span>, mean)</span></code></pre></div>
+<pre><code>[1]  3  8 13 18</code></pre>
+<div class="sourceCode" id="cb832"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb832-1"><a href="summarize.html#cb832-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rowMeans</span>(a)</span></code></pre></div>
+<pre><code>[1]  8.5  9.5 10.5 11.5 12.5</code></pre>
+<div class="sourceCode" id="cb834"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb834-1"><a href="summarize.html#cb834-1" aria-hidden="true" tabindex="-1"></a><span class="co"># same as</span></span>
+<span id="cb834-2"><a href="summarize.html#cb834-2" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(a, <span class="dv">1</span>, mean)</span></code></pre></div>
+<pre><code>[1]  8.5  9.5 10.5 11.5 12.5</code></pre>
+</div>
+<div id="optimized-matrix-operations-with-matrixstats" class="section level2" number="12.3">
+<h2><span class="header-section-number">12.3</span> Optimized matrix operations with <strong>matrixStats</strong></h2>
+<p>While the builtin operations above are already optimized and faster than the equivalent calls, the <strong>matrixStats</strong> package <span class="citation">(<a href="references.html#ref-matrixStats2019" role="doc-biblioref">Bengtsson 2019</a>)</span> offers a number of futher optimized matrix operations, including drop-in replacements of the above. These should be prefered when dealing with bigger data:</p>
+<div class="sourceCode" id="cb836"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb836-1"><a href="summarize.html#cb836-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(matrixStats)</span>
+<span id="cb836-2"><a href="summarize.html#cb836-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums2</span>(a)</span></code></pre></div>
+<pre><code>[1] 15 40 65 90</code></pre>
+<div class="sourceCode" id="cb838"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb838-1"><a href="summarize.html#cb838-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rowSums2</span>(a)</span></code></pre></div>
+<pre><code>[1] 34 38 42 46 50</code></pre>
+<div class="sourceCode" id="cb840"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb840-1"><a href="summarize.html#cb840-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colMeans2</span>(a)</span></code></pre></div>
+<pre><code>[1]  3  8 13 18</code></pre>
+<div class="sourceCode" id="cb842"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb842-1"><a href="summarize.html#cb842-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rowMeans2</span>(a)</span></code></pre></div>
+<pre><code>[1]  8.5  9.5 10.5 11.5 12.5</code></pre>
+<p>Note: <strong>matrixStats</strong> provides replacement functions named almost identically to their base counterpart - so they are easy to find - but are different - so they don’t mask the base functions (this is important and good software design).</p>
+</div>
+<div id="see-alos" class="section level2" number="12.4">
+<h2><span class="header-section-number">12.4</span> See alos</h2>
+<p><a href="aggregate.html#aggregate"><code>aggregate()</code></a> for grouped summary statistics</p>
+
+</div>
+</div>
+  </main>
+
+  <div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page">
+      <h2>On this page</h2>
+      <div id="book-on-this-page"></div>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          <li><a id="book-source" href="#">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="#">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5">
+  <div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Programming for Data Science in R</strong>" was written by Efstathios (Stathis) D. Gennatas, MBBS AICSM PhD. It was last built on 2021-11-07.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer>
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+<script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+
+</html>

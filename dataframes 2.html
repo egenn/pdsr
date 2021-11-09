@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>16 Data frames | Programming for Data Science in R</title>
+
+    <meta name="author" content="Efstathios (Stathis) D. Gennatas, MBBS AICSM PhD" />
+  
+   <meta name="description" content="16 Data frames | Programming for Data Science in R is a project to build an online resource for (Bio)statisticians / Epidemiologists / (Health) Data Scientists" />
+   <meta name="generator" content="placeholder" />
+  <meta property="og:title" content="16 Data frames | Programming for Data Science in R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="16 Data frames | Programming for Data Science in R is a project to build an online resource for (Bio)statisticians / Epidemiologists / (Health) Data Scientists" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="16 Data frames | Programming for Data Science in R" />
+  
+  <meta name="twitter:description" content="16 Data frames | Programming for Data Science in R is a project to build an online resource for (Bio)statisticians / Epidemiologists / (Health) Data Scientists" />
+  
+  <!-- JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script>
+  <script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script>
+    <script src="libs/header-attrs-2.11/header-attrs.js"></script>
+    <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet" />
+    <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script>
+    <script src="libs/bs3compat-0.3.1/transition.js"></script>
+    <script src="libs/bs3compat-0.3.1/tabs.js"></script>
+    <script src="libs/bs3compat-0.3.1/bs3compat.js"></script>
+    <link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet" />
+    <script src="libs/bs4_book-1.0.0/bs4_book.js"></script>
+    <script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+    <script src="libs/plotly-binding-4.9.4.1/plotly.js"></script>
+    <script src="libs/typedarray-0.1/typedarray.min.js"></script>
+    <link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
+    <script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
+    <link href="libs/plotly-htmlwidgets-css-1.57.1/plotly-htmlwidgets.css" rel="stylesheet" />
+    <script src="libs/plotly-main-1.57.1/plotly-latest.min.js"></script>
+    <script src="libs/d3-3.5.6/d3.min.js"></script>
+    <link href="libs/profvis-0.3.6.9000/profvis.css" rel="stylesheet" />
+    <script src="libs/profvis-0.3.6.9000/profvis.js"></script>
+    <script src="libs/profvis-0.3.6.9000/scroll.js"></script>
+    <link href="libs/highlight-6.2.0/textmate.css" rel="stylesheet" />
+    <script src="libs/highlight-6.2.0/highlight.js"></script>
+    <script src="libs/profvis-binding-0.3.7/profvis.js"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-163213745-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-163213745-1');
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script>
+
+  <!-- CSS -->
+    <link rel="stylesheet" href="bootstrap.lambdamd.css" />
+  
+</head>
+
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book">
+    <a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">Programming for Data Science in R</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+      </form>
+
+      <nav aria-label="Table of contents">
+        <h2>Table of contents</h2>
+        <div id="book-toc"></div>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="#">View book source <i class="fab fa-github"></i></a></li></p>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="col-sm-12 col-md-9 col-lg-7" id="content">
+<div id="dataframes" class="section level1" number="16">
+<h1><span class="header-section-number">16</span> Data frames</h1>
+<p>R’s data.frame is the main object used to hold data for statistical analysis, visualization, and predictive modeling.</p>
+<p>See the <a href="dataframes.html#dataframes">Data frames</a> section in the <a href="#structures">Data Structures</a> chapter for basic info on data.frames.</p>
+<div id="column-and-row-names" class="section level2" number="16.1">
+<h2><span class="header-section-number">16.1</span> Column and row names</h2>
+<p>Let’s start with a simple example data.frame:</p>
+<div class="sourceCode" id="cb1007"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1007-1"><a href="dataframes.html#cb1007-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">PID =</span> <span class="fu">c</span>(<span class="dv">111</span><span class="sc">:</span><span class="dv">119</span>),</span>
+<span id="cb1007-2"><a href="dataframes.html#cb1007-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">Hospital =</span> <span class="fu">c</span>(<span class="st">&quot;UCSF&quot;</span>, <span class="st">&quot;HUP&quot;</span>, <span class="st">&quot;Stanford&quot;</span>,</span>
+<span id="cb1007-3"><a href="dataframes.html#cb1007-3" aria-hidden="true" tabindex="-1"></a>                             <span class="st">&quot;Stanford&quot;</span>, <span class="st">&quot;UCSF&quot;</span>, <span class="st">&quot;HUP&quot;</span>, </span>
+<span id="cb1007-4"><a href="dataframes.html#cb1007-4" aria-hidden="true" tabindex="-1"></a>                             <span class="st">&quot;HUP&quot;</span>, <span class="st">&quot;Stanford&quot;</span>, <span class="st">&quot;UCSF&quot;</span>),</span>
+<span id="cb1007-5"><a href="dataframes.html#cb1007-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">Age =</span> <span class="fu">c</span>(<span class="dv">22</span>, <span class="dv">34</span>, <span class="dv">41</span>, <span class="dv">19</span>, <span class="dv">53</span>, <span class="dv">21</span>, <span class="dv">63</span>, <span class="dv">22</span>, <span class="dv">19</span>),</span>
+<span id="cb1007-6"><a href="dataframes.html#cb1007-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">Sex =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>))</span>
+<span id="cb1007-7"><a href="dataframes.html#cb1007-7" aria-hidden="true" tabindex="-1"></a>df</span></code></pre></div>
+<pre><code>  PID Hospital Age Sex
+1 111     UCSF  22   1
+2 112      HUP  34   1
+3 113 Stanford  41   0
+4 114 Stanford  19   1
+5 115     UCSF  53   0
+6 116      HUP  21   0
+7 117      HUP  63   1
+8 118 Stanford  22   0
+9 119     UCSF  19   0</code></pre>
+<p>The optional <code>row.names</code> argument (see <code>data.frame</code> usage in the R documentation) can be used to define row names at the time of the data frame creation. It accepts either
+- a single integer or a character specifying a column of the data.frame being created whose values should be used as row names, or
+- a vector of values (character or integer) of the row names to be used</p>
+<p>For example, we can use the “PID” column:</p>
+<div class="sourceCode" id="cb1009"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1009-1"><a href="dataframes.html#cb1009-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">PID =</span> <span class="fu">c</span>(<span class="dv">111</span><span class="sc">:</span><span class="dv">119</span>),</span>
+<span id="cb1009-2"><a href="dataframes.html#cb1009-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">Hospital =</span> <span class="fu">c</span>(<span class="st">&quot;UCSF&quot;</span>, <span class="st">&quot;HUP&quot;</span>, <span class="st">&quot;Stanford&quot;</span>,</span>
+<span id="cb1009-3"><a href="dataframes.html#cb1009-3" aria-hidden="true" tabindex="-1"></a>                             <span class="st">&quot;Stanford&quot;</span>, <span class="st">&quot;UCSF&quot;</span>, <span class="st">&quot;HUP&quot;</span>, </span>
+<span id="cb1009-4"><a href="dataframes.html#cb1009-4" aria-hidden="true" tabindex="-1"></a>                             <span class="st">&quot;HUP&quot;</span>, <span class="st">&quot;Stanford&quot;</span>, <span class="st">&quot;UCSF&quot;</span>),</span>
+<span id="cb1009-5"><a href="dataframes.html#cb1009-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">Age =</span> <span class="fu">c</span>(<span class="dv">22</span>, <span class="dv">34</span>, <span class="dv">41</span>, <span class="dv">19</span>, <span class="dv">53</span>, <span class="dv">21</span>, <span class="dv">63</span>, <span class="dv">22</span>, <span class="dv">19</span>),</span>
+<span id="cb1009-6"><a href="dataframes.html#cb1009-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">Sex =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>),</span>
+<span id="cb1009-7"><a href="dataframes.html#cb1009-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">row.names =</span> <span class="st">&quot;PID&quot;</span>)</span></code></pre></div>
+<div class="rmdimportant">
+<p>
+It is recommended to <strong>not</strong> use/depend on row names to identify or index data.frames, and instead include a column of case IDs.
+</p>
+</div>
+<p>We can get column names and row names with <code>colnames()</code> and <code>rownames()</code>, respectively:</p>
+<div class="sourceCode" id="cb1010"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1010-1"><a href="dataframes.html#cb1010-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(df)</span></code></pre></div>
+<pre><code>[1] &quot;Hospital&quot; &quot;Age&quot;      &quot;Sex&quot;     </code></pre>
+<div class="sourceCode" id="cb1012"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1012-1"><a href="dataframes.html#cb1012-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(df)</span></code></pre></div>
+<pre><code>[1] &quot;111&quot; &quot;112&quot; &quot;113&quot; &quot;114&quot; &quot;115&quot; &quot;116&quot; &quot;117&quot; &quot;118&quot; &quot;119&quot;</code></pre>
+<p>To set new column or row names use the form:</p>
+<p><code>colnames(df) &lt;- new.colnames</code></p>
+<p><code>rownames(df) &lt;- new.rownames</code></p>
+<p>where <code>new.colnames</code> and <code>new.rownames</code> is a character vector.</p>
+<p>You can rename all columns/rows or use indexing to replace specific names:</p>
+<p>Rename all rows:</p>
+<div class="sourceCode" id="cb1014"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1014-1"><a href="dataframes.html#cb1014-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(df) <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&quot;Patient_&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>)</span>
+<span id="cb1014-2"><a href="dataframes.html#cb1014-2" aria-hidden="true" tabindex="-1"></a>df</span></code></pre></div>
+<pre><code>          Hospital Age Sex
+Patient_1     UCSF  22   1
+Patient_2      HUP  34   1
+Patient_3 Stanford  41   0
+Patient_4 Stanford  19   1
+Patient_5     UCSF  53   0
+Patient_6      HUP  21   0
+Patient_7      HUP  63   1
+Patient_8 Stanford  22   0
+Patient_9     UCSF  19   0</code></pre>
+<p>Rename first two columns:</p>
+<div class="sourceCode" id="cb1016"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1016-1"><a href="dataframes.html#cb1016-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(df)[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Center&quot;</span>, <span class="st">&quot;Age_at_Dx&quot;</span>)</span>
+<span id="cb1016-2"><a href="dataframes.html#cb1016-2" aria-hidden="true" tabindex="-1"></a>df</span></code></pre></div>
+<pre><code>            Center Age_at_Dx Sex
+Patient_1     UCSF        22   1
+Patient_2      HUP        34   1
+Patient_3 Stanford        41   0
+Patient_4 Stanford        19   1
+Patient_5     UCSF        53   0
+Patient_6      HUP        21   0
+Patient_7      HUP        63   1
+Patient_8 Stanford        22   0
+Patient_9     UCSF        19   0</code></pre>
+</div>
+<div id="delete-columns-or-rows" class="section level2" number="16.2">
+<h2><span class="header-section-number">16.2</span> Delete columns or rows</h2>
+<p>To delete a data.frame column, set it to <a href="datatypes.html#replacing-with-null">NULL</a>:</p>
+<div class="sourceCode" id="cb1018"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1018-1"><a href="dataframes.html#cb1018-1" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>Sex <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb1018-2"><a href="dataframes.html#cb1018-2" aria-hidden="true" tabindex="-1"></a>df</span></code></pre></div>
+<pre><code>            Center Age_at_Dx
+Patient_1     UCSF        22
+Patient_2      HUP        34
+Patient_3 Stanford        41
+Patient_4 Stanford        19
+Patient_5     UCSF        53
+Patient_6      HUP        21
+Patient_7      HUP        63
+Patient_8 Stanford        22
+Patient_9     UCSF        19</code></pre>
+<p>To delete a data.frame row, you can “index it out”.</p>
+<p>For example, to remove the third and fifths rows of the above data.frame using an integer index:</p>
+<div class="sourceCode" id="cb1020"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1020-1"><a href="dataframes.html#cb1020-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">5</span>), ]</span>
+<span id="cb1020-2"><a href="dataframes.html#cb1020-2" aria-hidden="true" tabindex="-1"></a>df</span></code></pre></div>
+<pre><code>            Center Age_at_Dx
+Patient_1     UCSF        22
+Patient_2      HUP        34
+Patient_4 Stanford        19
+Patient_6      HUP        21
+Patient_7      HUP        63
+Patient_8 Stanford        22
+Patient_9     UCSF        19</code></pre>
+<p>You can similarly exclude a row using a logical index. Logical indexing occurs usually following some filtering condition.</p>
+<p>For example, exclude patients under 20 years old:</p>
+<div class="sourceCode" id="cb1022"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1022-1"><a href="dataframes.html#cb1022-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df[<span class="sc">!</span>df<span class="sc">$</span>Age <span class="sc">&lt;</span> <span class="dv">20</span>, ]</span>
+<span id="cb1022-2"><a href="dataframes.html#cb1022-2" aria-hidden="true" tabindex="-1"></a>df</span></code></pre></div>
+<pre><code>            Center Age_at_Dx
+Patient_1     UCSF        22
+Patient_2      HUP        34
+Patient_6      HUP        21
+Patient_7      HUP        63
+Patient_8 Stanford        22</code></pre>
+</div>
+<div id="subset" class="section level2" number="16.3">
+<h2><span class="header-section-number">16.3</span> <code>subset()</code></h2>
+<p><code>subset()</code> allows you to</p>
+<ul>
+<li><strong>filter</strong> cases that meet certain conditions using the <code>subset</code> argument</li>
+<li><strong>select</strong> columns using the <code>select</code> argument</li>
+</ul>
+<p>(<code>head()</code> returns the first few lines of a data frame. We use it to avoid printing too many lines)</p>
+<div class="sourceCode" id="cb1024"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1024-1"><a href="dataframes.html#cb1024-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(iris)</span></code></pre></div>
+<pre><code>  Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+1          5.1         3.5          1.4         0.2  setosa
+2          4.9         3.0          1.4         0.2  setosa
+3          4.7         3.2          1.3         0.2  setosa
+4          4.6         3.1          1.5         0.2  setosa
+5          5.0         3.6          1.4         0.2  setosa
+6          5.4         3.9          1.7         0.4  setosa</code></pre>
+<div class="sourceCode" id="cb1026"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1026-1"><a href="dataframes.html#cb1026-1" aria-hidden="true" tabindex="-1"></a>iris_sl.gt.med <span class="ot">&lt;-</span> <span class="fu">subset</span>(iris, Sepal.Length <span class="sc">&gt;</span> <span class="fu">median</span>(Sepal.Length))</span></code></pre></div>
+<p>Note: You can use the column name Sepal.Length directly, i.e. unquoted and you don’t need to use <code>iris$Sepal.Length</code>. This is called Non-Standard Evaluation (NSE).</p>
+<div class="sourceCode" id="cb1027"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1027-1"><a href="dataframes.html#cb1027-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">one =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>,</span>
+<span id="cb1027-2"><a href="dataframes.html#cb1027-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">two =</span> <span class="fu">rnorm</span>(<span class="dv">10</span>),</span>
+<span id="cb1027-3"><a href="dataframes.html#cb1027-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">group =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">&quot;alpha&quot;</span>, <span class="dv">4</span>),  <span class="fu">rep</span>(<span class="st">&quot;beta&quot;</span>, <span class="dv">6</span>)))</span>
+<span id="cb1027-4"><a href="dataframes.html#cb1027-4" aria-hidden="true" tabindex="-1"></a><span class="fu">subset</span>(x, <span class="at">subset =</span> two <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="at">select =</span> two)</span></code></pre></div>
+<pre><code>          two
+1  0.80400039
+2  1.45393394
+4  0.40874675
+6  0.88426477
+8  0.05195952
+9  0.13739334
+10 0.86063862</code></pre>
+<div class="sourceCode" id="cb1029"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1029-1"><a href="dataframes.html#cb1029-1" aria-hidden="true" tabindex="-1"></a><span class="fu">subset</span>(x, two <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="sc">-</span>one)</span></code></pre></div>
+<pre><code>          two group
+1  0.80400039 alpha
+2  1.45393394 alpha
+4  0.40874675 alpha
+6  0.88426477  beta
+8  0.05195952  beta
+9  0.13739334  beta
+10 0.86063862  beta</code></pre>
+<div class="sourceCode" id="cb1031"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1031-1"><a href="dataframes.html#cb1031-1" aria-hidden="true" tabindex="-1"></a><span class="fu">subset</span>(x, two <span class="sc">&gt;</span> <span class="dv">0</span>, two<span class="sc">:</span>one)</span></code></pre></div>
+<pre><code>          two one
+1  0.80400039   1
+2  1.45393394   2
+4  0.40874675   4
+6  0.88426477   6
+8  0.05195952   8
+9  0.13739334   9
+10 0.86063862  10</code></pre>
+<div class="sourceCode" id="cb1033"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1033-1"><a href="dataframes.html#cb1033-1" aria-hidden="true" tabindex="-1"></a><span class="fu">subset</span>(x, two <span class="sc">&gt;</span> <span class="dv">0</span>, two<span class="sc">:</span>group)</span></code></pre></div>
+<pre><code>          two group
+1  0.80400039 alpha
+2  1.45393394 alpha
+4  0.40874675 alpha
+6  0.88426477  beta
+8  0.05195952  beta
+9  0.13739334  beta
+10 0.86063862  beta</code></pre>
+</div>
+<div id="split" class="section level2" number="16.4">
+<h2><span class="header-section-number">16.4</span> <code>split()</code></h2>
+<p>Split a data frame into multiple data frames by groups defined by a factor:</p>
+<div class="sourceCode" id="cb1035"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1035-1"><a href="dataframes.html#cb1035-1" aria-hidden="true" tabindex="-1"></a>x_by_group <span class="ot">&lt;-</span> <span class="fu">split</span>(x, x<span class="sc">$</span>group)</span>
+<span id="cb1035-2"><a href="dataframes.html#cb1035-2" aria-hidden="true" tabindex="-1"></a>x_by_group</span></code></pre></div>
+<pre><code>$alpha
+  one        two group
+1   1  0.8040004 alpha
+2   2  1.4539339 alpha
+3   3 -0.8061614 alpha
+4   4  0.4087468 alpha
+
+$beta
+   one         two group
+5    5 -0.34765273  beta
+6    6  0.88426477  beta
+7    7 -0.51318989  beta
+8    8  0.05195952  beta
+9    9  0.13739334  beta
+10  10  0.86063862  beta</code></pre>
+</div>
+<div id="with" class="section level2" number="16.5">
+<h2><span class="header-section-number">16.5</span> <code>with()</code></h2>
+<p>Within a <code>with()</code> expression, you can access list elements or data.frame columns without quoting or using the <code>$</code> operator:</p>
+<div class="sourceCode" id="cb1037"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1037-1"><a href="dataframes.html#cb1037-1" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(x, one <span class="sc">+</span> two)</span></code></pre></div>
+<pre><code> [1]  1.804000  3.453934  2.193839  4.408747  4.652347  6.884265  6.486810
+ [8]  8.051960  9.137393 10.860639</code></pre>
+<div class="sourceCode" id="cb1039"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1039-1"><a href="dataframes.html#cb1039-1" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(x, x[group <span class="sc">==</span> <span class="st">&quot;alpha&quot;</span>, ])</span></code></pre></div>
+<pre><code>  one        two group
+1   1  0.8040004 alpha
+2   2  1.4539339 alpha
+3   3 -0.8061614 alpha
+4   4  0.4087468 alpha</code></pre>
+<div class="sourceCode" id="cb1041"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1041-1"><a href="dataframes.html#cb1041-1" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(x, x[two <span class="sc">&gt;</span> <span class="dv">0</span>, ])</span></code></pre></div>
+<pre><code>   one        two group
+1    1 0.80400039 alpha
+2    2 1.45393394 alpha
+4    4 0.40874675 alpha
+6    6 0.88426477  beta
+8    8 0.05195952  beta
+9    9 0.13739334  beta
+10  10 0.86063862  beta</code></pre>
+</div>
+<div id="feature-transformation-with-transform" class="section level2" number="16.6">
+<h2><span class="header-section-number">16.6</span> Feature transformation with <code>transform()</code></h2>
+<p>Make up some data:</p>
+<div class="sourceCode" id="cb1043"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1043-1"><a href="dataframes.html#cb1043-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Sex =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>),</span>
+<span id="cb1043-2"><a href="dataframes.html#cb1043-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">Height =</span> <span class="fu">c</span>(<span class="fl">1.5</span>, <span class="fl">1.6</span>, <span class="fl">1.55</span>, <span class="fl">1.73</span>, <span class="fl">1.8</span>),</span>
+<span id="cb1043-3"><a href="dataframes.html#cb1043-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">Weight =</span> <span class="fu">c</span>(<span class="dv">55</span>, <span class="dv">70</span>, <span class="dv">69</span>, <span class="dv">76</span>, <span class="dv">91</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb1044"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1044-1"><a href="dataframes.html#cb1044-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">transform</span>(dat, <span class="at">BMI =</span> Weight<span class="sc">/</span>Height<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb1044-2"><a href="dataframes.html#cb1044-2" aria-hidden="true" tabindex="-1"></a>dat</span></code></pre></div>
+<pre><code>  Sex Height Weight      BMI
+1   0   1.50     55 24.44444
+2   0   1.60     70 27.34375
+3   1   1.55     69 28.72008
+4   1   1.73     76 25.39343
+5   0   1.80     91 28.08642</code></pre>
+<p><code>transform()</code> is probably not used too often, because it is trivial to do the same with direct assignment:</p>
+<div class="sourceCode" id="cb1046"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1046-1"><a href="dataframes.html#cb1046-1" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>BMI <span class="ot">&lt;-</span> dat<span class="sc">$</span>Weight<span class="sc">/</span>dat<span class="sc">$</span>Height<span class="sc">^</span><span class="dv">2</span></span></code></pre></div>
+<p>but can be useful when adding multiple variables and/or used in a <a href="functions.html#pipe">pipe</a>:</p>
+<div class="sourceCode" id="cb1047"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1047-1"><a href="dataframes.html#cb1047-1" aria-hidden="true" tabindex="-1"></a>dat <span class="sc">|&gt;</span> </span>
+<span id="cb1047-2"><a href="dataframes.html#cb1047-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">subset</span>(Sex <span class="sc">==</span> <span class="dv">0</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb1047-3"><a href="dataframes.html#cb1047-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transform</span>(<span class="at">DeltaWeightFromMean =</span> Weight <span class="sc">-</span> <span class="fu">mean</span>(Weight),</span>
+<span id="cb1047-4"><a href="dataframes.html#cb1047-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">BMI =</span> Weight<span class="sc">/</span>Height<span class="sc">^</span><span class="dv">2</span>,</span>
+<span id="cb1047-5"><a href="dataframes.html#cb1047-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">CI =</span> Weight<span class="sc">/</span>Height<span class="sc">^</span><span class="dv">3</span>)</span></code></pre></div>
+<pre><code>  Sex Height Weight      BMI DeltaWeightFromMean       CI
+1   0    1.5     55 24.44444                 -17 16.29630
+2   0    1.6     70 27.34375                  -2 17.08984
+5   0    1.8     91 28.08642                  19 15.60357</code></pre>
+</div>
+<div id="identify-and-remove-duplicated-row-with-duplicated-and-unique" class="section level2" number="16.7">
+<h2><span class="header-section-number">16.7</span> Identify and remove duplicated row with <code>duplicated()</code> and <code>unique()</code></h2>
+<p>The <code>duplicated()</code> function when applied on a data.frame returns a logical index specifying the location of duplicated rows - specifically, of row which are the duplicate of another row further up the data.frame. This means that if rows 20 and 23 are identical, <code>duplicated()</code> will return <code>TRUE</code> for row 23.</p>
+<p>On the other hand, <code>unique()</code> will remove duplicate rows from a data.frame.</p>
+<div class="sourceCode" id="cb1049"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1049-1"><a href="dataframes.html#cb1049-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">ID =</span> <span class="fu">c</span>(<span class="dv">203</span>, <span class="dv">808</span>, <span class="dv">909</span>, <span class="dv">707</span>, <span class="dv">808</span>),</span>
+<span id="cb1049-2"><a href="dataframes.html#cb1049-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">Age =</span> <span class="fu">c</span>(<span class="dv">23</span>, <span class="dv">44</span>, <span class="dv">33</span>, <span class="dv">42</span>, <span class="dv">44</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb1050"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1050-1"><a href="dataframes.html#cb1050-1" aria-hidden="true" tabindex="-1"></a><span class="fu">duplicated</span>(x)</span></code></pre></div>
+<pre><code>[1] FALSE FALSE FALSE FALSE  TRUE</code></pre>
+<div class="sourceCode" id="cb1052"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1052-1"><a href="dataframes.html#cb1052-1" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(x)</span></code></pre></div>
+<pre><code>   ID Age
+1 203  23
+2 808  44
+3 909  33
+4 707  42</code></pre>
+
+</div>
+</div>
+  </main>
+
+  <div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page">
+      <h2>On this page</h2>
+      <div id="book-on-this-page"></div>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          <li><a id="book-source" href="#">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="#">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5">
+  <div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Programming for Data Science in R</strong>" was written by Efstathios (Stathis) D. Gennatas, MBBS AICSM PhD. It was last built on 2021-11-07.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer>
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+<script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+
+</html>

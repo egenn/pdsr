@@ -385,6 +385,8 @@ dt
 
 ## Convert column type
 
+### Assignment by reference with `:=`
+
 Use any base R coercion function (`as.*`) to convert a column in-place using the `:=` notation
 
 ```{r}
@@ -392,7 +394,7 @@ dt[, A := as.numeric(A)]
 dt
 ```
 
-## Delete columns in-place
+### Delete columns in-place with `:=`
 
 To delete a column, use `:=` to set it to NULL:
 
@@ -412,6 +414,25 @@ Or:
 ```{r}
 dt[, `:=`(AplusB = NULL, AminusB = NULL)]
 dt
+```
+
+### Fast loop-able assignment with `set()`
+
+`data.table`'s `set()` is a looop-able version of the `"=` operator. Use it in a for loop to operate on multiple columns.
+
+Syntax: `set(dt, i, j, value)`
+
+* `dt` the data.table to operate on
+* `i` optionally define which rows to operate on. `i = NULL` to operate on all
+* `j` column names or index to be assigned `value`
+* `value` values to be assigned to `j` by reference
+
+As a simple example, transform the first two columns in-place by squaring:
+
+```{r}
+for (i in 1:2) {
+  set(dt, i = NULL, j = i, value = dt[[i]]^2)
+}
 ```
 
 ## Summarize

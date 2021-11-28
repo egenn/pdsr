@@ -12,10 +12,6 @@ old.hooks <- fansi::set_knit_hooks(knitr::knit_hooks)
 options(crayon.enabled = TRUE)
 ```
 
-```{r}
-library(rtemis)
-```
-
 Missing data is a very common issue in statistics and data science.
 
 Data may be missing for a variety of reasons. We often characterize the type of missingness using the following three types[@mack2018managing]:  
@@ -82,6 +78,7 @@ If we wanted to get the row with the most missing values, we can use `which.max(
 ```{r}
 which.max(sapply(1:nrow(dat), function(i) sum(is.na(dat[i, ]))))
 ```
+
 ```{r}
 sum(is.na(dat[50, ]))
 ```
@@ -89,7 +86,8 @@ Row 50 has 4 missing values.
 
 ### Visualize
 
-It may be helpful to visualize missing data to get a quick impression of missingness. With **rtemis**, you can use `mplot.missing()`. 
+It may be helpful to visualize missing data to get a quick impression of missingness. 
+The [**rtemis**](https://rtemis.lambdamd.org/) package includes `mplot.missing()`:
 
 ```{r}
 library(rtemis)
@@ -116,7 +114,7 @@ checkData(dat)
 
 Different approaches can be used to handle missing data:  
 
-* Do nothing! - if your algorithm(s) can handle missing data (decision trees!)
+* Do nothing - if your algorithm(s) can handle missing data (decision trees!)
 * **Exclude** data: Use complete cases only
 * **Fill in** (make up) data: Replace or Impute
     * Replace with median/mean
@@ -177,7 +175,7 @@ You may want to include a "missingness" column that indicates which cases were i
 pressure_missing = factor(as.integer(is.na(dat$pressure)))
 ```
 
-`preprocess()` includes the option `missingness` to add corresponding indicator columns after imputation:
+`preprocess()` includes the option `missingness` to add indicator columns after imputation:
 
 ```{r}
 dat_pre <- preprocess(dat, impute = TRUE, impute.type = "meanMode",

@@ -64,6 +64,51 @@ The [**microbenchmark**](https://github.com/joshuaulrich/microbenchmark/) packag
 library(microbenchmark)
 ```
 
+### Example: loop over matrix vs. data.frame
+
+Let's create `xmat`, a 500 by 5 matrix and, `xdf` a data.frame with the same data.
+
+```{r}
+set.seed(2021)
+xmat <- matrix(rnorm(500*5), 5)
+xdf <- as.data.frame(xmat)
+```
+
+If you wanted to square either of them, you would just use `^2`. Here, we create a function specifically to demonstrate the difference in working on a numeric matrix
+vs. a data.frame by using a nested loop that replaces each element one at a time.
+
+```{r}
+silly_square <- function(x) {
+  for (i in seq_len(NROW(x))) {
+    for (j in seq_len(NCOL(x))) {
+      x[i, j] <- x[i, j]^2
+    }
+  }
+}
+```
+
+```{r}
+mat_df_sq <- microbenchmark(silly_square_mat = silly_square(xmat),
+               silly_square_df = silly_square(xdf),
+               mat_squared = xmat^2,
+               df_squared = xdf^2)
+class(mat_df_sq)
+```
+
+Print microbenchmark's output:
+
+```{r}
+mat_df_sq
+```
+
+Notice how a) either operation is much faster on a matrix vs. a data.frame and b) vectorized squaring with `^2` is much faster than the nested loop as expected.
+
+There is a `plot()` method for microbenchmark objects:
+
+```{r}
+plot(mat_df_sq)
+```
+
 ### Example: Group means
 
 Let's perform a simple mean-by-group operation and compare three different approaches. As an example, we use the `flights` dataset from the **nycflights13** package which includes data on 336,776 flights that departed from NY area airports in 2013. The data comes as a [tibble](https://tibble.tidyverse.org/), and we create data.frame and data.table versions.th
@@ -108,16 +153,11 @@ groupmean_3x <- microbenchmark(
   aggregate = flights_aggregate(),
   tapply = flights_tapply()
   )
-class(groupmean_3x)
 ```
-
-Print microbenchmark's output:
 
 ```{r}
 groupmean_3x
 ```
-
-There is a `plot()` method for microbenchmark objects:
 
 ```{r}
 plot(groupmean_3x)

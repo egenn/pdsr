@@ -127,7 +127,7 @@ plot(groupmean_3x)
 
 The **profvis** package's `profvis()` function provides an interactive output to visualize the time spent in different calls within a program.
 
-```{r}
+```{r fig.width=7, fig.height=5}
 profvis({
   hf <- read.csv("https://archive.ics.uci.edu/ml/machine-learning-databases/00519/heart_failure_clinical_records_dataset.csv")
   str(hf)
@@ -136,5 +136,6 @@ profvis({
   index_numeric <- which(sapply(hf, is.numeric))
   par(mfrow = c(1, length(index_numeric)))
   for (i in index_numeric) boxplot(hf[, i])
+  par(mfrow = c(1, 1))
 })
 ```

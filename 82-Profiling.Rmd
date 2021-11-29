@@ -1,4 +1,4 @@
-# Timing & Profiling {#profiling}
+# Benchmarking & Profiling {#profiling}
 
 ```{r echo = FALSE}
 knitr::opts_chunk$set(fig.width = 5, fig.height = 5,
@@ -12,124 +12,129 @@ old.hooks <- fansi::set_knit_hooks(knitr::knit_hooks)
 options(crayon.enabled = TRUE)
 ```
 
-Profiling your code involves timing the execution of different steps of a program. This is usually performed in order to identify bottlenecks that slow down the execution of your code and it helps you prioritize which parts to optimize. A 
+**Benchmarking** is the process of timing the execution of code for the purpose of comparison. For example, you can compare the execution time of a program in two different systems, e.g. a laptop and a high performance server. Another common case is to compare the performance of two different programs that produce the same output on the same computer. 
 
-## Time the execution of an expression with `system.time`
+**Profiling** refers to timing the different steps of a program to identify bottlenecks and potential targets for optimization.
 
-If you want to time how long it takes for an R expression to complete, you can use the base command `system.time`.  
-"elapsed" time is real time in seconds. "user" and "system" are time used by the CPU on different types of tasks (see `?proc.time`)
+## `system.time()`: Time the execution of an expression 
+
+The base package's `system.time()` function allows you to measure the execution time of an R expression.
+
+```{r}
+system.time(rnorm(9999999))
+```
+
+"elapsed" time is real time in seconds.
+
+"user" and "system" are time used by the CPU on different types of tasks (see `?proc.time`).
+
+As always, you can pass any R expression within curly brackets:
 
 ```{r}
 x <- rnorm(9999)
 system.time({
-    y <- vector("numeric", 9999)
-    for (i in 1:9999) y[i] <- x[i]^3
+    for (i in 2:9999) {
+      x[i]
+      x[i] <- x[i]^3
+    }
 })
-```
-
-```{r}
-system.time(x^3)
 ```
 
 You can use `replicate()` to get a measure of time over multiple executions and average it:
 
 ```{r}
-library(mgcv)
-library(glmnet)
 set.seed(2020)
-x <- replicate(100, rnorm(5000))
-y <- x[, 1]^2 + x[, 5]^3 + 12 + rnorm(5000)
-dat <- data.frame(x, y)
-fit.glm <- function(dat) mod <- glm(y ~ x, family = gaussian, data = dat)
-fit.gam <- function(dat) mod <- gam(y ~ x, family = gaussian, data = dat)
+x <- matrix(rnorm(500000), 5000)
+y <- 12 + x[, 3] + x[, 5]^2 + x[, 7]^3 + rnorm(5000)
+fit.glm <- function(x, y) glm.fit(x, y)
     
-system.time(replicate(1000, fit.glm))
-system.time(replicate(1000, fit.gam))
+fit.glm_time10 <- replicate(10, system.time(fit.glm(x, y))[[1]])
 ```
 
-## Compare execution times of different expressions with `microbenchmark()`
+```{r, fig.width=2.5, fig.height=5}
+boxplot(fit.glm_time10)
+```
 
-`microbenchmark()` allows you to time the execution of multiple expressions with sub-millisecond accuracy. It will execute each command a number of times as defined by the `times` argument (default = 100), and output statistics of execution time per expression in nanoseconds. Using `plot()` on the output produces a boxplot comparing the time distributions.
+## Compare execution times with `microbenchmark::microbenchmark()`
 
+The [**microbenchmark**](https://github.com/joshuaulrich/microbenchmark/) package's `microbenchmark()` function allows you to time the execution of multiple expressions with sub-millisecond accuracy. It will execute each command a number of times as defined by the `times` argument (default = 100), and output statistics of execution time per expression in nanoseconds. Using `plot()` on the output produces a boxplot comparing the time distributions.
 
 ```{r}
+# install.packages("microbenchmark")
 library(microbenchmark)
 ```
 
-To start, we compare two very simple and fast operations, using base and dplyr to add two columns of 1000 integers:
+### Example: Group means
+
+Let's perform a simple mean-by-group operation and compare three different approaches. As an example, we use the `flights` dataset from the **nycflights13** package which includes data on 336,776 flights that departed from NY area airports in 2013. The data comes as a [tibble](https://tibble.tidyverse.org/), and we create data.frame and data.table versions.th
 
 ```{r warning=FALSE}
-dat <- as.data.frame(matrix(1:2000, 1000))
-dim(dat)
+library(data.table)
 library(dplyr)
-```
-
-```{r}
-add2k <- microbenchmark(
-  base = dat$V1 + dat$V2,
-  dplyr = mutate(dat, a = V1 + V2))
-```
-
-You can print microbenchmark's output:
-
-```{r}
-add2k
-```
-
-and plot it:
-
-```{r}
-plot(add2k)
-```
-
-Now let's use the **nycflights13** dataset which includes data on 336776 flights that departed from any of the three NY area airports in 2013. Because the data comes as a [tibble](https://tibble.tidyverse.org/), we shall perform all operations on the tibble and a data.frame of the same data to compare.
-
-```{r}
 library(nycflights13)
 class(flights)
 dim(flights)
-flightsDF <- as.data.frame(flights)
+flights_df <- as.data.frame(flights)
+flights_dt <- as.data.table(flights)
 ```
 
-Compare performance base R vs. dplyr in calculating mean arrival delay by carrier using either a data.frame or a tibble:
+Compare performance of the same operation using different functions:
 
-```{r eval=FALSE}
-dbc <- microbenchmark(
-  df_aggregate = aggregate(flightsDF$arr_delay, by = list(flightsDF$carrier), mean, na.rm = TRUE),
-  tb_aggregate = aggregate(flights$arr_delay, by = list(flights$carrier), mean, na.rm = TRUE),
-  df_tapply = tapply(flightsDF$arr_delay, flightsDF$carrier, mean, na.rm = TRUE),
-  tb_tapply = tapply(flights$arr_delay, flights$carrier, mean, na.rm = TRUE),
-  df_dplyr = flightsDF %>% group_by(carrier) %>% summarize(mean(arr_delay, na.rm = TRUE)),
-  tb_dplyr = flights %>% group_by(carrier) %>% summarize(mean(arr_delay, na.rm = TRUE)))
-dbc
+* base R `aggregate()` with formula input
+* base R `aggregate()` with list input
+* base R `tapply()`
+
+```{r}
+flights_aggregate_formula <- function() {
+  aggregate(arr_delay ~ carrier, 
+            data = flights_df,
+            mean, na.rm = TRUE)
+}
+  
+flights_aggregate <- function() {
+  aggregate(flights_df$arr_delay, 
+            by = list(flights_df$carrier), 
+            mean, na.rm = TRUE)
+}
+
+flights_tapply <- function() {
+  tapply(flights_df$arr_delay, 
+         flights_df$carrier, 
+         mean, na.rm = TRUE)
+}
+
+groupmean_3x <- microbenchmark(
+  aggregate_formula = flights_aggregate_formula(),
+  aggregate = flights_aggregate(),
+  tapply = flights_tapply()
+  )
+class(groupmean_3x)
 ```
 
-```{r eval=FALSE}
-plot(dbc)
+Print microbenchmark's output:
+
+```{r}
+groupmean_3x
 ```
 
-```{r warning=FALSE}
-library(rpart)
-data(Sonar, package = "mlbench")
+There is a `plot()` method for microbenchmark objects:
 
-glmVSrpart <- microbenchmark(
-  glm = glm(Class ~ ., family = "binomial", Sonar),
-  rpart = rpart(Class ~ ., Sonar, method = "class"),
-  times = 50)
-
-plot(glmVSrpart)
+```{r}
+plot(groupmean_3x)
 ```
 
 ## Profile a function with `profvis()`
 
-`profvis` provides an interactive output to visualize how much time is spent in different calls within an algorithm.
+The **profvis** package's `profvis()` function provides an interactive output to visualize the time spent in different calls within a program.
 
 ```{r}
-library(profvis)
-library(rtemis)
-data(Sonar, package = 'mlbench')
-```
-
-```{r}
-profvis(rpart::rpart(Class ~ ., Sonar))
+profvis({
+  hf <- read.csv("https://archive.ics.uci.edu/ml/machine-learning-databases/00519/heart_failure_clinical_records_dataset.csv")
+  str(hf)
+  lt5 <- which(sapply(hf, \(i) length(unique(i))) < 5)
+  for (i in lt5) hf[, i] <- factor(hf[, i])
+  index_numeric <- which(sapply(hf, is.numeric))
+  par(mfrow = c(1, length(index_numeric)))
+  for (i in index_numeric) boxplot(hf[, i])
+})
 ```

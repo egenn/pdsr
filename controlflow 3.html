@@ -1,0 +1,470 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>11 Control flow | Programming for Data Science in R</title>
+
+    <meta name="author" content="Efstathios (Stathis) D. Gennatas, MBBS AICSM PhD" />
+  
+   <meta name="description" content="11 Control flow | Programming for Data Science in R is a project to build an online resource for (Bio)statisticians / Epidemiologists / (Health) Data Scientists" />
+   <meta name="generator" content="placeholder" />
+  <meta property="og:title" content="11 Control flow | Programming for Data Science in R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="11 Control flow | Programming for Data Science in R is a project to build an online resource for (Bio)statisticians / Epidemiologists / (Health) Data Scientists" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="11 Control flow | Programming for Data Science in R" />
+  
+  <meta name="twitter:description" content="11 Control flow | Programming for Data Science in R is a project to build an online resource for (Bio)statisticians / Epidemiologists / (Health) Data Scientists" />
+  
+  <!-- JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script>
+  <script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script>
+    <script src="libs/header-attrs-2.11/header-attrs.js"></script>
+    <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet" />
+    <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script>
+    <script src="libs/bs3compat-0.3.1/transition.js"></script>
+    <script src="libs/bs3compat-0.3.1/tabs.js"></script>
+    <script src="libs/bs3compat-0.3.1/bs3compat.js"></script>
+    <link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet" />
+    <script src="libs/bs4_book-1.0.0/bs4_book.js"></script>
+    <script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+    <script src="libs/plotly-binding-4.9.4.1/plotly.js"></script>
+    <script src="libs/typedarray-0.1/typedarray.min.js"></script>
+    <link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
+    <script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
+    <link href="libs/plotly-htmlwidgets-css-1.57.1/plotly-htmlwidgets.css" rel="stylesheet" />
+    <script src="libs/plotly-main-1.57.1/plotly-latest.min.js"></script>
+    <script src="libs/d3-3.5.6/d3.min.js"></script>
+    <link href="libs/profvis-0.3.6.9000/profvis.css" rel="stylesheet" />
+    <script src="libs/profvis-0.3.6.9000/profvis.js"></script>
+    <script src="libs/profvis-0.3.6.9000/scroll.js"></script>
+    <link href="libs/highlight-6.2.0/textmate.css" rel="stylesheet" />
+    <script src="libs/highlight-6.2.0/highlight.js"></script>
+    <script src="libs/profvis-binding-0.3.7/profvis.js"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-127457544-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-127457544-1');
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script>
+
+  <!-- CSS -->
+    <link rel="stylesheet" href="bootstrap.lambdamd.css" />
+  
+</head>
+
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book">
+    <a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">Programming for Data Science in R</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+      </form>
+
+      <nav aria-label="Table of contents">
+        <h2>Table of contents</h2>
+        <div id="book-toc"></div>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="#">View book source <i class="fab fa-github"></i></a></li></p>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="col-sm-12 col-md-9 col-lg-7" id="content">
+<div id="controlflow" class="section level1" number="11">
+<h1><span class="header-section-number">11</span> Control flow</h1>
+<p>Code is often not executed linearly (i.e. line-by-line). Control flow (or flow of control) operations define the order in which code segments are executed.</p>
+<p>Execution is often conditional (<code>if - else</code> or <code>switch</code>).</p>
+<p>Segments of code may be repeated multiple times (<code>for</code>) or as long as certain conditions are met (<code>while</code>).</p>
+<p>Control flow operations form some of the fundamental building blocks of programs. Each operation is very simple - combine enough of them and you can build up to any amount of complexity.</p>
+<ul>
+<li><code>if</code> [Condition] [Expression] <code>else</code> [Alternate Expression]</li>
+<li><code>for</code> [Variable in Sequence] do [Expression]</li>
+<li><code>while</code> [Condition] do [Expression]</li>
+<li><code>repeat</code> [Expression] until <code>break</code></li>
+<li><code>break</code>: break out of <code>for</code>, <code>while</code> or <code>repeat</code> loop</li>
+<li><code>next</code>: skip current iteration and proceed to next</li>
+</ul>
+<div id="if---else" class="section level2" number="11.1">
+<h2><span class="header-section-number">11.1</span> <code>if</code> - <code>else</code>:</h2>
+<div class="sourceCode" id="cb750"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb750-1"><a href="controlflow.html#cb750-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">4</span></span>
+<span id="cb750-2"><a href="controlflow.html#cb750-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (a <span class="sc">&lt;</span> <span class="dv">10</span>) {</span>
+<span id="cb750-3"><a href="controlflow.html#cb750-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;a is not that big&quot;</span>)</span>
+<span id="cb750-4"><a href="controlflow.html#cb750-4" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb750-5"><a href="controlflow.html#cb750-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;a is not too small&quot;</span>)</span>
+<span id="cb750-6"><a href="controlflow.html#cb750-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<pre><code>a is not that big</code></pre>
+</div>
+<div id="if---else-if---else" class="section level2" number="11.2">
+<h2><span class="header-section-number">11.2</span> <code>if</code> - <code>else if</code> - <code>else</code>:</h2>
+<div class="sourceCode" id="cb752"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb752-1"><a href="controlflow.html#cb752-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">seq</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">2</span>, .<span class="dv">5</span>), <span class="dv">1</span>)</span>
+<span id="cb752-2"><a href="controlflow.html#cb752-2" aria-hidden="true" tabindex="-1"></a>a</span></code></pre></div>
+<pre><code>[1] -0.5</code></pre>
+<div class="sourceCode" id="cb754"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb754-1"><a href="controlflow.html#cb754-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (a <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb754-2"><a href="controlflow.html#cb754-2" aria-hidden="true" tabindex="-1"></a>  result <span class="ot">&lt;-</span> <span class="st">&quot;positive&quot;</span></span>
+<span id="cb754-3"><a href="controlflow.html#cb754-3" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> <span class="cf">if</span> (a <span class="sc">==</span> <span class="dv">0</span>) {</span>
+<span id="cb754-4"><a href="controlflow.html#cb754-4" aria-hidden="true" tabindex="-1"></a>  result <span class="ot">&lt;-</span> <span class="st">&quot;zero&quot;</span></span>
+<span id="cb754-5"><a href="controlflow.html#cb754-5" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb754-6"><a href="controlflow.html#cb754-6" aria-hidden="true" tabindex="-1"></a>  result <span class="ot">&lt;-</span> <span class="st">&quot;negative&quot;</span></span>
+<span id="cb754-7"><a href="controlflow.html#cb754-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb754-8"><a href="controlflow.html#cb754-8" aria-hidden="true" tabindex="-1"></a>result</span></code></pre></div>
+<pre><code>[1] &quot;negative&quot;</code></pre>
+</div>
+<div id="conditional-assignment-with-if---else" class="section level2" number="11.3">
+<h2><span class="header-section-number">11.3</span> Conditional assignment with <code>if</code> - <code>else</code>:</h2>
+<p>You can use an <code>if</code> statement as part of an assignment:</p>
+<div class="sourceCode" id="cb756"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb756-1"><a href="controlflow.html#cb756-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">8</span></span>
+<span id="cb756-2"><a href="controlflow.html#cb756-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="cf">if</span> (a <span class="sc">&gt;</span> <span class="dv">5</span>) {</span>
+<span id="cb756-3"><a href="controlflow.html#cb756-3" aria-hidden="true" tabindex="-1"></a>  <span class="dv">10</span></span>
+<span id="cb756-4"><a href="controlflow.html#cb756-4" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb756-5"><a href="controlflow.html#cb756-5" aria-hidden="true" tabindex="-1"></a>  <span class="dv">0</span></span>
+<span id="cb756-6"><a href="controlflow.html#cb756-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+</div>
+<div id="conditional-assignment-with-ifelse" class="section level2" number="11.4">
+<h2><span class="header-section-number">11.4</span> Conditional assignment with <code>ifelse</code>:</h2>
+<div class="sourceCode" id="cb757"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb757-1"><a href="controlflow.html#cb757-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb757-2"><a href="controlflow.html#cb757-2" aria-hidden="true" tabindex="-1"></a>(y <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(a <span class="sc">&gt;</span> <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">0</span>))</span></code></pre></div>
+<pre><code>[1] 0</code></pre>
+<p><code>ifelse</code> is <a href="vectorization.html#vectorization">vectorized</a>:</p>
+<div class="sourceCode" id="cb759"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb759-1"><a href="controlflow.html#cb759-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb759-2"><a href="controlflow.html#cb759-2" aria-hidden="true" tabindex="-1"></a>(y <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(a <span class="sc">&gt;</span> <span class="dv">7</span>, a<span class="sc">^</span><span class="dv">2</span>, a))</span></code></pre></div>
+<pre><code> [1]   1   2   3   4   5   6   7  64  81 100</code></pre>
+</div>
+<div id="for-loops" class="section level2" number="11.5">
+<h2><span class="header-section-number">11.5</span> <code>for</code> loops</h2>
+<div class="rmdtip">
+<p>
+Use <code>for</code> loops to repeat execution of a block of code a certain number of times.
+</p>
+</div>
+<p>The for loop syntax is <code>for (var in vector) expression</code>.</p>
+<p>The <code>expression</code> is usually surrounded by curly brackets and can include any number of lines, any amount of code:</p>
+<div class="sourceCode" id="cb761"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb761-1"><a href="controlflow.html#cb761-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>) {</span>
+<span id="cb761-2"><a href="controlflow.html#cb761-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="st">&quot;I love coffee&quot;</span>)</span>
+<span id="cb761-3"><a href="controlflow.html#cb761-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<pre><code>[1] &quot;I love coffee&quot;
+[1] &quot;I love coffee&quot;
+[1] &quot;I love coffee&quot;</code></pre>
+<p>The loop executes for <code>length(vector)</code> times.<br />
+At iteration <code>i</code>, <code>var = vector[i]</code>.<br />
+You will often use the value of <code>var</code> inside the loop (but you don’t have to):</p>
+<div class="sourceCode" id="cb763"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb763-1"><a href="controlflow.html#cb763-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq</span>(<span class="dv">10</span>)) {</span>
+<span id="cb763-2"><a href="controlflow.html#cb763-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(i<span class="sc">^</span><span class="dv">2</span>, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb763-3"><a href="controlflow.html#cb763-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<pre><code>1 
+4 
+9 
+16 
+25 
+36 
+49 
+64 
+81 
+100 </code></pre>
+<p><code>letters</code> is a built-in constant that includes all 26 lowercase letters of the Roman alphabet; <code>LETTERS</code> similarly includes all 26 uppercase letters.</p>
+<div class="sourceCode" id="cb765"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb765-1"><a href="controlflow.html#cb765-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (letter <span class="cf">in</span> letters[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]) {</span>
+<span id="cb765-2"><a href="controlflow.html#cb765-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(letter, <span class="st">&quot;is a letter!</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb765-3"><a href="controlflow.html#cb765-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<pre><code>a is a letter!
+b is a letter!
+c is a letter!
+d is a letter!
+e is a letter!</code></pre>
+<div id="fordata" class="section level3" number="11.5.1">
+<h3><span class="header-section-number">11.5.1</span> Working on data within a for loop</h3>
+<p>A common scenario involves working on a data object, whether a vector, matrix, list, data.frame, and performing an operation on each elements, one at a time. While a lot of these operations are often performed using <a href="loopfns.html#loopfns">loop functions</a> instead, for loops can certainly be used.</p>
+<p>You can start by initializing an object of the appropriate class and dimensions to hold the output. Then, each iteration of the for loop will assign its output to the corresponding element/s of this object.</p>
+<p>In the following example we transform the <code>mtcars</code> built-in dataset’s features to <a href="datatrans.html#zscore">z-scores</a>.
+The built-in command <code>scale()</code> will do this for quickly and conveniently, this is for demonstration purposes:</p>
+<p>First, initialize the output to be the desired class and dimensions:</p>
+<div class="sourceCode" id="cb767"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb767-1"><a href="controlflow.html#cb767-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(mtcars)</span></code></pre></div>
+<pre><code>[1] &quot;data.frame&quot;</code></pre>
+<div class="sourceCode" id="cb769"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb769-1"><a href="controlflow.html#cb769-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(mtcars)</span></code></pre></div>
+<pre><code>[1] 32 11</code></pre>
+<div class="sourceCode" id="cb771"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb771-1"><a href="controlflow.html#cb771-1" aria-hidden="true" tabindex="-1"></a>mtcars_z <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">matrix</span>(<span class="dv">0</span>, <span class="dv">32</span>, <span class="dv">11</span>))</span>
+<span id="cb771-2"><a href="controlflow.html#cb771-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(mtcars_z) <span class="ot">&lt;-</span> <span class="fu">colnames</span>(mtcars)</span></code></pre></div>
+<p>or, it is much simpler to just make a copy of <code>mtcars</code> to be overwritten by the for loop later:</p>
+<div class="sourceCode" id="cb772"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb772-1"><a href="controlflow.html#cb772-1" aria-hidden="true" tabindex="-1"></a>mtcars_z <span class="ot">&lt;-</span> mtcars</span></code></pre></div>
+<p>Standardization involves subtracting the mean and dividing by the standard deviation.</p>
+<p>Here is the for loop - we iterate through each column and assign the transformed data:</p>
+<div class="sourceCode" id="cb773"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb773-1"><a href="controlflow.html#cb773-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(mtcars)) {</span>
+<span id="cb773-2"><a href="controlflow.html#cb773-2" aria-hidden="true" tabindex="-1"></a>  mtcars_z[, i] <span class="ot">&lt;-</span> (mtcars[, i] <span class="sc">-</span> <span class="fu">mean</span>(mtcars[, i])) <span class="sc">/</span> <span class="fu">sd</span>(mtcars[, i])</span>
+<span id="cb773-3"><a href="controlflow.html#cb773-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Let’s compare to the output of the <code>scale()</code> command by print the first 3 rows and columns of each:</p>
+<div class="sourceCode" id="cb774"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb774-1"><a href="controlflow.html#cb774-1" aria-hidden="true" tabindex="-1"></a>mtcars_z2 <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">scale</span>(mtcars))</span>
+<span id="cb774-2"><a href="controlflow.html#cb774-2" aria-hidden="true" tabindex="-1"></a>mtcars_z[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]</span></code></pre></div>
+<pre><code>                    mpg        cyl       disp
+Mazda RX4     0.1508848 -0.1049878 -0.5706198
+Mazda RX4 Wag 0.1508848 -0.1049878 -0.5706198
+Datsun 710    0.4495434 -1.2248578 -0.9901821</code></pre>
+<div class="sourceCode" id="cb776"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb776-1"><a href="controlflow.html#cb776-1" aria-hidden="true" tabindex="-1"></a>mtcars_z2[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]</span></code></pre></div>
+<pre><code>                    mpg        cyl       disp
+Mazda RX4     0.1508848 -0.1049878 -0.5706198
+Mazda RX4 Wag 0.1508848 -0.1049878 -0.5706198
+Datsun 710    0.4495434 -1.2248578 -0.9901821</code></pre>
+<p>Note that we wrapped <code>scale()</code> around <code>as.data.frame()</code> because it outputs a matrix.</p>
+<p>We can check that all elements are the same with <code>all()</code>:</p>
+<div class="sourceCode" id="cb778"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb778-1"><a href="controlflow.html#cb778-1" aria-hidden="true" tabindex="-1"></a><span class="fu">all</span>(mtcars_z <span class="sc">==</span> mtcars_z2)</span></code></pre></div>
+<pre><code>[1] TRUE</code></pre>
+</div>
+<div id="nested-for-loops" class="section level3" number="11.5.2">
+<h3><span class="header-section-number">11.5.2</span> Nested <code>for</code> loops</h3>
+<div class="sourceCode" id="cb780"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb780-1"><a href="controlflow.html#cb780-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>, <span class="dv">3</span>)</span>
+<span id="cb780-2"><a href="controlflow.html#cb780-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq</span>(<span class="dv">3</span>)) {</span>
+<span id="cb780-3"><a href="controlflow.html#cb780-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (j <span class="cf">in</span> <span class="fu">seq</span>(<span class="dv">3</span>)) {</span>
+<span id="cb780-4"><a href="controlflow.html#cb780-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="st">&quot;  a[&quot;</span>, i, <span class="st">&quot;,&quot;</span>, j, <span class="st">&quot;] is &quot;</span>, a[i, j], <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>, <span class="at">sep =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb780-5"><a href="controlflow.html#cb780-5" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb780-6"><a href="controlflow.html#cb780-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<pre><code>  a[1,1] is 1
+  a[1,2] is 4
+  a[1,3] is 7
+  a[2,1] is 2
+  a[2,2] is 5
+  a[2,3] is 8
+  a[3,1] is 3
+  a[3,2] is 6
+  a[3,3] is 9</code></pre>
+</div>
+<div id="printing-within-a-for-loop" class="section level3" number="11.5.3">
+<h3><span class="header-section-number">11.5.3</span> Printing within a <code>for</code> loop</h3>
+<p>In the R console objects get printed just by typing their name:</p>
+<div class="sourceCode" id="cb782"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb782-1"><a href="controlflow.html#cb782-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">4</span></span>
+<span id="cb782-2"><a href="controlflow.html#cb782-2" aria-hidden="true" tabindex="-1"></a>a</span></code></pre></div>
+<pre><code>[1] 4</code></pre>
+<div class="sourceCode" id="cb784"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb784-1"><a href="controlflow.html#cb784-1" aria-hidden="true" tabindex="-1"></a><span class="co"># same as</span></span>
+<span id="cb784-2"><a href="controlflow.html#cb784-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(a)</span></code></pre></div>
+<pre><code>[1] 4</code></pre>
+<p>This “automatic printing” does not happen within a <code>for</code> loop, so you simply use <code>print()</code>
+(or <code>cat()</code> as preferred):</p>
+<p>The following loop does not print out anything:</p>
+<div class="sourceCode" id="cb786"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb786-1"><a href="controlflow.html#cb786-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb786-2"><a href="controlflow.html#cb786-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>) {</span>
+<span id="cb786-3"><a href="controlflow.html#cb786-3" aria-hidden="true" tabindex="-1"></a>  a <span class="ot">&lt;-</span> a <span class="sc">+</span> i<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb786-4"><a href="controlflow.html#cb786-4" aria-hidden="true" tabindex="-1"></a>  a</span>
+<span id="cb786-5"><a href="controlflow.html#cb786-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>but this does:</p>
+<div class="sourceCode" id="cb787"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb787-1"><a href="controlflow.html#cb787-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb787-2"><a href="controlflow.html#cb787-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>) {</span>
+<span id="cb787-3"><a href="controlflow.html#cb787-3" aria-hidden="true" tabindex="-1"></a>  a <span class="ot">&lt;-</span> a <span class="sc">+</span> i<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb787-4"><a href="controlflow.html#cb787-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(a)</span>
+<span id="cb787-5"><a href="controlflow.html#cb787-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<pre><code>[1] 1
+[1] 5
+[1] 14
+[1] 30</code></pre>
+</div>
+</div>
+<div id="select-one-of-multiple-alternatives-with-switch" class="section level2" number="11.6">
+<h2><span class="header-section-number">11.6</span> Select one of multiple alternatives with <code>switch</code></h2>
+<p>Instead of using multiple <code>if</code> - <code>else if</code> statements, we can build a more compact call using <code>switch</code>. (It is best suited for options that are of type character, rather than numeric)</p>
+<div class="sourceCode" id="cb789"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb789-1"><a href="controlflow.html#cb789-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">sample</span>(letters[<span class="fu">seq</span>(<span class="dv">8</span>)], <span class="dv">1</span>)</span>
+<span id="cb789-2"><a href="controlflow.html#cb789-2" aria-hidden="true" tabindex="-1"></a>y</span></code></pre></div>
+<pre><code>[1] &quot;c&quot;</code></pre>
+<div class="sourceCode" id="cb791"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb791-1"><a href="controlflow.html#cb791-1" aria-hidden="true" tabindex="-1"></a>output <span class="ot">&lt;-</span> <span class="cf">switch</span>(y,                      <span class="co"># 1. Some expression</span></span>
+<span id="cb791-2"><a href="controlflow.html#cb791-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">a =</span> <span class="st">&quot;Well done&quot;</span>,        <span class="co"># 2. The possible values of the expression, unquoted</span></span>
+<span id="cb791-3"><a href="controlflow.html#cb791-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">b =</span> <span class="st">&quot;Not bad&quot;</span>,          <span class="co">#    followed by the `=` and the conditional output</span></span>
+<span id="cb791-4"><a href="controlflow.html#cb791-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">c =</span> <span class="st">&quot;Nice try&quot;</span>,</span>
+<span id="cb791-5"><a href="controlflow.html#cb791-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">d =</span> <span class="st">&quot;Not a nice try&quot;</span>,</span>
+<span id="cb791-6"><a href="controlflow.html#cb791-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">e =</span> <span class="st">&quot;This is bad&quot;</span>,</span>
+<span id="cb791-7"><a href="controlflow.html#cb791-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">f =</span> <span class="st">&quot;Fail&quot;</span>,</span>
+<span id="cb791-8"><a href="controlflow.html#cb791-8" aria-hidden="true" tabindex="-1"></a>                 <span class="st">&quot;This is not even a possible grade&quot;</span>) <span class="co"># 3. An optional last argument is the default</span></span>
+<span id="cb791-9"><a href="controlflow.html#cb791-9" aria-hidden="true" tabindex="-1"></a>                                                      <span class="co">#    value, if there is no match above</span></span>
+<span id="cb791-10"><a href="controlflow.html#cb791-10" aria-hidden="true" tabindex="-1"></a>output</span></code></pre></div>
+<pre><code>[1] &quot;Nice try&quot;</code></pre>
+<div class="sourceCode" id="cb793"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb793-1"><a href="controlflow.html#cb793-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">1</span>)</span>
+<span id="cb793-2"><a href="controlflow.html#cb793-2" aria-hidden="true" tabindex="-1"></a>a</span></code></pre></div>
+<pre><code>[1] 0.1372063</code></pre>
+<div class="sourceCode" id="cb795"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb795-1"><a href="controlflow.html#cb795-1" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="cf">switch</span>(<span class="fu">as.integer</span>(a <span class="sc">&gt;</span> <span class="dv">0</span>),</span>
+<span id="cb795-2"><a href="controlflow.html#cb795-2" aria-hidden="true" tabindex="-1"></a>              <span class="st">`</span><span class="at">1</span><span class="st">`</span> <span class="ot">=</span> <span class="st">&quot;Input is positive&quot;</span>,</span>
+<span id="cb795-3"><a href="controlflow.html#cb795-3" aria-hidden="true" tabindex="-1"></a>              <span class="st">`</span><span class="at">0</span><span class="st">`</span> <span class="ot">=</span> <span class="st">&quot;Input is not positive&quot;</span>)</span>
+<span id="cb795-4"><a href="controlflow.html#cb795-4" aria-hidden="true" tabindex="-1"></a>out</span></code></pre></div>
+<pre><code>[1] &quot;Input is positive&quot;</code></pre>
+<div class="sourceCode" id="cb797"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb797-1"><a href="controlflow.html#cb797-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">1</span>)</span>
+<span id="cb797-2"><a href="controlflow.html#cb797-2" aria-hidden="true" tabindex="-1"></a>a</span></code></pre></div>
+<pre><code>[1] 1.483922</code></pre>
+<div class="sourceCode" id="cb799"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb799-1"><a href="controlflow.html#cb799-1" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="cf">switch</span>(<span class="fu">as.character</span>(a <span class="sc">&gt;</span> <span class="dv">0</span>),</span>
+<span id="cb799-2"><a href="controlflow.html#cb799-2" aria-hidden="true" tabindex="-1"></a>              <span class="st">`</span><span class="at">TRUE</span><span class="st">`</span> <span class="ot">=</span> <span class="st">&quot;Input is positive&quot;</span>,</span>
+<span id="cb799-3"><a href="controlflow.html#cb799-3" aria-hidden="true" tabindex="-1"></a>              <span class="st">`</span><span class="at">FALSE</span><span class="st">`</span> <span class="ot">=</span> <span class="st">&quot;Input is not positive&quot;</span>)</span>
+<span id="cb799-4"><a href="controlflow.html#cb799-4" aria-hidden="true" tabindex="-1"></a>out</span></code></pre></div>
+<pre><code>[1] &quot;Input is positive&quot;</code></pre>
+<div id="switch-example-http-status-codes" class="section level3" number="11.6.1">
+<h3><span class="header-section-number">11.6.1</span> <code>switch</code> example: HTTP Status Codes</h3>
+<div class="sourceCode" id="cb801"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb801-1"><a href="controlflow.html#cb801-1" aria-hidden="true" tabindex="-1"></a>status <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">400</span><span class="sc">:</span><span class="dv">410</span>, <span class="dv">1</span>)</span>
+<span id="cb801-2"><a href="controlflow.html#cb801-2" aria-hidden="true" tabindex="-1"></a>status</span></code></pre></div>
+<pre><code>[1] 400</code></pre>
+<div class="sourceCode" id="cb803"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb803-1"><a href="controlflow.html#cb803-1" aria-hidden="true" tabindex="-1"></a>response <span class="ot">&lt;-</span> <span class="cf">switch</span>(<span class="fu">as.character</span>(status),</span>
+<span id="cb803-2"><a href="controlflow.html#cb803-2" aria-hidden="true" tabindex="-1"></a>                   <span class="st">`</span><span class="at">400</span><span class="st">`</span> <span class="ot">=</span> <span class="st">&quot;Bad Request&quot;</span>,</span>
+<span id="cb803-3"><a href="controlflow.html#cb803-3" aria-hidden="true" tabindex="-1"></a>                   <span class="st">`</span><span class="at">401</span><span class="st">`</span> <span class="ot">=</span> <span class="st">&quot;Unauthorized&quot;</span>,</span>
+<span id="cb803-4"><a href="controlflow.html#cb803-4" aria-hidden="true" tabindex="-1"></a>                   <span class="st">`</span><span class="at">402</span><span class="st">`</span> <span class="ot">=</span> <span class="st">&quot;Payment Required&quot;</span>,</span>
+<span id="cb803-5"><a href="controlflow.html#cb803-5" aria-hidden="true" tabindex="-1"></a>                   <span class="st">`</span><span class="at">403</span><span class="st">`</span> <span class="ot">=</span> <span class="st">&quot;Forbidden&quot;</span>,</span>
+<span id="cb803-6"><a href="controlflow.html#cb803-6" aria-hidden="true" tabindex="-1"></a>                   <span class="st">`</span><span class="at">404</span><span class="st">`</span> <span class="ot">=</span> <span class="st">&quot;Not Found&quot;</span>,</span>
+<span id="cb803-7"><a href="controlflow.html#cb803-7" aria-hidden="true" tabindex="-1"></a>                   <span class="st">`</span><span class="at">405</span><span class="st">`</span> <span class="ot">=</span> <span class="st">&quot;Method Not Allowed&quot;</span>,</span>
+<span id="cb803-8"><a href="controlflow.html#cb803-8" aria-hidden="true" tabindex="-1"></a>                   <span class="st">`</span><span class="at">406</span><span class="st">`</span> <span class="ot">=</span> <span class="st">&quot;Not Acceptable&quot;</span>,</span>
+<span id="cb803-9"><a href="controlflow.html#cb803-9" aria-hidden="true" tabindex="-1"></a>                   <span class="st">`</span><span class="at">407</span><span class="st">`</span> <span class="ot">=</span> <span class="st">&quot;Proxy Authentication Required&quot;</span>,</span>
+<span id="cb803-10"><a href="controlflow.html#cb803-10" aria-hidden="true" tabindex="-1"></a>                   <span class="st">`</span><span class="at">408</span><span class="st">`</span> <span class="ot">=</span> <span class="st">&quot;Request Timeout&quot;</span>,</span>
+<span id="cb803-11"><a href="controlflow.html#cb803-11" aria-hidden="true" tabindex="-1"></a>                   <span class="st">`</span><span class="at">409</span><span class="st">`</span> <span class="ot">=</span> <span class="st">&quot;Conflict&quot;</span>,</span>
+<span id="cb803-12"><a href="controlflow.html#cb803-12" aria-hidden="true" tabindex="-1"></a>                   <span class="st">`</span><span class="at">410</span><span class="st">`</span> <span class="ot">=</span> <span class="st">&quot;Gone&quot;</span>)</span>
+<span id="cb803-13"><a href="controlflow.html#cb803-13" aria-hidden="true" tabindex="-1"></a>response</span></code></pre></div>
+<pre><code>[1] &quot;Bad Request&quot;</code></pre>
+</div>
+</div>
+<div id="while-loops" class="section level2" number="11.7">
+<h2><span class="header-section-number">11.7</span> <code>while</code> loops</h2>
+<div class="sourceCode" id="cb805"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb805-1"><a href="controlflow.html#cb805-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb805-2"><a href="controlflow.html#cb805-2" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> (a <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb805-3"><a href="controlflow.html#cb805-3" aria-hidden="true" tabindex="-1"></a>  a <span class="ot">&lt;-</span> a <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb805-4"><a href="controlflow.html#cb805-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;a is equal to&quot;</span>, a, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb805-5"><a href="controlflow.html#cb805-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<pre><code>a is equal to 9 
+a is equal to 8 
+a is equal to 7 
+a is equal to 6 
+a is equal to 5 
+a is equal to 4 
+a is equal to 3 
+a is equal to 2 
+a is equal to 1 
+a is equal to 0 </code></pre>
+<div class="sourceCode" id="cb807"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb807-1"><a href="controlflow.html#cb807-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;when all is said and done, a is&quot;</span>, a)</span></code></pre></div>
+<pre><code>when all is said and done, a is 0</code></pre>
+</div>
+<div id="break-stops-execution-of-a-loop" class="section level2" number="11.8">
+<h2><span class="header-section-number">11.8</span> <code>break</code> stops execution of a loop:</h2>
+<div class="sourceCode" id="cb809"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb809-1"><a href="controlflow.html#cb809-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq</span>(<span class="dv">10</span>)) {</span>
+<span id="cb809-2"><a href="controlflow.html#cb809-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (i <span class="sc">==</span> <span class="dv">5</span>) <span class="cf">break</span></span>
+<span id="cb809-3"><a href="controlflow.html#cb809-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(i, <span class="st">&quot;squared is&quot;</span>, i<span class="sc">^</span><span class="dv">2</span>, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb809-4"><a href="controlflow.html#cb809-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<pre><code>1 squared is 1 
+2 squared is 4 
+3 squared is 9 
+4 squared is 16 </code></pre>
+</div>
+<div id="next-skips-the-current-iteration" class="section level2" number="11.9">
+<h2><span class="header-section-number">11.9</span> <code>next</code> skips the current iteration:</h2>
+<div class="sourceCode" id="cb811"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb811-1"><a href="controlflow.html#cb811-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq</span>(<span class="dv">7</span>)) {</span>
+<span id="cb811-2"><a href="controlflow.html#cb811-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (i <span class="sc">==</span> <span class="dv">5</span>) <span class="cf">next</span></span>
+<span id="cb811-3"><a href="controlflow.html#cb811-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(i, <span class="st">&quot;squared is&quot;</span>, i<span class="sc">^</span><span class="dv">2</span>, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb811-4"><a href="controlflow.html#cb811-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<pre><code>1 squared is 1 
+2 squared is 4 
+3 squared is 9 
+4 squared is 16 
+6 squared is 36 
+7 squared is 49 </code></pre>
+</div>
+<div id="repeat-loops" class="section level2" number="11.10">
+<h2><span class="header-section-number">11.10</span> <code>repeat</code> loops</h2>
+<p>A <code>repeat</code> block initiates an infinite loop and you <strong>must</strong> use <code>break</code> to exit.</p>
+<div class="sourceCode" id="cb813"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb813-1"><a href="controlflow.html#cb813-1" aria-hidden="true" tabindex="-1"></a>i <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb813-2"><a href="controlflow.html#cb813-2" aria-hidden="true" tabindex="-1"></a><span class="cf">repeat</span> {</span>
+<span id="cb813-3"><a href="controlflow.html#cb813-3" aria-hidden="true" tabindex="-1"></a> i <span class="ot">&lt;-</span> i <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb813-4"><a href="controlflow.html#cb813-4" aria-hidden="true" tabindex="-1"></a> <span class="cf">if</span> (i <span class="sc">==</span> <span class="dv">0</span>) <span class="cf">break</span></span>
+<span id="cb813-5"><a href="controlflow.html#cb813-5" aria-hidden="true" tabindex="-1"></a> <span class="fu">cat</span>(<span class="st">&quot;i is&quot;</span>, i, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb813-6"><a href="controlflow.html#cb813-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<pre><code>i is 9 
+i is 8 
+i is 7 
+i is 6 
+i is 5 
+i is 4 
+i is 3 
+i is 2 
+i is 1 </code></pre>
+
+</div>
+</div>
+  </main>
+
+  <div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page">
+      <h2>On this page</h2>
+      <div id="book-on-this-page"></div>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          <li><a id="book-source" href="#">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="#">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5">
+  <div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Programming for Data Science in R</strong>" was written by Efstathios (Stathis) D. Gennatas, MBBS AICSM PhD. It was last built on 2021-11-29.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer>
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+<script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+
+</html>

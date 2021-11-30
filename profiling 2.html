@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>29 Benchmarking &amp; Profiling | Programming for Data Science in R</title>
+
+    <meta name="author" content="Efstathios (Stathis) D. Gennatas, MBBS AICSM PhD" />
+  
+   <meta name="description" content="29 Benchmarking &amp; Profiling | Programming for Data Science in R is a project to build an online resource for (Bio)statisticians / Epidemiologists / (Health) Data Scientists" />
+   <meta name="generator" content="placeholder" />
+  <meta property="og:title" content="29 Benchmarking &amp; Profiling | Programming for Data Science in R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="29 Benchmarking &amp; Profiling | Programming for Data Science in R is a project to build an online resource for (Bio)statisticians / Epidemiologists / (Health) Data Scientists" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="29 Benchmarking &amp; Profiling | Programming for Data Science in R" />
+  
+  <meta name="twitter:description" content="29 Benchmarking &amp; Profiling | Programming for Data Science in R is a project to build an online resource for (Bio)statisticians / Epidemiologists / (Health) Data Scientists" />
+  
+  <!-- JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script>
+  <script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script>
+    <script src="libs/header-attrs-2.11/header-attrs.js"></script>
+    <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet" />
+    <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script>
+    <script src="libs/bs3compat-0.3.1/transition.js"></script>
+    <script src="libs/bs3compat-0.3.1/tabs.js"></script>
+    <script src="libs/bs3compat-0.3.1/bs3compat.js"></script>
+    <link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet" />
+    <script src="libs/bs4_book-1.0.0/bs4_book.js"></script>
+    <script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+    <script src="libs/plotly-binding-4.9.4.1/plotly.js"></script>
+    <script src="libs/typedarray-0.1/typedarray.min.js"></script>
+    <link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
+    <script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
+    <link href="libs/plotly-htmlwidgets-css-1.57.1/plotly-htmlwidgets.css" rel="stylesheet" />
+    <script src="libs/plotly-main-1.57.1/plotly-latest.min.js"></script>
+    <script src="libs/d3-3.5.6/d3.min.js"></script>
+    <link href="libs/profvis-0.3.6.9000/profvis.css" rel="stylesheet" />
+    <script src="libs/profvis-0.3.6.9000/profvis.js"></script>
+    <script src="libs/profvis-0.3.6.9000/scroll.js"></script>
+    <link href="libs/highlight-6.2.0/textmate.css" rel="stylesheet" />
+    <script src="libs/highlight-6.2.0/highlight.js"></script>
+    <script src="libs/profvis-binding-0.3.7/profvis.js"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-127457544-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-127457544-1');
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script>
+
+  <!-- CSS -->
+    <link rel="stylesheet" href="bootstrap.lambdamd.css" />
+  
+</head>
+
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book">
+    <a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">Programming for Data Science in R</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+      </form>
+
+      <nav aria-label="Table of contents">
+        <h2>Table of contents</h2>
+        <div id="book-toc"></div>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="#">View book source <i class="fab fa-github"></i></a></li></p>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="col-sm-12 col-md-9 col-lg-7" id="content">
+<div id="profiling" class="section level1" number="29">
+<h1><span class="header-section-number">29</span> Benchmarking &amp; Profiling</h1>
+<STYLE type='text/css' scoped>
+PRE.fansi SPAN {padding-top: .25em; padding-bottom: .25em};
+</STYLE>
+<p><strong>Benchmarking</strong> is the process of timing the execution of code for the purpose of comparison. For example, you can compare the execution time of a program in two different systems, e.g. a laptop and a high performance server. Another common case is to compare the performance of two different programs that produce the same output on the same computer.</p>
+<p><strong>Profiling</strong> refers to timing the different steps of a program to identify bottlenecks and potential targets for optimization.</p>
+<div id="system.time-time-the-execution-of-an-expression" class="section level2" number="29.1">
+<h2><span class="header-section-number">29.1</span> <code>system.time()</code>: Time the execution of an expression</h2>
+<p>The base package’s <code>system.time()</code> function allows you to measure the execution time of an R expression.</p>
+<div class="sourceCode" id="cb1884"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1884-1"><a href="profiling.html#cb1884-1" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(<span class="fu">rnorm</span>(<span class="dv">9999999</span>))</span></code></pre></div>
+<pre><code>   user  system elapsed 
+  0.888   0.035   0.939 </code></pre>
+<p>“elapsed” time is real time in seconds.</p>
+<p>“user” and “system” are time used by the CPU on different types of tasks (see <code>?proc.time</code>).</p>
+<p>As always, you can pass any R expression within curly brackets:</p>
+<div class="sourceCode" id="cb1886"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1886-1"><a href="profiling.html#cb1886-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">9999</span>)</span>
+<span id="cb1886-2"><a href="profiling.html#cb1886-2" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>({</span>
+<span id="cb1886-3"><a href="profiling.html#cb1886-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">9999</span>) {</span>
+<span id="cb1886-4"><a href="profiling.html#cb1886-4" aria-hidden="true" tabindex="-1"></a>      x[i]</span>
+<span id="cb1886-5"><a href="profiling.html#cb1886-5" aria-hidden="true" tabindex="-1"></a>      x[i] <span class="ot">&lt;-</span> x[i]<span class="sc">^</span><span class="dv">3</span></span>
+<span id="cb1886-6"><a href="profiling.html#cb1886-6" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb1886-7"><a href="profiling.html#cb1886-7" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div>
+<pre><code>   user  system elapsed 
+  0.007   0.000   0.007 </code></pre>
+<p>You can use <code>replicate()</code> to get a measure of time over multiple executions and average it:</p>
+<div class="sourceCode" id="cb1888"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1888-1"><a href="profiling.html#cb1888-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2020</span>)</span>
+<span id="cb1888-2"><a href="profiling.html#cb1888-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(<span class="dv">500000</span>), <span class="dv">5000</span>)</span>
+<span id="cb1888-3"><a href="profiling.html#cb1888-3" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">12</span> <span class="sc">+</span> x[, <span class="dv">3</span>] <span class="sc">+</span> x[, <span class="dv">5</span>]<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> x[, <span class="dv">7</span>]<span class="sc">^</span><span class="dv">3</span> <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">5000</span>)</span>
+<span id="cb1888-4"><a href="profiling.html#cb1888-4" aria-hidden="true" tabindex="-1"></a>fit.glm <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y) <span class="fu">glm.fit</span>(x, y)</span>
+<span id="cb1888-5"><a href="profiling.html#cb1888-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1888-6"><a href="profiling.html#cb1888-6" aria-hidden="true" tabindex="-1"></a>fit.glm_time10 <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">10</span>, <span class="fu">system.time</span>(<span class="fu">fit.glm</span>(x, y))[[<span class="dv">1</span>]])</span></code></pre></div>
+<div class="sourceCode" id="cb1889"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1889-1"><a href="profiling.html#cb1889-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(fit.glm_time10)</span></code></pre></div>
+<p><img src="82-Profiling_files/figure-html/unnamed-chunk-6-1.png" width="240" /></p>
+</div>
+<div id="compare-execution-times-with-microbenchmarkmicrobenchmark" class="section level2" number="29.2">
+<h2><span class="header-section-number">29.2</span> Compare execution times with <code>microbenchmark::microbenchmark()</code></h2>
+<p>The <a href="https://github.com/joshuaulrich/microbenchmark/"><strong>microbenchmark</strong></a> package’s <code>microbenchmark()</code> function allows you to time the execution of multiple expressions with sub-millisecond accuracy. It will execute each command a number of times as defined by the <code>times</code> argument (default = 100), and output statistics of execution time per expression in nanoseconds. Using <code>plot()</code> on the output produces a boxplot comparing the time distributions.</p>
+<div class="sourceCode" id="cb1890"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1890-1"><a href="profiling.html#cb1890-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages(&quot;microbenchmark&quot;)</span></span>
+<span id="cb1890-2"><a href="profiling.html#cb1890-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(microbenchmark)</span></code></pre></div>
+<div id="example-group-means" class="section level3" number="29.2.1">
+<h3><span class="header-section-number">29.2.1</span> Example: Group means</h3>
+<p>Let’s perform a simple mean-by-group operation and compare three different approaches. As an example, we use the <code>flights</code> dataset from the <strong>nycflights13</strong> package which includes data on 336,776 flights that departed from NY area airports in 2013. The data comes as a <a href="https://tibble.tidyverse.org/">tibble</a>, and we create data.frame and data.table versions.th</p>
+<div class="sourceCode" id="cb1891"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1891-1"><a href="profiling.html#cb1891-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(data.table)</span></code></pre></div>
+<pre><code>
+Attaching package: &#39;data.table&#39;</code></pre>
+<pre><code>The following objects are masked from &#39;package:dplyr&#39;:
+
+    between, first, last</code></pre>
+<div class="sourceCode" id="cb1894"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1894-1"><a href="profiling.html#cb1894-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1894-2"><a href="profiling.html#cb1894-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nycflights13)</span>
+<span id="cb1894-3"><a href="profiling.html#cb1894-3" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(flights)</span></code></pre></div>
+<pre><code>[1] &quot;tbl_df&quot;     &quot;tbl&quot;        &quot;data.frame&quot;</code></pre>
+<div class="sourceCode" id="cb1896"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1896-1"><a href="profiling.html#cb1896-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(flights)</span></code></pre></div>
+<pre><code>[1] 336776     19</code></pre>
+<div class="sourceCode" id="cb1898"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1898-1"><a href="profiling.html#cb1898-1" aria-hidden="true" tabindex="-1"></a>flights_df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(flights)</span>
+<span id="cb1898-2"><a href="profiling.html#cb1898-2" aria-hidden="true" tabindex="-1"></a>flights_dt <span class="ot">&lt;-</span> <span class="fu">as.data.table</span>(flights)</span></code></pre></div>
+<p>Compare performance of the same operation using different functions:</p>
+<ul>
+<li>base R <code>aggregate()</code> with formula input</li>
+<li>base R <code>aggregate()</code> with list input</li>
+<li>base R <code>tapply()</code></li>
+</ul>
+<div class="sourceCode" id="cb1899"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1899-1"><a href="profiling.html#cb1899-1" aria-hidden="true" tabindex="-1"></a>flights_aggregate_formula <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
+<span id="cb1899-2"><a href="profiling.html#cb1899-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aggregate</span>(arr_delay <span class="sc">~</span> carrier, </span>
+<span id="cb1899-3"><a href="profiling.html#cb1899-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">data =</span> flights_df,</span>
+<span id="cb1899-4"><a href="profiling.html#cb1899-4" aria-hidden="true" tabindex="-1"></a>            mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1899-5"><a href="profiling.html#cb1899-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1899-6"><a href="profiling.html#cb1899-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1899-7"><a href="profiling.html#cb1899-7" aria-hidden="true" tabindex="-1"></a>flights_aggregate <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
+<span id="cb1899-8"><a href="profiling.html#cb1899-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aggregate</span>(flights_df<span class="sc">$</span>arr_delay, </span>
+<span id="cb1899-9"><a href="profiling.html#cb1899-9" aria-hidden="true" tabindex="-1"></a>            <span class="at">by =</span> <span class="fu">list</span>(flights_df<span class="sc">$</span>carrier), </span>
+<span id="cb1899-10"><a href="profiling.html#cb1899-10" aria-hidden="true" tabindex="-1"></a>            mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1899-11"><a href="profiling.html#cb1899-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1899-12"><a href="profiling.html#cb1899-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1899-13"><a href="profiling.html#cb1899-13" aria-hidden="true" tabindex="-1"></a>flights_tapply <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
+<span id="cb1899-14"><a href="profiling.html#cb1899-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tapply</span>(flights_df<span class="sc">$</span>arr_delay, </span>
+<span id="cb1899-15"><a href="profiling.html#cb1899-15" aria-hidden="true" tabindex="-1"></a>         flights_df<span class="sc">$</span>carrier, </span>
+<span id="cb1899-16"><a href="profiling.html#cb1899-16" aria-hidden="true" tabindex="-1"></a>         mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1899-17"><a href="profiling.html#cb1899-17" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1899-18"><a href="profiling.html#cb1899-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1899-19"><a href="profiling.html#cb1899-19" aria-hidden="true" tabindex="-1"></a>groupmean_3x <span class="ot">&lt;-</span> <span class="fu">microbenchmark</span>(</span>
+<span id="cb1899-20"><a href="profiling.html#cb1899-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">aggregate_formula =</span> <span class="fu">flights_aggregate_formula</span>(),</span>
+<span id="cb1899-21"><a href="profiling.html#cb1899-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">aggregate =</span> <span class="fu">flights_aggregate</span>(),</span>
+<span id="cb1899-22"><a href="profiling.html#cb1899-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">tapply =</span> <span class="fu">flights_tapply</span>()</span>
+<span id="cb1899-23"><a href="profiling.html#cb1899-23" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb1899-24"><a href="profiling.html#cb1899-24" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(groupmean_3x)</span></code></pre></div>
+<pre><code>[1] &quot;microbenchmark&quot; &quot;data.frame&quot;    </code></pre>
+<p>Print microbenchmark’s output:</p>
+<div class="sourceCode" id="cb1901"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1901-1"><a href="profiling.html#cb1901-1" aria-hidden="true" tabindex="-1"></a>groupmean_3x</span></code></pre></div>
+<pre><code>Unit: milliseconds
+              expr       min        lq      mean    median        uq      max
+ aggregate_formula 131.93089 144.22807 172.28696 153.24102 164.41917 887.8312
+         aggregate 107.39597 119.09160 135.17608 125.04732 131.29735 273.4077
+            tapply  23.17825  26.15108  36.00182  30.34879  37.50683 176.9068
+ neval
+   100
+   100
+   100</code></pre>
+<p>There is a <code>plot()</code> method for microbenchmark objects:</p>
+<div class="sourceCode" id="cb1903"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1903-1"><a href="profiling.html#cb1903-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(groupmean_3x)</span></code></pre></div>
+<p><img src="82-Profiling_files/figure-html/unnamed-chunk-11-1.png" width="480" /></p>
+</div>
+</div>
+<div id="profile-a-function-with-profvis" class="section level2" number="29.3">
+<h2><span class="header-section-number">29.3</span> Profile a function with <code>profvis()</code></h2>
+<p>The <strong>profvis</strong> package’s <code>profvis()</code> function provides an interactive output to visualize the time spent in different calls within a program.</p>
+<div class="sourceCode" id="cb1904"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1904-1"><a href="profiling.html#cb1904-1" aria-hidden="true" tabindex="-1"></a><span class="fu">profvis</span>({</span>
+<span id="cb1904-2"><a href="profiling.html#cb1904-2" aria-hidden="true" tabindex="-1"></a>  hf <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;https://archive.ics.uci.edu/ml/machine-learning-databases/00519/heart_failure_clinical_records_dataset.csv&quot;</span>)</span>
+<span id="cb1904-3"><a href="profiling.html#cb1904-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str</span>(hf)</span>
+<span id="cb1904-4"><a href="profiling.html#cb1904-4" aria-hidden="true" tabindex="-1"></a>  lt5 <span class="ot">&lt;-</span> <span class="fu">which</span>(<span class="fu">sapply</span>(hf, \(i) <span class="fu">length</span>(<span class="fu">unique</span>(i))) <span class="sc">&lt;</span> <span class="dv">5</span>)</span>
+<span id="cb1904-5"><a href="profiling.html#cb1904-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> lt5) hf[, i] <span class="ot">&lt;-</span> <span class="fu">factor</span>(hf[, i])</span>
+<span id="cb1904-6"><a href="profiling.html#cb1904-6" aria-hidden="true" tabindex="-1"></a>  index_numeric <span class="ot">&lt;-</span> <span class="fu">which</span>(<span class="fu">sapply</span>(hf, is.numeric))</span>
+<span id="cb1904-7"><a href="profiling.html#cb1904-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fu">length</span>(index_numeric)))</span>
+<span id="cb1904-8"><a href="profiling.html#cb1904-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> index_numeric) <span class="fu">boxplot</span>(hf[, i])</span>
+<span id="cb1904-9"><a href="profiling.html#cb1904-9" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div>
+<pre><code>&#39;data.frame&#39;:   299 obs. of  13 variables:
+ $ age                     : num  75 55 65 50 65 90 75 60 65 80 ...
+ $ anaemia                 : int  0 0 0 1 1 1 1 1 0 1 ...
+ $ creatinine_phosphokinase: int  582 7861 146 111 160 47 246 315 157 123 ...
+ $ diabetes                : int  0 0 0 0 1 0 0 1 0 0 ...
+ $ ejection_fraction       : int  20 38 20 20 20 40 15 60 65 35 ...
+ $ high_blood_pressure     : int  1 0 0 0 0 1 0 0 0 1 ...
+ $ platelets               : num  265000 263358 162000 210000 327000 ...
+ $ serum_creatinine        : num  1.9 1.1 1.3 1.9 2.7 2.1 1.2 1.1 1.5 9.4 ...
+ $ serum_sodium            : int  130 136 129 137 116 132 137 131 138 133 ...
+ $ sex                     : int  1 1 1 1 0 1 1 1 0 1 ...
+ $ smoking                 : int  0 0 1 0 0 1 0 1 0 1 ...
+ $ time                    : int  4 6 7 7 8 8 10 10 10 10 ...
+ $ DEATH_EVENT             : int  1 1 1 1 1 1 1 1 1 1 ...</code></pre>
+<pre><code>profvis: code exited with error:
+figure margins too large</code></pre>
+<div id="htmlwidget-0da10021c1e0fd4b175b" style="width:100%;height:600px;" class="profvis html-widget"></div>
+<script type="application/json" data-for="htmlwidget-0da10021c1e0fd4b175b">{"x":{"message":{"prof":{"time":[1,1,1,1,1,1,1,2,2,2,2,2,2,2,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4,4,4,4,4,4,4,5,5],"depth":[7,6,5,4,3,2,1,7,6,5,4,3,2,1,13,12,11,10,9,8,7,6,5,4,3,2,1,8,7,6,5,4,3,2,1,2,1],"label":["file","read.table","read.csv","eval","eval","eval.parent","local","file","read.table","read.csv","eval","eval","eval.parent","local","match.arg","prettyNum","format.default","format.fun","formObj","str.default","<Anonymous>","strSub","str.default","eval","eval","eval.parent","local",".newSignature",".findInheritedMethods","<Anonymous>","which","eval","eval","eval.parent","local",".External2","local"],"filenum":[null,null,1,null,null,null,null,null,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,1,null,null,null,null,null,null],"linenum":[null,null,2,null,null,null,null,null,null,2,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,4,null,null,null,null,null,null],"memalloc":[65.1373825073242,65.1373825073242,65.1373825073242,65.1373825073242,65.1373825073242,65.1373825073242,65.1373825073242,65.1373825073242,65.1373825073242,65.1373825073242,65.1373825073242,65.1373825073242,65.1373825073242,65.1373825073242,65.4153900146484,65.4153900146484,65.4153900146484,65.4153900146484,65.4153900146484,65.4153900146484,65.4153900146484,65.4153900146484,65.4153900146484,65.4153900146484,65.4153900146484,65.4153900146484,65.4153900146484,65.6612930297852,65.6612930297852,65.6612930297852,65.6612930297852,65.6612930297852,65.6612930297852,65.6612930297852,65.6612930297852,66.1652221679688,66.1652221679688],"meminc":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.278007507324219,0,0,0,0,0,0,0,0,0,0,0,0,0.245903015136719,0,0,0,0,0,0,0,0.503929138183594,0],"filename":[null,null,"<expr>",null,null,null,null,null,null,"<expr>",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,"<expr>",null,null,null,null,null,null]},"interval":10,"files":[{"filename":"<expr>","content":"profvis({\n  hf <- read.csv(\"https://archive.ics.uci.edu/ml/machine-learning-databases/00519/heart_failure_clinical_records_dataset.csv\")\n  str(hf)\n  lt5 <- which(sapply(hf, \\(i) length(unique(i))) < 5)\n  for (i in lt5) hf[, i] <- factor(hf[, i])\n  index_numeric <- which(sapply(hf, is.numeric))\n  par(mfrow = c(1, length(index_numeric)))\n  for (i in index_numeric) boxplot(hf[, i])\n})","normpath":"<expr>"}],"prof_output":"/var/folders/05/lsy6wgrj20bghdzndf_dnzrm0000gn/T//RtmpcXpfOu/file550a383b98c6.prof","highlight":{"output":["^output\\$"],"gc":["^<GC>$"],"stacktrace":["^\\.\\.stacktraceo(n|ff)\\.\\.$"]},"split":"h"}},"evals":[],"jsHooks":[]}</script>
+
+</div>
+</div>
+  </main>
+
+  <div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page">
+      <h2>On this page</h2>
+      <div id="book-on-this-page"></div>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          <li><a id="book-source" href="#">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="#">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5">
+  <div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Programming for Data Science in R</strong>" was written by Efstathios (Stathis) D. Gennatas, MBBS AICSM PhD. It was last built on 2021-11-29.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer>
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+<script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+
+</html>

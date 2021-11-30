@@ -1,0 +1,1380 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>24 Efficient data analysis with data.table | Programming for Data Science in R</title>
+
+    <meta name="author" content="Efstathios (Stathis) D. Gennatas, MBBS AICSM PhD" />
+  
+   <meta name="description" content="24 Efficient data analysis with data.table | Programming for Data Science in R is a project to build an online resource for (Bio)statisticians / Epidemiologists / (Health) Data Scientists" />
+   <meta name="generator" content="placeholder" />
+  <meta property="og:title" content="24 Efficient data analysis with data.table | Programming for Data Science in R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="24 Efficient data analysis with data.table | Programming for Data Science in R is a project to build an online resource for (Bio)statisticians / Epidemiologists / (Health) Data Scientists" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="24 Efficient data analysis with data.table | Programming for Data Science in R" />
+  
+  <meta name="twitter:description" content="24 Efficient data analysis with data.table | Programming for Data Science in R is a project to build an online resource for (Bio)statisticians / Epidemiologists / (Health) Data Scientists" />
+  
+  <!-- JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script>
+  <script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script>
+    <script src="libs/header-attrs-2.11/header-attrs.js"></script>
+    <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet" />
+    <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script>
+    <script src="libs/bs3compat-0.3.1/transition.js"></script>
+    <script src="libs/bs3compat-0.3.1/tabs.js"></script>
+    <script src="libs/bs3compat-0.3.1/bs3compat.js"></script>
+    <link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet" />
+    <script src="libs/bs4_book-1.0.0/bs4_book.js"></script>
+    <script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+    <script src="libs/plotly-binding-4.9.4.1/plotly.js"></script>
+    <script src="libs/typedarray-0.1/typedarray.min.js"></script>
+    <link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
+    <script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
+    <link href="libs/plotly-htmlwidgets-css-1.57.1/plotly-htmlwidgets.css" rel="stylesheet" />
+    <script src="libs/plotly-main-1.57.1/plotly-latest.min.js"></script>
+    <script src="libs/d3-3.5.6/d3.min.js"></script>
+    <link href="libs/profvis-0.3.6.9000/profvis.css" rel="stylesheet" />
+    <script src="libs/profvis-0.3.6.9000/profvis.js"></script>
+    <script src="libs/profvis-0.3.6.9000/scroll.js"></script>
+    <link href="libs/highlight-6.2.0/textmate.css" rel="stylesheet" />
+    <script src="libs/highlight-6.2.0/highlight.js"></script>
+    <script src="libs/profvis-binding-0.3.7/profvis.js"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-127457544-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-127457544-1');
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script>
+
+  <!-- CSS -->
+    <link rel="stylesheet" href="bootstrap.lambdamd.css" />
+  
+</head>
+
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book">
+    <a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">Programming for Data Science in R</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+      </form>
+
+      <nav aria-label="Table of contents">
+        <h2>Table of contents</h2>
+        <div id="book-toc"></div>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="#">View book source <i class="fab fa-github"></i></a></li></p>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="col-sm-12 col-md-9 col-lg-7" id="content">
+<div id="datatable" class="section level1" number="24">
+<h1><span class="header-section-number">24</span> Efficient data analysis with <strong>data.table</strong></h1>
+<STYLE type='text/css' scoped>
+PRE.fansi SPAN {padding-top: .25em; padding-bottom: .25em};
+</STYLE>
+<p>The <a href="https://github.com/Rdatatable/data.table"><strong>data.table</strong></a> package provides a modern and highly optimized version of R’s data.frame structure. It is highly memory efficient and automatically parallelizes internal operations to achieve substantial speed improvements over data.frames. The <strong>data.table</strong> package weighs in at just a few kilobytes, has zero dependencies, and maintains compatibility with R versions going as far back as possible.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:FigRdatatable"></span>
+<img src="R_data.table.png" alt="data.table builds on and significantly enhances the base R data.frame" width="50%" />
+<p class="caption">
+Figure 24.1: data.table builds on and significantly enhances the base R data.frame
+</p>
+</div>
+<div id="data.table-singificantly-extends-the-power-of-data.frame" class="section level2" number="24.1">
+<h2><span class="header-section-number">24.1</span> <code>data.table</code> singificantly extends the power of <code>data.frame</code></h2>
+<p>Some of the ways in which a <code>data.table</code> differs from a <code>data.frame</code>:</p>
+<ul>
+<li>A lot more than indexing can be done within a <code>data.table</code>’s “frame” (<code>dt[i, j, by]</code>):
+filter, select &amp; operate on columns, group-by operations</li>
+<li>Access column names directly without quoting</li>
+<li>Many operations can be performed <strong><em>“in-place”</em></strong> (i.e. with no assignment)</li>
+<li>Working on big data within a <code>data.table</code> can be orders of magnitude faster.</li>
+</ul>
+<p><code>data.table</code> operations remain as close as possible to <code>data.frame</code> operations, trying to extend rather than replace the latter’s functionality.</p>
+<p><strong>data.table</strong> includes thorough and helpful error messages that often point to a solution. This includes common mistakes new users may make when trying commands that would work on a <code>data.frame</code>
+but are different on a <code>data.table</code>.</p>
+</div>
+<div id="dtinstallation" class="section level2" number="24.2">
+<h2><span class="header-section-number">24.2</span> Installation</h2>
+<p>You can install <strong>data.table</strong> from CRAN or GitHub. Check out the <a href="https://github.com/Rdatatable/data.table/wiki/Installation">data.table wiki</a> for more info.</p>
+<p>To get the latest version on CRAN:</p>
+<div class="sourceCode" id="cb1468"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1468-1"><a href="datatable.html#cb1468-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;data.table&quot;</span>)</span></code></pre></div>
+<p>To get the latest development version:</p>
+<div class="sourceCode" id="cb1469"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1469-1"><a href="datatable.html#cb1469-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install the &quot;remotes&quot; package if you don&#39;t already have it and then</span></span>
+<span id="cb1469-2"><a href="datatable.html#cb1469-2" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;Rdatatable/data.table&quot;</span>)</span></code></pre></div>
+<p><code>data.table</code> also includes a built-in command to update to the latest development version:</p>
+<div class="sourceCode" id="cb1470"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1470-1"><a href="datatable.html#cb1470-1" aria-hidden="true" tabindex="-1"></a>data.table<span class="sc">::</span><span class="fu">update.dev.pkg</span>()</span></code></pre></div>
+<div id="load-the-data.table-package" class="section level3" number="24.2.1">
+<h3><span class="header-section-number">24.2.1</span> Load the <code>data.table</code> package</h3>
+<div class="sourceCode" id="cb1471"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1471-1"><a href="datatable.html#cb1471-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(data.table)</span></code></pre></div>
+</div>
+</div>
+<div id="create-a-data.table" class="section level2" number="24.3">
+<h2><span class="header-section-number">24.3</span> Create a <code>data.table</code></h2>
+<div id="by-assignment-data.table" class="section level3" number="24.3.1">
+<h3><span class="header-section-number">24.3.1</span> By assignment: <code>data.table()</code></h3>
+<p>Let’s create a <code>data.frame</code> and a <code>data.table</code> to explore side by side.</p>
+<div class="sourceCode" id="cb1472"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1472-1"><a href="datatable.html#cb1472-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">A =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,</span>
+<span id="cb1472-2"><a href="datatable.html#cb1472-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">B =</span> <span class="fu">c</span>(<span class="fl">1.2</span>, <span class="fl">4.3</span>, <span class="fl">9.7</span>, <span class="fl">5.6</span>, <span class="fl">8.1</span>),</span>
+<span id="cb1472-3"><a href="datatable.html#cb1472-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">C =</span> <span class="fu">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;a&quot;</span>, <span class="st">&quot;a&quot;</span>))</span>
+<span id="cb1472-4"><a href="datatable.html#cb1472-4" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(df)</span></code></pre></div>
+<pre><code>[1] &quot;data.frame&quot;</code></pre>
+<div class="sourceCode" id="cb1474"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1474-1"><a href="datatable.html#cb1474-1" aria-hidden="true" tabindex="-1"></a>df</span></code></pre></div>
+<pre><code>  A   B C
+1 1 1.2 a
+2 2 4.3 b
+3 3 9.7 b
+4 4 5.6 a
+5 5 8.1 a</code></pre>
+<p><code>data.table()</code> syntax is similar to <code>data.frame()</code> (differs in some arguments)</p>
+<div class="sourceCode" id="cb1476"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1476-1"><a href="datatable.html#cb1476-1" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="at">A =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,</span>
+<span id="cb1476-2"><a href="datatable.html#cb1476-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">B =</span> <span class="fu">c</span>(<span class="fl">1.2</span>, <span class="fl">4.3</span>, <span class="fl">9.7</span>, <span class="fl">5.6</span>, <span class="fl">8.1</span>),</span>
+<span id="cb1476-3"><a href="datatable.html#cb1476-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">C =</span> <span class="fu">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;a&quot;</span>, <span class="st">&quot;a&quot;</span>))</span>
+<span id="cb1476-4"><a href="datatable.html#cb1476-4" aria-hidden="true" tabindex="-1"></a>dt</span></code></pre></div>
+<pre><code>       A     B      C
+   &lt;int&gt; &lt;num&gt; &lt;char&gt;
+1:     1   1.2      a
+2:     2   4.3      b
+3:     3   9.7      b
+4:     4   5.6      a
+5:     5   8.1      a</code></pre>
+<div class="sourceCode" id="cb1478"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1478-1"><a href="datatable.html#cb1478-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(dt)</span></code></pre></div>
+<pre><code>[1] &quot;data.table&quot; &quot;data.frame&quot;</code></pre>
+<p>Notice how a <code>data.table</code> object also inherits from <code>data.frame</code>. This means that if a method does not exist for <code>data.table</code>, the method for <code>data.frame</code> will be used - review <a href="classes.html#classes">classes and generic functions</a>.</p>
+<p>As part of improving efficieny, data.tables do away with row names. Instead of using rownames, you can and should add an extra column (e.g. “ID”) with the same information - this is advisable when working with data.frames as well.</p>
+<p>A rather convenient option is to have data.tables print each column’s class below the column name. You can pass the argument <code>class = TRUE</code> to <code>print()</code> or set the global option <code>datatable.print.class</code> using <code>options()</code></p>
+<div class="sourceCode" id="cb1480"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1480-1"><a href="datatable.html#cb1480-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">datatable.print.class =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1480-2"><a href="datatable.html#cb1480-2" aria-hidden="true" tabindex="-1"></a>dt</span></code></pre></div>
+<pre><code>       A     B      C
+   &lt;int&gt; &lt;num&gt; &lt;char&gt;
+1:     1   1.2      a
+2:     2   4.3      b
+3:     3   9.7      b
+4:     4   5.6      a
+5:     5   8.1      a</code></pre>
+<p>Same as with a data.frame, to automatically convert string to factors, you can use the
+<code>stringsAsFactors</code> argument (or <code>factor()</code> directly):</p>
+<div class="sourceCode" id="cb1482"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1482-1"><a href="datatable.html#cb1482-1" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="at">A =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,</span>
+<span id="cb1482-2"><a href="datatable.html#cb1482-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">B =</span> <span class="fu">c</span>(<span class="fl">1.2</span>, <span class="fl">4.3</span>, <span class="fl">9.7</span>, <span class="fl">5.6</span>, <span class="fl">8.1</span>),</span>
+<span id="cb1482-3"><a href="datatable.html#cb1482-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">C =</span> <span class="fu">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;a&quot;</span>, <span class="st">&quot;a&quot;</span>),</span>
+<span id="cb1482-4"><a href="datatable.html#cb1482-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1482-5"><a href="datatable.html#cb1482-5" aria-hidden="true" tabindex="-1"></a>dt</span></code></pre></div>
+<pre><code>       A     B      C
+   &lt;int&gt; &lt;num&gt; &lt;fctr&gt;
+1:     1   1.2      a
+2:     2   4.3      b
+3:     3   9.7      b
+4:     4   5.6      a
+5:     5   8.1      a</code></pre>
+</div>
+<div id="by-coercion-as.data.table" class="section level3" number="24.3.2">
+<h3><span class="header-section-number">24.3.2</span> By coercion: <code>as.data.table()</code></h3>
+<div class="sourceCode" id="cb1484"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1484-1"><a href="datatable.html#cb1484-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">A =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,</span>
+<span id="cb1484-2"><a href="datatable.html#cb1484-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">B =</span> <span class="fu">c</span>(<span class="fl">1.2</span>, <span class="fl">4.3</span>, <span class="fl">9.7</span>, <span class="fl">5.6</span>, <span class="fl">8.1</span>),</span>
+<span id="cb1484-3"><a href="datatable.html#cb1484-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">C =</span> <span class="fu">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;a&quot;</span>, <span class="st">&quot;a&quot;</span>),</span>
+<span id="cb1484-4"><a href="datatable.html#cb1484-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1484-5"><a href="datatable.html#cb1484-5" aria-hidden="true" tabindex="-1"></a>dat</span></code></pre></div>
+<pre><code>  A   B C
+1 1 1.2 a
+2 2 4.3 b
+3 3 9.7 b
+4 4 5.6 a
+5 5 8.1 a</code></pre>
+<div class="sourceCode" id="cb1486"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1486-1"><a href="datatable.html#cb1486-1" aria-hidden="true" tabindex="-1"></a>dat2 <span class="ot">&lt;-</span> <span class="fu">as.data.table</span>(dat)</span>
+<span id="cb1486-2"><a href="datatable.html#cb1486-2" aria-hidden="true" tabindex="-1"></a>dat2</span></code></pre></div>
+<pre><code>       A     B      C
+   &lt;int&gt; &lt;num&gt; &lt;fctr&gt;
+1:     1   1.2      a
+2:     2   4.3      b
+3:     3   9.7      b
+4:     4   5.6      a
+5:     5   8.1      a</code></pre>
+</div>
+<div id="by-coercion-in-place-setdt" class="section level3" number="24.3.3">
+<h3><span class="header-section-number">24.3.3</span> By coercion <strong><em>in-place</em></strong>: <code>setDT()</code></h3>
+<p><code>setDT</code> converts a list or data.frame into a <code>data.table</code> in-place. Note: the original object itself is changed, you do not need to assign the output of <code>setDT</code> to a new name.</p>
+<div class="sourceCode" id="cb1488"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1488-1"><a href="datatable.html#cb1488-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">A =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,</span>
+<span id="cb1488-2"><a href="datatable.html#cb1488-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">B =</span> <span class="fu">c</span>(<span class="fl">1.2</span>, <span class="fl">4.3</span>, <span class="fl">9.7</span>, <span class="fl">5.6</span>, <span class="fl">8.1</span>),</span>
+<span id="cb1488-3"><a href="datatable.html#cb1488-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">C =</span> <span class="fu">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;a&quot;</span>, <span class="st">&quot;a&quot;</span>))</span>
+<span id="cb1488-4"><a href="datatable.html#cb1488-4" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(dat)</span></code></pre></div>
+<pre><code>[1] &quot;data.frame&quot;</code></pre>
+<div class="sourceCode" id="cb1490"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1490-1"><a href="datatable.html#cb1490-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setDT</span>(dat)</span>
+<span id="cb1490-2"><a href="datatable.html#cb1490-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(dat)</span></code></pre></div>
+<pre><code>[1] &quot;data.table&quot; &quot;data.frame&quot;</code></pre>
+<p>You can similarly convert a <code>data.table</code> to a <code>data.frame</code>, in-place:</p>
+<div class="sourceCode" id="cb1492"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1492-1"><a href="datatable.html#cb1492-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setDF</span>(dat)</span>
+<span id="cb1492-2"><a href="datatable.html#cb1492-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(dat)</span></code></pre></div>
+<pre><code>[1] &quot;data.frame&quot;</code></pre>
+</div>
+<div id="read-into-a-data.table-from-file-with-fread" class="section level3" number="24.3.4">
+<h3><span class="header-section-number">24.3.4</span> Read into a <code>data.table</code> from file with <code>fread()</code></h3>
+<p><strong>data.table</strong> includes the <code>fread()</code> function to read data from files, in a similar way as the base functions <code>read.csv()</code> and <code>read.table()</code>. It is orders of magnitude faster for very large data (e.g. thousands to millions of rows) and it can read directly from URLs and zipped files. The <code>sep</code>
+argument defines the separator (same as in <code>read.csv()</code> and <code>read.table()</code>), but when set to
+<code>"auto"</code> (the default) it does a great job of figuring it out by itself.</p>
+<div class="sourceCode" id="cb1494"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1494-1"><a href="datatable.html#cb1494-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">&quot;path/to/input.csv&quot;</span>)</span>
+<span id="cb1494-2"><a href="datatable.html#cb1494-2" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">&quot;https::/url/to/input.csv.gz&quot;</span>)</span></code></pre></div>
+<p>For its speed and convenience, <code>fread()</code> is recommended over <code>read.csv()</code>/<code>read.table()</code> even if
+you intend to work with a <code>data.frame</code> exclusively, in which case you can pass the argument
+<code>data.table = FALSE</code>.</p>
+</div>
+<div id="write-a-data.table-to-a-csv-fwrite" class="section level3" number="24.3.5">
+<h3><span class="header-section-number">24.3.5</span> Write a <code>data.table</code> to a CSV: <code>fwrite()</code></h3>
+<p>Similar to <code>fread()</code>, <code>fwrite()</code> can be a lot faster than <code>write.csv()</code></p>
+<div class="sourceCode" id="cb1495"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1495-1"><a href="datatable.html#cb1495-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fwrite</span>(dt, <span class="st">&quot;/path/to/text.csv&quot;</span>)</span></code></pre></div>
+</div>
+<div id="save-data.table-to-an-rds" class="section level3" number="24.3.6">
+<h3><span class="header-section-number">24.3.6</span> Save <code>data.table</code> to an RDS:</h3>
+<p>Same as any R object, you can save a <code>data.table</code> to disk using <code>saveRDS()</code>.
+Suppose you have read data in with <code>fread()</code> or coerced a dataset using <code>as.data.table()</code>, done some cleaning up, type conversions, data transformations, etc, this is the preferred way to save your work, so you can reload at any time.</p>
+<div class="sourceCode" id="cb1496"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1496-1"><a href="datatable.html#cb1496-1" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(dt, <span class="st">&quot;/path/to/data.rds&quot;</span>)</span></code></pre></div>
+</div>
+</div>
+<div id="display-data.table-structure-with-str" class="section level2" number="24.4">
+<h2><span class="header-section-number">24.4</span> Display <code>data.table</code> structure with <code>str()</code></h2>
+<p><code>str()</code> works the same (and you should keep using it!)</p>
+<div class="sourceCode" id="cb1497"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1497-1"><a href="datatable.html#cb1497-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(df)</span></code></pre></div>
+<pre><code>&#39;data.frame&#39;:   5 obs. of  3 variables:
+ $ A: int  1 2 3 4 5
+ $ B: num  1.2 4.3 9.7 5.6 8.1
+ $ C: chr  &quot;a&quot; &quot;b&quot; &quot;b&quot; &quot;a&quot; ...</code></pre>
+<div class="sourceCode" id="cb1499"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1499-1"><a href="datatable.html#cb1499-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(dt)</span></code></pre></div>
+<pre><code>Classes &#39;data.table&#39; and &#39;data.frame&#39;:  5 obs. of  3 variables:
+ $ A: int  1 2 3 4 5
+ $ B: num  1.2 4.3 9.7 5.6 8.1
+ $ C: Factor w/ 2 levels &quot;a&quot;,&quot;b&quot;: 1 2 2 1 1
+ - attr(*, &quot;.internal.selfref&quot;)=&lt;externalptr&gt; </code></pre>
+</div>
+<div id="combine-data.tables" class="section level2" number="24.5">
+<h2><span class="header-section-number">24.5</span> Combine <code>data.table</code>s</h2>
+<p><code>cbind()</code> and <code>rbind()</code> work on <code>data.table</code>s the same as on <code>data.frame</code>s:</p>
+<div class="sourceCode" id="cb1501"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1501-1"><a href="datatable.html#cb1501-1" aria-hidden="true" tabindex="-1"></a>dt1 <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="at">a =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>)</span>
+<span id="cb1501-2"><a href="datatable.html#cb1501-2" aria-hidden="true" tabindex="-1"></a>dt2 <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="at">b =</span> <span class="dv">11</span><span class="sc">:</span><span class="dv">15</span>)</span>
+<span id="cb1501-3"><a href="datatable.html#cb1501-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cbind</span>(dt1, dt2)</span></code></pre></div>
+<pre><code>       a     b
+   &lt;int&gt; &lt;int&gt;
+1:     1    11
+2:     2    12
+3:     3    13
+4:     4    14
+5:     5    15</code></pre>
+<div class="sourceCode" id="cb1503"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1503-1"><a href="datatable.html#cb1503-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rbind</span>(dt1, dt1)</span></code></pre></div>
+<pre><code>        a
+    &lt;int&gt;
+ 1:     1
+ 2:     2
+ 3:     3
+ 4:     4
+ 5:     5
+ 6:     1
+ 7:     2
+ 8:     3
+ 9:     4
+10:     5</code></pre>
+</div>
+<div id="filter-rows" class="section level2" number="24.6">
+<h2><span class="header-section-number">24.6</span> Filter rows</h2>
+<p>There are many similarities and some notable differences in how indexing works in a <code>data.table</code>
+vs. a <code>data.frame</code>.</p>
+<p>Filtering rows with an integer or logical index is largely the same in a <code>data.frame</code> and a
+<code>data.table</code>, but in a <code>data.table</code> you can omit the comma to select all columns:</p>
+<div class="sourceCode" id="cb1505"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1505-1"><a href="datatable.html#cb1505-1" aria-hidden="true" tabindex="-1"></a>df[<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>), ]</span></code></pre></div>
+<pre><code>  A   B C
+1 1 1.2 a
+3 3 9.7 b
+5 5 8.1 a</code></pre>
+<div class="sourceCode" id="cb1507"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1507-1"><a href="datatable.html#cb1507-1" aria-hidden="true" tabindex="-1"></a>dt[<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>), ]</span></code></pre></div>
+<pre><code>       A     B      C
+   &lt;int&gt; &lt;num&gt; &lt;fctr&gt;
+1:     1   1.2      a
+2:     3   9.7      b
+3:     5   8.1      a</code></pre>
+<div class="sourceCode" id="cb1509"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1509-1"><a href="datatable.html#cb1509-1" aria-hidden="true" tabindex="-1"></a>dt[<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>)]</span></code></pre></div>
+<pre><code>       A     B      C
+   &lt;int&gt; &lt;num&gt; &lt;fctr&gt;
+1:     1   1.2      a
+2:     3   9.7      b
+3:     5   8.1      a</code></pre>
+<p>Using a variable that holds a row index, whether integer or logical:</p>
+<div class="sourceCode" id="cb1511"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1511-1"><a href="datatable.html#cb1511-1" aria-hidden="true" tabindex="-1"></a>rowid <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>)</span>
+<span id="cb1511-2"><a href="datatable.html#cb1511-2" aria-hidden="true" tabindex="-1"></a>df[rowid, ]</span></code></pre></div>
+<pre><code>  A   B C
+1 1 1.2 a
+3 3 9.7 b
+5 5 8.1 a</code></pre>
+<div class="sourceCode" id="cb1513"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1513-1"><a href="datatable.html#cb1513-1" aria-hidden="true" tabindex="-1"></a>dt[rowid, ]</span></code></pre></div>
+<pre><code>       A     B      C
+   &lt;int&gt; &lt;num&gt; &lt;fctr&gt;
+1:     1   1.2      a
+2:     3   9.7      b
+3:     5   8.1      a</code></pre>
+<div class="sourceCode" id="cb1515"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1515-1"><a href="datatable.html#cb1515-1" aria-hidden="true" tabindex="-1"></a>dt[rowid]</span></code></pre></div>
+<pre><code>       A     B      C
+   &lt;int&gt; &lt;num&gt; &lt;fctr&gt;
+1:     1   1.2      a
+2:     3   9.7      b
+3:     5   8.1      a</code></pre>
+<div class="sourceCode" id="cb1517"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1517-1"><a href="datatable.html#cb1517-1" aria-hidden="true" tabindex="-1"></a>rowbn <span class="ot">&lt;-</span> <span class="fu">c</span>(T, F, T, F, T)</span>
+<span id="cb1517-2"><a href="datatable.html#cb1517-2" aria-hidden="true" tabindex="-1"></a>df[rowbn, ]</span></code></pre></div>
+<pre><code>  A   B C
+1 1 1.2 a
+3 3 9.7 b
+5 5 8.1 a</code></pre>
+<div class="sourceCode" id="cb1519"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1519-1"><a href="datatable.html#cb1519-1" aria-hidden="true" tabindex="-1"></a>dt[rowbn, ]</span></code></pre></div>
+<pre><code>       A     B      C
+   &lt;int&gt; &lt;num&gt; &lt;fctr&gt;
+1:     1   1.2      a
+2:     3   9.7      b
+3:     5   8.1      a</code></pre>
+<div class="sourceCode" id="cb1521"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1521-1"><a href="datatable.html#cb1521-1" aria-hidden="true" tabindex="-1"></a>dt[rowbn]</span></code></pre></div>
+<pre><code>       A     B      C
+   &lt;int&gt; &lt;num&gt; &lt;fctr&gt;
+1:     1   1.2      a
+2:     3   9.7      b
+3:     5   8.1      a</code></pre>
+<div id="conditional-filtering" class="section level3" number="24.6.1">
+<h3><span class="header-section-number">24.6.1</span> Conditional filtering</h3>
+<p>As a reminder, there are a few ways to conditionally filter cases in a data.frame:</p>
+<div class="sourceCode" id="cb1523"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1523-1"><a href="datatable.html#cb1523-1" aria-hidden="true" tabindex="-1"></a>df[df<span class="sc">$</span>A <span class="sc">&gt;</span> <span class="fu">mean</span>(df<span class="sc">$</span>A) <span class="sc">&amp;</span> df<span class="sc">$</span>B <span class="sc">&gt;</span> <span class="fu">mean</span>(df<span class="sc">$</span>B), ]</span></code></pre></div>
+<pre><code>  A   B C
+5 5 8.1 a</code></pre>
+<div class="sourceCode" id="cb1525"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1525-1"><a href="datatable.html#cb1525-1" aria-hidden="true" tabindex="-1"></a><span class="fu">subset</span>(df, A <span class="sc">&gt;</span> <span class="fu">mean</span>(A) <span class="sc">&amp;</span> B <span class="sc">&gt;</span> <span class="fu">mean</span>(B))</span></code></pre></div>
+<pre><code>  A   B C
+5 5 8.1 a</code></pre>
+<div class="sourceCode" id="cb1527"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1527-1"><a href="datatable.html#cb1527-1" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(df, df[A <span class="sc">&gt;</span> <span class="fu">mean</span>(A) <span class="sc">&amp;</span> B <span class="sc">&gt;</span> <span class="fu">mean</span>(B), ])</span></code></pre></div>
+<pre><code>  A   B C
+5 5 8.1 a</code></pre>
+<p><code>data.table</code> allows you to refer to column names directly and unquoted, which makes writing filter conditions easier/more compact:</p>
+<div class="sourceCode" id="cb1529"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1529-1"><a href="datatable.html#cb1529-1" aria-hidden="true" tabindex="-1"></a>dt[A <span class="sc">&gt;</span> <span class="fu">mean</span>(A) <span class="sc">&amp;</span> B <span class="sc">&gt;</span> <span class="fu">mean</span>(B)]</span></code></pre></div>
+<pre><code>       A     B      C
+   &lt;int&gt; &lt;num&gt; &lt;fctr&gt;
+1:     5   8.1      a</code></pre>
+<p>The <code>data.table</code> package also includes an S3 method for <code>subset()</code> that works the same way as with a <code>data.frame</code>:</p>
+<div class="sourceCode" id="cb1531"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1531-1"><a href="datatable.html#cb1531-1" aria-hidden="true" tabindex="-1"></a><span class="fu">subset</span>(dt, A <span class="sc">&gt;</span> <span class="fu">mean</span>(A) <span class="sc">&amp;</span> B <span class="sc">&gt;</span> <span class="fu">mean</span>(B))</span></code></pre></div>
+<pre><code>       A     B      C
+   &lt;int&gt; &lt;num&gt; &lt;fctr&gt;
+1:     5   8.1      a</code></pre>
+<p>As another example, exclude cases base on missingness in a specific column:</p>
+<div class="sourceCode" id="cb1533"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1533-1"><a href="datatable.html#cb1533-1" aria-hidden="true" tabindex="-1"></a>adf <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="cf">function</span>(i) <span class="fu">rnorm</span>(<span class="dv">10</span>)))</span>
+<span id="cb1533-2"><a href="datatable.html#cb1533-2" aria-hidden="true" tabindex="-1"></a>adf <span class="sc">|&gt;</span> <span class="fu">head</span>()</span></code></pre></div>
+<pre><code>           V1         V2         V3         V4         V5
+1  0.12036549  0.6791299 -1.2699476 -1.1959035  0.8921662
+2  0.89152374 -1.0622750 -0.4965862  0.6725090 -0.2918650
+3 -0.06492074  0.2135040  0.6712453 -0.3929966 -1.2099653
+4 -1.88241440 -0.0742114  0.2224318 -0.7230563 -0.9181859
+5  0.09066883 -0.6347251 -0.1228756 -1.9099481 -1.1124970
+6 -0.87081536  0.3482169  1.7868279 -0.2837237  0.4880148</code></pre>
+<div class="sourceCode" id="cb1535"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1535-1"><a href="datatable.html#cb1535-1" aria-hidden="true" tabindex="-1"></a>adf[<span class="dv">1</span>, <span class="dv">3</span>] <span class="ot">&lt;-</span> adf[<span class="dv">3</span>, <span class="dv">4</span>] <span class="ot">&lt;-</span> adf[<span class="dv">5</span>, <span class="dv">3</span>] <span class="ot">&lt;-</span> adf[<span class="dv">7</span>, <span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb1535-2"><a href="datatable.html#cb1535-2" aria-hidden="true" tabindex="-1"></a>adt <span class="ot">&lt;-</span> <span class="fu">as.data.table</span>(adf)</span></code></pre></div>
+<div class="sourceCode" id="cb1536"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1536-1"><a href="datatable.html#cb1536-1" aria-hidden="true" tabindex="-1"></a>adf[<span class="sc">!</span><span class="fu">is.na</span>(adf<span class="sc">$</span>V3), ]</span></code></pre></div>
+<pre><code>            V1         V2          V3         V4         V5
+2   0.89152374 -1.0622750 -0.49658622  0.6725090 -0.2918650
+3  -0.06492074  0.2135040  0.67124534         NA -1.2099653
+4  -1.88241440 -0.0742114  0.22243181 -0.7230563 -0.9181859
+6  -0.87081536  0.3482169  1.78682791 -0.2837237  0.4880148
+8  -0.51256305  0.2964447 -0.01775637  0.3984210 -0.2397970
+9  -2.86408292 -2.3713586 -0.21793510  0.9032779  0.1099741
+10  0.26333723  1.5083289 -0.43771489 -0.2696470 -0.1212482</code></pre>
+<div class="sourceCode" id="cb1538"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1538-1"><a href="datatable.html#cb1538-1" aria-hidden="true" tabindex="-1"></a>adt[<span class="sc">!</span><span class="fu">is.na</span>(V3)]</span></code></pre></div>
+<pre><code>            V1         V2          V3         V4         V5
+         &lt;num&gt;      &lt;num&gt;       &lt;num&gt;      &lt;num&gt;      &lt;num&gt;
+1:  0.89152374 -1.0622750 -0.49658622  0.6725090 -0.2918650
+2: -0.06492074  0.2135040  0.67124534         NA -1.2099653
+3: -1.88241440 -0.0742114  0.22243181 -0.7230563 -0.9181859
+4: -0.87081536  0.3482169  1.78682791 -0.2837237  0.4880148
+5: -0.51256305  0.2964447 -0.01775637  0.3984210 -0.2397970
+6: -2.86408292 -2.3713586 -0.21793510  0.9032779  0.1099741
+7:  0.26333723  1.5083289 -0.43771489 -0.2696470 -0.1212482</code></pre>
+</div>
+</div>
+<div id="select-columns" class="section level2" number="24.7">
+<h2><span class="header-section-number">24.7</span> Select columns</h2>
+<div id="by-positions" class="section level3" number="24.7.1">
+<h3><span class="header-section-number">24.7.1</span> By position(s)</h3>
+<p>Selecting a single column in <code>data.table</code> does not drop to a vector, similar to using <code>drop = FALSE</code> in a data.frame:</p>
+<div class="sourceCode" id="cb1540"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1540-1"><a href="datatable.html#cb1540-1" aria-hidden="true" tabindex="-1"></a>df[, <span class="dv">1</span>]</span></code></pre></div>
+<pre><code>[1] 1 2 3 4 5</code></pre>
+<div class="sourceCode" id="cb1542"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1542-1"><a href="datatable.html#cb1542-1" aria-hidden="true" tabindex="-1"></a>df[, <span class="dv">1</span>, drop <span class="ot">=</span> <span class="cn">FALSE</span>]</span></code></pre></div>
+<pre><code>  A
+1 1
+2 2
+3 3
+4 4
+5 5</code></pre>
+<div class="sourceCode" id="cb1544"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1544-1"><a href="datatable.html#cb1544-1" aria-hidden="true" tabindex="-1"></a>dt[, <span class="dv">1</span>]</span></code></pre></div>
+<pre><code>       A
+   &lt;int&gt;
+1:     1
+2:     2
+3:     3
+4:     4
+5:     5</code></pre>
+<p>Double bracket indexing of a single column works the same on a <code>data.frame</code> and a <code>data.table</code>,
+returning a vector:</p>
+<div class="sourceCode" id="cb1546"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1546-1"><a href="datatable.html#cb1546-1" aria-hidden="true" tabindex="-1"></a>df[[<span class="dv">2</span>]]</span></code></pre></div>
+<pre><code>[1] 1.2 4.3 9.7 5.6 8.1</code></pre>
+<div class="sourceCode" id="cb1548"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1548-1"><a href="datatable.html#cb1548-1" aria-hidden="true" tabindex="-1"></a>dt[[<span class="dv">2</span>]]</span></code></pre></div>
+<pre><code>[1] 1.2 4.3 9.7 5.6 8.1</code></pre>
+<p>A vector of column positions returns a smaller <code>data.table</code>, similar to how it returns a smaller
+<code>data.frame</code> :</p>
+<div class="sourceCode" id="cb1550"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1550-1"><a href="datatable.html#cb1550-1" aria-hidden="true" tabindex="-1"></a>df[, <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>)]</span></code></pre></div>
+<pre><code>  A   B
+1 1 1.2
+2 2 4.3
+3 3 9.7
+4 4 5.6
+5 5 8.1</code></pre>
+<div class="sourceCode" id="cb1552"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1552-1"><a href="datatable.html#cb1552-1" aria-hidden="true" tabindex="-1"></a>dt[, <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>)]</span></code></pre></div>
+<pre><code>       A     B
+   &lt;int&gt; &lt;num&gt;
+1:     1   1.2
+2:     2   4.3
+3:     3   9.7
+4:     4   5.6
+5:     5   8.1</code></pre>
+</div>
+<div id="by-names" class="section level3" number="24.7.2">
+<h3><span class="header-section-number">24.7.2</span> By name(s)</h3>
+<p>In <code>data.table</code>, you access column names directly without quoting or using the <code>$</code> notation:</p>
+<div class="sourceCode" id="cb1554"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1554-1"><a href="datatable.html#cb1554-1" aria-hidden="true" tabindex="-1"></a>df[, <span class="st">&quot;B&quot;</span>]</span></code></pre></div>
+<pre><code>[1] 1.2 4.3 9.7 5.6 8.1</code></pre>
+<div class="sourceCode" id="cb1556"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1556-1"><a href="datatable.html#cb1556-1" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>B</span></code></pre></div>
+<pre><code>[1] 1.2 4.3 9.7 5.6 8.1</code></pre>
+<div class="sourceCode" id="cb1558"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1558-1"><a href="datatable.html#cb1558-1" aria-hidden="true" tabindex="-1"></a>dt[, B]</span></code></pre></div>
+<pre><code>[1] 1.2 4.3 9.7 5.6 8.1</code></pre>
+<p>Because of the above, <code>data.table</code> requires a slightly different syntax to use a variable as a
+column index which can contain integer positions, logical index, or column names:</p>
+<div class="sourceCode" id="cb1560"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1560-1"><a href="datatable.html#cb1560-1" aria-hidden="true" tabindex="-1"></a>colid <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>)</span>
+<span id="cb1560-2"><a href="datatable.html#cb1560-2" aria-hidden="true" tabindex="-1"></a>colbn <span class="ot">&lt;-</span> <span class="fu">c</span>(F, T, T)</span>
+<span id="cb1560-3"><a href="datatable.html#cb1560-3" aria-hidden="true" tabindex="-1"></a>colnm <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;C&quot;</span>)</span>
+<span id="cb1560-4"><a href="datatable.html#cb1560-4" aria-hidden="true" tabindex="-1"></a>df[, colid]</span></code></pre></div>
+<pre><code>  A   B
+1 1 1.2
+2 2 4.3
+3 3 9.7
+4 4 5.6
+5 5 8.1</code></pre>
+<div class="sourceCode" id="cb1562"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1562-1"><a href="datatable.html#cb1562-1" aria-hidden="true" tabindex="-1"></a>df[, colbn]</span></code></pre></div>
+<pre><code>    B C
+1 1.2 a
+2 4.3 b
+3 9.7 b
+4 5.6 a
+5 8.1 a</code></pre>
+<div class="sourceCode" id="cb1564"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1564-1"><a href="datatable.html#cb1564-1" aria-hidden="true" tabindex="-1"></a>df[, colnm]</span></code></pre></div>
+<pre><code>  A C
+1 1 a
+2 2 b
+3 3 b
+4 4 a
+5 5 a</code></pre>
+<p>To use a variable holding a column index in a <code>data.table</code>, prefix it with two periods:</p>
+<div class="sourceCode" id="cb1566"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1566-1"><a href="datatable.html#cb1566-1" aria-hidden="true" tabindex="-1"></a>dt[, ..colid]</span></code></pre></div>
+<pre><code>       A     B
+   &lt;int&gt; &lt;num&gt;
+1:     1   1.2
+2:     2   4.3
+3:     3   9.7
+4:     4   5.6
+5:     5   8.1</code></pre>
+<div class="sourceCode" id="cb1568"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1568-1"><a href="datatable.html#cb1568-1" aria-hidden="true" tabindex="-1"></a>dt[, ..colbn]</span></code></pre></div>
+<pre><code>       B      C
+   &lt;num&gt; &lt;fctr&gt;
+1:   1.2      a
+2:   4.3      b
+3:   9.7      b
+4:   5.6      a
+5:   8.1      a</code></pre>
+<div class="sourceCode" id="cb1570"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1570-1"><a href="datatable.html#cb1570-1" aria-hidden="true" tabindex="-1"></a>dt[, ..colnm]</span></code></pre></div>
+<pre><code>       A      C
+   &lt;int&gt; &lt;fctr&gt;
+1:     1      a
+2:     2      b
+3:     3      b
+4:     4      a
+5:     5      a</code></pre>
+<p>If you are familiar with the <a href="shell.html#shell">system shell</a>:</p>
+<p>Think of working inside the <code>data.table</code> frame (i.e. within the “[…]”) like an environment.
+You have direct access to the variables within it. If you want to refer to variables outside the <code>data.table</code>, you prefix the variable name with <code>..</code> similar to how you access the directory above
+your current working directory in the system shell:</p>
+<p>Alternatively, you can use the <code>.SD</code> special symbol together with the <code>.SDcols</code> argument:</p>
+<div class="sourceCode" id="cb1572"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1572-1"><a href="datatable.html#cb1572-1" aria-hidden="true" tabindex="-1"></a>dt[, .SD, .SDcols <span class="ot">=</span> colid]</span></code></pre></div>
+<pre><code>       A     B
+   &lt;int&gt; &lt;num&gt;
+1:     1   1.2
+2:     2   4.3
+3:     3   9.7
+4:     4   5.6
+5:     5   8.1</code></pre>
+<p>Think of <code>.SD</code> as a sub-data.table with columns defined by <code>.SDcols</code> (if <code>SDcols</code> is not defined, <code>.SD</code> refers to the entire data.table).</p>
+<p>The two dots tell the <code>data.table</code> to not look for the variable within the data.table columns, but in the enclosing environment.</p>
+<p>Selecting a single column by name returns a <strong>vector</strong>:</p>
+<div class="sourceCode" id="cb1574"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1574-1"><a href="datatable.html#cb1574-1" aria-hidden="true" tabindex="-1"></a>dt[, A]</span></code></pre></div>
+<pre><code>[1] 1 2 3 4 5</code></pre>
+<p>Selecting one or more columns by name enclosed in <code>list()</code> or <code>.()</code> (which, in this case, is short for <code>list()</code>), always returns a <strong><code>data.table</code></strong>:</p>
+<div class="sourceCode" id="cb1576"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1576-1"><a href="datatable.html#cb1576-1" aria-hidden="true" tabindex="-1"></a>dt[, .(A)]</span></code></pre></div>
+<pre><code>       A
+   &lt;int&gt;
+1:     1
+2:     2
+3:     3
+4:     4
+5:     5</code></pre>
+<div class="sourceCode" id="cb1578"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1578-1"><a href="datatable.html#cb1578-1" aria-hidden="true" tabindex="-1"></a>dt[, .(A, B)]</span></code></pre></div>
+<pre><code>       A     B
+   &lt;int&gt; &lt;num&gt;
+1:     1   1.2
+2:     2   4.3
+3:     3   9.7
+4:     4   5.6
+5:     5   8.1</code></pre>
+</div>
+</div>
+<div id="add-new-column-in-place" class="section level2" number="24.8">
+<h2><span class="header-section-number">24.8</span> Add new column <strong><em>in-place</em></strong></h2>
+<p>Use <code>:=</code> assignment to add a new column in the existing <code>data.table</code>.
+In-place assignment means you do not have to assign the result to a variable, the existing <code>data.table</code> will be modified.</p>
+<div class="sourceCode" id="cb1580"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1580-1"><a href="datatable.html#cb1580-1" aria-hidden="true" tabindex="-1"></a>dt[, AplusB <span class="sc">:</span><span class="er">=</span> A <span class="sc">+</span> B]</span>
+<span id="cb1580-2"><a href="datatable.html#cb1580-2" aria-hidden="true" tabindex="-1"></a>dt</span></code></pre></div>
+<pre><code>       A     B      C AplusB
+   &lt;int&gt; &lt;num&gt; &lt;fctr&gt;  &lt;num&gt;
+1:     1   1.2      a    2.2
+2:     2   4.3      b    6.3
+3:     3   9.7      b   12.7
+4:     4   5.6      a    9.6
+5:     5   8.1      a   13.1</code></pre>
+<p>Note how <code>dt</code> was modified even though we did not run <code>dt &lt;- dt[, AplusB := A + B]</code></p>
+</div>
+<div id="add-multiple-columns-in-place" class="section level2" number="24.9">
+<h2><span class="header-section-number">24.9</span> Add multiple columns <strong><em>in-place</em></strong></h2>
+<p>You can define multiple new column names using a character vector of new column names on the left of
+<code>:=</code> and a list on the right.</p>
+<div class="sourceCode" id="cb1582"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1582-1"><a href="datatable.html#cb1582-1" aria-hidden="true" tabindex="-1"></a>dt[, <span class="fu">c</span>(<span class="st">&quot;AtimesB&quot;</span>, <span class="st">&quot;AoverB&quot;</span>) <span class="sc">:</span><span class="er">=</span> <span class="fu">list</span>(A<span class="sc">*</span>B, A<span class="sc">/</span>B)]</span></code></pre></div>
+<p>We can use <code>lapply()</code> since it always returns a list:</p>
+<div class="sourceCode" id="cb1583"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1583-1"><a href="datatable.html#cb1583-1" aria-hidden="true" tabindex="-1"></a>vnames <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>)</span>
+<span id="cb1583-2"><a href="datatable.html#cb1583-2" aria-hidden="true" tabindex="-1"></a>dt[, <span class="fu">paste0</span>(<span class="st">&quot;log&quot;</span>, vnames) <span class="sc">:</span><span class="er">=</span> <span class="fu">lapply</span>(.SD, log), .SDcols <span class="ot">=</span> vnames]</span>
+<span id="cb1583-3"><a href="datatable.html#cb1583-3" aria-hidden="true" tabindex="-1"></a>dt</span></code></pre></div>
+<pre><code>       A     B      C AplusB AtimesB    AoverB      logA      logB
+   &lt;int&gt; &lt;num&gt; &lt;fctr&gt;  &lt;num&gt;   &lt;num&gt;     &lt;num&gt;     &lt;num&gt;     &lt;num&gt;
+1:     1   1.2      a    2.2     1.2 0.8333333 0.0000000 0.1823216
+2:     2   4.3      b    6.3     8.6 0.4651163 0.6931472 1.4586150
+3:     3   9.7      b   12.7    29.1 0.3092784 1.0986123 2.2721259
+4:     4   5.6      a    9.6    22.4 0.7142857 1.3862944 1.7227666
+5:     5   8.1      a   13.1    40.5 0.6172840 1.6094379 2.0918641</code></pre>
+<p>You can also use <code>:=</code> in a little more awkward syntax:</p>
+<div class="sourceCode" id="cb1585"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1585-1"><a href="datatable.html#cb1585-1" aria-hidden="true" tabindex="-1"></a>dt[, <span class="st">`</span><span class="at">:=</span><span class="st">`</span>(<span class="at">AminusB =</span> A <span class="sc">-</span> B, <span class="at">AoverC =</span> A <span class="sc">/</span> B)]</span>
+<span id="cb1585-2"><a href="datatable.html#cb1585-2" aria-hidden="true" tabindex="-1"></a>dt</span></code></pre></div>
+<pre><code>       A     B      C AplusB AtimesB    AoverB      logA      logB AminusB
+   &lt;int&gt; &lt;num&gt; &lt;fctr&gt;  &lt;num&gt;   &lt;num&gt;     &lt;num&gt;     &lt;num&gt;     &lt;num&gt;   &lt;num&gt;
+1:     1   1.2      a    2.2     1.2 0.8333333 0.0000000 0.1823216    -0.2
+2:     2   4.3      b    6.3     8.6 0.4651163 0.6931472 1.4586150    -2.3
+3:     3   9.7      b   12.7    29.1 0.3092784 1.0986123 2.2721259    -6.7
+4:     4   5.6      a    9.6    22.4 0.7142857 1.3862944 1.7227666    -1.6
+5:     5   8.1      a   13.1    40.5 0.6172840 1.6094379 2.0918641    -3.1
+      AoverC
+       &lt;num&gt;
+1: 0.8333333
+2: 0.4651163
+3: 0.3092784
+4: 0.7142857
+5: 0.6172840</code></pre>
+</div>
+<div id="convert-column-type" class="section level2" number="24.10">
+<h2><span class="header-section-number">24.10</span> Convert column type</h2>
+<div id="assignment-by-reference-with" class="section level3" number="24.10.1">
+<h3><span class="header-section-number">24.10.1</span> Assignment by reference with <code>:=</code></h3>
+<p>Use any base R coercion function (<code>as.*</code>) to convert a column in-place using the <code>:=</code> notation</p>
+<div class="sourceCode" id="cb1587"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1587-1"><a href="datatable.html#cb1587-1" aria-hidden="true" tabindex="-1"></a>dt[, A <span class="sc">:</span><span class="er">=</span> <span class="fu">as.numeric</span>(A)]</span>
+<span id="cb1587-2"><a href="datatable.html#cb1587-2" aria-hidden="true" tabindex="-1"></a>dt</span></code></pre></div>
+<pre><code>       A     B      C AplusB AtimesB    AoverB      logA      logB AminusB
+   &lt;num&gt; &lt;num&gt; &lt;fctr&gt;  &lt;num&gt;   &lt;num&gt;     &lt;num&gt;     &lt;num&gt;     &lt;num&gt;   &lt;num&gt;
+1:     1   1.2      a    2.2     1.2 0.8333333 0.0000000 0.1823216    -0.2
+2:     2   4.3      b    6.3     8.6 0.4651163 0.6931472 1.4586150    -2.3
+3:     3   9.7      b   12.7    29.1 0.3092784 1.0986123 2.2721259    -6.7
+4:     4   5.6      a    9.6    22.4 0.7142857 1.3862944 1.7227666    -1.6
+5:     5   8.1      a   13.1    40.5 0.6172840 1.6094379 2.0918641    -3.1
+      AoverC
+       &lt;num&gt;
+1: 0.8333333
+2: 0.4651163
+3: 0.3092784
+4: 0.7142857
+5: 0.6172840</code></pre>
+</div>
+<div id="delete-columns-in-place-with" class="section level3" number="24.10.2">
+<h3><span class="header-section-number">24.10.2</span> Delete columns in-place with <code>:=</code></h3>
+<p>To delete a column, use <code>:=</code> to set it to NULL:</p>
+<div class="sourceCode" id="cb1589"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1589-1"><a href="datatable.html#cb1589-1" aria-hidden="true" tabindex="-1"></a>dt[, AoverB <span class="sc">:</span><span class="er">=</span> <span class="cn">NULL</span>]</span>
+<span id="cb1589-2"><a href="datatable.html#cb1589-2" aria-hidden="true" tabindex="-1"></a>dt</span></code></pre></div>
+<pre><code>       A     B      C AplusB AtimesB      logA      logB AminusB    AoverC
+   &lt;num&gt; &lt;num&gt; &lt;fctr&gt;  &lt;num&gt;   &lt;num&gt;     &lt;num&gt;     &lt;num&gt;   &lt;num&gt;     &lt;num&gt;
+1:     1   1.2      a    2.2     1.2 0.0000000 0.1823216    -0.2 0.8333333
+2:     2   4.3      b    6.3     8.6 0.6931472 1.4586150    -2.3 0.4651163
+3:     3   9.7      b   12.7    29.1 1.0986123 2.2721259    -6.7 0.3092784
+4:     4   5.6      a    9.6    22.4 1.3862944 1.7227666    -1.6 0.7142857
+5:     5   8.1      a   13.1    40.5 1.6094379 2.0918641    -3.1 0.6172840</code></pre>
+<p>Delete multiple columns</p>
+<div class="sourceCode" id="cb1591"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1591-1"><a href="datatable.html#cb1591-1" aria-hidden="true" tabindex="-1"></a>dt[, <span class="fu">c</span>(<span class="st">&quot;logA&quot;</span>, <span class="st">&quot;logB&quot;</span>) <span class="sc">:</span><span class="er">=</span> <span class="cn">NULL</span>]</span></code></pre></div>
+<p>Or:</p>
+<div class="sourceCode" id="cb1592"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1592-1"><a href="datatable.html#cb1592-1" aria-hidden="true" tabindex="-1"></a>dt[, <span class="st">`</span><span class="at">:=</span><span class="st">`</span>(<span class="at">AplusB =</span> <span class="cn">NULL</span>, <span class="at">AminusB =</span> <span class="cn">NULL</span>)]</span>
+<span id="cb1592-2"><a href="datatable.html#cb1592-2" aria-hidden="true" tabindex="-1"></a>dt</span></code></pre></div>
+<pre><code>       A     B      C AtimesB    AoverC
+   &lt;num&gt; &lt;num&gt; &lt;fctr&gt;   &lt;num&gt;     &lt;num&gt;
+1:     1   1.2      a     1.2 0.8333333
+2:     2   4.3      b     8.6 0.4651163
+3:     3   9.7      b    29.1 0.3092784
+4:     4   5.6      a    22.4 0.7142857
+5:     5   8.1      a    40.5 0.6172840</code></pre>
+</div>
+<div id="fast-loop-able-assignment-with-set" class="section level3" number="24.10.3">
+<h3><span class="header-section-number">24.10.3</span> Fast loop-able assignment with <code>set()</code></h3>
+<p><code>data.table</code>’s <code>set()</code> is a looop-able version of the <code>"=</code> operator. Use it in a for loop to operate on multiple columns.</p>
+<p>Syntax: <code>set(dt, i, j, value)</code></p>
+<ul>
+<li><code>dt</code> the data.table to operate on</li>
+<li><code>i</code> optionally define which rows to operate on. <code>i = NULL</code> to operate on all</li>
+<li><code>j</code> column names or index to be assigned <code>value</code></li>
+<li><code>value</code> values to be assigned to <code>j</code> by reference</li>
+</ul>
+<p>As a simple example, transform the first two columns in-place by squaring:</p>
+<div class="sourceCode" id="cb1594"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1594-1"><a href="datatable.html#cb1594-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>) {</span>
+<span id="cb1594-2"><a href="datatable.html#cb1594-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set</span>(dt, <span class="at">i =</span> <span class="cn">NULL</span>, <span class="at">j =</span> i, <span class="at">value =</span> dt[[i]]<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb1594-3"><a href="datatable.html#cb1594-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+</div>
+</div>
+<div id="summarize-2" class="section level2" number="24.11">
+<h2><span class="header-section-number">24.11</span> Summarize</h2>
+<p>You can apply one or multiple summary functions on one of multiple columns.
+Surround the operations in <code>list()</code> or <code>.()</code> to output a <em>new</em> data.table holding the outputs
+of the operations (the input data.table remains unchanged).</p>
+<div class="sourceCode" id="cb1595"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1595-1"><a href="datatable.html#cb1595-1" aria-hidden="true" tabindex="-1"></a>Asummary <span class="ot">&lt;-</span> dt[, .(<span class="at">Amax =</span> <span class="fu">max</span>(A), <span class="at">Amin =</span> <span class="fu">min</span>(A), <span class="at">Asd =</span> <span class="fu">sd</span>(A))]</span>
+<span id="cb1595-2"><a href="datatable.html#cb1595-2" aria-hidden="true" tabindex="-1"></a>Asummary</span></code></pre></div>
+<pre><code>    Amax  Amin     Asd
+   &lt;num&gt; &lt;num&gt;   &lt;num&gt;
+1:    25     1 9.66954</code></pre>
+<p>Example: Get sd of all numeric columns:</p>
+<div class="sourceCode" id="cb1597"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1597-1"><a href="datatable.html#cb1597-1" aria-hidden="true" tabindex="-1"></a>numid <span class="ot">&lt;-</span> <span class="fu">sapply</span>(dt, is.numeric)</span>
+<span id="cb1597-2"><a href="datatable.html#cb1597-2" aria-hidden="true" tabindex="-1"></a>dt_mean <span class="ot">&lt;-</span> dt[, <span class="fu">lapply</span>(.SD, sd), .SDcols <span class="ot">=</span> numid]</span>
+<span id="cb1597-3"><a href="datatable.html#cb1597-3" aria-hidden="true" tabindex="-1"></a>dt_mean</span></code></pre></div>
+<pre><code>         A        B
+     &lt;num&gt;    &lt;num&gt;
+1: 9.66954 37.35521</code></pre>
+<p>If your function returns more than one value, the output will have multiple rows:</p>
+<div class="sourceCode" id="cb1599"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1599-1"><a href="datatable.html#cb1599-1" aria-hidden="true" tabindex="-1"></a>dt_range <span class="ot">&lt;-</span> dt[, <span class="fu">lapply</span>(.SD, range), .SDcols <span class="ot">=</span> numid]</span>
+<span id="cb1599-2"><a href="datatable.html#cb1599-2" aria-hidden="true" tabindex="-1"></a>dt_range</span></code></pre></div>
+<pre><code>       A     B
+   &lt;num&gt; &lt;num&gt;
+1:     1  1.44
+2:    25 94.09</code></pre>
+</div>
+<div id="group-by-operations" class="section level2" number="24.12">
+<h2><span class="header-section-number">24.12</span> Group-by operations</h2>
+<p>Up to now, we have learned how to use the <code>data.table</code> frame <code>dat[i, j]</code> to filter cases in <code>i</code> or add/remove/transform columns in-place in <code>j</code>. <code>dat[i, j, by]</code> allows to perform operations separately on groups of cases.</p>
+<div class="sourceCode" id="cb1601"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1601-1"><a href="datatable.html#cb1601-1" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="at">A =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,</span>
+<span id="cb1601-2"><a href="datatable.html#cb1601-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">B =</span> <span class="fu">c</span>(<span class="fl">1.2</span>, <span class="fl">4.3</span>, <span class="fl">9.7</span>, <span class="fl">5.6</span>, <span class="fl">8.1</span>),</span>
+<span id="cb1601-3"><a href="datatable.html#cb1601-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">C =</span> <span class="fu">rnorm</span>(<span class="dv">5</span>),</span>
+<span id="cb1601-4"><a href="datatable.html#cb1601-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">Group =</span> <span class="fu">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;a&quot;</span>, <span class="st">&quot;a&quot;</span>))</span>
+<span id="cb1601-5"><a href="datatable.html#cb1601-5" aria-hidden="true" tabindex="-1"></a>dt</span></code></pre></div>
+<pre><code>       A     B          C  Group
+   &lt;int&gt; &lt;num&gt;      &lt;num&gt; &lt;char&gt;
+1:     1   1.2  2.3823842      a
+2:     2   4.3  0.7451265      b
+3:     3   9.7 -0.3511257      b
+4:     4   5.6 -0.8347108      a
+5:     5   8.1 -0.8973658      a</code></pre>
+<div id="group-by-summary" class="section level3" number="24.12.1">
+<h3><span class="header-section-number">24.12.1</span> Group-by summary</h3>
+<p>As we’ve seen, using <code>.()</code> or <code>list()</code> in <code>j</code>, returns a new <code>data.table</code>:</p>
+<div class="sourceCode" id="cb1603"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1603-1"><a href="datatable.html#cb1603-1" aria-hidden="true" tabindex="-1"></a>dt[, .(<span class="at">meanAbyGroup =</span> <span class="fu">mean</span>(A)), by <span class="ot">=</span> Group]</span></code></pre></div>
+<pre><code>    Group meanAbyGroup
+   &lt;char&gt;        &lt;num&gt;
+1:      a     3.333333
+2:      b     2.500000</code></pre>
+<div class="sourceCode" id="cb1605"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1605-1"><a href="datatable.html#cb1605-1" aria-hidden="true" tabindex="-1"></a>dt[, <span class="fu">list</span>(<span class="at">medianBbyGroup =</span> <span class="fu">median</span>(B)), by <span class="ot">=</span> Group]</span></code></pre></div>
+<pre><code>    Group medianBbyGroup
+   &lt;char&gt;          &lt;num&gt;
+1:      a            5.6
+2:      b            7.0</code></pre>
+</div>
+<div id="group-by-operation-and-assignment" class="section level3" number="24.12.2">
+<h3><span class="header-section-number">24.12.2</span> Group-by operation and assignment</h3>
+<p>Making an assignment with <code>:=</code> in <code>j</code>, adds a column in-place. Since here we are grouping, the same value will be assigned to all cases of the group:</p>
+<div class="sourceCode" id="cb1607"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1607-1"><a href="datatable.html#cb1607-1" aria-hidden="true" tabindex="-1"></a>dt[, meanAbyGroup <span class="sc">:</span><span class="er">=</span> <span class="fu">mean</span>(A), by <span class="ot">=</span> Group]</span>
+<span id="cb1607-2"><a href="datatable.html#cb1607-2" aria-hidden="true" tabindex="-1"></a>dt</span></code></pre></div>
+<pre><code>       A     B          C  Group meanAbyGroup
+   &lt;int&gt; &lt;num&gt;      &lt;num&gt; &lt;char&gt;        &lt;num&gt;
+1:     1   1.2  2.3823842      a     3.333333
+2:     2   4.3  0.7451265      b     2.500000
+3:     3   9.7 -0.3511257      b     2.500000
+4:     4   5.6 -0.8347108      a     3.333333
+5:     5   8.1 -0.8973658      a     3.333333</code></pre>
+<p>For more complex operations, you may need to refer to the slice of the <code>data.table</code> defined by <code>by</code> within <code>j</code>. There is a special notation for this: <code>.SD</code> (think sub-<code>data.table</code>):</p>
+<div class="sourceCode" id="cb1609"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1609-1"><a href="datatable.html#cb1609-1" aria-hidden="true" tabindex="-1"></a>dt[, B_DiffFromGroupMin <span class="sc">:</span><span class="er">=</span> B <span class="sc">-</span> <span class="fu">min</span>(B), by <span class="ot">=</span> Group]</span>
+<span id="cb1609-2"><a href="datatable.html#cb1609-2" aria-hidden="true" tabindex="-1"></a>dt</span></code></pre></div>
+<pre><code>       A     B          C  Group meanAbyGroup B_DiffFromGroupMin
+   &lt;int&gt; &lt;num&gt;      &lt;num&gt; &lt;char&gt;        &lt;num&gt;              &lt;num&gt;
+1:     1   1.2  2.3823842      a     3.333333                0.0
+2:     2   4.3  0.7451265      b     2.500000                0.0
+3:     3   9.7 -0.3511257      b     2.500000                5.4
+4:     4   5.6 -0.8347108      a     3.333333                4.4
+5:     5   8.1 -0.8973658      a     3.333333                6.9</code></pre>
+<div class="rmdnote">
+<p>
+By now, it should be clearer that the <code>data.table</code> frame provides a very flexible way to perform a very wide range of operations with minimal new notation.
+</p>
+</div>
+</div>
+</div>
+<div id="apply-functions-to-columns" class="section level2" number="24.13">
+<h2><span class="header-section-number">24.13</span> Apply functions to columns</h2>
+<p>Any function that returns a list can be used in <code>j</code> to return a new data.table - therefore lapply is perfect for getting summary on multiple columns:</p>
+<div class="sourceCode" id="cb1611"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1611-1"><a href="datatable.html#cb1611-1" aria-hidden="true" tabindex="-1"></a>dt1 <span class="ot">&lt;-</span> <span class="fu">as.data.table</span>(<span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, \(i) <span class="fu">rnorm</span>(<span class="dv">10</span>)))</span>
+<span id="cb1611-2"><a href="datatable.html#cb1611-2" aria-hidden="true" tabindex="-1"></a>dt1</span></code></pre></div>
+<pre><code>            V1         V2         V3
+         &lt;num&gt;      &lt;num&gt;      &lt;num&gt;
+ 1: -2.5775929  0.3938899 -0.4143974
+ 2:  1.2265167  0.2369239 -1.0705132
+ 3:  0.2273838 -1.0064952  0.2677982
+ 4:  0.9403680 -0.3966000  0.9114563
+ 5: -0.5802060 -0.6426629 -0.2805429
+ 6:  1.6544281  0.3803296 -0.9089112
+ 7: -0.9340065 -0.4655472 -0.1167751
+ 8:  1.1879016  0.5593212  0.8212843
+ 9: -0.4283345 -0.7991094 -0.9543320
+10: -1.8776948  1.2490509  0.4300484</code></pre>
+<div class="sourceCode" id="cb1613"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1613-1"><a href="datatable.html#cb1613-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setnames</span>(dt1, <span class="fu">names</span>(dt1), <span class="fu">c</span>(<span class="st">&quot;Alpha&quot;</span>, <span class="st">&quot;Beta&quot;</span>, <span class="st">&quot;Gamma&quot;</span>))</span>
+<span id="cb1613-2"><a href="datatable.html#cb1613-2" aria-hidden="true" tabindex="-1"></a>dt1[, <span class="fu">lapply</span>(.SD, mean)]</span></code></pre></div>
+<pre><code>        Alpha        Beta      Gamma
+        &lt;num&gt;       &lt;num&gt;      &lt;num&gt;
+1: -0.1161237 -0.04908991 -0.1314885</code></pre>
+<p>You can specify which columns to operate on using the <code>.SDcols</code> argument:</p>
+<div class="sourceCode" id="cb1615"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1615-1"><a href="datatable.html#cb1615-1" aria-hidden="true" tabindex="-1"></a>dt2 <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="at">A =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,</span>
+<span id="cb1615-2"><a href="datatable.html#cb1615-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">B =</span> <span class="fu">c</span>(<span class="fl">1.2</span>, <span class="fl">4.3</span>, <span class="fl">9.7</span>, <span class="fl">5.6</span>, <span class="fl">8.1</span>),</span>
+<span id="cb1615-3"><a href="datatable.html#cb1615-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">C =</span> <span class="fu">rnorm</span>(<span class="dv">5</span>),</span>
+<span id="cb1615-4"><a href="datatable.html#cb1615-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">Group =</span> <span class="fu">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;a&quot;</span>, <span class="st">&quot;a&quot;</span>))</span>
+<span id="cb1615-5"><a href="datatable.html#cb1615-5" aria-hidden="true" tabindex="-1"></a>dt2</span></code></pre></div>
+<pre><code>       A     B          C  Group
+   &lt;int&gt; &lt;num&gt;      &lt;num&gt; &lt;char&gt;
+1:     1   1.2 -1.2378150      a
+2:     2   4.3 -1.2990954      b
+3:     3   9.7 -0.2431701      b
+4:     4   5.6 -0.8340560      a
+5:     5   8.1 -1.1883384      a</code></pre>
+<div class="sourceCode" id="cb1617"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1617-1"><a href="datatable.html#cb1617-1" aria-hidden="true" tabindex="-1"></a>dt2[, <span class="fu">lapply</span>(.SD, mean), .SDcols <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]</span></code></pre></div>
+<pre><code>       A     B
+   &lt;num&gt; &lt;num&gt;
+1:     3  5.78</code></pre>
+<div class="sourceCode" id="cb1619"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1619-1"><a href="datatable.html#cb1619-1" aria-hidden="true" tabindex="-1"></a><span class="co"># same as</span></span>
+<span id="cb1619-2"><a href="datatable.html#cb1619-2" aria-hidden="true" tabindex="-1"></a>dt2[, <span class="fu">lapply</span>(.SD, mean), .SDcols <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>)]</span></code></pre></div>
+<pre><code>       A     B
+   &lt;num&gt; &lt;num&gt;
+1:     3  5.78</code></pre>
+<div class="sourceCode" id="cb1621"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1621-1"><a href="datatable.html#cb1621-1" aria-hidden="true" tabindex="-1"></a>cols <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>)</span>
+<span id="cb1621-2"><a href="datatable.html#cb1621-2" aria-hidden="true" tabindex="-1"></a>dt2[, <span class="fu">lapply</span>(.SD, mean), .SDcols <span class="ot">=</span> cols]</span></code></pre></div>
+<pre><code>       A     B
+   &lt;num&gt; &lt;num&gt;
+1:     3  5.78</code></pre>
+<p>You can combine <code>.SDcols</code> and <code>by</code>:</p>
+<div class="sourceCode" id="cb1623"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1623-1"><a href="datatable.html#cb1623-1" aria-hidden="true" tabindex="-1"></a>dt2[, <span class="fu">lapply</span>(.SD, median), .SDcols <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>), by <span class="ot">=</span> Group]</span></code></pre></div>
+<pre><code>    Group     B          C
+   &lt;char&gt; &lt;num&gt;      &lt;num&gt;
+1:      a   5.6 -1.1883384
+2:      b   7.0 -0.7711327</code></pre>
+<p>Create multiple new columns from transformation of existing and store with custom prefix:</p>
+<div class="sourceCode" id="cb1625"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1625-1"><a href="datatable.html#cb1625-1" aria-hidden="true" tabindex="-1"></a>dt1</span></code></pre></div>
+<pre><code>         Alpha       Beta      Gamma
+         &lt;num&gt;      &lt;num&gt;      &lt;num&gt;
+ 1: -2.5775929  0.3938899 -0.4143974
+ 2:  1.2265167  0.2369239 -1.0705132
+ 3:  0.2273838 -1.0064952  0.2677982
+ 4:  0.9403680 -0.3966000  0.9114563
+ 5: -0.5802060 -0.6426629 -0.2805429
+ 6:  1.6544281  0.3803296 -0.9089112
+ 7: -0.9340065 -0.4655472 -0.1167751
+ 8:  1.1879016  0.5593212  0.8212843
+ 9: -0.4283345 -0.7991094 -0.9543320
+10: -1.8776948  1.2490509  0.4300484</code></pre>
+<div class="sourceCode" id="cb1627"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1627-1"><a href="datatable.html#cb1627-1" aria-hidden="true" tabindex="-1"></a>dt1[, <span class="fu">paste0</span>(<span class="fu">names</span>(dt1), <span class="st">&quot;_abs&quot;</span>) <span class="sc">:</span><span class="er">=</span> <span class="fu">lapply</span>(.SD, abs)]</span>
+<span id="cb1627-2"><a href="datatable.html#cb1627-2" aria-hidden="true" tabindex="-1"></a>dt1</span></code></pre></div>
+<pre><code>         Alpha       Beta      Gamma Alpha_abs  Beta_abs Gamma_abs
+         &lt;num&gt;      &lt;num&gt;      &lt;num&gt;     &lt;num&gt;     &lt;num&gt;     &lt;num&gt;
+ 1: -2.5775929  0.3938899 -0.4143974 2.5775929 0.3938899 0.4143974
+ 2:  1.2265167  0.2369239 -1.0705132 1.2265167 0.2369239 1.0705132
+ 3:  0.2273838 -1.0064952  0.2677982 0.2273838 1.0064952 0.2677982
+ 4:  0.9403680 -0.3966000  0.9114563 0.9403680 0.3966000 0.9114563
+ 5: -0.5802060 -0.6426629 -0.2805429 0.5802060 0.6426629 0.2805429
+ 6:  1.6544281  0.3803296 -0.9089112 1.6544281 0.3803296 0.9089112
+ 7: -0.9340065 -0.4655472 -0.1167751 0.9340065 0.4655472 0.1167751
+ 8:  1.1879016  0.5593212  0.8212843 1.1879016 0.5593212 0.8212843
+ 9: -0.4283345 -0.7991094 -0.9543320 0.4283345 0.7991094 0.9543320
+10: -1.8776948  1.2490509  0.4300484 1.8776948 1.2490509 0.4300484</code></pre>
+<div class="sourceCode" id="cb1629"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1629-1"><a href="datatable.html#cb1629-1" aria-hidden="true" tabindex="-1"></a>dt2</span></code></pre></div>
+<pre><code>       A     B          C  Group
+   &lt;int&gt; &lt;num&gt;      &lt;num&gt; &lt;char&gt;
+1:     1   1.2 -1.2378150      a
+2:     2   4.3 -1.2990954      b
+3:     3   9.7 -0.2431701      b
+4:     4   5.6 -0.8340560      a
+5:     5   8.1 -1.1883384      a</code></pre>
+<div class="sourceCode" id="cb1631"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1631-1"><a href="datatable.html#cb1631-1" aria-hidden="true" tabindex="-1"></a>cols <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;C&quot;</span>)</span>
+<span id="cb1631-2"><a href="datatable.html#cb1631-2" aria-hidden="true" tabindex="-1"></a>dt2[, <span class="fu">paste0</span>(cols, <span class="st">&quot;_groupMean&quot;</span>) <span class="sc">:</span><span class="er">=</span> <span class="fu">lapply</span>(.SD, mean), .SDcols <span class="ot">=</span> cols, by <span class="ot">=</span> Group]</span>
+<span id="cb1631-3"><a href="datatable.html#cb1631-3" aria-hidden="true" tabindex="-1"></a>dt2</span></code></pre></div>
+<pre><code>       A     B          C  Group A_groupMean C_groupMean
+   &lt;int&gt; &lt;num&gt;      &lt;num&gt; &lt;char&gt;       &lt;num&gt;       &lt;num&gt;
+1:     1   1.2 -1.2378150      a    3.333333  -1.0867365
+2:     2   4.3 -1.2990954      b    2.500000  -0.7711327
+3:     3   9.7 -0.2431701      b    2.500000  -0.7711327
+4:     4   5.6 -0.8340560      a    3.333333  -1.0867365
+5:     5   8.1 -1.1883384      a    3.333333  -1.0867365</code></pre>
+</div>
+<div id="row-wise-operations" class="section level2" number="24.14">
+<h2><span class="header-section-number">24.14</span> Row-wise operations</h2>
+<div class="sourceCode" id="cb1633"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1633-1"><a href="datatable.html#cb1633-1" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="at">a =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="at">b =</span> <span class="dv">11</span><span class="sc">:</span><span class="dv">15</span>, <span class="at">c =</span> <span class="dv">21</span><span class="sc">:</span><span class="dv">25</span>, </span>
+<span id="cb1633-2"><a href="datatable.html#cb1633-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">d =</span> <span class="dv">31</span><span class="sc">:</span><span class="dv">35</span>, <span class="at">e =</span> <span class="dv">41</span><span class="sc">:</span><span class="dv">45</span>)</span>
+<span id="cb1633-3"><a href="datatable.html#cb1633-3" aria-hidden="true" tabindex="-1"></a>dt</span></code></pre></div>
+<pre><code>       a     b     c     d     e
+   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;
+1:     1    11    21    31    41
+2:     2    12    22    32    42
+3:     3    13    23    33    43
+4:     4    14    24    34    44
+5:     5    15    25    35    45</code></pre>
+<p>To operate row-wise, we can use <code>by = 1:nrow(dt)</code>.
+For example, to add a column, in-place, with row-wise sums of variables b through d:</p>
+<div class="sourceCode" id="cb1635"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1635-1"><a href="datatable.html#cb1635-1" aria-hidden="true" tabindex="-1"></a>dt[, bcd.sum <span class="sc">:</span><span class="er">=</span> <span class="fu">sum</span>(.SD[, b<span class="sc">:</span>d]), by <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(dt)]</span>
+<span id="cb1635-2"><a href="datatable.html#cb1635-2" aria-hidden="true" tabindex="-1"></a>dt</span></code></pre></div>
+<pre><code>       a     b     c     d     e bcd.sum
+   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;   &lt;int&gt;
+1:     1    11    21    31    41      63
+2:     2    12    22    32    42      66
+3:     3    13    23    33    43      69
+4:     4    14    24    34    44      72
+5:     5    15    25    35    45      75</code></pre>
+</div>
+<div id="melt" class="section level2" number="24.15">
+<h2><span class="header-section-number">24.15</span> Wide &lt;=&gt; Long</h2>
+<div id="wide-to-long-melt" class="section level3" number="24.15.1">
+<h3><span class="header-section-number">24.15.1</span> Wide to long: <code>melt()</code></h3>
+<div class="sourceCode" id="cb1637"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1637-1"><a href="datatable.html#cb1637-1" aria-hidden="true" tabindex="-1"></a>dt_wide <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="at">ID =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="at">Timepoint_A =</span> <span class="dv">11</span><span class="sc">:</span><span class="dv">14</span>,</span>
+<span id="cb1637-2"><a href="datatable.html#cb1637-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">Timepoint_B =</span> <span class="dv">21</span><span class="sc">:</span><span class="dv">24</span>, <span class="at">Timepoint_C =</span> <span class="dv">51</span><span class="sc">:</span><span class="dv">54</span>)</span>
+<span id="cb1637-3"><a href="datatable.html#cb1637-3" aria-hidden="true" tabindex="-1"></a>dt_wide</span></code></pre></div>
+<pre><code>      ID Timepoint_A Timepoint_B Timepoint_C
+   &lt;int&gt;       &lt;int&gt;       &lt;int&gt;       &lt;int&gt;
+1:     1          11          21          51
+2:     2          12          22          52
+3:     3          13          23          53
+4:     4          14          24          54</code></pre>
+<div class="sourceCode" id="cb1639"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1639-1"><a href="datatable.html#cb1639-1" aria-hidden="true" tabindex="-1"></a>dt_long <span class="ot">&lt;-</span> <span class="fu">melt</span>(dt_wide, <span class="at">id.vars =</span> <span class="st">&quot;ID&quot;</span>,</span>
+<span id="cb1639-2"><a href="datatable.html#cb1639-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">measure.vars =</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>, <span class="co"># defaults to all non-id columns</span></span>
+<span id="cb1639-3"><a href="datatable.html#cb1639-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">variable.name =</span> <span class="st">&quot;Timepoint&quot;</span>,</span>
+<span id="cb1639-4"><a href="datatable.html#cb1639-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">value.name =</span> <span class="fu">c</span>(<span class="st">&quot;Score&quot;</span>))</span>
+<span id="cb1639-5"><a href="datatable.html#cb1639-5" aria-hidden="true" tabindex="-1"></a>dt_long</span></code></pre></div>
+<pre><code>       ID   Timepoint Score
+    &lt;int&gt;      &lt;fctr&gt; &lt;int&gt;
+ 1:     1 Timepoint_A    11
+ 2:     2 Timepoint_A    12
+ 3:     3 Timepoint_A    13
+ 4:     4 Timepoint_A    14
+ 5:     1 Timepoint_B    21
+ 6:     2 Timepoint_B    22
+ 7:     3 Timepoint_B    23
+ 8:     4 Timepoint_B    24
+ 9:     1 Timepoint_C    51
+10:     2 Timepoint_C    52
+11:     3 Timepoint_C    53
+12:     4 Timepoint_C    54</code></pre>
+</div>
+<div id="long-to-wide-dcast" class="section level3" number="24.15.2">
+<h3><span class="header-section-number">24.15.2</span> Long to wide: <code>dcast()</code></h3>
+<div class="sourceCode" id="cb1641"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1641-1"><a href="datatable.html#cb1641-1" aria-hidden="true" tabindex="-1"></a>dt_long</span></code></pre></div>
+<pre><code>       ID   Timepoint Score
+    &lt;int&gt;      &lt;fctr&gt; &lt;int&gt;
+ 1:     1 Timepoint_A    11
+ 2:     2 Timepoint_A    12
+ 3:     3 Timepoint_A    13
+ 4:     4 Timepoint_A    14
+ 5:     1 Timepoint_B    21
+ 6:     2 Timepoint_B    22
+ 7:     3 Timepoint_B    23
+ 8:     4 Timepoint_B    24
+ 9:     1 Timepoint_C    51
+10:     2 Timepoint_C    52
+11:     3 Timepoint_C    53
+12:     4 Timepoint_C    54</code></pre>
+<div class="sourceCode" id="cb1643"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1643-1"><a href="datatable.html#cb1643-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dcast</span>(dt_long, ID <span class="sc">~</span> Timepoint,</span>
+<span id="cb1643-2"><a href="datatable.html#cb1643-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">value.var =</span> <span class="st">&quot;Score&quot;</span>)</span></code></pre></div>
+<pre><code>Key: &lt;ID&gt;
+      ID Timepoint_A Timepoint_B Timepoint_C
+   &lt;int&gt;       &lt;int&gt;       &lt;int&gt;       &lt;int&gt;
+1:     1          11          21          51
+2:     2          12          22          52
+3:     3          13          23          53
+4:     4          14          24          54</code></pre>
+<div id="dcast-aggregate" class="section level4" number="24.15.2.1">
+<h4><span class="header-section-number">24.15.2.1</span> <code>dcast()</code> + aggregate</h4>
+<p>If your <code>ID ~ Timepoint</code> combination does not define a unique row in your input dataset, you need to specify an aggregate function.</p>
+<p>For example, suppose you have four subjects with IDs “A”, “B”, “C”, “D” who had a couple variables measured 3 times in the AM and 3 times in the PM.</p>
+<div class="sourceCode" id="cb1645"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1645-1"><a href="datatable.html#cb1645-1" aria-hidden="true" tabindex="-1"></a>dt_long2 <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="at">ID =</span> <span class="fu">rep</span>(LETTERS[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], <span class="at">each =</span> <span class="dv">6</span>),</span>
+<span id="cb1645-2"><a href="datatable.html#cb1645-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">Timepoint =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;AM&quot;</span>, <span class="st">&quot;PM&quot;</span>), <span class="at">length.out =</span> <span class="dv">24</span>, <span class="at">each =</span> <span class="dv">3</span>),</span>
+<span id="cb1645-3"><a href="datatable.html#cb1645-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">Var1 =</span> <span class="fu">rnorm</span>(<span class="dv">24</span>, <span class="dv">10</span>),</span>
+<span id="cb1645-4"><a href="datatable.html#cb1645-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">Var2 =</span> <span class="fu">rnorm</span>(<span class="dv">24</span>, <span class="dv">20</span>))</span>
+<span id="cb1645-5"><a href="datatable.html#cb1645-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1645-6"><a href="datatable.html#cb1645-6" aria-hidden="true" tabindex="-1"></a>dt_long2[<span class="fu">sample</span>(<span class="dv">24</span>, <span class="dv">4</span>), Var1 <span class="sc">:</span><span class="er">=</span> <span class="cn">NA</span>]</span>
+<span id="cb1645-7"><a href="datatable.html#cb1645-7" aria-hidden="true" tabindex="-1"></a>dt_long2[<span class="fu">sample</span>(<span class="dv">24</span>, <span class="dv">4</span>), Var2 <span class="sc">:</span><span class="er">=</span> <span class="cn">NA</span>]</span>
+<span id="cb1645-8"><a href="datatable.html#cb1645-8" aria-hidden="true" tabindex="-1"></a>dt_long2</span></code></pre></div>
+<pre><code>        ID Timepoint      Var1     Var2
+    &lt;char&gt;    &lt;char&gt;     &lt;num&gt;    &lt;num&gt;
+ 1:      A        AM  7.461353 19.57992
+ 2:      A        AM        NA 19.75842
+ 3:      A        AM 10.637787 20.30621
+ 4:      A        PM  9.587224 20.48151
+ 5:      A        PM        NA 20.14171
+ 6:      A        PM  9.621924 21.53055
+ 7:      B        AM        NA       NA
+ 8:      B        AM  7.174872 20.30215
+ 9:      B        AM  9.976728 19.76657
+10:      B        PM        NA 19.88750
+11:      B        PM  9.745060 19.40934
+12:      B        PM 10.063536 20.21554
+13:      C        AM 10.918140       NA
+14:      C        AM 10.957125 19.48123
+15:      C        AM 10.251540       NA
+16:      C        PM 12.298907 19.68980
+17:      C        PM 10.128309 17.19049
+18:      C        PM 11.453959 18.37578
+19:      D        AM  8.655467       NA
+20:      D        AM  9.014894 17.89104
+21:      D        AM 10.877011 20.81419
+22:      D        PM 10.643707 18.29316
+23:      D        PM  8.209307 18.88717
+24:      D        PM 10.421836 18.53608
+        ID Timepoint      Var1     Var2</code></pre>
+<p>If you wanted to convert the above data.table to wide format and get mean AM and PM values using the <code>fun.aggregate</code> argument:</p>
+<div class="sourceCode" id="cb1647"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1647-1"><a href="datatable.html#cb1647-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dcast</span>(dt_long2,</span>
+<span id="cb1647-2"><a href="datatable.html#cb1647-2" aria-hidden="true" tabindex="-1"></a>      ID <span class="sc">~</span> Timepoint,</span>
+<span id="cb1647-3"><a href="datatable.html#cb1647-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">value.var =</span> <span class="fu">c</span>(<span class="st">&quot;Var1&quot;</span>, <span class="st">&quot;Var2&quot;</span>),</span>
+<span id="cb1647-4"><a href="datatable.html#cb1647-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">fun.aggregate =</span> mean, <span class="at">na.rm =</span> T)</span></code></pre></div>
+<pre><code>Key: &lt;ID&gt;
+       ID  Var1_AM   Var1_PM  Var2_AM  Var2_PM
+   &lt;char&gt;    &lt;num&gt;     &lt;num&gt;    &lt;num&gt;    &lt;num&gt;
+1:      A  9.04957  9.604574 19.88151 20.71792
+2:      B  8.57580  9.904298 20.03436 19.83746
+3:      C 10.70894 11.293725 19.48123 18.41869
+4:      D  9.51579  9.758283 19.35262 18.57214</code></pre>
+<p>You can apply multiple aggregating functions by passing a list to <code>fun.aggregate</code>:</p>
+<div class="sourceCode" id="cb1649"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1649-1"><a href="datatable.html#cb1649-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dcast</span>(dt_long2,</span>
+<span id="cb1649-2"><a href="datatable.html#cb1649-2" aria-hidden="true" tabindex="-1"></a>      ID <span class="sc">~</span> Timepoint,</span>
+<span id="cb1649-3"><a href="datatable.html#cb1649-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">value.var =</span> <span class="fu">c</span>(<span class="st">&quot;Var1&quot;</span>, <span class="st">&quot;Var2&quot;</span>),</span>
+<span id="cb1649-4"><a href="datatable.html#cb1649-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">fun.aggregate =</span> <span class="fu">list</span>(mean, max, min), <span class="at">na.rm =</span> T)</span></code></pre></div>
+<pre><code>Key: &lt;ID&gt;
+       ID Var1_mean_AM Var1_mean_PM Var2_mean_AM Var2_mean_PM Var1_max_AM
+   &lt;char&gt;        &lt;num&gt;        &lt;num&gt;        &lt;num&gt;        &lt;num&gt;       &lt;num&gt;
+1:      A      9.04957     9.604574     19.88151     20.71792   10.637787
+2:      B      8.57580     9.904298     20.03436     19.83746    9.976728
+3:      C     10.70894    11.293725     19.48123     18.41869   10.957125
+4:      D      9.51579     9.758283     19.35262     18.57214   10.877011
+   Var1_max_PM Var2_max_AM Var2_max_PM Var1_min_AM Var1_min_PM Var2_min_AM
+         &lt;num&gt;       &lt;num&gt;       &lt;num&gt;       &lt;num&gt;       &lt;num&gt;       &lt;num&gt;
+1:    9.621924    20.30621    21.53055    7.461353    9.587224    19.57992
+2:   10.063536    20.30215    20.21554    7.174872    9.745060    19.76657
+3:   12.298907    19.48123    19.68980   10.251540   10.128309    19.48123
+4:   10.643707    20.81419    18.88717    8.655467    8.209307    17.89104
+   Var2_min_PM
+         &lt;num&gt;
+1:    20.14171
+2:    19.40934
+3:    17.19049
+4:    18.29316</code></pre>
+<p>Note how <code>na.rm = T</code> was successfully applied to all aggregating functions</p>
+</div>
+</div>
+</div>
+<div id="table-joins" class="section level2" number="24.16">
+<h2><span class="header-section-number">24.16</span> Table Joins</h2>
+<p><code>data.table</code> allow you to perform table joins with the base <code>merge()</code> function using the same syntax as for data.frame objects or the “data.table way” using bracket notation:</p>
+<div class="sourceCode" id="cb1651"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1651-1"><a href="datatable.html#cb1651-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="at">PID =</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>),</span>
+<span id="cb1651-2"><a href="datatable.html#cb1651-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">Hospital =</span> <span class="fu">c</span>(<span class="st">&quot;UCSF&quot;</span>, <span class="st">&quot;HUP&quot;</span>, <span class="st">&quot;Stanford&quot;</span>, </span>
+<span id="cb1651-3"><a href="datatable.html#cb1651-3" aria-hidden="true" tabindex="-1"></a>                             <span class="st">&quot;Stanford&quot;</span>, <span class="st">&quot;UCSF&quot;</span>, <span class="st">&quot;HUP&quot;</span>, </span>
+<span id="cb1651-4"><a href="datatable.html#cb1651-4" aria-hidden="true" tabindex="-1"></a>                             <span class="st">&quot;HUP&quot;</span>, <span class="st">&quot;Stanford&quot;</span>, <span class="st">&quot;UCSF&quot;</span>),</span>
+<span id="cb1651-5"><a href="datatable.html#cb1651-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">Age =</span> <span class="fu">c</span>(<span class="dv">22</span>, <span class="dv">34</span>, <span class="dv">41</span>, <span class="dv">19</span>, <span class="dv">53</span>, <span class="dv">21</span>, <span class="dv">63</span>, <span class="dv">22</span>, <span class="dv">19</span>),</span>
+<span id="cb1651-6"><a href="datatable.html#cb1651-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">Sex =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>),</span>
+<span id="cb1651-7"><a href="datatable.html#cb1651-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">key =</span> <span class="st">&quot;PID&quot;</span>)</span>
+<span id="cb1651-8"><a href="datatable.html#cb1651-8" aria-hidden="true" tabindex="-1"></a>a</span></code></pre></div>
+<pre><code>Key: &lt;PID&gt;
+     PID Hospital   Age   Sex
+   &lt;int&gt;   &lt;char&gt; &lt;num&gt; &lt;num&gt;
+1:     1     UCSF    22     1
+2:     2      HUP    34     1
+3:     3 Stanford    41     0
+4:     4 Stanford    19     1
+5:     5     UCSF    53     0
+6:     6      HUP    21     0
+7:     7      HUP    63     1
+8:     8 Stanford    22     0
+9:     9     UCSF    19     0</code></pre>
+<div class="sourceCode" id="cb1653"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1653-1"><a href="datatable.html#cb1653-1" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="at">PID =</span> <span class="fu">c</span>(<span class="dv">6</span><span class="sc">:</span><span class="dv">12</span>),</span>
+<span id="cb1653-2"><a href="datatable.html#cb1653-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">V1 =</span> <span class="fu">c</span>(<span class="dv">153</span>, <span class="dv">89</span>, <span class="dv">112</span>, <span class="dv">228</span>,  <span class="dv">91</span>, <span class="dv">190</span>, <span class="dv">101</span>),</span>
+<span id="cb1653-3"><a href="datatable.html#cb1653-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">Department =</span> <span class="fu">c</span>(<span class="st">&quot;Neurology&quot;</span>, <span class="st">&quot;Radiology&quot;</span>, <span class="st">&quot;Emergency&quot;</span>,</span>
+<span id="cb1653-4"><a href="datatable.html#cb1653-4" aria-hidden="true" tabindex="-1"></a>                               <span class="st">&quot;Cardiology&quot;</span>, <span class="st">&quot;Surgery&quot;</span>, <span class="st">&quot;Neurology&quot;</span>,</span>
+<span id="cb1653-5"><a href="datatable.html#cb1653-5" aria-hidden="true" tabindex="-1"></a>                               <span class="st">&quot;Psychiatry&quot;</span>),</span>
+<span id="cb1653-6"><a href="datatable.html#cb1653-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">key =</span> <span class="st">&quot;PID&quot;</span>)</span>
+<span id="cb1653-7"><a href="datatable.html#cb1653-7" aria-hidden="true" tabindex="-1"></a>b</span></code></pre></div>
+<pre><code>Key: &lt;PID&gt;
+     PID    V1 Department
+   &lt;int&gt; &lt;num&gt;     &lt;char&gt;
+1:     6   153  Neurology
+2:     7    89  Radiology
+3:     8   112  Emergency
+4:     9   228 Cardiology
+5:    10    91    Surgery
+6:    11   190  Neurology
+7:    12   101 Psychiatry</code></pre>
+<p>In the above command we use the <code>key</code> argument to set <code>PID</code> as key. This can be performed after the <code>data.table</code> has been created using the <code>setkey()</code> command:</p>
+<div class="sourceCode" id="cb1655"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1655-1"><a href="datatable.html#cb1655-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setkey</span>(a, PID)</span></code></pre></div>
+<p>Multiple keys can be set, in order, with the same <code>setkey()</code> command, separated by commas, e.g.:</p>
+<div class="sourceCode" id="cb1656"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1656-1"><a href="datatable.html#cb1656-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setkey</span>(a, PID, Hospital)</span></code></pre></div>
+<p>Keys sort the data.table by the corresponding columns and can be used to perform left and right joins with bracket notation seen later.</p>
+<div id="inner" class="section level3" number="24.16.1">
+<h3><span class="header-section-number">24.16.1</span> Inner</h3>
+<div class="sourceCode" id="cb1657"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1657-1"><a href="datatable.html#cb1657-1" aria-hidden="true" tabindex="-1"></a><span class="fu">merge</span>(a, b)</span></code></pre></div>
+<pre><code>Key: &lt;PID&gt;
+     PID Hospital   Age   Sex    V1 Department
+   &lt;int&gt;   &lt;char&gt; &lt;num&gt; &lt;num&gt; &lt;num&gt;     &lt;char&gt;
+1:     6      HUP    21     0   153  Neurology
+2:     7      HUP    63     1    89  Radiology
+3:     8 Stanford    22     0   112  Emergency
+4:     9     UCSF    19     0   228 Cardiology</code></pre>
+</div>
+<div id="outer" class="section level3" number="24.16.2">
+<h3><span class="header-section-number">24.16.2</span> Outer</h3>
+<div class="sourceCode" id="cb1659"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1659-1"><a href="datatable.html#cb1659-1" aria-hidden="true" tabindex="-1"></a><span class="fu">merge</span>(a, b, <span class="at">all =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>Key: &lt;PID&gt;
+      PID Hospital   Age   Sex    V1 Department
+    &lt;int&gt;   &lt;char&gt; &lt;num&gt; &lt;num&gt; &lt;num&gt;     &lt;char&gt;
+ 1:     1     UCSF    22     1    NA       &lt;NA&gt;
+ 2:     2      HUP    34     1    NA       &lt;NA&gt;
+ 3:     3 Stanford    41     0    NA       &lt;NA&gt;
+ 4:     4 Stanford    19     1    NA       &lt;NA&gt;
+ 5:     5     UCSF    53     0    NA       &lt;NA&gt;
+ 6:     6      HUP    21     0   153  Neurology
+ 7:     7      HUP    63     1    89  Radiology
+ 8:     8 Stanford    22     0   112  Emergency
+ 9:     9     UCSF    19     0   228 Cardiology
+10:    10     &lt;NA&gt;    NA    NA    91    Surgery
+11:    11     &lt;NA&gt;    NA    NA   190  Neurology
+12:    12     &lt;NA&gt;    NA    NA   101 Psychiatry</code></pre>
+</div>
+<div id="left-outer" class="section level3" number="24.16.3">
+<h3><span class="header-section-number">24.16.3</span> Left outer</h3>
+<p>Using <code>merge()</code>:</p>
+<div class="sourceCode" id="cb1661"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1661-1"><a href="datatable.html#cb1661-1" aria-hidden="true" tabindex="-1"></a><span class="fu">merge</span>(a, b, <span class="at">all.x =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>Key: &lt;PID&gt;
+     PID Hospital   Age   Sex    V1 Department
+   &lt;int&gt;   &lt;char&gt; &lt;num&gt; &lt;num&gt; &lt;num&gt;     &lt;char&gt;
+1:     1     UCSF    22     1    NA       &lt;NA&gt;
+2:     2      HUP    34     1    NA       &lt;NA&gt;
+3:     3 Stanford    41     0    NA       &lt;NA&gt;
+4:     4 Stanford    19     1    NA       &lt;NA&gt;
+5:     5     UCSF    53     0    NA       &lt;NA&gt;
+6:     6      HUP    21     0   153  Neurology
+7:     7      HUP    63     1    89  Radiology
+8:     8 Stanford    22     0   112  Emergency
+9:     9     UCSF    19     0   228 Cardiology</code></pre>
+<p>Using bracket notation:</p>
+<div class="sourceCode" id="cb1663"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1663-1"><a href="datatable.html#cb1663-1" aria-hidden="true" tabindex="-1"></a>b[a, ]</span></code></pre></div>
+<pre><code>Key: &lt;PID&gt;
+     PID    V1 Department Hospital   Age   Sex
+   &lt;int&gt; &lt;num&gt;     &lt;char&gt;   &lt;char&gt; &lt;num&gt; &lt;num&gt;
+1:     1    NA       &lt;NA&gt;     UCSF    22     1
+2:     2    NA       &lt;NA&gt;      HUP    34     1
+3:     3    NA       &lt;NA&gt; Stanford    41     0
+4:     4    NA       &lt;NA&gt; Stanford    19     1
+5:     5    NA       &lt;NA&gt;     UCSF    53     0
+6:     6   153  Neurology      HUP    21     0
+7:     7    89  Radiology      HUP    63     1
+8:     8   112  Emergency Stanford    22     0
+9:     9   228 Cardiology     UCSF    19     0</code></pre>
+<p>If keys were not set for a and b, you could specify the column to match on using the <code>on</code> argument:</p>
+<div class="sourceCode" id="cb1665"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1665-1"><a href="datatable.html#cb1665-1" aria-hidden="true" tabindex="-1"></a>b[a, on <span class="ot">=</span> <span class="st">&quot;PID&quot;</span>]</span></code></pre></div>
+<pre><code>Key: &lt;PID&gt;
+     PID    V1 Department Hospital   Age   Sex
+   &lt;int&gt; &lt;num&gt;     &lt;char&gt;   &lt;char&gt; &lt;num&gt; &lt;num&gt;
+1:     1    NA       &lt;NA&gt;     UCSF    22     1
+2:     2    NA       &lt;NA&gt;      HUP    34     1
+3:     3    NA       &lt;NA&gt; Stanford    41     0
+4:     4    NA       &lt;NA&gt; Stanford    19     1
+5:     5    NA       &lt;NA&gt;     UCSF    53     0
+6:     6   153  Neurology      HUP    21     0
+7:     7    89  Radiology      HUP    63     1
+8:     8   112  Emergency Stanford    22     0
+9:     9   228 Cardiology     UCSF    19     0</code></pre>
+<div class="rmdnote">
+<p>
+The easy way to understand the bracket notation merges is to think that the data.table inside the bracket is used to index the data.table on the outside, therefore the resulting table will have rows dictated by the inside table’s key.
+</p>
+</div>
+</div>
+<div id="right-outer" class="section level3" number="24.16.4">
+<h3><span class="header-section-number">24.16.4</span> Right outer</h3>
+<div class="sourceCode" id="cb1667"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1667-1"><a href="datatable.html#cb1667-1" aria-hidden="true" tabindex="-1"></a><span class="fu">merge</span>(a, b, <span class="at">all.y =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>Key: &lt;PID&gt;
+     PID Hospital   Age   Sex    V1 Department
+   &lt;int&gt;   &lt;char&gt; &lt;num&gt; &lt;num&gt; &lt;num&gt;     &lt;char&gt;
+1:     6      HUP    21     0   153  Neurology
+2:     7      HUP    63     1    89  Radiology
+3:     8 Stanford    22     0   112  Emergency
+4:     9     UCSF    19     0   228 Cardiology
+5:    10     &lt;NA&gt;    NA    NA    91    Surgery
+6:    11     &lt;NA&gt;    NA    NA   190  Neurology
+7:    12     &lt;NA&gt;    NA    NA   101 Psychiatry</code></pre>
+<p>Using bracket notation:</p>
+<div class="sourceCode" id="cb1669"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1669-1"><a href="datatable.html#cb1669-1" aria-hidden="true" tabindex="-1"></a>a[b, ]</span></code></pre></div>
+<pre><code>Key: &lt;PID&gt;
+     PID Hospital   Age   Sex    V1 Department
+   &lt;int&gt;   &lt;char&gt; &lt;num&gt; &lt;num&gt; &lt;num&gt;     &lt;char&gt;
+1:     6      HUP    21     0   153  Neurology
+2:     7      HUP    63     1    89  Radiology
+3:     8 Stanford    22     0   112  Emergency
+4:     9     UCSF    19     0   228 Cardiology
+5:    10     &lt;NA&gt;    NA    NA    91    Surgery
+6:    11     &lt;NA&gt;    NA    NA   190  Neurology
+7:    12     &lt;NA&gt;    NA    NA   101 Psychiatry</code></pre>
+</div>
+</div>
+<div id="understanding-reference-semantics-in-data.table" class="section level2" number="24.17">
+<h2><span class="header-section-number">24.17</span> Understanding reference semantics in <code>data.table</code></h2>
+<div id="get-objects-location-in-memory-with-address" class="section level3" number="24.17.1">
+<h3><span class="header-section-number">24.17.1</span> Get object’s location in memory with <code>address()</code></h3>
+<p>When you add a new column to an existing data.frame, the data.frame is copied behind the scenes - you can tell becasue its memory address (where it’s physically stored in your computer) changes:</p>
+<div class="sourceCode" id="cb1671"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1671-1"><a href="datatable.html#cb1671-1" aria-hidden="true" tabindex="-1"></a>df1 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">alpha =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="at">beta =</span> <span class="dv">11</span><span class="sc">:</span><span class="dv">15</span>)</span>
+<span id="cb1671-2"><a href="datatable.html#cb1671-2" aria-hidden="true" tabindex="-1"></a><span class="fu">address</span>(df1)</span></code></pre></div>
+<pre><code>[1] &quot;0x7fea12dc1108&quot;</code></pre>
+<div class="sourceCode" id="cb1673"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1673-1"><a href="datatable.html#cb1673-1" aria-hidden="true" tabindex="-1"></a>df1<span class="sc">$</span>gamma <span class="ot">&lt;-</span> df1<span class="sc">$</span>alpha <span class="sc">+</span> df1<span class="sc">$</span>beta</span>
+<span id="cb1673-2"><a href="datatable.html#cb1673-2" aria-hidden="true" tabindex="-1"></a><span class="fu">address</span>(df1)</span></code></pre></div>
+<pre><code>[1] &quot;0x7fea14caee18&quot;</code></pre>
+<p>When you add a new column in a data.table <strong><em>in-place</em></strong> its address remains unchanged:</p>
+<div class="sourceCode" id="cb1675"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1675-1"><a href="datatable.html#cb1675-1" aria-hidden="true" tabindex="-1"></a>dt1 <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="at">alpha =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="at">beta =</span> <span class="dv">11</span><span class="sc">:</span><span class="dv">15</span>)</span>
+<span id="cb1675-2"><a href="datatable.html#cb1675-2" aria-hidden="true" tabindex="-1"></a><span class="fu">address</span>(dt1)</span></code></pre></div>
+<pre><code>[1] &quot;0x7fea12f17400&quot;</code></pre>
+<div class="sourceCode" id="cb1677"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1677-1"><a href="datatable.html#cb1677-1" aria-hidden="true" tabindex="-1"></a>dt1[, gamma <span class="sc">:</span><span class="er">=</span> alpha <span class="sc">+</span> beta]</span>
+<span id="cb1677-2"><a href="datatable.html#cb1677-2" aria-hidden="true" tabindex="-1"></a><span class="fu">address</span>(dt1)</span></code></pre></div>
+<pre><code>[1] &quot;0x7fea12f17400&quot;</code></pre>
+</div>
+<div id="reference-semantics-at-work" class="section level3" number="24.17.2">
+<h3><span class="header-section-number">24.17.2</span> Reference semantics at work</h3>
+<p>Up to now, you are likely used to working with regular R objects that behave like this:</p>
+<div class="sourceCode" id="cb1679"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1679-1"><a href="datatable.html#cb1679-1" aria-hidden="true" tabindex="-1"></a>df1 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">a =</span> <span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">5</span>))</span>
+<span id="cb1679-2"><a href="datatable.html#cb1679-2" aria-hidden="true" tabindex="-1"></a>df1</span></code></pre></div>
+<pre><code>  a
+1 1
+2 1
+3 1
+4 1
+5 1</code></pre>
+<div class="sourceCode" id="cb1681"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1681-1"><a href="datatable.html#cb1681-1" aria-hidden="true" tabindex="-1"></a>df2 <span class="ot">&lt;-</span> df1</span>
+<span id="cb1681-2"><a href="datatable.html#cb1681-2" aria-hidden="true" tabindex="-1"></a>df2</span></code></pre></div>
+<pre><code>  a
+1 1
+2 1
+3 1
+4 1
+5 1</code></pre>
+<div class="sourceCode" id="cb1683"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1683-1"><a href="datatable.html#cb1683-1" aria-hidden="true" tabindex="-1"></a>df2<span class="sc">$</span>a <span class="ot">&lt;-</span> df2<span class="sc">$</span>a<span class="sc">*</span><span class="dv">2</span></span>
+<span id="cb1683-2"><a href="datatable.html#cb1683-2" aria-hidden="true" tabindex="-1"></a>df2</span></code></pre></div>
+<pre><code>  a
+1 2
+2 2
+3 2
+4 2
+5 2</code></pre>
+<div class="sourceCode" id="cb1685"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1685-1"><a href="datatable.html#cb1685-1" aria-hidden="true" tabindex="-1"></a>df1</span></code></pre></div>
+<pre><code>  a
+1 1
+2 1
+3 1
+4 1
+5 1</code></pre>
+<div class="sourceCode" id="cb1687"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1687-1"><a href="datatable.html#cb1687-1" aria-hidden="true" tabindex="-1"></a><span class="fu">address</span>(df1)</span></code></pre></div>
+<pre><code>[1] &quot;0x7fea151b9740&quot;</code></pre>
+<div class="sourceCode" id="cb1689"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1689-1"><a href="datatable.html#cb1689-1" aria-hidden="true" tabindex="-1"></a><span class="fu">address</span>(df2)</span></code></pre></div>
+<pre><code>[1] &quot;0x7fea127c78c8&quot;</code></pre>
+<p><code>data.table</code> uses “reference semantics” or “pass-by-reference”. Be very careful or you might be mightily confused:</p>
+<div class="sourceCode" id="cb1691"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1691-1"><a href="datatable.html#cb1691-1" aria-hidden="true" tabindex="-1"></a>dt1 <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="at">a =</span> <span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">5</span>))</span>
+<span id="cb1691-2"><a href="datatable.html#cb1691-2" aria-hidden="true" tabindex="-1"></a>dt1</span></code></pre></div>
+<pre><code>       a
+   &lt;num&gt;
+1:     1
+2:     1
+3:     1
+4:     1
+5:     1</code></pre>
+<div class="sourceCode" id="cb1693"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1693-1"><a href="datatable.html#cb1693-1" aria-hidden="true" tabindex="-1"></a>dt2 <span class="ot">&lt;-</span> dt1</span>
+<span id="cb1693-2"><a href="datatable.html#cb1693-2" aria-hidden="true" tabindex="-1"></a>dt2</span></code></pre></div>
+<pre><code>       a
+   &lt;num&gt;
+1:     1
+2:     1
+3:     1
+4:     1
+5:     1</code></pre>
+<div class="sourceCode" id="cb1695"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1695-1"><a href="datatable.html#cb1695-1" aria-hidden="true" tabindex="-1"></a>dt2[, a <span class="sc">:</span><span class="er">=</span> a <span class="sc">*</span> <span class="dv">2</span>]</span>
+<span id="cb1695-2"><a href="datatable.html#cb1695-2" aria-hidden="true" tabindex="-1"></a>dt2</span></code></pre></div>
+<pre><code>       a
+   &lt;num&gt;
+1:     2
+2:     2
+3:     2
+4:     2
+5:     2</code></pre>
+<div class="sourceCode" id="cb1697"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1697-1"><a href="datatable.html#cb1697-1" aria-hidden="true" tabindex="-1"></a>dt1</span></code></pre></div>
+<pre><code>       a
+   &lt;num&gt;
+1:     2
+2:     2
+3:     2
+4:     2
+5:     2</code></pre>
+<div class="sourceCode" id="cb1699"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1699-1"><a href="datatable.html#cb1699-1" aria-hidden="true" tabindex="-1"></a><span class="fu">address</span>(dt1)</span></code></pre></div>
+<pre><code>[1] &quot;0x7fea159cb400&quot;</code></pre>
+<div class="sourceCode" id="cb1701"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1701-1"><a href="datatable.html#cb1701-1" aria-hidden="true" tabindex="-1"></a><span class="fu">address</span>(dt2)</span></code></pre></div>
+<pre><code>[1] &quot;0x7fea159cb400&quot;</code></pre>
+<div class="rmdnote">
+<p>
+If you want to create a copy of a data.table, use <code>copy()</code>:
+</p>
+</div>
+<div class="sourceCode" id="cb1703"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1703-1"><a href="datatable.html#cb1703-1" aria-hidden="true" tabindex="-1"></a>dt3 <span class="ot">&lt;-</span> <span class="fu">copy</span>(dt1)</span>
+<span id="cb1703-2"><a href="datatable.html#cb1703-2" aria-hidden="true" tabindex="-1"></a>dt3</span></code></pre></div>
+<pre><code>       a
+   &lt;num&gt;
+1:     2
+2:     2
+3:     2
+4:     2
+5:     2</code></pre>
+<div class="sourceCode" id="cb1705"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1705-1"><a href="datatable.html#cb1705-1" aria-hidden="true" tabindex="-1"></a><span class="fu">address</span>(dt3)</span></code></pre></div>
+<pre><code>[1] &quot;0x7fea12f4a400&quot;</code></pre>
+<div class="sourceCode" id="cb1707"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1707-1"><a href="datatable.html#cb1707-1" aria-hidden="true" tabindex="-1"></a>dt3[, a <span class="sc">:</span><span class="er">=</span> a <span class="sc">*</span> <span class="dv">2</span>]</span>
+<span id="cb1707-2"><a href="datatable.html#cb1707-2" aria-hidden="true" tabindex="-1"></a>dt3</span></code></pre></div>
+<pre><code>       a
+   &lt;num&gt;
+1:     4
+2:     4
+3:     4
+4:     4
+5:     4</code></pre>
+<div class="sourceCode" id="cb1709"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1709-1"><a href="datatable.html#cb1709-1" aria-hidden="true" tabindex="-1"></a>dt1</span></code></pre></div>
+<pre><code>       a
+   &lt;num&gt;
+1:     2
+2:     2
+3:     2
+4:     2
+5:     2</code></pre>
+</div>
+</div>
+<div id="dtresources" class="section level2" number="24.18">
+<h2><span class="header-section-number">24.18</span> Resources</h2>
+<p><a href="https://github.com/Rdatatable/data.table">data.table GitHub</a>
+<a href="https://rdatatable.gitlab.io/data.table/">data.table docs</a>
+<a href="https://cran.r-project.org/web/packages/data.table/vignettes/datatable-intro.html">Introduction to data.table vignette</a></p>
+
+</div>
+</div>
+  </main>
+
+  <div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page">
+      <h2>On this page</h2>
+      <div id="book-on-this-page"></div>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          <li><a id="book-source" href="#">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="#">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5">
+  <div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Programming for Data Science in R</strong>" was written by Efstathios (Stathis) D. Gennatas, MBBS AICSM PhD. It was last built on 2021-11-29.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer>
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+<script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+
+</html>

@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>15 Loop Functions | Programming for Data Science in R</title>
+
+    <meta name="author" content="Efstathios (Stathis) D. Gennatas, MBBS AICSM PhD" />
+  
+   <meta name="description" content="15 Loop Functions | Programming for Data Science in R is a project to build an online resource for (Bio)statisticians / Epidemiologists / (Health) Data Scientists" />
+   <meta name="generator" content="placeholder" />
+  <meta property="og:title" content="15 Loop Functions | Programming for Data Science in R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="15 Loop Functions | Programming for Data Science in R is a project to build an online resource for (Bio)statisticians / Epidemiologists / (Health) Data Scientists" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="15 Loop Functions | Programming for Data Science in R" />
+  
+  <meta name="twitter:description" content="15 Loop Functions | Programming for Data Science in R is a project to build an online resource for (Bio)statisticians / Epidemiologists / (Health) Data Scientists" />
+  
+  <!-- JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script>
+  <script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script>
+    <script src="libs/header-attrs-2.11/header-attrs.js"></script>
+    <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet" />
+    <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script>
+    <script src="libs/bs3compat-0.3.1/transition.js"></script>
+    <script src="libs/bs3compat-0.3.1/tabs.js"></script>
+    <script src="libs/bs3compat-0.3.1/bs3compat.js"></script>
+    <link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet" />
+    <script src="libs/bs4_book-1.0.0/bs4_book.js"></script>
+    <script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+    <script src="libs/plotly-binding-4.9.4.1/plotly.js"></script>
+    <script src="libs/typedarray-0.1/typedarray.min.js"></script>
+    <link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
+    <script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
+    <link href="libs/plotly-htmlwidgets-css-1.57.1/plotly-htmlwidgets.css" rel="stylesheet" />
+    <script src="libs/plotly-main-1.57.1/plotly-latest.min.js"></script>
+    <script src="libs/d3-3.5.6/d3.min.js"></script>
+    <link href="libs/profvis-0.3.6.9000/profvis.css" rel="stylesheet" />
+    <script src="libs/profvis-0.3.6.9000/profvis.js"></script>
+    <script src="libs/profvis-0.3.6.9000/scroll.js"></script>
+    <link href="libs/highlight-6.2.0/textmate.css" rel="stylesheet" />
+    <script src="libs/highlight-6.2.0/highlight.js"></script>
+    <script src="libs/profvis-binding-0.3.7/profvis.js"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-127457544-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-127457544-1');
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script>
+
+  <!-- CSS -->
+    <link rel="stylesheet" href="bootstrap.lambdamd.css" />
+  
+</head>
+
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book">
+    <a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">Programming for Data Science in R</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+      </form>
+
+      <nav aria-label="Table of contents">
+        <h2>Table of contents</h2>
+        <div id="book-toc"></div>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="#">View book source <i class="fab fa-github"></i></a></li></p>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="col-sm-12 col-md-9 col-lg-7" id="content">
+<div id="loopfns" class="section level1" number="15">
+<h1><span class="header-section-number">15</span> Loop Functions</h1>
+<p>Loop functions are some of the most widely used R functions. They replace longer expressions created with a <code>for</code> loop, for example.<br />
+They can result in more compact and readable code and are often faster to execute than a <code>for</code> loop.</p>
+<ul>
+<li><code>apply()</code>: Apply function over array margins (i.e. over one or more dimensions)</li>
+<li><code>lapply()</code>: Return a <em>list</em> where each element is the result of applying a function to each element of the input</li>
+<li><code>sapply()</code>: Same as <code>lapply()</code>, but returns the simplest possible R object (instead of always returning a list)</li>
+<li><code>vapply()</code>: Same as <code>sapply()</code>, but you pre-specify the return type: this is safer and may also be faster</li>
+<li><code>tapply()</code>: Apply a function to elements of groups defined by a factor</li>
+<li><code>mapply()</code>: Multivariate version of <code>sapply()</code>: Apply a function using the first elements of the inputs vectors, then using the second, third, and so on</li>
+</ul>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:FigRapplyfam"></span>
+<img src="R_applyfam.png" alt="`*apply()` function family summary (Best to read through this chapter first and then refer back to this figure)" width="100%" />
+<p class="caption">
+Figure 15.1: <code>*apply()</code> function family summary (Best to read through this chapter first and then refer back to this figure)
+</p>
+</div>
+<p>Before starting to use the above functions, we need to learn about anonymous functions, which are often used within the apply functions.</p>
+<div id="apply" class="section level2" number="15.1">
+<h2><span class="header-section-number">15.1</span> <code>apply()</code></h2>
+<div class="rmdtip">
+<p>
+<code>apply()</code> applies a function over one or more dimensions of an array of 2 dimensions or more (this includes matrices) or a data frame:
+</p>
+<p>
+<code>apply(array, MARGIN, FUN)</code>
+</p>
+</div>
+<p><code>MARGIN</code> can be an integer vector or character indicating the dimensions over which ‘FUN’ will be applied.</p>
+<p>By convention, rows come first (just like in <a href="indexing.html#indexing">indexing</a>), therefore:<br />
+<code>MARGIN = 1</code>: apply function on each <strong><em>row</em></strong>
+<code>MARGIN = 2</code>: apply function on each <strong><em>column</em></strong></p>
+<p>Let’s calculate the mean value of each of the first four columns of the iris dataset:</p>
+<div class="sourceCode" id="cb950"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb950-1"><a href="loopfns.html#cb950-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> iris[, <span class="sc">-</span><span class="dv">5</span>]</span>
+<span id="cb950-2"><a href="loopfns.html#cb950-2" aria-hidden="true" tabindex="-1"></a>iris_column_mean <span class="ot">&lt;-</span> <span class="fu">apply</span>(x, <span class="at">MARGIN =</span> <span class="dv">2</span>, <span class="at">FUN =</span> mean) </span>
+<span id="cb950-3"><a href="loopfns.html#cb950-3" aria-hidden="true" tabindex="-1"></a>iris_column_mean</span></code></pre></div>
+<pre><code>Sepal.Length  Sepal.Width Petal.Length  Petal.Width 
+    5.843333     3.057333     3.758000     1.199333 </code></pre>
+<div class="rmdnote">
+<p>
+Hint: It is possibly easiest to think of the “MARGIN” as the <strong><em>dimension you want to keep</em></strong>.<br />
+In the above case, we want the mean for each variable, i.e. we want to keep columns and collapse rows.
+</p>
+</div>
+<p>The above is equivalent to:</p>
+<div class="sourceCode" id="cb952"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb952-1"><a href="loopfns.html#cb952-1" aria-hidden="true" tabindex="-1"></a>iris_column_mean <span class="ot">&lt;-</span> <span class="fu">numeric</span>(<span class="fu">ncol</span>(x))</span>
+<span id="cb952-2"><a href="loopfns.html#cb952-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(iris_column_mean) <span class="ot">&lt;-</span> <span class="fu">names</span>(x)</span>
+<span id="cb952-3"><a href="loopfns.html#cb952-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb952-4"><a href="loopfns.html#cb952-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq</span>(x)) {</span>
+<span id="cb952-5"><a href="loopfns.html#cb952-5" aria-hidden="true" tabindex="-1"></a>  iris_column_mean[i] <span class="ot">&lt;-</span> <span class="fu">mean</span>(x[, i])</span>
+<span id="cb952-6"><a href="loopfns.html#cb952-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb952-7"><a href="loopfns.html#cb952-7" aria-hidden="true" tabindex="-1"></a>iris_column_mean</span></code></pre></div>
+<pre><code>Sepal.Length  Sepal.Width Petal.Length  Petal.Width 
+    5.843333     3.057333     3.758000     1.199333 </code></pre>
+<p>If you wanted to get the mean of the rows (makes little sense in this case):</p>
+<div class="sourceCode" id="cb954"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb954-1"><a href="loopfns.html#cb954-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">apply</span>(x, <span class="dv">1</span>, mean))</span></code></pre></div>
+<pre><code>[1] 2.550 2.375 2.350 2.350 2.550 2.850</code></pre>
+<div class="rmdnote">
+<p>
+<code>apply()</code> only works on objects with defined (i.e. non-NULL) <code>dim()</code>, i.e. arrays.
+</p>
+</div>
+<div class="rmdnote">
+<p>
+Try to think why you can’t use <code>apply()</code> to apply a function <code>fn()</code> on a vector <code>v</code>.
+</p>
+<p>
+…
+</p>
+<p>
+…
+</p>
+<p>
+Because that would be <code>fn(v)</code>
+</p>
+</div>
+</div>
+<div id="lapply" class="section level2" number="15.2">
+<h2><span class="header-section-number">15.2</span> <code>lapply()</code></h2>
+<div class="rmdtip">
+<p>
+<code>lapply()</code> applies a <strong>function</strong> on <strong>each element of its input</strong> and returns a <strong>list</strong> of the outputs.
+</p>
+</div>
+<p>Note: The ‘elements’ of a data frame are its columns (remember, a data frame is a list with equal-length elements). The ‘elements’ of a matrix are each cell one by one, by column. Therefore <code>lapply()</code> has a very different effect on a data frame and a matrix. <code>lapply()</code> is commonly used to iterate over the columns of a data frame.</p>
+<p><code>lapply()</code> is the only function of the <code>*apply()</code> family that always returns a list.</p>
+<div class="sourceCode" id="cb956"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb956-1"><a href="loopfns.html#cb956-1" aria-hidden="true" tabindex="-1"></a>iris.median <span class="ot">&lt;-</span> <span class="fu">lapply</span>(iris[, <span class="sc">-</span><span class="dv">5</span>], median)</span>
+<span id="cb956-2"><a href="loopfns.html#cb956-2" aria-hidden="true" tabindex="-1"></a>iris.median</span></code></pre></div>
+<pre><code>$Sepal.Length
+[1] 5.8
+
+$Sepal.Width
+[1] 3
+
+$Petal.Length
+[1] 4.35
+
+$Petal.Width
+[1] 1.3</code></pre>
+<p>The above is equivalent to:</p>
+<div class="sourceCode" id="cb958"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb958-1"><a href="loopfns.html#cb958-1" aria-hidden="true" tabindex="-1"></a>iris.median <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">&quot;list&quot;</span>, <span class="dv">4</span>)</span>
+<span id="cb958-2"><a href="loopfns.html#cb958-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(iris.median) <span class="ot">&lt;-</span> <span class="fu">colnames</span>(iris[, <span class="sc">-</span><span class="dv">5</span>])</span>
+<span id="cb958-3"><a href="loopfns.html#cb958-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>) {</span>
+<span id="cb958-4"><a href="loopfns.html#cb958-4" aria-hidden="true" tabindex="-1"></a>  iris.median[[i]] <span class="ot">&lt;-</span> <span class="fu">median</span>(iris[, <span class="dv">1</span>])</span>
+<span id="cb958-5"><a href="loopfns.html#cb958-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+</div>
+<div id="sapply" class="section level2" number="15.3">
+<h2><span class="header-section-number">15.3</span> <code>sapply()</code></h2>
+<p><code>sapply()</code> is an alias for <code>lapply()</code>, followed by a call to <code>simplify2array()</code>.<br />
+(Check the source code for <code>sapply()</code> by typing <code>sapply</code> at the console and hitting Enter).</p>
+<div class="rmdnote">
+<p>
+Unlike <code>lapply()</code>, the output of <code>sapply()</code> is variable: it is the simplest R object that can hold the data type(s) resulting from the operations, i.e. a vector, matrix, data frame, or list.
+</p>
+</div>
+<div class="sourceCode" id="cb959"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb959-1"><a href="loopfns.html#cb959-1" aria-hidden="true" tabindex="-1"></a>iris.median <span class="ot">&lt;-</span> <span class="fu">sapply</span>(iris[, <span class="sc">-</span><span class="dv">5</span>], median)</span>
+<span id="cb959-2"><a href="loopfns.html#cb959-2" aria-hidden="true" tabindex="-1"></a>iris.median</span></code></pre></div>
+<pre><code>Sepal.Length  Sepal.Width Petal.Length  Petal.Width 
+        5.80         3.00         4.35         1.30 </code></pre>
+<div class="sourceCode" id="cb961"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb961-1"><a href="loopfns.html#cb961-1" aria-hidden="true" tabindex="-1"></a>iris.summary <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Mean =</span> <span class="fu">sapply</span>(iris[, <span class="sc">-</span><span class="dv">5</span>], mean),</span>
+<span id="cb961-2"><a href="loopfns.html#cb961-2" aria-hidden="true" tabindex="-1"></a>                           <span class="at">SD =</span> <span class="fu">sapply</span>(iris[, <span class="sc">-</span><span class="dv">5</span>], sd))</span>
+<span id="cb961-3"><a href="loopfns.html#cb961-3" aria-hidden="true" tabindex="-1"></a>iris.summary</span></code></pre></div>
+<pre><code>                 Mean        SD
+Sepal.Length 5.843333 0.8280661
+Sepal.Width  3.057333 0.4358663
+Petal.Length 3.758000 1.7652982
+Petal.Width  1.199333 0.7622377</code></pre>
+</div>
+<div id="vapply" class="section level2" number="15.4">
+<h2><span class="header-section-number">15.4</span> <code>vapply()</code></h2>
+<p>Much less commonly used (possibly <em>underused</em>) than <code>lapply()</code> or <code>sapply()</code>, <code>vapply()</code> allows you to specify what the expected output looks like - for example a numeric vector of length 2, a character vector of length 1.</p>
+<p>This can have two advantages:</p>
+<ul>
+<li>It is safer against errors</li>
+<li>It will sometimes be a little faster</li>
+</ul>
+<p>You add the argument <code>FUN.VALUE</code> which must be of the correct <strong>type</strong> and <strong>length</strong> of the expected result <strong><em>of each iteration</em></strong>.</p>
+<div class="sourceCode" id="cb963"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb963-1"><a href="loopfns.html#cb963-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vapply</span>(iris[, <span class="sc">-</span><span class="dv">5</span>], median, <span class="at">FUN.VALUE =</span> .<span class="dv">1</span>)</span></code></pre></div>
+<pre><code>Sepal.Length  Sepal.Width Petal.Length  Petal.Width 
+        5.80         3.00         4.35         1.30 </code></pre>
+<p>Here, each iteration returns the median of each column, i.e. a numeric vector of length 1.
+Therefore <code>FUN.VALUE</code> can be any numeric scalar.</p>
+<p>For example, if we instead returned the range of each column, <code>FUN.VALUE</code> should be a numeric vector
+of length 2:</p>
+<div class="sourceCode" id="cb965"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb965-1"><a href="loopfns.html#cb965-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vapply</span>(iris[, <span class="sc">-</span><span class="dv">5</span>], range, <span class="at">FUN.VALUE =</span> <span class="fu">rep</span>(.<span class="dv">1</span>, <span class="dv">2</span>))</span></code></pre></div>
+<pre><code>     Sepal.Length Sepal.Width Petal.Length Petal.Width
+[1,]          4.3         2.0          1.0         0.1
+[2,]          7.9         4.4          6.9         2.5</code></pre>
+<p>If <code>FUN.VALUE</code> does not match the returned value, we get an informative error:</p>
+<div class="sourceCode" id="cb967"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb967-1"><a href="loopfns.html#cb967-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vapply</span>(iris[, <span class="sc">-</span><span class="dv">5</span>], range, <span class="at">FUN.VALUE =</span> .<span class="dv">1</span>)</span></code></pre></div>
+<pre><code>Error in vapply(iris[, -5], range, FUN.VALUE = 0.1): values must be length 1,
+ but FUN(X[[1]]) result is length 2</code></pre>
+</div>
+<div id="tapply" class="section level2" number="15.5">
+<h2><span class="header-section-number">15.5</span> <code>tapply()</code></h2>
+<p><code>tapply()</code> is one way (of many) to apply a function on <strong>subgroups of data</strong> as defined by one or more factors.<br />
+In the following example, we calculate the mean Sepal.Length by species on the iris dataset:</p>
+<div class="sourceCode" id="cb969"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb969-1"><a href="loopfns.html#cb969-1" aria-hidden="true" tabindex="-1"></a>mean_Sepal.Length_by_Species <span class="ot">&lt;-</span> <span class="fu">tapply</span>(iris<span class="sc">$</span>Sepal.Length, iris<span class="sc">$</span>Species, mean)</span>
+<span id="cb969-2"><a href="loopfns.html#cb969-2" aria-hidden="true" tabindex="-1"></a>mean_Sepal.Length_by_Species</span></code></pre></div>
+<pre><code>    setosa versicolor  virginica 
+     5.006      5.936      6.588 </code></pre>
+<p>The above is equivalent to:</p>
+<div class="sourceCode" id="cb971"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb971-1"><a href="loopfns.html#cb971-1" aria-hidden="true" tabindex="-1"></a>species <span class="ot">&lt;-</span> <span class="fu">levels</span>(iris<span class="sc">$</span>Species)</span>
+<span id="cb971-2"><a href="loopfns.html#cb971-2" aria-hidden="true" tabindex="-1"></a>mean_Sepal.Length_by_Species <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">&quot;numeric&quot;</span>, <span class="fu">length</span>(species))</span>
+<span id="cb971-3"><a href="loopfns.html#cb971-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(mean_Sepal.Length_by_Species) <span class="ot">&lt;-</span> species</span>
+<span id="cb971-4"><a href="loopfns.html#cb971-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb971-5"><a href="loopfns.html#cb971-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq</span>(species)) {</span>
+<span id="cb971-6"><a href="loopfns.html#cb971-6" aria-hidden="true" tabindex="-1"></a>  mean_Sepal.Length_by_Species[i] <span class="ot">&lt;-</span> </span>
+<span id="cb971-7"><a href="loopfns.html#cb971-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mean</span>(iris<span class="sc">$</span>Sepal.Length[iris<span class="sc">$</span>Species <span class="sc">==</span> species[i]])</span>
+<span id="cb971-8"><a href="loopfns.html#cb971-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb971-9"><a href="loopfns.html#cb971-9" aria-hidden="true" tabindex="-1"></a>mean_Sepal.Length_by_Species</span></code></pre></div>
+<pre><code>    setosa versicolor  virginica 
+     5.006      5.936      6.588 </code></pre>
+</div>
+<div id="mapply" class="section level2" number="15.6">
+<h2><span class="header-section-number">15.6</span> <code>mapply()</code></h2>
+<p>The above functions all work well when you iterating over elements of a single object.<br />
+<code>mapply()</code> allows you to execute a function that accepts two or more inputs, say <code>fn(x, z)</code> using the i-th element of each input, and will return:<br />
+<code>fn(x[1], z[1])</code>, <code>fn(x[2], z[2])</code>, …, <code>fn(x[n], z[n])</code></p>
+<p>Let’s create a simple function that accepts two numeric arguments, and two vectors length 5 each:</p>
+<div class="sourceCode" id="cb973"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb973-1"><a href="loopfns.html#cb973-1" aria-hidden="true" tabindex="-1"></a>raise <span class="ot">&lt;-</span> <span class="cf">function</span>(x, power) x<span class="sc">^</span>power</span>
+<span id="cb973-2"><a href="loopfns.html#cb973-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">6</span></span>
+<span id="cb973-3"><a href="loopfns.html#cb973-3" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="dv">6</span><span class="sc">:</span><span class="dv">2</span></span></code></pre></div>
+<p>Use mapply to raise each <code>x</code> to the corresponding <code>p</code>:</p>
+<div class="sourceCode" id="cb974"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb974-1"><a href="loopfns.html#cb974-1" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">mapply</span>(raise, x, p)</span>
+<span id="cb974-2"><a href="loopfns.html#cb974-2" aria-hidden="true" tabindex="-1"></a>out</span></code></pre></div>
+<pre><code>[1]  64 243 256 125  36</code></pre>
+<p>The above is equivalent to:</p>
+<div class="sourceCode" id="cb976"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb976-1"><a href="loopfns.html#cb976-1" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">&quot;numeric&quot;</span>, <span class="dv">5</span>)</span>
+<span id="cb976-2"><a href="loopfns.html#cb976-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq</span>(<span class="dv">5</span>)) {</span>
+<span id="cb976-3"><a href="loopfns.html#cb976-3" aria-hidden="true" tabindex="-1"></a>  out[i] <span class="ot">&lt;-</span> <span class="fu">raise</span>(x[i], p[i])</span>
+<span id="cb976-4"><a href="loopfns.html#cb976-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb976-5"><a href="loopfns.html#cb976-5" aria-hidden="true" tabindex="-1"></a>out</span></code></pre></div>
+<pre><code>[1]  64 243 256 125  36</code></pre>
+</div>
+<div id="iterating-over-a-sequence-instead-of-an-object" class="section level2" number="15.7">
+<h2><span class="header-section-number">15.7</span> Iterating over a sequence instead of an object</h2>
+<p>With <code>lapply()</code>, <code>sapply()</code> and <code>vapply()</code> there is a very simple trick that may often come in handy:<br />
+Instead of iterating over elements of an object, you can iterate over an integer index of whichever elements you want to access and use it accordingly within the anonymous function.<br />
+This alternative approach is much closer to how we would use an integer sequence in a <code>for</code> loop.<br />
+It will be clearer through an example:</p>
+<p>Get the mean of the first four columns of iris:</p>
+<div class="sourceCode" id="cb978"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb978-1"><a href="loopfns.html#cb978-1" aria-hidden="true" tabindex="-1"></a><span class="co"># original way: iterate through elements i.e. columns:</span></span>
+<span id="cb978-2"><a href="loopfns.html#cb978-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(iris[, <span class="sc">-</span><span class="dv">5</span>], <span class="cf">function</span>(i) <span class="fu">mean</span>(i))</span></code></pre></div>
+<pre><code>Sepal.Length  Sepal.Width Petal.Length  Petal.Width 
+    5.843333     3.057333     3.758000     1.199333 </code></pre>
+<div class="sourceCode" id="cb980"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb980-1"><a href="loopfns.html#cb980-1" aria-hidden="true" tabindex="-1"></a><span class="co"># alternative way: iterate over integer index of elements:</span></span>
+<span id="cb980-2"><a href="loopfns.html#cb980-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="cf">function</span>(i) <span class="fu">mean</span>(iris[, i]))</span></code></pre></div>
+<pre><code>[1] 5.843333 3.057333 3.758000 1.199333</code></pre>
+<div class="sourceCode" id="cb982"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb982-1"><a href="loopfns.html#cb982-1" aria-hidden="true" tabindex="-1"></a><span class="co"># equivalent to:</span></span>
+<span id="cb982-2"><a href="loopfns.html#cb982-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>) {</span>
+<span id="cb982-3"><a href="loopfns.html#cb982-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>(iris[, i])</span>
+<span id="cb982-4"><a href="loopfns.html#cb982-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Notice that in this approach, since you are not passing the object (iris, in the above example) as the input to <code>lapply()</code>, it needs to be accessed within the anonymous function.</p>
+</div>
+<div id="applying-on-matrices-vs.-data-frames" class="section level2" number="15.8">
+<h2><span class="header-section-number">15.8</span> <code>*apply()</code>ing on matrices vs. data frames</h2>
+<p>To consolidate some of what was learned above, let’s focus on the difference between working on a matrix vs. a data frame.<br />
+First, let’s create a matrix and a data frame with the same data:</p>
+<div class="sourceCode" id="cb983"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb983-1"><a href="loopfns.html#cb983-1" aria-hidden="true" tabindex="-1"></a>amat <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">21</span><span class="sc">:</span><span class="dv">70</span>, <span class="dv">10</span>)</span>
+<span id="cb983-2"><a href="loopfns.html#cb983-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(amat) <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&quot;Feature_&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(amat))</span>
+<span id="cb983-3"><a href="loopfns.html#cb983-3" aria-hidden="true" tabindex="-1"></a>amat</span></code></pre></div>
+<pre><code>      Feature_1 Feature_2 Feature_3 Feature_4 Feature_5
+ [1,]        21        31        41        51        61
+ [2,]        22        32        42        52        62
+ [3,]        23        33        43        53        63
+ [4,]        24        34        44        54        64
+ [5,]        25        35        45        55        65
+ [6,]        26        36        46        56        66
+ [7,]        27        37        47        57        67
+ [8,]        28        38        48        58        68
+ [9,]        29        39        49        59        69
+[10,]        30        40        50        60        70</code></pre>
+<div class="sourceCode" id="cb985"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb985-1"><a href="loopfns.html#cb985-1" aria-hidden="true" tabindex="-1"></a>adf <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(amat)</span>
+<span id="cb985-2"><a href="loopfns.html#cb985-2" aria-hidden="true" tabindex="-1"></a>adf</span></code></pre></div>
+<pre><code>   Feature_1 Feature_2 Feature_3 Feature_4 Feature_5
+1         21        31        41        51        61
+2         22        32        42        52        62
+3         23        33        43        53        63
+4         24        34        44        54        64
+5         25        35        45        55        65
+6         26        36        46        56        66
+7         27        37        47        57        67
+8         28        38        48        58        68
+9         29        39        49        59        69
+10        30        40        50        60        70</code></pre>
+<p>We’ve seen that with <code>apply()</code> we specify the dimension to operate on and it works the same way on both matrices and data frames:</p>
+<div class="sourceCode" id="cb987"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb987-1"><a href="loopfns.html#cb987-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(amat, <span class="dv">2</span>, mean)</span></code></pre></div>
+<pre><code>Feature_1 Feature_2 Feature_3 Feature_4 Feature_5 
+     25.5      35.5      45.5      55.5      65.5 </code></pre>
+<div class="sourceCode" id="cb989"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb989-1"><a href="loopfns.html#cb989-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(adf, <span class="dv">2</span>, mean)</span></code></pre></div>
+<pre><code>Feature_1 Feature_2 Feature_3 Feature_4 Feature_5 
+     25.5      35.5      45.5      55.5      65.5 </code></pre>
+<p>However, <code>sapply()</code> (and <code>lapply()</code>, <code>vapply()</code>) acts on <strong><em>each element</em></strong> of the object, therefore it is not meaningful to pass a matrix to it:</p>
+<div class="sourceCode" id="cb991"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb991-1"><a href="loopfns.html#cb991-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(amat, mean)</span></code></pre></div>
+<pre><code> [1] 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45
+[26] 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70</code></pre>
+<p>The above returns the mean of each element, i.e. the element itself, which is pointless.</p>
+<p>Since a data frame is a list, and its columns are its elements, it works great for column operations on data frames:</p>
+<div class="sourceCode" id="cb993"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb993-1"><a href="loopfns.html#cb993-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(adf, mean)</span></code></pre></div>
+<pre><code>Feature_1 Feature_2 Feature_3 Feature_4 Feature_5 
+     25.5      35.5      45.5      55.5      65.5 </code></pre>
+<p>If you want to use <code>sapply()</code> on a matrix, you could iterate over an integer sequence as shown in the previous section:</p>
+<div class="sourceCode" id="cb995"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb995-1"><a href="loopfns.html#cb995-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(amat), <span class="cf">function</span>(i) <span class="fu">mean</span>(amat[, i]))</span></code></pre></div>
+<pre><code>[1] 25.5 35.5 45.5 55.5 65.5</code></pre>
+<p>This is shown to help emphasize the differences between the function and the data structures. In practice, you would use <code>apply()</code> on a matrix.</p>
+</div>
+<div id="anonfns" class="section level2" number="15.9">
+<h2><span class="header-section-number">15.9</span> Anonymous functions</h2>
+<p>Anonymous functions are just like regular functions but they are not assigned to an object - i.e. they are not “named”.<br />
+They are usually passed as arguments to other functions to be used once, hence no need to name them.<br />
+In R, anonymous functions are often used with the apply family of functions.</p>
+<p>Example of a simple regular function:</p>
+<div class="sourceCode" id="cb997"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb997-1"><a href="loopfns.html#cb997-1" aria-hidden="true" tabindex="-1"></a>squared <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb997-2"><a href="loopfns.html#cb997-2" aria-hidden="true" tabindex="-1"></a>  x<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb997-3"><a href="loopfns.html#cb997-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Because this is a short function definition, it can also be written in a single line without curly brackets:</p>
+<div class="sourceCode" id="cb998"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb998-1"><a href="loopfns.html#cb998-1" aria-hidden="true" tabindex="-1"></a>squared <span class="ot">&lt;-</span> <span class="cf">function</span>(x) x<span class="sc">^</span><span class="dv">2</span></span></code></pre></div>
+<p>The equivalent anonymous function is the same, but omitting the assignment:</p>
+<div class="sourceCode" id="cb999"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb999-1"><a href="loopfns.html#cb999-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span>(x) x<span class="sc">^</span><span class="dv">2</span></span></code></pre></div>
+<pre><code>function(x) x^2</code></pre>
+<p>Let’s use the <code>squared()</code> function within <code>sapply()</code> to square the first four columns of the iris dataset. In these examples, we often wrap functions around <code>head()</code> which prints the first few lines of an object to avoid:</p>
+<div class="sourceCode" id="cb1001"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1001-1"><a href="loopfns.html#cb1001-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(iris[, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>])</span></code></pre></div>
+<pre><code>  Sepal.Length Sepal.Width Petal.Length Petal.Width
+1          5.1         3.5          1.4         0.2
+2          4.9         3.0          1.4         0.2
+3          4.7         3.2          1.3         0.2
+4          4.6         3.1          1.5         0.2
+5          5.0         3.6          1.4         0.2
+6          5.4         3.9          1.7         0.4</code></pre>
+<div class="sourceCode" id="cb1003"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1003-1"><a href="loopfns.html#cb1003-1" aria-hidden="true" tabindex="-1"></a>iris_sq <span class="ot">&lt;-</span> <span class="fu">sapply</span>(iris[, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], squared)</span>
+<span id="cb1003-2"><a href="loopfns.html#cb1003-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(iris_sq)</span></code></pre></div>
+<pre><code>     Sepal.Length Sepal.Width Petal.Length Petal.Width
+[1,]        26.01       12.25         1.96        0.04
+[2,]        24.01        9.00         1.96        0.04
+[3,]        22.09       10.24         1.69        0.04
+[4,]        21.16        9.61         2.25        0.04
+[5,]        25.00       12.96         1.96        0.04
+[6,]        29.16       15.21         2.89        0.16</code></pre>
+<p>Let’s do the same as above, but this time using an anonymous function:</p>
+<div class="sourceCode" id="cb1005"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1005-1"><a href="loopfns.html#cb1005-1" aria-hidden="true" tabindex="-1"></a>iris_sqtoo <span class="ot">&lt;-</span> <span class="fu">sapply</span>(iris[, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], <span class="cf">function</span>(x) x<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb1005-2"><a href="loopfns.html#cb1005-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(iris_sqtoo)</span></code></pre></div>
+<pre><code>     Sepal.Length Sepal.Width Petal.Length Petal.Width
+[1,]        26.01       12.25         1.96        0.04
+[2,]        24.01        9.00         1.96        0.04
+[3,]        22.09       10.24         1.69        0.04
+[4,]        21.16        9.61         2.25        0.04
+[5,]        25.00       12.96         1.96        0.04
+[6,]        29.16       15.21         2.89        0.16</code></pre>
+<p>The entire anonymous function definition is passed in the function argument (<code>FUN</code> in the R documentation).</p>
+
+</div>
+</div>
+  </main>
+
+  <div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page">
+      <h2>On this page</h2>
+      <div id="book-on-this-page"></div>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          <li><a id="book-source" href="#">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="#">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5">
+  <div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Programming for Data Science in R</strong>" was written by Efstathios (Stathis) D. Gennatas, MBBS AICSM PhD. It was last built on 2021-11-29.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer>
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+<script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+
+</html>

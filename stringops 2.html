@@ -1,0 +1,524 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>20 String Operations | Programming for Data Science in R</title>
+
+    <meta name="author" content="Efstathios (Stathis) D. Gennatas, MBBS AICSM PhD" />
+  
+   <meta name="description" content="20 String Operations | Programming for Data Science in R is a project to build an online resource for (Bio)statisticians / Epidemiologists / (Health) Data Scientists" />
+   <meta name="generator" content="placeholder" />
+  <meta property="og:title" content="20 String Operations | Programming for Data Science in R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="20 String Operations | Programming for Data Science in R is a project to build an online resource for (Bio)statisticians / Epidemiologists / (Health) Data Scientists" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="20 String Operations | Programming for Data Science in R" />
+  
+  <meta name="twitter:description" content="20 String Operations | Programming for Data Science in R is a project to build an online resource for (Bio)statisticians / Epidemiologists / (Health) Data Scientists" />
+  
+  <!-- JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script>
+  <script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script>
+    <script src="libs/header-attrs-2.11/header-attrs.js"></script>
+    <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet" />
+    <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script>
+    <script src="libs/bs3compat-0.3.1/transition.js"></script>
+    <script src="libs/bs3compat-0.3.1/tabs.js"></script>
+    <script src="libs/bs3compat-0.3.1/bs3compat.js"></script>
+    <link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet" />
+    <script src="libs/bs4_book-1.0.0/bs4_book.js"></script>
+    <script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+    <script src="libs/plotly-binding-4.9.4.1/plotly.js"></script>
+    <script src="libs/typedarray-0.1/typedarray.min.js"></script>
+    <link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
+    <script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
+    <link href="libs/plotly-htmlwidgets-css-1.57.1/plotly-htmlwidgets.css" rel="stylesheet" />
+    <script src="libs/plotly-main-1.57.1/plotly-latest.min.js"></script>
+    <script src="libs/d3-3.5.6/d3.min.js"></script>
+    <link href="libs/profvis-0.3.6.9000/profvis.css" rel="stylesheet" />
+    <script src="libs/profvis-0.3.6.9000/profvis.js"></script>
+    <script src="libs/profvis-0.3.6.9000/scroll.js"></script>
+    <link href="libs/highlight-6.2.0/textmate.css" rel="stylesheet" />
+    <script src="libs/highlight-6.2.0/highlight.js"></script>
+    <script src="libs/profvis-binding-0.3.7/profvis.js"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-127457544-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-127457544-1');
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script>
+
+  <!-- CSS -->
+    <link rel="stylesheet" href="bootstrap.lambdamd.css" />
+  
+</head>
+
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book">
+    <a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">Programming for Data Science in R</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+      </form>
+
+      <nav aria-label="Table of contents">
+        <h2>Table of contents</h2>
+        <div id="book-toc"></div>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="#">View book source <i class="fab fa-github"></i></a></li></p>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="col-sm-12 col-md-9 col-lg-7" id="content">
+<div id="stringops" class="section level1" number="20">
+<h1><span class="header-section-number">20</span> String Operations</h1>
+<div id="reminder-create-coerce-check" class="section level2" number="20.1">
+<h2><span class="header-section-number">20.1</span> Reminder: create, coerce, check</h2>
+<ul>
+<li><code>character()</code>: Initialize empty character vector</li>
+<li><code>as.character()</code>: Coerce any vector to a character vector</li>
+<li><code>is.character()</code>: Check object is character</li>
+</ul>
+<div class="sourceCode" id="cb1166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1166-1"><a href="stringops.html#cb1166-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">character</span>(<span class="dv">10</span>)</span>
+<span id="cb1166-2"><a href="stringops.html#cb1166-2" aria-hidden="true" tabindex="-1"></a>x</span></code></pre></div>
+<pre><code> [1] &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot;</code></pre>
+<div class="sourceCode" id="cb1168"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1168-1"><a href="stringops.html#cb1168-1" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">22</span>, <span class="dv">43</span>)</span>
+<span id="cb1168-2"><a href="stringops.html#cb1168-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">as.character</span>(v)</span>
+<span id="cb1168-3"><a href="stringops.html#cb1168-3" aria-hidden="true" tabindex="-1"></a>x</span></code></pre></div>
+<pre><code>[1] &quot;10&quot; &quot;20&quot; &quot;22&quot; &quot;43&quot;</code></pre>
+<div class="sourceCode" id="cb1170"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1170-1"><a href="stringops.html#cb1170-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;PID&quot;</span>, <span class="st">&quot;Age&quot;</span>, <span class="st">&quot;Sex&quot;</span>, <span class="st">&quot;Handedness&quot;</span>)</span>
+<span id="cb1170-2"><a href="stringops.html#cb1170-2" aria-hidden="true" tabindex="-1"></a><span class="fu">is.character</span>(x)</span></code></pre></div>
+<pre><code>[1] TRUE</code></pre>
+</div>
+<div id="cat-concatenate-and-print" class="section level2" number="20.2">
+<h2><span class="header-section-number">20.2</span> <code>cat()</code>: Concatenate and <strong>print</strong></h2>
+<p><code>cat()</code> concatenates strings in order to print to screen (console) or to file.</p>
+<p>It <strong>does not return any object</strong>. It is therefore useful to produce informative messages in your programs.</p>
+<div class="sourceCode" id="cb1172"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1172-1"><a href="stringops.html#cb1172-1" aria-hidden="true" tabindex="-1"></a>sbp <span class="ot">&lt;-</span> <span class="dv">130</span></span>
+<span id="cb1172-2"><a href="stringops.html#cb1172-2" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span> <span class="fl">98.4</span></span>
+<span id="cb1172-3"><a href="stringops.html#cb1172-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;The blood pressure was&quot;</span>, sbp, <span class="st">&quot;and the temperature was&quot;</span>, temp, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
+<pre><code>The blood pressure was 130 and the temperature was 98.4 </code></pre>
+<p>Use the <code>file</code> argument to write to a text file. The <code>append</code> argument allows using
+multiple <code>cat()</code> calls to append to the same file.</p>
+</div>
+<div id="paste-concatenate-character-vectors" class="section level2" number="20.3">
+<h2><span class="header-section-number">20.3</span> <code>paste()</code>: Concatenate character vectors</h2>
+<p><code>paste()</code> is a commonly used command.</p>
+<p>In its simplest form, it acts like <code>as.character()</code>:</p>
+<div class="sourceCode" id="cb1174"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1174-1"><a href="stringops.html#cb1174-1" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">22</span>, <span class="dv">43</span>)</span>
+<span id="cb1174-2"><a href="stringops.html#cb1174-2" aria-hidden="true" tabindex="-1"></a><span class="fu">paste</span>(v)</span></code></pre></div>
+<pre><code>[1] &quot;10&quot; &quot;20&quot; &quot;22&quot; &quot;43&quot;</code></pre>
+<p>But its main job is to combine strings from multiple vectors elementwise:</p>
+<div class="sourceCode" id="cb1176"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1176-1"><a href="stringops.html#cb1176-1" aria-hidden="true" tabindex="-1"></a>id <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;001&quot;</span>, <span class="st">&quot;010&quot;</span>, <span class="st">&quot;018&quot;</span>, <span class="st">&quot;020&quot;</span>, <span class="st">&quot;021&quot;</span>, <span class="st">&quot;051&quot;</span>)</span>
+<span id="cb1176-2"><a href="stringops.html#cb1176-2" aria-hidden="true" tabindex="-1"></a>dept <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;Emergency&quot;</span>, <span class="st">&quot;Cardiology&quot;</span>, <span class="st">&quot;Neurology&quot;</span>,</span>
+<span id="cb1176-3"><a href="stringops.html#cb1176-3" aria-hidden="true" tabindex="-1"></a>         <span class="st">&quot;Anesthesia&quot;</span>, <span class="st">&quot;Surgery&quot;</span>, <span class="st">&quot;Psychiatry&quot;</span>)</span>
+<span id="cb1176-4"><a href="stringops.html#cb1176-4" aria-hidden="true" tabindex="-1"></a>id</span></code></pre></div>
+<pre><code>[1] &quot;001&quot; &quot;010&quot; &quot;018&quot; &quot;020&quot; &quot;021&quot; &quot;051&quot;</code></pre>
+<div class="sourceCode" id="cb1178"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1178-1"><a href="stringops.html#cb1178-1" aria-hidden="true" tabindex="-1"></a>dept</span></code></pre></div>
+<pre><code>[1] &quot;Emergency&quot;  &quot;Cardiology&quot; &quot;Neurology&quot;  &quot;Anesthesia&quot; &quot;Surgery&quot;   
+[6] &quot;Psychiatry&quot;</code></pre>
+<div class="sourceCode" id="cb1180"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1180-1"><a href="stringops.html#cb1180-1" aria-hidden="true" tabindex="-1"></a><span class="fu">paste</span>(id, dept)</span></code></pre></div>
+<pre><code>[1] &quot;001 Emergency&quot;  &quot;010 Cardiology&quot; &quot;018 Neurology&quot;  &quot;020 Anesthesia&quot;
+[5] &quot;021 Surgery&quot;    &quot;051 Psychiatry&quot;</code></pre>
+<p>The <code>sep</code> argument defines the separator:</p>
+<div class="sourceCode" id="cb1182"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1182-1"><a href="stringops.html#cb1182-1" aria-hidden="true" tabindex="-1"></a><span class="fu">paste</span>(id, dept, <span class="at">sep =</span> <span class="st">&quot;+++&quot;</span>)</span></code></pre></div>
+<pre><code>[1] &quot;001+++Emergency&quot;  &quot;010+++Cardiology&quot; &quot;018+++Neurology&quot;  &quot;020+++Anesthesia&quot;
+[5] &quot;021+++Surgery&quot;    &quot;051+++Psychiatry&quot;</code></pre>
+<p><code>paste0()</code> is an alias for the commonly used <code>paste(..., sep = "")</code>:</p>
+<div class="sourceCode" id="cb1184"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1184-1"><a href="stringops.html#cb1184-1" aria-hidden="true" tabindex="-1"></a><span class="fu">paste0</span>(id, dept)</span></code></pre></div>
+<pre><code>[1] &quot;001Emergency&quot;  &quot;010Cardiology&quot; &quot;018Neurology&quot;  &quot;020Anesthesia&quot;
+[5] &quot;021Surgery&quot;    &quot;051Psychiatry&quot;</code></pre>
+<p>As with other vectorized operations, value recycling can be very convenient:</p>
+<div class="sourceCode" id="cb1186"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1186-1"><a href="stringops.html#cb1186-1" aria-hidden="true" tabindex="-1"></a><span class="fu">paste0</span>(<span class="st">&quot;Feature_&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span></code></pre></div>
+<pre><code> [1] &quot;Feature_1&quot;  &quot;Feature_2&quot;  &quot;Feature_3&quot;  &quot;Feature_4&quot;  &quot;Feature_5&quot; 
+ [6] &quot;Feature_6&quot;  &quot;Feature_7&quot;  &quot;Feature_8&quot;  &quot;Feature_9&quot;  &quot;Feature_10&quot;</code></pre>
+<p>The argument <code>collapse</code> helps output a <em>single</em> character element after collapsing with some string:</p>
+<div class="sourceCode" id="cb1188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1188-1"><a href="stringops.html#cb1188-1" aria-hidden="true" tabindex="-1"></a><span class="fu">paste0</span>(<span class="st">&quot;Feature_&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="at">collapse =</span> <span class="st">&quot;, &quot;</span>)</span></code></pre></div>
+<pre><code>[1] &quot;Feature_1, Feature_2, Feature_3, Feature_4, Feature_5, Feature_6, Feature_7, Feature_8, Feature_9, Feature_10&quot;</code></pre>
+</div>
+<div id="nchar-get-number-of-characters-in-element" class="section level2" number="20.4">
+<h2><span class="header-section-number">20.4</span> <code>nchar()</code>: Get number of characters in element</h2>
+<p><code>nchar()</code> counts the number of characters in each <strong>element</strong> of type character in a vector:</p>
+<div class="sourceCode" id="cb1190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1190-1"><a href="stringops.html#cb1190-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;bb&quot;</span>, <span class="st">&quot;ccc&quot;</span>)</span>
+<span id="cb1190-2"><a href="stringops.html#cb1190-2" aria-hidden="true" tabindex="-1"></a><span class="fu">nchar</span>(x)</span></code></pre></div>
+<pre><code>[1] 1 2 3</code></pre>
+</div>
+<div id="substr-get-substring" class="section level2" number="20.5">
+<h2><span class="header-section-number">20.5</span> <code>substr()</code>: Get substring</h2>
+<p><code>substr()</code> allows you to get and set individual (literal) characters from a character (R base type) vector, by position:</p>
+<div id="extract" class="section level3" number="20.5.1">
+<h3><span class="header-section-number">20.5.1</span> Extract</h3>
+<p>e.g. Get characters 1-3:</p>
+<div class="sourceCode" id="cb1192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1192-1"><a href="stringops.html#cb1192-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;001Emergency&quot;</span>, <span class="st">&quot;010Cardiology&quot;</span>, <span class="st">&quot;018Neurology&quot;</span>, </span>
+<span id="cb1192-2"><a href="stringops.html#cb1192-2" aria-hidden="true" tabindex="-1"></a>       <span class="st">&quot;020Anesthesia&quot;</span>, <span class="st">&quot;021Surgery&quot;</span>, <span class="st">&quot;051Psychiatry&quot;</span>)</span>
+<span id="cb1192-3"><a href="stringops.html#cb1192-3" aria-hidden="true" tabindex="-1"></a><span class="fu">substr</span>(x, <span class="at">start =</span> <span class="dv">1</span>, <span class="at">stop =</span> <span class="dv">3</span>)</span></code></pre></div>
+<pre><code>[1] &quot;001&quot; &quot;010&quot; &quot;018&quot; &quot;020&quot; &quot;021&quot; &quot;051&quot;</code></pre>
+<p>Neither <code>start</code> nor <code>stop</code> need to be valid character positions.<br />
+For example, if you want to get all characters from the fourth one to the last one, you can specify a very large <code>stop</code></p>
+<div class="sourceCode" id="cb1194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1194-1"><a href="stringops.html#cb1194-1" aria-hidden="true" tabindex="-1"></a><span class="fu">substr</span>(x, <span class="dv">4</span>, <span class="dv">99</span>)</span></code></pre></div>
+<pre><code>[1] &quot;Emergency&quot;  &quot;Cardiology&quot; &quot;Neurology&quot;  &quot;Anesthesia&quot; &quot;Surgery&quot;   
+[6] &quot;Psychiatry&quot;</code></pre>
+<p>If you start with too high an index, you end up with empty strings:</p>
+<div class="sourceCode" id="cb1196"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1196-1"><a href="stringops.html#cb1196-1" aria-hidden="true" tabindex="-1"></a><span class="fu">substr</span>(x, <span class="dv">20</span>, <span class="dv">24</span>)</span></code></pre></div>
+<pre><code>[1] &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot;</code></pre>
+<p><strong>Note:</strong> <code>substring()</code> is also available, with similar syntax to <code>substr()</code>: (first, last) instead of (start, stop). It is available for compatibility with S (check its source code to see how it’s an alias for <code>substr()</code>)</p>
+</div>
+<div id="replace" class="section level3" number="20.5.2">
+<h3><span class="header-section-number">20.5.2</span> Replace</h3>
+<div class="sourceCode" id="cb1198"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1198-1"><a href="stringops.html#cb1198-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Jan_1987&quot;</span>)</span>
+<span id="cb1198-2"><a href="stringops.html#cb1198-2" aria-hidden="true" tabindex="-1"></a>x</span></code></pre></div>
+<pre><code>[1] &quot;Jan_1987&quot;</code></pre>
+<p>Replace the first three letters:</p>
+<div class="sourceCode" id="cb1200"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1200-1"><a href="stringops.html#cb1200-1" aria-hidden="true" tabindex="-1"></a><span class="fu">substr</span>(x, <span class="dv">1</span>, <span class="dv">3</span>) <span class="ot">&lt;-</span> <span class="st">&quot;Feb&quot;</span></span>
+<span id="cb1200-2"><a href="stringops.html#cb1200-2" aria-hidden="true" tabindex="-1"></a>x</span></code></pre></div>
+<pre><code>[1] &quot;Feb_1987&quot;</code></pre>
+<p>Note that if the replacement is longer, it is “cropped” to the length of the substring being replaced:</p>
+<div class="sourceCode" id="cb1202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1202-1"><a href="stringops.html#cb1202-1" aria-hidden="true" tabindex="-1"></a><span class="fu">substr</span>(x, <span class="dv">1</span>, <span class="dv">3</span>) <span class="ot">&lt;-</span> <span class="st">&quot;April&quot;</span></span>
+<span id="cb1202-2"><a href="stringops.html#cb1202-2" aria-hidden="true" tabindex="-1"></a>x</span></code></pre></div>
+<pre><code>[1] &quot;Apr_1987&quot;</code></pre>
+</div>
+</div>
+<div id="strsplit-split-strings" class="section level2" number="20.6">
+<h2><span class="header-section-number">20.6</span> <code>strsplit()</code>: Split strings</h2>
+<p><code>strsplit()</code> allows you to split a character vector elements based on any character or <a href="stringops.html#regex">regular expression</a></p>
+<div class="sourceCode" id="cb1204"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1204-1"><a href="stringops.html#cb1204-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="st">&quot;This is one sentence&quot;</span></span>
+<span id="cb1204-2"><a href="stringops.html#cb1204-2" aria-hidden="true" tabindex="-1"></a><span class="fu">strsplit</span>(x, <span class="st">&quot; &quot;</span>)</span></code></pre></div>
+<pre><code>[[1]]
+[1] &quot;This&quot;     &quot;is&quot;       &quot;one&quot;      &quot;sentence&quot;</code></pre>
+<div class="sourceCode" id="cb1206"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1206-1"><a href="stringops.html#cb1206-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="st">&quot;14,910&quot;</span></span>
+<span id="cb1206-2"><a href="stringops.html#cb1206-2" aria-hidden="true" tabindex="-1"></a><span class="fu">strsplit</span>(x, <span class="st">&quot;,&quot;</span>)</span></code></pre></div>
+<pre><code>[[1]]
+[1] &quot;14&quot;  &quot;910&quot;</code></pre>
+<p>As with any functions, you can compose string operations in complex ways (though it may often be considerably easier to perform multiple separate operations instead):</p>
+<div class="sourceCode" id="cb1208"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1208-1"><a href="stringops.html#cb1208-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;1,950&quot;</span>, <span class="st">&quot;2,347&quot;</span>)</span>
+<span id="cb1208-2"><a href="stringops.html#cb1208-2" aria-hidden="true" tabindex="-1"></a>x</span></code></pre></div>
+<pre><code>[1] &quot;1,950&quot; &quot;2,347&quot;</code></pre>
+<div class="sourceCode" id="cb1210"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1210-1"><a href="stringops.html#cb1210-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(<span class="fu">strsplit</span>(x, <span class="st">&quot;,&quot;</span>), <span class="cf">function</span>(i) </span>
+<span id="cb1210-2"><a href="stringops.html#cb1210-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">paste</span>(i, <span class="fu">c</span>(<span class="st">&quot;thousand&quot;</span>, <span class="st">&quot;dollars&quot;</span>), <span class="at">collapse =</span> <span class="st">&quot; and &quot;</span>))</span></code></pre></div>
+<pre><code>[[1]]
+[1] &quot;1 thousand and 950 dollars&quot;
+
+[[2]]
+[1] &quot;2 thousand and 347 dollars&quot;</code></pre>
+</div>
+<div id="string-formatting" class="section level2" number="20.7">
+<h2><span class="header-section-number">20.7</span> String formatting</h2>
+<div id="change-case-with-toupper-and-tolower" class="section level3" number="20.7.1">
+<h3><span class="header-section-number">20.7.1</span> Change case with <code>toupper()</code> and <code>tolower()</code></h3>
+<div class="sourceCode" id="cb1212"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1212-1"><a href="stringops.html#cb1212-1" aria-hidden="true" tabindex="-1"></a>features <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;id&quot;</span>, <span class="st">&quot;age&quot;</span>, <span class="st">&quot;sex&quot;</span>, <span class="st">&quot;sbp&quot;</span>, <span class="st">&quot;dbp&quot;</span>, <span class="st">&quot;hct&quot;</span>, <span class="st">&quot;urea&quot;</span>, <span class="st">&quot;creatinine&quot;</span>)</span>
+<span id="cb1212-2"><a href="stringops.html#cb1212-2" aria-hidden="true" tabindex="-1"></a>features</span></code></pre></div>
+<pre><code>[1] &quot;id&quot;         &quot;age&quot;        &quot;sex&quot;        &quot;sbp&quot;        &quot;dbp&quot;       
+[6] &quot;hct&quot;        &quot;urea&quot;       &quot;creatinine&quot;</code></pre>
+<div class="sourceCode" id="cb1214"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1214-1"><a href="stringops.html#cb1214-1" aria-hidden="true" tabindex="-1"></a>features_upper <span class="ot">&lt;-</span> <span class="fu">toupper</span>(features)</span>
+<span id="cb1214-2"><a href="stringops.html#cb1214-2" aria-hidden="true" tabindex="-1"></a>features_upper</span></code></pre></div>
+<pre><code>[1] &quot;ID&quot;         &quot;AGE&quot;        &quot;SEX&quot;        &quot;SBP&quot;        &quot;DBP&quot;       
+[6] &quot;HCT&quot;        &quot;UREA&quot;       &quot;CREATININE&quot;</code></pre>
+<div class="sourceCode" id="cb1216"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1216-1"><a href="stringops.html#cb1216-1" aria-hidden="true" tabindex="-1"></a>features_lower <span class="ot">&lt;-</span> <span class="fu">tolower</span>(features_upper)</span>
+<span id="cb1216-2"><a href="stringops.html#cb1216-2" aria-hidden="true" tabindex="-1"></a>features_lower</span></code></pre></div>
+<pre><code>[1] &quot;id&quot;         &quot;age&quot;        &quot;sex&quot;        &quot;sbp&quot;        &quot;dbp&quot;       
+[6] &quot;hct&quot;        &quot;urea&quot;       &quot;creatinine&quot;</code></pre>
+</div>
+<div id="abbreviate" class="section level3" number="20.7.2">
+<h3><span class="header-section-number">20.7.2</span> <code>abbreviate()</code></h3>
+<p><code>abbreviate()</code> allows to reduce elements of a character vector to short, unique abbreviations of a minimumn length (defaults to 4)</p>
+<div class="sourceCode" id="cb1218"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1218-1"><a href="stringops.html#cb1218-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Emergency&quot;</span>, <span class="st">&quot;Cardiology&quot;</span>, <span class="st">&quot;Surgery&quot;</span>, <span class="st">&quot;Anesthesia&quot;</span>, <span class="st">&quot;Neurology&quot;</span>, <span class="st">&quot;Psychiatry&quot;</span>, <span class="st">&quot;Clinical Psychology&quot;</span>)</span>
+<span id="cb1218-2"><a href="stringops.html#cb1218-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abbreviate</span>(x)</span></code></pre></div>
+<pre><code>          Emergency          Cardiology             Surgery          Anesthesia 
+             &quot;Emrg&quot;              &quot;Crdl&quot;              &quot;Srgr&quot;              &quot;Anst&quot; 
+          Neurology          Psychiatry Clinical Psychology 
+             &quot;Nrlg&quot;              &quot;Psyc&quot;              &quot;ClnP&quot; </code></pre>
+<div class="sourceCode" id="cb1220"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1220-1"><a href="stringops.html#cb1220-1" aria-hidden="true" tabindex="-1"></a><span class="fu">abbreviate</span>(x, <span class="at">minlength =</span> <span class="dv">4</span>)</span></code></pre></div>
+<pre><code>          Emergency          Cardiology             Surgery          Anesthesia 
+             &quot;Emrg&quot;              &quot;Crdl&quot;              &quot;Srgr&quot;              &quot;Anst&quot; 
+          Neurology          Psychiatry Clinical Psychology 
+             &quot;Nrlg&quot;              &quot;Psyc&quot;              &quot;ClnP&quot; </code></pre>
+<div class="sourceCode" id="cb1222"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1222-1"><a href="stringops.html#cb1222-1" aria-hidden="true" tabindex="-1"></a><span class="fu">abbreviate</span>(x, <span class="at">minlength =</span> <span class="dv">5</span>)</span></code></pre></div>
+<pre><code>          Emergency          Cardiology             Surgery          Anesthesia 
+            &quot;Emrgn&quot;             &quot;Crdlg&quot;             &quot;Srgry&quot;             &quot;Ansth&quot; 
+          Neurology          Psychiatry Clinical Psychology 
+            &quot;Nrlgy&quot;             &quot;Psych&quot;             &quot;ClncP&quot; </code></pre>
+</div>
+</div>
+<div id="pattern-matching" class="section level2" number="20.8">
+<h2><span class="header-section-number">20.8</span> Pattern matching</h2>
+<p>A very common task in programming is to find +/- replace string patterns in a vector of strings.<br />
+<code>grep()</code> and <code>grepl()</code> help find strings that contain a given pattern.<br />
+<code>sub()</code> and <code>gsub()</code> help find and replace strings.</p>
+<div id="grep-get-an-integer-index-of-elements-that-include-a-pattern" class="section level3" number="20.8.1">
+<h3><span class="header-section-number">20.8.1</span> <code>grep()</code>: Get an <strong>integer</strong> index of elements that include a pattern</h3>
+<div class="sourceCode" id="cb1224"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1224-1"><a href="stringops.html#cb1224-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;001Age&quot;</span>, <span class="st">&quot;002Sex&quot;</span>, <span class="st">&quot;010Temp&quot;</span>, <span class="st">&quot;014SBP&quot;</span>, <span class="st">&quot;018Hct&quot;</span>, <span class="st">&quot;022PFratio&quot;</span>, <span class="st">&quot;030GCS&quot;</span>, <span class="st">&quot;112SBP-DBP&quot;</span>)</span>
+<span id="cb1224-2"><a href="stringops.html#cb1224-2" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span>(<span class="at">pattern =</span> <span class="st">&quot;SBP&quot;</span>, <span class="at">x =</span> x)</span></code></pre></div>
+<pre><code>[1] 4 8</code></pre>
+<p><code>grep()</code>’s <code>value</code> arguments which defaults to <code>FALSE</code>, allows returning the matched string itself (the value of the element) instead of its integer index:</p>
+<div class="sourceCode" id="cb1226"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1226-1"><a href="stringops.html#cb1226-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span>(<span class="st">&quot;SBP&quot;</span>, x, <span class="at">value =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>[1] &quot;014SBP&quot;     &quot;112SBP-DBP&quot;</code></pre>
+</div>
+<div id="grepl-get-a-logical-index-of-elements-that-include-a-pattern" class="section level3" number="20.8.2">
+<h3><span class="header-section-number">20.8.2</span> <code>grepl()</code>: Get a <strong>logical</strong> index of elements that include a pattern</h3>
+<p><code>grepl()</code> is similar to <code>grep()</code>, but returns a logical index instead:</p>
+<div class="sourceCode" id="cb1228"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1228-1"><a href="stringops.html#cb1228-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grepl</span>(<span class="st">&quot;SBP&quot;</span>, x)</span></code></pre></div>
+<pre><code>[1] FALSE FALSE FALSE  TRUE FALSE FALSE FALSE  TRUE</code></pre>
+</div>
+<div id="sub-find-replace-first-match-of-a-pattern" class="section level3" number="20.8.3">
+<h3><span class="header-section-number">20.8.3</span> <code>sub()</code>: Find replace <strong>first</strong> match of a pattern</h3>
+<div class="sourceCode" id="cb1230"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1230-1"><a href="stringops.html#cb1230-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;The most important variable was PF ratio. Other significant variables are listed in the supplementary information.&quot;</span>)</span>
+<span id="cb1230-2"><a href="stringops.html#cb1230-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sub</span>(<span class="at">pattern =</span> <span class="st">&quot;variable&quot;</span>, <span class="at">replacement =</span> <span class="st">&quot;feature&quot;</span>, <span class="at">x =</span> x)</span></code></pre></div>
+<pre><code>[1] &quot;The most important feature was PF ratio. Other significant variables are listed in the supplementary information.&quot;</code></pre>
+<p>“First match” refers to each element of a character vector:</p>
+<div class="sourceCode" id="cb1232"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1232-1"><a href="stringops.html#cb1232-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;var 1, var 2&quot;</span>, <span class="st">&quot;var 3, var 4&quot;</span>)</span>
+<span id="cb1232-2"><a href="stringops.html#cb1232-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sub</span>(<span class="st">&quot;var&quot;</span>, <span class="st">&quot;feat&quot;</span>, x)</span></code></pre></div>
+<pre><code>[1] &quot;feat 1, var 2&quot; &quot;feat 3, var 4&quot;</code></pre>
+</div>
+<div id="gsub-find-and-replace-all-matches-of-a-pattern" class="section level3" number="20.8.4">
+<h3><span class="header-section-number">20.8.4</span> <code>gsub()</code>: Find and replace <strong>all</strong> matches of a pattern</h3>
+<div class="sourceCode" id="cb1234"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1234-1"><a href="stringops.html#cb1234-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;The most important variable was PF ratio. Other significant variables are listed in the supplementary information.&quot;</span>)</span>
+<span id="cb1234-2"><a href="stringops.html#cb1234-2" aria-hidden="true" tabindex="-1"></a><span class="fu">gsub</span>(<span class="at">pattern =</span> <span class="st">&quot;variable&quot;</span>, <span class="at">replacement =</span> <span class="st">&quot;feature&quot;</span>, <span class="at">x =</span> x)</span></code></pre></div>
+<pre><code>[1] &quot;The most important feature was PF ratio. Other significant features are listed in the supplementary information.&quot;</code></pre>
+<p>“All matches” means all matches across all elements:</p>
+<div class="sourceCode" id="cb1236"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1236-1"><a href="stringops.html#cb1236-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;var 1, var 2&quot;</span>, <span class="st">&quot;var 3, var 4&quot;</span>)</span>
+<span id="cb1236-2"><a href="stringops.html#cb1236-2" aria-hidden="true" tabindex="-1"></a><span class="fu">gsub</span>(<span class="st">&quot;var&quot;</span>, <span class="st">&quot;feat&quot;</span>, x)</span></code></pre></div>
+<pre><code>[1] &quot;feat 1, feat 2&quot; &quot;feat 3, feat 4&quot;</code></pre>
+</div>
+</div>
+<div id="regex" class="section level2" number="20.9">
+<h2><span class="header-section-number">20.9</span> Regular expressions</h2>
+<p>Regular expressions allow you to perform flexible pattern matching. For example, you can look for a pattern specifically at the beginning or the end of a word, or for a variable pattern with certain characteristics.</p>
+<p>Regular expressions are very powerful and heavily used. They exist in multiple programming languages - with many similarities and some differences in their syntax.</p>
+<p>There are many rules in defining regular expressions and take a little getting used to. You can read the R manual by typing <code>?base::regex</code>.</p>
+<p>Some of the most important rules are liste below:</p>
+<div id="match-a-pattern-at-the-beginning-of-a-linestring-with" class="section level3" number="20.9.1">
+<h3><span class="header-section-number">20.9.1</span> Match a pattern at the beginning of a line/string with <code>^</code>/<code>\\&lt;</code>:</h3>
+<p>Use the caret sign <code>^</code> in the <strong>beginning</strong> of a pattern to only match strings that begin with this pattern.<br />
+pattern <code>012</code> matches both 2nd and 3rd elements:</p>
+<div class="sourceCode" id="cb1238"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1238-1"><a href="stringops.html#cb1238-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;001xyz993&quot;</span>, <span class="st">&quot;012qwe764&quot;</span>, <span class="st">&quot;029aqw012&quot;</span>)</span>
+<span id="cb1238-2"><a href="stringops.html#cb1238-2" aria-hidden="true" tabindex="-1"></a>x</span></code></pre></div>
+<pre><code>[1] &quot;001xyz993&quot; &quot;012qwe764&quot; &quot;029aqw012&quot;</code></pre>
+<div class="sourceCode" id="cb1240"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1240-1"><a href="stringops.html#cb1240-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span>(<span class="st">&quot;012&quot;</span>, x)</span></code></pre></div>
+<pre><code>[1] 2 3</code></pre>
+<p>By adding <code>^</code> or <code>\\&lt;</code>, only the 2nd element matches:</p>
+<div class="sourceCode" id="cb1242"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1242-1"><a href="stringops.html#cb1242-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span>(<span class="st">&quot;^012&quot;</span>, x)</span></code></pre></div>
+<pre><code>[1] 2</code></pre>
+<div class="sourceCode" id="cb1244"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1244-1"><a href="stringops.html#cb1244-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span>(<span class="st">&quot;</span><span class="sc">\\</span><span class="st">&lt;012&quot;</span>, x)</span></code></pre></div>
+<pre><code>[1] 2</code></pre>
+</div>
+<div id="match-a-pattern-at-the-end-of-a-linestring-with" class="section level3" number="20.9.2">
+<h3><span class="header-section-number">20.9.2</span> Match a pattern at the end of a line/string with <code>$</code>/<code>\\&gt;</code></h3>
+<p>The dollar sign <code>$</code> is used at the <strong>end</strong> of a pattern to only match strings which end with this pattern:</p>
+<div class="sourceCode" id="cb1246"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1246-1"><a href="stringops.html#cb1246-1" aria-hidden="true" tabindex="-1"></a>x</span></code></pre></div>
+<pre><code>[1] &quot;001xyz993&quot; &quot;012qwe764&quot; &quot;029aqw012&quot;</code></pre>
+<div class="sourceCode" id="cb1248"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1248-1"><a href="stringops.html#cb1248-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span>(<span class="st">&quot;012$&quot;</span>, x)</span></code></pre></div>
+<pre><code>[1] 3</code></pre>
+<div class="sourceCode" id="cb1250"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1250-1"><a href="stringops.html#cb1250-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span>(<span class="st">&quot;012</span><span class="sc">\\</span><span class="st">&gt;&quot;</span>, x)</span></code></pre></div>
+<pre><code>[1] 3</code></pre>
+<div class="sourceCode" id="cb1252"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1252-1"><a href="stringops.html#cb1252-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;1one&quot;</span>, <span class="st">&quot;2one&quot;</span>, <span class="st">&quot;3two&quot;</span>, <span class="st">&quot;3three&quot;</span>)</span>
+<span id="cb1252-2"><a href="stringops.html#cb1252-2" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span>(<span class="st">&quot;one$&quot;</span>, x)</span></code></pre></div>
+<pre><code>[1] 1 2</code></pre>
+<div class="sourceCode" id="cb1254"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1254-1"><a href="stringops.html#cb1254-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span>(<span class="st">&quot;one</span><span class="sc">\\</span><span class="st">&gt;&quot;</span>, x)</span></code></pre></div>
+<pre><code>[1] 1 2</code></pre>
+</div>
+<div id="match-any-character" class="section level3" number="20.9.3">
+<h3><span class="header-section-number">20.9.3</span> <code>.</code>: Match any character</h3>
+<div class="sourceCode" id="cb1256"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1256-1"><a href="stringops.html#cb1256-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span>(<span class="st">&quot;e.X&quot;</span>, <span class="fu">c</span>(<span class="st">&quot;eX&quot;</span>, <span class="st">&quot;enX&quot;</span>, <span class="st">&quot;ennX&quot;</span>, <span class="st">&quot;ennnX&quot;</span>, <span class="st">&quot;ennnnX&quot;</span>))</span></code></pre></div>
+<pre><code>[1] 2</code></pre>
+</div>
+<div id="match-preceding-character-one-or-more-times" class="section level3" number="20.9.4">
+<h3><span class="header-section-number">20.9.4</span> <code>+</code>: Match preceding character one or more times:</h3>
+<div class="sourceCode" id="cb1258"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1258-1"><a href="stringops.html#cb1258-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span>(<span class="st">&quot;en+X&quot;</span>, <span class="fu">c</span>(<span class="st">&quot;eX&quot;</span>, <span class="st">&quot;enX&quot;</span>, <span class="st">&quot;ennX&quot;</span>, <span class="st">&quot;ennnX&quot;</span>, <span class="st">&quot;ennnnX&quot;</span>))</span></code></pre></div>
+<pre><code>[1] 2 3 4 5</code></pre>
+</div>
+<div id="n-match-preceding-character-n-times" class="section level3" number="20.9.5">
+<h3><span class="header-section-number">20.9.5</span> <code>{n}</code>: Match preceding character <code>n</code> times:</h3>
+<div class="sourceCode" id="cb1260"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1260-1"><a href="stringops.html#cb1260-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span>(<span class="st">&quot;en{2}X&quot;</span>, <span class="fu">c</span>(<span class="st">&quot;eX&quot;</span>, <span class="st">&quot;enX&quot;</span>, <span class="st">&quot;ennX&quot;</span>, <span class="st">&quot;ennnX&quot;</span>, <span class="st">&quot;ennnnX&quot;</span>))</span></code></pre></div>
+<pre><code>[1] 3</code></pre>
+</div>
+<div id="n-match-preceding-character-n-or-more-times" class="section level3" number="20.9.6">
+<h3><span class="header-section-number">20.9.6</span> <code>{n,}</code>: Match preceding character <code>n</code> or more times:</h3>
+<div class="sourceCode" id="cb1262"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1262-1"><a href="stringops.html#cb1262-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span>(<span class="st">&quot;en{2,}X&quot;</span>, <span class="fu">c</span>(<span class="st">&quot;eX&quot;</span>, <span class="st">&quot;enX&quot;</span>, <span class="st">&quot;ennX&quot;</span>, <span class="st">&quot;ennnX&quot;</span>, <span class="st">&quot;ennnnX&quot;</span>))</span></code></pre></div>
+<pre><code>[1] 3 4 5</code></pre>
+</div>
+<div id="nm-match-preceding-character-at-least-n-times-and-no-more-than-m-times" class="section level3" number="20.9.7">
+<h3><span class="header-section-number">20.9.7</span> <code>{n,m}</code>: Match preceding character at least <code>n</code> times and no more than <code>m</code> times:</h3>
+<div class="sourceCode" id="cb1264"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1264-1"><a href="stringops.html#cb1264-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span>(<span class="st">&quot;en{2,3}X&quot;</span>, <span class="fu">c</span>(<span class="st">&quot;eX&quot;</span>, <span class="st">&quot;enX&quot;</span>, <span class="st">&quot;ennX&quot;</span>, <span class="st">&quot;ennnX&quot;</span>, <span class="st">&quot;ennnnX&quot;</span>))</span></code></pre></div>
+<pre><code>[1] 3 4</code></pre>
+</div>
+<div id="characterclasses" class="section level3" number="20.9.8">
+<h3><span class="header-section-number">20.9.8</span> Character classes</h3>
+<p>You can define a set of characters to be matched using square brackets. Any number of the characters in the set will be matched.</p>
+<p>For example match and replace <code>$</code> and/or <code>@</code> with an underscore:</p>
+<div class="sourceCode" id="cb1266"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1266-1"><a href="stringops.html#cb1266-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Feat1$alpha&quot;</span>, <span class="st">&quot;Feat2$gamma@5&quot;</span>, <span class="st">&quot;Feat9@zeta2&quot;</span>)</span>
+<span id="cb1266-2"><a href="stringops.html#cb1266-2" aria-hidden="true" tabindex="-1"></a><span class="fu">gsub</span>(<span class="st">&quot;[$@]&quot;</span>, <span class="st">&quot;_&quot;</span>, x)</span></code></pre></div>
+<pre><code>[1] &quot;Feat1_alpha&quot;   &quot;Feat2_gamma_5&quot; &quot;Feat9_zeta2&quot;  </code></pre>
+<div id="predefined-character-classes" class="section level4" number="20.9.8.1">
+<h4><span class="header-section-number">20.9.8.1</span> Predefined character classes</h4>
+<p>A number of character classes are predefined. Slightly confusingly, they are themselves surrounded by brackets and to use them as a character class, you need a seconds set of brackets around them. Some of the most common ones include:</p>
+<ul>
+<li><code>[:alnum:]</code>: alphanumeric, i.e. all letters and numbers</li>
+<li><code>[:alpha:]</code>: all letters</li>
+<li><code>[:digit:]</code>: all numbers</li>
+<li><code>[:lower:]</code>: all lowercase letters</li>
+<li><code>[:upper:]</code>: all uppercase letters</li>
+<li><code>[:punct:]</code>: all punctuation characters (! ” # $ % &amp; ’ ( ) * + , - . / : ; &lt; = &gt; ? @ [  ] ^ _ ` { | } ~.)</li>
+<li><code>[:blank:]</code>: all spaces and tabs</li>
+<li><code>[:space:]</code>: all spaces, tabs, newline characters, and some more</li>
+</ul>
+<p>Let’s look at some examples using them.</p>
+<p>Here we use <code>[:digit:]</code> to remove all numbers:</p>
+<div class="sourceCode" id="cb1268"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1268-1"><a href="stringops.html#cb1268-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;001Emergency&quot;</span>, <span class="st">&quot;010Cardiology&quot;</span>, <span class="st">&quot;018Neurology&quot;</span>, <span class="st">&quot;020Anesthesia&quot;</span>, </span>
+<span id="cb1268-2"><a href="stringops.html#cb1268-2" aria-hidden="true" tabindex="-1"></a>       <span class="st">&quot;021Surgery&quot;</span>, <span class="st">&quot;051Psychiatry&quot;</span>)</span>
+<span id="cb1268-3"><a href="stringops.html#cb1268-3" aria-hidden="true" tabindex="-1"></a>x</span></code></pre></div>
+<pre><code>[1] &quot;001Emergency&quot;  &quot;010Cardiology&quot; &quot;018Neurology&quot;  &quot;020Anesthesia&quot;
+[5] &quot;021Surgery&quot;    &quot;051Psychiatry&quot;</code></pre>
+<div class="sourceCode" id="cb1270"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1270-1"><a href="stringops.html#cb1270-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gsub</span>(<span class="st">&quot;[[:digit:]]&quot;</span>, <span class="st">&quot;&quot;</span>, x)</span></code></pre></div>
+<pre><code>[1] &quot;Emergency&quot;  &quot;Cardiology&quot; &quot;Neurology&quot;  &quot;Anesthesia&quot; &quot;Surgery&quot;   
+[6] &quot;Psychiatry&quot;</code></pre>
+<p>We can use <code>[:alpha:]</code> to remove all letters instead:</p>
+<div class="sourceCode" id="cb1272"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1272-1"><a href="stringops.html#cb1272-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gsub</span>(<span class="st">&quot;[[:alpha:]]&quot;</span>, <span class="st">&quot;&quot;</span>, x)</span></code></pre></div>
+<pre><code>[1] &quot;001&quot; &quot;010&quot; &quot;018&quot; &quot;020&quot; &quot;021&quot; &quot;051&quot;</code></pre>
+<p>We can use a caret <code>^</code> in the beginning of a character class to match any character <em>not</em> in the character set:</p>
+<div class="sourceCode" id="cb1274"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1274-1"><a href="stringops.html#cb1274-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;001$Emergency&quot;</span>, <span class="st">&quot;010@Cardiology&quot;</span>, <span class="st">&quot;018*Neurology&quot;</span>, <span class="st">&quot;020!Anesthesia&quot;</span>, </span>
+<span id="cb1274-2"><a href="stringops.html#cb1274-2" aria-hidden="true" tabindex="-1"></a>       <span class="st">&quot;021!Surgery&quot;</span>, <span class="st">&quot;051*Psychiatry&quot;</span>)</span>
+<span id="cb1274-3"><a href="stringops.html#cb1274-3" aria-hidden="true" tabindex="-1"></a><span class="fu">gsub</span>(<span class="st">&quot;[^[:alnum:]]&quot;</span>, <span class="st">&quot;_&quot;</span>, x)</span></code></pre></div>
+<pre><code>[1] &quot;001_Emergency&quot;  &quot;010_Cardiology&quot; &quot;018_Neurology&quot;  &quot;020_Anesthesia&quot;
+[5] &quot;021_Surgery&quot;    &quot;051_Psychiatry&quot;</code></pre>
+</div>
+</div>
+<div id="combining-character-classes" class="section level3" number="20.9.9">
+<h3><span class="header-section-number">20.9.9</span> Combining character classes</h3>
+<p>Use <code>|</code> to match from multiple character classes:</p>
+<div class="sourceCode" id="cb1276"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1276-1"><a href="stringops.html#cb1276-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;123#$%alphaBeta&quot;</span>)</span>
+<span id="cb1276-2"><a href="stringops.html#cb1276-2" aria-hidden="true" tabindex="-1"></a><span class="fu">gsub</span>(<span class="st">&quot;[[:digit:]|[:punct:]]&quot;</span>, <span class="st">&quot;&quot;</span>, x)</span></code></pre></div>
+<pre><code>[1] &quot;alphaBeta&quot;</code></pre>
+<div class="rmdinfo">
+<p>
+For more information on regular expressions, start by reading the built-in documentation: <code>?regex</code>
+</p>
+</div>
+</div>
+<div id="escaping-metacharacters" class="section level3" number="20.9.10">
+<h3><span class="header-section-number">20.9.10</span> Escaping metacharacters</h3>
+<p>Metacharacters are characters that have a special meaning within a regular expression. They include:</p>
+<p><code>. \ | ( ) [ { ^ $ * + ?</code>.</p>
+<p>For example, we have seen above that the period matches any character and the square brackets are used to define <a href="stringops.html#characterclasses">character classes</a>
+If you want to match one of these characters itself, you must “escape” it using a double backslash. Escaping a character simply means “this is not part of a regular expression, match it as is”.</p>
+<p>For example, to match a period (<code>.</code>) and replace it with underscores:</p>
+<div class="sourceCode" id="cb1278"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1278-1"><a href="stringops.html#cb1278-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;systolic.blood.pressure&quot;</span>, <span class="st">&quot;diastolic.blood.pressure&quot;</span>)</span>
+<span id="cb1278-2"><a href="stringops.html#cb1278-2" aria-hidden="true" tabindex="-1"></a>x</span></code></pre></div>
+<pre><code>[1] &quot;systolic.blood.pressure&quot;  &quot;diastolic.blood.pressure&quot;</code></pre>
+<div class="sourceCode" id="cb1280"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1280-1"><a href="stringops.html#cb1280-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gsub</span>(<span class="st">&quot;</span><span class="sc">\\</span><span class="st">.&quot;</span>, <span class="st">&quot;_&quot;</span>, x)</span></code></pre></div>
+<pre><code>[1] &quot;systolic_blood_pressure&quot;  &quot;diastolic_blood_pressure&quot;</code></pre>
+<p>If we didn’t escape the period above, it would have matched every character:</p>
+<div class="sourceCode" id="cb1282"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1282-1"><a href="stringops.html#cb1282-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gsub</span>(<span class="st">&quot;.&quot;</span>, <span class="st">&quot;_&quot;</span>, x)</span></code></pre></div>
+<pre><code>[1] &quot;_______________________&quot;  &quot;________________________&quot;</code></pre>
+<p>Another example, include an escaped metacharacter within a regular expression. In the example below we want to remove everything up to and including the dollar sign:</p>
+<div class="sourceCode" id="cb1284"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1284-1"><a href="stringops.html#cb1284-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;df$ID&quot;</span>, <span class="st">&quot;df$Age&quot;</span>)</span>
+<span id="cb1284-2"><a href="stringops.html#cb1284-2" aria-hidden="true" tabindex="-1"></a><span class="fu">gsub</span>(<span class="st">&quot;.*</span><span class="sc">\\</span><span class="st">$&quot;</span>, <span class="st">&quot;&quot;</span>, x)</span></code></pre></div>
+<pre><code>[1] &quot;ID&quot;  &quot;Age&quot;</code></pre>
+<p>Our regular expression <code>.*\\$</code>, decomposed:</p>
+<ul>
+<li><code>.</code>: match any character</li>
+<li><code>.*</code>: match any character any number of times</li>
+<li><code>.*\\$</code>: match any character any number of times till you find a dollar sign</li>
+</ul>
+<p>If we had not escaped the <code>$</code>, it wouldn’t have worked:</p>
+<div class="sourceCode" id="cb1286"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1286-1"><a href="stringops.html#cb1286-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gsub</span>(<span class="st">&quot;.*$&quot;</span>, <span class="st">&quot;&quot;</span>, x)</span></code></pre></div>
+<pre><code>[1] &quot;&quot; &quot;&quot;</code></pre>
+
+</div>
+</div>
+</div>
+  </main>
+
+  <div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page">
+      <h2>On this page</h2>
+      <div id="book-on-this-page"></div>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          <li><a id="book-source" href="#">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="#">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5">
+  <div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Programming for Data Science in R</strong>" was written by Efstathios (Stathis) D. Gennatas, MBBS AICSM PhD. It was last built on 2021-11-29.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer>
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+<script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+
+</html>

@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>13 Aggregate | Programming for Data Science in R</title>
+
+    <meta name="author" content="Efstathios (Stathis) D. Gennatas, MBBS AICSM PhD" />
+  
+   <meta name="description" content="13 Aggregate | Programming for Data Science in R is a project to build an online resource for (Bio)statisticians / Epidemiologists / (Health) Data Scientists" />
+   <meta name="generator" content="placeholder" />
+  <meta property="og:title" content="13 Aggregate | Programming for Data Science in R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="13 Aggregate | Programming for Data Science in R is a project to build an online resource for (Bio)statisticians / Epidemiologists / (Health) Data Scientists" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="13 Aggregate | Programming for Data Science in R" />
+  
+  <meta name="twitter:description" content="13 Aggregate | Programming for Data Science in R is a project to build an online resource for (Bio)statisticians / Epidemiologists / (Health) Data Scientists" />
+  
+  <!-- JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script>
+  <script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script>
+    <script src="libs/header-attrs-2.11/header-attrs.js"></script>
+    <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet" />
+    <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script>
+    <script src="libs/bs3compat-0.3.1/transition.js"></script>
+    <script src="libs/bs3compat-0.3.1/tabs.js"></script>
+    <script src="libs/bs3compat-0.3.1/bs3compat.js"></script>
+    <link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet" />
+    <script src="libs/bs4_book-1.0.0/bs4_book.js"></script>
+    <script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+    <script src="libs/plotly-binding-4.9.4.1/plotly.js"></script>
+    <script src="libs/typedarray-0.1/typedarray.min.js"></script>
+    <link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
+    <script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
+    <link href="libs/plotly-htmlwidgets-css-1.57.1/plotly-htmlwidgets.css" rel="stylesheet" />
+    <script src="libs/plotly-main-1.57.1/plotly-latest.min.js"></script>
+    <script src="libs/d3-3.5.6/d3.min.js"></script>
+    <link href="libs/profvis-0.3.6.9000/profvis.css" rel="stylesheet" />
+    <script src="libs/profvis-0.3.6.9000/profvis.js"></script>
+    <script src="libs/profvis-0.3.6.9000/scroll.js"></script>
+    <link href="libs/highlight-6.2.0/textmate.css" rel="stylesheet" />
+    <script src="libs/highlight-6.2.0/highlight.js"></script>
+    <script src="libs/profvis-binding-0.3.7/profvis.js"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-127457544-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-127457544-1');
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script>
+
+  <!-- CSS -->
+    <link rel="stylesheet" href="bootstrap.lambdamd.css" />
+  
+</head>
+
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book">
+    <a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">Programming for Data Science in R</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+      </form>
+
+      <nav aria-label="Table of contents">
+        <h2>Table of contents</h2>
+        <div id="book-toc"></div>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="#">View book source <i class="fab fa-github"></i></a></li></p>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="col-sm-12 col-md-9 col-lg-7" id="content">
+<div id="aggregate" class="section level1" number="13">
+<h1><span class="header-section-number">13</span> Aggregate</h1>
+<p><code>aggregate()</code> is a powerful way to apply functions on splits of your data. It can replicate
+functionality of the <code>*apply()</code> family, but can be more flexible. This may come with a performance
+penalty, only noticeable with big data, in which case it is recommended to use
+<a href="datatable.html#datatable">data.table</a> for fast group-by data summarization.</p>
+<p><code>aggregate()</code> can work either with a formula notation or directly on data.frames and vectors. We
+show how to perform each operation below with either approach. The formula interface might be easier
+to work with interactivly on the console. While you <em>can</em> code with the formula interface, the
+regular approach is a lot more straightforward to do so.</p>
+<p>For this example, we get the penguin data:</p>
+<div class="sourceCode" id="cb844"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb844-1"><a href="aggregate.html#cb844-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(palmerpenguins)</span>
+<span id="cb844-2"><a href="aggregate.html#cb844-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(penguins)</span></code></pre></div>
+<pre><code>## tibble [344 × 8] (S3: tbl_df/tbl/data.frame)
+##  $ species          : Factor w/ 3 levels &quot;Adelie&quot;,&quot;Chinstrap&quot;,..: 1 1 1 1 1 1 1 1 1 1 ...
+##  $ island           : Factor w/ 3 levels &quot;Biscoe&quot;,&quot;Dream&quot;,..: 3 3 3 3 3 3 3 3 3 3 ...
+##  $ bill_length_mm   : num [1:344] 39.1 39.5 40.3 NA 36.7 39.3 38.9 39.2 34.1 42 ...
+##  $ bill_depth_mm    : num [1:344] 18.7 17.4 18 NA 19.3 20.6 17.8 19.6 18.1 20.2 ...
+##  $ flipper_length_mm: int [1:344] 181 186 195 NA 193 190 181 195 193 190 ...
+##  $ body_mass_g      : int [1:344] 3750 3800 3250 NA 3450 3650 3625 4675 3475 4250 ...
+##  $ sex              : Factor w/ 2 levels &quot;female&quot;,&quot;male&quot;: 2 1 1 NA 1 2 1 2 NA NA ...
+##  $ year             : int [1:344] 2007 2007 2007 2007 2007 2007 2007 2007 2007 2007 ...</code></pre>
+<p>See example below for 1 or multiple variables by 1 or more groups using either the formula
+interface, or working directly on objects with <code>$</code> indexing or using <code>with()</code>:</p>
+<div id="single-variable-by-single-group" class="section level2" number="13.1">
+<h2><span class="header-section-number">13.1</span> Single variable by single group</h2>
+<p>Note that the formula method defaults to na.action = na.omit</p>
+<p>Using the formula interface:</p>
+<div class="sourceCode" id="cb846"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb846-1"><a href="aggregate.html#cb846-1" aria-hidden="true" tabindex="-1"></a><span class="fu">aggregate</span>(bill_length_mm <span class="sc">~</span> species,</span>
+<span id="cb846-2"><a href="aggregate.html#cb846-2" aria-hidden="true" tabindex="-1"></a>          penguins, mean)</span></code></pre></div>
+<pre><code>##     species bill_length_mm
+## 1    Adelie       38.79139
+## 2 Chinstrap       48.83382
+## 3    Gentoo       47.50488</code></pre>
+<p>Directly working with vectors:</p>
+<div class="sourceCode" id="cb848"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb848-1"><a href="aggregate.html#cb848-1" aria-hidden="true" tabindex="-1"></a><span class="fu">aggregate</span>(penguins<span class="sc">$</span>bill_length_mm,</span>
+<span id="cb848-2"><a href="aggregate.html#cb848-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">by =</span> <span class="fu">list</span>(penguins<span class="sc">$</span>species),</span>
+<span id="cb848-3"><a href="aggregate.html#cb848-3" aria-hidden="true" tabindex="-1"></a>          mean, <span class="at">na.rm =</span> T)</span></code></pre></div>
+<pre><code>##     Group.1        x
+## 1    Adelie 38.79139
+## 2 Chinstrap 48.83382
+## 3    Gentoo 47.50488</code></pre>
+<p>Using <code>with()</code>:</p>
+<div class="sourceCode" id="cb850"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb850-1"><a href="aggregate.html#cb850-1" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(penguins,</span>
+<span id="cb850-2"><a href="aggregate.html#cb850-2" aria-hidden="true" tabindex="-1"></a>     <span class="fu">aggregate</span>(bill_length_mm,</span>
+<span id="cb850-3"><a href="aggregate.html#cb850-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">by =</span> <span class="fu">list</span>(species),</span>
+<span id="cb850-4"><a href="aggregate.html#cb850-4" aria-hidden="true" tabindex="-1"></a>               mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code></pre></div>
+<pre><code>##     Group.1        x
+## 1    Adelie 38.79139
+## 2 Chinstrap 48.83382
+## 3    Gentoo 47.50488</code></pre>
+</div>
+<div id="multiple-variables-by-single-group" class="section level2" number="13.2">
+<h2><span class="header-section-number">13.2</span> Multiple variables by single group</h2>
+<div class="sourceCode" id="cb852"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb852-1"><a href="aggregate.html#cb852-1" aria-hidden="true" tabindex="-1"></a><span class="fu">aggregate</span>(<span class="fu">cbind</span>(bill_length_mm, flipper_length_mm) <span class="sc">~</span> species,</span>
+<span id="cb852-2"><a href="aggregate.html#cb852-2" aria-hidden="true" tabindex="-1"></a>          penguins, mean)</span></code></pre></div>
+<pre><code>##     species bill_length_mm flipper_length_mm
+## 1    Adelie       38.79139          189.9536
+## 2 Chinstrap       48.83382          195.8235
+## 3    Gentoo       47.50488          217.1870</code></pre>
+<div class="sourceCode" id="cb854"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb854-1"><a href="aggregate.html#cb854-1" aria-hidden="true" tabindex="-1"></a><span class="fu">aggregate</span>(penguins[, <span class="fu">c</span>(<span class="st">&quot;bill_length_mm&quot;</span>, <span class="st">&quot;flipper_length_mm&quot;</span>)],</span>
+<span id="cb854-2"><a href="aggregate.html#cb854-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">by =</span> <span class="fu">list</span>(penguins<span class="sc">$</span>species),</span>
+<span id="cb854-3"><a href="aggregate.html#cb854-3" aria-hidden="true" tabindex="-1"></a>          mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>##     Group.1 bill_length_mm flipper_length_mm
+## 1    Adelie       38.79139          189.9536
+## 2 Chinstrap       48.83382          195.8235
+## 3    Gentoo       47.50488          217.1870</code></pre>
+<div class="sourceCode" id="cb856"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb856-1"><a href="aggregate.html#cb856-1" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(penguins,</span>
+<span id="cb856-2"><a href="aggregate.html#cb856-2" aria-hidden="true" tabindex="-1"></a>     <span class="fu">aggregate</span>(<span class="fu">cbind</span>(bill_length_mm, flipper_length_mm),</span>
+<span id="cb856-3"><a href="aggregate.html#cb856-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">by =</span> <span class="fu">list</span>(species),</span>
+<span id="cb856-4"><a href="aggregate.html#cb856-4" aria-hidden="true" tabindex="-1"></a>               mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code></pre></div>
+<pre><code>##     Group.1 bill_length_mm flipper_length_mm
+## 1    Adelie       38.79139          189.9536
+## 2 Chinstrap       48.83382          195.8235
+## 3    Gentoo       47.50488          217.1870</code></pre>
+</div>
+<div id="single-variable-by-multiple-groups" class="section level2" number="13.3">
+<h2><span class="header-section-number">13.3</span> Single variable by multiple groups</h2>
+<div class="sourceCode" id="cb858"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb858-1"><a href="aggregate.html#cb858-1" aria-hidden="true" tabindex="-1"></a><span class="fu">aggregate</span>(bill_length_mm <span class="sc">~</span> species <span class="sc">+</span> island, penguins, mean)</span></code></pre></div>
+<pre><code>##     species    island bill_length_mm
+## 1    Adelie    Biscoe       38.97500
+## 2    Gentoo    Biscoe       47.50488
+## 3    Adelie     Dream       38.50179
+## 4 Chinstrap     Dream       48.83382
+## 5    Adelie Torgersen       38.95098</code></pre>
+<div class="sourceCode" id="cb860"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb860-1"><a href="aggregate.html#cb860-1" aria-hidden="true" tabindex="-1"></a><span class="fu">aggregate</span>(penguins<span class="sc">$</span>bill_length_mm,</span>
+<span id="cb860-2"><a href="aggregate.html#cb860-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">by =</span> <span class="fu">list</span>(penguins<span class="sc">$</span>species, penguins<span class="sc">$</span>island),</span>
+<span id="cb860-3"><a href="aggregate.html#cb860-3" aria-hidden="true" tabindex="-1"></a>          mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>##     Group.1   Group.2        x
+## 1    Adelie    Biscoe 38.97500
+## 2    Gentoo    Biscoe 47.50488
+## 3    Adelie     Dream 38.50179
+## 4 Chinstrap     Dream 48.83382
+## 5    Adelie Torgersen 38.95098</code></pre>
+<div class="sourceCode" id="cb862"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb862-1"><a href="aggregate.html#cb862-1" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(penguins,</span>
+<span id="cb862-2"><a href="aggregate.html#cb862-2" aria-hidden="true" tabindex="-1"></a>     <span class="fu">aggregate</span>(bill_length_mm,</span>
+<span id="cb862-3"><a href="aggregate.html#cb862-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">by =</span> <span class="fu">list</span>(species, island),</span>
+<span id="cb862-4"><a href="aggregate.html#cb862-4" aria-hidden="true" tabindex="-1"></a>               mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code></pre></div>
+<pre><code>##     Group.1   Group.2        x
+## 1    Adelie    Biscoe 38.97500
+## 2    Gentoo    Biscoe 47.50488
+## 3    Adelie     Dream 38.50179
+## 4 Chinstrap     Dream 48.83382
+## 5    Adelie Torgersen 38.95098</code></pre>
+</div>
+<div id="multiple-variables-by-multiple-groups" class="section level2" number="13.4">
+<h2><span class="header-section-number">13.4</span> Multiple variables by multiple groups</h2>
+<div class="sourceCode" id="cb864"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb864-1"><a href="aggregate.html#cb864-1" aria-hidden="true" tabindex="-1"></a><span class="fu">aggregate</span>(<span class="fu">cbind</span>(bill_length_mm, flipper_length_mm) <span class="sc">~</span> species <span class="sc">+</span> island,</span>
+<span id="cb864-2"><a href="aggregate.html#cb864-2" aria-hidden="true" tabindex="-1"></a>          penguins, mean)</span></code></pre></div>
+<pre><code>##     species    island bill_length_mm flipper_length_mm
+## 1    Adelie    Biscoe       38.97500          188.7955
+## 2    Gentoo    Biscoe       47.50488          217.1870
+## 3    Adelie     Dream       38.50179          189.7321
+## 4 Chinstrap     Dream       48.83382          195.8235
+## 5    Adelie Torgersen       38.95098          191.1961</code></pre>
+<div class="sourceCode" id="cb866"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb866-1"><a href="aggregate.html#cb866-1" aria-hidden="true" tabindex="-1"></a><span class="fu">aggregate</span>(penguins[, <span class="fu">c</span>(<span class="st">&quot;bill_length_mm&quot;</span>, <span class="st">&quot;flipper_length_mm&quot;</span>)],</span>
+<span id="cb866-2"><a href="aggregate.html#cb866-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">by =</span> <span class="fu">list</span>(penguins<span class="sc">$</span>species, penguins<span class="sc">$</span>island),</span>
+<span id="cb866-3"><a href="aggregate.html#cb866-3" aria-hidden="true" tabindex="-1"></a>          mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>##     Group.1   Group.2 bill_length_mm flipper_length_mm
+## 1    Adelie    Biscoe       38.97500          188.7955
+## 2    Gentoo    Biscoe       47.50488          217.1870
+## 3    Adelie     Dream       38.50179          189.7321
+## 4 Chinstrap     Dream       48.83382          195.8235
+## 5    Adelie Torgersen       38.95098          191.1961</code></pre>
+<div class="sourceCode" id="cb868"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb868-1"><a href="aggregate.html#cb868-1" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(penguins,</span>
+<span id="cb868-2"><a href="aggregate.html#cb868-2" aria-hidden="true" tabindex="-1"></a>     <span class="fu">aggregate</span>(<span class="fu">cbind</span>(bill_length_mm, flipper_length_mm),</span>
+<span id="cb868-3"><a href="aggregate.html#cb868-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">by =</span> <span class="fu">list</span>(species, island),</span>
+<span id="cb868-4"><a href="aggregate.html#cb868-4" aria-hidden="true" tabindex="-1"></a>               mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code></pre></div>
+<pre><code>##     Group.1   Group.2 bill_length_mm flipper_length_mm
+## 1    Adelie    Biscoe       38.97500          188.7955
+## 2    Gentoo    Biscoe       47.50488          217.1870
+## 3    Adelie     Dream       38.50179          189.7321
+## 4 Chinstrap     Dream       48.83382          195.8235
+## 5    Adelie Torgersen       38.95098          191.1961</code></pre>
+</div>
+<div id="see-also" class="section level2" number="13.5">
+<h2><span class="header-section-number">13.5</span> See also</h2>
+<p><a href="%7B#tapply%7D"><code>tapply()</code></a> for an alternative methods of applying function on subsets of a single
+variable (probably faster)</p>
+
+</div>
+</div>
+  </main>
+
+  <div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page">
+      <h2>On this page</h2>
+      <div id="book-on-this-page"></div>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          <li><a id="book-source" href="#">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="#">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5">
+  <div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Programming for Data Science in R</strong>" was written by Efstathios (Stathis) D. Gennatas, MBBS AICSM PhD. It was last built on 2021-11-29.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer>
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+<script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+
+</html>

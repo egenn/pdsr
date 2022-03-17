@@ -1,4 +1,4 @@
-# Crash Course {-}
+# Crash Course {#crashcourse}
 
 ```{r echo = FALSE}
 knitr::opts_chunk$set(fig.width = 5, fig.height = 5,
@@ -17,12 +17,121 @@ It covers basic commands to allow you to read in data, perform common manipulati
 
 [R](https://en.wikipedia.org/wiki/R_(programming_language)) is a [programming language](https://en.wikipedia.org/wiki/Programming_language) developed specifically for statistical computing and graphics.
 
-It is often mis-characterized as a "statistical package", similar to SPSS, for example, but as a programming language it has 
+It is often mis-characterized as a "statistical package", similar to SPSS, for example, but as a (complete) programming language it has far more extensive functionality.
 
 For a more thorough coverage of the topic, see [Programming for Data Science in R](https://class.lambdamd.org/pdsr/) book.
 Links to the book will be provided throughout these notes for those interested in reading up further into particular topics.
 
+R can be used to perform most, if not all, operations in statistics, data science,
+machine learning. This is not a crash course in statistics, data science, or 
+machine learning, but an introduction to the language itself.
+
 If you have any questions, write them down and make sure to ask them during each section's Q&A.
+
+## Introduction to Programming (!!)
+
+**Everyone can code**
+
+Everyone can learn how to program.
+Whether it takes you a minute or a lot longer to learn how to perform a certain
+operation using code, you can master it. Do not worry about comparing yourself 
+to others.
+
+As with more or less everything, motivation is key.
+
+You are here because, presumably, you have important questions to answet using data.
+
+Knowing even a little code can give you the power to work with your own data without
+depending fully on someone else. At the same time, it makes collaborating with
+other scientistics, clinicians, statisticians, etc. much more effective & efficient.
+
+Learning to code can be exciting and frustrating. It's similar to learning to
+play an instrument - like the guitar. At first, it may seem unnatural and
+annoying, but you can get better at it rather quickly and it's very rewarding 
+and satisfying.
+
+You don't learn to code by reading books or slides, you learn to code when you
+**practice, practice, practice**. Reading other people's code can be very helpful.
+It is important to **be able to read & write code**.
+
+**Coding needs logic & creativity**
+
+Programming is based on logic and learning to code helps structure your thoughts,
+your experiments, your reasoning.
+
+Programming languages are human constructs. They developed to answer important needs.
+They develop with time, as needs evolve. Many design choices are explained historically,
+a few may be more arbitrary.
+
+**Everything is a series of simple, manageable steps**
+
+Remember this: the shortest and simplest piece of code up to the longest and most complex
+is made of a sequence of relatively simple steps.
+
+Always be clear about what you want to achieve first, then break it down step-by-step
+in code. Each step is relatively easy to figure out and **check** that it is working
+as desired. A common mistake is to write multiple steps in one go, and then have 
+a hard time figuring out where an error occurs or why.
+
+To get from A to B using code there are virtually always multiple different paths.
+That can be confusing or perhaps frustrating, but it is also exciting.
+Programming to the uninitiated may seem a a rigid exercise but it is highly creative.
+Remember that there objective and subjective differences to consider when designing
+a code to take you from A to B. Suppose you have two approaches that have the same input 
+and produce the same output. An objective difference would be how fast each completes the
+task and how many lines of code or number of function calls it requires. A subjective
+difference would be the programming style / syntax used / whether the code is 
+"elegant" - a pretty broad topic.
+
+**Always check yourself**
+
+Always remember: the most important thing is to ensure you have 
+correct results at each step. Don't place writing smart or elegant code above
+writing correct code. 
+
+**Errors happen and they are not all the same**
+
+Errors in code happen all the time, it is part of the process. But, not all errors
+are the same, far from it. One crucial difference is coding errors that:
+
+- **stop execution** of code and **produce an error message**. This is the best case scenario
+because it can't go unnoticed.
+- **do not stop execution** of code but **produce a warning**. These warnings are
+too often ignored. They may be serios or trivial, but must be investigated.
+- **do not stop execution** and **produce no warnings**. This is the worst kind of error
+since it is silent. These are very common and the only way to recognize them are
+to check the output. 
+
+**Details matter (a lot)**
+
+A lot of beginner and non-beginner mistakes occur because
+a variable or function name is misspelled.
+
+ALWAYS, ALWAYS, ALWAYS READ ERROR AND WARNING MESSAGES.
+The all caps is because this is a) essential and b) far too often ignored.
+
+**Document everything**
+
+Use comments in your code to explaing what you are trying to achieve and why.
+You will often need to revisit your code after some time has passed. Life will 
+be very hard if it's not clear what is happening and why. 
+
+Programming is largely a team sport. A lot of code is written collaboratively
+or is used by people other than the author. Again, comprehensive documentation 
+is super important.
+
+**Help is at your fingertips**
+
+Whether you are just starting out or you are a seasoned programmer, you have
+many sources of information to help you troubleshoot or learn new skills.
+
+- Use the built-in documentation! Builtin help files, written by the code author,
+are almost always the best place to start. Their quality will vary, but they
+are often sufficient to learn how to use a function properly.
+- Programming is an online activity. Most errors or difficulties you encounter
+have been encountered many times before by others. Millions of Q&A sites, blogs,
+forums are a web search away. Copy-pasting an error message into a search engine 
+will often result in multiple hits.
 
 ## The R language
 
@@ -84,9 +193,16 @@ We shall use a heart failure dataset as an example. It is freely available at th
 dat <- read.csv("~/icloud/Data/UCI/heart_failure_clinical_records_dataset.csv")
 ```
 
+The `head()` function prints the first few lines of an object:
+
 ```{r}
 head(dat)
 ```
+
+The `read.csv()` function read the contents of the CSV file into an R object known
+as a `data.frame`. This is essentially a table like a spreadsheet, where each row
+represents a case (e.g. a subject, patient, etc.) and each columnn represents a
+variable (e.g. Patient ID, Age, Sex, Dx, etc.)
 
 ### XLSX
 
@@ -98,7 +214,7 @@ dat_too <- openxlsx::read.xlsx("~/icloud/Data/UCI/heart_failure_clinical_records
 head(dat_too)
 ```
 
-## Inspect data
+## Inspect & summarize data
 
 Get data dimensions:
 
@@ -106,10 +222,16 @@ Get data dimensions:
 dim(dat)
 ```
 
-Get summary of data structure, including data types:
+Look at the data structure, including data types:
 
 ```{r}
 str(dat)
+```
+
+Get summary of dataset:
+
+```{r}
+summary(dat)
 ```
 
 ## Data types
@@ -152,11 +274,43 @@ dat$DEATH_EVENT <- factor(dat$DEATH_EVENT)
 [Read more about factors in PDSR](https://class.lambdamd.org/pdsr/factors.html)
 ```
 
+## Summarize data
+
+A lot of statistical functionality is built in to the language. You can easily get
+summary statistics of variables using functions like `mean()`, `median()`, `range()`,
+`max()`, `min()`.
+
+To access a specific column of a data.frame you use the `$` notation.
+We use `head()` to avoid printing the entire variable.
+
+```{r}
+head(dat$age)
+```
+
+### Continuous variables
+
+```{r}
+mean(dat$age)
+median(dat$age)
+min(dat$age)
+max(dat$age)
+summary(dat$age)
+```
+
+### Categorical variables
+
+The `table()` function gives you the counts for each level/unique value of a variable:
+
+```{r}
+table(dat$sex)
+table(dat$smoking)
+```
+
 ## Plots
 
-R has extensive support for graphics built in to the core language.
+R has powerful and extensive support for graphics built in to the core language.
 
-Here, we look at how to produce some very common and important plot types
+Here, we look at how to produce some common and important plot types:
 
 ### Boxplot
 
@@ -193,7 +347,6 @@ smoking_sex$expected
 ```{r}
 smoking_sex$observed
 ```
-
 
 ## Saving data
 

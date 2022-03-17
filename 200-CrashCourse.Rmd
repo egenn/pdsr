@@ -1,0 +1,206 @@
+# Crash Course {#crashcourse}
+
+```{r echo = FALSE}
+knitr::opts_chunk$set(fig.width = 10, fig.height = 5,
+                      comment = NA, cache = TRUE) 
+```
+
+```{r, comment="", results="asis", echo=FALSE}
+old.hooks <- fansi::set_knit_hooks(knitr::knit_hooks)
+options(crayon.enabled = TRUE)
+```
+
+## Introduction & Format
+
+This is a brief introduction to the R programming language for health data science.
+It covers basic commands to allow you to read in data, perform common manipulations, plot data and run common tests.
+
+[R](https://en.wikipedia.org/wiki/R_(programming_language)) is a [programming language](https://en.wikipedia.org/wiki/Programming_language) developed specifically for statistical computing and graphics.
+
+It is often mis-characterized as a "statistical package", similar to SPSS, for example, but as a programming language it has 
+
+For a more thorough coverage of the topic, see [Programming for Data Science in R](https://class.lambdamd.org/pdsr/) book.
+Links to the book will be provided throughout these notes for those interested in reading up further into particular topics.
+
+If you have any questions, write them down and make sure to ask them during each section's Q&A.
+
+## The R language
+
+- The **S** statistical programming language was developed in 1976 at Bell Labs by John Chambers and others "to turn ideas into software, quickly and faithfully”.
+
+- **R** is an [open source](https://en.wikipedia.org/wiki/Open_source) implementation of S developed by Ross Ihaka and Robert Gentleman at the University of Auckland, New Zealand; initial version released in 1995.
+
+- Supported by the [R Foundation for Statistical Computing](https://www.r-project.org/foundation/), developed by the [R Core Team and the contributions of many others](https://www.r-project.org/contributors.html).
+
+- Official part of the [Free Software Foundation’s](https://www.fsf.org) [GNU project](https://www.gnu.org/) available under [GNU GPL v2](https://www.gnu.org/licenses/old-licenses/gpl-2.0.html).
+
+- Latest version [4.1.3 released 2022-03-10](https://cloud.r-project.org/) (as of writing)
+
+## Free Open Source Software
+
+[Free Open Source Software](https://en.wikipedia.org/wiki/Free_and_open-source_software)
+
+[What is Free Software?](https://www.fsf.org/about/what-is-free-software)
+
+> "Free software is software that gives you the user the freedom to share, 
+>  study and modify it. We call this free software because the user is free."
+> 
+> `r tufte::quote_footer('--- Free Software Foundation')`
+
+[What is Open Source Software](https://opensource.com/resources/what-open-source)
+
+> "Open source software is software with source code that anyone can 
+> inspect, modify, and enhance."
+>
+> `r tufte::quote_footer('--- opensource.com')`
+
+Free and Open Source Software is importance in biomedical research and clinical applications
+for a number of reasons, including promoting **inclusion**, **transparency**, and **trustworthiness.**
+
+## RStudio Integrated Development Environment
+
+[RStudio](https://www.rstudio.com/) offers a popular, feature-full [Integrated Development Environment (IDE)](https://en.wikipedia.org/wiki/Integrated_development_environment) for R.
+
+More advanced users can use [Visual Studio Code](https://code.visualstudio.com/) with the [R Extension](https://github.com/REditorSupport/vscode-R) for a similar R IDE experience together with all the extra functionality an convenience of VS Code.
+
+## The R core language & package ecosystem
+
+R boasts extensive quantitative and statistical functionality in the base system.
+
+This functionality is extended through a vast ecosystem of external packages.
+
+- **CRAN**: The Comprehensive R Archive Network: https://cran.r-project.org/
+- **Bioconductor**: Bioinformatics-related packages and more: https://www.bioconductor.org/
+- **GitHub**: The largest source code host (>200M repositories): https://github.com/
+
+## Reading in Data
+
+We shall use a heart failure dataset as an example. It is freely available at the UCI repository:
+"https://archive.ics.uci.edu/ml/machine-learning-databases/00519/heart_failure_clinical_records_dataset.csv"
+
+### CSV
+
+```{r}
+dat <- read.csv("~/icloud/Data/UCI/heart_failure_clinical_records_dataset.csv")
+```
+
+### XLSX
+
+```{r}
+dat_too <- openxlsx
+```
+
+## Inspect data
+
+Get data dimensions:
+
+```{r}
+dim(dat)
+```
+
+Get summary of data structure, including data types:
+
+```{r}
+str(dat)
+```
+
+## Data types
+
+R includes a number of builtin data types. Some of the most common are:
+
+- numeric (e.g. 1.2, 5.9, 11.4)
+- character (e.g. "SF", "SD")
+- logical (e.g. "TRUE", "FALSE")
+
+## Data Structures
+
+R includes multiple different data structures. Think of a data structure as a
+container that holds one or more vectors of data.
+
+The data.frame is one of the most common data structures for statistics, because
+it can hold vectors of different kinds, e.g. numeric, categorical, and character.
+
+```{block, type="rmdnote"}
+[Read more about data structures in PDSR](https://class.lambdamd.org/pdsr/datastructures.html)
+```
+
+### Factors
+
+Factors in R are used to store categorical variables and therefore have many 
+important uses in statistics / data science / machine learning.
+
+Let's convert binary categorical variables in our dataset to factors:
+
+```{r}
+dat$anaemia <- factor(dat$anaemia)
+dat$diabetes <- factor(dat$diabetes)
+dat$high_blood_pressure <- factor(dat$high_blood_pressure)
+dat$sex <- factor(dat$sex)
+dat$smoking <- factor(dat$smoking)
+dat$DEATH_EVENT <- factor(dat$DEATH_EVENT)
+```
+
+```{block, type="rmdnote"}
+[Read more about factors in PDSR](https://class.lambdamd.org/pdsr/factors.html)
+```
+
+## Plots
+
+R has extensive support for graphics built in to the core language.
+
+Here, we look at how to produce some very common and important plot types
+
+### Boxplot
+
+```{r}
+boxplot(dat$serum_sodium ~ dat$smoking, col = "royalblue")
+```
+
+### Histogram
+
+```{r}
+hist(dat$age, col = "royalblue")
+```
+
+### Scatter plot
+
+```{r}
+plot(dat$age, dat$serum_sodium, col = "royalblue")
+```
+
+## Hypothesis Testing
+
+```{r}
+chisq.test(dat$smoking, dat$DEATH_EVENT)
+```
+
+```{r}
+smoking_sex <- chisq.test(dat$smoking, dat$sex)
+smoking_sex
+```
+```{r}
+smoking_sex$expected
+```
+
+```{r}
+smoking_sex$observed
+```
+
+
+## Saving data
+
+### CSV
+
+You can write R objects to CSV file using `write.csv()'
+
+```{r eval = FALSE}
+write.csv(dat, "~/Data/dat.csv")
+```
+
+### RDS
+
+You can also directly save any R object as an "RDS" file
+
+```{r eval = FALSE}
+saveRDS(dat, "~/Data/dat.rds")
+```

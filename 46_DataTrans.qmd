@@ -105,7 +105,7 @@ all(Sepal.Length_scaled == iris.scaled[, "Sepal.Length"])
 Note: Due to limitation in numerical precision, checking sets of floats for equality after multiple operations is not recommended. One simple option is to plot:
 
 ```{r}
-mplot3.fit(Sepal.Length_scaled, iris.scaled[, "Sepal.Length"])
+mplot3_fit(Sepal.Length_scaled, iris.scaled[, "Sepal.Length"])
 ```
 
 ```{block, type="rmdnote"}
@@ -170,13 +170,13 @@ For the following example, `x` is an unknown feature in a new dataset we were ju
 We start by plotting its distribution:
 
 ```{r}
-mplot3.x(x)
+mplot3_x(x)
 ```
 
 We can see it is skewed right. A log transform can help here:
 
 ```{r}
-mplot3.x(log(x))
+mplot3_x(log(x))
 ```
 
 ### Data binning with `cut()`
@@ -212,12 +212,12 @@ xcuts5
 ```
 
 ```{r}
-mplot3.x(x, par.reset = FALSE)
+mplot3_x(x, par.reset = FALSE)
 # plot(density(x)) # in base R
 abline(v = xcuts5, col = "red", lwd = 1.5)
 ```
 
-[Note: We used `par.reset = FALSE` to stop `mplot3.x()` from resetting its custom `par()` settings so that we can continue adding elements to the same plot, in this case with the `abline()` command.]
+[Note: We used `par.reset = FALSE` to stop `mplot3_x()` from resetting its custom `par()` settings so that we can continue adding elements to the same plot, in this case with the `abline()` command.]
 
 #### Quantile cuts
 
@@ -226,7 +226,7 @@ Instead of evenly-spaced intervals, we can get quantiles with `quantile()`. We a
 ```{r}
 xquants5 <- quantile(x, seq(0, 1, length.out = 5))
 xquants5 <- quantile(x, seq(0, 1, length.out = 5))
-mplot3.x(x, par.reset = F)
+mplot3_x(x, par.reset = F)
 # plot(density(x)) # in base R
 abline(v = xquants5, col = "green", lwd = 1.5)
 ```

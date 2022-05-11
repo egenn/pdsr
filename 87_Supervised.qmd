@@ -35,7 +35,7 @@ remotes::install_github("egenn/rtemis")
 
 **rtemis** uses a large number of packages under the hood. Since you would not need to use all of them, they are not installed by default. Each time an **rtemis** function is called, a dependency check is run and a message is printed if any packages need to be installed. 
 
-For this short tutorial, start by installing **ranger**, if it is not already installed on your system:
+For this short tutorial, start by installing **ranger**, if it is not already installed:
 
 ```{r eval=FALSE}
 install.packages("ranger")
@@ -75,7 +75,7 @@ y.test <- y[-res$Subsample_1]
 ```
 
 ```{r}
-mod.glm <- s.GLM(x.train, y.train, x.test, y.test)
+mod_glm <- s_GLM(x.train, y.train, x.test, y.test)
 ```
 
 ### Scenario 2: (`x.train, x.test`)
@@ -91,12 +91,12 @@ w <- rnorm(10)
 y <- x %*% w + rnorm(200)
 dat <- data.frame(x, y)
 res <- resample(dat, seed = 2020)
-dat.train <- dat[res$Subsample_1, ]
-dat.test <- dat[-res$Subsample_1, ]
+dat_train <- dat[res$Subsample_1, ]
+dat_test <- dat[-res$Subsample_1, ]
 ```
 
 ```{r}
-mod.glm <- s.GLM(dat.train, dat.test)
+mod_glm <- s_GLM(dat_train, dat_test)
 ```
 
 The `dataPrepare()` function will check data dimensions and determine whether data was input as separate feature and outcome sets or combined and ensure the correct number of cases and features was provided.  
@@ -113,8 +113,8 @@ w <- rnorm(50)
 y <- x %*% w + rnorm(500)
 dat <- data.frame(x, y)
 res <- resample(dat)
-dat.train <- dat[res$Subsample_1, ]
-dat.test <- dat[-res$Subsample_1, ]
+dat_train <- dat[res$Subsample_1, ]
+dat_test <- dat[-res$Subsample_1, ]
 ```
 
 ```{r}
@@ -124,7 +124,7 @@ checkData(x)
 ### Single Model
 
 ```{r}
-mod <- s.GLM(dat.train, dat.test)
+mod <- s_GLM(dat_train, dat_test)
 ```
 
 ### Crossvalidated Model
@@ -151,14 +151,14 @@ mod$plot()
 data(Sonar, package = 'mlbench')
 checkData(Sonar)
 res <- resample(Sonar)
-sonar.train <- Sonar[res$Subsample_1, ]
-sonar.test <- Sonar[-res$Subsample_1, ]
+sonar_train <- Sonar[res$Subsample_1, ]
+sonar_test <- Sonar[-res$Subsample_1, ]
 ```
 
 ### Single model
 
 ```{r}
-mod <- s.RANGER(sonar.train, sonar.test)
+mod <- s_RANGER(sonar_train, sonar_test)
 ```
 
 ### Crossvalidated Model
@@ -221,7 +221,7 @@ y_noise <- fn(x) + rnorm(500, sd = sd(y_true))
 We plot:
 
 ```{r}
-mplot3.xy(x, list(y_noise = y_noise, y_true = y_true))
+mplot3_xy(x, list(y_noise = y_noise, y_true = y_true))
 ```
 
 We want to find a model that best approximates `y_true`, but we only know `y_noise`.  
@@ -229,20 +229,20 @@ We want to find a model that best approximates `y_true`, but we only know `y_noi
 A maximally overfitted model would model noise perfectly:
 
 ```{r}
-mplot3.xy(x, list(Overfitted_model = y_noise, Ideal_model = y_true), type = "l")
+mplot3_xy(x, list(Overfitted_model = y_noise, Ideal_model = y_true), type = "l")
 ```
 
 An example of an SVM set up to overfit heavily:
 
 ```{r}
-mplot3.xy(x, y_noise, fit = "svm",
+mplot3_xy(x, y_noise, fit = "svm",
           fit.params = list(kernel = "radial", cost = 100, gamma = 100))
 ```
 
 An example of a good approximation of `fn` using a GAM with penalized splines:
 
 ```{r}
-mplot3.xy(x, y_noise, fit = "gam")
+mplot3_xy(x, y_noise, fit = "gam")
 ```
 
 ## **rtemis** Documentation

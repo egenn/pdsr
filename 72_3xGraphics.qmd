@@ -104,13 +104,13 @@ boxplot(x, col = "steelblue4")
 ### **mplot3**
 
 ```{r}
-mplot3.box(x)
+mplot3_box(x)
 ```
 
 ### **dplot3**
 
 ```{r warning=FALSE}
-dplot3.box(x)
+dplot3_box(x)
 ```
 
 ### **`ggplot2`**
@@ -167,15 +167,15 @@ hist(a, col = "#18A3AC99", border = "white", main = "", breaks = 30)
 ### **`mplot3`**
 
 ```{r}
-mplot3.x(a, "histogram")
-mplot3.x(a, "histogram", hist.breaks = 30)
+mplot3_x(a, "histogram")
+mplot3_x(a, "histogram", hist.breaks = 30)
 ```
 
 ### **`dplot3`**
 
 ```{r warning=FALSE}
-dplot3.x(a, "hist")
-dplot3.x(a, "hist", hist.n.bins = 40)
+dplot3_x(a, "hist")
+dplot3_x(a, "hist", hist.n.bins = 40)
 ```
 
 ### **`ggplot2`**
@@ -198,17 +198,17 @@ plt
 #### Grouped
 
 ```{r}
-mplot3.x(iris$Petal.Length, "hist", group = iris$Species, hist.breaks = 10)
+mplot3_x(iris$Petal.Length, "hist", group = iris$Species, hist.breaks = 10)
 ```
 
 ```{r warning=FALSE}
-dplot3.x(iris$Sepal.Length, "hist", group = iris$Species)
+dplot3_x(iris$Sepal.Length, "hist", group = iris$Species)
 ```
 
 or "ridge"-mode:
 
 ```{r}
-dplot3.x(iris$Sepal.Length, "hist", group = iris$Species,
+dplot3_x(iris$Sepal.Length, "hist", group = iris$Species,
          mode = "ridge")
 ```
 
@@ -242,13 +242,13 @@ polygon(c(.density$x, rev(.density$x)), c(.density$y, rep(0, length(.density$y))
 ### **`mplot3`**
 
 ```{r}
-mplot3.x(iris$Sepal.Length, 'density')
+mplot3_x(iris$Sepal.Length, 'density')
 ```
 
 ### **`dplot3`**
 
 ```{r warning=FALSE}
-dplot3.x(iris$Sepal.Length)
+dplot3_x(iris$Sepal.Length)
 ```
 
 ### **`ggplot2`**
@@ -266,11 +266,11 @@ ggplot(iris, aes(x = Sepal.Length)) + geom_density(color = "#18A3AC66", fill = "
 #### Grouped
 
 ```{r}
-mplot3.x(iris$Sepal.Length, group = iris$Species)
+mplot3_x(iris$Sepal.Length, group = iris$Species)
 ```
 
 ```{r warning=FALSE}
-dplot3.x(iris$Sepal.Length, group = iris$Species)
+dplot3_x(iris$Sepal.Length, group = iris$Species)
 ```
 
 ```{r}
@@ -297,13 +297,13 @@ barplot(as.matrix(schools), col = "dodgerblue3")
 ### **`mplot3`**
 
 ```{r}
-mplot3.bar(schools)
+mplot3_bar(schools)
 ```
 
 ### **`dplot3`**
 
 ```{r warning=FALSE}
-dplot3.bar(schools)
+dplot3_bar(schools)
 ```
 
 ### **`ggplot2`**
@@ -352,7 +352,7 @@ plot(iris$Sepal.Length, iris$Petal.Length,
 ### **`mplot3`**
 
 ```{r}
-mplot3.xy(iris$Sepal.Length, iris$Petal.Length)
+mplot3_xy(iris$Sepal.Length, iris$Petal.Length)
 ```
 
 [`dplot3`](https://rtemis.lambdamd.org/interactivegraphics.html) provides similar functionality to `mplot3`, built on top of **plotly**. Notice how you can interact with the plot using the mouse:
@@ -360,7 +360,7 @@ mplot3.xy(iris$Sepal.Length, iris$Petal.Length)
 ### **`dplot3`**
 
 ```{r warning=FALSE}
-dplot3.xy(iris$Sepal.Length, iris$Petal.Length)
+dplot3_xy(iris$Sepal.Length, iris$Petal.Length)
 ```
 
 ### **`ggplot2`**
@@ -384,12 +384,12 @@ p
 In `mplot3` and `dplot3`, add a `group` argument:
 
 ```{r}
-mplot3.xy(iris$Sepal.Length, iris$Petal.Length,
+mplot3_xy(iris$Sepal.Length, iris$Petal.Length,
           group = iris$Species)
 ```
 
 ```{r warning=FALSE}
-dplot3.xy(iris$Sepal.Length, iris$Petal.Length,
+dplot3_xy(iris$Sepal.Length, iris$Petal.Length,
           group = iris$Species)
 ```
 
@@ -414,32 +414,32 @@ p
 
 ### **`mplot3`**
 
-In `mplot3.xy()`, define the algorithm to use to fit a curve, with `fit`. `se.fit` allows plotting the standard error bar (if it can be provided by the algorithm in `fit`)
+In `mplot3_xy()`, define the algorithm to use to fit a curve, with `fit`. `se.fit` allows plotting the standard error bar (if it can be provided by the algorithm in `fit`)
 
 ```{r}
-mplot3.xy(iris$Sepal.Length, iris$Petal.Length,
+mplot3_xy(iris$Sepal.Length, iris$Petal.Length,
           fit = "gam", se.fit = T)
 ```
 
 Passing a `group` argument, automatically fits separate models:
 
 ```{r}
-mplot3.xy(iris$Sepal.Length, iris$Petal.Length,
+mplot3_xy(iris$Sepal.Length, iris$Petal.Length,
           fit = "gam", se.fit = T,
           group = iris$Species)
 ```
 
 ### **`dplot3`**
 
-Same syntax as `mplot3.xy()` above:
+Same syntax as `mplot3_xy()` above:
 
 ```{r warning=FALSE}
-dplot3.xy(iris$Sepal.Length, iris$Petal.Length,
+dplot3_xy(iris$Sepal.Length, iris$Petal.Length,
           fit = "gam", se.fit = T)
 ```
 
 ```{r warning=FALSE}
-dplot3.xy(iris$Sepal.Length, iris$Petal.Length,
+dplot3_xy(iris$Sepal.Length, iris$Petal.Length,
           fit = "gam", se.fit = T,
           group = iris$Species)
 ```
@@ -533,13 +533,13 @@ heatmap(x.cor, Rowv = NA, Colv = NA)
 
 mplot3 adds a colorbar to the side of the heatmap. Notice there are 10 circles above and 10 circles below zero to represent 10% increments.
 ```{r}
-mplot3.heatmap(x.cor)
+mplot3_heatmap(x.cor)
 ```
 
 ### **`dplot3`**
 
 ```{r warning=FALSE}
-dplot3.heatmap(x.cor)
+dplot3_heatmap(x.cor)
 ```
 
 ### **`ggplot2`**

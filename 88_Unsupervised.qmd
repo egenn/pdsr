@@ -12,7 +12,7 @@ old.hooks <- fansi::set_knit_hooks(knitr::knit_hooks)
 options(crayon.enabled = TRUE)
 ```
 
-```{r echo = FALSE}
+```{r}
 library(rtemis)
 ```
 
@@ -21,7 +21,7 @@ Unsupervised learning aims to learn relationships within a dataset without focus
 * __Clustering__: Cases are grouped together based on some derived measure of similarity / distance metric.
 * __Dimensionality Reduction / Matrix decomposition__: Variables are combined / projected into a lower dimensional space.
 
-In **rtemis**, clustering algorithms begin with `u.` and decomposition/dimensionality reduction algorithms begin with `d.` (We use `u.` because `c.` is reserved for the builtin R function)
+In **rtemis**, clustering algorithms begin with `c_` and decomposition/dimensionality reduction algorithms begin with `d_`
 
 ## Decomposition / Dimensionality Reduction {#decomposition}
 
@@ -36,25 +36,37 @@ We can further divide decomposition algorithms into linear (e.g. PCA, ICA, NMF) 
 
 ```{r}
 x <- iris[, 1:4]
-iris.PCA <- d.PCA(x)
-mplot3.xy(iris.PCA$projections.train[, 1], iris.PCA$projections.train[, 2], group = iris$Species,
-          xlab = "1st PCA component", ylab = "2nd PCA component", main = "PCA on iris")
+iris_PCA <- d_PCA(x)
+mplot3_xy(iris_PCA$projections.train[, 1], 
+          iris_PCA$projections.train[, 2], 
+          group = iris$Species,
+          xlab = "1st PCA component", 
+          ylab = "2nd PCA component", 
+          main = "PCA on iris")
 ```
 
 ### Independent Component Analysis (ICA)
 
 ```{r}
-iris.ICA <- d.ICA(x, k = 2)
-mplot3.xy(iris.ICA$projections.train[, 1], iris.ICA$projections.train[, 2], group = iris$Species,
-          xlab = "1st ICA component", ylab = "2nd ICA component", main = "ICA on iris")
+iris_ICA <- d_ICA(x, k = 2)
+mplot3_xy(iris_ICA$projections.train[, 1], 
+          iris_ICA$projections.train[, 2], 
+          group = iris$Species,
+          xlab = "1st ICA component", 
+          ylab = "2nd ICA component", 
+          main = "ICA on iris")
 ```
 
 ### Non-negative Matrix Factorization (NMF)
 
 ```{r}
-iris.NMF <- d.NMF(x, k = 2)
-mplot3.xy(iris.NMF$projections.train[, 1], iris.NMF$projections.train[, 2], group = iris$Species,
-          xlab = "1st NMF component", ylab = "2nd NMF component", main = "NMF on iris")
+iris_NMF <- d_NMF(x, k = 2)
+mplot3_xy(iris_NMF$projections.train[, 1], 
+          iris_NMF$projections.train[, 2], 
+          group = iris$Species,
+          xlab = "1st NMF component", 
+          ylab = "2nd NMF component", 
+          main = "NMF on iris")
 ```
 
 ## Clustering
@@ -69,23 +81,27 @@ We'll use two of the most popular clustering algorithms, K-means and PAM, aka K-
 
 ```{r}
 x <- iris[, 1:4]
-iris.NMF <- d.NMF(x, k = 2)
+iris_NMF <- d_NMF(x, k = 2)
 ```
 
 ### K-Means
 
 ```{r}
-iris.KMEANS <- u.KMEANS(x, k = 3)
-mplot3.xy(iris.NMF$projections.train[, 1], iris.NMF$projections.train[, 2],
+iris.KMEANS <- c_KMEANS(x, k = 3)
+mplot3_xy(iris_NMF$projections.train[, 1], iris_NMF$projections.train[, 2],
           group = iris.KMEANS$clusters.train,
-          xlab = "1st NMF component", ylab = "2nd NMF component", main = "KMEANS on iris")
+          xlab = "1st NMF component", 
+          ylab = "2nd NMF component", 
+          main = "KMEANS on iris")
 ```
 
 ### Partitioning Around Medoids with k estimation (PAMK)
 
 ```{r}
-iris.pamk <- u.PAMK(x, krange = 3:10)
-mplot3.xy(iris.NMF$projections.train[, 1], iris.NMF$projections.train[, 2],
-          group = iris.pamk$clusters.train,
-          xlab = "1st NMF component", ylab = "2nd NMF component", main = "PAM on iris")
+iris_PAMK <- c_PAMK(x, krange = 3:10)
+mplot3_xy(iris_NMF$projections.train[, 1], iris_NMF$projections.train[, 2],
+          group = iris_PAMK$clusters.train,
+          xlab = "1st NMF component", 
+          ylab = "2nd NMF component", 
+          main = "PAMK on iris")
 ```

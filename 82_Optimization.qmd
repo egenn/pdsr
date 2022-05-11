@@ -27,14 +27,14 @@ x <- sapply(seq(10), function(i) rnorm(500))
 y <- 12 + 1.5 * x[, 3] + 3.2 * x[, 7] + .5 * x[, 9] + rnorm(500)
 ```
 
-## GLM (`glm`, `s.GLM`)
+## GLM (`glm`, `s_GLM`)
 ```{r}
 yx.glm <- glm(y ~ x)
 summary(yx.glm)
 ```
 Or, using _rtemis_:
 ```{r}
-mod.glm <- s.GLM(x, y)
+mod.glm <- s_GLM(x, y)
 ```
 ```{r}
 summary(mod.glm$mod)
@@ -72,12 +72,12 @@ linearcoeffs <- function(x, y, method = "BFGS") {
 ```{r}
 coeffs.optim <- linearcoeffs(x, y)
 estimated.optim <- cbind(1, x) %*% coeffs.optim
-mplot3.fit(y, estimated.optim)
+mplot3_fit(y, estimated.optim)
 coeffs.glm <- mod.glm$mod$coefficients
 estimated.glm <- cbind(1, x) %*% coeffs.glm
-mplot3.fit(y, estimated.glm)
+mplot3_fit(y, estimated.glm)
 ```
 
 ```{r}
-mplot3.fit(coeffs.glm, coeffs.optim)
+mplot3_fit(coeffs.glm, coeffs.optim)
 ```

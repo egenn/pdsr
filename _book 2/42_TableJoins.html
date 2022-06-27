@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-0.9.377">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>PDSR - 17&nbsp; Table joins</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<link href="./44_Reshaping.html" rel="next">
+<link href="./40_DataFrames.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link class="quarto-color-scheme" id="quarto-text-highlighting-styles" href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+<link class="quarto-color-scheme quarto-color-alternate" rel="prefetch" id="quarto-text-highlighting-styles" href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link class="quarto-color-scheme" href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<link class="quarto-color-scheme quarto-color-alternate" rel="prefetch" href="site_libs/bootstrap/bootstrap-dark.min.css">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+<script type="text/javascript">
+
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-163213745-1', 'auto');
+
+ga('send', {
+  hitType: 'pageview',
+  'anonymizeIp': true,
+});
+</script>
+
+
+<link rel="stylesheet" href="bootstrap.lambdamd.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Table joins</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">PDSR</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/egenn/pdsr" title="" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle sidebar-tool" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">Welcome</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01_Preface.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02_Introduction.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04_Packages.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">R, IDEs, Packages, Docs</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_BasicOps.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Basic operations</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_Datatypes.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Data Types</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_DataStructures.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Data Structures</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09_Factors.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Factors</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10_Indexing.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Indexing</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12_Vectorization.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Vectorized Operations</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./15_InputOutput.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Data Input/Output</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./20_ControlFlow.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Control flow</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./24_Summarize.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Summarizing Data</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./26_Aggregate.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Aggregate</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./30_Functions.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Functions</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./32_LoopFunctions.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Loop Functions</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./40_DataFrames.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Data frames</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./42_TableJoins.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Table joins</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./44_Reshaping.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Reshaping</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./46_DataTrans.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Data Transformations</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./48_StringOps.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">String Operations</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./50_DateTime.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Date and Time</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./52_MissingData.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Handling Missing data</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./54_ClassesAndOOP.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Classes and Object-Oriented Programming</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./60_DataTable.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Efficient data analysis with <strong>data.table</strong></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./62_dplyr.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Introduction to dplyr</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./70_BaseGraphics.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Base Graphics</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./72_3xGraphics.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">3x Graphics</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./74_Colors.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Colors in R</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./80_Profiling.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Benchmarking &amp; Profiling</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./82_Optimization.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Optimization</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./84_HypothesisTesting.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Common statistical tests</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./85_GLM.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Introduction to the GLM</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./86_Resampling.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Resampling</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./87_Supervised.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Supervised Learning</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./88_Unsupervised.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Unsupervised Learning</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./94_GitHubIntro.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Git &amp; GitHub: the basics</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./95_TerminalIntro.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">Introduction to the system shell</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./98_Resources.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">38</span>&nbsp; <span class="chapter-title">Resources</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./200_CrashCourse.html" class="sidebar-item-text sidebar-link">DCR Intro to R</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./99_References.html" class="sidebar-item-text sidebar-link">References</a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#merge" id="toc-merge" class="nav-link active" data-scroll-target="#merge"> <span class="header-section-number">17.1</span> <code>merge()</code></a></li>
+  <li><a href="#inner-join" id="toc-inner-join" class="nav-link" data-scroll-target="#inner-join"> <span class="header-section-number">17.2</span> Inner join</a></li>
+  <li><a href="#outer-join" id="toc-outer-join" class="nav-link" data-scroll-target="#outer-join"> <span class="header-section-number">17.3</span> Outer join</a></li>
+  <li><a href="#left-outer-join" id="toc-left-outer-join" class="nav-link" data-scroll-target="#left-outer-join"> <span class="header-section-number">17.4</span> Left outer join</a></li>
+  <li><a href="#right-outer-join" id="toc-right-outer-join" class="nav-link" data-scroll-target="#right-outer-join"> <span class="header-section-number">17.5</span> Right outer join</a></li>
+  <li><a href="#specifying-columns" id="toc-specifying-columns" class="nav-link" data-scroll-target="#specifying-columns"> <span class="header-section-number">17.6</span> Specifying columns</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="tablejoins" class="quarto-section-identifier d-none d-lg-block"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Table joins</span></span></h1>
+</div>
+
+
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<p>We often have data from separate sources that we want to combine into a single data.frame. Table joins allow you to specify how to perform such a merge.</p>
+<p>Scenario: You have received two tables with clinical data. Each table contains a column with a unique identifier (ID) plus a number of variables which are unique to each table. You want to merge them into one big table so that for each ID you have all available variables. You want to make sure that the same ID number (e.g.&nbsp;108) corresponds to the same case in both datasets, but not all IDs needs to be present in both datasets.</p>
+<p>Let’s make up some synthetic data:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">PID =</span> <span class="fu">c</span>(<span class="dv">101</span><span class="sc">:</span><span class="dv">109</span>),</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">Hospital =</span> <span class="fu">c</span>(<span class="st">"UCSF"</span>, <span class="st">"HUP"</span>, <span class="st">"Stanford"</span>,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>                             <span class="st">"Stanford"</span>, <span class="st">"UCSF"</span>, <span class="st">"HUP"</span>, </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>                             <span class="st">"HUP"</span>, <span class="st">"Stanford"</span>, <span class="st">"UCSF"</span>),</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">Age =</span> <span class="fu">c</span>(<span class="dv">22</span>, <span class="dv">34</span>, <span class="dv">41</span>, <span class="dv">19</span>, <span class="dv">53</span>, <span class="dv">21</span>, <span class="dv">63</span>, <span class="dv">22</span>, <span class="dv">19</span>),</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">Sex =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>))</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>b  <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">PID =</span> <span class="fu">c</span>(<span class="dv">106</span><span class="sc">:</span><span class="dv">112</span>),</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>                 <span class="at">V1 =</span> <span class="fu">c</span>(<span class="dv">153</span>, <span class="dv">89</span>, <span class="dv">112</span>, <span class="dv">228</span>,  <span class="dv">91</span>, <span class="dv">190</span>, <span class="dv">101</span>),</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>                 <span class="at">Department =</span> <span class="fu">c</span>(<span class="st">"Neurology"</span>, <span class="st">"Radiology"</span>,</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>                                <span class="st">"Emergency"</span>, <span class="st">"Cardiology"</span>,</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>                                <span class="st">"Surgery"</span>, <span class="st">"Neurology"</span>, <span class="st">"Psychiatry"</span>))</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>a</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  PID Hospital Age Sex
+1 101     UCSF  22   1
+2 102      HUP  34   1
+3 103 Stanford  41   0
+4 104 Stanford  19   1
+5 105     UCSF  53   0
+6 106      HUP  21   0
+7 107      HUP  63   1
+8 108 Stanford  22   0
+9 109     UCSF  19   0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  PID  V1 Department
+1 106 153  Neurology
+2 107  89  Radiology
+3 108 112  Emergency
+4 109 228 Cardiology
+5 110  91    Surgery
+6 111 190  Neurology
+7 112 101 Psychiatry</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(a)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 9 4</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(b)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 7 3</code></pre>
+</div>
+</div>
+<p>There are four main types of join operations:</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="R_joins.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">Common Join Operations</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="merge" class="level2" data-number="17.1">
+<h2 data-number="17.1" class="anchored" data-anchor-id="merge"><span class="header-section-number">17.1</span> <code>merge()</code></h2>
+<p>The <code>merge()</code> command in R is used to perform table joins.</p>
+<p>Syntax:</p>
+<p><code>merge(x, y, by)</code></p>
+<p>where <code>x</code> and <code>y</code> and the two data.frames to join, and <code>by</code> is the column name of the ID variable used to identify rows. If the two datasets’ ID column has a different name, e.g.&nbsp;“PatientID” in one and “PID” in the other, you can either rename one of them, or probably best, use the following syntax:</p>
+<p><code>merge(x, y, by.x, by.y)</code></p>
+<p>where <code>by.x</code> should be the name of the ID column for the <code>x</code> dataset and <code>by.y</code> should be the name of the ID column for the <code>y</code> dataset.</p>
+<p>If you do not specify <code>by</code> or <code>by.x</code> and <code>by.y</code> arguments, <code>merge()</code> defaults to using the intersection of column names of the two input datasets. Look at the <code>merge()</code>’s documentation:</p>
+<p><code>by = intersect(names(x), names(y))</code></p>
+<p>In our example datasets above, this works as expected and identifies “PID” as the common column:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">intersect</span>(<span class="fu">names</span>(a), <span class="fu">names</span>(b))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "PID"</code></pre>
+</div>
+</div>
+</section>
+<section id="inner-join" class="level2" data-number="17.2">
+<h2 data-number="17.2" class="anchored" data-anchor-id="inner-join"><span class="header-section-number">17.2</span> Inner join</h2>
+<p>The default arguments of <code>merge()</code> perform an <strong>inner join</strong>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>(ab.inner <span class="ot">&lt;-</span> <span class="fu">merge</span>(a, b))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  PID Hospital Age Sex  V1 Department
+1 106      HUP  21   0 153  Neurology
+2 107      HUP  63   1  89  Radiology
+3 108 Stanford  22   0 112  Emergency
+4 109     UCSF  19   0 228 Cardiology</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># same as</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>(ab.inner <span class="ot">&lt;-</span> <span class="fu">merge</span>(a, b, <span class="at">by =</span> <span class="st">"PID"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  PID Hospital Age Sex  V1 Department
+1 106      HUP  21   0 153  Neurology
+2 107      HUP  63   1  89  Radiology
+3 108 Stanford  22   0 112  Emergency
+4 109     UCSF  19   0 228 Cardiology</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># same as</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>(ab.inner <span class="ot">&lt;-</span> <span class="fu">merge</span>(a, b, <span class="at">all =</span> <span class="cn">FALSE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  PID Hospital Age Sex  V1 Department
+1 106      HUP  21   0 153  Neurology
+2 107      HUP  63   1  89  Radiology
+3 108 Stanford  22   0 112  Emergency
+4 109     UCSF  19   0 228 Cardiology</code></pre>
+</div>
+</div>
+<p>Note that the resulting table only contains <strong><em>cases found in both datasets</em></strong>, i.e.&nbsp;IDs 106 through 109</p>
+</section>
+<section id="outer-join" class="level2" data-number="17.3">
+<h2 data-number="17.3" class="anchored" data-anchor-id="outer-join"><span class="header-section-number">17.3</span> Outer join</h2>
+<p>You can perform an <strong>outer join</strong> by specifying <code>all = TRUE</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>(ab.outer <span class="ot">&lt;-</span> <span class="fu">merge</span>(a, b, <span class="at">all =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   PID Hospital Age Sex  V1 Department
+1  101     UCSF  22   1  NA       &lt;NA&gt;
+2  102      HUP  34   1  NA       &lt;NA&gt;
+3  103 Stanford  41   0  NA       &lt;NA&gt;
+4  104 Stanford  19   1  NA       &lt;NA&gt;
+5  105     UCSF  53   0  NA       &lt;NA&gt;
+6  106      HUP  21   0 153  Neurology
+7  107      HUP  63   1  89  Radiology
+8  108 Stanford  22   0 112  Emergency
+9  109     UCSF  19   0 228 Cardiology
+10 110     &lt;NA&gt;  NA  NA  91    Surgery
+11 111     &lt;NA&gt;  NA  NA 190  Neurology
+12 112     &lt;NA&gt;  NA  NA 101 Psychiatry</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>(ab.outer <span class="ot">&lt;-</span> <span class="fu">merge</span>(a, b, <span class="at">by =</span> <span class="st">"PID"</span>, <span class="at">all =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   PID Hospital Age Sex  V1 Department
+1  101     UCSF  22   1  NA       &lt;NA&gt;
+2  102      HUP  34   1  NA       &lt;NA&gt;
+3  103 Stanford  41   0  NA       &lt;NA&gt;
+4  104 Stanford  19   1  NA       &lt;NA&gt;
+5  105     UCSF  53   0  NA       &lt;NA&gt;
+6  106      HUP  21   0 153  Neurology
+7  107      HUP  63   1  89  Radiology
+8  108 Stanford  22   0 112  Emergency
+9  109     UCSF  19   0 228 Cardiology
+10 110     &lt;NA&gt;  NA  NA  91    Surgery
+11 111     &lt;NA&gt;  NA  NA 190  Neurology
+12 112     &lt;NA&gt;  NA  NA 101 Psychiatry</code></pre>
+</div>
+</div>
+<p>Note that the resulting data frame contains <strong><em>all cases found in either dataset</em></strong> and missing values are represented with <code>NA</code>.</p>
+</section>
+<section id="left-outer-join" class="level2" data-number="17.4">
+<h2 data-number="17.4" class="anchored" data-anchor-id="left-outer-join"><span class="header-section-number">17.4</span> Left outer join</h2>
+<p>You can perform a <strong>left outer join</strong> by specifying <code>all.x = TRUE</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>(ab.leftOuter <span class="ot">&lt;-</span> <span class="fu">merge</span>(a, b, <span class="at">all.x =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  PID Hospital Age Sex  V1 Department
+1 101     UCSF  22   1  NA       &lt;NA&gt;
+2 102      HUP  34   1  NA       &lt;NA&gt;
+3 103 Stanford  41   0  NA       &lt;NA&gt;
+4 104 Stanford  19   1  NA       &lt;NA&gt;
+5 105     UCSF  53   0  NA       &lt;NA&gt;
+6 106      HUP  21   0 153  Neurology
+7 107      HUP  63   1  89  Radiology
+8 108 Stanford  22   0 112  Emergency
+9 109     UCSF  19   0 228 Cardiology</code></pre>
+</div>
+</div>
+<p>Note that the resulting data frame contains <strong><em>all cases present in the left input dataset</em></strong> (i.e.&nbsp;the one defined first in the arguments) only.</p>
+</section>
+<section id="right-outer-join" class="level2" data-number="17.5">
+<h2 data-number="17.5" class="anchored" data-anchor-id="right-outer-join"><span class="header-section-number">17.5</span> Right outer join</h2>
+<p>You can perform a <strong>right outer join</strong> by specifying <code>all.y = TRUE</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>(ab.rightOuter <span class="ot">&lt;-</span> <span class="fu">merge</span>(a, b, <span class="at">all.y =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  PID Hospital Age Sex  V1 Department
+1 106      HUP  21   0 153  Neurology
+2 107      HUP  63   1  89  Radiology
+3 108 Stanford  22   0 112  Emergency
+4 109     UCSF  19   0 228 Cardiology
+5 110     &lt;NA&gt;  NA  NA  91    Surgery
+6 111     &lt;NA&gt;  NA  NA 190  Neurology
+7 112     &lt;NA&gt;  NA  NA 101 Psychiatry</code></pre>
+</div>
+</div>
+<p>Note how the resulting data frame contains <strong><em>all cases present in the right input dataset</em></strong> (i.e.&nbsp;the one defined seecond in the arguments) only.</p>
+</section>
+<section id="specifying-columns" class="level2" data-number="17.6">
+<h2 data-number="17.6" class="anchored" data-anchor-id="specifying-columns"><span class="header-section-number">17.6</span> Specifying columns</h2>
+<p>As mentioned above, if the ID columns in the two data.frames to be merged do not have the same name, you can specify them directly:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">PID =</span> <span class="fu">c</span>(<span class="dv">101</span><span class="sc">:</span><span class="dv">109</span>),</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">Hospital =</span> <span class="fu">c</span>(<span class="st">"UCSF"</span>, <span class="st">"HUP"</span>, <span class="st">"Stanford"</span>,</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>                             <span class="st">"Stanford"</span>, <span class="st">"UCSF"</span>, <span class="st">"HUP"</span>, </span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>                             <span class="st">"HUP"</span>, <span class="st">"Stanford"</span>, <span class="st">"UCSF"</span>),</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">Age =</span> <span class="fu">c</span>(<span class="dv">22</span>, <span class="dv">34</span>, <span class="dv">41</span>, <span class="dv">19</span>, <span class="dv">53</span>, <span class="dv">21</span>, <span class="dv">63</span>, <span class="dv">22</span>, <span class="dv">19</span>),</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">Sex =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>))</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">PatientID =</span> <span class="fu">c</span>(<span class="dv">106</span><span class="sc">:</span><span class="dv">112</span>),</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>                 <span class="at">V1 =</span> <span class="fu">c</span>(<span class="dv">153</span>, <span class="dv">89</span>, <span class="dv">112</span>, <span class="dv">228</span>,  <span class="dv">91</span>, <span class="dv">190</span>, <span class="dv">101</span>),</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>                 <span class="at">Department =</span> <span class="fu">c</span>(<span class="st">"Neurology"</span>, <span class="st">"Radiology"</span>,</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>                                <span class="st">"Emergency"</span>, <span class="st">"Cardiology"</span>,</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>                                <span class="st">"Surgery"</span>, <span class="st">"Neurology"</span>, <span class="st">"Psychiatry"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">merge</span>(a, b, <span class="at">by.x =</span> <span class="st">"PID"</span>, <span class="at">by.y =</span> <span class="st">"PatientID"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  PID Hospital Age Sex  V1 Department
+1 106      HUP  21   0 153  Neurology
+2 107      HUP  63   1  89  Radiology
+3 108 Stanford  22   0 112  Emergency
+4 109     UCSF  19   0 228 Cardiology</code></pre>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+    } else {
+      disableStylesheet(alternateStylesheets);
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } 
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./40_DataFrames.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Data frames</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./44_Reshaping.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Reshaping</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

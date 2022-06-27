@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-0.9.377">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>PDSR - 34&nbsp; Supervised Learning</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<link href="./88_Unsupervised.html" rel="next">
+<link href="./86_Resampling.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link class="quarto-color-scheme" id="quarto-text-highlighting-styles" href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+<link class="quarto-color-scheme quarto-color-alternate" rel="prefetch" id="quarto-text-highlighting-styles" href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link class="quarto-color-scheme" href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<link class="quarto-color-scheme quarto-color-alternate" rel="prefetch" href="site_libs/bootstrap/bootstrap-dark.min.css">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="bootstrap.lambdamd.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Supervised Learning</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">PDSR</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/egenn/pdsr" title="" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle sidebar-tool" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">Welcome</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01_Preface.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02_Introduction.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04_Packages.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">R, IDEs, Packages, Docs</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_BasicOps.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Basic operations</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_Datatypes.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Data Types</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_DataStructures.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Data Structures</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09_Factors.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Factors</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10_Indexing.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Indexing</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12_Vectorization.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Vectorized Operations</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./15_InputOutput.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Data Input/Output</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./20_ControlFlow.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Control flow</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./24_Summarize.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Summarizing Data</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./26_Aggregate.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Aggregate</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./30_Functions.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Functions</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./32_LoopFunctions.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Loop Functions</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./40_DataFrames.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Data frames</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./42_TableJoins.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Table joins</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./44_Reshaping.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Reshaping</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./46_DataTrans.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Data Transformations</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./48_StringOps.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">String Operations</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./50_DateTime.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Date and Time</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./52_MissingData.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Handling Missing data</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./54_ClassesAndOOP.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Classes and Object-Oriented Programming</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./60_DataTable.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Efficient data analysis with <strong>data.table</strong></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./62_dplyr.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Introduction to dplyr</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./70_BaseGraphics.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Base Graphics</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./72_3xGraphics.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">3x Graphics</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./74_Colors.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Colors in R</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./80_Profiling.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Benchmarking &amp; Profiling</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./82_Optimization.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Optimization with <code>optim()</code></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./84_HypothesisTesting.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Common statistical tests</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./85_GLM.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Introduction to the GLM</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./86_Resampling.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Resampling</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./87_Supervised.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Supervised Learning</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./88_Unsupervised.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Unsupervised Learning</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./94_GitHubIntro.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Git &amp; GitHub: the basics</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./95_TerminalIntro.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">Introduction to the system shell</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./98_Resources.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">38</span>&nbsp; <span class="chapter-title">Resources</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./200_CrashCourse.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">39</span>&nbsp; <span class="chapter-title">DCR Intro to R</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./99_References.html" class="sidebar-item-text sidebar-link">References</a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#installation" id="toc-installation" class="nav-link active" data-scroll-target="#installation"> <span class="header-section-number">34.1</span> Installation</a></li>
+  <li><a href="#data-input-for-supervised-learning" id="toc-data-input-for-supervised-learning" class="nav-link" data-scroll-target="#data-input-for-supervised-learning"> <span class="header-section-number">34.2</span> Data Input for Supervised Learning</a>
+  <ul class="collapse">
+  <li><a href="#scenario-1-x.train-y.train-x.test-y.test" id="toc-scenario-1-x.train-y.train-x.test-y.test" class="nav-link" data-scroll-target="#scenario-1-x.train-y.train-x.test-y.test"> <span class="header-section-number">34.2.1</span> Scenario 1 (<code>x.train, y.train, x.test, y.test</code>)</a></li>
+  <li><a href="#scenario-2-x.train-x.test" id="toc-scenario-2-x.train-x.test" class="nav-link" data-scroll-target="#scenario-2-x.train-x.test"> <span class="header-section-number">34.2.2</span> Scenario 2: (<code>x.train, x.test</code>)</a></li>
+  </ul></li>
+  <li><a href="#regression" id="toc-regression" class="nav-link" data-scroll-target="#regression"> <span class="header-section-number">34.3</span> Regression</a>
+  <ul class="collapse">
+  <li><a href="#check-data-with-checkdata" id="toc-check-data-with-checkdata" class="nav-link" data-scroll-target="#check-data-with-checkdata"> <span class="header-section-number">34.3.1</span> Check Data with <code>checkData()</code></a></li>
+  <li><a href="#single-model" id="toc-single-model" class="nav-link" data-scroll-target="#single-model"> <span class="header-section-number">34.3.2</span> Single Model</a></li>
+  <li><a href="#crossvalidated-model" id="toc-crossvalidated-model" class="nav-link" data-scroll-target="#crossvalidated-model"> <span class="header-section-number">34.3.3</span> Crossvalidated Model</a></li>
+  </ul></li>
+  <li><a href="#classification" id="toc-classification" class="nav-link" data-scroll-target="#classification"> <span class="header-section-number">34.4</span> Classification</a>
+  <ul class="collapse">
+  <li><a href="#check-data" id="toc-check-data" class="nav-link" data-scroll-target="#check-data"> <span class="header-section-number">34.4.1</span> Check Data</a></li>
+  <li><a href="#single-model-1" id="toc-single-model-1" class="nav-link" data-scroll-target="#single-model-1"> <span class="header-section-number">34.4.2</span> Single model</a></li>
+  <li><a href="#crossvalidated-model-1" id="toc-crossvalidated-model-1" class="nav-link" data-scroll-target="#crossvalidated-model-1"> <span class="header-section-number">34.4.3</span> Crossvalidated Model</a></li>
+  <li><a href="#evaluation-of-a-binary-classifier" id="toc-evaluation-of-a-binary-classifier" class="nav-link" data-scroll-target="#evaluation-of-a-binary-classifier"> <span class="header-section-number">34.4.4</span> Evaluation of a binary classifier</a></li>
+  </ul></li>
+  <li><a href="#understanding-overfitting" id="toc-understanding-overfitting" class="nav-link" data-scroll-target="#understanding-overfitting"> <span class="header-section-number">34.5</span> Understanding Overfitting</a></li>
+  <li><a href="#rtemis-documentation" id="toc-rtemis-documentation" class="nav-link" data-scroll-target="#rtemis-documentation"> <span class="header-section-number">34.6</span> <strong>rtemis</strong> Documentation</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="supervised" class="quarto-section-identifier d-none d-lg-block"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Supervised Learning</span></span></h1>
+</div>
+
+
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<div class="cell">
+
+</div>
+<style type="text/css" scoped="">
+PRE.fansi SPAN {padding-top: .25em; padding-bottom: .25em};
+</style>
+<p>This is a very brief introduction to machine learning using the <a href="https://rtemis.lambdamd.org"><strong>rtemis</strong></a> package. <strong>rtemis</strong> includes functions for:</p>
+<ul>
+<li>Visualization: static &amp; interactive plots</li>
+<li>Data preprocessing</li>
+<li>Unsupervised learning: clustering &amp; dimensionality reduction</li>
+<li>Supervised learning: regression &amp; classification</li>
+</ul>
+<section id="installation" class="level2" data-number="34.1">
+<h2 data-number="34.1" class="anchored" data-anchor-id="installation"><span class="header-section-number">34.1</span> Installation</h2>
+<p>install the <strong>remotes</strong> package, if you don’t have it:</p>
+<div class="cell" data-hash="87_Supervised_cache/html/unnamed-chunk-3_7ebe78c7b2ea7a52d515c56a0a16ef60">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"remotes"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Install <strong>rtemis</strong>:</p>
+<div class="cell" data-hash="87_Supervised_cache/html/unnamed-chunk-4_a7864b894edc7c0908d230948af0be6e">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"egenn/rtemis"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>rtemis</strong> uses a large number of packages under the hood. Since you would not need to use all of them, they are not installed by default. Each time an <strong>rtemis</strong> function is called, a dependency check is run and a message is printed if any packages need to be installed.</p>
+<p>For this short tutorial, start by installing <strong>ranger</strong>, if it is not already installed:</p>
+<div class="cell" data-hash="87_Supervised_cache/html/unnamed-chunk-5_a2796bff654abc22ce98069b2666196a">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"ranger"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Load <strong>rtemis</strong>:</p>
+<div class="cell" data-hash="87_Supervised_cache/html/lib_1e7074c21a95a0318b2d306fcaabeeba">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rtemis)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>  .:rtemis 0.91 🌊 aarch64-apple-darwin20 (64-bit)
+
+  Defaults
+  |   Theme: whitegrid
+  |    Font: Fira Sans
+  | Palette: rtCol1
+  |    Plan: multicore
+  |   Cores: 8/10 available
+
+  Resources
+  | Documentation: https://rtemis.lambdamd.org
+  |       Learn R: https://class.lambdamd.org/pdsr
+  | rtemis themes: https://egenn.lambdamd.org/software/#rtemis_themes
+  |          Cite: `citation("rtemis")`
+
+  Setup
+  | Enable progress reporting: `progressr::handlers(global = TRUE)`</code></pre>
+</div>
+</div>
+</section>
+<section id="data-input-for-supervised-learning" class="level2" data-number="34.2">
+<h2 data-number="34.2" class="anchored" data-anchor-id="data-input-for-supervised-learning"><span class="header-section-number">34.2</span> Data Input for Supervised Learning</h2>
+<p>All <strong>rtemis</strong> supervised learning functions begin with <code>s.</code> (“supervised”).<br>
+They accept the same first four arguments:<br>
+<code>x</code>, <code>y</code>, <code>x.test</code>, <code>y.test</code><br>
+but are flexible and allow you to also provide combined (x, y) and (x.test, y.test) data frames, as explained below.</p>
+<section id="scenario-1-x.train-y.train-x.test-y.test" class="level3" data-number="34.2.1">
+<h3 data-number="34.2.1" class="anchored" data-anchor-id="scenario-1-x.train-y.train-x.test-y.test"><span class="header-section-number">34.2.1</span> Scenario 1 (<code>x.train, y.train, x.test, y.test</code>)</h3>
+<p>In the most straightforward case, provide each featureset and outcome individually:</p>
+<ul>
+<li><code>x</code>: Training set features</li>
+<li><code>y</code>: Training set outcome</li>
+<li><code>x.test</code>: Testing set features (Optional)</li>
+<li><code>y.test</code>: Testing set outcome (Optional)</li>
+</ul>
+<div class="cell" data-hash="87_Supervised_cache/html/unnamed-chunk-6_1ebb1aa0abf40c463eb38b1dadf59420">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnormmat</span>(<span class="dv">200</span>, <span class="dv">10</span>, <span class="at">seed =</span> <span class="dv">2019</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>w <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">10</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> x <span class="sc">%*%</span> w <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">200</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">resample</span>(y, <span class="at">seed =</span> <span class="dv">2020</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre class="fansi fansi-output"><code><span style="font-weight: 100;">.:</span><span style="font-weight: bold;">Resampling Parameters</span>
+    n.resamples: 10 
+      resampler: strat.sub 
+   stratify.var: y 
+        train.p: 0.75 
+   strat.n.bins: 4 
+<span style="color: #555555;">[2022-05-10 18:10:21</span><span style="color: #555555; font-weight: bold;"> resample</span><span style="color: #555555;">] </span>Created 10 stratified subsamples 
+</code></pre>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>x.train <span class="ot">&lt;-</span> x[res<span class="sc">$</span>Subsample_1, ]</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>x.test <span class="ot">&lt;-</span> x[<span class="sc">-</span>res<span class="sc">$</span>Subsample_1, ]</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>y.train <span class="ot">&lt;-</span> y[res<span class="sc">$</span>Subsample_1]</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>y.test <span class="ot">&lt;-</span> y[<span class="sc">-</span>res<span class="sc">$</span>Subsample_1]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-hash="87_Supervised_cache/html/unnamed-chunk-7_f80d83303299447b314ce5978750b27d">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>mod_glm <span class="ot">&lt;-</span> <span class="fu">s_GLM</span>(x.train, y.train, x.test, y.test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre class="fansi fansi-output"><code><span style="color: #555555;">[2022-05-10 18:10:21</span><span style="color: #555555; font-weight: bold;"> s_GLM</span><span style="color: #555555;">] Hello,</span> <span style="color: #555555;">egenn</span> 
+
+<span style="font-weight: 100;">.:</span><span style="font-weight: bold;">Regression Input Summary</span>
+Training features: <span style="font-weight: bold;">147 x 10 
+</span> Training outcome: <span style="font-weight: bold;">147 x 1 
+</span> Testing features: <span style="font-weight: bold;">53 x 10 
+</span>  Testing outcome: <span style="font-weight: bold;">53 x 1 
+</span>
+<span style="color: #555555;">[2022-05-10 18:10:21</span><span style="color: #555555; font-weight: bold;"> s_GLM</span><span style="color: #555555;">] </span>Training GLM... 
+
+<span style="font-weight: 100;">.:</span><span style="font-weight: bold;">GLM Regression Training Summary</span>
+    MSE = 0.84 (91.88%)
+   RMSE = 0.92 (71.51%)
+    MAE = 0.75 (69.80%)
+      r = 0.96 (p = 5.9e-81)
+   R sq = <span style="color: #00BBBB; font-weight: bold;">0.92</span>
+
+<span style="font-weight: 100;">.:</span><span style="font-weight: bold;">GLM Regression Testing Summary</span>
+    MSE = 1.22 (89.03%)
+   RMSE = 1.10 (66.88%)
+    MAE = 0.90 (66.66%)
+      r = 0.94 (p = 2.5e-26)
+   R sq = <span style="color: #00BBBB; font-weight: bold;">0.89</span>
+</code></pre>
+<div class="cell-output-display">
+<p><img src="87_Supervised_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="480"></p>
+</div>
+<pre class="fansi fansi-output"><code><span style="color: #555555;">[2022-05-10 18:10:22</span><span style="color: #555555; font-weight: bold;"> s_GLM</span><span style="color: #555555;">] Run completed in 0.03 minutes (Real: 1.62; User: 0.43; System: 0.04)</span> 
+</code></pre>
+</div>
+</section>
+<section id="scenario-2-x.train-x.test" class="level3" data-number="34.2.2">
+<h3 data-number="34.2.2" class="anchored" data-anchor-id="scenario-2-x.train-x.test"><span class="header-section-number">34.2.2</span> Scenario 2: (<code>x.train, x.test</code>)</h3>
+<p>You can provide training and testing sets as a single data.frame each, where the last column is the outcome. Now <code>x</code> is the full training data and <code>y</code> the full testing data:</p>
+<ul>
+<li><code>x</code>: data.frame(x.train, y.train)</li>
+<li><code>y</code>: data.frame(x.test, y.test)</li>
+</ul>
+<div class="cell" data-hash="87_Supervised_cache/html/unnamed-chunk-8_16b5cc09229eb6b034c89af9e7c1e1df">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnormmat</span>(<span class="dv">200</span>, <span class="dv">10</span>, <span class="at">seed =</span> <span class="dv">2019</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>w <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">10</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> x <span class="sc">%*%</span> w <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">200</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(x, y)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">resample</span>(dat, <span class="at">seed =</span> <span class="dv">2020</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre class="fansi fansi-output"><code><span style="color: #555555;">[2022-05-10 18:10:22</span><span style="color: #555555; font-weight: bold;"> resample</span><span style="color: #555555;">] </span>Input contains more than one columns; will stratify on last 
+<span style="font-weight: 100;">.:</span><span style="font-weight: bold;">Resampling Parameters</span>
+    n.resamples: 10 
+      resampler: strat.sub 
+   stratify.var: y 
+        train.p: 0.75 
+   strat.n.bins: 4 
+<span style="color: #555555;">[2022-05-10 18:10:22</span><span style="color: #555555; font-weight: bold;"> resample</span><span style="color: #555555;">] </span>Created 10 stratified subsamples 
+</code></pre>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>dat_train <span class="ot">&lt;-</span> dat[res<span class="sc">$</span>Subsample_1, ]</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>dat_test <span class="ot">&lt;-</span> dat[<span class="sc">-</span>res<span class="sc">$</span>Subsample_1, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-hash="87_Supervised_cache/html/unnamed-chunk-9_81be7191863da799ec8f019983ddf677">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>mod_glm <span class="ot">&lt;-</span> <span class="fu">s_GLM</span>(dat_train, dat_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre class="fansi fansi-output"><code><span style="color: #555555;">[2022-05-10 18:10:22</span><span style="color: #555555; font-weight: bold;"> s_GLM</span><span style="color: #555555;">] Hello,</span> <span style="color: #555555;">egenn</span> 
+
+<span style="font-weight: 100;">.:</span><span style="font-weight: bold;">Regression Input Summary</span>
+Training features: <span style="font-weight: bold;">147 x 10 
+</span> Training outcome: <span style="font-weight: bold;">147 x 1 
+</span> Testing features: <span style="font-weight: bold;">53 x 10 
+</span>  Testing outcome: <span style="font-weight: bold;">53 x 1 
+</span>
+<span style="color: #555555;">[2022-05-10 18:10:22</span><span style="color: #555555; font-weight: bold;"> s_GLM</span><span style="color: #555555;">] </span>Training GLM... 
+
+<span style="font-weight: 100;">.:</span><span style="font-weight: bold;">GLM Regression Training Summary</span>
+    MSE = 0.84 (91.88%)
+   RMSE = 0.92 (71.51%)
+    MAE = 0.75 (69.80%)
+      r = 0.96 (p = 5.9e-81)
+   R sq = <span style="color: #00BBBB; font-weight: bold;">0.92</span>
+
+<span style="font-weight: 100;">.:</span><span style="font-weight: bold;">GLM Regression Testing Summary</span>
+    MSE = 1.22 (89.03%)
+   RMSE = 1.10 (66.88%)
+    MAE = 0.90 (66.66%)
+      r = 0.94 (p = 2.5e-26)
+   R sq = <span style="color: #00BBBB; font-weight: bold;">0.89</span>
+</code></pre>
+<div class="cell-output-display">
+<p><img src="87_Supervised_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="480"></p>
+</div>
+<pre class="fansi fansi-output"><code><span style="color: #555555;">[2022-05-10 18:10:22</span><span style="color: #555555; font-weight: bold;"> s_GLM</span><span style="color: #555555;">] Run completed in 4.8e-04 minutes (Real: 0.03; User: 0.02; System: 4e-03)</span> 
+</code></pre>
+</div>
+<p>The <code>dataPrepare()</code> function will check data dimensions and determine whether data was input as separate feature and outcome sets or combined and ensure the correct number of cases and features was provided.</p>
+<p>In either scenario, Regression will be performed if the outcome is numeric and Classification if the outcome is a factor.</p>
+</section>
+</section>
+<section id="regression" class="level2" data-number="34.3">
+<h2 data-number="34.3" class="anchored" data-anchor-id="regression"><span class="header-section-number">34.3</span> Regression</h2>
+<section id="check-data-with-checkdata" class="level3" data-number="34.3.1">
+<h3 data-number="34.3.1" class="anchored" data-anchor-id="check-data-with-checkdata"><span class="header-section-number">34.3.1</span> Check Data with <code>checkData()</code></h3>
+<div class="cell" data-hash="87_Supervised_cache/html/synth reg data_f51123595cb4efd62e94e19bd8114dc5">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnormmat</span>(<span class="dv">500</span>, <span class="dv">50</span>, <span class="at">seed =</span> <span class="dv">2019</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>w <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">50</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> x <span class="sc">%*%</span> w <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">500</span>)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(x, y)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">resample</span>(dat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre class="fansi fansi-output"><code><span style="color: #555555;">[2022-05-10 18:10:23</span><span style="color: #555555; font-weight: bold;"> resample</span><span style="color: #555555;">] </span>Input contains more than one columns; will stratify on last 
+<span style="font-weight: 100;">.:</span><span style="font-weight: bold;">Resampling Parameters</span>
+    n.resamples: 10 
+      resampler: strat.sub 
+   stratify.var: y 
+        train.p: 0.75 
+   strat.n.bins: 4 
+<span style="color: #555555;">[2022-05-10 18:10:23</span><span style="color: #555555; font-weight: bold;"> resample</span><span style="color: #555555;">] </span>Created 10 stratified subsamples 
+</code></pre>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>dat_train <span class="ot">&lt;-</span> dat[res<span class="sc">$</span>Subsample_1, ]</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>dat_test <span class="ot">&lt;-</span> dat[<span class="sc">-</span>res<span class="sc">$</span>Subsample_1, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-hash="87_Supervised_cache/html/unnamed-chunk-10_0b47c3996fd9a6eaa275a7779c76b7ae">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">checkData</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre class="fansi fansi-output"><code> <span style="color: #00BBBB; font-weight: bold;">x</span>: A matrix with <span style="color: #00BBBB; font-weight: bold;">500</span> rows and <span style="color: #00BBBB; font-weight: bold;">50</span> features
+<span style="font-weight: bold;">
+  Data types</span>________________
+  * <span style="font-weight: bold;">50</span> continuous features
+  * <span style="font-weight: bold;">0</span> integer features
+  * <span style="font-weight: bold;">0</span> categorical features
+  * <span style="font-weight: bold;">0</span> character features
+  * 0 date features
+<span style="font-weight: bold;">
+  Issues</span>____________________
+  * <span style="font-weight: bold;">0</span> constant features
+  * <span style="font-weight: bold;">0</span> duplicated cases
+  * <span style="font-weight: bold;">0</span> features include 'NA' values
+<span style="font-weight: bold;">
+  Recommendations</span>___________
+<span style="color: #00BB00;">  * Everything looks good</span>
+</code></pre>
+</div>
+</section>
+<section id="single-model" class="level3" data-number="34.3.2">
+<h3 data-number="34.3.2" class="anchored" data-anchor-id="single-model"><span class="header-section-number">34.3.2</span> Single Model</h3>
+<div class="cell" data-hash="87_Supervised_cache/html/unnamed-chunk-11_9583151532b9340b1b32770e1a2dc2d2">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">s_GLM</span>(dat_train, dat_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre class="fansi fansi-output"><code><span style="color: #555555;">[2022-05-10 18:10:23</span><span style="color: #555555; font-weight: bold;"> s_GLM</span><span style="color: #555555;">] Hello,</span> <span style="color: #555555;">egenn</span> 
+
+<span style="font-weight: 100;">.:</span><span style="font-weight: bold;">Regression Input Summary</span>
+Training features: <span style="font-weight: bold;">374 x 50 
+</span> Training outcome: <span style="font-weight: bold;">374 x 1 
+</span> Testing features: <span style="font-weight: bold;">126 x 50 
+</span>  Testing outcome: <span style="font-weight: bold;">126 x 1 
+</span>
+<span style="color: #555555;">[2022-05-10 18:10:23</span><span style="color: #555555; font-weight: bold;"> s_GLM</span><span style="color: #555555;">] </span>Training GLM... 
+
+<span style="font-weight: 100;">.:</span><span style="font-weight: bold;">GLM Regression Training Summary</span>
+    MSE = 1.02 (97.81%)
+   RMSE = 1.01 (85.18%)
+    MAE = 0.81 (84.62%)
+      r = 0.99 (p = 1.3e-310)
+   R sq = <span style="color: #00BBBB; font-weight: bold;">0.98</span>
+
+<span style="font-weight: 100;">.:</span><span style="font-weight: bold;">GLM Regression Testing Summary</span>
+    MSE = 0.98 (97.85%)
+   RMSE = 0.99 (85.35%)
+    MAE = 0.76 (85.57%)
+      r = 0.99 (p = 2.7e-105)
+   R sq = <span style="color: #00BBBB; font-weight: bold;">0.98</span>
+</code></pre>
+<div class="cell-output-display">
+<p><img src="87_Supervised_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="480"></p>
+</div>
+<pre class="fansi fansi-output"><code><span style="color: #555555;">[2022-05-10 18:10:23</span><span style="color: #555555; font-weight: bold;"> s_GLM</span><span style="color: #555555;">] Run completed in 7.8e-04 minutes (Real: 0.05; User: 0.03; System: 0.01)</span> 
+</code></pre>
+</div>
+</section>
+<section id="crossvalidated-model" class="level3" data-number="34.3.3">
+<h3 data-number="34.3.3" class="anchored" data-anchor-id="crossvalidated-model"><span class="header-section-number">34.3.3</span> Crossvalidated Model</h3>
+<div class="cell" data-hash="87_Supervised_cache/html/unnamed-chunk-12_c21beb94b9a927450ba5d6955415c851">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">elevate</span>(dat, <span class="at">mod =</span> <span class="st">"glm"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre class="fansi fansi-output"><code><span style="color: #555555;">[2022-05-10 18:10:23</span><span style="color: #555555; font-weight: bold;"> elevate</span><span style="color: #555555;">] Hello,</span> <span style="color: #555555;">egenn</span> 
+
+<span style="font-weight: 100;">.:</span><span style="font-weight: bold;">Regression Input Summary</span>
+Training features: <span style="font-weight: bold;">500 x 50 
+</span> Training outcome: <span style="font-weight: bold;">500 x 1 
+</span><span style="color: #555555;">[2022-05-10 18:10:23</span><span style="color: #555555; font-weight: bold;"> elevate</span><span style="color: #555555;">] </span>Using future framework 
+<span style="color: #555555;">[2022-05-10 18:10:23</span><span style="color: #555555; font-weight: bold;"> resLearn</span><span style="color: #555555;">] </span><span style="color: #BB00BB;">Outer resampling plan set to</span> <span style="color: #BB00BB; font-weight: bold;">sequential</span> 
+<span style="color: #555555;">[2022-05-10 18:10:23</span><span style="color: #555555; font-weight: bold;"> resLearn</span><span style="color: #555555;">] </span>Training Generalized Linear Model on 10 stratified subsamples... 
+
+<span style="font-weight: 100;">.:</span><span style="font-weight: bold;">elevate </span><span style="color: #00BBBB; font-weight: bold;">GLM</span>
+N repeats = <span style="color: #00BBBB; font-weight: bold;">1</span> 
+N resamples = <span style="color: #00BBBB; font-weight: bold;">10</span> 
+Resampler = <span style="color: #00BBBB; font-weight: bold;">strat.sub</span> 
+Mean MSE of 10 resamples in each repeat = <span style="color: #00BBBB; font-weight: bold;">1.22</span>
+Mean MSE reduction in each repeat =  <span style="color: #00BBBB; font-weight: bold;">97.50%
+</span>
+</code></pre>
+<div class="cell-output-display">
+<p><img src="87_Supervised_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="480"></p>
+</div>
+<pre class="fansi fansi-output"><code><span style="color: #555555;">[2022-05-10 18:10:23</span><span style="color: #555555; font-weight: bold;"> elevate</span><span style="color: #555555;">] Run completed in 0.01 minutes (Real: 0.39; User: 0.33; System: 0.02)</span> 
+</code></pre>
+</div>
+<p>Use the <code>describe()</code> function to get a summary in (plain) English:</p>
+<div class="cell" data-hash="87_Supervised_cache/html/unnamed-chunk-13_e9ce0b1b82c3f28181cb5dede13b3dc8">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>mod<span class="sc">$</span><span class="fu">describe</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Regression was performed using Generalized Linear Model. Model generalizability was assessed using 10 stratified subsamples. The mean R-squared across all testing set resamples was 0.97.</code></pre>
+</div>
+</div>
+<div class="cell" data-hash="87_Supervised_cache/html/unnamed-chunk-14_0b79851675572b6f0b9362a943df3b17">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>mod<span class="sc">$</span><span class="fu">plot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="87_Supervised_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="480"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="classification" class="level2" data-number="34.4">
+<h2 data-number="34.4" class="anchored" data-anchor-id="classification"><span class="header-section-number">34.4</span> Classification</h2>
+<section id="check-data" class="level3" data-number="34.4.1">
+<h3 data-number="34.4.1" class="anchored" data-anchor-id="check-data"><span class="header-section-number">34.4.1</span> Check Data</h3>
+<div class="cell" data-hash="87_Supervised_cache/html/unnamed-chunk-15_329f4109021969f1a50d29a3929688b9">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(Sonar, <span class="at">package =</span> <span class="st">'mlbench'</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">checkData</span>(Sonar)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre class="fansi fansi-output"><code> <span style="color: #00BBBB; font-weight: bold;">Sonar</span>: A data.frame with <span style="color: #00BBBB; font-weight: bold;">208</span> rows and <span style="color: #00BBBB; font-weight: bold;">61</span> features
+<span style="font-weight: bold;">
+  Data types</span>________________
+  * <span style="font-weight: bold;">60</span> continuous features
+  * <span style="font-weight: bold;">0</span> integer features
+  * <span style="font-weight: bold;">1</span> categorical feature, which is not ordered
+  * <span style="font-weight: bold;">0</span> character features
+  * 0 date features
+<span style="font-weight: bold;">
+  Issues</span>____________________
+  * <span style="font-weight: bold;">0</span> constant features
+  * <span style="font-weight: bold;">0</span> duplicated cases
+  * <span style="font-weight: bold;">0</span> features include 'NA' values
+<span style="font-weight: bold;">
+  Recommendations</span>___________
+<span style="color: #00BB00;">  * Everything looks good</span>
+</code></pre>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">resample</span>(Sonar)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre class="fansi fansi-output"><code><span style="color: #555555;">[2022-05-10 18:10:24</span><span style="color: #555555; font-weight: bold;"> resample</span><span style="color: #555555;">] </span>Input contains more than one columns; will stratify on last 
+<span style="font-weight: 100;">.:</span><span style="font-weight: bold;">Resampling Parameters</span>
+    n.resamples: 10 
+      resampler: strat.sub 
+   stratify.var: y 
+        train.p: 0.75 
+   strat.n.bins: 4 
+<span style="color: #555555;">[2022-05-10 18:10:24</span><span style="color: #555555; font-weight: bold;"> strat.sub</span><span style="color: #555555;">] </span>Using max n bins possible = 2 
+<span style="color: #555555;">[2022-05-10 18:10:24</span><span style="color: #555555; font-weight: bold;"> resample</span><span style="color: #555555;">] </span>Created 10 stratified subsamples 
+</code></pre>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>sonar_train <span class="ot">&lt;-</span> Sonar[res<span class="sc">$</span>Subsample_1, ]</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>sonar_test <span class="ot">&lt;-</span> Sonar[<span class="sc">-</span>res<span class="sc">$</span>Subsample_1, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="single-model-1" class="level3" data-number="34.4.2">
+<h3 data-number="34.4.2" class="anchored" data-anchor-id="single-model-1"><span class="header-section-number">34.4.2</span> Single model</h3>
+<div class="cell" data-hash="87_Supervised_cache/html/unnamed-chunk-16_ef0d11976a2595e123d817e93b2b4cc4">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">s_RANGER</span>(sonar_train, sonar_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre class="fansi fansi-output"><code><span style="color: #555555;">[2022-05-10 18:10:24</span><span style="color: #555555; font-weight: bold;"> s_RANGER</span><span style="color: #555555;">] Hello,</span> <span style="color: #555555;">egenn</span> 
+
+<span style="color: #555555;">[2022-05-10 18:10:24</span><span style="color: #555555; font-weight: bold;"> dataPrepare</span><span style="color: #555555;">] </span>Imbalanced classes: using Inverse Probability Weighting 
+
+<span style="font-weight: 100;">.:</span><span style="font-weight: bold;">Classification Input Summary</span>
+Training features: <span style="font-weight: bold;">155 x 60 
+</span> Training outcome: <span style="font-weight: bold;">155 x 1 
+</span> Testing features: <span style="font-weight: bold;">53 x 60 
+</span>  Testing outcome: <span style="font-weight: bold;">53 x 1 
+</span>
+<span style="font-weight: 100;">.:</span><span style="font-weight: bold;">Parameters</span>
+   n.trees: 1000 
+      mtry: NULL 
+
+<span style="color: #555555;">[2022-05-10 18:10:24</span><span style="color: #555555; font-weight: bold;"> s_RANGER</span><span style="color: #555555;">] </span>Training Random Forest (ranger) Classification with 1000 trees... 
+
+<span style="font-weight: 100;">.:</span><span style="font-weight: bold;">RANGER Classification Training Summary</span>
+<span style="font-weight: bold;">                   Reference</span> 
+<span style="font-weight: bold;">        Estimated</span>  <span style="color: #00BBBB; font-weight: bold;">M   R   </span>
+<span style="color: #00BBBB; font-weight: bold;">                M</span>  83   0
+<span style="color: #00BBBB; font-weight: bold;">                R</span>   0  72
+
+                   <span style="color: #00BBBB; font-weight: bold;">Overall  </span>
+      Sensitivity  1      
+      Specificity  1      
+Balanced Accuracy  1      
+              PPV  1      
+              NPV  1      
+               F1  1      
+         Accuracy  1      
+              AUC  1      
+
+  Positive Class:  <span style="color: #00BBBB; font-weight: bold;">M</span> 
+
+<span style="font-weight: 100;">.:</span><span style="font-weight: bold;">RANGER Classification Testing Summary</span>
+<span style="font-weight: bold;">                   Reference</span> 
+<span style="font-weight: bold;">        Estimated</span>  <span style="color: #00BBBB; font-weight: bold;">M   R   </span>
+<span style="color: #00BBBB; font-weight: bold;">                M</span>  25  11
+<span style="color: #00BBBB; font-weight: bold;">                R</span>   3  14
+
+                   <span style="color: #00BBBB; font-weight: bold;">Overall  </span>
+      Sensitivity  0.8929 
+      Specificity  0.5600 
+Balanced Accuracy  0.7264 
+              PPV  0.6944 
+              NPV  0.8235 
+               F1  0.7812 
+         Accuracy  0.7358 
+              AUC  0.8643 
+
+  Positive Class:  <span style="color: #00BBBB; font-weight: bold;">M</span> 
+</code></pre>
+<div class="cell-output-display">
+<p><img src="87_Supervised_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="480"></p>
+</div>
+<pre class="fansi fansi-output"><code><span style="color: #555555;">[2022-05-10 18:10:24</span><span style="color: #555555; font-weight: bold;"> s_RANGER</span><span style="color: #555555;">] Run completed in 2.3e-03 minutes (Real: 0.14; User: 0.20; System: 0.05)</span> 
+</code></pre>
+</div>
+</section>
+<section id="crossvalidated-model-1" class="level3" data-number="34.4.3">
+<h3 data-number="34.4.3" class="anchored" data-anchor-id="crossvalidated-model-1"><span class="header-section-number">34.4.3</span> Crossvalidated Model</h3>
+<div class="cell" data-hash="87_Supervised_cache/html/unnamed-chunk-17_c1ce893c111a6e114acba2bcf5069206">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">elevate</span>(Sonar)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre class="fansi fansi-output"><code><span style="color: #555555;">[2022-05-10 18:10:24</span><span style="color: #555555; font-weight: bold;"> elevate</span><span style="color: #555555;">] Hello,</span> <span style="color: #555555;">egenn</span> 
+
+<span style="font-weight: 100;">.:</span><span style="font-weight: bold;">Classification Input Summary</span>
+Training features: <span style="font-weight: bold;">208 x 60 
+</span> Training outcome: <span style="font-weight: bold;">208 x 1 
+</span><span style="color: #555555;">[2022-05-10 18:10:24</span><span style="color: #555555; font-weight: bold;"> elevate</span><span style="color: #555555;">] </span>Using future framework 
+<span style="color: #555555;">[2022-05-10 18:10:24</span><span style="color: #555555; font-weight: bold;"> resLearn</span><span style="color: #555555;">] </span><span style="color: #BB00BB;">Outer resampling plan set to</span> <span style="color: #BB00BB; font-weight: bold;">sequential</span> 
+<span style="color: #555555;">[2022-05-10 18:10:24</span><span style="color: #555555; font-weight: bold;"> resLearn</span><span style="color: #555555;">] </span>Training Random Forest (ranger) on 10 stratified subsamples... 
+
+<span style="font-weight: 100;">.:</span><span style="font-weight: bold;">elevate </span><span style="color: #00BBBB; font-weight: bold;">RANGER</span>
+N repeats = <span style="color: #00BBBB; font-weight: bold;">1</span> 
+N resamples = <span style="color: #00BBBB; font-weight: bold;">10</span> 
+Resampler = <span style="color: #00BBBB; font-weight: bold;">strat.sub</span> 
+Mean Balanced Accuracy of 10 test sets in each repeat = <span style="color: #00BBBB; font-weight: bold;">0.83</span>
+</code></pre>
+<div class="cell-output-display">
+<p><img src="87_Supervised_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="480"></p>
+</div>
+<pre class="fansi fansi-output"><code><span style="color: #555555;">[2022-05-10 18:10:25</span><span style="color: #555555; font-weight: bold;"> elevate</span><span style="color: #555555;">] Run completed in 0.02 minutes (Real: 1.18; User: 2.06; System: 0.40)</span> 
+</code></pre>
+</div>
+<div class="cell" data-hash="87_Supervised_cache/html/unnamed-chunk-18_418988a6d104d6776865491b80e5d0a7">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>mod<span class="sc">$</span><span class="fu">describe</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Classification was performed using Random Forest (ranger). Model generalizability was assessed using 10 stratified subsamples. The mean Balanced Accuracy across all testing set resamples was 0.83.</code></pre>
+</div>
+</div>
+<div class="cell" data-hash="87_Supervised_cache/html/unnamed-chunk-19_ee452abbef31ab962d9fe66b09fcc72e">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>mod<span class="sc">$</span><span class="fu">plot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="87_Supervised_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="480"></p>
+</div>
+</div>
+<div class="cell" data-hash="87_Supervised_cache/html/unnamed-chunk-20_6b93c2c7dea0bb366da32b04fa0f133e">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>mod<span class="sc">$</span><span class="fu">plotROC</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="87_Supervised_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="480"></p>
+</div>
+</div>
+<div class="cell" data-hash="87_Supervised_cache/html/unnamed-chunk-21_f1b963141987bd3c59d7108f868c3054">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>mod<span class="sc">$</span><span class="fu">plotPR</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="87_Supervised_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid" width="480"></p>
+</div>
+</div>
+</section>
+<section id="evaluation-of-a-binary-classifier" class="level3" data-number="34.4.4">
+<h3 data-number="34.4.4" class="anchored" data-anchor-id="evaluation-of-a-binary-classifier"><span class="header-section-number">34.4.4</span> Evaluation of a binary classifier</h3>
+<div class="cell" data-layout-align="center" data-hash="87_Supervised_cache/html/Classification_e7d4a4a86cd3cfc4533b083cb350ce3a">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./Classification.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">Evaluation metrics for a binary classifier</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="understanding-overfitting" class="level2" data-number="34.5">
+<h2 data-number="34.5" class="anchored" data-anchor-id="understanding-overfitting"><span class="header-section-number">34.5</span> Understanding Overfitting</h2>
+<p>Overfitting occurs when a model fits noise in the outcome. To make this clear, consider the following example:</p>
+<p>Assume a random variable <strong>x</strong>:</p>
+<div class="cell" data-hash="87_Supervised_cache/html/unnamed-chunk-22_cde374b42edfd6f965fbcd690cfe9664">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2020</span>)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">rnorm</span>(<span class="dv">500</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>and a data-generating function <code>fn()</code>:</p>
+<div class="cell" data-hash="87_Supervised_cache/html/unnamed-chunk-23_aedff6a27b6ac605f60cb0ff2583ed16">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>fn <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="dv">12</span> <span class="sc">+</span> x<span class="sc">^</span><span class="dv">5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The true y is therefore equal to <code>fn(x)</code>:</p>
+<div class="cell" data-hash="87_Supervised_cache/html/unnamed-chunk-24_78db28bac9ce33fdd8da013a9c45a05a">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>y_true <span class="ot">&lt;-</span> <span class="fu">fn</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>However, assume y is recorded with some noise, in this case gaussian:</p>
+<div class="cell" data-hash="87_Supervised_cache/html/unnamed-chunk-25_126fc82978b0b3ac779442c55376f49a">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>y_noise <span class="ot">&lt;-</span> <span class="fu">fn</span>(x) <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">500</span>, <span class="at">sd =</span> <span class="fu">sd</span>(y_true))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We plot:</p>
+<div class="cell" data-hash="87_Supervised_cache/html/unnamed-chunk-26_c3ab467a0457021b055d47f4e77ae476">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mplot3_xy</span>(x, <span class="fu">list</span>(<span class="at">y_noise =</span> y_noise, <span class="at">y_true =</span> y_true))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="87_Supervised_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid" width="480"></p>
+</div>
+</div>
+<p>We want to find a model that best approximates <code>y_true</code>, but we only know <code>y_noise</code>.</p>
+<p>A maximally overfitted model would model noise perfectly:</p>
+<div class="cell" data-hash="87_Supervised_cache/html/unnamed-chunk-27_3b83ab0bbe42b0ad57c29293035ebd77">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mplot3_xy</span>(x, <span class="fu">list</span>(<span class="at">Overfitted_model =</span> y_noise, <span class="at">Ideal_model =</span> y_true), <span class="at">type =</span> <span class="st">"l"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="87_Supervised_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid" width="480"></p>
+</div>
+</div>
+<p>An example of an SVM set up to overfit heavily:</p>
+<div class="cell" data-hash="87_Supervised_cache/html/unnamed-chunk-28_1830029895bf7a5dd91acb82b63952b5">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mplot3_xy</span>(x, y_noise, <span class="at">fit =</span> <span class="st">"svm"</span>,</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">fit.params =</span> <span class="fu">list</span>(<span class="at">kernel =</span> <span class="st">"radial"</span>, <span class="at">cost =</span> <span class="dv">100</span>, <span class="at">gamma =</span> <span class="dv">100</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="87_Supervised_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid" width="480"></p>
+</div>
+</div>
+<p>An example of a good approximation of <code>fn</code> using a GAM with penalized splines:</p>
+<div class="cell" data-hash="87_Supervised_cache/html/unnamed-chunk-29_07238b50d101a8e06f4c7e0a96a7ddcb">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mplot3_xy</span>(x, y_noise, <span class="at">fit =</span> <span class="st">"gam"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="87_Supervised_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid" width="480"></p>
+</div>
+</div>
+</section>
+<section id="rtemis-documentation" class="level2" data-number="34.6">
+<h2 data-number="34.6" class="anchored" data-anchor-id="rtemis-documentation"><span class="header-section-number">34.6</span> <strong>rtemis</strong> Documentation</h2>
+<p>For more information on using <strong>rtemis</strong>, see the <a href="https://rtemis.lambdamd.prg">rtemis online documentation and vignettes</a></p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+    } else {
+      disableStylesheet(alternateStylesheets);
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } 
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./86_Resampling.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Resampling</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./88_Unsupervised.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Unsupervised Learning</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

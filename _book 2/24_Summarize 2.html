@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-0.9.613">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>PDSR - 12&nbsp; Summarizing Data</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./26_Aggregate.html" rel="next">
+<link href="./20_ControlFlow.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme">
+<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+<script type="text/javascript">
+
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-163213745-1', 'auto');
+
+ga('send', {
+  hitType: 'pageview',
+  'anonymizeIp': true,
+});
+</script>
+
+
+<link rel="stylesheet" href="bootstrap.lambdamd.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Summarizing Data</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">PDSR</a> 
+        <div class="sidebar-tools-main tools-wide">
+    <a href="https://github.com/egenn/pdsr" title="" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
+    <a href="https://github.com/egenn/pdsr" title="Source Code" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle sidebar-tool" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">Welcome</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01_Preface.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02_Introduction.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04_Packages.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">R, IDEs, Packages, Docs</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_BasicOps.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Basic operations</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_Datatypes.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Data Types</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_DataStructures.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Data Structures</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09_Factors.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Factors</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10_Indexing.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Indexing</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12_Vectorization.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Vectorized Operations</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./15_InputOutput.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Data Input/Output</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./20_ControlFlow.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Control flow</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./24_Summarize.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Summarizing Data</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./26_Aggregate.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Aggregate</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./30_Functions.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Functions</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./32_LoopFunctions.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Loop Functions</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./40_DataFrames.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Data frames</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./42_TableJoins.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Table joins</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./44_Reshaping.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Reshaping</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./46_DataTrans.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Data Transformations</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./48_StringOps.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">String Operations</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./50_DateTime.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Date and Time</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./52_MissingData.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Handling Missing data</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./54_ClassesAndOOP.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Classes and Object-Oriented Programming</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./60_DataTable.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Efficient data analysis with <strong>data.table</strong></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./62_dplyr.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Introduction to dplyr</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./70_BaseGraphics.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Base Graphics</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./72_3xGraphics.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">3x Graphics</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./74_Colors.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Colors in R</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./80_Profiling.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Benchmarking &amp; Profiling</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./82_Optimization.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Optimization</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./84_HypothesisTesting.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Common statistical tests</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./85_GLM.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Introduction to the GLM</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./86_Resampling.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Resampling</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./87_Supervised.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Supervised Learning</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./88_Unsupervised.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Unsupervised Learning</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./94_GitHubIntro.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Git &amp; GitHub: the basics</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./95_TerminalIntro.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">Introduction to the system shell</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./98_Resources.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">38</span>&nbsp; <span class="chapter-title">Resources</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./200_CrashCourse.html" class="sidebar-item-text sidebar-link">DCR Intro to R</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./99_References.html" class="sidebar-item-text sidebar-link">References</a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#get-summary-of-an-r-object-with-summary" id="toc-get-summary-of-an-r-object-with-summary" class="nav-link active" data-scroll-target="#get-summary-of-an-r-object-with-summary"> <span class="header-section-number">12.1</span> Get summary of an R object with <code>summary()</code></a></li>
+  <li><a href="#fast-builtin-column-and-row-operations" id="toc-fast-builtin-column-and-row-operations" class="nav-link" data-scroll-target="#fast-builtin-column-and-row-operations"> <span class="header-section-number">12.2</span> Fast builtin column and row operations</a></li>
+  <li><a href="#optimized-matrix-operations-with-matrixstats" id="toc-optimized-matrix-operations-with-matrixstats" class="nav-link" data-scroll-target="#optimized-matrix-operations-with-matrixstats"> <span class="header-section-number">12.3</span> Optimized matrix operations with <strong>matrixStats</strong></a></li>
+  <li><a href="#see-alos" id="toc-see-alos" class="nav-link" data-scroll-target="#see-alos"> <span class="header-section-number">12.4</span> See alos</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/egenn/pdsr/edit/main/24_Summarize.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/egenn/pdsr/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="summarize" class="quarto-section-identifier d-none d-lg-block"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Summarizing Data</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<div class="cell">
+
+</div>
+<p>Let’s read in a dataset from OpenML:</p>
+<div class="cell" data-hash="24_Summarize_cache/html/unnamed-chunk-2_d3eaab43ae19f6f0eb7ea5b7fc25901f">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>heart <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"https://www.openml.org/data/get_csv/51/dataset_51_heart-h.arff"</span>,</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">na.strings =</span> <span class="st">"?"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="get-summary-of-an-r-object-with-summary" class="level2" data-number="12.1">
+<h2 data-number="12.1" class="anchored" data-anchor-id="get-summary-of-an-r-object-with-summary"><span class="header-section-number">12.1</span> Get summary of an R object with <code>summary()</code></h2>
+<p>R includes <code>summary()</code> <a href="54_ClassesAndOOP.html#s3methods">methods</a> for a number of different objects.</p>
+<div class="cell" data-hash="24_Summarize_cache/html/unnamed-chunk-3_9b921dd347275fa03dcd4a2bbefcc274">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(heart)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      age            sex             chest_pain           trestbps    
+ Min.   :28.00   Length:294         Length:294         Min.   : 92.0  
+ 1st Qu.:42.00   Class :character   Class :character   1st Qu.:120.0  
+ Median :49.00   Mode  :character   Mode  :character   Median :130.0  
+ Mean   :47.83                                         Mean   :132.6  
+ 3rd Qu.:54.00                                         3rd Qu.:140.0  
+ Max.   :66.00                                         Max.   :200.0  
+                                                       NA's   :1      
+      chol           fbs              restecg             thalach     
+ Min.   : 85.0   Length:294         Length:294         Min.   : 82.0  
+ 1st Qu.:209.0   Class :character   Class :character   1st Qu.:122.0  
+ Median :243.0   Mode  :character   Mode  :character   Median :140.0  
+ Mean   :250.8                                         Mean   :139.1  
+ 3rd Qu.:282.5                                         3rd Qu.:155.0  
+ Max.   :603.0                                         Max.   :190.0  
+ NA's   :23                                            NA's   :1      
+    exang              oldpeak          slope                 ca     
+ Length:294         Min.   :0.0000   Length:294         Min.   :0    
+ Class :character   1st Qu.:0.0000   Class :character   1st Qu.:0    
+ Mode  :character   Median :0.0000   Mode  :character   Median :0    
+                    Mean   :0.5861                      Mean   :0    
+                    3rd Qu.:1.0000                      3rd Qu.:0    
+                    Max.   :5.0000                      Max.   :0    
+                                                        NA's   :291  
+     thal               num           
+ Length:294         Length:294        
+ Class :character   Class :character  
+ Mode  :character   Mode  :character  
+                                      
+                                      
+                                      
+                                      </code></pre>
+</div>
+</div>
+</section>
+<section id="fast-builtin-column-and-row-operations" class="level2" data-number="12.2">
+<h2 data-number="12.2" class="anchored" data-anchor-id="fast-builtin-column-and-row-operations"><span class="header-section-number">12.2</span> Fast builtin column and row operations</h2>
+<p>We saw in <a href="32_LoopFunctions.html">Loop Functions</a> how we can apply functions on rows, columns, or other subsets of our data. R has optimized builtin functions for some very common operations, with self-explanatory names:</p>
+<ul>
+<li><code>colSums()</code>: column sums</li>
+<li><code>rowSums()</code>: row sums</li>
+<li><code>colMeans()</code>: column means</li>
+<li><code>rowMeans()</code>: row means</li>
+</ul>
+<div class="cell" data-hash="24_Summarize_cache/html/unnamed-chunk-4_8e3d55e06f0b4dc04f59b570380442f4">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>, <span class="dv">5</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>a</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2] [,3] [,4]
+[1,]    1    6   11   16
+[2,]    2    7   12   17
+[3,]    3    8   13   18
+[4,]    4    9   14   19
+[5,]    5   10   15   20</code></pre>
+</div>
+</div>
+<div class="cell" data-hash="24_Summarize_cache/html/unnamed-chunk-5_3f60b567b04398dc5a0eb477b18afc5d">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(a)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 15 40 65 90</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># same as</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(a, <span class="dv">2</span>, sum)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 15 40 65 90</code></pre>
+</div>
+</div>
+<div class="cell" data-hash="24_Summarize_cache/html/unnamed-chunk-6_0136c119242a3327d5c9938159007128">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rowSums</span>(a)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 34 38 42 46 50</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># same as</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(a, <span class="dv">1</span>, sum)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 34 38 42 46 50</code></pre>
+</div>
+</div>
+<div class="cell" data-hash="24_Summarize_cache/html/unnamed-chunk-7_51749b4d9109d0e3befde7f4d5875ca8">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colMeans</span>(a)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  3  8 13 18</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># same as</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(a, <span class="dv">2</span>, mean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  3  8 13 18</code></pre>
+</div>
+</div>
+<div class="cell" data-hash="24_Summarize_cache/html/unnamed-chunk-8_34ca3fa7a84516f21608aeaee889d719">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rowMeans</span>(a)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  8.5  9.5 10.5 11.5 12.5</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># same as</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(a, <span class="dv">1</span>, mean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  8.5  9.5 10.5 11.5 12.5</code></pre>
+</div>
+</div>
+</section>
+<section id="optimized-matrix-operations-with-matrixstats" class="level2" data-number="12.3">
+<h2 data-number="12.3" class="anchored" data-anchor-id="optimized-matrix-operations-with-matrixstats"><span class="header-section-number">12.3</span> Optimized matrix operations with <strong>matrixStats</strong></h2>
+<p>While the builtin operations above are already optimized and faster than the equivalent calls, the <strong>matrixStats</strong> package <span class="citation" data-cites="matrixStats2019">(<a href="99_References.html#ref-matrixStats2019" role="doc-biblioref">Bengtsson 2019</a>)</span> offers a number of futher optimized matrix operations, including drop-in replacements of the above. These should be prefered when dealing with bigger data:</p>
+<div class="cell" data-hash="24_Summarize_cache/html/unnamed-chunk-9_d3e738b73e1ef5d5569f958bfc52a4a9">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(matrixStats)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums2</span>(a)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 15 40 65 90</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rowSums2</span>(a)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 34 38 42 46 50</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colMeans2</span>(a)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  3  8 13 18</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rowMeans2</span>(a)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  8.5  9.5 10.5 11.5 12.5</code></pre>
+</div>
+</div>
+<p>Note: <strong>matrixStats</strong> provides replacement functions named almost identically to their base counterpart - so they are easy to find - but are different - so they don’t mask the base functions (this is important and good software design).</p>
+</section>
+<section id="see-alos" class="level2" data-number="12.4">
+<h2 data-number="12.4" class="anchored" data-anchor-id="see-alos"><span class="header-section-number">12.4</span> See alos</h2>
+<p><a href="26_Aggregate.html"><code>aggregate()</code></a> for grouped summary statistics</p>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
+<div id="ref-matrixStats2019" class="csl-entry" role="doc-biblioentry">
+Bengtsson, Henrik. 2019. <em>matrixStats: Functions That Apply to Rows and Columns of Matrices (and to Vectors)</em>. <a href="https://CRAN.R-project.org/package=matrixStats">https://CRAN.R-project.org/package=matrixStats</a>.
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+    } else {
+      disableStylesheet(alternateStylesheets);
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } 
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./20_ControlFlow.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Control flow</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./26_Aggregate.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Aggregate</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

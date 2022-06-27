@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-0.9.377">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>PDSR - 26&nbsp; Base Graphics</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<link href="./72_3xGraphics.html" rel="next">
+<link href="./62_dplyr.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link class="quarto-color-scheme" id="quarto-text-highlighting-styles" href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+<link class="quarto-color-scheme quarto-color-alternate" rel="prefetch" id="quarto-text-highlighting-styles" href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link class="quarto-color-scheme" href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<link class="quarto-color-scheme quarto-color-alternate" rel="prefetch" href="site_libs/bootstrap/bootstrap-dark.min.css">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="bootstrap.lambdamd.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Base Graphics</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">PDSR</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/egenn/pdsr" title="" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle sidebar-tool" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">Welcome</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01_Preface.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02_Introduction.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04_Packages.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">R, IDEs, Packages, Docs</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_BasicOps.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Basic operations</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_Datatypes.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Data Types</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_DataStructures.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Data Structures</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09_Factors.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Factors</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10_Indexing.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Indexing - Slicing</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12_Vectorization.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Vectorized Operations</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./15_InputOutput.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Data Input/Output</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./20_ControlFlow.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Control flow</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./24_Summarize.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Summarizing Data</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./26_Aggregate.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Aggregate</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./30_Functions.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Functions</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./32_LoopFunctions.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Loop Functions</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./40_DataFrames.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Data frames</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./42_TableJoins.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Table joins</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./44_Reshaping.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Reshaping</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./46_DataTrans.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Data Transformations</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./48_StringOps.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">String Operations</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./50_DateTime.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Date and Time</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./52_MissingData.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Handling Missing data</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./54_ClassesAndOOP.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Classes and Object-Oriented Programming</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./60_DataTable.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Efficient data analysis with <strong>data.table</strong></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./62_dplyr.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Introduction to dplyr</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./70_BaseGraphics.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Base Graphics</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./72_3xGraphics.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">3x Graphics</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./74_Colors.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Colors in R</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./80_Profiling.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Benchmarking &amp; Profiling</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./82_Optimization.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Optimization with <code>optim()</code></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./84_HypothesisTesting.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Common statistical tests</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./85_GLM.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Introduction to the GLM</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./86_Resampling.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Resampling</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./87_Supervised.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Supervised Learning</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./88_Unsupervised.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Unsupervised Learning</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./94_GitHubIntro.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Git &amp; GitHub: the basics</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./95_TerminalIntro.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">Introduction to the system shell</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./98_Resources.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">38</span>&nbsp; <span class="chapter-title">Resources</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./200_CrashCourse.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">39</span>&nbsp; <span class="chapter-title">DCR Intro to R</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./99_References.html" class="sidebar-item-text sidebar-link">References</a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#scatter-plot" id="toc-scatter-plot" class="nav-link active" data-scroll-target="#scatter-plot"> <span class="header-section-number">26.1</span> Scatter plot</a>
+  <ul class="collapse">
+  <li><a href="#col-point-color" id="toc-col-point-color" class="nav-link" data-scroll-target="#col-point-color"> <span class="header-section-number">26.1.1</span> <strong><code>col</code></strong>: point color</a></li>
+  <li><a href="#bty-box-type" id="toc-bty-box-type" class="nav-link" data-scroll-target="#bty-box-type"> <span class="header-section-number">26.1.2</span> <strong><code>bty</code></strong>: box type</a></li>
+  <li><a href="#pch-point-character" id="toc-pch-point-character" class="nav-link" data-scroll-target="#pch-point-character"> <span class="header-section-number">26.1.3</span> <strong><code>pch</code></strong>: point character</a></li>
+  <li><a href="#grid" id="toc-grid" class="nav-link" data-scroll-target="#grid"> <span class="header-section-number">26.1.4</span> grid</a></li>
+  <li><a href="#main-xlab-ylab-title-and-axes-labels" id="toc-main-xlab-ylab-title-and-axes-labels" class="nav-link" data-scroll-target="#main-xlab-ylab-title-and-axes-labels"> <span class="header-section-number">26.1.5</span> <strong><code>main</code></strong>, <strong><code>xlab</code></strong>, <strong><code>ylab</code></strong>: Title and axes labels</a></li>
+  </ul></li>
+  <li><a href="#histogram" id="toc-histogram" class="nav-link" data-scroll-target="#histogram"> <span class="header-section-number">26.2</span> Histogram</a>
+  <ul class="collapse">
+  <li><a href="#col-bar-color" id="toc-col-bar-color" class="nav-link" data-scroll-target="#col-bar-color"> <span class="header-section-number">26.2.1</span> <strong><code>col</code></strong>: bar color</a></li>
+  <li><a href="#border-border-color" id="toc-border-border-color" class="nav-link" data-scroll-target="#border-border-color"> <span class="header-section-number">26.2.2</span> <strong><code>border</code></strong>: border color</a></li>
+  <li><a href="#breaks-number-or-value-of-breakpoints" id="toc-breaks-number-or-value-of-breakpoints" class="nav-link" data-scroll-target="#breaks-number-or-value-of-breakpoints"> <span class="header-section-number">26.2.3</span> <code>breaks</code>: number or value of breakpoints</a></li>
+  </ul></li>
+  <li><a href="#density-plot" id="toc-density-plot" class="nav-link" data-scroll-target="#density-plot"> <span class="header-section-number">26.3</span> Density plot</a></li>
+  <li><a href="#barplot" id="toc-barplot" class="nav-link" data-scroll-target="#barplot"> <span class="header-section-number">26.4</span> Barplot</a>
+  <ul class="collapse">
+  <li><a href="#single-vector" id="toc-single-vector" class="nav-link" data-scroll-target="#single-vector"> <span class="header-section-number">26.4.1</span> Single vector</a></li>
+  <li><a href="#matrix" id="toc-matrix" class="nav-link" data-scroll-target="#matrix"> <span class="header-section-number">26.4.2</span> Matrix</a></li>
+  <li><a href="#formula-interface" id="toc-formula-interface" class="nav-link" data-scroll-target="#formula-interface"> <span class="header-section-number">26.4.3</span> Formula interface</a></li>
+  </ul></li>
+  <li><a href="#boxplot" id="toc-boxplot" class="nav-link" data-scroll-target="#boxplot"> <span class="header-section-number">26.5</span> Boxplot</a>
+  <ul class="collapse">
+  <li><a href="#single-vector-1" id="toc-single-vector-1" class="nav-link" data-scroll-target="#single-vector-1"> <span class="header-section-number">26.5.1</span> Single vector</a></li>
+  <li><a href="#anatomy-of-a-boxplot" id="toc-anatomy-of-a-boxplot" class="nav-link" data-scroll-target="#anatomy-of-a-boxplot"> <span class="header-section-number">26.5.2</span> Anatomy of a boxplot</a></li>
+  <li><a href="#multiple-vectors" id="toc-multiple-vectors" class="nav-link" data-scroll-target="#multiple-vectors"> <span class="header-section-number">26.5.3</span> Multiple vectors</a></li>
+  <li><a href="#list" id="toc-list" class="nav-link" data-scroll-target="#list"> <span class="header-section-number">26.5.4</span> List</a></li>
+  <li><a href="#matrix-1" id="toc-matrix-1" class="nav-link" data-scroll-target="#matrix-1"> <span class="header-section-number">26.5.5</span> Matrix</a></li>
+  <li><a href="#formula-interface-1" id="toc-formula-interface-1" class="nav-link" data-scroll-target="#formula-interface-1"> <span class="header-section-number">26.5.6</span> Formula interface</a></li>
+  <li><a href="#names-group-labels" id="toc-names-group-labels" class="nav-link" data-scroll-target="#names-group-labels"> <span class="header-section-number">26.5.7</span> <strong><code>names</code></strong>: group labels</a></li>
+  </ul></li>
+  <li><a href="#heatmap" id="toc-heatmap" class="nav-link" data-scroll-target="#heatmap"> <span class="header-section-number">26.6</span> Heatmap</a></li>
+  <li><a href="#mosaicplot" id="toc-mosaicplot" class="nav-link" data-scroll-target="#mosaicplot"> <span class="header-section-number">26.7</span> Mosaic plot</a></li>
+  <li><a href="#graphical-parameters" id="toc-graphical-parameters" class="nav-link" data-scroll-target="#graphical-parameters"> <span class="header-section-number">26.8</span> Graphical parameters</a>
+  <ul class="collapse">
+  <li><a href="#save-and-reload-graphical-parameters" id="toc-save-and-reload-graphical-parameters" class="nav-link" data-scroll-target="#save-and-reload-graphical-parameters"> <span class="header-section-number">26.8.1</span> Save and reload graphical parameters</a></li>
+  </ul></li>
+  <li><a href="#multipanel-plots" id="toc-multipanel-plots" class="nav-link" data-scroll-target="#multipanel-plots"> <span class="header-section-number">26.9</span> Multipanel plots</a></li>
+  <li><a href="#saveplots" id="toc-saveplots" class="nav-link" data-scroll-target="#saveplots"> <span class="header-section-number">26.10</span> Saving plots to file</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="basegraphics" class="quarto-section-identifier d-none d-lg-block"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Base Graphics</span></span></h1>
+</div>
+
+
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<div class="cell">
+
+</div>
+<style type="text/css" scoped="">
+PRE.fansi SPAN {padding-top: .25em; padding-bottom: .25em};
+</style>
+<p>R has powerful graphical capabilities built in to the core language. This chapter is an introduction to what is known as base graphics which is provided by the <strong>graphics</strong> built-in package. Their defaults produce minimalist plots, but they can be customized extensively. In this chapter we shall begin with default plots and demonstrate some of the more common/useful ways to customize them.</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: right;">Plot type</th>
+<th style="text-align: left;">Command</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">Scatterplot</td>
+<td style="text-align: left;"><code>plot(x, y)</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">Line plot</td>
+<td style="text-align: left;"><code>plot(x, y, type = 'l')</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">Histogram</td>
+<td style="text-align: left;"><code>hist(x)</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">Density plot</td>
+<td style="text-align: left;"><code>plot(density(x))</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">Barplot</td>
+<td style="text-align: left;"><code>barplot(x)</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">Boxplot</td>
+<td style="text-align: left;"><code>boxplot(x)</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">Heatmap</td>
+<td style="text-align: left;"><code>heatmap(x)</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">Mosaic plot</td>
+<td style="text-align: left;"><code>mosaicplot(table(x))</code></td>
+</tr>
+</tbody>
+</table>
+<p>R documentation for each of the above commands provides extensive coverage of graphical parameters. <code>?par</code> gives the main documentation file for a long list of graphical parameters. These can be set either with the <code>par()</code> command before using any plotting command.</p>
+<p>Let’s create some synthetic data:</p>
+<div class="cell" data-hash="70_BaseGraphics_cache/html/unnamed-chunk-3_3a965e57c57c4167d3122b88a77e29dc">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2020</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">300</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>y_true <span class="ot">&lt;-</span> <span class="dv">12</span> <span class="sc">+</span> x<span class="sc">^</span><span class="dv">3</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">12</span> <span class="sc">+</span> x<span class="sc">^</span><span class="dv">3</span> <span class="sc">+</span> <span class="fl">2.5</span> <span class="sc">*</span> <span class="fu">rnorm</span>(<span class="dv">300</span>)<span class="sc">*</span><span class="fl">1.5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="scatter-plot" class="level2" data-number="26.1">
+<h2 data-number="26.1" class="anchored" data-anchor-id="scatter-plot"><span class="header-section-number">26.1</span> Scatter plot</h2>
+<p>Input: 2 <strong>numeric vectors</strong></p>
+<p>A 2D scatterplot displays points using two numeric vectors as X and Y coordinates.</p>
+<div class="cell" data-hash="70_BaseGraphics_cache/html/unnamed-chunk-4_7c579e357fb515b49f0b1b0a8e8d4881">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="70_BaseGraphics_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="480"></p>
+</div>
+</div>
+<section id="col-point-color" class="level3" data-number="26.1.1">
+<h3 data-number="26.1.1" class="anchored" data-anchor-id="col-point-color"><span class="header-section-number">26.1.1</span> <strong><code>col</code></strong>: point color</h3>
+<p>See <a href="74_Colors.html">Colors in R</a> to learn about the different ways to define colors in R.</p>
+<p>Some common ways include:</p>
+<ul>
+<li>By name using one of 657 names given by <code>colors()</code>, e.g.&nbsp;“red”, “magenta”, “blue”, “navy”, “cyan”</li>
+<li>By RGB code</li>
+</ul>
+<div class="cell" data-hash="70_BaseGraphics_cache/html/unnamed-chunk-5_49fa639acb945bf2f7680a5f9e23834d">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, y, <span class="at">col =</span> <span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="70_BaseGraphics_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="480"></p>
+</div>
+</div>
+</section>
+<section id="bty-box-type" class="level3" data-number="26.1.2">
+<h3 data-number="26.1.2" class="anchored" data-anchor-id="bty-box-type"><span class="header-section-number">26.1.2</span> <strong><code>bty</code></strong>: box type</h3>
+<p>There are 7 bty options: “o” “l”, “7”, “c”, “u”, or “]” and “none”. They produce a box that resembles the corresponding symbol. “none” draws no box but allows the axes to show:</p>
+<div class="cell" data-hash="70_BaseGraphics_cache/html/unnamed-chunk-6_d972017e1102c595605a20169588392b">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, y, <span class="at">bty =</span> <span class="st">"l"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="70_BaseGraphics_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="480"></p>
+</div>
+</div>
+<div class="cell" data-hash="70_BaseGraphics_cache/html/unnamed-chunk-7_f2dfe483c9636f1aeeb62e763de6d4a2">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, y, <span class="at">bty =</span> <span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="70_BaseGraphics_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="480"></p>
+</div>
+</div>
+</section>
+<section id="pch-point-character" class="level3" data-number="26.1.3">
+<h3 data-number="26.1.3" class="anchored" data-anchor-id="pch-point-character"><span class="header-section-number">26.1.3</span> <strong><code>pch</code></strong>: point character</h3>
+<p>The default point character is a circle as seen above. This helps visualize overlapping points (especially for devices that do not support transparency).</p>
+<p>There are 25 point characters, designated by integers 1 through 25.</p>
+<p>Here’s a preview of all 25 <code>pch</code> options. <code>pch</code> types 21 through 25 can be filled by a color specified by <code>bg</code>.</p>
+<div class="cell" data-hash="70_BaseGraphics_cache/html/unnamed-chunk-8_f1f7956ee21abe052cc043bfe90cdff4">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">25</span>, <span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">25</span>), <span class="at">pch =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">25</span>, <span class="at">bg =</span> <span class="st">"blue"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="70_BaseGraphics_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="480"></p>
+</div>
+</div>
+<p>Let’s use a solid disc:</p>
+<div class="cell" data-hash="70_BaseGraphics_cache/html/unnamed-chunk-9_b921680276b72f65c3b650f31b918b88">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, y, <span class="at">bty =</span> <span class="st">"n"</span>, <span class="at">pch =</span> <span class="dv">16</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="70_BaseGraphics_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="480"></p>
+</div>
+</div>
+<p>We cannot tell how many points are overlapping in the middle and therefore it’s a good idea to make the points a little transparent.</p>
+<p>There are different ways to add transparency (see <a href="74_Colors.html">Colors</a>). The easiest way is probably to use <code>adjustcolor()</code>. In the context of colors, <code>alpha</code> refers to transparency: <code>a = 1</code> is opaque and <code>a = 0</code> is completely transparent (therefore use a value greater than 0).</p>
+<div class="cell" data-hash="70_BaseGraphics_cache/html/unnamed-chunk-10_2229ec1b89b0e5cbb5ebe9ac770aa19a">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, y,</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">bty =</span> <span class="st">"n"</span>, <span class="at">pch =</span> <span class="dv">16</span>,</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="fu">adjustcolor</span>(<span class="st">"skyblue"</span>, <span class="at">alpha.f =</span> .<span class="dv">5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="70_BaseGraphics_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="480"></p>
+</div>
+</div>
+</section>
+<section id="grid" class="level3" data-number="26.1.4">
+<h3 data-number="26.1.4" class="anchored" data-anchor-id="grid"><span class="header-section-number">26.1.4</span> grid</h3>
+<p>We can add a grid behind the plot area using the <code>panel.first</code> argument, which accepts a graphical expression (a function that draws something), which will be evaluated before plotting the points on the graph (therefore appears behind the points).</p>
+<div class="cell" data-hash="70_BaseGraphics_cache/html/unnamed-chunk-11_81ababb3769ffc38c9d8bdecc762a80e">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, y,</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">bty =</span> <span class="st">"n"</span>, <span class="at">pch =</span> <span class="dv">16</span>,</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="fu">adjustcolor</span>(<span class="st">"skyblue"</span>, <span class="at">alpha.f =</span> .<span class="dv">5</span>),</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">panel.first =</span> <span class="fu">grid</span>(<span class="at">lty =</span> <span class="dv">1</span>, <span class="at">col =</span> <span class="st">'gray90'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="70_BaseGraphics_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="480"></p>
+</div>
+</div>
+</section>
+<section id="main-xlab-ylab-title-and-axes-labels" class="level3" data-number="26.1.5">
+<h3 data-number="26.1.5" class="anchored" data-anchor-id="main-xlab-ylab-title-and-axes-labels"><span class="header-section-number">26.1.5</span> <strong><code>main</code></strong>, <strong><code>xlab</code></strong>, <strong><code>ylab</code></strong>: Title and axes labels</h3>
+<div class="cell" data-hash="70_BaseGraphics_cache/html/unnamed-chunk-12_8606b89f7ef9abd7518db5f40483ca89">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, y,</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">bty =</span> <span class="st">"n"</span>, <span class="at">pch =</span> <span class="dv">16</span>,</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="fu">adjustcolor</span>(<span class="st">"skyblue"</span>, <span class="at">alpha.f =</span> .<span class="dv">5</span>),</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">panel.first =</span> <span class="fu">grid</span>(<span class="at">lty =</span> <span class="dv">1</span>, <span class="at">col =</span> <span class="st">'gray90'</span>),</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"y vs. x"</span>,</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Variable x (xunits)"</span>,</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"Variable y (yunits)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="70_BaseGraphics_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="480"></p>
+</div>
+</div>
+<p>Note that depending on where you intend to display the plot, you may leave the title blank and instead place it in the figure caption along with an explanation of the data (e.g.&nbsp;in a journal article)</p>
+</section>
+</section>
+<section id="histogram" class="level2" data-number="26.2">
+<h2 data-number="26.2" class="anchored" data-anchor-id="histogram"><span class="header-section-number">26.2</span> Histogram</h2>
+<p>Input: <strong>numeric vector</strong></p>
+<p>A histogram displays an approximation of the distribution of a numeric vector. First the data is binned and then the number of elements that falls in each bin is counted. The histogram plot draws bars for each bin whose heights corresponds to the count of elements in the corresponding interval.</p>
+<div class="cell" data-hash="70_BaseGraphics_cache/html/unnamed-chunk-13_11af2513a5f5906dc14b46f9599332e5">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="70_BaseGraphics_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="480"></p>
+</div>
+</div>
+<section id="col-bar-color" class="level3" data-number="26.2.1">
+<h3 data-number="26.2.1" class="anchored" data-anchor-id="col-bar-color"><span class="header-section-number">26.2.1</span> <strong><code>col</code></strong>: bar color</h3>
+<div class="cell" data-hash="70_BaseGraphics_cache/html/unnamed-chunk-14_dd2f10543c167dd027e91d84f632ba3e">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(x, <span class="at">col =</span> <span class="st">"slategrey"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="70_BaseGraphics_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="480"></p>
+</div>
+</div>
+</section>
+<section id="border-border-color" class="level3" data-number="26.2.2">
+<h3 data-number="26.2.2" class="anchored" data-anchor-id="border-border-color"><span class="header-section-number">26.2.2</span> <strong><code>border</code></strong>: border color</h3>
+<p>Setting border color to the same as the background gives a clean look:</p>
+<div class="cell" data-hash="70_BaseGraphics_cache/html/unnamed-chunk-15_d3b0cb2a6d891e1348d001f4c9a7a8ed">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(x, <span class="at">col =</span> <span class="st">"slategrey"</span>, <span class="at">border =</span> <span class="st">"white"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="70_BaseGraphics_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="480"></p>
+</div>
+</div>
+</section>
+<section id="breaks-number-or-value-of-breakpoints" class="level3" data-number="26.2.3">
+<h3 data-number="26.2.3" class="anchored" data-anchor-id="breaks-number-or-value-of-breakpoints"><span class="header-section-number">26.2.3</span> <code>breaks</code>: number or value of breakpoints</h3>
+<p>The <code>breaks</code> argument can be used to define the breakpoints to use for the binning of the values of the input to <code>hist()</code>. See the documentation in <code>?hist</code> for the full range of options. An easy way to control the number of bins is to pass an integer to the <code>breaks</code> argument. Depending on the length of x and its distribution, it may or may not be possible to use the exact number requested, but the closest possible number will be automatically chosen.</p>
+<div class="cell" data-hash="70_BaseGraphics_cache/html/unnamed-chunk-16_f612d1c9578bd0ca96acc45e8d70c108">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(x, <span class="at">col =</span> <span class="st">"slategrey"</span>, <span class="at">border =</span> <span class="st">"white"</span>,</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">breaks =</span> <span class="dv">8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="70_BaseGraphics_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="480"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="density-plot" class="level2" data-number="26.3">
+<h2 data-number="26.3" class="anchored" data-anchor-id="density-plot"><span class="header-section-number">26.3</span> Density plot</h2>
+<p>Input: numeric vector</p>
+<p>A density plot is a different way to display an approximation of the distribution of a numeric vector. The <code>density()</code> function estimates the density of x and can be passed to <code>plot()</code> directly:</p>
+<div class="cell" data-hash="70_BaseGraphics_cache/html/unnamed-chunk-17_210593f2fd5006ca92539b793da451af">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">density</span>(x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="70_BaseGraphics_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="480"></p>
+</div>
+</div>
+<p>You can use <code>main = NA</code> or <code>main = ""</code> to suppress printing a title.</p>
+<div class="cell" data-hash="70_BaseGraphics_cache/html/unnamed-chunk-18_20a02e3c6e06ce4c3a607a7d55441585">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">density</span>(x), <span class="at">col =</span> <span class="st">"blue"</span>,</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">bty =</span> <span class="st">"n"</span>,</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="cn">NA</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="70_BaseGraphics_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="480"></p>
+</div>
+</div>
+</section>
+<section id="barplot" class="level2" data-number="26.4">
+<h2 data-number="26.4" class="anchored" data-anchor-id="barplot"><span class="header-section-number">26.4</span> Barplot</h2>
+<p>Input: <strong>vector</strong> or <strong>matrix</strong></p>
+<p>Let’s look at the VADeaths built-in dataset which describes death rater per 1000 population per year broken down by age range and population group.</p>
+<section id="single-vector" class="level3" data-number="26.4.1">
+<h3 data-number="26.4.1" class="anchored" data-anchor-id="single-vector"><span class="header-section-number">26.4.1</span> Single vector</h3>
+<p>We can plot a single column or row. Note how R automatically gets the corresponding dimension names. For this example we use the builtin VADeaths dataset, which is a matrix.</p>
+<div class="cell" data-hash="70_BaseGraphics_cache/html/unnamed-chunk-19_77c2e8e3b4ae895b23e0ab5a8d54d1b2">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(VADeaths[, <span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="70_BaseGraphics_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="576"></p>
+</div>
+</div>
+<div class="cell" data-hash="70_BaseGraphics_cache/html/unnamed-chunk-20_648dae1ccd09b8b4b347121ba7233c62">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(VADeaths[<span class="dv">1</span>, ])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="70_BaseGraphics_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="576"></p>
+</div>
+</div>
+<section id="col-and-border-bar-fill-and-border-color" class="level4" data-number="26.4.1.1">
+<h4 data-number="26.4.1.1" class="anchored" data-anchor-id="col-and-border-bar-fill-and-border-color"><span class="header-section-number">26.4.1.1</span> <strong><code>col</code></strong> and <strong><code>border</code></strong>: bar fill and border color</h4>
+<p>As in most plotting functions, color is controlled by the <strong><code>col</code></strong> argument. <strong><code>border</code></strong> can be set to any color separately, or to <code>NA</code> to omit, which gives a clean look:</p>
+<div class="cell" data-hash="70_BaseGraphics_cache/html/unnamed-chunk-21_d6bbafec0a7ce461c15175c37d24a45b">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(VADeaths[, <span class="dv">1</span>],</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">col =</span> <span class="st">"aquamarine3"</span>, <span class="at">border =</span> <span class="cn">NA</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="70_BaseGraphics_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid" width="576"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="matrix" class="level3" data-number="26.4.2">
+<h3 data-number="26.4.2" class="anchored" data-anchor-id="matrix"><span class="header-section-number">26.4.2</span> Matrix</h3>
+<p>We can draw barplots of multiple columns at the same time by passing a matrix input. The grouping on the x-axis is based on the columns. By default, data from different rows is stacked. The argument <code>legend.text</code> can be used to add a legend with the row labels:</p>
+<div class="cell" data-hash="70_BaseGraphics_cache/html/unnamed-chunk-22_08813ecb9b4c7a08b69bf18dafa92706">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(VADeaths, <span class="at">legend.text =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="70_BaseGraphics_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Alternatively, we can draw groups of bars beside each other with the argument <code>beside = TRUE</code>:</p>
+<div class="cell" data-hash="70_BaseGraphics_cache/html/unnamed-chunk-23_3a5e24468f4dabc10a52176ca4d639f9">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(VADeaths, <span class="at">beside =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.text =</span> <span class="cn">TRUE</span>, <span class="at">args.legend =</span> <span class="fu">list</span>(<span class="at">x =</span> <span class="st">"topright"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="70_BaseGraphics_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>To use custom colors, we pass a vector of length equal to the number of bars within each group. These will get recycled across groups, giving a consistent color coding.<br>
+Here, we use the <code>adjustcolor()</code> function again to produce 5 shades of navy.</p>
+<div class="cell" data-hash="70_BaseGraphics_cache/html/unnamed-chunk-24_d68f59f431b6c407d605561e33a053ef">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>col <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="fu">seq</span>(.<span class="dv">2</span>, .<span class="dv">8</span>, <span class="at">length.out =</span> <span class="dv">5</span>), <span class="cf">function</span>(i) <span class="fu">adjustcolor</span>(<span class="st">"navy"</span>, i))</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(VADeaths,</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">col =</span> col,</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">border =</span> <span class="cn">NA</span>,</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">beside =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.text =</span> <span class="cn">TRUE</span>, <span class="at">args.legend =</span> <span class="fu">list</span>(<span class="at">x =</span> <span class="st">"topright"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="70_BaseGraphics_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="formula-interface" class="level3" data-number="26.4.3">
+<h3 data-number="26.4.3" class="anchored" data-anchor-id="formula-interface"><span class="header-section-number">26.4.3</span> Formula interface</h3>
+</section>
+</section>
+<section id="boxplot" class="level2" data-number="26.5">
+<h2 data-number="26.5" class="anchored" data-anchor-id="boxplot"><span class="header-section-number">26.5</span> Boxplot</h2>
+<p>Input: One or more <strong>vectors</strong> of any length</p>
+<p>A boxplot is another way to visualize the distribution of one or more vectors. Each vector does not need to be of the same length. For example if you are plotting lab results of a patient and control group, they do not have to contain the same number of individuals.</p>
+<p>There are two ways to use the <code>boxplot()</code> function. Either pass two separate vectors of data (whet)</p>
+<p><code>boxplot()</code> makes it easy to plot your data from different objects. It can accept:</p>
+<ul>
+<li>individual vectors</li>
+<li>columns of a matrix, columns/elements of a data.frame, elements of a list</li>
+<li>formula interface of the form <code>variable ~ factor</code></li>
+</ul>
+<section id="single-vector-1" class="level3" data-number="26.5.1">
+<h3 data-number="26.5.1" class="anchored" data-anchor-id="single-vector-1"><span class="header-section-number">26.5.1</span> Single vector</h3>
+<div class="cell" data-hash="70_BaseGraphics_cache/html/unnamed-chunk-25_acfe2cd0fba2f3fe74a6e5bb754bb54e">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">500</span>, <span class="at">mean =</span> <span class="dv">12</span>, <span class="at">sd =</span> <span class="dv">2</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(a)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="70_BaseGraphics_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid" width="480"></p>
+</div>
+</div>
+</section>
+<section id="anatomy-of-a-boxplot" class="level3" data-number="26.5.2">
+<h3 data-number="26.5.2" class="anchored" data-anchor-id="anatomy-of-a-boxplot"><span class="header-section-number">26.5.2</span> Anatomy of a boxplot</h3>
+<p>A boxplot shows:</p>
+<ul>
+<li>the median</li>
+<li>first and third quartiles</li>
+<li>outliers (defined as <code>x &lt; Q1 - 1.5 * IQR | x &gt; Q3 + 1.5 * IQR</code>)</li>
+<li>range after excluding outliers</li>
+</ul>
+<div class="cell" data-hash="70_BaseGraphics_cache/html/boxanat_4892c8b8c0d3147f3a1f8b86883d05a6">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="70_BaseGraphics_files/figure-html/boxanat-1.png" class="img-fluid figure-img" width="480"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">Boxplot anatomy</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Some synthetic data:</p>
+<div class="cell" data-hash="70_BaseGraphics_cache/html/unnamed-chunk-26_5a1218dc201e14c0f1f66744d893951a">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">10</span>)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>beta <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>gamma <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">200</span>, <span class="dv">1</span>, <span class="dv">2</span>)</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>dl <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">alpha =</span> alpha, <span class="at">beta =</span> beta, <span class="at">gamma =</span> gamma)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="multiple-vectors" class="level3" data-number="26.5.3">
+<h3 data-number="26.5.3" class="anchored" data-anchor-id="multiple-vectors"><span class="header-section-number">26.5.3</span> Multiple vectors</h3>
+<div class="cell" data-hash="70_BaseGraphics_cache/html/unnamed-chunk-27_cfafa090d597cf72f0ad24cf7345f4f5">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(alpha, beta, gamma)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="70_BaseGraphics_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid" width="480"></p>
+</div>
+</div>
+</section>
+<section id="list" class="level3" data-number="26.5.4">
+<h3 data-number="26.5.4" class="anchored" data-anchor-id="list"><span class="header-section-number">26.5.4</span> List</h3>
+<div class="cell" data-hash="70_BaseGraphics_cache/html/unnamed-chunk-28_f6df93cbfcf1c2a113c10e5a4334ff59">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(dl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="70_BaseGraphics_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid" width="480"></p>
+</div>
+</div>
+</section>
+<section id="matrix-1" class="level3" data-number="26.5.5">
+<h3 data-number="26.5.5" class="anchored" data-anchor-id="matrix-1"><span class="header-section-number">26.5.5</span> Matrix</h3>
+<p>Passing a matrix to <code>boxplot()</code> draws one boxplot per column:</p>
+<div class="cell" data-hash="70_BaseGraphics_cache/html/unnamed-chunk-29_96be8d4c559cdce54de20109b2fbf722">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>mat <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="fu">seq</span>(<span class="dv">5</span>), <span class="cf">function</span>(i) <span class="fu">rnorm</span>(<span class="dv">20</span>))</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(mat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="70_BaseGraphics_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid" width="480"></p>
+</div>
+</div>
+</section>
+<section id="formula-interface-1" class="level3" data-number="26.5.6">
+<h3 data-number="26.5.6" class="anchored" data-anchor-id="formula-interface-1"><span class="header-section-number">26.5.6</span> Formula interface</h3>
+<p>The formula interface can be used to group any vector by a factor of the same length.</p>
+<p>Let’s use the built-in <code>sleep</code> dataset which shows the effect of two different drugs in increasing hours of sleep compared to a control group.</p>
+<div class="cell" data-hash="70_BaseGraphics_cache/html/unnamed-chunk-30_a60fcaddfc57b529bc05b93ff9197ace">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(extra <span class="sc">~</span> group, sleep)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="70_BaseGraphics_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid" width="480"></p>
+</div>
+</div>
+<p>The <strong><code>col</code></strong> and <strong><code>border</code></strong> arguments work as expected. Here we define two custom colors using their hexadecimal RGB code and use the solid version for the border and a 50% transparent version for the fill. Note that we do not need two separate colors to produce an unambiguous plot since they are clearly labeled in the y-axis. It is often considered desirable/preferred to use the minimum number of different colors that is necessary. (Color coding like the following could be useful if for example data from the two groups were used on a different plot, like a scatterplot, in a multi-panel figure).</p>
+<div class="cell" data-hash="70_BaseGraphics_cache/html/unnamed-chunk-31_1f8b67af7cc88834fa6ea5679abf4409">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>border <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"#18A3AC"</span>, <span class="st">"#F48024"</span>)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>col <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">adjustcolor</span>(<span class="st">"#18A3AC"</span>, .<span class="dv">5</span>), <span class="fu">adjustcolor</span>(<span class="st">"#F48024"</span>, .<span class="dv">5</span>))</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(extra <span class="sc">~</span> group, sleep,</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">col =</span> col, <span class="at">border =</span> border)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="70_BaseGraphics_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid" width="480"></p>
+</div>
+</div>
+</section>
+<section id="names-group-labels" class="level3" data-number="26.5.7">
+<h3 data-number="26.5.7" class="anchored" data-anchor-id="names-group-labels"><span class="header-section-number">26.5.7</span> <strong><code>names</code></strong>: group labels</h3>
+<p>The x-axis group names can be defined with the <code>names</code> argument:</p>
+<div class="cell" data-hash="70_BaseGraphics_cache/html/unnamed-chunk-32_e6d82e08aece9707b70c55e587b6d5d1">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(extra <span class="sc">~</span> group, sleep,</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">col =</span> col, <span class="at">border =</span> border,</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">names =</span> <span class="fu">c</span>(<span class="st">"Drug A"</span>, <span class="st">"Drug B"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="70_BaseGraphics_files/figure-html/unnamed-chunk-32-1.png" class="img-fluid" width="480"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="heatmap" class="level2" data-number="26.6">
+<h2 data-number="26.6" class="anchored" data-anchor-id="heatmap"><span class="header-section-number">26.6</span> Heatmap</h2>
+<p>Input: <strong>matrix</strong></p>
+<p>A heatmap is a 2D matrix-like plot with x- and y-axis labels and a value in each cell. It can be used to display many different types of data. A common usage in data science is to plot the correlation matrix of a set of numerical features. In many cases, the rows and/or columns of a heatmap can be reordered based on hierarchical clustering.</p>
+<div class="cell" data-hash="70_BaseGraphics_cache/html/unnamed-chunk-33_9673c26a1bb6e31242fdcb259284cc08">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>, <span class="cf">function</span>(i) <span class="fu">rnorm</span>(<span class="dv">20</span>))</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>x_cor <span class="ot">&lt;-</span> <span class="fu">cor</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>By default, the <code>heatmap()</code> function draws marginal dendrograms and rearranges rows and columns. We can prevent that by setting <code>Rowv</code> and <code>Colv</code> to <code>NA</code>:</p>
+<div class="cell" data-hash="70_BaseGraphics_cache/html/unnamed-chunk-34_1ee098cc2cb64e53d86b997d28610691">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">heatmap</span>(x_cor, <span class="at">Rowv =</span> <span class="cn">NA</span>, <span class="at">Colv =</span> <span class="cn">NA</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="70_BaseGraphics_files/figure-html/unnamed-chunk-34-1.png" class="img-fluid" width="480"></p>
+</div>
+</div>
+<p>To allow clustering and row and column reordering, use the defaults:</p>
+<div class="cell" data-hash="70_BaseGraphics_cache/html/unnamed-chunk-35_b903986b9f7d656d51df6c35547ec9e6">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">heatmap</span>(x_cor)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="70_BaseGraphics_files/figure-html/unnamed-chunk-35-1.png" class="img-fluid" width="480"></p>
+</div>
+</div>
+</section>
+<section id="mosaicplot" class="level2" data-number="26.7">
+<h2 data-number="26.7" class="anchored" data-anchor-id="mosaicplot"><span class="header-section-number">26.7</span> Mosaic plot</h2>
+<p>Mosaic plots are used to visualize contingency tables. They can be informative to look at during data exploration. They are less likely to be included in a research article where the table itself is more likely to be included.</p>
+<p>Synthetic data:</p>
+<div class="cell" data-hash="70_BaseGraphics_cache/html/unnamed-chunk-36_d6c6e88df0a6b1693fe9dab17000465f">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2021</span>)</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>Cohort <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">"Control"</span>, <span class="st">"Case"</span>), <span class="dv">500</span>, <span class="cn">TRUE</span>),</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Control"</span>, <span class="st">"Case"</span>))</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>Sex <span class="ot">&lt;-</span> <span class="fu">factor</span>(</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sapply</span>(<span class="fu">seq</span>(Cohort), \(i) <span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">"Male"</span>, <span class="st">"Female"</span>), <span class="dv">1</span>,</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">prob =</span> <span class="cf">if</span> (Cohort[i] <span class="sc">==</span> <span class="st">"Control"</span>) <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>) <span class="cf">else</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">1</span>))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Use <code>mosaicplot()</code> on the output of <code>table()</code>:</p>
+<div class="cell" data-hash="70_BaseGraphics_cache/html/unnamed-chunk-37_3578e8c36d45f44645d4cb1adfca3a0c">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mosaicplot</span>(<span class="fu">table</span>(Cohort), <span class="at">main =</span> <span class="st">"Cases vs. Controls"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="70_BaseGraphics_files/figure-html/unnamed-chunk-37-1.png" class="img-fluid" width="480"></p>
+</div>
+</div>
+<p>We can plot the breakdown of sexes, this time also adding color:</p>
+<div class="cell" data-hash="70_BaseGraphics_cache/html/unnamed-chunk-38_d36a4a9498b07e8a28f2bf3b62a2e98c">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mosaicplot</span>(<span class="fu">table</span>(Sex), <span class="at">main =</span> <span class="st">"Males vs. Females"</span>,</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"orchid"</span>, <span class="st">"skyblue"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="70_BaseGraphics_files/figure-html/unnamed-chunk-38-1.png" class="img-fluid" width="480"></p>
+</div>
+</div>
+<p>Cross-tabulating is usually most informatively. We us the same color for the sexes, which will be recycled. We also remove the border for a cleaner look:</p>
+<div class="cell" data-hash="70_BaseGraphics_cache/html/unnamed-chunk-39_4a016389968d302c5a592d5c2893e0ef">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mosaicplot</span>(<span class="fu">table</span>(Cohort, Sex),</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">color =</span> <span class="fu">c</span>(<span class="st">"orchid"</span>, <span class="st">"skyblue"</span>),</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">border =</span> <span class="cn">NA</span>,</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">main =</span> <span class="st">"Cohort x Sex"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="70_BaseGraphics_files/figure-html/unnamed-chunk-39-1.png" class="img-fluid" width="480"></p>
+</div>
+</div>
+</section>
+<section id="graphical-parameters" class="level2" data-number="26.8">
+<h2 data-number="26.8" class="anchored" data-anchor-id="graphical-parameters"><span class="header-section-number">26.8</span> Graphical parameters</h2>
+<p>The <code>par()</code> function allows setting or querying graphical parameters of the base graphics system. Have a look at its documentation (<code>?par</code>).<br>
+Some graphical parameters can only be set with a call to <code>par()</code> prior to using a base plotting function. However, many parameters can also be passed using the <code>...</code> construct of each base plotting function.</p>
+<p>Some common base graphical parameters:</p>
+<ul>
+<li><strong><em>pch</em></strong>: Point character</li>
+<li><strong><em>col</em></strong>: Color</li>
+<li><strong><em>cex</em></strong>: Character expansion, i.e.&nbsp;relative size</li>
+<li><strong><em>bty</em></strong>: Box type</li>
+<li><strong><em>xlab</em></strong>: x-axis label</li>
+<li><strong><em>ylab</em></strong>: y-axis label</li>
+<li><strong><em>main</em></strong>: Main title</li>
+<li><strong><em>mar</em></strong>: Plot margins</li>
+</ul>
+<p>You can see what the current value of these parameters is by calling <code>par()</code> or directly accessing a specific parameter:</p>
+<div class="cell" data-hash="70_BaseGraphics_cache/html/unnamed-chunk-40_101327385bba45f722ed9b7a96f4ca0b">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>()<span class="sc">$</span>mar</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 5.1 4.1 4.1 2.1</code></pre>
+</div>
+</div>
+<p><code>mar</code> sets the plot margins. It is a vector of length 4 and each number corresponds to the bottom-left-top-right margin, in that order. Use it to reduce empty white space between plots or add space if labels are getting cropped, for example.</p>
+<p>Always make sure that your plotting characters, axis labels and titles are legible. You must avoid, at all costs, ever using a huge graph with tiny letters spread over an entire slide in a presentation.</p>
+<ul>
+<li><strong><em>cex</em></strong>: Character expansion for the plotting characters</li>
+<li><strong><em>cex.axis</em></strong>: cex for axis annotation</li>
+<li><strong><em>cex.lab</em></strong>: cex for x and y labels</li>
+<li><strong><em>cex.main</em></strong>: cex for main title</li>
+</ul>
+<p>Note: All of these can be set either with a call to <code>par()</code> prior to plotting or passed as arguments in a plotting command, like <code>plot()</code>.</p>
+<p>There is one important distinction: <code>cex</code> set with <code>par()</code> (which defaults to 1), sets the baseline and all other <code>cex</code> parameters multiply it. However, <code>cex</code> set within <code>plot()</code> still multiplies <code>cex</code> set with <code>par()</code>, but only affects the plotting character size.</p>
+<section id="save-and-reload-graphical-parameters" class="level3" data-number="26.8.1">
+<h3 data-number="26.8.1" class="anchored" data-anchor-id="save-and-reload-graphical-parameters"><span class="header-section-number">26.8.1</span> Save and reload graphical parameters</h3>
+<p>You can make a copy of all current graphical parameters:</p>
+<div class="cell" data-hash="70_BaseGraphics_cache/html/unnamed-chunk-41_bd6fe744a512e04c84ef5cbb12e4ea69">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>par_default <span class="ot">&lt;-</span> <span class="fu">par</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>There are a few parameters that you cannot control, those are read-only. You can optionally exclude those since you cannot edit them anyway:</p>
+<div class="cell" data-hash="70_BaseGraphics_cache/html/unnamed-chunk-42_3db3dcac4ee51408b2a094678a3b64d3">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>par_default <span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="at">no.readonly =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>If you make changes to <code>par()</code> to produce plots and you want to recover the parameters you saved above, you can use reload them by passing them to <code>par()</code>:</p>
+<div class="cell" data-hash="70_BaseGraphics_cache/html/unnamed-chunk-43_8108338b7033e4ffc9fbb1f64bf5ee72">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(par_default)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Alternatively, you can always restart the graphics device using <code>dev.off()</code> and then making a new plot.</p>
+<p>Note: here “device” does not refere to a physical device but software graphics interfaces that show a plot to screen or <a href="#saveplots">save to file</a>.</p>
+<div class="cell" data-hash="70_BaseGraphics_cache/html/unnamed-chunk-44_5aeb9c53ec8d3813b8396cc3f03c28a9">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>() <span class="co"># shuts down graphics device</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>null device 
+          1 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">rnorm</span>(<span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="multipanel-plots" class="level2" data-number="26.9">
+<h2 data-number="26.9" class="anchored" data-anchor-id="multipanel-plots"><span class="header-section-number">26.9</span> Multipanel plots</h2>
+<p>There are different ways to create multipanel plots, but probably the most straightforward is to use either the <code>mfrow</code> or the <code>mfcol</code> argument of <code>par()</code>.</p>
+<div class="cell" data-hash="70_BaseGraphics_cache/html/unnamed-chunk-45_9899d48bbf9d420cc8a5ea95fde61028">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2020</span>)</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">500</span>)</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> x<span class="sc">^</span><span class="dv">3</span> <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">500</span>) <span class="sc">*</span> <span class="dv">2</span></span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> x<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">500</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Both <code>mfrow</code> and <code>mfcol</code> accept an integer vector of length 2 indicating number of rows and number of columns, respectively. With <code>mfrow</code>, the plots are drawn row-wise and with <code>mfcol</code> they are drawn column-wise. Remember to reset <code>mfrow</code> or <code>mfcol</code> back to <code>c(1, 1)</code></p>
+<p>For example, let’s plot a 2-by-3 panel of plots, drawn row-wise:</p>
+<div class="cell" data-hash="70_BaseGraphics_cache/html/unnamed-chunk-46_dc6611da93a850dec7d18fac94798fbc">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>), <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">1</span>, <span class="dv">1</span>))</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(x, <span class="at">col =</span> <span class="st">"#052049bb"</span>, <span class="at">border =</span> <span class="st">"white"</span>, <span class="at">main =</span> <span class="st">""</span>)</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(y, <span class="at">col =</span> <span class="st">"#052049bb"</span>, <span class="at">border =</span> <span class="st">"white"</span>, <span class="at">main =</span> <span class="st">""</span>)</span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(z, <span class="at">col =</span> <span class="st">"#052049bb"</span>, <span class="at">border =</span> <span class="st">"white"</span>, <span class="at">main =</span> <span class="st">""</span>)</span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, y, <span class="at">col =</span> <span class="st">"#05204955"</span>, <span class="at">pch =</span> <span class="dv">16</span>, <span class="at">bty =</span> <span class="st">"n"</span>)</span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, z, <span class="at">col =</span> <span class="st">"#05204955"</span>, <span class="at">pch =</span> <span class="dv">16</span>, <span class="at">bty =</span> <span class="st">"n"</span>)</span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(y, z, <span class="at">col =</span> <span class="st">"#05204955"</span>, <span class="at">pch =</span> <span class="dv">16</span>, <span class="at">bty =</span> <span class="st">"n"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="70_BaseGraphics_files/figure-html/unnamed-chunk-46-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="saveplots" class="level2" data-number="26.10">
+<h2 data-number="26.10" class="anchored" data-anchor-id="saveplots"><span class="header-section-number">26.10</span> Saving plots to file</h2>
+<p>You can save base graphics to disk using a number of different file formats. To do this, you have to:</p>
+<ul>
+<li>Open a graphics device - e.g.&nbsp;<code>pdf("path/to/xy_scatter.pdf")</code></li>
+<li>Write to it - e.g.&nbsp;<code>plot(x, y)</code></li>
+<li>Close graphics device - <code>dev.off()</code></li>
+</ul>
+<p>The following commands are used to open graphical devices that will save to a file of the corresponding type:</p>
+<ul>
+<li><code>bmp(filename = "path/to/file", width = [in pixels], height = [in pixels])</code></li>
+<li><code>jpeg(filename = "path/to/file", width = [in pixels], height = [in pixels])</code></li>
+<li><code>png(filename = "path/to/file", width = [in pixels], height = [in pixels])</code></li>
+<li><code>tiff(filename = "path/to/file", width = [in pixels], height = [in pixels])</code></li>
+<li><code>svg(filename = "path/to/file", width = [in inches], height = [in inches]</code></li>
+<li><code>pdf(file = "path/to/file", width = [in inches], height = [in inches])</code></li>
+</ul>
+<p>Notice that when writing to a vector graphics format (svg and pdf), you defined width and height in inches, not pixels. Also, you specify <code>file</code> instead of <code>filename</code> in Notice the difference when writing to PDF: you define a <code>file</code> instead of a <code>filename</code>, and width and height are in <strong><em>inches</em></strong>, not pixels.<br>
+It is recommended to save plots in PDF format because it handles vector graphics therefore plots will scale, and it is easy to export to other graphics formats later on if needed.</p>
+<div class="cell" data-hash="70_BaseGraphics_cache/html/unnamed-chunk-47_de7e8e77e70c8bb59b245a04a08351ce">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pdf</span>(<span class="st">"~/Desktop/plot.pdf"</span>, <span class="at">width =</span> <span class="dv">5</span>, <span class="at">height =</span> <span class="dv">5</span>)</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(iris<span class="sc">$</span>Sepal.Length, iris<span class="sc">$</span>Petal.Length,</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">pch =</span> <span class="dv">16</span>,</span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="st">"#18A3AC66"</span>,</span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">cex =</span> <span class="fl">1.8</span>,</span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">bty =</span> <span class="st">"n"</span>, <span class="co"># also try "l"</span></span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Sepal Length"</span>, <span class="at">ylab =</span> <span class="st">"Petal Length"</span>)</span>
+<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+    } else {
+      disableStylesheet(alternateStylesheets);
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } 
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./62_dplyr.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Introduction to dplyr</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./72_3xGraphics.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">3x Graphics</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

@@ -1,0 +1,2224 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-0.9.377">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>PDSR - 24&nbsp; Efficient data analysis with data.table</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<link href="./62_dplyr.html" rel="next">
+<link href="./54_ClassesAndOOP.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link class="quarto-color-scheme" id="quarto-text-highlighting-styles" href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+<link class="quarto-color-scheme quarto-color-alternate" rel="prefetch" id="quarto-text-highlighting-styles" href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link class="quarto-color-scheme" href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<link class="quarto-color-scheme quarto-color-alternate" rel="prefetch" href="site_libs/bootstrap/bootstrap-dark.min.css">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="bootstrap.lambdamd.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Efficient data analysis with <strong>data.table</strong></span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">PDSR</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/egenn/pdsr" title="" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle sidebar-tool" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">Welcome</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01_Preface.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02_Introduction.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04_Packages.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">R, IDEs, Packages, Docs</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_BasicOps.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Basic operations</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_Datatypes.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Data Types</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_DataStructures.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Data Structures</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09_Factors.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Factors</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10_Indexing.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Indexing - Slicing</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12_Vectorization.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Vectorized Operations</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./15_InputOutput.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Data Input/Output</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./20_ControlFlow.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Control flow</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./24_Summarize.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Summarizing Data</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./26_Aggregate.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Aggregate</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./30_Functions.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Functions</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./32_LoopFunctions.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Loop Functions</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./40_DataFrames.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Data frames</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./42_TableJoins.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Table joins</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./44_Reshaping.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Reshaping</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./46_DataTrans.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Data Transformations</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./48_StringOps.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">String Operations</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./50_DateTime.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Date and Time</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./52_MissingData.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Handling Missing data</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./54_ClassesAndOOP.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Classes and Object-Oriented Programming</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./60_DataTable.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Efficient data analysis with <strong>data.table</strong></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./62_dplyr.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Introduction to dplyr</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./70_BaseGraphics.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Base Graphics</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./72_3xGraphics.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">3x Graphics</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./74_Colors.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Colors in R</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./80_Profiling.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Benchmarking &amp; Profiling</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./82_Optimization.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Optimization with <code>optim()</code></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./84_HypothesisTesting.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Common statistical tests</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./85_GLM.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Introduction to the GLM</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./86_Resampling.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Resampling</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./87_Supervised.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Supervised Learning</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./88_Unsupervised.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Unsupervised Learning</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./94_GitHubIntro.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Git &amp; GitHub: the basics</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./95_TerminalIntro.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">Introduction to the system shell</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./98_Resources.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">38</span>&nbsp; <span class="chapter-title">Resources</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./200_CrashCourse.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">39</span>&nbsp; <span class="chapter-title">DCR Intro to R</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./99_References.html" class="sidebar-item-text sidebar-link">References</a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#data.table-singificantly-extends-the-power-of-data.frame" id="toc-data.table-singificantly-extends-the-power-of-data.frame" class="nav-link active" data-scroll-target="#data.table-singificantly-extends-the-power-of-data.frame"> <span class="header-section-number">24.1</span> <code>data.table</code> singificantly extends the power of <code>data.frame</code></a></li>
+  <li><a href="#dtinstallation" id="toc-dtinstallation" class="nav-link" data-scroll-target="#dtinstallation"> <span class="header-section-number">24.2</span> Installation</a>
+  <ul class="collapse">
+  <li><a href="#load-the-data.table-package" id="toc-load-the-data.table-package" class="nav-link" data-scroll-target="#load-the-data.table-package"> <span class="header-section-number">24.2.1</span> Load the <code>data.table</code> package</a></li>
+  </ul></li>
+  <li><a href="#create-a-data.table" id="toc-create-a-data.table" class="nav-link" data-scroll-target="#create-a-data.table"> <span class="header-section-number">24.3</span> Create a <code>data.table</code></a>
+  <ul class="collapse">
+  <li><a href="#by-assignment-data.table" id="toc-by-assignment-data.table" class="nav-link" data-scroll-target="#by-assignment-data.table"> <span class="header-section-number">24.3.1</span> By assignment: <code>data.table()</code></a></li>
+  <li><a href="#by-coercion-as.data.table" id="toc-by-coercion-as.data.table" class="nav-link" data-scroll-target="#by-coercion-as.data.table"> <span class="header-section-number">24.3.2</span> By coercion: <code>as.data.table()</code></a></li>
+  <li><a href="#by-coercion-in-place-setdt" id="toc-by-coercion-in-place-setdt" class="nav-link" data-scroll-target="#by-coercion-in-place-setdt"> <span class="header-section-number">24.3.3</span> By coercion <strong><em>in-place</em></strong>: <code>setDT()</code></a></li>
+  <li><a href="#read-into-a-data.table-from-file-with-fread" id="toc-read-into-a-data.table-from-file-with-fread" class="nav-link" data-scroll-target="#read-into-a-data.table-from-file-with-fread"> <span class="header-section-number">24.3.4</span> Read into a <code>data.table</code> from file with <code>fread()</code></a></li>
+  <li><a href="#write-a-data.table-to-a-csv-fwrite" id="toc-write-a-data.table-to-a-csv-fwrite" class="nav-link" data-scroll-target="#write-a-data.table-to-a-csv-fwrite"> <span class="header-section-number">24.3.5</span> Write a <code>data.table</code> to a CSV: <code>fwrite()</code></a></li>
+  <li><a href="#save-data.table-to-an-rds" id="toc-save-data.table-to-an-rds" class="nav-link" data-scroll-target="#save-data.table-to-an-rds"> <span class="header-section-number">24.3.6</span> Save <code>data.table</code> to an RDS:</a></li>
+  </ul></li>
+  <li><a href="#display-data.table-structure-with-str" id="toc-display-data.table-structure-with-str" class="nav-link" data-scroll-target="#display-data.table-structure-with-str"> <span class="header-section-number">24.4</span> Display <code>data.table</code> structure with <code>str()</code></a></li>
+  <li><a href="#combine-data.tables" id="toc-combine-data.tables" class="nav-link" data-scroll-target="#combine-data.tables"> <span class="header-section-number">24.5</span> Combine <code>data.table</code>s</a></li>
+  <li><a href="#filter-rows" id="toc-filter-rows" class="nav-link" data-scroll-target="#filter-rows"> <span class="header-section-number">24.6</span> Filter rows</a>
+  <ul class="collapse">
+  <li><a href="#conditional-filtering" id="toc-conditional-filtering" class="nav-link" data-scroll-target="#conditional-filtering"> <span class="header-section-number">24.6.1</span> Conditional filtering</a></li>
+  </ul></li>
+  <li><a href="#select-columns" id="toc-select-columns" class="nav-link" data-scroll-target="#select-columns"> <span class="header-section-number">24.7</span> Select columns</a>
+  <ul class="collapse">
+  <li><a href="#by-positions" id="toc-by-positions" class="nav-link" data-scroll-target="#by-positions"> <span class="header-section-number">24.7.1</span> By position(s)</a></li>
+  <li><a href="#by-names" id="toc-by-names" class="nav-link" data-scroll-target="#by-names"> <span class="header-section-number">24.7.2</span> By name(s)</a></li>
+  </ul></li>
+  <li><a href="#add-new-column-in-place" id="toc-add-new-column-in-place" class="nav-link" data-scroll-target="#add-new-column-in-place"> <span class="header-section-number">24.8</span> Add new column <strong><em>in-place</em></strong></a></li>
+  <li><a href="#add-multiple-columns-in-place" id="toc-add-multiple-columns-in-place" class="nav-link" data-scroll-target="#add-multiple-columns-in-place"> <span class="header-section-number">24.9</span> Add multiple columns <strong><em>in-place</em></strong></a></li>
+  <li><a href="#convert-column-type" id="toc-convert-column-type" class="nav-link" data-scroll-target="#convert-column-type"> <span class="header-section-number">24.10</span> Convert column type</a>
+  <ul class="collapse">
+  <li><a href="#assignment-by-reference-with" id="toc-assignment-by-reference-with" class="nav-link" data-scroll-target="#assignment-by-reference-with"> <span class="header-section-number">24.10.1</span> Assignment by reference with <code>:=</code></a></li>
+  <li><a href="#delete-columns-in-place-with" id="toc-delete-columns-in-place-with" class="nav-link" data-scroll-target="#delete-columns-in-place-with"> <span class="header-section-number">24.10.2</span> Delete columns in-place with <code>:=</code></a></li>
+  <li><a href="#fast-loop-able-assignment-with-set" id="toc-fast-loop-able-assignment-with-set" class="nav-link" data-scroll-target="#fast-loop-able-assignment-with-set"> <span class="header-section-number">24.10.3</span> Fast loop-able assignment with <code>set()</code></a></li>
+  </ul></li>
+  <li><a href="#summarize" id="toc-summarize" class="nav-link" data-scroll-target="#summarize"> <span class="header-section-number">24.11</span> Summarize</a></li>
+  <li><a href="#group-by-operations" id="toc-group-by-operations" class="nav-link" data-scroll-target="#group-by-operations"> <span class="header-section-number">24.12</span> Group-by operations</a>
+  <ul class="collapse">
+  <li><a href="#group-by-summary" id="toc-group-by-summary" class="nav-link" data-scroll-target="#group-by-summary"> <span class="header-section-number">24.12.1</span> Group-by summary</a></li>
+  <li><a href="#group-by-operation-and-assignment" id="toc-group-by-operation-and-assignment" class="nav-link" data-scroll-target="#group-by-operation-and-assignment"> <span class="header-section-number">24.12.2</span> Group-by operation and assignment</a></li>
+  </ul></li>
+  <li><a href="#apply-functions-to-columns" id="toc-apply-functions-to-columns" class="nav-link" data-scroll-target="#apply-functions-to-columns"> <span class="header-section-number">24.13</span> Apply functions to columns</a></li>
+  <li><a href="#row-wise-operations" id="toc-row-wise-operations" class="nav-link" data-scroll-target="#row-wise-operations"> <span class="header-section-number">24.14</span> Row-wise operations</a></li>
+  <li><a href="#melt" id="toc-melt" class="nav-link" data-scroll-target="#melt"> <span class="header-section-number">24.15</span> Wide &lt;=&gt; Long</a>
+  <ul class="collapse">
+  <li><a href="#wide-to-long-melt" id="toc-wide-to-long-melt" class="nav-link" data-scroll-target="#wide-to-long-melt"> <span class="header-section-number">24.15.1</span> Wide to long: <code>melt()</code></a></li>
+  <li><a href="#long-to-wide-dcast" id="toc-long-to-wide-dcast" class="nav-link" data-scroll-target="#long-to-wide-dcast"> <span class="header-section-number">24.15.2</span> Long to wide: <code>dcast()</code></a></li>
+  </ul></li>
+  <li><a href="#table-joins" id="toc-table-joins" class="nav-link" data-scroll-target="#table-joins"> <span class="header-section-number">24.16</span> Table Joins</a>
+  <ul class="collapse">
+  <li><a href="#inner" id="toc-inner" class="nav-link" data-scroll-target="#inner"> <span class="header-section-number">24.16.1</span> Inner</a></li>
+  <li><a href="#outer" id="toc-outer" class="nav-link" data-scroll-target="#outer"> <span class="header-section-number">24.16.2</span> Outer</a></li>
+  <li><a href="#left-outer" id="toc-left-outer" class="nav-link" data-scroll-target="#left-outer"> <span class="header-section-number">24.16.3</span> Left outer</a></li>
+  <li><a href="#right-outer" id="toc-right-outer" class="nav-link" data-scroll-target="#right-outer"> <span class="header-section-number">24.16.4</span> Right outer</a></li>
+  </ul></li>
+  <li><a href="#understanding-reference-semantics-in-data.table" id="toc-understanding-reference-semantics-in-data.table" class="nav-link" data-scroll-target="#understanding-reference-semantics-in-data.table"> <span class="header-section-number">24.17</span> Understanding reference semantics in <code>data.table</code></a>
+  <ul class="collapse">
+  <li><a href="#get-objects-location-in-memory-with-address" id="toc-get-objects-location-in-memory-with-address" class="nav-link" data-scroll-target="#get-objects-location-in-memory-with-address"> <span class="header-section-number">24.17.1</span> Get object’s location in memory with <code>address()</code></a></li>
+  <li><a href="#reference-semantics-at-work" id="toc-reference-semantics-at-work" class="nav-link" data-scroll-target="#reference-semantics-at-work"> <span class="header-section-number">24.17.2</span> Reference semantics at work</a></li>
+  </ul></li>
+  <li><a href="#dtresources" id="toc-dtresources" class="nav-link" data-scroll-target="#dtresources"> <span class="header-section-number">24.18</span> Resources</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="datatable" class="quarto-section-identifier d-none d-lg-block"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Efficient data analysis with <strong>data.table</strong></span></span></h1>
+</div>
+
+
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<div class="cell">
+
+</div>
+<style type="text/css" scoped="">
+PRE.fansi SPAN {padding-top: .25em; padding-bottom: .25em};
+</style>
+<p>The <a href="https://github.com/Rdatatable/data.table"><strong>data.table</strong></a> package provides a modern and highly optimized version of R’s data.frame structure. It is highly memory efficient and automatically parallelizes internal operations to achieve substantial speed improvements over data.frames. The <strong>data.table</strong> package weighs in at just a few kilobytes, has zero dependencies, and maintains compatibility with R versions going as far back as possible.</p>
+<div class="cell" data-layout-align="center" data-hash="60_DataTable_cache/html/FigRdatatable_12fed844431b332f06c18f45145a0dee">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./R_data.table.png" class="img-fluid figure-img" style="width:50.0%"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">data.table builds on and significantly enhances the base R data.frame</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="data.table-singificantly-extends-the-power-of-data.frame" class="level2" data-number="24.1">
+<h2 data-number="24.1" class="anchored" data-anchor-id="data.table-singificantly-extends-the-power-of-data.frame"><span class="header-section-number">24.1</span> <code>data.table</code> singificantly extends the power of <code>data.frame</code></h2>
+<p>Some of the ways in which a <code>data.table</code> differs from a <code>data.frame</code>:</p>
+<ul>
+<li>A lot more than indexing can be done within a <code>data.table</code>’s “frame” (<code>dt[i, j, by]</code>): filter, select &amp; operate on columns, group-by operations</li>
+<li>Access column names directly without quoting</li>
+<li>Many operations can be performed <strong><em>“in-place”</em></strong> (i.e.&nbsp;with no assignment)</li>
+<li>Working on big data within a <code>data.table</code> can be orders of magnitude faster.</li>
+</ul>
+<p><code>data.table</code> operations remain as close as possible to <code>data.frame</code> operations, trying to extend rather than replace the latter’s functionality.</p>
+<p><strong>data.table</strong> includes thorough and helpful error messages that often point to a solution. This includes common mistakes new users may make when trying commands that would work on a <code>data.frame</code> but are different on a <code>data.table</code>.</p>
+</section>
+<section id="dtinstallation" class="level2" data-number="24.2">
+<h2 data-number="24.2" class="anchored" data-anchor-id="dtinstallation"><span class="header-section-number">24.2</span> Installation</h2>
+<p>You can install <strong>data.table</strong> from CRAN or GitHub. Check out the <a href="https://github.com/Rdatatable/data.table/wiki/Installation">data.table wiki</a> for more info.</p>
+<p>To get the latest version on CRAN:</p>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-3_3bdf3b850cee87849c3de0e7ebe1237e">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"data.table"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>To get the latest development version:</p>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-4_1a9288884402a89fce47d72d1942263d">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install the "remotes" package if you don't already have it and then</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"Rdatatable/data.table"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><code>data.table</code> also includes a built-in command to update to the latest development version:</p>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-5_315eed1b2f7ac1c61218fdc24388b2ca">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>data.table<span class="sc">::</span><span class="fu">update.dev.pkg</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="load-the-data.table-package" class="level3" data-number="24.2.1">
+<h3 data-number="24.2.1" class="anchored" data-anchor-id="load-the-data.table-package"><span class="header-section-number">24.2.1</span> Load the <code>data.table</code> package</h3>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-6_870bf6f807ed830fe4ba8eed9cccf882">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(data.table)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="create-a-data.table" class="level2" data-number="24.3">
+<h2 data-number="24.3" class="anchored" data-anchor-id="create-a-data.table"><span class="header-section-number">24.3</span> Create a <code>data.table</code></h2>
+<section id="by-assignment-data.table" class="level3" data-number="24.3.1">
+<h3 data-number="24.3.1" class="anchored" data-anchor-id="by-assignment-data.table"><span class="header-section-number">24.3.1</span> By assignment: <code>data.table()</code></h3>
+<p>Let’s create a <code>data.frame</code> and a <code>data.table</code> to explore side by side.</p>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-7_86e0602113ca42860467d8280ed108c6">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">A =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">B =</span> <span class="fu">c</span>(<span class="fl">1.2</span>, <span class="fl">4.3</span>, <span class="fl">9.7</span>, <span class="fl">5.6</span>, <span class="fl">8.1</span>),</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">C =</span> <span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"b"</span>, <span class="st">"a"</span>, <span class="st">"a"</span>))</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "data.frame"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  A   B C
+1 1 1.2 a
+2 2 4.3 b
+3 3 9.7 b
+4 4 5.6 a
+5 5 8.1 a</code></pre>
+</div>
+</div>
+<p><code>data.table()</code> syntax is similar to <code>data.frame()</code> (differs in some arguments)</p>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-8_17ab50990b94879a6fec2c15191c8764">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="at">A =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">B =</span> <span class="fu">c</span>(<span class="fl">1.2</span>, <span class="fl">4.3</span>, <span class="fl">9.7</span>, <span class="fl">5.6</span>, <span class="fl">8.1</span>),</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">C =</span> <span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"b"</span>, <span class="st">"a"</span>, <span class="st">"a"</span>))</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>dt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   A   B C
+1: 1 1.2 a
+2: 2 4.3 b
+3: 3 9.7 b
+4: 4 5.6 a
+5: 5 8.1 a</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(dt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "data.table" "data.frame"</code></pre>
+</div>
+</div>
+<p>Notice how a <code>data.table</code> object also inherits from <code>data.frame</code>. This means that if a method does not exist for <code>data.table</code>, the method for <code>data.frame</code> will be used - review <a href="54_ClassesAndOOP.html">classes and generic functions</a>.</p>
+<p>As part of improving efficieny, data.tables do away with row names. Instead of using rownames, you can and should add an extra column (e.g.&nbsp;“ID”) with the same information - this is advisable when working with data.frames as well.</p>
+<p>A rather convenient option is to have data.tables print each column’s class below the column name. You can pass the argument <code>class = TRUE</code> to <code>print()</code> or set the global option <code>datatable.print.class</code> using <code>options()</code></p>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-9_e6fe4a2964db0f2f9e6c55e3df14921c">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">datatable.print.class =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>dt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       A     B      C
+   &lt;int&gt; &lt;num&gt; &lt;char&gt;
+1:     1   1.2      a
+2:     2   4.3      b
+3:     3   9.7      b
+4:     4   5.6      a
+5:     5   8.1      a</code></pre>
+</div>
+</div>
+<p>Same as with a data.frame, to automatically convert string to factors, you can use the <code>stringsAsFactors</code> argument (or <code>factor()</code> directly):</p>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-10_2b12208a332e01ee2e3e7ed433d15d08">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="at">A =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">B =</span> <span class="fu">c</span>(<span class="fl">1.2</span>, <span class="fl">4.3</span>, <span class="fl">9.7</span>, <span class="fl">5.6</span>, <span class="fl">8.1</span>),</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">C =</span> <span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"b"</span>, <span class="st">"a"</span>, <span class="st">"a"</span>),</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>dt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       A     B      C
+   &lt;int&gt; &lt;num&gt; &lt;fctr&gt;
+1:     1   1.2      a
+2:     2   4.3      b
+3:     3   9.7      b
+4:     4   5.6      a
+5:     5   8.1      a</code></pre>
+</div>
+</div>
+</section>
+<section id="by-coercion-as.data.table" class="level3" data-number="24.3.2">
+<h3 data-number="24.3.2" class="anchored" data-anchor-id="by-coercion-as.data.table"><span class="header-section-number">24.3.2</span> By coercion: <code>as.data.table()</code></h3>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-11_7f52631d087a8350fbb3afde8e9cd3a6">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">A =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">B =</span> <span class="fu">c</span>(<span class="fl">1.2</span>, <span class="fl">4.3</span>, <span class="fl">9.7</span>, <span class="fl">5.6</span>, <span class="fl">8.1</span>),</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">C =</span> <span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"b"</span>, <span class="st">"a"</span>, <span class="st">"a"</span>),</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>dat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  A   B C
+1 1 1.2 a
+2 2 4.3 b
+3 3 9.7 b
+4 4 5.6 a
+5 5 8.1 a</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>dat2 <span class="ot">&lt;-</span> <span class="fu">as.data.table</span>(dat)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>dat2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       A     B      C
+   &lt;int&gt; &lt;num&gt; &lt;fctr&gt;
+1:     1   1.2      a
+2:     2   4.3      b
+3:     3   9.7      b
+4:     4   5.6      a
+5:     5   8.1      a</code></pre>
+</div>
+</div>
+</section>
+<section id="by-coercion-in-place-setdt" class="level3" data-number="24.3.3">
+<h3 data-number="24.3.3" class="anchored" data-anchor-id="by-coercion-in-place-setdt"><span class="header-section-number">24.3.3</span> By coercion <strong><em>in-place</em></strong>: <code>setDT()</code></h3>
+<p><code>setDT</code> converts a list or data.frame into a <code>data.table</code> in-place. Note: the original object itself is changed, you do not need to assign the output of <code>setDT</code> to a new name.</p>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-12_5f51b1eb452915d0d98752242d263478">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">A =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">B =</span> <span class="fu">c</span>(<span class="fl">1.2</span>, <span class="fl">4.3</span>, <span class="fl">9.7</span>, <span class="fl">5.6</span>, <span class="fl">8.1</span>),</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">C =</span> <span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"b"</span>, <span class="st">"a"</span>, <span class="st">"a"</span>))</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(dat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "data.frame"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setDT</span>(dat)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(dat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "data.table" "data.frame"</code></pre>
+</div>
+</div>
+<p>You can similarly convert a <code>data.table</code> to a <code>data.frame</code>, in-place:</p>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-13_4f39e4025f2ddd2e66f5ab85d8aaa9b5">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setDF</span>(dat)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(dat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "data.frame"</code></pre>
+</div>
+</div>
+</section>
+<section id="read-into-a-data.table-from-file-with-fread" class="level3" data-number="24.3.4">
+<h3 data-number="24.3.4" class="anchored" data-anchor-id="read-into-a-data.table-from-file-with-fread"><span class="header-section-number">24.3.4</span> Read into a <code>data.table</code> from file with <code>fread()</code></h3>
+<p><strong>data.table</strong> includes the <code>fread()</code> function to read data from files, in a similar way as the base functions <code>read.csv()</code> and <code>read.table()</code>. It is orders of magnitude faster for very large data (e.g.&nbsp;thousands to millions of rows) and it can read directly from URLs and zipped files. The <code>sep</code> argument defines the separator (same as in <code>read.csv()</code> and <code>read.table()</code>), but when set to <code>"auto"</code> (the default) it does a great job of figuring it out by itself.</p>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-14_db2f6cc65265c5bcc2f28e2434b5ac6c">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">"path/to/input.csv"</span>)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">"https::/url/to/input.csv.gz"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>For its speed and convenience, <code>fread()</code> is recommended over <code>read.csv()</code>/<code>read.table()</code> even if you intend to work with a <code>data.frame</code> exclusively, in which case you can pass the argument <code>data.table = FALSE</code>.</p>
+</section>
+<section id="write-a-data.table-to-a-csv-fwrite" class="level3" data-number="24.3.5">
+<h3 data-number="24.3.5" class="anchored" data-anchor-id="write-a-data.table-to-a-csv-fwrite"><span class="header-section-number">24.3.5</span> Write a <code>data.table</code> to a CSV: <code>fwrite()</code></h3>
+<p>Similar to <code>fread()</code>, <code>fwrite()</code> can be a lot faster than <code>write.csv()</code></p>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-15_15e1538d7c91fa8dd62ff3ce9534d71a">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fwrite</span>(dt, <span class="st">"/path/to/text.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="save-data.table-to-an-rds" class="level3" data-number="24.3.6">
+<h3 data-number="24.3.6" class="anchored" data-anchor-id="save-data.table-to-an-rds"><span class="header-section-number">24.3.6</span> Save <code>data.table</code> to an RDS:</h3>
+<p>Same as any R object, you can save a <code>data.table</code> to disk using <code>saveRDS()</code>. Suppose you have read data in with <code>fread()</code> or coerced a dataset using <code>as.data.table()</code>, done some cleaning up, type conversions, data transformations, etc, this is the preferred way to save your work, so you can reload at any time.</p>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-16_d4855728a618a1a3a41b512011f0bdab">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(dt, <span class="st">"/path/to/data.rds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="display-data.table-structure-with-str" class="level2" data-number="24.4">
+<h2 data-number="24.4" class="anchored" data-anchor-id="display-data.table-structure-with-str"><span class="header-section-number">24.4</span> Display <code>data.table</code> structure with <code>str()</code></h2>
+<p><code>str()</code> works the same (and you should keep using it!)</p>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-17_656bf5572b32f82c7481e4b1093a8c9b">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   5 obs. of  3 variables:
+ $ A: int  1 2 3 4 5
+ $ B: num  1.2 4.3 9.7 5.6 8.1
+ $ C: chr  "a" "b" "b" "a" ...</code></pre>
+</div>
+</div>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-18_83d95c9d8c3182c07c51d71e9d1a3eb8">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(dt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Classes 'data.table' and 'data.frame':  5 obs. of  3 variables:
+ $ A: int  1 2 3 4 5
+ $ B: num  1.2 4.3 9.7 5.6 8.1
+ $ C: Factor w/ 2 levels "a","b": 1 2 2 1 1
+ - attr(*, ".internal.selfref")=&lt;externalptr&gt; </code></pre>
+</div>
+</div>
+</section>
+<section id="combine-data.tables" class="level2" data-number="24.5">
+<h2 data-number="24.5" class="anchored" data-anchor-id="combine-data.tables"><span class="header-section-number">24.5</span> Combine <code>data.table</code>s</h2>
+<p><code>cbind()</code> and <code>rbind()</code> work on <code>data.table</code>s the same as on <code>data.frame</code>s:</p>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-19_d6d7945e8d37618de44caae79bd5c974">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>dt1 <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="at">a =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>)</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>dt2 <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="at">b =</span> <span class="dv">11</span><span class="sc">:</span><span class="dv">15</span>)</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cbind</span>(dt1, dt2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       a     b
+   &lt;int&gt; &lt;int&gt;
+1:     1    11
+2:     2    12
+3:     3    13
+4:     4    14
+5:     5    15</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rbind</span>(dt1, dt1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        a
+    &lt;int&gt;
+ 1:     1
+ 2:     2
+ 3:     3
+ 4:     4
+ 5:     5
+ 6:     1
+ 7:     2
+ 8:     3
+ 9:     4
+10:     5</code></pre>
+</div>
+</div>
+</section>
+<section id="filter-rows" class="level2" data-number="24.6">
+<h2 data-number="24.6" class="anchored" data-anchor-id="filter-rows"><span class="header-section-number">24.6</span> Filter rows</h2>
+<p>There are many similarities and some notable differences in how indexing works in a <code>data.table</code> vs.&nbsp;a <code>data.frame</code>.</p>
+<p>Filtering rows with an integer or logical index is largely the same in a <code>data.frame</code> and a <code>data.table</code>, but in a <code>data.table</code> you can omit the comma to select all columns:</p>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-20_615de477730004a92b612c5828e552dd">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>df[<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>), ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  A   B C
+1 1 1.2 a
+3 3 9.7 b
+5 5 8.1 a</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>dt[<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>), ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       A     B      C
+   &lt;int&gt; &lt;num&gt; &lt;fctr&gt;
+1:     1   1.2      a
+2:     3   9.7      b
+3:     5   8.1      a</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>dt[<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       A     B      C
+   &lt;int&gt; &lt;num&gt; &lt;fctr&gt;
+1:     1   1.2      a
+2:     3   9.7      b
+3:     5   8.1      a</code></pre>
+</div>
+</div>
+<p>Using a variable that holds a row index, whether integer or logical:</p>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-21_d89875935a4dc3f442d32fdfa9a16008">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>rowid <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>)</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>df[rowid, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  A   B C
+1 1 1.2 a
+3 3 9.7 b
+5 5 8.1 a</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>dt[rowid, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       A     B      C
+   &lt;int&gt; &lt;num&gt; &lt;fctr&gt;
+1:     1   1.2      a
+2:     3   9.7      b
+3:     5   8.1      a</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>dt[rowid]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       A     B      C
+   &lt;int&gt; &lt;num&gt; &lt;fctr&gt;
+1:     1   1.2      a
+2:     3   9.7      b
+3:     5   8.1      a</code></pre>
+</div>
+</div>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-22_c198122e3ecdeaf1a2feba88c8eb1d8c">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>rowbn <span class="ot">&lt;-</span> <span class="fu">c</span>(T, F, T, F, T)</span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>df[rowbn, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  A   B C
+1 1 1.2 a
+3 3 9.7 b
+5 5 8.1 a</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>dt[rowbn, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       A     B      C
+   &lt;int&gt; &lt;num&gt; &lt;fctr&gt;
+1:     1   1.2      a
+2:     3   9.7      b
+3:     5   8.1      a</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>dt[rowbn]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       A     B      C
+   &lt;int&gt; &lt;num&gt; &lt;fctr&gt;
+1:     1   1.2      a
+2:     3   9.7      b
+3:     5   8.1      a</code></pre>
+</div>
+</div>
+<section id="conditional-filtering" class="level3" data-number="24.6.1">
+<h3 data-number="24.6.1" class="anchored" data-anchor-id="conditional-filtering"><span class="header-section-number">24.6.1</span> Conditional filtering</h3>
+<p>As a reminder, there are a few ways to conditionally filter cases in a data.frame:</p>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-23_9650ac4b41f2e73b43578b6b1b992537">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>df[df<span class="sc">$</span>A <span class="sc">&gt;</span> <span class="fu">mean</span>(df<span class="sc">$</span>A) <span class="sc">&amp;</span> df<span class="sc">$</span>B <span class="sc">&gt;</span> <span class="fu">mean</span>(df<span class="sc">$</span>B), ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  A   B C
+5 5 8.1 a</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">subset</span>(df, A <span class="sc">&gt;</span> <span class="fu">mean</span>(A) <span class="sc">&amp;</span> B <span class="sc">&gt;</span> <span class="fu">mean</span>(B))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  A   B C
+5 5 8.1 a</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(df, df[A <span class="sc">&gt;</span> <span class="fu">mean</span>(A) <span class="sc">&amp;</span> B <span class="sc">&gt;</span> <span class="fu">mean</span>(B), ])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  A   B C
+5 5 8.1 a</code></pre>
+</div>
+</div>
+<p><code>data.table</code> allows you to refer to column names directly and unquoted, which makes writing filter conditions easier/more compact:</p>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-24_135ab37eaf5287717aee988f525610da">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>dt[A <span class="sc">&gt;</span> <span class="fu">mean</span>(A) <span class="sc">&amp;</span> B <span class="sc">&gt;</span> <span class="fu">mean</span>(B)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       A     B      C
+   &lt;int&gt; &lt;num&gt; &lt;fctr&gt;
+1:     5   8.1      a</code></pre>
+</div>
+</div>
+<p>The <code>data.table</code> package also includes an S3 method for <code>subset()</code> that works the same way as with a <code>data.frame</code>:</p>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-25_7cf95ac0adc544e19bd453112bc07e11">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">subset</span>(dt, A <span class="sc">&gt;</span> <span class="fu">mean</span>(A) <span class="sc">&amp;</span> B <span class="sc">&gt;</span> <span class="fu">mean</span>(B))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       A     B      C
+   &lt;int&gt; &lt;num&gt; &lt;fctr&gt;
+1:     5   8.1      a</code></pre>
+</div>
+</div>
+<p>As another example, exclude cases base on missingness in a specific column:</p>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-26_43f5e24ea01fbe95d0df22ae170b1c13">
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>adf <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="cf">function</span>(i) <span class="fu">rnorm</span>(<span class="dv">10</span>)))</span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>adf <span class="sc">|&gt;</span> <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          V1          V2         V3         V4          V5
+1  0.1311821 -0.41242261  0.5897420 -0.4643061  1.58410885
+2 -1.5757546 -1.46085796  0.1111828  1.5812159  0.14120671
+3 -0.2646751 -0.63027344  0.5977524 -0.3590879  0.01795485
+4 -0.3430240  0.80000771 -1.8080567  0.7472244  0.82739404
+5  1.4605731  0.09614699  1.1030527  0.5022653 -1.23512662
+6  1.0582400 -0.74200541 -1.3492387 -1.1937673 -0.77901035</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>adf[<span class="dv">1</span>, <span class="dv">3</span>] <span class="ot">&lt;-</span> adf[<span class="dv">3</span>, <span class="dv">4</span>] <span class="ot">&lt;-</span> adf[<span class="dv">5</span>, <span class="dv">3</span>] <span class="ot">&lt;-</span> adf[<span class="dv">7</span>, <span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>adt <span class="ot">&lt;-</span> <span class="fu">as.data.table</span>(adf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-27_4a173f0a74fa4b0d211106f7e853f844">
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>adf[<span class="sc">!</span><span class="fu">is.na</span>(adf<span class="sc">$</span>V3), ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           V1         V2         V3         V4          V5
+2  -1.5757546 -1.4608580  0.1111828  1.5812159  0.14120671
+3  -0.2646751 -0.6302734  0.5977524         NA  0.01795485
+4  -0.3430240  0.8000077 -1.8080567  0.7472244  0.82739404
+6   1.0582400 -0.7420054 -1.3492387 -1.1937673 -0.77901035
+8  -0.5440897 -0.9472814 -0.1800953 -0.6742933 -0.82677733
+9  -0.5628776  0.7821239  0.7993246 -0.2182100 -1.18673450
+10 -0.6635323 -0.4209989  1.6235166 -0.2309067  0.11117008</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>adt[<span class="sc">!</span><span class="fu">is.na</span>(V3)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           V1         V2         V3         V4          V5
+        &lt;num&gt;      &lt;num&gt;      &lt;num&gt;      &lt;num&gt;       &lt;num&gt;
+1: -1.5757546 -1.4608580  0.1111828  1.5812159  0.14120671
+2: -0.2646751 -0.6302734  0.5977524         NA  0.01795485
+3: -0.3430240  0.8000077 -1.8080567  0.7472244  0.82739404
+4:  1.0582400 -0.7420054 -1.3492387 -1.1937673 -0.77901035
+5: -0.5440897 -0.9472814 -0.1800953 -0.6742933 -0.82677733
+6: -0.5628776  0.7821239  0.7993246 -0.2182100 -1.18673450
+7: -0.6635323 -0.4209989  1.6235166 -0.2309067  0.11117008</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="select-columns" class="level2" data-number="24.7">
+<h2 data-number="24.7" class="anchored" data-anchor-id="select-columns"><span class="header-section-number">24.7</span> Select columns</h2>
+<section id="by-positions" class="level3" data-number="24.7.1">
+<h3 data-number="24.7.1" class="anchored" data-anchor-id="by-positions"><span class="header-section-number">24.7.1</span> By position(s)</h3>
+<p>Selecting a single column in <code>data.table</code> does not drop to a vector, similar to using <code>drop = FALSE</code> in a data.frame:</p>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-28_c837341cd0124e1262049adef1ece729">
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>df[, <span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1 2 3 4 5</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>df[, <span class="dv">1</span>, drop <span class="ot">=</span> <span class="cn">FALSE</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  A
+1 1
+2 2
+3 3
+4 4
+5 5</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a>dt[, <span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       A
+   &lt;int&gt;
+1:     1
+2:     2
+3:     3
+4:     4
+5:     5</code></pre>
+</div>
+</div>
+<p>Double bracket indexing of a single column works the same on a <code>data.frame</code> and a <code>data.table</code>, returning a vector:</p>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-29_2f92f21568988650b1b655c7b4a6e2e9">
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>df[[<span class="dv">2</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.2 4.3 9.7 5.6 8.1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>dt[[<span class="dv">2</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.2 4.3 9.7 5.6 8.1</code></pre>
+</div>
+</div>
+<p>A vector of column positions returns a smaller <code>data.table</code>, similar to how it returns a smaller <code>data.frame</code> :</p>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-30_f73ca5f7ec6c428817abd635fc0909cc">
+<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>df[, <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  A   B
+1 1 1.2
+2 2 4.3
+3 3 9.7
+4 4 5.6
+5 5 8.1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a>dt[, <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       A     B
+   &lt;int&gt; &lt;num&gt;
+1:     1   1.2
+2:     2   4.3
+3:     3   9.7
+4:     4   5.6
+5:     5   8.1</code></pre>
+</div>
+</div>
+</section>
+<section id="by-names" class="level3" data-number="24.7.2">
+<h3 data-number="24.7.2" class="anchored" data-anchor-id="by-names"><span class="header-section-number">24.7.2</span> By name(s)</h3>
+<p>In <code>data.table</code>, you access column names directly without quoting or using the <code>$</code> notation:</p>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-31_2e81b2e20210a1a7a2ccff5e30ce0011">
+<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a>df[, <span class="st">"B"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.2 4.3 9.7 5.6 8.1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>B</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.2 4.3 9.7 5.6 8.1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a>dt[, B]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.2 4.3 9.7 5.6 8.1</code></pre>
+</div>
+</div>
+<p>Because of the above, <code>data.table</code> requires a slightly different syntax to use a variable as a column index which can contain integer positions, logical index, or column names:</p>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-32_ad41e26deedd573224168b9fa670b111">
+<div class="sourceCode cell-code" id="cb93"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a>colid <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>)</span>
+<span id="cb93-2"><a href="#cb93-2" aria-hidden="true" tabindex="-1"></a>colbn <span class="ot">&lt;-</span> <span class="fu">c</span>(F, T, T)</span>
+<span id="cb93-3"><a href="#cb93-3" aria-hidden="true" tabindex="-1"></a>colnm <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"C"</span>)</span>
+<span id="cb93-4"><a href="#cb93-4" aria-hidden="true" tabindex="-1"></a>df[, colid]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  A   B
+1 1 1.2
+2 2 4.3
+3 3 9.7
+4 4 5.6
+5 5 8.1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb95"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a>df[, colbn]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    B C
+1 1.2 a
+2 4.3 b
+3 9.7 b
+4 5.6 a
+5 8.1 a</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb97"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a>df[, colnm]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  A C
+1 1 a
+2 2 b
+3 3 b
+4 4 a
+5 5 a</code></pre>
+</div>
+</div>
+<p>To use a variable holding a column index in a <code>data.table</code>, prefix it with two periods:</p>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-33_a0667d0edb2a11f3d6e04412820920ff">
+<div class="sourceCode cell-code" id="cb99"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a>dt[, ..colid]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       A     B
+   &lt;int&gt; &lt;num&gt;
+1:     1   1.2
+2:     2   4.3
+3:     3   9.7
+4:     4   5.6
+5:     5   8.1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb101"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a>dt[, ..colbn]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       B      C
+   &lt;num&gt; &lt;fctr&gt;
+1:   1.2      a
+2:   4.3      b
+3:   9.7      b
+4:   5.6      a
+5:   8.1      a</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb103"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a>dt[, ..colnm]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       A      C
+   &lt;int&gt; &lt;fctr&gt;
+1:     1      a
+2:     2      b
+3:     3      b
+4:     4      a
+5:     5      a</code></pre>
+</div>
+</div>
+<p>If you are familiar with the <a href="95_TerminalIntro.html">system shell</a>:</p>
+<p>Think of working inside the <code>data.table</code> frame (i.e.&nbsp;within the “[…]”) like an environment. You have direct access to the variables within it. If you want to refer to variables outside the <code>data.table</code>, you prefix the variable name with <code>..</code> similar to how you access the directory above your current working directory in the system shell:</p>
+<p>Alternatively, you can use the <code>.SD</code> special symbol together with the <code>.SDcols</code> argument:</p>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-34_017ad9f6dd281a4ae6a42fecce64b454">
+<div class="sourceCode cell-code" id="cb105"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a>dt[, .SD, .SDcols <span class="ot">=</span> colid]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       A     B
+   &lt;int&gt; &lt;num&gt;
+1:     1   1.2
+2:     2   4.3
+3:     3   9.7
+4:     4   5.6
+5:     5   8.1</code></pre>
+</div>
+</div>
+<p>Think of <code>.SD</code> as a sub-data.table with columns defined by <code>.SDcols</code> (if <code>SDcols</code> is not defined, <code>.SD</code> refers to the entire data.table).</p>
+<p>The two dots tell the <code>data.table</code> to not look for the variable within the data.table columns, but in the enclosing environment.</p>
+<p>Selecting a single column by name returns a <strong>vector</strong>:</p>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-35_cd18b16f9e55313f0f3222af4ff3d27d">
+<div class="sourceCode cell-code" id="cb107"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb107-1"><a href="#cb107-1" aria-hidden="true" tabindex="-1"></a>dt[, A]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1 2 3 4 5</code></pre>
+</div>
+</div>
+<p>Selecting one or more columns by name enclosed in <code>list()</code> or <code>.()</code> (which, in this case, is short for <code>list()</code>), always returns a <strong><code>data.table</code></strong>:</p>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-36_89fa34749487213fab3f96dbadb72cda">
+<div class="sourceCode cell-code" id="cb109"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb109-1"><a href="#cb109-1" aria-hidden="true" tabindex="-1"></a>dt[, .(A)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       A
+   &lt;int&gt;
+1:     1
+2:     2
+3:     3
+4:     4
+5:     5</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb111"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a>dt[, .(A, B)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       A     B
+   &lt;int&gt; &lt;num&gt;
+1:     1   1.2
+2:     2   4.3
+3:     3   9.7
+4:     4   5.6
+5:     5   8.1</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="add-new-column-in-place" class="level2" data-number="24.8">
+<h2 data-number="24.8" class="anchored" data-anchor-id="add-new-column-in-place"><span class="header-section-number">24.8</span> Add new column <strong><em>in-place</em></strong></h2>
+<p>Use <code>:=</code> assignment to add a new column in the existing <code>data.table</code>. In-place assignment means you do not have to assign the result to a variable, the existing <code>data.table</code> will be modified.</p>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-37_c845288dbf4d4fe1055a03f7a8855102">
+<div class="sourceCode cell-code" id="cb113"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb113-1"><a href="#cb113-1" aria-hidden="true" tabindex="-1"></a>dt[, AplusB <span class="sc">:</span><span class="er">=</span> A <span class="sc">+</span> B]</span>
+<span id="cb113-2"><a href="#cb113-2" aria-hidden="true" tabindex="-1"></a>dt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       A     B      C AplusB
+   &lt;int&gt; &lt;num&gt; &lt;fctr&gt;  &lt;num&gt;
+1:     1   1.2      a    2.2
+2:     2   4.3      b    6.3
+3:     3   9.7      b   12.7
+4:     4   5.6      a    9.6
+5:     5   8.1      a   13.1</code></pre>
+</div>
+</div>
+<p>Note how <code>dt</code> was modified even though we did not run <code>dt &lt;- dt[, AplusB := A + B]</code></p>
+</section>
+<section id="add-multiple-columns-in-place" class="level2" data-number="24.9">
+<h2 data-number="24.9" class="anchored" data-anchor-id="add-multiple-columns-in-place"><span class="header-section-number">24.9</span> Add multiple columns <strong><em>in-place</em></strong></h2>
+<p>You can define multiple new column names using a character vector of new column names on the left of <code>:=</code> and a list on the right.</p>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-38_995e054f03e492e0c28eb2631f176168">
+<div class="sourceCode cell-code" id="cb115"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb115-1"><a href="#cb115-1" aria-hidden="true" tabindex="-1"></a>dt[, <span class="fu">c</span>(<span class="st">"AtimesB"</span>, <span class="st">"AoverB"</span>) <span class="sc">:</span><span class="er">=</span> <span class="fu">list</span>(A<span class="sc">*</span>B, A<span class="sc">/</span>B)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can use <code>lapply()</code> since it always returns a list:</p>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-39_502ba38bc97f8f581ec22c16bae1d686">
+<div class="sourceCode cell-code" id="cb116"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb116-1"><a href="#cb116-1" aria-hidden="true" tabindex="-1"></a>vnames <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"B"</span>)</span>
+<span id="cb116-2"><a href="#cb116-2" aria-hidden="true" tabindex="-1"></a>dt[, <span class="fu">paste0</span>(<span class="st">"log"</span>, vnames) <span class="sc">:</span><span class="er">=</span> <span class="fu">lapply</span>(.SD, log), .SDcols <span class="ot">=</span> vnames]</span>
+<span id="cb116-3"><a href="#cb116-3" aria-hidden="true" tabindex="-1"></a>dt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       A     B      C AplusB AtimesB    AoverB      logA      logB
+   &lt;int&gt; &lt;num&gt; &lt;fctr&gt;  &lt;num&gt;   &lt;num&gt;     &lt;num&gt;     &lt;num&gt;     &lt;num&gt;
+1:     1   1.2      a    2.2     1.2 0.8333333 0.0000000 0.1823216
+2:     2   4.3      b    6.3     8.6 0.4651163 0.6931472 1.4586150
+3:     3   9.7      b   12.7    29.1 0.3092784 1.0986123 2.2721259
+4:     4   5.6      a    9.6    22.4 0.7142857 1.3862944 1.7227666
+5:     5   8.1      a   13.1    40.5 0.6172840 1.6094379 2.0918641</code></pre>
+</div>
+</div>
+<p>You can also use <code>:=</code> in a little more awkward syntax:</p>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-40_5ee7c46afb5d20e7f22d92fbaa0cf1ec">
+<div class="sourceCode cell-code" id="cb118"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb118-1"><a href="#cb118-1" aria-hidden="true" tabindex="-1"></a>dt[, <span class="st">`</span><span class="at">:=</span><span class="st">`</span>(<span class="at">AminusB =</span> A <span class="sc">-</span> B, <span class="at">AoverC =</span> A <span class="sc">/</span> B)]</span>
+<span id="cb118-2"><a href="#cb118-2" aria-hidden="true" tabindex="-1"></a>dt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       A     B      C AplusB AtimesB    AoverB      logA      logB AminusB
+   &lt;int&gt; &lt;num&gt; &lt;fctr&gt;  &lt;num&gt;   &lt;num&gt;     &lt;num&gt;     &lt;num&gt;     &lt;num&gt;   &lt;num&gt;
+1:     1   1.2      a    2.2     1.2 0.8333333 0.0000000 0.1823216    -0.2
+2:     2   4.3      b    6.3     8.6 0.4651163 0.6931472 1.4586150    -2.3
+3:     3   9.7      b   12.7    29.1 0.3092784 1.0986123 2.2721259    -6.7
+4:     4   5.6      a    9.6    22.4 0.7142857 1.3862944 1.7227666    -1.6
+5:     5   8.1      a   13.1    40.5 0.6172840 1.6094379 2.0918641    -3.1
+      AoverC
+       &lt;num&gt;
+1: 0.8333333
+2: 0.4651163
+3: 0.3092784
+4: 0.7142857
+5: 0.6172840</code></pre>
+</div>
+</div>
+</section>
+<section id="convert-column-type" class="level2" data-number="24.10">
+<h2 data-number="24.10" class="anchored" data-anchor-id="convert-column-type"><span class="header-section-number">24.10</span> Convert column type</h2>
+<section id="assignment-by-reference-with" class="level3" data-number="24.10.1">
+<h3 data-number="24.10.1" class="anchored" data-anchor-id="assignment-by-reference-with"><span class="header-section-number">24.10.1</span> Assignment by reference with <code>:=</code></h3>
+<p>Use any base R coercion function (<code>as.*</code>) to convert a column in-place using the <code>:=</code> notation</p>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-41_6ae4b72caa34eccdc4b95407267f2e31">
+<div class="sourceCode cell-code" id="cb120"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb120-1"><a href="#cb120-1" aria-hidden="true" tabindex="-1"></a>dt[, A <span class="sc">:</span><span class="er">=</span> <span class="fu">as.numeric</span>(A)]</span>
+<span id="cb120-2"><a href="#cb120-2" aria-hidden="true" tabindex="-1"></a>dt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       A     B      C AplusB AtimesB    AoverB      logA      logB AminusB
+   &lt;num&gt; &lt;num&gt; &lt;fctr&gt;  &lt;num&gt;   &lt;num&gt;     &lt;num&gt;     &lt;num&gt;     &lt;num&gt;   &lt;num&gt;
+1:     1   1.2      a    2.2     1.2 0.8333333 0.0000000 0.1823216    -0.2
+2:     2   4.3      b    6.3     8.6 0.4651163 0.6931472 1.4586150    -2.3
+3:     3   9.7      b   12.7    29.1 0.3092784 1.0986123 2.2721259    -6.7
+4:     4   5.6      a    9.6    22.4 0.7142857 1.3862944 1.7227666    -1.6
+5:     5   8.1      a   13.1    40.5 0.6172840 1.6094379 2.0918641    -3.1
+      AoverC
+       &lt;num&gt;
+1: 0.8333333
+2: 0.4651163
+3: 0.3092784
+4: 0.7142857
+5: 0.6172840</code></pre>
+</div>
+</div>
+</section>
+<section id="delete-columns-in-place-with" class="level3" data-number="24.10.2">
+<h3 data-number="24.10.2" class="anchored" data-anchor-id="delete-columns-in-place-with"><span class="header-section-number">24.10.2</span> Delete columns in-place with <code>:=</code></h3>
+<p>To delete a column, use <code>:=</code> to set it to NULL:</p>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-42_206e5459f1c99e7d68367c2d2af2d39a">
+<div class="sourceCode cell-code" id="cb122"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb122-1"><a href="#cb122-1" aria-hidden="true" tabindex="-1"></a>dt[, AoverB <span class="sc">:</span><span class="er">=</span> <span class="cn">NULL</span>]</span>
+<span id="cb122-2"><a href="#cb122-2" aria-hidden="true" tabindex="-1"></a>dt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       A     B      C AplusB AtimesB      logA      logB AminusB    AoverC
+   &lt;num&gt; &lt;num&gt; &lt;fctr&gt;  &lt;num&gt;   &lt;num&gt;     &lt;num&gt;     &lt;num&gt;   &lt;num&gt;     &lt;num&gt;
+1:     1   1.2      a    2.2     1.2 0.0000000 0.1823216    -0.2 0.8333333
+2:     2   4.3      b    6.3     8.6 0.6931472 1.4586150    -2.3 0.4651163
+3:     3   9.7      b   12.7    29.1 1.0986123 2.2721259    -6.7 0.3092784
+4:     4   5.6      a    9.6    22.4 1.3862944 1.7227666    -1.6 0.7142857
+5:     5   8.1      a   13.1    40.5 1.6094379 2.0918641    -3.1 0.6172840</code></pre>
+</div>
+</div>
+<p>Delete multiple columns</p>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-43_e22f1466dae621ef0965f56d2590dba6">
+<div class="sourceCode cell-code" id="cb124"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb124-1"><a href="#cb124-1" aria-hidden="true" tabindex="-1"></a>dt[, <span class="fu">c</span>(<span class="st">"logA"</span>, <span class="st">"logB"</span>) <span class="sc">:</span><span class="er">=</span> <span class="cn">NULL</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Or:</p>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-44_2f02e630cf3a0bcba5f2b92ee3a8a607">
+<div class="sourceCode cell-code" id="cb125"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb125-1"><a href="#cb125-1" aria-hidden="true" tabindex="-1"></a>dt[, <span class="st">`</span><span class="at">:=</span><span class="st">`</span>(<span class="at">AplusB =</span> <span class="cn">NULL</span>, <span class="at">AminusB =</span> <span class="cn">NULL</span>)]</span>
+<span id="cb125-2"><a href="#cb125-2" aria-hidden="true" tabindex="-1"></a>dt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       A     B      C AtimesB    AoverC
+   &lt;num&gt; &lt;num&gt; &lt;fctr&gt;   &lt;num&gt;     &lt;num&gt;
+1:     1   1.2      a     1.2 0.8333333
+2:     2   4.3      b     8.6 0.4651163
+3:     3   9.7      b    29.1 0.3092784
+4:     4   5.6      a    22.4 0.7142857
+5:     5   8.1      a    40.5 0.6172840</code></pre>
+</div>
+</div>
+</section>
+<section id="fast-loop-able-assignment-with-set" class="level3" data-number="24.10.3">
+<h3 data-number="24.10.3" class="anchored" data-anchor-id="fast-loop-able-assignment-with-set"><span class="header-section-number">24.10.3</span> Fast loop-able assignment with <code>set()</code></h3>
+<p><code>data.table</code>’s <code>set()</code> is a looop-able version of the <code>"=</code> operator. Use it in a for loop to operate on multiple columns.</p>
+<p>Syntax: <code>set(dt, i, j, value)</code></p>
+<ul>
+<li><code>dt</code> the data.table to operate on</li>
+<li><code>i</code> optionally define which rows to operate on. <code>i = NULL</code> to operate on all</li>
+<li><code>j</code> column names or index to be assigned <code>value</code></li>
+<li><code>value</code> values to be assigned to <code>j</code> by reference</li>
+</ul>
+<p>As a simple example, transform the first two columns in-place by squaring:</p>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-45_790eb8843c0e017d07918df38b1e9421">
+<div class="sourceCode cell-code" id="cb127"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb127-1"><a href="#cb127-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>) {</span>
+<span id="cb127-2"><a href="#cb127-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set</span>(dt, <span class="at">i =</span> <span class="cn">NULL</span>, <span class="at">j =</span> i, <span class="at">value =</span> dt[[i]]<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb127-3"><a href="#cb127-3" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="summarize" class="level2" data-number="24.11">
+<h2 data-number="24.11" class="anchored" data-anchor-id="summarize"><span class="header-section-number">24.11</span> Summarize</h2>
+<p>You can apply one or multiple summary functions on one of multiple columns. Surround the operations in <code>list()</code> or <code>.()</code> to output a <em>new</em> data.table holding the outputs of the operations (the input data.table remains unchanged).</p>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-46_e37cff59525e5e1c8e5fcfea3c02d605">
+<div class="sourceCode cell-code" id="cb128"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb128-1"><a href="#cb128-1" aria-hidden="true" tabindex="-1"></a>Asummary <span class="ot">&lt;-</span> dt[, .(<span class="at">Amax =</span> <span class="fu">max</span>(A), <span class="at">Amin =</span> <span class="fu">min</span>(A), <span class="at">Asd =</span> <span class="fu">sd</span>(A))]</span>
+<span id="cb128-2"><a href="#cb128-2" aria-hidden="true" tabindex="-1"></a>Asummary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    Amax  Amin     Asd
+   &lt;num&gt; &lt;num&gt;   &lt;num&gt;
+1:    25     1 9.66954</code></pre>
+</div>
+</div>
+<p>Example: Get sd of all numeric columns:</p>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-47_7b2ef3ddbdbaee319eb111dfd353e24b">
+<div class="sourceCode cell-code" id="cb130"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb130-1"><a href="#cb130-1" aria-hidden="true" tabindex="-1"></a>numid <span class="ot">&lt;-</span> <span class="fu">sapply</span>(dt, is.numeric)</span>
+<span id="cb130-2"><a href="#cb130-2" aria-hidden="true" tabindex="-1"></a>dt_mean <span class="ot">&lt;-</span> dt[, <span class="fu">lapply</span>(.SD, sd), .SDcols <span class="ot">=</span> numid]</span>
+<span id="cb130-3"><a href="#cb130-3" aria-hidden="true" tabindex="-1"></a>dt_mean</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         A        B  AtimesB    AoverC
+     &lt;num&gt;    &lt;num&gt;    &lt;num&gt;     &lt;num&gt;
+1: 9.66954 37.35521 15.74462 0.2060219</code></pre>
+</div>
+</div>
+<p>If your function returns more than one value, the output will have multiple rows:</p>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-48_07fd6492d16fa2e72e66d9a303ea39ce">
+<div class="sourceCode cell-code" id="cb132"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb132-1"><a href="#cb132-1" aria-hidden="true" tabindex="-1"></a>dt_range <span class="ot">&lt;-</span> dt[, <span class="fu">lapply</span>(.SD, range), .SDcols <span class="ot">=</span> numid]</span>
+<span id="cb132-2"><a href="#cb132-2" aria-hidden="true" tabindex="-1"></a>dt_range</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       A     B AtimesB    AoverC
+   &lt;num&gt; &lt;num&gt;   &lt;num&gt;     &lt;num&gt;
+1:     1  1.44     1.2 0.3092784
+2:    25 94.09    40.5 0.8333333</code></pre>
+</div>
+</div>
+</section>
+<section id="group-by-operations" class="level2" data-number="24.12">
+<h2 data-number="24.12" class="anchored" data-anchor-id="group-by-operations"><span class="header-section-number">24.12</span> Group-by operations</h2>
+<p>Up to now, we have learned how to use the <code>data.table</code> frame <code>dat[i, j]</code> to filter cases in <code>i</code> or add/remove/transform columns in-place in <code>j</code>. <code>dat[i, j, by]</code> allows to perform operations separately on groups of cases.</p>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-49_4f033682bb1f8e3571187f7dc383591f">
+<div class="sourceCode cell-code" id="cb134"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb134-1"><a href="#cb134-1" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="at">A =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,</span>
+<span id="cb134-2"><a href="#cb134-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">B =</span> <span class="fu">c</span>(<span class="fl">1.2</span>, <span class="fl">4.3</span>, <span class="fl">9.7</span>, <span class="fl">5.6</span>, <span class="fl">8.1</span>),</span>
+<span id="cb134-3"><a href="#cb134-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">C =</span> <span class="fu">rnorm</span>(<span class="dv">5</span>),</span>
+<span id="cb134-4"><a href="#cb134-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">Group =</span> <span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"b"</span>, <span class="st">"a"</span>, <span class="st">"a"</span>))</span>
+<span id="cb134-5"><a href="#cb134-5" aria-hidden="true" tabindex="-1"></a>dt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       A     B           C  Group
+   &lt;int&gt; &lt;num&gt;       &lt;num&gt; &lt;char&gt;
+1:     1   1.2 -0.01919352      a
+2:     2   4.3  1.76291989      b
+3:     3   9.7 -1.07362454      b
+4:     4   5.6 -0.40038723      a
+5:     5   8.1  0.59648264      a</code></pre>
+</div>
+</div>
+<section id="group-by-summary" class="level3" data-number="24.12.1">
+<h3 data-number="24.12.1" class="anchored" data-anchor-id="group-by-summary"><span class="header-section-number">24.12.1</span> Group-by summary</h3>
+<p>As we’ve seen, using <code>.()</code> or <code>list()</code> in <code>j</code>, returns a new <code>data.table</code>:</p>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-50_92f4769b1c769e4974a4e1aa7fdda0e6">
+<div class="sourceCode cell-code" id="cb136"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb136-1"><a href="#cb136-1" aria-hidden="true" tabindex="-1"></a>dt[, .(<span class="at">meanAbyGroup =</span> <span class="fu">mean</span>(A)), by <span class="ot">=</span> Group]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    Group meanAbyGroup
+   &lt;char&gt;        &lt;num&gt;
+1:      a     3.333333
+2:      b     2.500000</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb138"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb138-1"><a href="#cb138-1" aria-hidden="true" tabindex="-1"></a>dt[, <span class="fu">list</span>(<span class="at">medianBbyGroup =</span> <span class="fu">median</span>(B)), by <span class="ot">=</span> Group]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    Group medianBbyGroup
+   &lt;char&gt;          &lt;num&gt;
+1:      a            5.6
+2:      b            7.0</code></pre>
+</div>
+</div>
+</section>
+<section id="group-by-operation-and-assignment" class="level3" data-number="24.12.2">
+<h3 data-number="24.12.2" class="anchored" data-anchor-id="group-by-operation-and-assignment"><span class="header-section-number">24.12.2</span> Group-by operation and assignment</h3>
+<p>Making an assignment with <code>:=</code> in <code>j</code>, adds a column in-place. Since here we are grouping, the same value will be assigned to all cases of the group:</p>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-51_bb7dad4339958c9e06a7246aeff95a35">
+<div class="sourceCode cell-code" id="cb140"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb140-1"><a href="#cb140-1" aria-hidden="true" tabindex="-1"></a>dt[, meanAbyGroup <span class="sc">:</span><span class="er">=</span> <span class="fu">mean</span>(A), by <span class="ot">=</span> Group]</span>
+<span id="cb140-2"><a href="#cb140-2" aria-hidden="true" tabindex="-1"></a>dt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       A     B           C  Group meanAbyGroup
+   &lt;int&gt; &lt;num&gt;       &lt;num&gt; &lt;char&gt;        &lt;num&gt;
+1:     1   1.2 -0.01919352      a     3.333333
+2:     2   4.3  1.76291989      b     2.500000
+3:     3   9.7 -1.07362454      b     2.500000
+4:     4   5.6 -0.40038723      a     3.333333
+5:     5   8.1  0.59648264      a     3.333333</code></pre>
+</div>
+</div>
+<p>For more complex operations, you may need to refer to the slice of the <code>data.table</code> defined by <code>by</code> within <code>j</code>. There is a special notation for this: <code>.SD</code> (think sub-<code>data.table</code>):</p>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-52_d373621fbbe693b82e804dc545ab6617">
+<div class="sourceCode cell-code" id="cb142"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb142-1"><a href="#cb142-1" aria-hidden="true" tabindex="-1"></a>dt[, B_DiffFromGroupMin <span class="sc">:</span><span class="er">=</span> B <span class="sc">-</span> <span class="fu">min</span>(B), by <span class="ot">=</span> Group]</span>
+<span id="cb142-2"><a href="#cb142-2" aria-hidden="true" tabindex="-1"></a>dt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       A     B           C  Group meanAbyGroup B_DiffFromGroupMin
+   &lt;int&gt; &lt;num&gt;       &lt;num&gt; &lt;char&gt;        &lt;num&gt;              &lt;num&gt;
+1:     1   1.2 -0.01919352      a     3.333333                0.0
+2:     2   4.3  1.76291989      b     2.500000                0.0
+3:     3   9.7 -1.07362454      b     2.500000                5.4
+4:     4   5.6 -0.40038723      a     3.333333                4.4
+5:     5   8.1  0.59648264      a     3.333333                6.9</code></pre>
+</div>
+</div>
+<div class="cell" type="rmdnote" data-hash="60_DataTable_cache/html/unnamed-chunk-53_5c77116a84f78291adce978f9eafa4ef">
+<div class="rmdnote">
+<p>
+By now, it should be clearer that the <code>data.table</code> frame provides a very flexible way to perform a very wide range of operations with minimal new notation.
+</p>
+</div>
+</div>
+</section>
+</section>
+<section id="apply-functions-to-columns" class="level2" data-number="24.13">
+<h2 data-number="24.13" class="anchored" data-anchor-id="apply-functions-to-columns"><span class="header-section-number">24.13</span> Apply functions to columns</h2>
+<p>Any function that returns a list can be used in <code>j</code> to return a new data.table - therefore lapply is perfect for getting summary on multiple columns:</p>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-54_e06130136219635fd0dca1b0eaa10465">
+<div class="sourceCode cell-code" id="cb144"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb144-1"><a href="#cb144-1" aria-hidden="true" tabindex="-1"></a>dt1 <span class="ot">&lt;-</span> <span class="fu">as.data.table</span>(<span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, \(i) <span class="fu">rnorm</span>(<span class="dv">10</span>)))</span>
+<span id="cb144-2"><a href="#cb144-2" aria-hidden="true" tabindex="-1"></a>dt1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            V1          V2          V3
+         &lt;num&gt;       &lt;num&gt;       &lt;num&gt;
+ 1: -0.6453819 -0.54140706  0.89180270
+ 2: -1.1746275 -1.45071346  0.56509219
+ 3:  0.7874612 -0.52234949 -1.43719131
+ 4: -0.1689379  0.95496904 -1.07333478
+ 5: -0.3129802  1.09500706 -0.73230191
+ 6: -0.6912456  0.76002077  0.22109337
+ 7: -0.5406528 -0.47616616  1.41270075
+ 8:  0.6509229 -0.65033604 -0.59408632
+ 9: -0.3552445  0.90686899  0.09407682
+10: -0.9574488  0.03100915  0.19432775</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb146"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb146-1"><a href="#cb146-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setnames</span>(dt1, <span class="fu">names</span>(dt1), <span class="fu">c</span>(<span class="st">"Alpha"</span>, <span class="st">"Beta"</span>, <span class="st">"Gamma"</span>))</span>
+<span id="cb146-2"><a href="#cb146-2" aria-hidden="true" tabindex="-1"></a>dt1[, <span class="fu">lapply</span>(.SD, mean)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        Alpha       Beta       Gamma
+        &lt;num&gt;      &lt;num&gt;       &lt;num&gt;
+1: -0.3408135 0.01069028 -0.04578207</code></pre>
+</div>
+</div>
+<p>You can specify which columns to operate on using the <code>.SDcols</code> argument:</p>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-55_a13cf43986984465389ffc48f174d81c">
+<div class="sourceCode cell-code" id="cb148"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb148-1"><a href="#cb148-1" aria-hidden="true" tabindex="-1"></a>dt2 <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="at">A =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,</span>
+<span id="cb148-2"><a href="#cb148-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">B =</span> <span class="fu">c</span>(<span class="fl">1.2</span>, <span class="fl">4.3</span>, <span class="fl">9.7</span>, <span class="fl">5.6</span>, <span class="fl">8.1</span>),</span>
+<span id="cb148-3"><a href="#cb148-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">C =</span> <span class="fu">rnorm</span>(<span class="dv">5</span>),</span>
+<span id="cb148-4"><a href="#cb148-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">Group =</span> <span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"b"</span>, <span class="st">"a"</span>, <span class="st">"a"</span>))</span>
+<span id="cb148-5"><a href="#cb148-5" aria-hidden="true" tabindex="-1"></a>dt2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       A     B           C  Group
+   &lt;int&gt; &lt;num&gt;       &lt;num&gt; &lt;char&gt;
+1:     1   1.2  0.04655708      a
+2:     2   4.3  0.84235568      b
+3:     3   9.7 -0.57372497      b
+4:     4   5.6 -1.34500563      a
+5:     5   8.1 -0.52578439      a</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb150"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb150-1"><a href="#cb150-1" aria-hidden="true" tabindex="-1"></a>dt2[, <span class="fu">lapply</span>(.SD, mean), .SDcols <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       A     B
+   &lt;num&gt; &lt;num&gt;
+1:     3  5.78</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb152"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb152-1"><a href="#cb152-1" aria-hidden="true" tabindex="-1"></a><span class="co"># same as</span></span>
+<span id="cb152-2"><a href="#cb152-2" aria-hidden="true" tabindex="-1"></a>dt2[, <span class="fu">lapply</span>(.SD, mean), .SDcols <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"B"</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       A     B
+   &lt;num&gt; &lt;num&gt;
+1:     3  5.78</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb154"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb154-1"><a href="#cb154-1" aria-hidden="true" tabindex="-1"></a>cols <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"B"</span>)</span>
+<span id="cb154-2"><a href="#cb154-2" aria-hidden="true" tabindex="-1"></a>dt2[, <span class="fu">lapply</span>(.SD, mean), .SDcols <span class="ot">=</span> cols]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       A     B
+   &lt;num&gt; &lt;num&gt;
+1:     3  5.78</code></pre>
+</div>
+</div>
+<p>You can combine <code>.SDcols</code> and <code>by</code>:</p>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-56_c60f164492e9a59060a7e1172c56b631">
+<div class="sourceCode cell-code" id="cb156"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb156-1"><a href="#cb156-1" aria-hidden="true" tabindex="-1"></a>dt2[, <span class="fu">lapply</span>(.SD, median), .SDcols <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"B"</span>, <span class="st">"C"</span>), by <span class="ot">=</span> Group]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    Group     B          C
+   &lt;char&gt; &lt;num&gt;      &lt;num&gt;
+1:      a   5.6 -0.5257844
+2:      b   7.0  0.1343154</code></pre>
+</div>
+</div>
+<p>Create multiple new columns from transformation of existing and store with custom prefix:</p>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-57_929f52534cc3984816ad396e99ab2472">
+<div class="sourceCode cell-code" id="cb158"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb158-1"><a href="#cb158-1" aria-hidden="true" tabindex="-1"></a>dt1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         Alpha        Beta       Gamma
+         &lt;num&gt;       &lt;num&gt;       &lt;num&gt;
+ 1: -0.6453819 -0.54140706  0.89180270
+ 2: -1.1746275 -1.45071346  0.56509219
+ 3:  0.7874612 -0.52234949 -1.43719131
+ 4: -0.1689379  0.95496904 -1.07333478
+ 5: -0.3129802  1.09500706 -0.73230191
+ 6: -0.6912456  0.76002077  0.22109337
+ 7: -0.5406528 -0.47616616  1.41270075
+ 8:  0.6509229 -0.65033604 -0.59408632
+ 9: -0.3552445  0.90686899  0.09407682
+10: -0.9574488  0.03100915  0.19432775</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb160"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb160-1"><a href="#cb160-1" aria-hidden="true" tabindex="-1"></a>dt1[, <span class="fu">paste0</span>(<span class="fu">names</span>(dt1), <span class="st">"_abs"</span>) <span class="sc">:</span><span class="er">=</span> <span class="fu">lapply</span>(.SD, abs)]</span>
+<span id="cb160-2"><a href="#cb160-2" aria-hidden="true" tabindex="-1"></a>dt1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         Alpha        Beta       Gamma Alpha_abs   Beta_abs  Gamma_abs
+         &lt;num&gt;       &lt;num&gt;       &lt;num&gt;     &lt;num&gt;      &lt;num&gt;      &lt;num&gt;
+ 1: -0.6453819 -0.54140706  0.89180270 0.6453819 0.54140706 0.89180270
+ 2: -1.1746275 -1.45071346  0.56509219 1.1746275 1.45071346 0.56509219
+ 3:  0.7874612 -0.52234949 -1.43719131 0.7874612 0.52234949 1.43719131
+ 4: -0.1689379  0.95496904 -1.07333478 0.1689379 0.95496904 1.07333478
+ 5: -0.3129802  1.09500706 -0.73230191 0.3129802 1.09500706 0.73230191
+ 6: -0.6912456  0.76002077  0.22109337 0.6912456 0.76002077 0.22109337
+ 7: -0.5406528 -0.47616616  1.41270075 0.5406528 0.47616616 1.41270075
+ 8:  0.6509229 -0.65033604 -0.59408632 0.6509229 0.65033604 0.59408632
+ 9: -0.3552445  0.90686899  0.09407682 0.3552445 0.90686899 0.09407682
+10: -0.9574488  0.03100915  0.19432775 0.9574488 0.03100915 0.19432775</code></pre>
+</div>
+</div>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-58_53a87cac4e4685bcb5255f06b1e8b840">
+<div class="sourceCode cell-code" id="cb162"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb162-1"><a href="#cb162-1" aria-hidden="true" tabindex="-1"></a>dt2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       A     B           C  Group
+   &lt;int&gt; &lt;num&gt;       &lt;num&gt; &lt;char&gt;
+1:     1   1.2  0.04655708      a
+2:     2   4.3  0.84235568      b
+3:     3   9.7 -0.57372497      b
+4:     4   5.6 -1.34500563      a
+5:     5   8.1 -0.52578439      a</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb164"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb164-1"><a href="#cb164-1" aria-hidden="true" tabindex="-1"></a>cols <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"C"</span>)</span>
+<span id="cb164-2"><a href="#cb164-2" aria-hidden="true" tabindex="-1"></a>dt2[, <span class="fu">paste0</span>(cols, <span class="st">"_groupMean"</span>) <span class="sc">:</span><span class="er">=</span> <span class="fu">lapply</span>(.SD, mean), .SDcols <span class="ot">=</span> cols, by <span class="ot">=</span> Group]</span>
+<span id="cb164-3"><a href="#cb164-3" aria-hidden="true" tabindex="-1"></a>dt2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       A     B           C  Group A_groupMean C_groupMean
+   &lt;int&gt; &lt;num&gt;       &lt;num&gt; &lt;char&gt;       &lt;num&gt;       &lt;num&gt;
+1:     1   1.2  0.04655708      a    3.333333  -0.6080776
+2:     2   4.3  0.84235568      b    2.500000   0.1343154
+3:     3   9.7 -0.57372497      b    2.500000   0.1343154
+4:     4   5.6 -1.34500563      a    3.333333  -0.6080776
+5:     5   8.1 -0.52578439      a    3.333333  -0.6080776</code></pre>
+</div>
+</div>
+</section>
+<section id="row-wise-operations" class="level2" data-number="24.14">
+<h2 data-number="24.14" class="anchored" data-anchor-id="row-wise-operations"><span class="header-section-number">24.14</span> Row-wise operations</h2>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-59_76e4e6404f42460eecbc3c8c6bc62df7">
+<div class="sourceCode cell-code" id="cb166"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb166-1"><a href="#cb166-1" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="at">a =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="at">b =</span> <span class="dv">11</span><span class="sc">:</span><span class="dv">15</span>, <span class="at">c =</span> <span class="dv">21</span><span class="sc">:</span><span class="dv">25</span>, </span>
+<span id="cb166-2"><a href="#cb166-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">d =</span> <span class="dv">31</span><span class="sc">:</span><span class="dv">35</span>, <span class="at">e =</span> <span class="dv">41</span><span class="sc">:</span><span class="dv">45</span>)</span>
+<span id="cb166-3"><a href="#cb166-3" aria-hidden="true" tabindex="-1"></a>dt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       a     b     c     d     e
+   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;
+1:     1    11    21    31    41
+2:     2    12    22    32    42
+3:     3    13    23    33    43
+4:     4    14    24    34    44
+5:     5    15    25    35    45</code></pre>
+</div>
+</div>
+<p>To operate row-wise, we can use <code>by = 1:nrow(dt)</code>. For example, to add a column, in-place, with row-wise sums of variables b through d:</p>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-60_4a784a427aa56ecc3b012ef3aab66724">
+<div class="sourceCode cell-code" id="cb168"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb168-1"><a href="#cb168-1" aria-hidden="true" tabindex="-1"></a>dt[, bcd.sum <span class="sc">:</span><span class="er">=</span> <span class="fu">sum</span>(.SD[, b<span class="sc">:</span>d]), by <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(dt)]</span>
+<span id="cb168-2"><a href="#cb168-2" aria-hidden="true" tabindex="-1"></a>dt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       a     b     c     d     e bcd.sum
+   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;   &lt;int&gt;
+1:     1    11    21    31    41      63
+2:     2    12    22    32    42      66
+3:     3    13    23    33    43      69
+4:     4    14    24    34    44      72
+5:     5    15    25    35    45      75</code></pre>
+</div>
+</div>
+</section>
+<section id="melt" class="level2" data-number="24.15">
+<h2 data-number="24.15" class="anchored" data-anchor-id="melt"><span class="header-section-number">24.15</span> Wide &lt;=&gt; Long</h2>
+<section id="wide-to-long-melt" class="level3" data-number="24.15.1">
+<h3 data-number="24.15.1" class="anchored" data-anchor-id="wide-to-long-melt"><span class="header-section-number">24.15.1</span> Wide to long: <code>melt()</code></h3>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-61_c0bdbb0757f1fe30db5a06c802080300">
+<div class="sourceCode cell-code" id="cb170"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb170-1"><a href="#cb170-1" aria-hidden="true" tabindex="-1"></a>dt_wide <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="at">ID =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="at">Timepoint_A =</span> <span class="dv">11</span><span class="sc">:</span><span class="dv">14</span>,</span>
+<span id="cb170-2"><a href="#cb170-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">Timepoint_B =</span> <span class="dv">21</span><span class="sc">:</span><span class="dv">24</span>, <span class="at">Timepoint_C =</span> <span class="dv">51</span><span class="sc">:</span><span class="dv">54</span>)</span>
+<span id="cb170-3"><a href="#cb170-3" aria-hidden="true" tabindex="-1"></a>dt_wide</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      ID Timepoint_A Timepoint_B Timepoint_C
+   &lt;int&gt;       &lt;int&gt;       &lt;int&gt;       &lt;int&gt;
+1:     1          11          21          51
+2:     2          12          22          52
+3:     3          13          23          53
+4:     4          14          24          54</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb172"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb172-1"><a href="#cb172-1" aria-hidden="true" tabindex="-1"></a>dt_long <span class="ot">&lt;-</span> <span class="fu">melt</span>(dt_wide, <span class="at">id.vars =</span> <span class="st">"ID"</span>,</span>
+<span id="cb172-2"><a href="#cb172-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">measure.vars =</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>, <span class="co"># defaults to all non-id columns</span></span>
+<span id="cb172-3"><a href="#cb172-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">variable.name =</span> <span class="st">"Timepoint"</span>,</span>
+<span id="cb172-4"><a href="#cb172-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">value.name =</span> <span class="fu">c</span>(<span class="st">"Score"</span>))</span>
+<span id="cb172-5"><a href="#cb172-5" aria-hidden="true" tabindex="-1"></a>dt_long</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       ID   Timepoint Score
+    &lt;int&gt;      &lt;fctr&gt; &lt;int&gt;
+ 1:     1 Timepoint_A    11
+ 2:     2 Timepoint_A    12
+ 3:     3 Timepoint_A    13
+ 4:     4 Timepoint_A    14
+ 5:     1 Timepoint_B    21
+ 6:     2 Timepoint_B    22
+ 7:     3 Timepoint_B    23
+ 8:     4 Timepoint_B    24
+ 9:     1 Timepoint_C    51
+10:     2 Timepoint_C    52
+11:     3 Timepoint_C    53
+12:     4 Timepoint_C    54</code></pre>
+</div>
+</div>
+</section>
+<section id="long-to-wide-dcast" class="level3" data-number="24.15.2">
+<h3 data-number="24.15.2" class="anchored" data-anchor-id="long-to-wide-dcast"><span class="header-section-number">24.15.2</span> Long to wide: <code>dcast()</code></h3>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-62_1c4079388effe63a86981c499904ba9f">
+<div class="sourceCode cell-code" id="cb174"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb174-1"><a href="#cb174-1" aria-hidden="true" tabindex="-1"></a>dt_long</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       ID   Timepoint Score
+    &lt;int&gt;      &lt;fctr&gt; &lt;int&gt;
+ 1:     1 Timepoint_A    11
+ 2:     2 Timepoint_A    12
+ 3:     3 Timepoint_A    13
+ 4:     4 Timepoint_A    14
+ 5:     1 Timepoint_B    21
+ 6:     2 Timepoint_B    22
+ 7:     3 Timepoint_B    23
+ 8:     4 Timepoint_B    24
+ 9:     1 Timepoint_C    51
+10:     2 Timepoint_C    52
+11:     3 Timepoint_C    53
+12:     4 Timepoint_C    54</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb176"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb176-1"><a href="#cb176-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dcast</span>(dt_long, ID <span class="sc">~</span> Timepoint,</span>
+<span id="cb176-2"><a href="#cb176-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">value.var =</span> <span class="st">"Score"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      ID Timepoint_A Timepoint_B Timepoint_C
+   &lt;int&gt;       &lt;int&gt;       &lt;int&gt;       &lt;int&gt;
+1:     1          11          21          51
+2:     2          12          22          52
+3:     3          13          23          53
+4:     4          14          24          54</code></pre>
+</div>
+</div>
+<section id="dcast-aggregate" class="level4" data-number="24.15.2.1">
+<h4 data-number="24.15.2.1" class="anchored" data-anchor-id="dcast-aggregate"><span class="header-section-number">24.15.2.1</span> <code>dcast()</code> + aggregate</h4>
+<p>If your <code>ID ~ Timepoint</code> combination does not define a unique row in your input dataset, you need to specify an aggregate function.</p>
+<p>For example, suppose you have four subjects with IDs “A”, “B”, “C”, “D” who had a couple variables measured 3 times in the AM and 3 times in the PM.</p>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-63_d7ac3315b66502ff579dd4629a60772d">
+<div class="sourceCode cell-code" id="cb178"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb178-1"><a href="#cb178-1" aria-hidden="true" tabindex="-1"></a>dt_long2 <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="at">ID =</span> <span class="fu">rep</span>(LETTERS[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], <span class="at">each =</span> <span class="dv">6</span>),</span>
+<span id="cb178-2"><a href="#cb178-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">Timepoint =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"AM"</span>, <span class="st">"PM"</span>), <span class="at">length.out =</span> <span class="dv">24</span>, <span class="at">each =</span> <span class="dv">3</span>),</span>
+<span id="cb178-3"><a href="#cb178-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">Var1 =</span> <span class="fu">rnorm</span>(<span class="dv">24</span>, <span class="dv">10</span>),</span>
+<span id="cb178-4"><a href="#cb178-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">Var2 =</span> <span class="fu">rnorm</span>(<span class="dv">24</span>, <span class="dv">20</span>))</span>
+<span id="cb178-5"><a href="#cb178-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb178-6"><a href="#cb178-6" aria-hidden="true" tabindex="-1"></a>dt_long2[<span class="fu">sample</span>(<span class="dv">24</span>, <span class="dv">4</span>), Var1 <span class="sc">:</span><span class="er">=</span> <span class="cn">NA</span>]</span>
+<span id="cb178-7"><a href="#cb178-7" aria-hidden="true" tabindex="-1"></a>dt_long2[<span class="fu">sample</span>(<span class="dv">24</span>, <span class="dv">4</span>), Var2 <span class="sc">:</span><span class="er">=</span> <span class="cn">NA</span>]</span>
+<span id="cb178-8"><a href="#cb178-8" aria-hidden="true" tabindex="-1"></a>dt_long2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        ID Timepoint      Var1     Var2
+    &lt;char&gt;    &lt;char&gt;     &lt;num&gt;    &lt;num&gt;
+ 1:      A        AM 11.180429 18.83875
+ 2:      A        AM        NA 19.75811
+ 3:      A        AM 10.858896       NA
+ 4:      A        PM  8.696999 20.67314
+ 5:      A        PM        NA       NA
+ 6:      A        PM 12.426356 20.00126
+ 7:      B        AM  8.763709 19.83046
+ 8:      B        AM  9.919536 19.57749
+ 9:      B        AM  9.147396 19.40920
+10:      B        PM  9.056259 20.90345
+11:      B        PM 11.392569       NA
+12:      B        PM 10.241746 21.03389
+13:      C        AM 10.029698 20.75804
+14:      C        AM 12.481805 20.13352
+15:      C        AM  9.169376 20.60449
+16:      C        PM  8.320664 21.81184
+17:      C        PM 11.048416 20.99195
+18:      C        PM 11.660641 19.49680
+19:      D        AM  9.227025 19.06158
+20:      D        AM        NA 20.54046
+21:      D        AM 11.884037 20.68816
+22:      D        PM 10.878042       NA
+23:      D        PM 10.334032 19.21043
+24:      D        PM        NA 19.15026
+        ID Timepoint      Var1     Var2</code></pre>
+</div>
+</div>
+<p>If you wanted to convert the above data.table to wide format and get mean AM and PM values using the <code>fun.aggregate</code> argument:</p>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-64_69906efdf6da86648276384eea165e58">
+<div class="sourceCode cell-code" id="cb180"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb180-1"><a href="#cb180-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dcast</span>(dt_long2,</span>
+<span id="cb180-2"><a href="#cb180-2" aria-hidden="true" tabindex="-1"></a>      ID <span class="sc">~</span> Timepoint,</span>
+<span id="cb180-3"><a href="#cb180-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">value.var =</span> <span class="fu">c</span>(<span class="st">"Var1"</span>, <span class="st">"Var2"</span>),</span>
+<span id="cb180-4"><a href="#cb180-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">fun.aggregate =</span> mean, <span class="at">na.rm =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       ID  Var1_AM  Var1_PM  Var2_AM  Var2_PM
+   &lt;char&gt;    &lt;num&gt;    &lt;num&gt;    &lt;num&gt;    &lt;num&gt;
+1:      A 11.01966 10.56168 19.29843 20.33720
+2:      B  9.27688 10.23019 19.60572 20.96867
+3:      C 10.56029 10.34324 20.49868 20.76686
+4:      D 10.55553 10.60604 20.09674 19.18035</code></pre>
+</div>
+</div>
+<p>You can apply multiple aggregating functions by passing a list to <code>fun.aggregate</code>:</p>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-65_8b2f73d00237af299a752c52ca57e46c">
+<div class="sourceCode cell-code" id="cb182"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb182-1"><a href="#cb182-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dcast</span>(dt_long2,</span>
+<span id="cb182-2"><a href="#cb182-2" aria-hidden="true" tabindex="-1"></a>      ID <span class="sc">~</span> Timepoint,</span>
+<span id="cb182-3"><a href="#cb182-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">value.var =</span> <span class="fu">c</span>(<span class="st">"Var1"</span>, <span class="st">"Var2"</span>),</span>
+<span id="cb182-4"><a href="#cb182-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">fun.aggregate =</span> <span class="fu">list</span>(mean, max, min), <span class="at">na.rm =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       ID Var1_mean_AM Var1_mean_PM Var2_mean_AM Var2_mean_PM Var1_max_AM
+   &lt;char&gt;        &lt;num&gt;        &lt;num&gt;        &lt;num&gt;        &lt;num&gt;       &lt;num&gt;
+1:      A     11.01966     10.56168     19.29843     20.33720   11.180429
+2:      B      9.27688     10.23019     19.60572     20.96867    9.919536
+3:      C     10.56029     10.34324     20.49868     20.76686   12.481805
+4:      D     10.55553     10.60604     20.09674     19.18035   11.884037
+   Var1_max_PM Var2_max_AM Var2_max_PM Var1_min_AM Var1_min_PM Var2_min_AM
+         &lt;num&gt;       &lt;num&gt;       &lt;num&gt;       &lt;num&gt;       &lt;num&gt;       &lt;num&gt;
+1:    12.42636    19.75811    20.67314   10.858896    8.696999    18.83875
+2:    11.39257    19.83046    21.03389    8.763709    9.056259    19.40920
+3:    11.66064    20.75804    21.81184    9.169376    8.320664    20.13352
+4:    10.87804    20.68816    19.21043    9.227025   10.334032    19.06158
+   Var2_min_PM
+         &lt;num&gt;
+1:    20.00126
+2:    20.90345
+3:    19.49680
+4:    19.15026</code></pre>
+</div>
+</div>
+<p>Note how <code>na.rm = T</code> was successfully applied to all aggregating functions</p>
+</section>
+</section>
+</section>
+<section id="table-joins" class="level2" data-number="24.16">
+<h2 data-number="24.16" class="anchored" data-anchor-id="table-joins"><span class="header-section-number">24.16</span> Table Joins</h2>
+<p><code>data.table</code> allow you to perform table joins with the base <code>merge()</code> function using the same syntax as for data.frame objects or the “data.table way” using bracket notation:</p>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-66_d066f77f5fdd31197d0d392f5cc6d86f">
+<div class="sourceCode cell-code" id="cb184"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb184-1"><a href="#cb184-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="at">PID =</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>),</span>
+<span id="cb184-2"><a href="#cb184-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">Hospital =</span> <span class="fu">c</span>(<span class="st">"UCSF"</span>, <span class="st">"HUP"</span>, <span class="st">"Stanford"</span>, </span>
+<span id="cb184-3"><a href="#cb184-3" aria-hidden="true" tabindex="-1"></a>                             <span class="st">"Stanford"</span>, <span class="st">"UCSF"</span>, <span class="st">"HUP"</span>, </span>
+<span id="cb184-4"><a href="#cb184-4" aria-hidden="true" tabindex="-1"></a>                             <span class="st">"HUP"</span>, <span class="st">"Stanford"</span>, <span class="st">"UCSF"</span>),</span>
+<span id="cb184-5"><a href="#cb184-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">Age =</span> <span class="fu">c</span>(<span class="dv">22</span>, <span class="dv">34</span>, <span class="dv">41</span>, <span class="dv">19</span>, <span class="dv">53</span>, <span class="dv">21</span>, <span class="dv">63</span>, <span class="dv">22</span>, <span class="dv">19</span>),</span>
+<span id="cb184-6"><a href="#cb184-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">Sex =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>),</span>
+<span id="cb184-7"><a href="#cb184-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">key =</span> <span class="st">"PID"</span>)</span>
+<span id="cb184-8"><a href="#cb184-8" aria-hidden="true" tabindex="-1"></a>a</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     PID Hospital   Age   Sex
+   &lt;int&gt;   &lt;char&gt; &lt;num&gt; &lt;num&gt;
+1:     1     UCSF    22     1
+2:     2      HUP    34     1
+3:     3 Stanford    41     0
+4:     4 Stanford    19     1
+5:     5     UCSF    53     0
+6:     6      HUP    21     0
+7:     7      HUP    63     1
+8:     8 Stanford    22     0
+9:     9     UCSF    19     0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb186"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb186-1"><a href="#cb186-1" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="at">PID =</span> <span class="fu">c</span>(<span class="dv">6</span><span class="sc">:</span><span class="dv">12</span>),</span>
+<span id="cb186-2"><a href="#cb186-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">V1 =</span> <span class="fu">c</span>(<span class="dv">153</span>, <span class="dv">89</span>, <span class="dv">112</span>, <span class="dv">228</span>,  <span class="dv">91</span>, <span class="dv">190</span>, <span class="dv">101</span>),</span>
+<span id="cb186-3"><a href="#cb186-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">Department =</span> <span class="fu">c</span>(<span class="st">"Neurology"</span>, <span class="st">"Radiology"</span>, <span class="st">"Emergency"</span>,</span>
+<span id="cb186-4"><a href="#cb186-4" aria-hidden="true" tabindex="-1"></a>                               <span class="st">"Cardiology"</span>, <span class="st">"Surgery"</span>, <span class="st">"Neurology"</span>,</span>
+<span id="cb186-5"><a href="#cb186-5" aria-hidden="true" tabindex="-1"></a>                               <span class="st">"Psychiatry"</span>),</span>
+<span id="cb186-6"><a href="#cb186-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">key =</span> <span class="st">"PID"</span>)</span>
+<span id="cb186-7"><a href="#cb186-7" aria-hidden="true" tabindex="-1"></a>b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     PID    V1 Department
+   &lt;int&gt; &lt;num&gt;     &lt;char&gt;
+1:     6   153  Neurology
+2:     7    89  Radiology
+3:     8   112  Emergency
+4:     9   228 Cardiology
+5:    10    91    Surgery
+6:    11   190  Neurology
+7:    12   101 Psychiatry</code></pre>
+</div>
+</div>
+<p>In the above command we use the <code>key</code> argument to set <code>PID</code> as key. This can be performed after the <code>data.table</code> has been created using the <code>setkey()</code> command:</p>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-67_589984fd5f5d82457087bf8661024e04">
+<div class="sourceCode cell-code" id="cb188"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb188-1"><a href="#cb188-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setkey</span>(a, PID)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Multiple keys can be set, in order, with the same <code>setkey()</code> command, separated by commas, e.g.:</p>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-68_eecd247d91559b94ce81fc40f4402fcc">
+<div class="sourceCode cell-code" id="cb189"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb189-1"><a href="#cb189-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setkey</span>(a, PID, Hospital)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Keys sort the data.table by the corresponding columns and can be used to perform left and right joins with bracket notation seen later.</p>
+<section id="inner" class="level3" data-number="24.16.1">
+<h3 data-number="24.16.1" class="anchored" data-anchor-id="inner"><span class="header-section-number">24.16.1</span> Inner</h3>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-69_6f7b7656fe21b758b85b93c3a65082c9">
+<div class="sourceCode cell-code" id="cb190"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb190-1"><a href="#cb190-1" aria-hidden="true" tabindex="-1"></a><span class="fu">merge</span>(a, b)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     PID Hospital   Age   Sex    V1 Department
+   &lt;int&gt;   &lt;char&gt; &lt;num&gt; &lt;num&gt; &lt;num&gt;     &lt;char&gt;
+1:     6      HUP    21     0   153  Neurology
+2:     7      HUP    63     1    89  Radiology
+3:     8 Stanford    22     0   112  Emergency
+4:     9     UCSF    19     0   228 Cardiology</code></pre>
+</div>
+</div>
+</section>
+<section id="outer" class="level3" data-number="24.16.2">
+<h3 data-number="24.16.2" class="anchored" data-anchor-id="outer"><span class="header-section-number">24.16.2</span> Outer</h3>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-70_91f9f1a37245fb279ac7eee54f566dce">
+<div class="sourceCode cell-code" id="cb192"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb192-1"><a href="#cb192-1" aria-hidden="true" tabindex="-1"></a><span class="fu">merge</span>(a, b, <span class="at">all =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      PID Hospital   Age   Sex    V1 Department
+    &lt;int&gt;   &lt;char&gt; &lt;num&gt; &lt;num&gt; &lt;num&gt;     &lt;char&gt;
+ 1:     1     UCSF    22     1    NA       &lt;NA&gt;
+ 2:     2      HUP    34     1    NA       &lt;NA&gt;
+ 3:     3 Stanford    41     0    NA       &lt;NA&gt;
+ 4:     4 Stanford    19     1    NA       &lt;NA&gt;
+ 5:     5     UCSF    53     0    NA       &lt;NA&gt;
+ 6:     6      HUP    21     0   153  Neurology
+ 7:     7      HUP    63     1    89  Radiology
+ 8:     8 Stanford    22     0   112  Emergency
+ 9:     9     UCSF    19     0   228 Cardiology
+10:    10     &lt;NA&gt;    NA    NA    91    Surgery
+11:    11     &lt;NA&gt;    NA    NA   190  Neurology
+12:    12     &lt;NA&gt;    NA    NA   101 Psychiatry</code></pre>
+</div>
+</div>
+</section>
+<section id="left-outer" class="level3" data-number="24.16.3">
+<h3 data-number="24.16.3" class="anchored" data-anchor-id="left-outer"><span class="header-section-number">24.16.3</span> Left outer</h3>
+<p>Using <code>merge()</code>:</p>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-71_880dfb461fcc2a3a6b276f56b5dcab25">
+<div class="sourceCode cell-code" id="cb194"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb194-1"><a href="#cb194-1" aria-hidden="true" tabindex="-1"></a><span class="fu">merge</span>(a, b, <span class="at">all.x =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     PID Hospital   Age   Sex    V1 Department
+   &lt;int&gt;   &lt;char&gt; &lt;num&gt; &lt;num&gt; &lt;num&gt;     &lt;char&gt;
+1:     1     UCSF    22     1    NA       &lt;NA&gt;
+2:     2      HUP    34     1    NA       &lt;NA&gt;
+3:     3 Stanford    41     0    NA       &lt;NA&gt;
+4:     4 Stanford    19     1    NA       &lt;NA&gt;
+5:     5     UCSF    53     0    NA       &lt;NA&gt;
+6:     6      HUP    21     0   153  Neurology
+7:     7      HUP    63     1    89  Radiology
+8:     8 Stanford    22     0   112  Emergency
+9:     9     UCSF    19     0   228 Cardiology</code></pre>
+</div>
+</div>
+<p>Using bracket notation:</p>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-72_ac243c22f22bf7d66d39651c3288ad1b">
+<div class="sourceCode cell-code" id="cb196"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb196-1"><a href="#cb196-1" aria-hidden="true" tabindex="-1"></a>b[a, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     PID    V1 Department Hospital   Age   Sex
+   &lt;int&gt; &lt;num&gt;     &lt;char&gt;   &lt;char&gt; &lt;num&gt; &lt;num&gt;
+1:     1    NA       &lt;NA&gt;     UCSF    22     1
+2:     2    NA       &lt;NA&gt;      HUP    34     1
+3:     3    NA       &lt;NA&gt; Stanford    41     0
+4:     4    NA       &lt;NA&gt; Stanford    19     1
+5:     5    NA       &lt;NA&gt;     UCSF    53     0
+6:     6   153  Neurology      HUP    21     0
+7:     7    89  Radiology      HUP    63     1
+8:     8   112  Emergency Stanford    22     0
+9:     9   228 Cardiology     UCSF    19     0</code></pre>
+</div>
+</div>
+<p>If keys were not set for a and b, you could specify the column to match on using the <code>on</code> argument:</p>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-73_781b8cf340b019e7eb37f41db9ab6773">
+<div class="sourceCode cell-code" id="cb198"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb198-1"><a href="#cb198-1" aria-hidden="true" tabindex="-1"></a>b[a, on <span class="ot">=</span> <span class="st">"PID"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     PID    V1 Department Hospital   Age   Sex
+   &lt;int&gt; &lt;num&gt;     &lt;char&gt;   &lt;char&gt; &lt;num&gt; &lt;num&gt;
+1:     1    NA       &lt;NA&gt;     UCSF    22     1
+2:     2    NA       &lt;NA&gt;      HUP    34     1
+3:     3    NA       &lt;NA&gt; Stanford    41     0
+4:     4    NA       &lt;NA&gt; Stanford    19     1
+5:     5    NA       &lt;NA&gt;     UCSF    53     0
+6:     6   153  Neurology      HUP    21     0
+7:     7    89  Radiology      HUP    63     1
+8:     8   112  Emergency Stanford    22     0
+9:     9   228 Cardiology     UCSF    19     0</code></pre>
+</div>
+</div>
+<div class="cell" type="rmdnote" data-hash="60_DataTable_cache/html/unnamed-chunk-74_97769e3a021414c3e926f373705a38ca">
+<div class="rmdnote">
+<p>
+The easy way to understand the bracket notation merges is to think that the data.table inside the bracket is used to index the data.table on the outside, therefore the resulting table will have rows dictated by the inside table’s key.
+</p>
+</div>
+</div>
+</section>
+<section id="right-outer" class="level3" data-number="24.16.4">
+<h3 data-number="24.16.4" class="anchored" data-anchor-id="right-outer"><span class="header-section-number">24.16.4</span> Right outer</h3>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-75_c35dcb5464a61c50678f73175a036e38">
+<div class="sourceCode cell-code" id="cb200"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb200-1"><a href="#cb200-1" aria-hidden="true" tabindex="-1"></a><span class="fu">merge</span>(a, b, <span class="at">all.y =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     PID Hospital   Age   Sex    V1 Department
+   &lt;int&gt;   &lt;char&gt; &lt;num&gt; &lt;num&gt; &lt;num&gt;     &lt;char&gt;
+1:     6      HUP    21     0   153  Neurology
+2:     7      HUP    63     1    89  Radiology
+3:     8 Stanford    22     0   112  Emergency
+4:     9     UCSF    19     0   228 Cardiology
+5:    10     &lt;NA&gt;    NA    NA    91    Surgery
+6:    11     &lt;NA&gt;    NA    NA   190  Neurology
+7:    12     &lt;NA&gt;    NA    NA   101 Psychiatry</code></pre>
+</div>
+</div>
+<p>Using bracket notation:</p>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-76_7324e222c798315b7389781e7905d71e">
+<div class="sourceCode cell-code" id="cb202"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb202-1"><a href="#cb202-1" aria-hidden="true" tabindex="-1"></a>a[b, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     PID Hospital   Age   Sex    V1 Department
+   &lt;int&gt;   &lt;char&gt; &lt;num&gt; &lt;num&gt; &lt;num&gt;     &lt;char&gt;
+1:     6      HUP    21     0   153  Neurology
+2:     7      HUP    63     1    89  Radiology
+3:     8 Stanford    22     0   112  Emergency
+4:     9     UCSF    19     0   228 Cardiology
+5:    10     &lt;NA&gt;    NA    NA    91    Surgery
+6:    11     &lt;NA&gt;    NA    NA   190  Neurology
+7:    12     &lt;NA&gt;    NA    NA   101 Psychiatry</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="understanding-reference-semantics-in-data.table" class="level2" data-number="24.17">
+<h2 data-number="24.17" class="anchored" data-anchor-id="understanding-reference-semantics-in-data.table"><span class="header-section-number">24.17</span> Understanding reference semantics in <code>data.table</code></h2>
+<section id="get-objects-location-in-memory-with-address" class="level3" data-number="24.17.1">
+<h3 data-number="24.17.1" class="anchored" data-anchor-id="get-objects-location-in-memory-with-address"><span class="header-section-number">24.17.1</span> Get object’s location in memory with <code>address()</code></h3>
+<p>When you add a new column to an existing data.frame, the data.frame is copied behind the scenes - you can tell becasue its memory address (where it’s physically stored in your computer) changes:</p>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-77_c8b111393103c1c85b507b63f800d5b9">
+<div class="sourceCode cell-code" id="cb204"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb204-1"><a href="#cb204-1" aria-hidden="true" tabindex="-1"></a>df1 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">alpha =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="at">beta =</span> <span class="dv">11</span><span class="sc">:</span><span class="dv">15</span>)</span>
+<span id="cb204-2"><a href="#cb204-2" aria-hidden="true" tabindex="-1"></a><span class="fu">address</span>(df1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "0x105107e88"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb206"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb206-1"><a href="#cb206-1" aria-hidden="true" tabindex="-1"></a>df1<span class="sc">$</span>gamma <span class="ot">&lt;-</span> df1<span class="sc">$</span>alpha <span class="sc">+</span> df1<span class="sc">$</span>beta</span>
+<span id="cb206-2"><a href="#cb206-2" aria-hidden="true" tabindex="-1"></a><span class="fu">address</span>(df1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "0x105f21b08"</code></pre>
+</div>
+</div>
+<p>When you add a new column in a data.table <strong><em>in-place</em></strong> its address remains unchanged:</p>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-78_806e334dcb03ec112ad943ecb356f297">
+<div class="sourceCode cell-code" id="cb208"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb208-1"><a href="#cb208-1" aria-hidden="true" tabindex="-1"></a>dt1 <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="at">alpha =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="at">beta =</span> <span class="dv">11</span><span class="sc">:</span><span class="dv">15</span>)</span>
+<span id="cb208-2"><a href="#cb208-2" aria-hidden="true" tabindex="-1"></a><span class="fu">address</span>(dt1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "0x109ba7e00"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb210"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb210-1"><a href="#cb210-1" aria-hidden="true" tabindex="-1"></a>dt1[, gamma <span class="sc">:</span><span class="er">=</span> alpha <span class="sc">+</span> beta]</span>
+<span id="cb210-2"><a href="#cb210-2" aria-hidden="true" tabindex="-1"></a><span class="fu">address</span>(dt1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "0x109ba7e00"</code></pre>
+</div>
+</div>
+</section>
+<section id="reference-semantics-at-work" class="level3" data-number="24.17.2">
+<h3 data-number="24.17.2" class="anchored" data-anchor-id="reference-semantics-at-work"><span class="header-section-number">24.17.2</span> Reference semantics at work</h3>
+<p>Up to now, you are likely used to working with regular R objects that behave like this:</p>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-79_bc04dcd064929ddd22671bb16f2c4001">
+<div class="sourceCode cell-code" id="cb212"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb212-1"><a href="#cb212-1" aria-hidden="true" tabindex="-1"></a>df1 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">a =</span> <span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">5</span>))</span>
+<span id="cb212-2"><a href="#cb212-2" aria-hidden="true" tabindex="-1"></a>df1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  a
+1 1
+2 1
+3 1
+4 1
+5 1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb214"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb214-1"><a href="#cb214-1" aria-hidden="true" tabindex="-1"></a>df2 <span class="ot">&lt;-</span> df1</span>
+<span id="cb214-2"><a href="#cb214-2" aria-hidden="true" tabindex="-1"></a>df2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  a
+1 1
+2 1
+3 1
+4 1
+5 1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb216"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb216-1"><a href="#cb216-1" aria-hidden="true" tabindex="-1"></a>df2<span class="sc">$</span>a <span class="ot">&lt;-</span> df2<span class="sc">$</span>a<span class="sc">*</span><span class="dv">2</span></span>
+<span id="cb216-2"><a href="#cb216-2" aria-hidden="true" tabindex="-1"></a>df2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  a
+1 2
+2 2
+3 2
+4 2
+5 2</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb218"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb218-1"><a href="#cb218-1" aria-hidden="true" tabindex="-1"></a>df1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  a
+1 1
+2 1
+3 1
+4 1
+5 1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb220"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb220-1"><a href="#cb220-1" aria-hidden="true" tabindex="-1"></a><span class="fu">address</span>(df1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "0x105b7b2a8"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb222"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb222-1"><a href="#cb222-1" aria-hidden="true" tabindex="-1"></a><span class="fu">address</span>(df2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "0x105d9d660"</code></pre>
+</div>
+</div>
+<p><code>data.table</code> uses “reference semantics” or “pass-by-reference”. Be very careful or you might be mightily confused:</p>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-80_7523fc7d7996691cd85247609e211c91">
+<div class="sourceCode cell-code" id="cb224"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb224-1"><a href="#cb224-1" aria-hidden="true" tabindex="-1"></a>dt1 <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="at">a =</span> <span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">5</span>))</span>
+<span id="cb224-2"><a href="#cb224-2" aria-hidden="true" tabindex="-1"></a>dt1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       a
+   &lt;num&gt;
+1:     1
+2:     1
+3:     1
+4:     1
+5:     1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb226"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb226-1"><a href="#cb226-1" aria-hidden="true" tabindex="-1"></a>dt2 <span class="ot">&lt;-</span> dt1</span>
+<span id="cb226-2"><a href="#cb226-2" aria-hidden="true" tabindex="-1"></a>dt2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       a
+   &lt;num&gt;
+1:     1
+2:     1
+3:     1
+4:     1
+5:     1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb228"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb228-1"><a href="#cb228-1" aria-hidden="true" tabindex="-1"></a>dt2[, a <span class="sc">:</span><span class="er">=</span> a <span class="sc">*</span> <span class="dv">2</span>]</span>
+<span id="cb228-2"><a href="#cb228-2" aria-hidden="true" tabindex="-1"></a>dt2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       a
+   &lt;num&gt;
+1:     2
+2:     2
+3:     2
+4:     2
+5:     2</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb230"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb230-1"><a href="#cb230-1" aria-hidden="true" tabindex="-1"></a>dt1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       a
+   &lt;num&gt;
+1:     2
+2:     2
+3:     2
+4:     2
+5:     2</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb232"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb232-1"><a href="#cb232-1" aria-hidden="true" tabindex="-1"></a><span class="fu">address</span>(dt1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "0x119caa600"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb234"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb234-1"><a href="#cb234-1" aria-hidden="true" tabindex="-1"></a><span class="fu">address</span>(dt2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "0x119caa600"</code></pre>
+</div>
+</div>
+<div class="cell" type="rmdnote" data-hash="60_DataTable_cache/html/unnamed-chunk-81_2d39303834e279e9da0359204f33be25">
+<div class="rmdnote">
+<p>
+If you want to create a copy of a data.table, use <code>copy()</code>:
+</p>
+</div>
+</div>
+<div class="cell" data-hash="60_DataTable_cache/html/unnamed-chunk-82_1cd7e407d0b32499a575dfff6efbf6f9">
+<div class="sourceCode cell-code" id="cb236"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb236-1"><a href="#cb236-1" aria-hidden="true" tabindex="-1"></a>dt3 <span class="ot">&lt;-</span> <span class="fu">copy</span>(dt1)</span>
+<span id="cb236-2"><a href="#cb236-2" aria-hidden="true" tabindex="-1"></a>dt3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       a
+   &lt;num&gt;
+1:     2
+2:     2
+3:     2
+4:     2
+5:     2</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb238"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb238-1"><a href="#cb238-1" aria-hidden="true" tabindex="-1"></a><span class="fu">address</span>(dt3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "0x10491ba00"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb240"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb240-1"><a href="#cb240-1" aria-hidden="true" tabindex="-1"></a>dt3[, a <span class="sc">:</span><span class="er">=</span> a <span class="sc">*</span> <span class="dv">2</span>]</span>
+<span id="cb240-2"><a href="#cb240-2" aria-hidden="true" tabindex="-1"></a>dt3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       a
+   &lt;num&gt;
+1:     4
+2:     4
+3:     4
+4:     4
+5:     4</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb242"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb242-1"><a href="#cb242-1" aria-hidden="true" tabindex="-1"></a>dt1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       a
+   &lt;num&gt;
+1:     2
+2:     2
+3:     2
+4:     2
+5:     2</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="dtresources" class="level2" data-number="24.18">
+<h2 data-number="24.18" class="anchored" data-anchor-id="dtresources"><span class="header-section-number">24.18</span> Resources</h2>
+<p><a href="https://github.com/Rdatatable/data.table">data.table GitHub</a> <a href="https://rdatatable.gitlab.io/data.table/">data.table docs</a> <a href="https://cran.r-project.org/web/packages/data.table/vignettes/datatable-intro.html">Introduction to data.table vignette</a></p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+    } else {
+      disableStylesheet(alternateStylesheets);
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } 
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./54_ClassesAndOOP.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Classes and Object-Oriented Programming</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./62_dplyr.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Introduction to dplyr</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

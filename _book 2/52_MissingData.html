@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-0.9.377">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>PDSR - 22&nbsp; Handling Missing data</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<link href="./54_ClassesAndOOP.html" rel="next">
+<link href="./50_DateTime.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link class="quarto-color-scheme" id="quarto-text-highlighting-styles" href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+<link class="quarto-color-scheme quarto-color-alternate" rel="prefetch" id="quarto-text-highlighting-styles" href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link class="quarto-color-scheme" href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<link class="quarto-color-scheme quarto-color-alternate" rel="prefetch" href="site_libs/bootstrap/bootstrap-dark.min.css">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="bootstrap.lambdamd.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Handling Missing data</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">PDSR</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/egenn/pdsr" title="" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle sidebar-tool" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">Welcome</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01_Preface.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02_Introduction.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04_Packages.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">R, IDEs, Packages, Docs</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_BasicOps.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Basic operations</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_Datatypes.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Data Types</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_DataStructures.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Data Structures</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09_Factors.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Factors</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10_Indexing.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Indexing - Slicing</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12_Vectorization.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Vectorized Operations</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./15_InputOutput.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Data Input/Output</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./20_ControlFlow.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Control flow</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./24_Summarize.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Summarizing Data</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./26_Aggregate.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Aggregate</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./30_Functions.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Functions</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./32_LoopFunctions.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Loop Functions</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./40_DataFrames.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Data frames</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./42_TableJoins.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Table joins</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./44_Reshaping.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Reshaping</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./46_DataTrans.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Data Transformations</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./48_StringOps.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">String Operations</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./50_DateTime.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Date and Time</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./52_MissingData.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Handling Missing data</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./54_ClassesAndOOP.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Classes and Object-Oriented Programming</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./60_DataTable.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Efficient data analysis with <strong>data.table</strong></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./62_dplyr.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Introduction to dplyr</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./70_BaseGraphics.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Base Graphics</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./72_3xGraphics.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">3x Graphics</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./74_Colors.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Colors in R</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./80_Profiling.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Benchmarking &amp; Profiling</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./82_Optimization.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Optimization with <code>optim()</code></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./84_HypothesisTesting.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Common statistical tests</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./85_GLM.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Introduction to the GLM</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./86_Resampling.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Resampling</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./87_Supervised.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Supervised Learning</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./88_Unsupervised.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Unsupervised Learning</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./94_GitHubIntro.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Git &amp; GitHub: the basics</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./95_TerminalIntro.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">Introduction to the system shell</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./98_Resources.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">38</span>&nbsp; <span class="chapter-title">Resources</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./200_CrashCourse.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">39</span>&nbsp; <span class="chapter-title">DCR Intro to R</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./99_References.html" class="sidebar-item-text sidebar-link">References</a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#check-for-missing-data" id="toc-check-for-missing-data" class="nav-link active" data-scroll-target="#check-for-missing-data"> <span class="header-section-number">22.1</span> Check for missing data</a>
+  <ul class="collapse">
+  <li><a href="#visualize" id="toc-visualize" class="nav-link" data-scroll-target="#visualize"> <span class="header-section-number">22.1.1</span> Visualize</a></li>
+  <li><a href="#summarize" id="toc-summarize" class="nav-link" data-scroll-target="#summarize"> <span class="header-section-number">22.1.2</span> Summarize</a></li>
+  </ul></li>
+  <li><a href="#handle-missing-data" id="toc-handle-missing-data" class="nav-link" data-scroll-target="#handle-missing-data"> <span class="header-section-number">22.2</span> Handle missing data</a>
+  <ul class="collapse">
+  <li><a href="#do-nothing" id="toc-do-nothing" class="nav-link" data-scroll-target="#do-nothing"> <span class="header-section-number">22.2.1</span> Do nothing</a></li>
+  <li><a href="#use-complete-cases-only" id="toc-use-complete-cases-only" class="nav-link" data-scroll-target="#use-complete-cases-only"> <span class="header-section-number">22.2.2</span> Use complete cases only</a></li>
+  <li><a href="#replace-with-a-fixed-value" id="toc-replace-with-a-fixed-value" class="nav-link" data-scroll-target="#replace-with-a-fixed-value"> <span class="header-section-number">22.2.3</span> Replace with a fixed value</a></li>
+  <li><a href="#last-observation-carried-forward-locf" id="toc-last-observation-carried-forward-locf" class="nav-link" data-scroll-target="#last-observation-carried-forward-locf"> <span class="header-section-number">22.2.4</span> Last observation carried forward (LOCF)</a></li>
+  <li><a href="#replace-missing-values-with-estimated-values" id="toc-replace-missing-values-with-estimated-values" class="nav-link" data-scroll-target="#replace-missing-values-with-estimated-values"> <span class="header-section-number">22.2.5</span> Replace missing values with estimated values</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="missingdata" class="quarto-section-identifier d-none d-lg-block"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Handling Missing data</span></span></h1>
+</div>
+
+
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<div class="cell">
+
+</div>
+<style type="text/css" scoped="">
+PRE.fansi SPAN {padding-top: .25em; padding-bottom: .25em};
+</style>
+<p>Missing data is a very common issue in statistics and data science.</p>
+<p>Data may be missing for a variety of reasons. We often characterize the type of missingness using the following three types <span class="citation" data-cites="mack2018managing">(<a href="99_References.html#ref-mack2018managing" role="doc-biblioref">Mack, Su, and Westreich 2018</a>)</span>:</p>
+<ul>
+<li><strong>Missing completely at random (MCAR)</strong>: “The fact that the data are missing is independent of the observed and unobserved data”</li>
+<li><strong>Missing at random (MAR)</strong>: “The fact that the data are missing is systematically related to the observed but not the unobserved data”</li>
+<li><strong>Missing not at random (MNAR)</strong>: “The fact that the data are missing is systematically related to the unobserved data”</li>
+</ul>
+<section id="check-for-missing-data" class="level2" data-number="22.1">
+<h2 data-number="22.1" class="anchored" data-anchor-id="check-for-missing-data"><span class="header-section-number">22.1</span> Check for missing data</h2>
+<p>You can use your favorite base R commands to check for missing data, count NA elements by row, by column, total, etc.</p>
+<p>Let’s load the <code>PimaIndiansDiabetes2</code> dataset from the <strong>mlbench</strong> package and make a copy of it to variable <code>dat</code>. Remember to check the class of a new object you didn’t create yourself with <code>class()</code>, check its dimensions, if applicable, with <code>dim()</code>, and a get a summary of its structure including data types with <code>str()</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"PimaIndiansDiabetes2"</span>, <span class="at">package =</span> <span class="st">"mlbench"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> PimaIndiansDiabetes2</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(dat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "data.frame"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(dat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 768   9</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(dat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   768 obs. of  9 variables:
+ $ pregnant: num  6 1 8 1 0 5 3 10 2 8 ...
+ $ glucose : num  148 85 183 89 137 116 78 115 197 125 ...
+ $ pressure: num  72 66 64 66 40 74 50 NA 70 96 ...
+ $ triceps : num  35 29 NA 23 35 NA 32 NA 45 NA ...
+ $ insulin : num  NA NA NA 94 168 NA 88 NA 543 NA ...
+ $ mass    : num  33.6 26.6 23.3 28.1 43.1 25.6 31 35.3 30.5 NA ...
+ $ pedigree: num  0.627 0.351 0.672 0.167 2.288 ...
+ $ age     : num  50 31 32 21 33 30 26 29 53 54 ...
+ $ diabetes: Factor w/ 2 levels "neg","pos": 2 1 2 1 2 1 2 1 2 2 ...</code></pre>
+</div>
+</div>
+<p>Check if there are any missing values in the data.frame with <code>anyNA()</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anyNA</span>(dat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+</div>
+<p>The above suggests there is one or more <code>NA</code> values in the dataset.</p>
+<p>We can create a logical index of NA values using <code>is.na()</code>. Remember that the output of <code>is.na()</code> is a logical matrix with the same dimensions as the dataset:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>na_index <span class="ot">&lt;-</span> <span class="fu">is.na</span>(dat)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(na_index)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 768   9</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(na_index)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  pregnant glucose pressure triceps insulin  mass pedigree   age diabetes
+1    FALSE   FALSE    FALSE   FALSE    TRUE FALSE    FALSE FALSE    FALSE
+2    FALSE   FALSE    FALSE   FALSE    TRUE FALSE    FALSE FALSE    FALSE
+3    FALSE   FALSE    FALSE    TRUE    TRUE FALSE    FALSE FALSE    FALSE
+4    FALSE   FALSE    FALSE   FALSE   FALSE FALSE    FALSE FALSE    FALSE
+5    FALSE   FALSE    FALSE   FALSE   FALSE FALSE    FALSE FALSE    FALSE
+6    FALSE   FALSE    FALSE    TRUE    TRUE FALSE    FALSE FALSE    FALSE</code></pre>
+</div>
+</div>
+<p>One way to count missing values is with <code>sum(is.na())</code>. Remember that a logical array is coerced to an integer array for mathematical operations, where <code>TRUE</code> becomes 1 and <code>FALSE</code> becomes 0. Therefore, calling <code>sum()</code> on a logical index counts the number of <code>TRUE</code> elements (and since we are applying it on the index of <code>NA</code> values, it counts the number of elements with missing values):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(dat))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 652</code></pre>
+</div>
+</div>
+<p>There are 652 <code>NA</code> values in total in the data.frame.</p>
+<p>Let’s count the number of missing values per feature, i.e.&nbsp;per column, using <code>sapply()</code>(#sapply):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(dat, <span class="cf">function</span>(i) <span class="fu">sum</span>(<span class="fu">is.na</span>(i)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>pregnant  glucose pressure  triceps  insulin     mass pedigree      age 
+       0        5       35      227      374       11        0        0 
+diabetes 
+       0 </code></pre>
+</div>
+</div>
+<p>The features <code>insulin</code> and <code>triceps</code> have the most NA values.</p>
+<p>Let’s count the number of missing values per case (i.e.&nbsp;row):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(dat), <span class="cf">function</span>(i) <span class="fu">sum</span>(<span class="fu">is.na</span>(dat[i, ])))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  [1] 1 1 2 0 0 2 0 3 0 3 2 2 2 0 0 3 0 2 0 0 0 2 2 1 0 0 2 0 0 2 1 0 0 2 1 0 2
+ [38] 1 1 0 0 2 1 0 2 1 2 1 1 4 0 0 0 0 0 1 0 0 2 0 4 2 2 0 2 1 1 2 0 0 0 0 2 0
+ [75] 1 2 2 1 3 1 1 4 0 1 2 0 1 0 0 1 2 0 0 2 0 0 1 0 0 0 2 2 2 0 2 0 2 0 0 0 0
+[112] 0 0 2 0 2 2 2 1 0 0 1 0 2 2 0 0 0 0 2 0 2 0 1 0 0 0 0 2 0 2 1 0 2 0 2 1 0
+[149] 2 1 0 2 0 0 2 1 0 0 0 0 1 0 0 1 2 0 1 2 2 0 2 0 2 0 0 0 2 0 2 2 2 0 1 2 2
+[186] 1 0 0 0 0 2 0 2 3 1 0 2 0 0 0 1 2 1 0 0 1 0 2 0 1 1 1 1 0 0 0 0 0 1 2 0 2
+[223] 3 0 0 0 2 1 0 0 2 0 0 2 0 2 0 1 1 2 1 0 2 0 0 1 2 0 0 1 2 2 0 1 0 1 1 1 0
+[260] 0 0 3 1 1 2 0 3 1 2 3 1 0 2 0 2 0 1 0 2 0 2 0 0 2 2 0 0 0 0 0 0 0 0 0 2 0
+[297] 0 0 0 2 3 0 0 2 2 0 0 0 0 0 1 0 0 0 1 0 0 2 0 2 0 1 1 0 1 0 0 2 0 0 1 0 3
+[334] 2 0 0 3 2 0 2 0 0 2 2 2 0 0 3 0 2 2 2 1 0 2 2 0 2 0 0 0 2 1 2 0 0 2 1 0 0
+[371] 0 1 0 0 0 0 0 0 2 0 0 1 0 0 0 0 1 1 0 0 0 2 0 0 2 0 0 1 2 1 2 2 0 1 2 0 2
+[408] 2 2 0 1 0 0 0 0 0 1 1 2 0 0 0 0 1 0 0 4 0 0 0 3 0 0 2 1 3 1 2 1 2 1 0 0 2
+[445] 1 0 0 0 0 0 0 2 0 3 0 1 2 0 0 0 0 2 0 1 2 0 0 0 3 0 1 1 1 2 2 1 0 0 0 1 0
+[482] 1 0 0 3 0 0 0 1 2 0 1 1 0 4 2 2 0 0 0 0 1 2 0 1 2 0 0 0 2 1 0 2 2 0 0 0 2
+[519] 2 0 0 0 4 2 2 1 0 0 0 2 0 2 0 3 0 3 2 2 0 0 0 0 1 0 0 0 0 0 0 1 1 0 2 0 0
+[556] 0 1 2 1 2 2 0 0 0 2 0 0 0 0 0 2 2 0 0 0 0 0 2 2 1 1 1 1 2 0 1 2 2 0 3 1 0
+[593] 2 0 0 0 2 0 2 0 1 3 1 0 3 1 0 0 0 0 0 0 0 1 0 2 2 0 1 3 0 1 2 0 2 0 2 2 2
+[630] 1 2 0 2 0 2 2 2 0 0 0 0 2 2 3 0 0 0 0 0 1 0 0 0 2 0 0 0 0 2 0 2 1 0 0 1 0
+[667] 1 1 0 0 0 1 0 0 2 2 2 2 2 0 0 1 0 2 3 0 2 1 0 0 2 2 0 0 2 0 0 3 0 2 0 1 1
+[704] 3 0 1 4 0 2 0 0 0 1 0 2 0 0 1 0 1 1 0 0 0 2 1 0 1 2 2 0 2 0 0 2 1 0 1 0 2
+[741] 0 0 0 2 0 0 1 0 0 2 2 0 1 0 1 0 1 2 2 2 0 1 2 0 1 0 2 1</code></pre>
+</div>
+</div>
+<p>If we wanted to get the row with the most missing values, we can use <code>which.max()</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">which.max</span>(<span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(dat), <span class="cf">function</span>(i) <span class="fu">sum</span>(<span class="fu">is.na</span>(dat[i, ]))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 50</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(dat[<span class="dv">50</span>, ]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4</code></pre>
+</div>
+</div>
+<p>Row 50 has 4 missing values.</p>
+<section id="visualize" class="level3" data-number="22.1.1">
+<h3 data-number="22.1.1" class="anchored" data-anchor-id="visualize"><span class="header-section-number">22.1.1</span> Visualize</h3>
+<p>It may be helpful to visualize missing data to get a quick impression of missingness. The <a href="https://rtemis.lambdamd.org/"><strong>rtemis</strong></a> package includes the function <code>mplot3_missing()</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rtemis)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>  .:rtemis 0.91 🌊 aarch64-apple-darwin20 (64-bit)
+
+  Defaults
+  |   Theme: whitegrid
+  |    Font: Fira Sans
+  | Palette: rtCol1
+  |    Plan: multicore
+  |   Cores: 8/10 available
+
+  Resources
+  | Documentation: https://rtemis.lambdamd.org
+  |       Learn R: https://class.lambdamd.org/pdsr
+  | rtemis themes: https://egenn.lambdamd.org/software/#rtemis_themes
+  |          Cite: `citation("rtemis")`
+
+  Setup
+  | Enable progress reporting: `progressr::handlers(global = TRUE)`</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mplot3_missing</span>(dat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="52_MissingData_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="480"></p>
+</div>
+</div>
+<p>Missing data is shown in magenta by default. The row below the image shows total <code>NA</code> values per column</p>
+</section>
+<section id="summarize" class="level3" data-number="22.1.2">
+<h3 data-number="22.1.2" class="anchored" data-anchor-id="summarize"><span class="header-section-number">22.1.2</span> Summarize</h3>
+<p>Get N of missing per column:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(dat, <span class="cf">function</span>(i) <span class="fu">sum</span>(<span class="fu">is.na</span>(i)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>pregnant  glucose pressure  triceps  insulin     mass pedigree      age 
+       0        5       35      227      374       11        0        0 
+diabetes 
+       0 </code></pre>
+</div>
+</div>
+<p><code>rtemis::checkData()</code> includes information on missing data:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">checkData</span>(dat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre class="fansi fansi-output"><code> <span style="color: #00BBBB; font-weight: bold;">dat</span>: A data.frame with <span style="color: #00BBBB; font-weight: bold;">768</span> rows and <span style="color: #00BBBB; font-weight: bold;">9</span> features
+<span style="font-weight: bold;">
+  Data types</span>________________
+  * <span style="font-weight: bold;">8</span> continuous features
+  * <span style="font-weight: bold;">0</span> integer features
+  * <span style="font-weight: bold;">1</span> categorical feature, which is not ordered
+  * <span style="font-weight: bold;">0</span> character features
+  * 0 date features
+<span style="font-weight: bold;">
+  Issues</span>____________________
+  * <span style="font-weight: bold;">0</span> constant features
+  * <span style="font-weight: bold;">0</span> duplicated cases
+  * <span style="color: #BBBB00; font-weight: bold;">5</span> features include 'NA' values; <span style="color: #BBBB00; font-weight: bold;">652</span> 'NA' values total
+     - Max percent missing in a feature is <span style="color: #BBBB00; font-weight: bold;">48.70%</span> (<span style="font-weight: bold;">insulin</span>)
+     - Max percent missing in a case is <span style="color: #BBBB00; font-weight: bold;">44.44%</span> (case #<span style="font-weight: bold;">50</span>)
+<span style="font-weight: bold;">
+  Recommendations</span>___________
+<span style="color: #BBBB00; font-weight: bold;">  * Consider imputing missing values or use complete cases only</span>
+</code></pre>
+</div>
+</section>
+</section>
+<section id="handle-missing-data" class="level2" data-number="22.2">
+<h2 data-number="22.2" class="anchored" data-anchor-id="handle-missing-data"><span class="header-section-number">22.2</span> Handle missing data</h2>
+<p>Different approaches can be used to handle missing data:</p>
+<ul>
+<li>Do nothing - if your algorithm(s) can handle missing data (decision trees!)</li>
+<li><strong>Exclude</strong> data: Use complete cases only</li>
+<li><strong>Fill in</strong> (make up) data: Replace or Impute
+<ul>
+<li>Replace with median/mean</li>
+<li>Predict missing from present
+<ul>
+<li>Single imputation</li>
+<li>Multiple imputation</li>
+</ul></li>
+</ul></li>
+</ul>
+<section id="do-nothing" class="level3" data-number="22.2.1">
+<h3 data-number="22.2.1" class="anchored" data-anchor-id="do-nothing"><span class="header-section-number">22.2.1</span> Do nothing</h3>
+<p>Algorithms like decision trees and ensemble methods that use decision trees like random forest and gradient boosting can handle missing data, depending on the particular implementation. For example, <code>rpart::rpart()</code> which is used by <code>rtemis::s_CART()</code> has no trouble with missing data in the predictors:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>dat.cart <span class="ot">&lt;-</span> <span class="fu">s_CART</span>(dat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre class="fansi fansi-output"><code><span style="color: #555555;">[2022-05-10 16:58:06</span><span style="color: #555555; font-weight: bold;"> s_CART</span><span style="color: #555555;">] Hello,</span> <span style="color: #555555;">egenn</span> 
+
+<span style="color: #555555;">[2022-05-10 16:58:06</span><span style="color: #555555; font-weight: bold;"> dataPrepare</span><span style="color: #555555;">] </span>Imbalanced classes: using Inverse Probability Weighting 
+
+<span style="font-weight: 100;">.:</span><span style="font-weight: bold;">Classification Input Summary</span>
+Training features: <span style="font-weight: bold;">768 x 8 
+</span> Training outcome: <span style="font-weight: bold;">768 x 1 
+</span> Testing features: Not available
+  Testing outcome: Not available
+
+<span style="color: #555555;">[2022-05-10 16:58:06</span><span style="color: #555555; font-weight: bold;"> s_CART</span><span style="color: #555555;">] </span>Training CART... 
+
+<span style="font-weight: 100;">.:</span><span style="font-weight: bold;">CART Classification Training Summary</span>
+<span style="font-weight: bold;">                   Reference</span> 
+<span style="font-weight: bold;">        Estimated</span>  <span style="color: #00BBBB; font-weight: bold;">neg  pos  </span>
+<span style="color: #00BBBB; font-weight: bold;">              neg</span>  426   89
+<span style="color: #00BBBB; font-weight: bold;">              pos</span>   74  179
+
+                   <span style="color: #00BBBB; font-weight: bold;">Overall  </span>
+      Sensitivity  0.8520 
+      Specificity  0.6679 
+Balanced Accuracy  0.7600 
+              PPV  0.8272 
+              NPV  0.7075 
+               F1  0.8394 
+         Accuracy  0.7878 
+              AUC  0.7854 
+
+  Positive Class:  <span style="color: #00BBBB; font-weight: bold;">neg</span> 
+</code></pre>
+<div class="cell-output-display">
+<p><img src="52_MissingData_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="480"></p>
+</div>
+<pre class="fansi fansi-output"><code><span style="color: #555555;">[2022-05-10 16:58:06</span><span style="color: #555555; font-weight: bold;"> s_CART</span><span style="color: #555555;">] Run completed in 0.01 minutes (Real: 0.45; User: 0.39; System: 0.02)</span> 
+</code></pre>
+</div>
+</section>
+<section id="use-complete-cases-only" class="level3" data-number="22.2.2">
+<h3 data-number="22.2.2" class="anchored" data-anchor-id="use-complete-cases-only"><span class="header-section-number">22.2.2</span> Use complete cases only</h3>
+<p>R’s builtin <code>complete.cases()</code> function returns, as the name suggests, a logical index of cases (i.e.&nbsp;rows) that have no missing values, i.e.&nbsp;are complete.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(dat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 768   9</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>index_cc <span class="ot">&lt;-</span> <span class="fu">complete.cases</span>(dat)</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(index_cc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "logical"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(index_cc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 768</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(index_cc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE FALSE FALSE  TRUE  TRUE FALSE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>dat_cc <span class="ot">&lt;-</span> dat[index_cc, ]</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(dat_cc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 392   9</code></pre>
+</div>
+</div>
+<p>We lost 376 cases in the above example. That’s quite a few, so, for this dataset, we probably want to look at options that do not exclude cases.</p>
+</section>
+<section id="replace-with-a-fixed-value" class="level3" data-number="22.2.3">
+<h3 data-number="22.2.3" class="anchored" data-anchor-id="replace-with-a-fixed-value"><span class="header-section-number">22.2.3</span> Replace with a fixed value</h3>
+<p>We can manually replace missing values with the mean or median in the case of a continuous variable, or with the mode in the case of a categorical feature.<br>
+For example, to replace the first feature’s missing values with the mean:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>pressure_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(dat<span class="sc">$</span>pressure, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>dat_im <span class="ot">&lt;-</span> dat</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>dat_im<span class="sc">$</span>pressure[<span class="fu">is.na</span>(dat_im<span class="sc">$</span>pressure)] <span class="ot">&lt;-</span> pressure_mean</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><code>rtemis::preprocess()</code> can replace missing values with mean (for numeric features) and the mode (for factors) for all columns:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>dat_pre <span class="ot">&lt;-</span> <span class="fu">preprocess</span>(dat, <span class="at">impute =</span> <span class="cn">TRUE</span>, <span class="at">impute.type =</span> <span class="st">"meanMode"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre class="fansi fansi-output"><code><span style="color: #555555;">[2022-05-10 16:58:06</span><span style="color: #555555; font-weight: bold;"> preprocess</span><span style="color: #555555;">] </span>Imputing missing values using mean and getMode... 
+<span style="color: #555555;">[2022-05-10 16:58:06</span><span style="color: #555555; font-weight: bold;"> preprocess</span><span style="color: #555555;">] </span>Done 
+</code></pre>
+</div>
+<p>Verify there are no missing data by rerunning <code>checkData()</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">checkData</span>(dat_pre)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre class="fansi fansi-output"><code> <span style="color: #00BBBB; font-weight: bold;">dat_pre</span>: A data.frame with <span style="color: #00BBBB; font-weight: bold;">768</span> rows and <span style="color: #00BBBB; font-weight: bold;">9</span> features
+<span style="font-weight: bold;">
+  Data types</span>________________
+  * <span style="font-weight: bold;">8</span> continuous features
+  * <span style="font-weight: bold;">0</span> integer features
+  * <span style="font-weight: bold;">1</span> categorical feature, which is not ordered
+  * <span style="font-weight: bold;">0</span> character features
+  * 0 date features
+<span style="font-weight: bold;">
+  Issues</span>____________________
+  * <span style="font-weight: bold;">0</span> constant features
+  * <span style="font-weight: bold;">0</span> duplicated cases
+  * <span style="font-weight: bold;">0</span> features include 'NA' values
+<span style="font-weight: bold;">
+  Recommendations</span>___________
+<span style="color: #00BB00;">  * Everything looks good</span>
+</code></pre>
+</div>
+<p>You may want to include a “missingness” column that indicates which cases were imputed to include in your model. You can create this simply by running:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>pressure_missing <span class="ot">=</span> <span class="fu">factor</span>(<span class="fu">as.integer</span>(<span class="fu">is.na</span>(dat<span class="sc">$</span>pressure)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><code>preprocess()</code> includes the option <code>missingness</code> to add indicator columns after imputation:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>dat_pre <span class="ot">&lt;-</span> <span class="fu">preprocess</span>(dat, <span class="at">impute =</span> <span class="cn">TRUE</span>, <span class="at">impute.type =</span> <span class="st">"meanMode"</span>,</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">missingness =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre class="fansi fansi-output"><code><span style="color: #555555;">[2022-05-10 16:58:06</span><span style="color: #555555; font-weight: bold;"> preprocess</span><span style="color: #555555;">] </span>Created missingness indicator for glucose... 
+<span style="color: #555555;">[2022-05-10 16:58:06</span><span style="color: #555555; font-weight: bold;"> preprocess</span><span style="color: #555555;">] </span>Created missingness indicator for pressure... 
+<span style="color: #555555;">[2022-05-10 16:58:06</span><span style="color: #555555; font-weight: bold;"> preprocess</span><span style="color: #555555;">] </span>Created missingness indicator for triceps... 
+<span style="color: #555555;">[2022-05-10 16:58:06</span><span style="color: #555555; font-weight: bold;"> preprocess</span><span style="color: #555555;">] </span>Created missingness indicator for insulin... 
+<span style="color: #555555;">[2022-05-10 16:58:06</span><span style="color: #555555; font-weight: bold;"> preprocess</span><span style="color: #555555;">] </span>Created missingness indicator for mass... 
+<span style="color: #555555;">[2022-05-10 16:58:06</span><span style="color: #555555; font-weight: bold;"> preprocess</span><span style="color: #555555;">] </span>Imputing missing values using mean and getMode... 
+<span style="color: #555555;">[2022-05-10 16:58:06</span><span style="color: #555555; font-weight: bold;"> preprocess</span><span style="color: #555555;">] </span>Done 
+</code></pre>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dat_pre)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  pregnant glucose pressure  triceps  insulin mass pedigree age diabetes
+1        6     148       72 35.00000 155.5482 33.6    0.627  50      pos
+2        1      85       66 29.00000 155.5482 26.6    0.351  31      neg
+3        8     183       64 29.15342 155.5482 23.3    0.672  32      pos
+4        1      89       66 23.00000  94.0000 28.1    0.167  21      neg
+5        0     137       40 35.00000 168.0000 43.1    2.288  33      pos
+6        5     116       74 29.15342 155.5482 25.6    0.201  30      neg
+  glucose_missing pressure_missing triceps_missing insulin_missing mass_missing
+1               0                0               0               1            0
+2               0                0               0               1            0
+3               0                0               1               1            0
+4               0                0               0               0            0
+5               0                0               0               0            0
+6               0                0               1               1            0</code></pre>
+</div>
+</div>
+<section id="add-new-level-missing" class="level4" data-number="22.2.3.1">
+<h4 data-number="22.2.3.1" class="anchored" data-anchor-id="add-new-level-missing"><span class="header-section-number">22.2.3.1</span> Add new level “missing”</h4>
+<p>One option to handle missing data in categorical variables, is to introduce a new level of “missing” to the factor, instead of replacing with the mode, for example. If we bin a continuous variable to convert to categorical, the same can then also be applied.</p>
+<p>Since no factors have missing values in the current dataset we create a copy and replace some data with <code>NA</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>dat2 <span class="ot">&lt;-</span> dat</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>dat2<span class="sc">$</span>diabetes[<span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">NROW</span>(dat2), <span class="dv">35</span>)] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(dat2<span class="sc">$</span>diabetes))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 35</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(dat2<span class="sc">$</span>diabetes)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "neg" "pos"</code></pre>
+</div>
+</div>
+<p>Replace <code>NA</code> values with new level <code>missing</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>dat_pre2 <span class="ot">&lt;-</span> <span class="fu">preprocess</span>(dat2, <span class="at">factorNA2missing =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre class="fansi fansi-output"><code><span style="color: #555555;">[2022-05-10 16:58:06</span><span style="color: #555555; font-weight: bold;"> preprocess</span><span style="color: #555555;">] </span>Converting NA in factors to level "missing"... 
+<span style="color: #555555;">[2022-05-10 16:58:06</span><span style="color: #555555; font-weight: bold;"> preprocess</span><span style="color: #555555;">] </span>Done 
+</code></pre>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anyNA</span>(dat_pre2<span class="sc">$</span>diabetes)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(dat_pre2<span class="sc">$</span>diabetes)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "neg"     "pos"     "missing"</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="last-observation-carried-forward-locf" class="level3" data-number="22.2.4">
+<h3 data-number="22.2.4" class="anchored" data-anchor-id="last-observation-carried-forward-locf"><span class="header-section-number">22.2.4</span> Last observation carried forward (LOCF)</h3>
+<p>In longitudinal / timeseries data, we may want to replace missing values with the last observed value. This is called last observation carried forward (LOCF). As always, whether this procedure is appropriate depend the reasons for missingness. The <code>zoo</code> and <code>DescTool</code> packages provide commands to perform LOCF.</p>
+<p>Some simulated data. We are missing blood pressure measurements on Saturdays and Sundays:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Day =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Mon"</span>, <span class="st">"Tues"</span>, <span class="st">"Wed"</span>, <span class="st">"Thu"</span>, <span class="st">"Fri"</span>, <span class="st">"Sat"</span>, <span class="st">"Sun"</span>), <span class="dv">3</span>),</span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">SBP =</span> <span class="fu">sample</span>(<span class="dv">105</span><span class="sc">:</span><span class="dv">125</span>, <span class="dv">21</span>, <span class="cn">TRUE</span>))</span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>SBP[dat<span class="sc">$</span>Day <span class="sc">==</span> <span class="st">"Sat"</span> <span class="sc">|</span> dat<span class="sc">$</span>Day <span class="sc">==</span> <span class="st">"Sun"</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>dat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    Day SBP
+1   Mon 117
+2  Tues 118
+3   Wed 118
+4   Thu 114
+5   Fri 109
+6   Sat  NA
+7   Sun  NA
+8   Mon 109
+9  Tues 120
+10  Wed 119
+11  Thu 107
+12  Fri 114
+13  Sat  NA
+14  Sun  NA
+15  Mon 119
+16 Tues 122
+17  Wed 118
+18  Thu 110
+19  Fri 106
+20  Sat  NA
+21  Sun  NA</code></pre>
+</div>
+</div>
+<p>The <strong>zoo</strong> package includes the <code>na.locf()</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>SBPlocf <span class="ot">&lt;-</span> zoo<span class="sc">::</span><span class="fu">na.locf</span>(dat<span class="sc">$</span>SBP)</span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>dat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    Day SBP SBPlocf
+1   Mon 117     117
+2  Tues 118     118
+3   Wed 118     118
+4   Thu 114     114
+5   Fri 109     109
+6   Sat  NA     109
+7   Sun  NA     109
+8   Mon 109     109
+9  Tues 120     120
+10  Wed 119     119
+11  Thu 107     107
+12  Fri 114     114
+13  Sat  NA     114
+14  Sun  NA     114
+15  Mon 119     119
+16 Tues 122     122
+17  Wed 118     118
+18  Thu 110     110
+19  Fri 106     106
+20  Sat  NA     106
+21  Sun  NA     106</code></pre>
+</div>
+</div>
+<p>Similar functionality is included in <strong>DescTools</strong>’ <code>LOCF()</code> function:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>DescTools<span class="sc">::</span><span class="fu">LOCF</span>(dat<span class="sc">$</span>SBP)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 117 118 118 114 109 109 109 109 120 119 107 114 114 114 119 122 118 110 106
+[20] 106 106</code></pre>
+</div>
+</div>
+</section>
+<section id="replace-missing-values-with-estimated-values" class="level3" data-number="22.2.5">
+<h3 data-number="22.2.5" class="anchored" data-anchor-id="replace-missing-values-with-estimated-values"><span class="header-section-number">22.2.5</span> Replace missing values with estimated values</h3>
+<section id="single-imputation" class="level4" data-number="22.2.5.1">
+<h4 data-number="22.2.5.1" class="anchored" data-anchor-id="single-imputation"><span class="header-section-number">22.2.5.1</span> Single imputation</h4>
+<p>You can use non-missing data to predict missing data in an iterative procedure <span class="citation" data-cites="buuren2010mice stekhoven2012missforest">(<a href="99_References.html#ref-buuren2010mice" role="doc-biblioref">Buuren and Groothuis-Oudshoorn 2010</a>; <a href="99_References.html#ref-stekhoven2012missforest" role="doc-biblioref">Stekhoven and Bühlmann 2012</a>)</span>. The <strong><code>missRanger</code></strong> package uses the optimized (and parallel-capable) package <strong><code>ranger</code></strong> <span class="citation" data-cites="wright2015ranger">(<a href="99_References.html#ref-wright2015ranger" role="doc-biblioref">Wright and Ziegler 2015</a>)</span> to iteratively train random forest models for imputation.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(missRanger)</span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> iris</span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2020</span>)</span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a>dat[<span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">150</span>, <span class="dv">5</span>), <span class="dv">1</span>] <span class="ot">&lt;-</span> dat[<span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">150</span>, <span class="dv">22</span>), <span class="dv">4</span>] <span class="ot">&lt;-</span> dat[<span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">150</span>, <span class="dv">18</span>), <span class="dv">4</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a>dat_rfimp <span class="ot">&lt;-</span> <span class="fu">missRanger</span>(dat, <span class="at">num.trees =</span> <span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Missing value imputation by random forests
+
+  Variables to impute:      Sepal.Length, Petal.Width
+  Variables used to impute: Sepal.Length, Sepal.Width, Petal.Length, Petal.Width, Species
+iter 1: ..
+iter 2: ..
+iter 3: ..
+iter 4: ..</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dat_rfimp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+1     5.100000         3.5          1.4         0.2  setosa
+2     4.900000         3.0          1.4         0.2  setosa
+3     4.732533         3.2          1.3         0.2  setosa
+4     4.600000         3.1          1.5         0.2  setosa
+5     5.000000         3.6          1.4         0.2  setosa
+6     5.400000         3.9          1.7         0.4  setosa</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">checkData</span>(dat_rfimp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre class="fansi fansi-output"><code> <span style="color: #00BBBB; font-weight: bold;">dat_rfimp</span>: A data.frame with <span style="color: #00BBBB; font-weight: bold;">150</span> rows and <span style="color: #00BBBB; font-weight: bold;">5</span> features
+<span style="font-weight: bold;">
+  Data types</span>________________
+  * <span style="font-weight: bold;">4</span> continuous features
+  * <span style="font-weight: bold;">0</span> integer features
+  * <span style="font-weight: bold;">1</span> categorical feature, which is not ordered
+     - <span style="font-weight: bold;">1</span> unordered categorical feature has more than 2 levels
+  * <span style="font-weight: bold;">0</span> character features
+  * 0 date features
+<span style="font-weight: bold;">
+  Issues</span>____________________
+  * <span style="font-weight: bold;">0</span> constant features
+  * <span style="color: #BB0000; font-weight: bold;">1</span> duplicated case
+  * <span style="font-weight: bold;">0</span> features include 'NA' values
+<span style="font-weight: bold;">
+  Recommendations</span>___________
+<span style="color: #BBBB00; font-weight: bold;">  * Remove the duplicated case</span>
+  * Check the unordered categorical feature with more than 2 levels and consider
+    if ordering would make sense
+</code></pre>
+</div>
+<p>Note: The default method for <code>preprocess(impute = TRUE)</code> is to use <code>missRanger</code>.</p>
+</section>
+<section id="multiple-imputation" class="level4" data-number="22.2.5.2">
+<h4 data-number="22.2.5.2" class="anchored" data-anchor-id="multiple-imputation"><span class="header-section-number">22.2.5.2</span> Multiple imputation</h4>
+<p>Multiple imputation creates multiple estimates of the missing data. It is more statistically valid for small datasets, especially when the goal is to get accurate estimates of a summary statistics, but may not be practical for larger datasets. It is not usually considered an option for machine learning (where duplicating cases may add bias and complexity in resampling). The package <code>mice</code> is a popular choice for multiple imputation in R.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mice)</span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>dat_mice <span class="ot">&lt;-</span> <span class="fu">mice</span>(dat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
+<div id="ref-buuren2010mice" class="csl-entry" role="doc-biblioentry">
+Buuren, S van, and Karin Groothuis-Oudshoorn. 2010. <span>“Mice: Multivariate Imputation by Chained Equations in r.”</span> <em>Journal of Statistical Software</em>, 1–68.
+</div>
+<div id="ref-mack2018managing" class="csl-entry" role="doc-biblioentry">
+Mack, Christina, Zhaohui Su, and Daniel Westreich. 2018. <span>“Managing Missing Data in Patient Registries: Addendum to Registries for Evaluating Patient Outcomes: A User’s Guide, [Internet].”</span>
+</div>
+<div id="ref-stekhoven2012missforest" class="csl-entry" role="doc-biblioentry">
+Stekhoven, Daniel J, and Peter Bühlmann. 2012. <span>“MissForest—Non-Parametric Missing Value Imputation for Mixed-Type Data.”</span> <em>Bioinformatics</em> 28 (1): 112–18.
+</div>
+<div id="ref-wright2015ranger" class="csl-entry" role="doc-biblioentry">
+Wright, Marvin N, and Andreas Ziegler. 2015. <span>“Ranger: A Fast Implementation of Random Forests for High Dimensional Data in c++ and r.”</span> <em>arXiv Preprint arXiv:1508.04409</em>.
+</div>
+</div>
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+    } else {
+      disableStylesheet(alternateStylesheets);
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } 
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./50_DateTime.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Date and Time</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./54_ClassesAndOOP.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Classes and Object-Oriented Programming</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

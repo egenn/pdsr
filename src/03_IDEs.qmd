@@ -1,0 +1,102 @@
+---
+title: IDEs
+---
+
+```{r echo = FALSE}
+knitr::opts_chunk$set(fig.width = 10, fig.height = 5,
+                      comment = NA, cache = FALSE)
+```
+
+An [Integrated Development Environment (IDE)](https://en.wikipedia.org/wiki/Integrated_development_environment) 
+is a software application that offers extensive functionality for programmers, including ability to read, write, and execute code, develop and test software packages, etc.  
+
+IDEs that support R usually also allow viewing plots or launching web applications within the same environment. An IDE can make working in R easier, more productive, and, importantly, more fun.
+
+## RStudio
+
+[RStudio](https://rstudio.com/) is a very popular Integrated Development 
+Environment ([IDE](https://en.wikipedia.org/wiki/Integrated_development_environment)) 
+for R. This is the recommended environment for beginners. Make sure to keep 
+your installation up-to-date; new features are added often.  
+
+It is recommended to set up a new RStudio project for each data project: 
+
+RStudio projects allows you to organize your work. Each project keeps track of 
+your workspace, open source files, working directory, and history.
+
+To create a new RStudio Project click on File > New Project... from the main 
+menu or the "Create a project" icon (second from top-left usually) in the 
+RStudio toolbar.
+
+## VS Code
+
+Visual Studio Code, a.k.a. [VS Code](https://code.visualstudio.com/) is a
+[source code editor](https://en.wikipedia.org/wiki/Source-code_editor) and one 
+of the [most popular IDEs](https://insights.stackoverflow.com/survey/2021#most-popular-technologies-new-collab-tools)
+across different languages. The 
+[VS Code marketplace](https://code.visualstudio.com/docs/editor/extension-marketplace) 
+includes a very large number of extensions.
+
+The [vscode-R extension](https://github.com/REditorSupport/vscode-R) allows
+using VS Code as an R IDE. To use it, you need to install the 
+[`languageserver`](https://github.com/REditorSupport/languageserver) 
+and [`rlang`](https://cran.r-project.org/web/packages/rlang/index.html) 
+packages:
+
+```r
+install.packages(c("languageserver", "rlang"))
+```
+
+The [`httpgd`](https://github.com/nx10/httpgd) graphics device is recommended.
+Install it using:
+
+```r
+remotes::install_github("nx10/httpgd")
+```
+
+and enable it in the extension settings ("Plot: Use httpgd")
+
+The [Remote - SSH extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh-edit) 
+allows using a local VS Code installation (e.g. on your laptop) and executing 
+code (R, Python, etc.) on a remote server on which you have 
+[SSH](https://en.wikipedia.org/wiki/Secure_Shell) access.
+
+## Jupyter Lab
+
+[Jupyter](https://jupyter.org/) is a popular 
+[notebook interface](https://en.wikipedia.org/wiki/Notebook_interface), which
+supports multiple programming languages, including R.
+
+[JupyterLab](https://jupyterlab.readthedocs.io/en/stable/) is the 
+"next-generation web-based user interface for Project Jupyter".
+
+There are different ways to install jupyter and jupyter-lab.
+
+One way is:
+
+1. Install [miniforge](https://github.com/conda-forge/miniforge)
+2. Use conda to install jupyterlab:
+
+```{sh}
+#| eval: false
+conda install jupyterlab
+```
+
+3. Install the R kernel:
+```{sh}
+#| eval: false
+conda install r-irkernel   
+```
+
+4. Install the IRkernel R packages:
+```{r}
+#| eval: false
+install.packages('IRkernel')
+IRkernel::installspec()
+```
+
+5. Start jupyter-lab:
+```{sh}
+#| eval: false
+jupyter-lab
+```

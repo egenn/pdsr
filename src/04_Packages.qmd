@@ -1,93 +1,19 @@
-# R, IDEs, Packages, Docs {#Rsetup}
+# R packages
 
-```{r echo = FALSE}
-knitr::opts_chunk$set(fig.width = 10, fig.height = 5,
-                      comment = NA, cache = FALSE)
-```
-
-## R
-
-This book was compiled using `r R.Version()$version.string`.  
-Make sure you have the latest version by visiting the [R project website](https://www.r-project.org)
-
-It's a good idea to keep a log of the version of R and installed packages when beginning a new project. An easy way to do this is to save the output of `sessionInfo()`:
-
-```{r}
-sessionInfo()
-```
-
-## IDEs
-
-An [Integrated Development Environment (IDE)](https://en.wikipedia.org/wiki/Integrated_development_environment) 
-is a software application that offers extensive functionality for programmers, including ability to read, write, and execute code, develop and test software packages, etc.  
-
-IDEs that support R usually also allow viewing plots or launching web applications within the same environment. An IDE can make working in R easier, more productive, and, importantly, more fun.
-
-### RStudio
-
-[RStudio](https://rstudio.com/) is a very popular Integrated Development 
-Environment ([IDE](https://en.wikipedia.org/wiki/Integrated_development_environment)) 
-for R. This is the recommended environment for beginners. Make sure to keep 
-your installation up-to-date; new features are added often.  
-
-It is recommended to set up a new RStudio project for each data project: 
-
-RStudio projects allows you to organize your work. Each project keeps track of 
-your workspace, open source files, working directory, and history.
-
-To create a new RStudio Project click on File > New Project... from the main 
-menu or the "Create a project" icon (second from top-left usually) in the 
-RStudio toolbar.
-
-### VS Code
-
-Visual Studio Code, a.k.a. [VS Code](https://code.visualstudio.com/) is a
-[source code editor](https://en.wikipedia.org/wiki/Source-code_editor) and one 
-of the [most popular IDEs](https://insights.stackoverflow.com/survey/2021#most-popular-technologies-new-collab-tools)
-across different languages. The 
-[VS Code marketplace](https://code.visualstudio.com/docs/editor/extension-marketplace) 
-includes a very large number of extensions.
-
-The [vscode-R extension](https://github.com/REditorSupport/vscode-R) allows
-using VS Code as an R IDE. To use it, you need to install the 
-[`languageserver`](https://github.com/REditorSupport/languageserver) 
-and [`rlang`](https://cran.r-project.org/web/packages/rlang/index.html) 
-packages:
-
-```r
-install.packages(c("languageserver", "rlang"))
-```
-
-The [`httpgd`](https://github.com/nx10/httpgd) graphics device is recommended.
-Install it using:
-
-```r
-remotes::install_github("nx10/httpgd")
-```
-
-and enable it in the extension settings ("Plot: Use httpgd")
-
-The [Remote - SSH extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh-edit) 
-allows using a local VS Code installation (e.g. on your laptop) and executing 
-code (R, Python, etc.) on a remote server on which you have 
-[SSH](https://en.wikipedia.org/wiki/Secure_Shell) access.
-
-## R packages
-
-### CRAN
+## CRAN
 
 The Comprehensive R Archive Network (CRAN) is the official R package repository and currently hosts 16271 packages (as of 2020-09-13). To install a package from CRAN, use the builtin `install.packages` command:
 ```{r eval=FALSE}
 install.packages('glmnet')
 ```
 
-#### Check for outdated packages
+### Check for outdated packages
 
 ```{r eval = FALSE}
 old.packages()
 ```
 
-#### Update installed packages
+### Update installed packages
 
 If you don't set `ask = FALSE`, you will have to accept each package update separately.
 
@@ -95,7 +21,7 @@ If you don't set `ask = FALSE`, you will have to accept each package update sepa
 update.packages(ask = FALSE)
 ```
 
-### GitHub
+## GitHub
 
 GitHub contains a large number of R packages, some of which also exist in CRAN, but the GitHub version may be updated a lot more frequently. To install from GitHub, you need to have the `remotes` package from CRAN first:
 
@@ -109,7 +35,7 @@ remotes::install_github("user/repo")
 
 Note: Running `remotes::install_github("user/repo")` will not reinstall a previously installed package, unless it has been updated.
 
-### Bioconductor
+## Bioconductor
 
 Bioconductor is a repository which includes tools for the analysis and comprehension of high-throughput genomic data, among others. To install package from Bioconductor, first install the `BiocManager` package from CRAN:
 
@@ -123,7 +49,7 @@ and then use that similar to the builtin `install.packages`:
 BiocManager::install("packageName")
 ```
 
-### Installed packages
+## Installed packages
 
 List all R packages installed on your system with `installed.packages()` (the following block has not been run to prevent a very long output)
 
@@ -143,7 +69,7 @@ List attached packages with their system path:
 searchpaths()
 ```
 
-### Dependencies
+## Dependencies
 
 Most R packages, whether in CRAN, Bioconductor, or GitHub, themselves rely on other packages to run. These are called **dependencies**. Many of these dependencies get installed automatically when you call `install.packages()` or `remotes::install_github()`, etc. This depends largely on whether they are essential for the new package to work. Some packages, especially if they provide a large number of functions that may not all be used by all users, may make some dependencies optional. In that cases, if you try to execute a specific function that depends on uninstalled packages you may get a warning or error or some type of message indicating that you need to install further packages.
 

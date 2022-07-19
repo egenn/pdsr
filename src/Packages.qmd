@@ -2,7 +2,10 @@
 
 ## CRAN
 
-The Comprehensive R Archive Network (CRAN) is the official R package repository and currently hosts 16271 packages (as of 2020-09-13). To install a package from CRAN, use the builtin `install.packages` command:
+The Comprehensive R Archive Network (CRAN) is the official R package repository 
+and currently hosts 18391 packages (as of 2022-07-19). To install a package 
+from CRAN, use the builtin `install.packages` command:
+
 ```{r eval=FALSE}
 install.packages('glmnet')
 ```
@@ -23,7 +26,9 @@ update.packages(ask = FALSE)
 
 ## GitHub
 
-GitHub contains a large number of R packages, some of which also exist in CRAN, but the GitHub version may be updated a lot more frequently. To install from GitHub, you need to have the `remotes` package from CRAN first:
+GitHub contains a large number of R packages, some of which also exist in CRAN, 
+but the GitHub version may be updated (a lot) more frequently. To install from 
+GitHub, you need to have the `remotes` package from CRAN first:
 
 ```{r eval = FALSE}
 install.packages("remotes")
@@ -33,17 +38,29 @@ install.packages("remotes")
 remotes::install_github("user/repo")
 ```
 
-Note: Running `remotes::install_github("user/repo")` will not reinstall a previously installed package, unless it has been updated.
+Note: Running `remotes::install_github("user/repo")` will not reinstall a 
+previously installed package, unless it has been updated.
 
 ## Bioconductor
 
-Bioconductor is a repository which includes tools for the analysis and comprehension of high-throughput genomic data, among others. To install package from Bioconductor, first install the `BiocManager` package from CRAN:
+[Bioconductor](https://www.bioconductor.org/) is a repository which includes 
+tools for the analysis and comprehension of high-throughput genomic data, among 
+others. To install packages from Bioconductor, first install the `BiocManager` 
+package from CRAN. See Bioconductor's latest installation instructions 
+[here](https://bioconductor.org/install/); learn more about BiocManager
+[here](https://cran.r-project.org/web/packages/BiocManager/vignettes/BiocManager.html)
 
 ```{r eval = FALSE}
 install.packages("BiocManager")
 ```
 
-and then use that similar to the builtin `install.packages`:
+For R versions 4.2+, proceed by installing Bioconductor:
+
+```{r eval = FALSE}
+BiocManager::install(version = "3.15")
+```
+
+Now, you can use `BiocManager::install()` to install Bioconductor packages:
 
 ```{r eval = FALSE}
 BiocManager::install("packageName")
@@ -51,7 +68,7 @@ BiocManager::install("packageName")
 
 ## Installed packages
 
-List all R packages installed on your system with `installed.packages()` (the following block has not been run to prevent a very long output)
+List all R packages installed on your system with `installed.packages()`
 
 ```{r eval = FALSE}
 installed.packages()
@@ -71,26 +88,44 @@ searchpaths()
 
 ## Dependencies
 
-Most R packages, whether in CRAN, Bioconductor, or GitHub, themselves rely on other packages to run. These are called **dependencies**. Many of these dependencies get installed automatically when you call `install.packages()` or `remotes::install_github()`, etc. This depends largely on whether they are essential for the new package to work. Some packages, especially if they provide a large number of functions that may not all be used by all users, may make some dependencies optional. In that cases, if you try to execute a specific function that depends on uninstalled packages you may get a warning or error or some type of message indicating that you need to install further packages.
+Most R packages, whether in CRAN, Bioconductor, or GitHub, themselves rely on 
+other packages to run. These are called **dependencies**. Many of these 
+dependencies get installed automatically when you call `install.packages()` or 
+`remotes::install_github()`, etc. This depends largely on whether they are 
+essential for the new package to work. Some packages, especially if they 
+provide a large number of functions that may not all be used by all users, may 
+make some dependencies optional. In that cases, if you try to execute a 
+specific function that depends on uninstalled packages you may get a warning or 
+error or some type of message indicating that you need to install further 
+packages.
 
 ## Builtin Documentation
 
-After you've successfully installed R and RStudio, one of the first things to know is how to access and search the builtin documentation.  
+After you've successfully installed R and RStudio, one of the first things to 
+know is how to access and search the builtin documentation.  
 
 ### Get help on a specific item
 
-If you know the name of what you're looking for (an R function most commonly, but possibly also the name of a dataset, or a package itself), just type `?` followed by the name of said function, dataset, etc. in the R prompt:
+If you know the name of what you're looking for (an R function most commonly, 
+but possibly also the name of a dataset, or a package itself), just type `?` 
+followed by the name of said function, dataset, etc. in the R prompt:
 
 ```{r}
 ?sample
 ```
 
-In RStudio, the above example will bring up the documentation for the `sample` function in the dedicated "Help" window, commonly situated at the bottom right (but can be moved by the user freely). If you are running R directly at the system shell, the same information is printed directly at the console.  
+In RStudio, the above example will bring up the documentation for the `sample` 
+function in the dedicated "Help" window, commonly situated at the bottom right 
+(but can be moved by the user freely). If you are running R directly at the 
+system shell, the same information is printed directly at the console.  
 Try running the above example on your system.
 
 ### Search the docs
 
-If you do not know the name of what you are looking for, you can use double question marks, `??`, followed by your query (this is short for the `help.search` command that provides a number of arguments you can look up using `?help.search`):
+If you do not know the name of what you are looking for, you can use double 
+question marks, `??`, followed by your query (this is short for the 
+`help.search` command that provides a number of arguments you can look up 
+using `?help.search`):
 
 ```{r}
 ??bootstrap

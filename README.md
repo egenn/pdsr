@@ -8,7 +8,7 @@ This book is aimed as an introductory- to intermediate-level R programming learn
 It is the online book for UCSF Biostat 213/4.
 <br><br>
 EDG
-<br>
+
 [UCSF](https://www.ucsf.edu/) [LCM](https://lambdamd.org/),
-<br>
+
 San Francisco, CA, July 2022

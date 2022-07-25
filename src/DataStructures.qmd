@@ -10,10 +10,11 @@ In R, everything is an object.
 
 Every "action" is a [function](#functions).
 
-[Functions](#functions) are also objects, which means they can be passed as arguments to or returned 
-from other functions.
+[Functions](#functions) are also objects, which means they can be passed as 
+arguments to or returned from other functions.
 
-We shall see the relevance of this, for example, in the [Loop Functions](#loopfns) chapter.
+We shall see the relevance of this, for example, in the 
+[Loop Functions](#loopfns) chapter.
 ```
 
 There are 5 main data structures in R:  
@@ -27,7 +28,11 @@ There are 5 main data structures in R:
 | **Data frame** | 2-D | A special type of list; heterogeneous collection of columns |
 
 
-Homogeneous vs. hetereogeneous refers to the kind of data types (integer, double, character, logical, factor, etc.) that a structure can hold. This means a matrix can hold only numbers or only characters, but a data frame can hold different types in different columns. That is why data frames are very popular data structure for statistical work.
+Homogeneous vs. hetereogeneous refers to the kind of data types (integer, 
+double, character, logical, factor, etc.) that a structure can hold. This means 
+a matrix can hold only numbers or only characters, but a data frame can hold 
+different types in different columns. That is why data frames are very popular 
+data structure for statistical work.
 
 ```{r FigRDataStructures, echo = FALSE, , out.width = "100%", fig.align = 'center', fig.cap = "R Data Structure summary - Best to read through this chapter first and then refer back to this figure"}
 knitr::include_graphics("./R_datastructures.png")
@@ -39,7 +44,9 @@ knitr::include_graphics("./R_datastructures.png")
 
 ## Initialize - coerce - test (structures)
 
-The following summary table lists the functions to *initialize*, *coerce* (=convert), and *test* the core data structures, which are shown in more detail in the following paragraphs:
+The following summary table lists the functions to *initialize*, *coerce* 
+(=convert), and *test* the core data structures, which are shown in more 
+detail in the following paragraphs:
 
 | **Initialize**  | **Coerce**         | **Test**           |
 |----------------:|-------------------:|-------------------:|
@@ -118,7 +125,8 @@ x <- vector("list", 10)
 
 A matrix is a **vector with 2 dimensions**.  
 
-To create a matrix, you pass a vector to the `matrix()` command and specify number of rows using `nrow` and/or number of columns using `ncol`:
+To create a matrix, you pass a vector to the `matrix()` command and specify 
+number of rows using `nrow` and/or number of columns using `ncol`:
 
 ```{r}
 x <- matrix(sample(seq(1000), 30),
@@ -128,8 +136,9 @@ class(x)
 ```
 
 ```{block, type="rmdnote"}
-A matrix has length (`length(x)`) equal to the number of all (i, j) elements or nrow * ncol
-(if `i` is the row index and `j` is the column index) and dimensions (`dim(x)`) as expected:
+A matrix has length (`length(x)`) equal to the number of all (i, j) elements or 
+nrow * ncol (if `i` is the row index and `j` is the column index) and 
+dimensions (`dim(x)`) as expected:
 ```
 
 ```{r}
@@ -162,7 +171,8 @@ x
 
 ### Bind vectors by column or by row
 
-Use `cbind` ("column-bind") to convert a set of input vectors to columns of a **matrix**. The vectors must be of the same length:
+Use `cbind` ("column-bind") to convert a set of input vectors to columns of a 
+**matrix**. The vectors must be of the same length:
 
 ```{r}
 x <- cbind(1:10, 11:20, 41:50)
@@ -170,7 +180,8 @@ x
 class(x)
 ```
 
-Similarly, you can use `rbind` ("row-bind") to convert a set of input vectors to rows of a **matrix**. The vectors again must be of the same length:
+Similarly, you can use `rbind` ("row-bind") to convert a set of input vectors 
+to rows of a **matrix**. The vectors again must be of the same length:
 
 ```{r}
 x <- rbind(1:10, 11:20, 41:50)
@@ -179,7 +190,8 @@ class(x)
 ```
 
 ### Combine matrices
-`cbind()` and `rbind()` can be used to combine two or more matrices together - or vector and matrices:
+`cbind()` and `rbind()` can be used to combine two or more matrices together - 
+or vector and matrices:
 
 ```{r}
 cbind(matrix(1, 5, 2), matrix(2, 5, 4))
@@ -192,7 +204,8 @@ You can have 1D, 2D or any-D, i.e. ND arrays.
 
 ### 1D array
 
-A 1D array is just like a vector but of class `array` and with `dim(x)` equal to `length(x)` (remember, vectors have only `length(x)` and undefined `dim(x)`):
+A 1D array is just like a vector but of class `array` and with `dim(x)` equal 
+to `length(x)` (remember, vectors have only `length(x)` and undefined `dim(x)`):
 
 ```{r}
 x <- 1:10
@@ -227,7 +240,10 @@ You can build an N-dimensional array:
 (x <- array(1:60, dim = c(5, 4, 3)))
 class(x)
 ```
-You can provide names for each dimensions using the `dimnames` argument. It accepts a list where each elements is a character vector of legth equal to the dimension length. Using the same example as above, we pass three character vector of length 5, 4, and 3 to match the length of the dimensions:
+You can provide names for each dimensions using the `dimnames` argument. It 
+accepts a list where each elements is a character vector of legth equal to the 
+dimension length. Using the same example as above, we pass three character 
+vector of length 5, 4, and 3 to match the length of the dimensions:
 
 ```{r}
 x <- array(1:60,
@@ -237,7 +253,8 @@ x <- array(1:60,
                             c("x", "y", "z")))
 ```
 
-3D arrays can be used to represent color images. Here, just for fun, we use `rasterImage` to show how you would visualize such an image:
+3D arrays can be used to represent color images. Here, just for fun, we use 
+`rasterImage()` to show how you would visualize such an image:
 
 ```{r}
 x <- array(sample(1:255, 432, TRUE), dim = c(12, 12, 3))
@@ -252,7 +269,8 @@ rasterImage(x/255, 0, 0, 100, 100)
 ## Lists
 
 To define a list, we use `list()` to pass any number of objects.  
-If these objects are passed as named arguments, the names will rename as element names:
+If these objects are passed as named arguments, the names will rename as 
+element names:
 
 ```{r}
 x <- list(one = 1:4,
@@ -265,7 +283,8 @@ str(x)
 
 ### Nested lists
 
-Since each element can be any object at all, it is simple to build a nested list:
+Since each element can be any object at all, it is simple to build a nested 
+list:
 
 ```{r}
 x <- list(alpha = letters[sample(26, 4)],
@@ -349,7 +368,9 @@ length(df)
 
 ## Attributes
 
-R objects may have some builtin attributes but you can add arbitrary attributes to any R object. These are used to store additional information, sometimes called metadata.  
+R objects may have some builtin attributes but you can add arbitrary attributes 
+to any R object. These are used to store additional information, sometimes 
+called metadata.  
 
 ### Print all attributes
 
@@ -359,7 +380,8 @@ To print an object's attributes, use `attributes`:
 attributes(iris)
 ```
 
-This returns a named list. In this case we got names, class, and row.names of the iris data frame.  
+This returns a named list. In this case we got names, class, and row.names of 
+the iris data frame.  
 
 ### Get or set specific attributes
 
@@ -370,7 +392,8 @@ You can assign new attributes using `attr`:
 attr(x, "name") <- "Very special vector"
 ```
 
-Printing the vector after adding a new attribute, prints the attribute name and value underneath the vector itself:
+Printing the vector after adding a new attribute, prints the attribute name 
+and value underneath the vector itself:
 
 ```{r}
 x
@@ -396,7 +419,8 @@ The vector has no attributes - yet:
 ```{r}
 attributes(x)
 ```
-To convert to a matrix, we would normally pass our vector to the `matrix()` function and define number of rows and/or columns:
+To convert to a matrix, we would normally pass our vector to the `matrix()` 
+function and define number of rows and/or columns:
 
 ```{r}
 xm <- matrix(x, 5)
@@ -404,7 +428,8 @@ xm
 attributes(xm)
 ```
 
-Just for demonstration, let's instead directly add a dimension attribute to our vector:
+Just for demonstration, let's instead directly add a dimension attribute to our 
+vector:
 
 ```{r}
 attr(x, "dim") <- c(5, 4)
@@ -416,7 +441,8 @@ Just like that, we have a matrix.
 
 ### Common builtin attributes
 
-Vectors can have named elements. A new vector has no names, but you can add them:
+Vectors can have named elements. A new vector has no names, but you can add 
+them:
 
 ```{r}
 x <- rnorm(10)
@@ -425,7 +451,8 @@ names(x) <- paste0("Value", seq(x))
 x
 ```
 
-Matrices and data frames can have column names (`colnames`) and row names (`rownames`):
+Matrices and data frames can have column names (`colnames`) and row names 
+(`rownames`):
 
 ```{r}
 x <- matrix(1:15, 5)
@@ -436,7 +463,8 @@ rownames(x) <- paste0("Case", seq(5))
 x
 ```
 
-Lists are vectors so they have `names`. These can be defined when a list is created using the name-value pairs or added/changed at any time.
+Lists are vectors so they have `names`. These can be defined when a list is 
+created using the name-value pairs or added/changed at any time.
 
 ```{r}
 x <- list(HospitalName = "CaliforniaGeneral",
@@ -452,11 +480,14 @@ names(x) <- c("Hospital", "Departments", "PIDs")
 x
 ```
 
-Remember that data a frame is a special type of list. Therefore in data frames `colnames` and `names` are equivalent:
+Remember that data a frame is a special type of list. Therefore in data frames 
+`colnames` and `names` are equivalent:
 
 ```{r}
 colnames(iris)
 names(iris)
 ```
 
-Note: As we saw, matrices have `colnames` and `rownames.` Using `names` on a matrix will assign names to *individual elements*, as if it was a long vector - this is not usually useful.
+Note: As we saw, matrices have `colnames` and `rownames.` Using `names` on a 
+matrix will assign names to *individual elements*, as if it was a long vector - 
+this is not usually useful.

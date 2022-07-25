@@ -1,4 +1,4 @@
-# Data Types {#datatypes}
+# Data Types & Vectors {#datatypes}
 
 ```{r echo = FALSE}
 knitr::opts_chunk$set(fig.width = 10, fig.height = 5,
@@ -14,44 +14,38 @@ options(crayon.enabled = TRUE)
 
 ## Base types
 
-A vector is one-dimensional array, i.e. a collection of elements.
+The simplest and most fundamental object in R is the atomic vector:
+a one-dimensional collection of elements of the same data type, e.g. numbers, 
+characters, etc.
 <br><br>
-For example, a vector can contain the numbers `12, 14, 20`, or the 
-characters `x, y, z`.
+For example, a numeric vector can contain `12, 14, 20`, and a character 
+vector can contain `x, y, z`.
 <br><br>
-All data in R is stored in vectors. These can be stand-alone, i.e. a 
-1-D collection of items of the same type (e.g. numeric, character, etc.), 
-or within another data structure, e.g. a data.frame, list, etc.
+You can have a vector as a stand-alone object, or you can have one or more
+vectors stored within another data structure, e.g. a data.frame, list, etc.
 
-This chapter covers different data types, i.e. vectors, and next covers data 
+This chapter covers different atomic vectors, and the next covers data 
 structures (@sec-DataStructures).
+<br><br>
+R includes a number of builtin data types. These are defined by the R core 
+team - users cannot define their own data types.  
+<br><br>
+Users can, however, define their own classes - see 
+[Classes and Object-Oriented Programming](#classes).  
+<br><br>
+The main/most important data types in R are:
 
-```{block, type="rmdtip"}
-**Data types in R are essentially different types of vectors.**
-```
+- Numeric, including 
+    - integer and 
+    - [double](https://en.wikipedia.org/wiki/Double-precision_floating-point_format)
+- Character
+- Logical (i.e. TRUE or FALSE, a.k.a. [Boolean](https://en.wikipedia.org/wiki/Boolean_data_type))
 
-R includes a number of builtin data types.  
+Other data types include environments and closures (functions). 
 
-These are defined by the R core team: users cannot define their own data types.  
-
-Users can define their own classes - see [Classes and Object-Oriented Programming](#classes).  
-
-Some of the most popular data types in R are:
-
-* Logical (i.e. TRUE or FALSE, a.k.a. [Boolean](https://en.wikipedia.org/wiki/Boolean_data_type))
-* Numeric, integer
-* Numeric, [double](https://en.wikipedia.org/wiki/Double-precision_floating-point_format)
-* Character
-* Environment
-* Closure (essentially, function; technically, a function and an environment)
-
-```{block, type="rmdcaution"}
-Many errors in R occur because a variable is, or gets coerced to, the wrong type by accident.
-```
-
-```{block, type="rmdtip"}
-**Check variable types with `typeof()` and/or `str()`.**
-```
+(Technically, a closure is made of a function and its environment. It is the
+main way for users to extend R's functionality. A closure is distinct from
+from primitive functions, which are internally implemented)
 
 ## Assignment
 
@@ -63,7 +57,8 @@ x <- 3
 ```
 
 ```{block, type="rmdtip"}
-In [RStudio](https://rstudio.com/) the keyboard shortcut for the assignment operator `<-` is `Option -` (MacOS) or `Alt -` (Windows).
+In [RStudio](https://rstudio.com/) the keyboard shortcut for the assignment 
+operator `<-` is `Option -` (MacOS) or `Alt -` (Windows).
 ```
 
 Typing the name of an object...
@@ -77,17 +72,20 @@ x
 print(x)
 ```
 
-You can also place any assignment in parentheses and this will perform the assignment and print the object:
+You can also place any assignment in parentheses and this will perform the 
+assignment and print the object:
 
 ```{r}
 (x <- 3)
 ```
 
 ```{block, type="rmdnote"}
-While you *could* use the equal sign '=' for assignment, you should only use it to pass arguments to functions.
+While you *could* use the equal sign '=' for assignment, you should only use it 
+to pass arguments to functions.
 ```
 
-You can assign the same value to multiple objects - this can be useful when initializing variables.
+You can assign the same value to multiple objects - this can be useful when 
+initializing variables.
 
 ```{r}
 x <- z <- init <- 0
@@ -103,9 +101,10 @@ Excitingly, R allows assignment in the opposite direction as well:
 x
 ```
 
-We shall see later that the `->` assignment can be convenient at the end of a [pipe](https://class.lambdamd.org/progdatscir/functions.html#the-pipe-operator).
+We shall see later that the `->` assignment can be convenient at the end of a 
+[pipe](https://class.lambdamd.org/progdatscir/functions.html#the-pipe-operator).
 
-You can even do this, which is fun (?) but unlikely to be useful:
+You can even do the following - which is fun, if not particularly useful:
 
 ```{r}
 x <- 7 -> z
@@ -113,19 +112,74 @@ x
 z
 ```
 
-## Combine values
+## Create vectors with `c()` 
 
-Use `c()` to combine multiple values into a vector:
+Use `c()` to **c**ombine multiple values into a vector:
 
 ```{r}
 x <- c(-12, 3.5, 104)
 x
 ```
 
+## Generate sequence with `:`
+
+```{r}
+x <- 14:17
+x
+```
+
+## Get the type of a vector using `typeof()`
+
+```{r}
+typeof(x)
+```
+
+## Common vector types
+
+Let's create some example vectors of the most common data types:
+
+### Integer
+
+```{r}
+v <- c(1:3)
+v
+typeof(v)
+```
+
+### Double
+
+```{r}
+w <- c(1.3, 2.8, 3.6)
+w
+typeof(w)
+```
+
+### Character
+
+A character vector consists of one or more elements, each of which consists of one or more actual characters, i.e. it is **not** a vector of single characters. (The length of a character vector is the number of individual elements, and is not related to the number of characters in each element)
+
+```{r}
+x <- c("a", "d", "s")
+x
+typeof(x)
+```
+
+### Logical
+
+If you are writing code, (it's good practice to) use `TRUE` and `FALSE`.  
+On the console, you can abbreviate to `T` and `F`, they are the same.
+
+```{r}
+y <- c(TRUE, FALSE, FALSE)
+y
+typeof(y)
+```
 
 ## Initialize - coerce - test (types)
 
-The following summary table lists the functions to *initialize*, *coerce* (=convert), and *test* the core data types, which are shown in more detail in the following paragraphs:
+The following summary table lists the functions to *initialize*, 
+*coerce* (=convert), and *test* the core data types, which are shown in more 
+detail in the following paragraphs:
 
 | **Initialize** | **Coerce**        | **Test**          |
 |---------------:|------------------:|------------------:|
@@ -137,99 +191,6 @@ The following summary table lists the functions to *initialize*, *coerce* (=conv
 
 Note: `numeric` and `double` functions on lines 3 and 4 above are equivalent. 
 (Try printing `numeric` and `double` in the console)
-
-## Logical 
-
-If you are writing code, (it's good practice to) use `TRUE` and `FALSE`.  
-On the console, you can abbreviate to `T` and `F`, they are the same.
-
-```{r}
-a <- c(TRUE, FALSE)
-a <- c(T, F)
-x <- 4
-b <- x > 10
-b
-str(b)
-typeof(b)
-```
-
-## Integer
-
-Create a range of integers using colon notation `start:end`:
-
-```{r}
-(x <- 11:15)
-typeof(x)
-str(x)
-```
-
-Note that assigning an integer defaults to type double:
-
-```{r}
-x <- 1
-typeof(x)
-str(x)
-```
-
-You can force it to be stored as integer by adding an `L` suffix:
-
-```{r}
-x <- 1L
-typeof(x)
-str(x)
-```
-```{r}
-x <- c(1L, 3L, 5L)
-str(x)
-```
-
-## Double
-
-```{r}
-x <- c(1.2, 3.4, 10.987632419834556)
-x
-typeof(x)
-str(x)
-```
-
-## Character
-
-A character vector consists of one or more elements, each of which consists of one or more actual characters, i.e. it is **not** a vector of single characters. (The length of a character vector is the number of individual elements, and is not related to the number of characters in each element)
-
-```{r}
-x <- "word"
-typeof(x)
-length(x)
-```
-
-```{r}
-(x <- c("a", "b", "gamma", "delta"))
-typeof(x)
-length(x)
-```
-
-## Environment
-
-Defining your own environments is probably for advanced use only:
-
-```{r}
-x <- new.env()
-x$name <- "Guava"
-x$founded <- 2020
-x
-typeof(x)
-```
-
-## Closure (function)
-
-Closures are functions - they contain their own variable definitions.  
-Read more on [functions](#functions).
-
-```{r}
-square <- function(x) x^2
-square(3)
-typeof(square)
-```
 
 ## Initialize vectors
 
@@ -320,6 +281,11 @@ If for some reason it made sense, you could explicitly coerce to numeric and the
 ```{r}
 x <- factor(c("mango", "banana", "mango"))
 sum(as.numeric(x))
+```
+
+```{block, type="rmdcaution"}
+Many errors in R occur because a variable is, or gets coerced to, the wrong 
+type or class by accident.
 ```
 
 ## `NA`: Missing Values

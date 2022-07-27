@@ -45,8 +45,8 @@ knitr::include_graphics("./R_datastructures.png")
 
 ## Vectors
 
-A vector is the basic structure that contains data in R. Other structures that 
-contain data are made up of one or more vectors.
+A vector is the most basic & fundamental data structure in R. 
+Other data structures are made up of one or more vectors.
 
 ```{r}
 (x <- c(1, 3, 5, 7))
@@ -358,6 +358,34 @@ df <- as.data.frame(mat)
 length(df)
 ```
 
+## Naming object elements
+
+All objects' elements can be named.
+
+### Vectors
+
+Vector elements can be optionally named. Create a vector with named elements
+
+```{r}
+SBP = c(before = 179, after = 118)
+SBP
+```
+
+Use `names()` to get a vector's elements' names:
+
+```{r}
+names(SBP)
+```
+
+You can add names to an existing, unnamed, vector:
+
+```{r}
+N <- c(112, 120)
+names(N)
+names(N) <- c("Cases", "Controls")
+N
+```
+
 ## Initialize - coerce - test data structures
 
 The following table lists the functions to *initialize*, *coerce* 
@@ -366,10 +394,10 @@ detail in the following paragraphs:
 
 | **Initialize**          | **Coerce**         | **Test**           |
 |------------------------:|-------------------:|-------------------:|
-| `matrix(n)`             | `as.matrix(x)`     | `is.matrix(x)`     |
-| `array(n)`              | `as.array(x)`      | `is.array(x)`      |
-| `vector(mode = "list")` | `as.list(x)`       | `is.list(x)`       |
-| `data.frame(n)`         | `as.data.frame(x)` | `is.data.frame(x)` |
+| `matrix(NA, nrow = x, ncol = y)`                   | `as.matrix(x)`     | `is.matrix(x)`     |
+| `array(NA, dim = c(x, y, z))` | `as.array(x)`      | `is.array(x)`      |
+| `vector(mode = "list", length = x)`       | `as.list(x)`       | `is.list(x)`       |
+| `data.frame(a = ..., b = ...)` or `data.frame(matrix(NA, x, y))`               | `as.data.frame(x)` | `is.data.frame(x)` |
 
 ## Attributes
 

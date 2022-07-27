@@ -14,9 +14,9 @@ options(crayon.enabled = TRUE)
 
 ## Base types
 
-The simplest and most fundamental object in R is the so-called "atomic vector",
-commonly referred to simply as "vector". It is a one-dimensional collection of 
-elements of the same data type, e.g. numbers, characters, etc.
+The simplest and most fundamental object in R is the vector: a one-dimensional 
+collection of elements of the same data type, e.g. numbers, characters, etc.
+(known as an "atomic" vector).
 <br><br>
 For example, a numeric vector may consist of elements `12, 14, 20`, and a 
 character vector may consist of elements `"x", "y", "z"`.
@@ -38,7 +38,8 @@ The main/most common data types in R are:
 - **Character**
 - **Logical** (i.e. TRUE or FALSE, a.k.a. [Boolean](https://en.wikipedia.org/wiki/Boolean_data_type))
 
-Other data types include environments and closures i.e. functions (@sec-functions).
+Other data types include environments and closures i.e. functions 
+(@sec-functions).
 
 ## Assignment
 
@@ -73,7 +74,7 @@ assignment and print the object:
 ```
 
 ```{block, type="rmdnote"}
-While you *could* use the equal sign '=' for assignment, you should only use it 
+You can use either '<-'' or '=' for assignment. Many R syntax guides you should only use it 
 to pass arguments to functions.
 ```
 
@@ -126,8 +127,25 @@ Let's create some example vectors of the most common data types:
 
 ### Integer
 
+Numeric vector default to double
+
 ```{r}
-vi <- c(1:3)
+v <- c(12, 14, 23)
+v
+typeof(v)
+```
+
+To create an integer vector, you can follow numbers by an "L"
+```{r}
+vi <- c(12L, 14L, 23L)
+vi
+typeof(vi)
+```
+
+Alternatively you can coerce a double to integer using `as.integer()`:
+
+```{r}
+vi <- as.integer(c(12, 14, 23))
 vi
 typeof(vi)
 ```
@@ -156,7 +174,7 @@ typeof(vc)
 ### Logical
 
 If you are writing code, (it's good practice to) use `TRUE` and `FALSE`.  
-On the console, you can abbreviate to `T` and `F`, they are the same.
+On the console, you can abbreviate to `T` and `F` - the result is the same.
 
 ```{r}
 vl <- c(TRUE, FALSE, FALSE)
@@ -167,12 +185,11 @@ typeof(vl)
 ## Initialize vectors
 
 Initializing a vector or other data structure is the process by which you create
-an object of a certain size with some initial values, e.g. all zeros or 
-[`NA`s](#na),
-in order to fill them in / replace them later.
+an object of a certain size with some initial values, e.g. all zeros or all 
+[`NA`s](#na), in order to replace with other values later.
 
-This is often computationaly faster than growing a smaller objects by appending
-to it multiple times.
+This is usually computationaly more efficient than starting with a small object
+and appending to it multiple times.
 <br><br>
 You can create / initialize vectors of specific type with the `vector` command 
 and specifying a `mode` or directly by calling the relevant function:
@@ -189,16 +206,16 @@ These are aliases of the `vector` command above (print their source code to see
 for yourself)
 
 ```{r}
-xl <- logical(10)
-xd <- double(10)
-xn <- numeric(10) # same as double
-xi <- integer(10)
-xc <- character(10)
+(xl <- logical(10))
+(xd <- double(10))
+(xn <- numeric(10)) # same as double
+(xi <- integer(10))
+(xc <- character(10))
 ```
 
 ## Explicit coercion
 
-We can explicitly convert objects of one type to a different type using `as.*` 
+We can explicitly convert vector of one type to a different type using `as.*` 
 functions:
 
 ```{r}
@@ -224,12 +241,13 @@ Note that when converting from numeric to logical,
 
 ```{r}
 x <- seq(-2, 2, .5)
+x
 as.logical(x)
 ```
 
 Not all conversions are possible.  
 There is no meaningful/consistent way to convert a character vector to numeric.  
-The following outputs NA values and prints a (helpful) error message.
+The following outputs NA values and prints a helpful error message.
 
 ```{r}
 x <- c("mango", "banana", "tangerine")
@@ -241,7 +259,7 @@ as.numeric(x)
 Remember, the language generally tries to make life easier. Sometimes this 
 means it will automatically coerce one class to another to allow requested 
 operations.
-
+<br><br>
 For example, you can get the sum of a logical vector.  
 It will automatically be converted to numeric as we saw earlier.
 
@@ -282,17 +300,20 @@ Missing values in any data type - logical, integer, double, or character - are c
 To check for the presence of `NA` values, use `is.na()`:
 
 ```{r}
-(x <- c(1.2, 5.3, 4.8, NA, 9.6))
+x <- c(1.2, 5.3, 4.8, NA, 9.6)
+x
 is.na(x)
 ```
 
 ```{r}
-(x <- c("mango", "banana", NA, "sugar", "ackee"))
+x <- c("mango", "banana", NA, "sugar", "ackee")
+x
 is.na(x)
 ```
 
 ```{r}
-(x <- c(T, T, F, T, F, F, NA))
+x <- c(T, T, F, T, F, F, NA)
+x
 is.na(x)
 ```
 

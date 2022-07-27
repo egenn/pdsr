@@ -5,23 +5,34 @@ knitr::opts_chunk$set(fig.width = 5, fig.height = 5,
                       comment = NA, cache = TRUE) 
 ```
 
+## Overview
+
 There are 5 main data structures in R:
 <br><br>
 
-| Data Structure  | Dimensionality     | Contents                 |
-|----------------:|-------------------:|-------------------------:|
-| **Vector**      | 1-D                | homogeneous              |
-| **Matrix**      | 2-D                | homogeneous              |
-| **Array**       | N-D                | homogeneous              |
-| **List**        | 1-D; can be nested | heterogeneous            |
-| **Data frame**  | 2-D                | A special kind of list; heterogeneous collection of columns |
+| Data Structure  | Dimensionality     | Contents        | Notes
+|----------------:|-------------------:|----------------:|:--------------------------|
+| **Vector**      | 1-D                | homogeneous     | the "base" object
+| **Matrix**      | 2-D                | homogeneous     | a vector with 2 dimensions
+| **Array**       | N-D                | homogeneous     | a vector with N dimensions
+| **List**        | 1-D; can be nested | hetereogeneous  | a collection of any R objects, each of any length
+| **Data frame**  | 2-D                | hetereogeneous  | a special kind of list: a collection of (column) vectors of any type, all of the same length
 
+Vectors are homogeneous data structures which means all of their elements have 
+to be of the same type (see @sec-datatypes), e.g. integer, double, character, 
+logical. 
 
-Homogeneous vs. hetereogeneous refers to the kind of data types 
-(see @sec-datatypes), e.g. integer, double, character, logical, factor, etc., 
-that a structure can hold. This means a matrix can hold only numbers or only characters, but a data frame can hold 
-different types in different columns. That is why data frames are very popular 
-data structure for statistical work.
+Matrices and arrays are vectors with more dimensions,
+and as such, are also homogeneous.
+
+Lists are the most flexible. Their elements can be any R objects, including 
+lists and therefore can be nested.
+
+Data frames are a special kind of list. Their elements are one of more vectors,
+which can be of any type and form columns. Therefore a data.frame is a 
+two-dimensional data structure where rows typically correspond to cases 
+(e.g. individuals) and their columns represent variables. As such, data.frames
+are the most common data structure for statistical analysis.
 <br><br>
 ```{r FigRDataStructures, echo = FALSE, , out.width = "100%", fig.align = 'center', fig.cap = "R Data Structure summary - Best to read through this chapter first and then refer back to this figure"}
 knitr::include_graphics("./R_datastructures.png")
@@ -31,20 +42,6 @@ knitr::include_graphics("./R_datastructures.png")
 **Check object class with `class()`**
 **Check object class and contents' types with `str()`**
 ```
-
-## Initialize - coerce - test data structures
-
-The following summary table lists the functions to *initialize*, *coerce* 
-(=convert), and *test* the core data structures, which are shown in more 
-detail in the following paragraphs:
-
-| **Initialize**  | **Coerce**         | **Test**           |
-|----------------:|-------------------:|-------------------:|
-| `vector(n)`     | `as.vector(x)`     | `is.vector(x)`     |
-| `matrix(n)`     | `as.matrix(x)`     | `is.matrix(x)`     |
-| `array(n)`      | `as.array(x)`      | `is.array(x)`      |
-| `list(n)`       | `as.list(x)`       | `is.list(x)`       |
-| `data.frame(n)` | `as.data.frame(x)` | `is.data.frame(x)` |
 
 ## Vectors
 
@@ -262,7 +259,7 @@ rasterImage(x/255, 0, 0, 100, 100)
 ## Lists
 
 To define a list, we use `list()` to pass any number of objects.  
-If these objects are passed as named arguments, the names will rename as 
+If these objects are passed as named arguments, the names will be used as 
 element names:
 
 ```{r}
@@ -276,8 +273,7 @@ str(x)
 
 ### Nested lists
 
-Since each element can be any object, it is easy to build a nested 
-list:
+Since each element can be any object, we can build nested lists:
 
 ```{r}
 x <- list(alpha = letters[sample(26, 4)],
@@ -287,7 +283,6 @@ x <- list(alpha = letters[sample(26, 4)],
                        j = seq(0, 1000, length.out = 10)))
 x
 ```
-
 
 ### Initialize a list
 
@@ -362,6 +357,19 @@ length(mat)
 df <- as.data.frame(mat)
 length(df)
 ```
+
+## Initialize - coerce - test data structures
+
+The following table lists the functions to *initialize*, *coerce* 
+(=convert), and *test* the core data structures, which are shown in more 
+detail in the following paragraphs:
+
+| **Initialize**          | **Coerce**         | **Test**           |
+|------------------------:|-------------------:|-------------------:|
+| `matrix(n)`             | `as.matrix(x)`     | `is.matrix(x)`     |
+| `array(n)`              | `as.array(x)`      | `is.array(x)`      |
+| `vector(mode = "list")` | `as.list(x)`       | `is.list(x)`       |
+| `data.frame(n)`         | `as.data.frame(x)` | `is.data.frame(x)` |
 
 ## Attributes
 

@@ -69,64 +69,27 @@ seq(10)
 (x5 <- sample(seq(100), 20))
 ```
 
-### Generating sequences with `seq()`
-
-1. from, to, by
-
-```{r}
-seq(1, 10, .5)
-```
-
-2. 1:n
-
-```{r}
-seq(12)
-# or 
-seq_len(12)
-# is same as
-1:12
-```
-
-3. Along the length of another object
-
-```{r}
-seq_along(iris)
-1:ncol(iris)
-```
-
-4. `from`, `to` with length `n`
-
-```{r}
-seq(-5, 12, length.out = 11)
-```
-
 ### Initializing a vector
 
-```{r}
-x <- vector(length = 10)
-x <- vector("numeric", 10)
-x <- vector("list", 10)
-```
+See [Initializing vectors](#initvectors)
 
 ## Matrices
 
 A matrix is a **vector with 2 dimensions**.  
 
-To create a matrix, you pass a vector to the `matrix()` command and specify 
+To create a matrix, you pass a vector to the `matrix()` function and specify 
 number of rows using `nrow` and/or number of columns using `ncol`:
 
 ```{r}
-x <- matrix(sample(seq(1000), 30),
+x <- matrix(21:50,
             nrow = 10, ncol = 3)
 x
 class(x)
 ```
 
-```{block, type="rmdnote"}
 A matrix has length (`length(x)`) equal to the number of all (i, j) elements or 
 nrow * ncol (if `i` is the row index and `j` is the column index) and 
 dimensions (`dim(x)`) as expected:
-```
 
 ```{r}
 length(x)
@@ -135,7 +98,7 @@ nrow(x)
 ncol(x)
 ```
 
-### Construct by row or by column
+### Construct by row vs. by column
 
 By default, vectors are constructed by column (byrow = FALSE)
 
@@ -179,6 +142,7 @@ class(x)
 ```
 
 ### Combine matrices
+
 `cbind()` and `rbind()` can be used to combine two or more matrices together - 
 or vector and matrices:
 
@@ -209,7 +173,7 @@ length(xa)
 dim(xa)
 ```
 
-It is quite unlikely you will need to use a 1D array instead of a vector.
+It is rather unlikely you will need to use a 1D array instead of a vector.
 
 ### 2D array
 
@@ -269,6 +233,7 @@ x <- list(one = 1:4,
           four = median)
 class(x)
 str(x)
+length(x)
 ```
 
 ### Nested lists
@@ -284,11 +249,22 @@ x <- list(alpha = letters[sample(26, 4)],
 x
 ```
 
+In the example above, alpha, beta, and gamma, are x's elements.
+Notice how the length of the list refers to the number of these top-level 
+elements:
+
+```{r}
+length(x)
+```
+
 ### Initialize a list
 
+When setting up experiments, it can be very convenient to set up and empty
+list, where results will be stored (e.g. using a [for-loop](#forloops))
 ```{r}
 x <- vector("list", 4)
 x
+length(x)
 ```
 
 ### Combine lists
@@ -303,11 +279,14 @@ x
 length(x)
 ```
 
-### Mixing types with `c()`
+## Combining different types with `c()`
 
-It's best to use `c()` to either combine elements of the same type into a vector, or to combine lists. Otherwise you must inspect the outcome to be certain it was as intended.  
+It's best to use `c()` to either combine elements of the same type into a 
+vector, or to combine lists. Otherwise you must inspect the outcome to be 
+certain it was as intended.  
 
-As we've seen, if all arguments passed to `c()` are of a single type, you get a vector of that type:
+As we've seen, if all arguments passed to `c()` are of a single type, you get a 
+vector of that type:
 
 ```{r}
 x <- c(12.9, 94.67, 23.74, 46.901)
@@ -315,22 +294,20 @@ x
 class(x)
 ```
 
-If arguments passed to `c()` are a mix of numeric and character, they all get ***coerced to character***. 
+If arguments passed to `c()` are a mix of numeric and character, they all get 
+***coerced to character***. 
 
 ```{r}
 (x <- c(23.54, "mango", "banana", 75))
 class(x)
 ```
 
-If you pass more types of objects (which cannot be coerced to character) you get a list, since it is the only structure that can support all of them together:
+If you pass more types of objects (which cannot be coerced to character) you 
+get a list, since it is the only structure that can support all of them together:
 
 ```{r}
 (x <- c(42, mean, "potatoes"))
 class(x)
-```
-
-```{block, type="rmdnote"}
-Other than concatenating vectors of the same type or lists into a larger list, it probably best to avoid using `c()` and directly constructing the object you want using, e.g. `list()`.
 ```
 
 ##  Data frames {#dataframestruc}
@@ -340,6 +317,8 @@ A data frames is a **special type of list** where each element has the same
 length and forms a column, resulting in a 2D structure. Unlike matrices, each 
 column can contain a different data type.
 ```
+
+data.frames are usually created with named elements:
 
 ```{r}
 x <- data.frame(Feat_1 = 1:5,
@@ -351,11 +330,66 @@ str(x)
 class(x$Feat_1)
 ```
 
+Unlike a matrix, the elements of a data.frame are the columns, not the 
+individual values in each position. Therefore the length of a data.frame
+is equal to the number of columns:
+
 ```{r}
 mat <- matrix(1:100, 10)
 length(mat)
 df <- as.data.frame(mat)
 length(df)
+```
+
+## Generating sequences
+
+Other than assigning individual elements explicitly with `c()`, there are
+multiple ways to create numeric sequences.
+
+Colon notation allows generating a simple integer sequence:
+
+```{r}
+x <- 1:5
+x
+typeof(x)
+```
+
+`seq(from, to, by)`
+
+```{r}
+seq(1, 10, .5)
+```
+
+`seq(n)` is equivalent to `1:n`
+
+```{r}
+seq(12)
+# same output as
+1:12
+```
+
+`seq_len(n)` is an optimized version of `seq(n)`:
+
+```{r}
+seq_len(12)
+```
+
+`seq(object)` generates a sequence of length equal to `length(object)`
+
+```{r}
+seq(iris)
+```
+
+`seq_along(object)` is the optimized version of `seq(object)`:
+
+```{r}
+seq_along(iris)
+```
+
+`seq(from, to, length.out = n)`:
+
+```{r}
+seq(-5, 12, length.out = 11)
 ```
 
 ## Naming object elements
@@ -364,7 +398,7 @@ All objects' elements can be named.
 
 ### Vectors
 
-Vector elements can be optionally named. Create a vector with named elements
+You can create a vector with named elements:
 
 ```{r}
 SBP = c(before = 179, after = 118)
@@ -384,6 +418,49 @@ N <- c(112, 120)
 names(N)
 names(N) <- c("Cases", "Controls")
 N
+```
+
+Matrices and data frames can have column names (`colnames`) and row names 
+(`rownames`):
+
+```{r}
+xm <- matrix(1:15, 5)
+xdf <- 
+colnames(x)
+rownames(x)
+colnames(x) <- paste0("Feature", seq(3))
+rownames(x) <- paste0("Case", seq(5))
+x
+```
+
+Lists are vectors so they have `names`. These can be defined when a list is 
+created using the name-value pairs or added/changed at any time.
+
+```{r}
+x <- list(HospitalName = "CaliforniaGeneral",
+          ParticipatingDepartments = c("Neurology", "Psychiatry", "Neurosurgery"),
+          PatientIDs = 1001:1018)
+names(x)
+```
+
+Add/Change names:
+
+```{r}
+names(x) <- c("Hospital", "Departments", "PIDs")
+x
+```
+
+Remember that data a frame is a special type of list. Therefore in data frames 
+`colnames` and `names` are equivalent:
+
+```{r}
+colnames(iris)
+names(iris)
+```
+
+```{block, type="rmdtip"}
+Note: As we saw, matrices have `colnames()` and `rownames()` Using `names()` on a 
+matrix will assign names to *individual elements*, as if it was a long vector.
 ```
 
 ## Initialize - coerce - test data structures
@@ -471,57 +548,3 @@ class(x)
 ```
 
 Just like that, we have a matrix.
-
-### Common builtin attributes
-
-Vectors can have named elements. A new vector has no names, but you can add 
-them:
-
-```{r}
-x <- rnorm(10)
-names(x)
-names(x) <- paste0("Value", seq(x))
-x
-```
-
-Matrices and data frames can have column names (`colnames`) and row names 
-(`rownames`):
-
-```{r}
-x <- matrix(1:15, 5)
-colnames(x)
-rownames(x)
-colnames(x) <- paste0("Feature", seq(3))
-rownames(x) <- paste0("Case", seq(5))
-x
-```
-
-Lists are vectors so they have `names`. These can be defined when a list is 
-created using the name-value pairs or added/changed at any time.
-
-```{r}
-x <- list(HospitalName = "CaliforniaGeneral",
-          ParticipatingDepartments = c("Neurology", "Psychiatry", "Neurosurgery"),
-          PatientIDs = 1001:1018)
-names(x)
-```
-
-Add/Change names:
-
-```{r}
-names(x) <- c("Hospital", "Departments", "PIDs")
-x
-```
-
-Remember that data a frame is a special type of list. Therefore in data frames 
-`colnames` and `names` are equivalent:
-
-```{r}
-colnames(iris)
-names(iris)
-```
-
-```{block, type="rmdtip"}
-Note: As we saw, matrices have `colnames()` and `rownames()` Using `names()` on a 
-matrix will assign names to *individual elements*, as if it was a long vector.
-```

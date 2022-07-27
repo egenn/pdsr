@@ -425,12 +425,14 @@ Matrices and data frames can have column names (`colnames`) and row names
 
 ```{r}
 xm <- matrix(1:15, 5)
-xdf <- 
-colnames(x)
-rownames(x)
-colnames(x) <- paste0("Feature", seq(3))
-rownames(x) <- paste0("Case", seq(5))
-x
+xdf <- as.data.frame(xm)
+colnames(xm)
+colnames(xdf)
+rownames(xm)
+colnames(xm) <- colnames(xdf) <- paste0("Feature", seq(3))
+rownames(xm) <- rownames(xdf) <- paste0("Case", seq(5))
+xm
+xdf
 ```
 
 Lists are vectors so they have `names`. These can be defined when a list is 

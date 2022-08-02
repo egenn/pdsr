@@ -7,32 +7,39 @@ knitr::opts_chunk$set(fig.width = 10, fig.height = 5,
                       comment = NA, cache = TRUE) 
 ```
 
-An index is used to select elements of a vector, matrix, array, list or data frame.  
-You can select (or exclude) one or multiple elements at a time.  
+An index is used to pick elements of a data structure (i.e. a vector, matrix, 
+array, list, data frame, etc.). You can select (or exclude) one or multiple 
+elements at a time.
+<br><br>
+There are three types of index vectors you can use in R to identify elements of
+an object:
 
-There are two general ways to identify which elements you want to select:
+- **Integer vector** defining index of elements to include (or exclude)
+- **Logical vector** specifying whether to include or not each element
+- **Character vector** identifying elements, rows, or columns by name
 
-- By **position**: e.g. Identify the last 10 cases in a dataset
-- By **condition**: e.g. Identify a subgroup of patients that are over 80 years old and have a
-diagnosis of heart failure
+In data science and related fields the terms **filter** and **select** are 
+commonly used:
 
-An index can be one of two types:
+- **Filter**: identify ***cases*** i.e. rows
+- **Select**: identify ***variables*** a.k.a. ***features*** i.e. columns
 
-- **Integer index**: Define the position of elements to select e.g. c(1, 3, 5) to select the first,
-third, and fifth element of a vector.
-- **Logical index**: For each element in an object specify `TRUE` if you it should be included, 
-or `FALSE` if it should be excluded. e.g. (T, F, F, T, F) to select the first and fourth elements.
+Integer indexing in R is 1-based, meaning the first item of a vector is in 
+position 1. In contrast, many programming languages use 
+[0-based indexing](https://en.wikipedia.org/wiki/Zero-based_numbering#Computer_programming) 
+where the first element is in the 0th position, the second in the 1st, and the 
+nth in the n-1 position.
+<br><br>
+To understand indexing, make sure you are very comfortable with the core
+[R data structures](#structures): vectors, matrices, arrays, lists, and
+data.frames.
+<br><br>
+The main indexing operator in R is the square bracket `[`.
+<br><br>
+***What is indexing used for?***
 
-Logical indexes are usually created as the output of a logical operation, e.g. an elemntwise comparison. 
-
-The main indexing operator in R is the square bracket `[`.  
-
-Integer indexing in R is 1-based, meaning the first item of a vector is in position 1.  
-(If you are wondering why we have to mention this, know that many programming languages use [0-based indexing](https://en.wikipedia.org/wiki/Zero-based_numbering#Computer_programming) where the first element is in the 0th position, the second in the 1st, and the nth in the n-1 position)
-
-To understand indexing make sure you are clear on the basic [R data structures](#structures) (vectors, matrices, lists, data.frames)
-
-Indexing can be used to **extract** values from an object or to **replace** values in an object.
+Indexing can be used to **extract** values from an object or to **replace** 
+values in an object.
 
 ## Vectors {#indexvectors}
 
@@ -58,6 +65,9 @@ x[6:9]
 ```
 
 ### Logical Index
+
+Logical indexes are usually created as the output of a logical operation, 
+i.e. an elementwise comparison. 
 
 Select elements with value greater than 19 (logical index):
 
@@ -245,7 +255,8 @@ class(df[, 3, drop = FALSE])
 
 ## Lists {#indexlists}
 
-Reminder: A list can contain elements of different class and of different length:
+Reminder: A list can contain elements of different classes and of different 
+lengths:
 
 ```{r}
 x <- list(one = 1:4,
@@ -550,3 +561,7 @@ x[-integer_index]
 ```{block, type="rmdnote"}
 To get the complement of an index, you negate a logical index (`!logical_index`) or you subtract an integer index (`-integer_index`):
 ```
+
+## Resources
+
+["Indexing vectors" in *An Introduction to R*](https://cran.r-project.org/doc/manuals/r-release/R-intro.html#Index-vectors)

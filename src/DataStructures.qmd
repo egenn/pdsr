@@ -1,9 +1,12 @@
+---
+knitr:
+  opts_chunk:
+    comment: ""
+    cache: true
+    fig.width: 5
+    fig.height: 5
+---
 # Data Structures {#sec-DataStructures}
-
-```{r echo = FALSE}
-knitr::opts_chunk$set(fig.width = 5, fig.height = 5,
-                      comment = NA, cache = TRUE) 
-```
 
 ## Overview
 
@@ -49,7 +52,8 @@ A vector is the most basic & fundamental data structure in R.
 Other data structures are made up of one or more vectors.
 
 ```{r}
-(x <- c(1, 3, 5, 7))
+x <- c(1, 3, 5, 7)
+x
 class(x)
 typeof(x)
 ```
@@ -59,14 +63,6 @@ A vector has `length()` but no `dim()`:
 ```{r}
 length(x)
 dim(x)
-```
-
-```{r}
-(x2 <- 1:10)
-(x3 <- rnorm(10))
-(x4 <- seq(0, 1, .1))
-seq(10)
-(x5 <- sample(seq(100), 20))
 ```
 
 ### Initializing a vector
@@ -106,6 +102,8 @@ By default, vectors are constructed by column (byrow = FALSE)
 x <- matrix(1:20, nrow = 10, ncol = 2, byrow = FALSE)
 x
 ```
+
+You can set the `byrow` argument to `TRUE` to fill the matrix by row instead:
 
 ```{r}
 x <- matrix(1:20, nrow = 10, ncol = 2, byrow = TRUE)
@@ -471,12 +469,12 @@ The following table lists the functions to *initialize*, *coerce*
 (=convert), and *test* the core data structures, which are shown in more 
 detail in the following paragraphs:
 
-| **Initialize**          | **Coerce**         | **Test**           |
-|------------------------:|-------------------:|-------------------:|
-| `matrix(NA, nrow = x, ncol = y)`                   | `as.matrix(x)`     | `is.matrix(x)`     |
-| `array(NA, dim = c(x, y, z))` | `as.array(x)`      | `is.array(x)`      |
-| `vector(mode = "list", length = x)`       | `as.list(x)`       | `is.list(x)`       |
-| `data.frame(a = ..., b = ...)` or `data.frame(matrix(NA, x, y))`               | `as.data.frame(x)` | `is.data.frame(x)` |
+| **Initialize**                      | **Coerce**        | **Test**           |
+|------------------------------------:|------------------:|-------------------:|
+| `matrix(NA, nrow = x, ncol = y)`    | `as.matrix(x)`    | `is.matrix(x)`     |
+| `array(NA, dim = c(x, y, z))`       | `as.array(x)`     | `is.array(x)`      |
+| `vector(mode = "list", length = x)` | `as.list(x)`      | `is.list(x)`       |
+| `data.frame(matrix(NA, x, y))`      | `as.data.frame(x)`| `is.data.frame(x)` |
 
 ## Attributes
 

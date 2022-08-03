@@ -18,11 +18,13 @@ an object:
 - **Logical vector** specifying whether to include or not each element
 - **Character vector** identifying elements, rows, or columns by name
 
+```{block, type="rmdnote"}
 In data science and related fields the terms **filter** and **select** are 
 commonly used:
 
 - **Filter**: identify ***cases*** i.e. rows
 - **Select**: identify ***variables*** a.k.a. ***features*** i.e. columns
+```
 
 Integer indexing in R is 1-based, meaning the first item of a vector is in 
 position 1. In contrast, many programming languages use 
@@ -34,12 +36,14 @@ To understand indexing, make sure you are very comfortable with the core
 [R data structures](#structures): vectors, matrices, arrays, lists, and
 data.frames.
 <br><br>
-The main indexing operator in R is the square bracket `[`.
-<br><br>
 ***What is indexing used for?***
 
-Indexing can be used to **extract** values from an object or to **replace** 
+Indexing can be used to **get** values from an object or to **set** 
 values in an object.
+<br><br>
+The main indexing operator in R is the square bracket `[]`.
+
+Lists use double square brackets `[[]]`
 
 ## Vectors {#indexvectors}
 
@@ -64,38 +68,55 @@ Get elements 6 through 9 of the same vector:
 x[6:9]
 ```
 
+An integer index can be used to reverse order of elements:
+
+```{r}
+x[5:3]
+```
+
+Note that an integer index can be used to repeat elements. This is often
+done by accident, when someone passes the wrong vector as an index, so beware.
+
+```{r}
+x[c(1, 1, 1, 4)]
+```
+
 ### Logical Index
 
 Logical indexes are usually created as the output of a logical operation, 
-i.e. an elementwise comparison. 
+i.e. an elementwise comparison.
+<br><br>
+Select elements with value greater than 19:
 
-Select elements with value greater than 19 (logical index):
+```{r}
+idl <- x > 19
+x[idl]
+```
+
+Logical vectors can be created directly in the brackets:
 
 ```{r}
 x[x > 19]
 ```
 
-Note that an integer index can be used to repeat elements:
-
-```{r}
-x[c(1, 1, 1, 4)]
-```
 ### Extract vs. Replace
 
 ```{r}
 x <- c(24, 32, 41, 37, 999, 999, 999)
 ```
 
-Indexing allows you to access specific elements, for example to perform calculation on them.
+Indexing allows you to access specific elements, for example to perform 
+calculations on them.
 
-Get the mean of elements 2:5:
+Get the mean of elements 1 through 4:
 
 ```{r}
 mean(x[1:4])
 ```
+
 You can combine indexing with assignment to replace elements of an object.
 
-Replace elements 1:4 with their log:
+Replace values in elements 1:4 with their log:
 
 ```{r}
 x[1:4] <- log(x[1:4])
@@ -113,11 +134,15 @@ x
 
 Reminder:
 
-- A matrix is a 2D vector and contains elements of the same type (numeric, integer, character).
+- A matrix is a 2D vector and contains elements of the same type (numeric, 
+integer, character, etc.).
 - A data frame is a 2D list and each column can contain a different data type.
 
-To index a 2D structure, whether a matrix or data frame, we use the form `[row, column]`  
-The following indexing operations are therefore the same whether applied on a matrix or a data frame.
+To index a 2D structure, whether a matrix or data frame, we use the form:
+ `[row, column]`.
+
+The following indexing operations are therefore the same whether applied on a 
+matrix or a data frame:
 
 ```{r}
 mat <- matrix(21:60, 10)
@@ -137,7 +162,8 @@ df[5, 2]
 
 We show the following on matrices, but they work just the same on data.frames.
 
-If you want to select an entire row or an entire column, you leave the row or column index blank, but must use a comma:
+If you want to select an entire row or an entire column, you leave the row or 
+column index blank, but you ***must include a comma***:
 
 Get the first row:
 
@@ -151,7 +177,8 @@ Get the second column:
 mat[, 2]
 ```
 
-Note that colnames and rownames where added to the matrix above for convenience - if they are absent, there are no labels above each element.
+Note that colnames and rownames where added to the matrix above for convenience 
+- if they are absent, there are no labels above each element.
 
 You can define ranges for both rows and columns:
 
@@ -259,19 +286,22 @@ Reminder: A list can contain elements of different classes and of different
 lengths:
 
 ```{r}
-x <- list(one = 1:4,
-           two = sample(seq(0, 100, .1), 10),
-           three = c("mango", "banana", "tangerine"),
-           four = median)
+x <- list(one = 1001:1004,
+          two = sample(seq(0, 100, .1), 10),
+          three = c("Neuro", "Cardio", "Radio"),
+          four = median)
 x
 ```
 
-You can access a list **element** with:
 
+### Extract *single* list element as *vector*:
+
+You can access a *single* list element as a ***vector*** using:
+
+- Using double brackets `[[` with either *name* or *integer position*
 - `$` followed by name of the element (therefore only works if elements are named)
-- using double brackets `[[` with either name or integer index
 
-To access the third element:
+For example, to access the third element:
 
 ```{r}
 x$three
@@ -288,7 +318,8 @@ same as:
 x[["three"]]
 ```
 
-To access an element with a name or integer index stored in a variable, only the bracket notation works. Therefore, programmatically, you would always use double brackets to access different elements:
+To access a list element programmaticaly, i.e. using a name or integer index 
+stored in a variable, only the bracket notation works. Therefore, programmatically, you would always use double brackets to access different elements:
 
 ```{r}
 idi <- 3
@@ -297,40 +328,62 @@ x[[idi]]
 x[[idc]]
 ```
 
-`$` or `[[` return an element.  
+### Extract *one or more* list elements as a ***list***:
 
-In contrast, single bracket `[` indexing of a list returns a pruned list:
-
-```{r}
-x[[idi]]
-class(x[[idi]])
-```
-
-vs.
+You can extract one or more list elements as a pruned list using
+single bracket `[` notation. Similar to indexing of a vector, this can be
+either a logical, integer, or character vector:
 
 ```{r}
-x[idi]
-class(x[idi])
+x[3]
+x["three"]
+x[c(F, F, T, F)]
 ```
 
-Extract multiple list elements with single brackets, as expected:
+Extract multiple elements:
 
 ```{r}
 x[2:3]
-class(x[2:3])
+# same as
+x[c("two", "three")]
+# same as
+x[c(F, T, T, F)]
 ```
 
-Beware (confusing) recursive indexing.  
-(This is probably rarely used).  
-Unlike in the single brackets example above, where you can use a colon to specify a range of elements to index, colon notation within double brackets accesses elements ***recursively*** at the given position.  
+### Recursive indexing of list
 
-For example, the following extracts the 3rd element of the 2nd element of the list:
+Given the following list:
 
 ```{r}
-x[[2:3]]
+x <- list(PIDN = 2001:2020,
+          Dept = c("Neuro", "Cardio", "Radio"),
+          Age = rnorm(20, 57, 1.3))
 ```
 
-You can convert a list to one lone vector containing all the individual components of the original list using `unlist()`. Notice how names are automatically created based on the original structure:
+We can access the 3rd element of the 2nd element:
+
+```{r}
+x[[2]][[3]]
+```
+
+or
+
+```{r}
+x[[c(2, 3)]]
+```
+
+This is called recursive partitioning and is perhaps more often
+used by accident, when one instead wanted to extrant the 2nd and 3rd elements:
+
+```{r}
+x[c(2, 3)]
+```
+
+### Flatten list
+
+You can convert a list to one lone vector containing all the individual 
+components of the original list using `unlist()`. Notice how names are 
+automatically created based on the original structure:
 
 ```{r}
 x <- list(alpha = sample(seq(100), 10),
@@ -340,23 +393,23 @@ x
 unlist(x)
 ```
 
-If you want to drop the names, you can wrap the above in `unname()`:
+If you want to drop the names, you can use set the `use.names` argument to FALSE or wrap the above in `unname()`:
 
 ```{r}
+unlist(x, use.names = F)
+# same as
 unname(unlist(x))
-```
-
-### Logical index {#idllist}
-
-We can use a logical index on a list with single bracket:
-
-```{r}
-x[c(T, F, T, F)]
 ```
 
 ## Data frames {#indexdfs}
 
-We've already seen above that a data frame can be indexed in many ways similar to a matrix, i.e. by defining rows and columns. At the same time, we know that a data frame is a rectangular list. Like a list, its elements are vectors of any type (integer, double, character, factor, and more) but, unlike a list, they have to be of the same length. A data frame can also be indexed the same way as a list and similar to list indexing, notice that some methods return a smaller data frame, while others return vectors.  
+We've saw above that a data frame can be indexed in many ways similar to a 
+matrix, i.e. by defining rows and columns. At the same time, we know that a 
+data frame is a rectangular list. Like a list, its elements are vectors of any 
+type (integer, double, character, factor, and more) but, unlike a list, they 
+have to be of the same length. A data frame can also be indexed the same way as 
+a list and similar to list indexing, notice that some methods return a smaller 
+data frame, while others return vectors.  
 
 ```{block, type="rmdtip"}
 You can index a data frame using all the ways you can index a list and all the ways you can index a matrix.
@@ -371,34 +424,40 @@ x <- data.frame(Feat_1 = 21:25,
 x
 ```
 
-### Extract column(s)
+### Extract *single* column as a vector
 
-Just like in a list, using the `$` operator or double bracket `[[` returns an element, i.e. a **vector**:
+Just like in a list, using double brackets `[[` or the `$` operator
+returns an element, i.e. a **vector**:
 
 ```{r}
 x$Feat_2
-class(x$Feat_2)
 ```
 
 ```{r}
 x[[2]]
-class(x[[2]])
 ```
 
-Accessing a column by name with square brackets, returns a single-column **data.frame**:
+```{r}
+x[, 2]
+```
+
+### Extract "one or more" columns as a data.frame
+
+Accessing a column by name using square brackets, returns a single-column 
+**data.frame**:
 
 ```{r}
 x["Feat_2"]
-class(x["Feat_2"])
 ```
 
 Accessing a column by `[row, column]` either by position or name, return a vector by default:
 
 ```{r}
 x[, 2]
-class(x[, 2])
+```
+
+```{r}
 x[, "Feat_2"]
-class(x[, "Feat_2"])
 ```
 
 As we saw earlier, we can specify `drop = FALSE` to return a `data.frame`:
@@ -540,8 +599,10 @@ all(logical_index == logical_index_too)
 
 ## Exclude cases using an index
 
-Very often, we want to use an index, whether logical or integer, to exclude cases instead of to select cases.  
-To do that with a logical integer, we simply use an exclamation point in front of the index to negate each element (convert each TRUE to FALSE and each FALSE to TRUE):
+Very often, we want to use an index, whether logical or integer, to exclude 
+cases instead of to select cases.  To do that with a logical integer, we simply 
+use an exclamation point in front of the index to negate each element 
+(convert each TRUE to FALSE and each FALSE to TRUE):
 
 ```{r}
 logical_index
@@ -552,14 +613,16 @@ logical_index
 x[!logical_index]
 ```
 
-To exclude elements using an integer index, R allows you to use negative indexing:
+To exclude elements using an integer index, R allows you to use negative 
+indexing:
 
 ```{r}
 x[-integer_index]
 ```
 
 ```{block, type="rmdnote"}
-To get the complement of an index, you negate a logical index (`!logical_index`) or you subtract an integer index (`-integer_index`):
+To get the complement of an index, you negate a logical index 
+(`!logical_index`) or you subtract an integer index (`-integer_index`):
 ```
 
 ## Resources

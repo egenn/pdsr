@@ -6,72 +6,35 @@ knitr:
 ---
 # Data Input/Output {#dataio}
 
-## R datasets
-
-### Datasets included with R (in package 'datasets')
-
-List built-in datasets with `data()` and no arguments:
-
-```{r eval=FALSE}
-data()
-```
-
-These built-in datasets are normally readily available in the R console 
-(because the **datasets** package is automatically loaded)  
-You can check if this is the case using `search()`
-
 ```{r}
-search()
-```
-
-### Datasets included with other packages
-
-List a dataset included with some R package:
-
-```{r, eval = FALSE}
-data(package = "glmnet")
-data(package = "MASS")
-data(package = "mlbench")
-```
-
-Load a dataset from some R package:
-
-```{r}
-data(Sonar, package = "mlbench")
-```
-
-Note: quotes around "Sonar" in the `data()` command above are optional.
-
-## System commands
-
-Get working directory with `getwd()`
-
-```{r eval=FALSE}
-getwd()
-```
-
-You can set a different working directory with `setwd()`  
-
-List files in current directory:
-
-```{r eval=FALSE}
-dir()
-```
-
-You can execute a command of you operating system (OS) -i.e. MacOS, Linux, 
-Windows- from within R using the `system()` function:
-
-```{r}
-system("uname -a")
-```
-
-Note: See issue [here](https://stackoverflow.com/questions/27388964/rmarkdown-not-outputting-results-of-system-command-to-html-file)
-
-## Data I/O
-
-```{r FigRDataIO, echo = FALSE, out.width = "80%", fig.align = 'center', fig.cap = "Common Data Input/Output commands in R"}
+#| echo: false
+#| out.width: 80%
+#| fig.cap: "Common Data Input/Output commands in R"
+#| fig.align: "center"
 knitr::include_graphics("./R_dataio.png")
 ```
+
+Tabular data typically consists of rows and columns, where the rows correspond
+to different cases (e.g. patients) and the columns correspond to different
+variables a.k.a. covariates a.k.a. features. Such data can be stored in
+multiple different file formats.
+
+This includes **plain text** files, often in a 
+[delimited format](https://en.wikipedia.org/wiki/Delimiter-separated_values){target="_blank"}, and **binary** files.
+
+Common delimited format files includes comma- and tab-separated values 
+([CSV](https://en.wikipedia.org/wiki/Comma-separated_values){target="_blank"}, 
+[TSV](https://en.wikipedia.org/wiki/Tab-separated_values){target="_blank"}).
+
+Binary file formats can be either open (e.g. R's RDS format) or 
+proprietary (e.g. Microsoft's Excel).
+
+R includes built-in support for reading and writing multiple file formats, 
+including delimited format files and its own binary RDS and RData files.
+
+Third party packages add support for working with virtually any file type.
+
+## CSV
 
 ### Read local CSV
 
@@ -103,7 +66,7 @@ column.
 men <-  read.csv("../Data/pone.0204161.s001.csv")
 ```
 
-### Read data from the web
+### Read CSV from the web
 
 `read.csv()` can directly read an online file. In the second example below, we 
 also define that missing data is coded with `?`  using the `na.strings` 
@@ -149,16 +112,18 @@ bcw <- read.delim(con, header = TRUE)
 You can also use __data.table__'s `fread()`, which will directly handle zipped 
 files:
 
-```{r eval = FALSE}
+```{r}
+#| eval: false
 library(data.table)
-bcw2 <- fread("https://github.com/EpistasisLab/penn-ml-benchmarks/raw/master/datasets/classification/breast-cancer-wisconsin/breast-cancer-wisconsin.tsv.gz")
+bcw <- fread("https://github.com/EpistasisLab/penn-ml-benchmarks/raw/master/datasets/classification/breast-cancer-wisconsin/breast-cancer-wisconsin.tsv.gz")
 ```
 
-If you want to stick to using data frames, set the argument `data.table` to 
-`FALSE`:
+If you want `fread()` to return a `data.frame` instead of a `data.table`, you
+can set the `data.table` argument `FALSE`:
 
-```{r eval = FALSE}
-bcw2 <- fread("https://github.com/EpistasisLab/penn-ml-benchmarks/raw/master/datasets/classification/breast-cancer-wisconsin/breast-cancer-wisconsin.tsv.gz",
+```{r}
+#| eval: false
+bcw <- fread("https://github.com/EpistasisLab/penn-ml-benchmarks/raw/master/datasets/classification/breast-cancer-wisconsin/breast-cancer-wisconsin.tsv.gz",
               data.table = FALSE)
 ```
 
@@ -168,84 +133,156 @@ Use the `write.csv()` function to write an R object (usually data frame or
 matrix) to a CSV file. Setting `row.names = FALSE` is usually a good idea. 
 (Instead of storing data in rownames, it's usually best to create a new column.)
 
-```{r eval = FALSE}
+```{r}
+#| eval: false
 write.csv(iris, "../Data/iris.csv", row.names = FALSE)
 ```
 
 Note that in this case we did not need to save row names (which are just 
 integers 1 to  150 and would add a useless extra column in the output)
 
-### Read .xslx using `openxlsx::read.xlsx()`
+## Excel .XLSX files
 
-As an example, we can read the csv we saved earlier into Excel and then save it 
-as a .xlsx file.  
+Two popular packages to read Excel files are 
+[openxlsx](https://cran.r-project.org/package=openxlsx) and 
+[readxl](https://cran.r-project.org/package=readxl).
 
-```{r eval = FALSE}
-iris.path <- normalizePath("../Data/iris.xlsx")
-iris2 <- openxlsx::read.xlsx(iris.path)
+## Read .xslx 
+
+### `openxlsx::read.xlsx()`
+
+```{r}
+#| eval: false
+bcw <- openxlsx::read.xlsx("../Data/bcw.xlsx")
 ```
 
-Note: `openxlsx::read.xlsx()` does not work with a relative path like 
-`"./Data/iris.xlsc"`. Therefore we used the `normalizePath()` function to give 
-us the full path of the file without having to type it out.
+### `readxl::read_xlsx()`
 
-Check that the data is still identical:
-
-```{r eval = FALSE}
-all(iris == iris2)
+```{r}
+#| eval: false
+bcw <- readxl::read_xlsx("../Data/bcw.xlsx")
 ```
 
-### Write an R object to RDS
+## Write .xlsx 
+
+### `openxlsx::write.xlsx()`
+
+```{r}
+#| eval: false
+openxlsx::write.xlsx(bcw, "../Data/bcw.xlsx")
+```
+
+Note: The `readxl` package does not include a function to write .XLSX files
+
+## RDS
+
+### Write single R object to an RDS file
 
 You can write any R object directly to file so that you can recover it at any 
 time, share it, etc. Remember that since a list can contain any number of 
-objects of any type, you can save any collection of objects as an RDS file. 
-For multiple objects, see also the `save.image()` command below.
+objects of any type, you can save essentially any collection of objects in an 
+RDS file. For multiple objects, see also the `save.image()` command below.
 
-```{r eval = FALSE}
-saveRDS(iris, "iris.rds")
+```{r}
+#| eval: false
+saveRDS(bcw, "bcw.rds")
 ```
 
-To load an object saved in an rds file, assign it to an object  using 
+### Read single object from an RDS file
+
+To load an object saved in an rds file, assign it to an object using 
 `readRDS()`:
 
-```{r eval = FALSE}
+```{r}
+#| eval: false
 iris_fromFile <- readRDS("iris.rds")
 all(iris == iris_fromFile)
 ```
 
-### Write multiple R objects to RData file using `save()`
+## RData
 
-```{r eval = FALSE}
+### Write multiple R objects to an RData file
+
+You can use the `save()` function to save multiple R objects to a single .RData
+file:
+
+```{r}
+#| eval: false
 mat1 <- sapply(seq_len(10), function(i) rnorm(500))
 mat2 <- sapply(seq_len(10), function(i) rnorm(500))
 save(mat1, mat2, file = "./mat.RData")
 ```
 
-Note: we will learn how to use `sapply()` later under "Loop functions"
+Note: we will learn how to use `sapply()` later under 
+[Loop functions](#sec-loopfns)
 
-To load the variables in the `.RData` file you saved, use the `load()` command:
+To load the variables in the RData file you saved, use the `load()` command:
 
-```{r eval = FALSE}
+```{r}
+#| eval: false
 load("./Rmd/mat.RData")
 ```
 
-Note that `load()` adds the objects to your workspace using with their original 
+Note that `load()` adds the objects to your workspace using their original 
 names. You do not assign them to a new object, unlike with the `readRDS()` call 
 above.
 
-### Write your entire workspace to a RData image using `save.image()`
+### Write your entire workspace to an RData file
 
 You can save your entire workspace to a RData file using the `save.image()` 
-function.  
+function:
 
 ```{r eval=FALSE}
-save.image("workspace_10_05_2020.RData")
+save.image("workspace_2022-08-10.RData")
 ```
 
 Same as above, to re-load the workspace saved in the `.RData` file, use the 
 `load()` command:
 
 ```{r eval=FALSE}
-load("workspace_10_05_2020.RData")
+load("workspace_2022-08-10.RData")
 ```
+
+## System commands
+
+Get working directory with `getwd()`
+
+```{r}
+#| eval: false
+getwd()
+```
+
+You can set a different working directory with `setwd()`  
+
+List files in current directory:
+
+```{r}
+#| eval: false
+dir()
+```
+
+You can send operating system commands using `system()`:
+
+```{r}
+system("uname -a")
+```
+
+Note: See issue [here](https://stackoverflow.com/questions/27388964/rmarkdown-not-outputting-results-of-system-command-to-html-file){target="_blank"}
+
+## Read other common third-party formats
+
+| File type          | File Extension          | package::function       |
+| ------------------:|------------------------:|:------------------------|
+| JSON               | `.json`                 | `jsonlite::read_json()  |
+| Stata data         | `.dta`                  | `haven::read_dta()`     |
+| SPSS data          | `.por`, `.sav`, `.zsav` | `haven::read_spss()`    |
+| SAS transport file | `.xpt`                  | `haven::read_xpt()`     |
+| Matlab data        | `.mat`                  | 
+| Apache Arrow       | `.arrow`                | `arrow::read_arrow()`   |
+| Apache Arrow       | `.feather`              | `arrow::read_feather()` |
+| Apache Arrow       | `.parquet`              | `arrow::read_parquet`() |
+
+## Resources
+
+- [R Data Import/Export](https://cran.r-project.org/doc/manuals/r-release/R-data.html#XML){target="_blank"}
+by the R Core Team.

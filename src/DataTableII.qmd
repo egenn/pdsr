@@ -1,0 +1,29 @@
+---
+knitr:
+  opts_chunk:
+    comment: ""
+    cache: true
+---
+
+# data.table advanced usage examples
+
+```{r}
+library(data.table)
+```
+## Index within groups
+
+For example, get index for min or max whithin each group, where index
+refers to entire data.table.
+
+Look at the documentation for `.I`
+
+```{r}
+ir <- as.data.table(iris)
+ir[, .I[which.max(Petal.Width)], by = Species]
+```
+
+Use that to get the flower with max Petal.Width from each Species
+
+```{r}
+ir[, ir[, .I[which.max(Petal.Width)], by = Species][[2]]]
+```

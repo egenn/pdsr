@@ -124,7 +124,7 @@ Test if any element is TRUE with `any()`:
 any(a)
 ```
 
-## Common descriptive stats
+## Common statistical operations
 
 First, let's use the `rnorm()` function to draw 200 numbers at random from a 
 normal distribution:
@@ -133,7 +133,8 @@ normal distribution:
 x <- rnorm(200)
 ```
 
-Basic descriptive stat operations -  
+### Descriptive statistics
+
 mean, median, standard deviation, minimum, maximum, and range:
 
 ```{r}
@@ -148,3 +149,34 @@ range(x)
 ```{r}
 summary(x)
 ```
+
+### Sampling
+
+R's `sample()` allows you to samples elements of an 
+[R object](#sec-DataStructures) with or without replacement:
+
+By default, the `replace` argument is set to `FALSE`, i.e. sampling is 
+performed without replacement and you can request a sample size up to the
+length of the object:
+
+```{r}
+x <- 21:30
+sample(x, size = 5)
+```
+
+`size` is the second argument and therefore can be ommited if it is the
+second value you pass to `sample()`:
+
+```{r}
+sample(x, 10)
+```
+
+Setting `replace = TRUE` performs sampling with replacement and you can set 
+a sample size up to
+
+```{r}
+sample(x, 100, replace = TRUE)
+```
+
+`replace` is the third argument and could therefore be omitted in the example
+above

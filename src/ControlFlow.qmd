@@ -1,24 +1,30 @@
-# Control flow {#controlflow}
+---
+execute:
+  cache: true
+knitr:
+  opts_chunk: 
+    comment: ''
+---
+# Control flow {#sec-controlflow}
 
-```{r echo = FALSE}
-knitr::opts_chunk$set(fig.width = 10, fig.height = 5,
-                      comment = NA, cache = TRUE) 
-```
-
-Code is often not executed linearly (i.e. line-by-line). Control flow (or flow of control) operations define the order in which code segments are executed.
+Code is often not executed linearly (i.e. line-by-line). Control flow (or flow 
+of control) operations define the order in which code segments are executed.
 
 Execution is often conditional (`if - else` or `switch`).
 
-Segments of code may be repeated multiple times (`for`) or as long as certain conditions are met (`while`).
+Segments of code may be repeated multiple times (`for`) or as long as certain 
+conditions are met (`while`).
 
-Control flow operations form some of the fundamental building blocks of programs. Each operation is very simple - combine enough of them and you can build up to any amount of complexity.
+Control flow operations form some of the fundamental building blocks of 
+programs. Each operation is very simple - combine enough of them and you can 
+build up to any amount of complexity.
 
-* `if` [Condition] [Expression] `else` [Alternate Expression]
-* `for` [Variable in Sequence] do [Expression]
-* `while` [Condition] do [Expression]
-* `repeat` [Expression] until `break`
-* `break`: break out of `for`, `while` or `repeat` loop
-* `next`: skip current iteration and proceed to next
+* **`if`** [Condition] [Expression] **`else`**[Alternate Expression]
+* **`for`** [Variable in Sequence] do [Expression]
+* **`while`**[Condition] do [Expression]
+* **`repeat`**[Expression] until **`break**`
+* **`break`**: break out of **`for`**, **`while`**or **`repeat`**loop
+* **`next`**: skip current iteration and proceed to next
 
 ## `if` - `else`:
 
@@ -76,12 +82,14 @@ a <- 1:10
 ## `for` loops {#forloops}
 
 ```{block, type="rmdtip"}
-Use `for` loops to repeat execution of a block of code a certain number of times.
+Use `for` loops to repeat execution of a block of code a certain number of 
+times.
 ```
 
 The for loop syntax is `for (var in vector) expression`.
 
-The `expression` is usually surrounded by curly brackets and can include any number of lines, any amount of code:
+The `expression` is usually surrounded by curly brackets and can include any 
+number of lines, any amount of code:
 
 ```{r}
 for (i in 1:3) {
@@ -99,7 +107,8 @@ for (i in seq(10)) {
 }
 ```
 
-`letters` is a built-in constant that includes all 26 lowercase letters of the Roman alphabet; `LETTERS` similarly includes all 26 uppercase letters.
+`letters` is a built-in constant that includes all 26 lowercase letters of the 
+Roman alphabet; `LETTERS` similarly includes all 26 uppercase letters.
 
 ```{r}
 for (letter in letters[1:5]) {
@@ -109,12 +118,18 @@ for (letter in letters[1:5]) {
 
 ### Working on data within a for loop {#fordata}
 
-A common scenario involves working on a data object, whether a vector, matrix, list, data.frame, and performing an operation on each elements, one at a time. While a lot of these operations are often performed using [loop functions](#loopfns) instead, for loops can certainly be used.
+A common scenario involves working on a data object, whether a vector, matrix, 
+list, data.frame, and performing an operation on each elements, one at a time. 
+While a lot of these operations are often performed using 
+[loop functions](#loopfns) instead, for loops can certainly be used.
 
-You can start by initializing an object of the appropriate class and dimensions to hold the output. Then, each iteration of the for loop will assign its output to the corresponding element/s of this object.
+You can start by initializing an object of the appropriate class and dimensions 
+to hold the output. Then, each iteration of the for loop will assign its output 
+to the corresponding element/s of this object.
 
-In the following example we transform the `mtcars` built-in dataset's features to [z-scores](#zscore).
-The built-in command `scale()` will do this for quickly and conveniently, this is for demonstration purposes:
+In the following example we transform the `mtcars` built-in dataset's features 
+to [z-scores](#zscore). The built-in command `scale()` will do this for quickly 
+and conveniently, this is for demonstration purposes:
 
 First, initialize the output to be the desired class and dimensions:
 
@@ -125,15 +140,18 @@ mtcars_z <- data.frame(matrix(0, 32, 11))
 colnames(mtcars_z) <- colnames(mtcars)
 ```
 
-or, it is much simpler to just make a copy of `mtcars` to be overwritten by the for loop later:
+or, it is much simpler to just make a copy of `mtcars` to be overwritten by the 
+for loop later:
 
 ```{r}
 mtcars_z <- mtcars
 ```
 
-Standardization involves subtracting the mean and dividing by the standard deviation.
+Standardization involves subtracting the mean and dividing by the standard 
+deviation.
 
-Here is the for loop - we iterate through each column and assign the transformed data:
+Here is the for loop - we iterate through each column and assign the 
+transformed data:
 
 ```{r}
 for (i in 1:ncol(mtcars)) {
@@ -141,7 +159,8 @@ for (i in 1:ncol(mtcars)) {
 }
 ```
 
-Let's compare to the output of the `scale()` command by print the first 3 rows and columns of each:
+Let's compare to the output of the `scale()` command by print the first 3 rows 
+and columns of each:
 
 ```{r}
 mtcars_z2 <- as.data.frame(scale(mtcars))
@@ -149,7 +168,8 @@ mtcars_z[1:3, 1:3]
 mtcars_z2[1:3, 1:3]
 ```
 
-Note that we wrapped `scale()` around `as.data.frame()` because it outputs a matrix.
+Note that we wrapped `scale()` around `as.data.frame()` because it outputs a 
+matrix.
 
 We can check that all elements are the same with `all()`:
 
@@ -179,8 +199,8 @@ a
 print(a)
 ```
 
-This "automatic printing" does not happen within a `for` loop, so you simply use `print()` 
-(or `cat()` as preferred):
+This "automatic printing" does not happen within a `for` loop, so you simply 
+use `print()` (or `cat()` as preferred):
 
 The following loop does not print out anything:
 
@@ -204,7 +224,9 @@ for (i in 1:4) {
 
 ## Select one of multiple alternatives with `switch`
 
-Instead of using multiple `if` - `else if` statements, we can build a more compact call using `switch`. (It is best suited for options that are of type character, rather than numeric)
+Instead of using multiple `if` - `else if` statements, we can build a more 
+compact call using `switch`. (It is best suited for options that are of type 
+character, rather than numeric)
 
 ```{r}
 y <- sample(letters[seq(8)], 1)
@@ -290,7 +312,8 @@ for (i in seq(7)) {
 
 ## `repeat` loops
 
-A `repeat` block initiates an infinite loop and you **must** use `break` to exit.
+A `repeat` block initiates an infinite loop and you **must** use `break` to 
+exit.
 
 ```{r}
 i <- 10

@@ -7,8 +7,9 @@ Welcome to PDSR!
 This book is aimed as an introductory- to intermediate-level R programming learning resource.  
 It is the online book for UCSF Biostat 213/4.
 <br><br>
-EDG
+E.D. Gennatas
 
-[UCSF](https://www.ucsf.edu/) [LCM](https://lambdamd.org/),
+[Laboratory of Computational Medicine](https://lambdamd.org/),
+[UCSF](https://www.ucsf.edu/)
 
-San Francisco, CA, July 2022
+San Francisco, CA, August 2022

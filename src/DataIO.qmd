@@ -151,16 +151,22 @@ Two popular packages to read Excel files are
 
 ### `openxlsx::read.xlsx()`
 
+`NA` strings are defined with argument `na.strings`
+
 ```{r}
 #| eval: false
-bcw <- openxlsx::read.xlsx("../Data/bcw.xlsx")
+bcw <- openxlsx::read.xlsx("../Data/bcw.xlsx",
+    na.strings = ".")
 ```
 
 ### `readxl::read_xlsx()`
 
+`NA` strings are defined with argument `na`
+
 ```{r}
 #| eval: false
-bcw <- readxl::read_xlsx("../Data/bcw.xlsx")
+bcw <- readxl::read_xlsx("../Data/bcw.xlsx",
+    na = ".")
 ```
 
 ## Write .xlsx 
@@ -232,14 +238,16 @@ above.
 You can save your entire workspace to a RData file using the `save.image()` 
 function:
 
-```{r eval=FALSE}
+```{r}
+#| eval: false
 save.image("workspace_2022-08-10.RData")
 ```
 
 Same as above, to re-load the workspace saved in the `.RData` file, use the 
 `load()` command:
 
-```{r eval=FALSE}
+```{r}
+#| eval: false
 load("workspace_2022-08-10.RData")
 ```
 

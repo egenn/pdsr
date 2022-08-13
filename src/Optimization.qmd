@@ -1,26 +1,42 @@
-# Optimization {#optim}
+---
+execute:
+  cache: false
+knitr:
+  opts_chunk: 
+    comment: ''
+    fig-width: 4.5
+    fig-heightt: 4.5
+    warning: false
+---
 
-```{r echo = FALSE}
-knitr::opts_chunk$set(fig.width = 4.5, fig.height = 4.5,
-                      comment = NA, cache = TRUE) 
+# Optimization {#optimization}
+
+```{r}
+#| echo: false
 options(rt.theme = "whitegrid")
-options(rt.fit.theme = "whitegrid")
 ```
 
-```{r, comment="", results="asis", echo=FALSE}
+```{r}
+#| echo: false
+#| results: asis
 old.hooks <- fansi::set_knit_hooks(knitr::knit_hooks)
 options(crayon.enabled = TRUE)
 ```
 
-```{r echo = FALSE}
+```{r}
+#| echo: false
 library(rtemis)
 ```
 
-R provides a general purpose optimization tool, `optim()`. You can use it to estimate parameters that minimize any defined function.  
-Supervised and unsupervised learning involves defining a loss function to minimize or an objective function to minimize or maximize.  
-To learn how `optim()` works, let's write a simple function that returns linear coefficients by minimizing squared error.
+R provides a general purpose optimization tool, `optim()`. You can use it to 
+estimate parameters that minimize any defined function.  
+Supervised and unsupervised learning involves defining a loss function to 
+minimize or an objective function to minimize or maximize.  
+To learn how `optim()` works, let's write a simple function that returns linear 
+coefficients by minimizing squared error.
 
 ## Data
+
 ```{r}
 set.seed(2020)
 x <- sapply(seq(10), function(i) rnorm(500))
@@ -32,22 +48,31 @@ y <- 12 + 1.5 * x[, 3] + 3.2 * x[, 7] + .5 * x[, 9] + rnorm(500)
 yx.glm <- glm(y ~ x)
 summary(yx.glm)
 ```
+
 Or, using _rtemis_:
+
 ```{r}
 mod.glm <- s_GLM(x, y)
 ```
+
 ```{r}
 summary(mod.glm$mod)
 ```
 
-## `optim`
+## `optim()`
+
 Basic usage of `optim` to find values of parameters that minimize a function:  
 
 * Define a list of initial parameter values
-* Define a loss function whose first argument is the above list of initial parameter values
+* Define a loss function whose first argument is the above list of initial 
+parameter values
 * Pass parameter list and objective function to `optim`
 
-In the following example, we wrap these three steps in a function called `linearcoeffs`, which will output the linear coefficients that minimize squared error, given a matrix/data.frame of features `x` and an outcome `y`. We also specify the optimization method to be used (See `?base::optim` for details):
+In the following example, we wrap these three steps in a function called 
+`linearcoeffs`, which will output the linear coefficients that minimize squared 
+error, given a matrix/data.frame of features `x` and an outcome `y`. We also 
+specify the optimization method to be used (See `?base::optim` for details):
+
 ```{r}
 linearcoeffs <- function(x, y, method = "BFGS") {
   

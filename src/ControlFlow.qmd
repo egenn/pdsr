@@ -26,7 +26,9 @@ build up to any amount of complexity.
 * **`break`**: break out of **`for`**, **`while`**or **`repeat`**loop
 * **`next`**: skip current iteration and proceed to next
 
-## `if` - `else`:
+## Conditionals 
+
+### `if` - `else`:
 
 ```{r}
 a <- 4
@@ -37,7 +39,7 @@ if (a < 10) {
 }
 ```
 
-## `if` - `else if` - `else`:
+### `if` - `else if` - `else`:
 
 ```{r}
 a <- sample(seq(-2, 2, .5), 1)
@@ -52,7 +54,7 @@ if (a > 0) {
 result
 ```
 
-## Conditional assignment with `if` - `else`:
+### Conditional assignment with `if` - `else`:
 
 You can use an `if` statement as part of an assignment:
 
@@ -65,7 +67,54 @@ y <- if (a > 5) {
 }
 ```
 
-## Conditional assignment with `ifelse`:
+### `ifelse()`
+
+`ifelse()` is [vectorized](#vectorization) and can be a great and compact 
+alternative to a more complex expression:
+
+```{r}
+a <- 1:10
+y <- ifelse(a > 5, 11:20, 21:30)
+y
+```
+
+So what did this do?
+
+It is equivalent to an `if-else` statement within a `for`-loop:
+
+```{r}
+idl <- a > 5
+yes <- 11:20
+no <- 21:30
+out <- vector("numeric", 10)
+for (i in seq(a)) {
+  if (idl[i]) {
+    out[i] <- yes[i]
+  } else {
+    out[i] <- no[i]
+  }
+}
+out
+```
+
+i.e.
+
+* Create a logical index using `test`
+* for each element `i` in `test`:
+    * if the element `i` is TRUE, return `yes[i]`, else `no[i]`
+
+For another example, lets take integers `1:11` and square the odd ones and cube 
+the even ones. We use the modulo operation `%%` to test if each element is odd 
+or even:
+
+```{r}
+x <- 1:11
+xsc <- ifelse(x %% 2 == 0, c(1:11)^3, c(1:11)^2)
+xsc
+```
+
+
+### Conditional assignment with `ifelse`:
 
 ```{r}
 a <- 3
@@ -79,7 +128,9 @@ a <- 1:10
 (y <- ifelse(a > 7, a^2, a))
 ```
 
-## `for` loops {#forloops}
+## Loops
+
+### `for` loops {#forloops}
 
 ```{block, type="rmdtip"}
 Use `for` loops to repeat execution of a block of code a certain number of 
@@ -116,7 +167,7 @@ for (letter in letters[1:5]) {
 }
 ```
 
-### Working on data within a for loop {#fordata}
+#### Working on data within a for loop {#fordata}
 
 A common scenario involves working on a data object, whether a vector, matrix, 
 list, data.frame, and performing an operation on each elements, one at a time. 
@@ -177,7 +228,7 @@ We can check that all elements are the same with `all()`:
 all(mtcars_z == mtcars_z2)
 ```
 
-### Nested `for` loops
+#### Nested `for` loops
 
 ```{r}
 a <- matrix(1:9, 3)
@@ -188,7 +239,7 @@ for (i in seq(3)) {
 }
 ```
 
-### Printing within a `for` loop
+#### Printing within a `for` loop
 
 In the R console objects get printed just by typing their name:
 
@@ -222,7 +273,7 @@ for (i in 1:4) {
 }
 ```
 
-## Select one of multiple alternatives with `switch`
+### Select among multiple options with `switch()`
 
 Instead of using multiple `if` - `else if` statements, we can build a more 
 compact call using `switch`. (It is best suited for options that are of type 
@@ -261,7 +312,7 @@ out <- switch(as.character(a > 0),
 out
 ```
 
-### `switch` example: HTTP Status Codes
+#### `switch` example: HTTP Status Codes
 
 ```{r}
 status <- sample(400:410, 1)
@@ -281,7 +332,7 @@ response <- switch(as.character(status),
 response
 ```
 
-## `while` loops
+### `while` loops
 
 ```{r}
 a <- 10
@@ -292,7 +343,7 @@ while (a > 0) {
 cat("when all is said and done, a is", a)
 ```
 
-## `break` stops execution of a loop:
+### `break` stops execution of a loop:
 
 ```{r}
 for (i in seq(10)) {
@@ -301,7 +352,7 @@ for (i in seq(10)) {
 }
 ```
 
-## `next` skips the current iteration:
+### `next` skips the current iteration:
 
 ```{r}
 for (i in seq(7)) {
@@ -310,10 +361,10 @@ for (i in seq(7)) {
 }
 ```
 
-## `repeat` loops
+### `repeat` loops
 
 A `repeat` block initiates an infinite loop and you **must** use `break` to 
-exit.
+exit. They are less commonly used.
 
 ```{r}
 i <- 10

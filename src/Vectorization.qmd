@@ -17,9 +17,11 @@ A vectorized function operates on all elements of an object at the same time.
 Vectorization is very efficient: it can save both human (your) time and machine 
 time.
 
+```{block, type="rmdtip"}
 In many cases, applying a function on all elements simultaneously may seem 
 obvious or expected behavior, but since not all functions are vectorized, make 
-sure to check the documentation (and/or test using a simple example).
+sure to check the documentation and/or test using a simple example.
+```
 
 ## Operations between vectors of equal length
 
@@ -28,8 +30,6 @@ Such operations are applied between corresponding elements of each vector:
 ```{r}
 x <- 1:10
 z <- 11:20
-x
-z
 x + z
 ```
 
@@ -41,10 +41,10 @@ In this cases, the scalar is repeated to match the length of the vector,
 i.e. it is ***recycled***:
 
 ```{r}
-(x + 10)
-(x * 2)
-(x / 10)
-(x ^ 2)
+x + 10
+x * 2
+x / 10
+x ^ 2
 ```
 
 ## Operations between vectors of unequal length: **value recycling**
@@ -94,50 +94,4 @@ log(x)
 sqrt(x)
 sin(x)
 cos(x)
-```
-
-## `ifelse()`
-
-`ifelse()` is vectorized and can be a great and compact alternative to a more 
-complex expression:
-
-```{r}
-a <- 1:10
-y <- ifelse(a > 5, 11:20, 21:30)
-y
-```
-
-So what did this do?
-
-It is equivalent to:
-
-```{r}
-idl <- a > 5
-yes <- 11:20
-no <- 21:30
-out <- vector("numeric", 10)
-for (i in seq(a)) {
-  if (idl[i]) {
-    out[i] <- yes[i]
-  } else {
-    out[i] <- no[i]
-  }
-}
-out
-```
-
-i.e.
-
-* Create a logical index using `test`
-* for each element `i` in `test`:
-    * if the element `i` is TRUE, return `yes[i]`, else `no[i]`
-
-For another example, lets take integers `1:11` and square the odd ones and cube 
-the even ones. We use the modulo operation `%%` to test if each element is odd 
-or even:
-
-```{r}
-x <- 1:11
-xsc <- ifelse(x %% 2 == 0, c(1:11)^3, c(1:11)^2)
-xsc
 ```

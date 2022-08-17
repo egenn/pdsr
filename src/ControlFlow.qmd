@@ -10,67 +10,92 @@ knitr:
 Code is often not executed linearly (i.e. line-by-line). Control flow (or flow 
 of control) operations define the order in which code segments are executed.
 
-Execution is often conditional (`if - else` or `switch`).
+Execution is often conditional (`if - else` or `switch()`).
 
-Segments of code may be repeated multiple times (`for`) or as long as certain 
-conditions are met (`while`).
+Segments of code may be repeated a predetermined number of times (`for`) or as 
+long as certain conditions are met (`while`). Any of those loops can be cut
+short, if needed.
 
 Control flow operations form some of the fundamental building blocks of 
 programs. Each operation is very simple - combine enough of them and you can 
-build up to any amount of complexity.
+build up to arbitrary complexity.
 
 * **`if`** [Condition] [Expression] **`else`**[Alternate Expression]
 * **`for`** [Variable in Sequence] do [Expression]
-* **`while`**[Condition] do [Expression]
-* **`repeat`**[Expression] until **`break**`
-* **`break`**: break out of **`for`**, **`while`**or **`repeat`**loop
-* **`next`**: skip current iteration and proceed to next
+* **`while`** [Condition] do [Expression]
+* **`repeat`** [Expression] until **`break**`
+* **`break`** - break out of **`for`**, **`while`**or **`repeat`**loop
+* **`next`** - skip current iteration and proceed to next
 
 ## Conditionals 
 
 ### `if` - `else`:
 
+Consider a [systolic blood pressure](https://www.ucsfhealth.org/medical-tests/blood-pressure-measurement) 
+mesaurement:
+
 ```{r}
-a <- 4
-if (a < 10) {
-  cat("a is not that big")
+SBP <- 146 # mmHg
+if (SBP <= 120) {
+  cat("SBP is normal")
 } else {
-  cat("a is not too small")
+  cat("SBP is high")
 }
 ```
 
 ### `if` - `else if` - `else`:
 
+Consider a single [blood sodium](https://www.ucsfhealth.org/medical-tests/sodium-blood-test) result
+
 ```{r}
-a <- sample(seq(-2, 2, .5), 1)
-a
-if (a > 0) {
-  result <- "positive"
-} else if (a == 0) {
-  result <- "zero"
+Na <- 142 # mEq/L
+Na
+if (Na > 145) {
+  result <- "Hypernatremia"
+} else if (Na < 135) {
+  result <- "Hyponatremia"
 } else {
-  result <- "negative"
+  result <- "Normal"
 }
 result
 ```
 
 ### Conditional assignment with `if` - `else`:
 
-You can use an `if` statement as part of an assignment:
+You can directly assign the output of an `if` statement to an object.
 
 ```{r}
-a <- 8
-y <- if (a > 5) {
-  10
+Na <- 142 # mEq/L
+result <- if (Na > 145) {
+  "Hypernatremia"
+} else if (Na < 135) {
+  "Hyponatremia"
 } else {
-  0
+  "Normal"
 }
 ```
 
-### `ifelse()`
+### Conditional assignment with `ifelse()`
 
-`ifelse()` is [vectorized](#vectorization) and can be a great and compact 
-alternative to a more complex expression:
+`ifelse()` is [vectorized](#vectorization) and can be a great, compact 
+alternative to a more complex expression.
+
+Consider a vector of [blood bilirubin levels](https://www.ucsfhealth.org/medical-tests/bilirubin-blood-test):
+
+```{r}
+conjBil <- sample(runif(100, 0, .5), 20)
+conjBil
+```
+
+```{r}
+conjBil_bin <- ifelse(conjBil > .3, "Hyperbilirubinemia", "Normal")
+conjBil_bin
+```
+
+The values assigned to the "yes" and "no" conditions can be a vector of the
+same length as the first argument.
+
+Consider an arbitrary numeric example:
 
 ```{r}
 a <- 1:10
@@ -113,21 +138,6 @@ xsc <- ifelse(x %% 2 == 0, c(1:11)^3, c(1:11)^2)
 xsc
 ```
 
-
-### Conditional assignment with `ifelse`:
-
-```{r}
-a <- 3
-(y <- ifelse(a > 5, 10, 0))
-```
-
-`ifelse` is [vectorized](#vectorization):
-
-```{r}
-a <- 1:10
-(y <- ifelse(a > 7, a^2, a))
-```
-
 ## Loops
 
 ### `for` loops {#forloops}
@@ -144,7 +154,7 @@ number of lines, any amount of code:
 
 ```{r}
 for (i in 1:3) {
-  print("I love coffee")
+  cat("This is item", i, "\n")
 }
 ```
 
@@ -273,7 +283,7 @@ for (i in 1:4) {
 }
 ```
 
-### Select among multiple options with `switch()`
+### Conditional assignment with multiple options using `switch()`
 
 Instead of using multiple `if` - `else if` statements, we can build a more 
 compact call using `switch`. (It is best suited for options that are of type 

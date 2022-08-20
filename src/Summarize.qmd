@@ -1,11 +1,13 @@
+---
+execute:
+  cache: true
+knitr:
+  opts_chunk: 
+    comment: ''
+---
 # Summarizing Data {#summarize}
 
-```{r echo = FALSE}
-knitr::opts_chunk$set(fig.width = 10, fig.height = 5,
-                      comment = NA, cache = TRUE)
-```
-
-Let's read in a dataset from OpenML:
+Let's read in a dataset on heart disease from OpenML:
 
 ```{r}
 heart <- read.csv("https://www.openml.org/data/get_csv/51/dataset_51_heart-h.arff",
@@ -22,7 +24,8 @@ summary(heart)
 
 ## Fast builtin column and row operations
 
-We saw in [Loop Functions](#loopfns) how we can apply functions on rows, columns, or other subsets of our data. R has optimized builtin functions for some very common operations, with self-explanatory names:
+R has optimized builtin functions for some very common row and columns
+operations, with self-explanatory names:
 
 * `colSums()`: column sums
 * `rowSums()`: row sums
@@ -64,7 +67,10 @@ apply(a, 1, mean)
 
 ## Optimized matrix operations with **matrixStats**
 
-While the builtin operations above are already optimized and faster than the equivalent calls, the **matrixStats** package [@matrixStats2019] offers a number of futher optimized matrix operations, including drop-in replacements of the above. These should be prefered when dealing with bigger data:
+While the builtin operations above are already optimized and faster than the 
+equivalent calls, the **matrixStats** package [@matrixStats2019] offers a 
+number of futher optimized matrix operations, including drop-in replacements of 
+the above. These should be prefered when dealing with bigger data:
 
 ```{r}
 library(matrixStats)
@@ -74,9 +80,13 @@ colMeans2(a)
 rowMeans2(a)
 ```
 
-Note: **matrixStats** provides replacement functions named almost identically to their base counterpart - so they are easy to find - but are different - so they don't mask the base functions (this is important and good software design).
+Note: **matrixStats** provides replacement functions named almost identically 
+to their base counterpart - so they are easy to find - but are different - so 
+they don't mask the base functions.
 
 
 ## See also
 
-[`aggregate()`](#aggregate) for grouped summary statistics
+- [`aggregate()`](#sec-aggregate) for grouped summary statistics
+- [Loop Functions](#sec-loopfns) for applying any function on rows, 
+columns, or other subsets of data. 

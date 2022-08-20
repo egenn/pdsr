@@ -1,24 +1,34 @@
-# Aggregate {#aggregate}
+---
+execute:
+  cache: true
+knitr:
+  opts_chunk: 
+    comment: ''
+---
+# Aggregate {#sec-aggregate}
 
-`aggregate()` is a powerful way to apply functions on splits of your data. It can replicate 
-functionality of the `*apply()` family, but can be more flexible. This may come with a performance
-penalty, only noticeable with big data, in which case it is recommended to use 
-[data.table](#datatable) for fast group-by data summarization.
+R includes a number of commands to apply functions on splits of your data.
+`aggregate()` is a powerful tools to perform such "group-by" operations.
 
-`aggregate()` can work either with a formula notation or directly on data.frames and vectors. We 
-show how to perform each operation below with either approach. The formula interface might be easier 
-to work with interactivly on the console. While you *can* code with the formula interface, the 
-regular approach is a lot more straightforward to do so.
+The function accepts either a formula or R objects like data.frames and vectors. 
 
-For this example, we get the penguin data:
+We shall see how to perform each operation below with 
+either approach. 
+
+The formula interface might be easier to work with 
+interactivly on the console. While you *can* code with the formula interface, 
+it is quite a bit more involved.
+
+For this example, we shall use the penguin data from **palmerpenguis**:
 
 ```{r}
 library(palmerpenguins)
 str(penguins)
 ```
 
-See example below for 1 or multiple variables by 1 or more groups using either the formula 
-interface, or working directly on objects with `$` indexing or using `with()`:
+See example below for 1 or multiple variables by 1 or more groups using either 
+the formula interface, or working directly on objects with `$`-indexing or 
+using `with()`:
 
 ## Single variable by single group
 
@@ -109,5 +119,7 @@ with(penguins,
 
 ## See also
 
-[`tapply()`]({#tapply}) for an alternative methods of applying function on subsets of a single 
+- [`tapply()`]({#tapply}) for an alternative methods of applying function on subsets of a single 
 variable (probably faster)
+- For large datasets, it is recommended to use [data.table](#sec-datatable) for 
+fast group-by data summarization.

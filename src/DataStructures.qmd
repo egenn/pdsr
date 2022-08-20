@@ -269,6 +269,18 @@ x
 length(x)
 ```
 
+### Add element to a list
+
+You can add a new elements to a list by assigning directly to an element
+that doesn't yet exist, but will be created:
+
+```{r}
+x <- list(a = 1:10, b = rnorm(10))
+x
+x$c <- 30:21
+x
+```
+
 ### Combine lists
 
 You can combine lists with `c()` (just like vectors):
@@ -332,15 +344,28 @@ str(x)
 class(x$Feat_1)
 ```
 
-Unlike a matrix, the elements of a data.frame are the columns, not the 
+```{block, type "rmdnote"}
+Unlike a matrix, the elements of a data.frame are its columns, not the 
 individual values in each position. Therefore the length of a data.frame
-is equal to the number of columns:
+is equal to the number of columns.
+```
 
 ```{r}
 mat <- matrix(1:100, 10)
 length(mat)
 df <- as.data.frame(mat)
 length(df)
+```
+
+Just like with lists, you can add new columns to a data.frame using 
+assignment to a new element, i.e. column:
+
+```{r}
+x <- data.frame(PIDN = sample(8001:9000, 10, TRUE),
+                Age = rnorm(10, 48, 2.9))
+x
+x$Weight <- rnorm(10, 84, 1.5)
+x
 ```
 
 ## Generating sequences

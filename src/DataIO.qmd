@@ -62,7 +62,8 @@ Sex = "factor", SBP = "numeric", DOB = "Date")). Unspecified columns are
 automatically determined. Note: Set a column to "NULL" (with quotes) to exclude 
 that column.
 
-```{r eval = FALSE}
+```{r}
+#| eval: false
 men <-  read.csv("../Data/pone.0204161.s001.csv")
 ```
 
@@ -77,18 +78,13 @@ or double backslashes
 also define that missing data is coded with `?`  using the `na.strings` 
 argument:
 
-```{r eval = FALSE}
-parkinsons <- read.csv("https://archive.ics.uci.edu/ml/machine-learning-databases/parkinsons/parkinsons.data")
-
-sleep <- read.csv("https://www.openml.org/data/get_csv/53273/sleep.arff",
-                  na.strings = "?")
+```{r}
+#| eval: false
+hf <- read.csv("https://archive.ics.uci.edu/ml/machine-learning-databases/00519/heart_failure_clinical_records_dataset.csv"
 ```
 
-The above files are read from two very popular online 
-[data repositories](https://rtemis.lambdamd.org/resources.html#datasets). 
-Confusingly, neither file ends in `.csv`, but they both work with `read.csv()`. 
-You can always look at the plain text file to determine if it can work with 
-`read.table()`/`read.csv()` and what settings to use.
+The above file is read directly from the UCI ML repository
+(See [data repositories](https://rtemis.lambdamd.org/resources.html#datasets)). 
 
 ### Read zipped data from the web 
 
@@ -293,7 +289,7 @@ Note: See issue [here](https://stackoverflow.com/questions/27388964/rmarkdown-no
 
 ## Read other common tabular data third-party formats
 
-| File type          | File Extension          | `package::function`     |
+| File type          | File Extension          | `package::function()`   |
 | ------------------:|------------------------:|:------------------------|
 | JSON               | `.json`                 | `jsonlite::read_json()` |
 | Stata data         | `.dta`                  | `haven::read_dta()`     |
@@ -303,6 +299,7 @@ Note: See issue [here](https://stackoverflow.com/questions/27388964/rmarkdown-no
 | Apache Arrow       | `.arrow`                | `arrow::read_arrow()`   |
 | Apache Arrow       | `.feather`              | `arrow::read_feather()` |
 | Apache Arrow       | `.parquet`              | `arrow::read_parquet()` |
+| Weka ARFF          | `.arff`                 | `farff::readARFF()`     |
 
 ## Resources
 

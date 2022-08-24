@@ -65,16 +65,22 @@ with(penguins,
 
 ## Multiple variables by single grouping
 
+formula:
+
 ```{r}
 aggregate(cbind(bill_length_mm, flipper_length_mm) ~ species,
           penguins, mean)
 ```
+
+vectors:
 
 ```{r}
 aggregate(penguins[, c("bill_length_mm", "flipper_length_mm")],
           by = list(penguins$species),
           mean, na.rm = TRUE)
 ```
+
+`with()` + column names:
 
 ```{r}
 with(penguins,
@@ -85,15 +91,21 @@ with(penguins,
 
 ## Single variable by multiple groups
 
+formula:
+
 ```{r}
 aggregate(bill_length_mm ~ species + island, penguins, mean)
 ```
+
+vectors:
 
 ```{r}
 aggregate(penguins$bill_length_mm,
           by = list(penguins$species, penguins$island),
           mean, na.rm = TRUE)
 ```
+
+`with()` + column names:
 
 ```{r}
 with(penguins,
@@ -104,16 +116,22 @@ with(penguins,
 
 ## Multiple variables by multiple groupings
 
+formula:
+
 ```{r}
 aggregate(cbind(bill_length_mm, flipper_length_mm) ~ species + island,
           penguins, mean)
 ```
+
+vectors:
 
 ```{r}
 aggregate(penguins[, c("bill_length_mm", "flipper_length_mm")],
           by = list(penguins$species, penguins$island),
           mean, na.rm = TRUE)
 ```
+
+`with()` + column names:
 
 ```{r}
 with(penguins,

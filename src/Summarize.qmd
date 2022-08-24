@@ -5,18 +5,45 @@ knitr:
   opts_chunk: 
     comment: ''
 ---
-# Summarizing Data {#summarize}
+# Summarizing Data {#sec-summarize}
 
 Let's read in a dataset on heart disease from OpenML:
 
 ```{r}
-heart <- read.csv("https://www.openml.org/data/get_csv/51/dataset_51_heart-h.arff",
-                  na.strings = "?")
+heart <- read.csv("https://www.openml.org/data/get_csv/51/dataset_51_heart-h",
+                  na.strings = "?",
+                  stringsAsFactors = TRUE)
+```
+
+One of the first things you might want to know is the size of the dataset:
+
+```{r}
+dim(heart)
+```
+
+Since it does not contain too many columns, you can use `str()` to get the
+type of each and a preview of some of the data:
+
+```{r}
+str(heart)
+```
+
+You might want to take a look at the first few rows (defaults to 6):
+
+```{r}
+head(heart)
+```
+
+There is the equivalent `tail()` to print the last few rows:
+
+```{r}
+tail(heart)
 ```
 
 ## Get summary of an R object with `summary()`
 
-R includes `summary()` [methods](#s3methods) for a number of different objects. 
+R includes a `summary()` [method](#s3methods) for a number of different objects,
+including (of course) data.frames:
 
 ```{r}
 summary(heart)
@@ -25,7 +52,8 @@ summary(heart)
 ## Fast builtin column and row operations
 
 R has optimized builtin functions for some very common row and columns
-operations, with self-explanatory names:
+operations, with self-explanatory names that can be applied to matrices and
+data.frames:
 
 * `colSums()`: column sums
 * `rowSums()`: row sums
@@ -39,30 +67,18 @@ a
 
 ```{r}
 colSums(a)
-
-# same as
-apply(a, 2, sum)
 ```
 
 ```{r}
 rowSums(a)
-
-# same as
-apply(a, 1, sum)
 ```
 
 ```{r}
 colMeans(a)
-
-# same as
-apply(a, 2, mean)
 ```
 
 ```{r}
 rowMeans(a)
-
-# same as
-apply(a, 1, mean)
 ```
 
 ## Optimized matrix operations with **matrixStats**
@@ -81,9 +97,8 @@ rowMeans2(a)
 ```
 
 Note: **matrixStats** provides replacement functions named almost identically 
-to their base counterpart - so they are easy to find - but are different - so 
+to their base counterpart, so they are easy to find, but are different, so 
 they don't mask the base functions.
-
 
 ## See also
 

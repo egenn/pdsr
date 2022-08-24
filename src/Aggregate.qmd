@@ -10,16 +10,21 @@ knitr:
 R includes a number of commands to apply functions on splits of your data.
 `aggregate()` is a powerful tools to perform such "group-by" operations.
 
-The function accepts either a formula or R objects like data.frames and vectors. 
+The function accepts either:
+
+- a formula as the first argument and a data.frame passed to the `data` argument
+- a vector as the first argument and a factor passed to the `by` argument 
 
 We shall see how to perform each operation below with 
-either approach. 
+each approach. 
 
 The formula interface might be easier to work with 
-interactivly on the console. While you *can* code with the formula interface, 
-it is quite a bit more involved.
+interactivly on the console. 
+Note that while you *can* programatically create a formula, it is easier to use
+vector inputs when calling `aggregate()` programmatically. 
 
-For this example, we shall use the penguin data from **palmerpenguis**:
+For this example, we shall use the penguin data from the **palmerpenguis**
+package:
 
 ```{r}
 library(palmerpenguins)
@@ -46,7 +51,7 @@ Directly working with vectors:
 ```{r}
 aggregate(penguins$bill_length_mm,
           by = list(penguins$species),
-          mean, na.rm = T)
+          mean, na.rm = TRUE)
 ```
 
 Using `with()`:
@@ -119,7 +124,7 @@ with(penguins,
 
 ## See also
 
-- [`tapply()`]({#tapply}) for an alternative methods of applying function on subsets of a single 
-variable (probably faster)
+- [`tapply()`]({#tapply}) for an alternative methods of applying function on 
+subsets of a single variable (probably faster)
 - For large datasets, it is recommended to use [data.table](#sec-datatable) for 
 fast group-by data summarization.

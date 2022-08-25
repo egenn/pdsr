@@ -2,11 +2,18 @@
 execute: 
   warning: false
 knitr:
+  opts_knit:
+    global.par: true
   opts_chunk: 
     comment: ''
-    fig-width: 5
-    fig-height: 5
+    fig.width: 5
+    fig.height: 5
 ---
+```{r}
+#| echo: false
+sysfonts::font_add_google("Inter")
+par(family = "Inter")
+```
 # Base Graphics {#sec-basegraphics}
 
 R has powerful graphical capabilities built in to the core language. This 
@@ -306,6 +313,9 @@ A boxplot shows:
 - range after excluding outliers
 
 ```{r boxanat, echo=FALSE, fig.height=6, fig.width=5, fig.cap="Boxplot anatomy"}
+# Get par
+par_og <- par(no.readonly = TRUE)
+
 lty <- 3
 lwd <- 2
 bg <- "gray10"
@@ -370,6 +380,9 @@ text(l - .11, .median, "Range excluding outliers", col = "#FE4AA3",
 points(rep(1, sum(.outliers)), x[.outliers], col = "red", pch = 1)
 text(1, .min, "outliers", col = "red", adj = c(0, 1.5), xpd = TRUE)
 text(1, .max, "outliers", col = "red", adj = c(0, -1), xpd = TRUE)
+
+# Restore par
+par(par_og)
 ```
 
 Some synthetic data:
@@ -611,6 +624,8 @@ or `mfcol` back to `c(1, 1)`
 For example, let's plot a 2-by-3 panel of plots, drawn row-wise:
 
 ```{r fig.width=7, fig.height=5}
+# Get the current parameters before changing them
+par_og <- par(no.readonly = TRUE)
 par(mfrow = c(2, 3), mar = c(4, 4, 1, 1))
 hist(x, col = "#052049bb", border = "white", main = "")
 hist(y, col = "#052049bb", border = "white", main = "")
@@ -618,7 +633,12 @@ hist(z, col = "#052049bb", border = "white", main = "")
 plot(x, y, col = "#05204955", pch = 16, bty = "n")
 plot(x, z, col = "#05204955", pch = 16, bty = "n")
 plot(y, z, col = "#05204955", pch = 16, bty = "n")
+# Restore mfrow to one figure at a time
+# This is not necessary if you are running the line below
+# which restores all parameters
 par(mfrow = c(1, 1))
+# Restore all parameters
+par(par_og)
 ```
 
 ## Saving plots to file {#saveplots}
@@ -646,7 +666,8 @@ It is recommended to save plots in PDF format because it handles vector
 graphics therefore plots will scale, and it is easy to export to other graphics 
 formats later on if needed.
 
-```{r eval = FALSE}
+```{r}
+#| eval: false
 pdf("~/Desktop/plot.pdf", width = 5, height = 5)
 plot(iris$Sepal.Length, iris$Petal.Length,
      pch = 16,

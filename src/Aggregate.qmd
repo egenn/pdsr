@@ -46,7 +46,7 @@ aggregate(bill_length_mm ~ species,
           penguins, mean, na.rm = TRUE)
 ```
 
-Directly working with vectors:
+Using R objects directly:
 
 ```{r}
 aggregate(penguins$bill_length_mm,
@@ -57,8 +57,8 @@ aggregate(penguins$bill_length_mm,
 Note that, unlike the formula notation, if your input is a vector which is
 unnamed, the output columns are also unnamed.
 
-If instead of passing a vector, you pass a data.frame or list with one named
-element, the output includes the name:
+If instead of passing a vector, you pass a data.frame or list with one or more
+named elements, the output includes the names:
 
 ```{r}
 aggregate(penguins["bill_length_mm"],
@@ -66,97 +66,80 @@ aggregate(penguins["bill_length_mm"],
           mean, na.rm = TRUE)
 ```
 
-or you can create a list and add custom names:
+By creating a list instead of indexing the given data.frame also allows you to 
+set custom names:
 
 ```{r}
-aggregate(list(Bill_length = penguins$bill_length_mm),
+aggregate(list(`Bill length` = penguins$bill_length_mm),
           by = list(Species = penguins$species),
           mean, na.rm = TRUE)
 ```
 
-Using `with()`:
-
-```{r}
-with(penguins,
-     aggregate(bill_length_mm,
-               by = list(species),
-               mean, na.rm = TRUE))
-```
-
 ## Multiple variables by single grouping
 
-formula:
+Formula notation:
 
 ```{r}
 aggregate(cbind(bill_length_mm, flipper_length_mm) ~ species,
           penguins, mean)
 ```
 
-vectors:
+Objects:
 
 ```{r}
 aggregate(penguins[, c("bill_length_mm", "flipper_length_mm")],
-          by = list(penguins$species),
+          by = list(Species = penguins$species),
           mean, na.rm = TRUE)
-```
-
-`with()` + column names:
-
-```{r}
-with(penguins,
-     aggregate(cbind(bill_length_mm, flipper_length_mm),
-               by = list(species),
-               mean, na.rm = TRUE))
 ```
 
 ## Single variable by multiple groups
 
-formula:
+Formula notation:
 
 ```{r}
 aggregate(bill_length_mm ~ species + island, penguins, mean)
 ```
 
-vectors:
+Objects:
 
 ```{r}
-aggregate(penguins$bill_length_mm,
-          by = list(penguins$species, penguins$island),
+aggregate(penguins["bill_length_mm"],
+          by = list(Species = penguins$species, 
+                    Island = penguins$island),
           mean, na.rm = TRUE)
-```
-
-`with()` + column names:
-
-```{r}
-with(penguins,
-     aggregate(bill_length_mm,
-               by = list(species, island),
-               mean, na.rm = TRUE))
 ```
 
 ## Multiple variables by multiple groupings
 
-formula:
+Formula notation:
 
 ```{r}
 aggregate(cbind(bill_length_mm, flipper_length_mm) ~ species + island,
           penguins, mean)
 ```
 
-vectors:
+Objects:
 
 ```{r}
 aggregate(penguins[, c("bill_length_mm", "flipper_length_mm")],
-          by = list(penguins$species, penguins$island),
+          by = list(Species = penguins$species, 
+                    Island = penguins$island),
           mean, na.rm = TRUE)
 ```
 
-`with()` + column names:
+## Using `with()`
+
+R allows you to use `with(data, expression)`, where data can be a data.frame,
+list or environment, and within the expression refer to any elements of `data`
+by their name, without the need to index `data` each time.
+
+For example, `with(df, expression)` means you can use the data.frame's
+column names directly within the expression without the need to use `df$column`:
 
 ```{r}
 with(penguins,
-     aggregate(cbind(bill_length_mm, flipper_length_mm),
-               by = list(species, island),
+     aggregate(list(`Bill length` = bill_length_mm),
+               by = list(Species = species),
                mean, na.rm = TRUE))
 ```
 

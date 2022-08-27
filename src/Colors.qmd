@@ -1,10 +1,26 @@
+---
+execute: 
+  warning: false
+knitr:
+  opts_knit:
+    global.par: true
+  opts_chunk: 
+    comment: ''
+    fig.width: 6.5
+    fig.height: 6.5
+---
 # Colors in R {#sec-colors}
+```{r}
+#| echo: false
+# This is a workaround for Quarto bug which cannot read default 'Arial' font from system
+sysfonts::font_add_google("Inter")
+par(family = "Inter")
+library(ggplot2)
+theme_set(theme(text = element_text(family = "Inter")))
 
-```{r echo = FALSE}
-knitr::opts_chunk$set(fig.width = 5, fig.height = 5,
-                      comment = NA, cache = TRUE) 
-options(rt.theme = "whitegrid")
-options(rt.fit.theme = "whitegrid")
+# rtemis defaults
+options(rt.theme = "whiteigrid")
+options(rt.fit.theme = "whiteigrid")
 ```
 
 ```{r, comment="", results="asis", echo=FALSE}
@@ -26,14 +42,25 @@ Colors in R can be defined in many different ways:
 
 ## Color names
 
-There is a long list of color names R understands, and can be listed using `colors()`.  
-They can be passed directly as characters.  
-Shades of gray are provided as `gray0`/`grey0` (white) to `gray100`/`grey100` (black).  
-Absurdly wide PDFs with all built-in R colors, excluding the grays/greys, are available sorted [alphabeticaly](https://rtemis.netlify.com/RColors.pdf) and sorted by [increasing Red and decreasing Green and Blue values](https://rtemis.netlify.com/RColors_incRed_decBlueGreen.pdf)
+There is a long list of color names R understands, and can be listed using 
+`colors()`.
+
+They can be passed directly as characters.
+
+Shades of gray are provided as `gray0`/`grey0` (white) to `gray100`/`grey100` 
+(black).
+
+Absurdly wide PDFs with all built-in R colors, excluding the grays/greys, are 
+available sorted [alphabeticaly](https://www.lambdamd.org/assets/RColors.pdf) 
+and sorted by 
+[increasing Red and decreasing Green and Blue values](https://www.lambdamd.org/assets/RColors_incRed_decBlueGreen.pdf)
 
 ## Hexadecimal codes
 
-Hexadecimal color codes are characters starting with the pound sign, followed by 4 pairs of hex codes representing Red, Green, Blue, and Alpha values. Since RGB values go from 0 to 255, hex goes from 00 to FF. You can convert decimal to hex using `as.hexmode`:
+Hexadecimal color codes are characters starting with the pound sign, followed 
+by 4 pairs of hex codes representing Red, Green, Blue, and Alpha values. Since 
+RGB values go from 0 to 255, hex goes from 00 to FF. You can convert decimal to 
+hex using `as.hexmode()`:
 
 ```{r}
 as.hexmode(0)
@@ -41,7 +68,8 @@ as.hexmode(127)
 as.hexmode(255)
 ```
 
-The last two values for the alpha setting are optional: if not included, defaults to max (opaque)
+The last two values for the alpha setting are optional: if not included, 
+defaults to max, i.e. opaque.
 
 ## RGB
 
@@ -49,7 +77,8 @@ The last two values for the alpha setting are optional: if not included, default
 rgb(0, 0, 1)
 ```
 
-Note the default `maxColorValue = 1`, set to 255 to use the usual RGB range of 0 to 255:
+Note the default `maxColorValue = 1`, set to 255 to use the usual RGB range of 
+0 to 255:
 
 ```{r}
 rgb(0, 0, 255, maxColorValue = 255)
@@ -57,14 +86,17 @@ rgb(0, 0, 255, maxColorValue = 255)
 
 ## HSV
 
-Color can also be parameterized using the hue, saturation, and value system ([HSV](https://en.wikipedia.org/wiki/HSL_and_HSV)). Each range from 0 to 1.  
-Simplistically: Hue controls the color. Saturation 1 is max color and 0 is white. Value 1 is max color and 0 is black.
+Color can also be parameterized using the hue, saturation, and value system 
+([HSV](https://en.wikipedia.org/wiki/HSL_and_HSV)). Each range from 0 to 1.  
+Simplistically: Hue controls the color. Saturation 1 is max color and 0 is 
+white. Value 1 is max color and 0 is black.
 
 ```{r}
 hsv(1, 1, 1)
 ```
 
-In the following plot, the values around the polar plot represent hue. Moving inwards to the center, saturation changes from 1 to 0.
+In the following plot, the values around the polar plot represent hue. Moving 
+inwards to the center, saturation changes from 1 to 0.
 
 ```{r}
 mplot_hsv()

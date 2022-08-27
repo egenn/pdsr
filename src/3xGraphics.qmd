@@ -1,10 +1,26 @@
-# 3x Graphics {#graphics3x}
+---
+execute: 
+  warning: false
+knitr:
+  opts_knit:
+    global.par: true
+  opts_chunk: 
+    comment: ''
+    fig.width: 5
+    fig.height: 5
+---
+# 3x Graphics {#sec-graphics3x}
+```{r}
+#| echo: false
+# This is a workaround for Quarto bug which cannot read default 'Arial' font from system
+sysfonts::font_add_google("Inter")
+par(family = "Inter")
+library(ggplot2)
+theme_set(theme(text = element_text(family = "Inter")))
 
-```{r echo = FALSE}
-knitr::opts_chunk$set(fig.width = 5, fig.height = 5,
-                      comment = NA, cache = TRUE) 
-options(rt.theme = "whitegrid")
-options(rt.fit.theme = "whitegrid")
+# rtemis defaults
+options(rt.theme = "whiteigrid")
+options(rt.fit.theme = "whiteigrid")
 ```
 
 ```{r, comment="", results="asis", echo=FALSE}
@@ -19,16 +35,32 @@ library(plotly)
 library(mgcv)
 ```
 
-Visualization is central to statistics and data science. It is used to check data, explore data, and communicate results.
+Visualization is central to statistics and data science. It is used to check 
+data, explore data, and communicate results.
 
-R has powerful graphical capabilities built in to the core language. It contains two largely separate graphics systems: 'base' graphics in the `graphics` package, inherited from the S language, and 'grid' graphics in the `grid` package: a "rewrite of the graphics layout capabilities". There is limited support for interaction between the two. In practice, for a given application, choose one or the other. There are no high level functions for the grid graphics system built into the base R distribution, but a few very popular packages have been built on top of it. Both graphics systems can produce beautiful, layered, high quality graphics. It is possible to build functions using either system to produce most, if not all, types of plots.  
+R has powerful graphical capabilities built in to the core language. It 
+contains two largely separate graphics systems: 'base' graphics in the 
+`graphics` package, inherited from the S language, and 'grid' graphics in the 
+`grid` package: a "rewrite of the graphics layout capabilities". There is 
+limited support for interaction between the two. In practice, for a given 
+application, choose one or the other. There are no high level functions for the 
+grid graphics system built into the base R distribution, but a few very popular 
+packages have been built on top of it. Both graphics systems can produce 
+beautiful, layered, high quality graphics. It is possible to build functions 
+using either system to produce most, if not all, types of plots.  
 
 ## Base graphics
 
-Common R plotting functions like `plot`, `barplot`, `boxplot`, `heatmap`, etc. are built ontop of base graphics [@murrell2018r]. Their default arguments provide a minimalist output, but can be tweaked extensively. An advantage of base graphics is they are very fast and relatively easy to extend.  
+Common R plotting functions like `plot`, `barplot`, `boxplot`, `heatmap`, etc. 
+are built ontop of base graphics [@murrell2018r]. Their default arguments 
+provide a minimalist output, but can be tweaked extensively. An advantage of 
+base graphics is they are very fast and relatively easy to extend.  
 
-The `par` function allows setting or querying graphical parameters of the base graphics system. Have a look at its documentation (`?par`).  
-Some graphical parameters can only be set with a call to `par` prior to using a base plotting function. However, many parameters can also be passed using the `...` construct of each base plotting function.  
+The `par` function allows setting or querying graphical parameters of the base 
+graphics system. Have a look at its documentation (`?par`).  
+Some graphical parameters can only be set with a call to `par` prior to using a 
+base plotting function. However, many parameters can also be passed using the 
+`...` construct of each base plotting function.  
 
 Some common base graphical parameters:  
 
@@ -40,15 +72,21 @@ Some common base graphical parameters:
 - `ylab`: y-axis label
 - `main`: Main title
 
-Always make sure that your plotting characters, axis labels and titles are legible. You must avoid, at all costs, ever using a huge graph with tiny letters spread over a whole slide in a presentation.  
+Always make sure that your plotting characters, axis labels and titles are 
+legible. You must avoid, at all costs, ever using a huge graph with tiny 
+letters spread over a whole slide in a presentation.  
 
 - `cex`: Character expansion for the plotting characters
 - `cex.axis`: cex for axis annotation
 - `cex.lab`: cex for x and y labels
 - `cex.main`: cex for main title
 
-Note: All of these can be set either with a call to `par()` prior to plotting or passed as arguments in a plotting command, like `plot()`.  
-However, there is one important distinction: `cex` set with `par()` (which defaults to 1), sets the baseline and all other `cex` parameters multiply it. However, `cex` set within `plot()` stil multiplies `cex` set with `par()`, but only affectts the plotting character size.
+Note: All of these can be set either with a call to `par()` prior to plotting 
+or passed as arguments in a plotting command, like `plot()`.  
+However, there is one important distinction: `cex` set with `par()` (which 
+defaults to 1), sets the baseline and all other `cex` parameters multiply it. 
+However, `cex` set within `plot()` stil multiplies `cex` set with `par()`, but 
+only affectts the plotting character size.
 
 ## Grid graphics
 
@@ -59,27 +97,41 @@ The two most popular packages built on top of the **`grid`** package are:
 
 ### **`ggplot2`**
 
-**`ggplot2`**, created by Hadley Wickham [@wickham2011ggplot2], follows the [Grammar of Graphics](https://www.springer.com/statistics/computational/book/978-0-387-24544-7) approach of Leland Wilkinson [@wilkinson2012grammar] and has a very different syntax than base functions.
+**`ggplot2`**, created by Hadley Wickham [@wickham2011ggplot2], follows the 
+[Grammar of Graphics](https://www.springer.com/statistics/computational/book/978-0-387-24544-7) approach of Leland Wilkinson [@wilkinson2012grammar] and has a very different 
+syntax than base functions.
 
-The general idea is to start by defining the data and then add and/or modify graphical elements in a stepwise manner, which allows one to build complex and layered visualizations. A simplified interface to `ggplot` graphics is provided in the `qplot()` function of **`ggplot2`** (but you should avoid it and use learn to use the `ggplot()` command which is fun and much more flexible and useful to know)
+The general idea is to start by defining the data and then add and/or modify 
+graphical elements in a stepwise manner, which allows one to build complex and 
+layered visualizations. A simplified interface to `ggplot` graphics is provided 
+in the `qplot()` function of **`ggplot2`** (but you should avoid it and use 
+learn to use the `ggplot()` command which is fun and much more flexible and 
+useful to know).
 
 ## 3rd party APIs
 
-There are also third party libraries with R APIs that provide even more modern graphic capabilities to the R user:  
+There are also third party libraries with R APIs that provide even more modern 
+graphic capabilities to the R user:  
 
 * [plotly](https://plot.ly) [@sievert2017plotly]
 * [rbokeh](https://hafen.github.io/rbokeh/index.html)
 
-Both build interactive plots, which can be viewed in a web browser or exported to bitmap graphics, and both also follow the grammar of graphics paradigm, and therefore follow similar syntax to **`ggplot2`**.
+Both build interactive plots, which can be viewed in a web browser or exported 
+to bitmap graphics, and both also follow the grammar of graphics paradigm, and 
+therefore follow similar syntax to **`ggplot2`**.
 
-The [**rtemis**](https://rtemis.lambdamd.org) package [@gennatas2017towards] provides visualization functions built on top of base graphics (for speed and extendability) and **plotly** (for interactivity):  
+The [**rtemis**](https://rtemis.lambdamd.org) package [@gennatas2017towards] 
+provides visualization functions built on top of base graphics and **plotly**:
 
 * [mplot3](https://rtemis.lambdamd.org/staticgraphics.html) static graphics (base)
 * [dplot3](https://rtemis.lambdamd.org/interactivegraphics.html) interactive graphics (plotly)
 
-Let's go over the most common plot types using base graphics, **`rtemis`** (``mplot3`, `dplot3`), **`ggplot2`**, and **`plotly`**.
+Let's go over the most common plot types using base graphics, **`ggplot2`**, 
+**`rtemis`** (``mplot3`, `dplot3`), and **`plotly`**.
 
-This is meant to get you started but is barely scratching the surface. There is extensive functionality included in each plotting library and you should consult the respective documentation for details.
+This is meant to get you started but is barely scratching the surface. There is 
+extensive functionality included in each plotting library and you should 
+consult the respective documentation for details.
 
 ## Box plot
 
@@ -101,23 +153,16 @@ boxplot(x)
 boxplot(x, col = "steelblue4")
 ```
 
-### **mplot3**
-
-```{r}
-mplot3_box(x)
-```
-
-### **dplot3**
-
-```{r warning=FALSE}
-dplot3_box(x)
-```
-
 ### **`ggplot2`**
 
-Again, ggplot requires an explicit categorical x-axis. In this case, this means we need to convert our dataset from wide to long.
+Again, ggplot requires an explicit categorical x-axis. In this case, this means 
+we need to convert our dataset from wide to long.
 
-Here we use [**`tidyr`**'s](https://tidyr.tidyverse.org/) `pivot_longer()` function, since it is part of the same cult known as the [tidyverse](https://www.tidyverse.org/). You can instead use the builtin [`reshape()`](#reshaping) function or any wide-to-long operation of your choosing, e.g. [**`data.table`**'s](#datatable) [`melt()`](#melt).
+Here we use [**`tidyr`**'s](https://tidyr.tidyverse.org/) `pivot_longer()` 
+function, since it is part of the same cult known as the 
+[tidyverse](https://www.tidyverse.org/). You can instead use the built-in 
+[`reshape()`](#sec-reshaping) function or any wide-to-long operation of your 
+choosing, e.g. [**`data.table`**'s](#datatable) [`melt()`](#melt).
 
 ```{r}
 library(tidyr)
@@ -125,7 +170,11 @@ x.long <- pivot_longer(x, 1:4,
                        names_to = "Fruit", 
                        values_to = "Feature")
 x.long
-p <- ggplot(x.long, aes(Fruit, Feature)) + geom_boxplot()
+```
+
+```{r}
+p <- ggplot(x.long, aes(Fruit, Feature)) + 
+    geom_boxplot()
 p
 ```
 
@@ -139,7 +188,9 @@ Add some color:
 
 ### **`plotly`**
 
-In plotly, we can use a loop to add each column's boxplot one at a time. In the following example, we turn off the legend, since the names also appear below each boxplot: 
+In plotly, we can use a loop to add each column's boxplot one at a time. In the 
+following example, we turn off the legend, since the names also appear below 
+each boxplot: 
 
 ```{r}
 plt <- plot_ly(type = "box")
@@ -147,6 +198,18 @@ for (i in seq_along(x)) {
   plt <- add_trace(plt, y = x[, i], name = colnames(x)[i])
 }
 plt |> layout(showlegend = F)
+```
+
+### **mplot3**
+
+```{r}
+mplot3_box(x)
+```
+
+### **dplot3**
+
+```{r warning=FALSE}
+dplot3_box(x)
 ```
 
 ## Histogram
@@ -162,20 +225,6 @@ a <- rnorm(500)
 hist(a)
 hist(a, col = "#18A3AC66")
 hist(a, col = "#18A3AC99", border = "white", main = "", breaks = 30)
-```
-
-### **`mplot3`**
-
-```{r}
-mplot3_x(a, "histogram")
-mplot3_x(a, "histogram", hist.breaks = 30)
-```
-
-### **`dplot3`**
-
-```{r warning=FALSE}
-dplot3_x(a, "hist")
-dplot3_x(a, "hist", hist.n.bins = 40)
 ```
 
 ### **`ggplot2`**
@@ -195,7 +244,26 @@ plt <- plot_ly(x = a, type = "histogram") |>
 plt
 ```
 
+### **`mplot3`**
+
+```{r}
+mplot3_x(a, "histogram")
+mplot3_x(a, "histogram", hist.breaks = 30)
+```
+
+### **`dplot3`**
+
+```{r warning=FALSE}
+dplot3_x(a, "hist")
+dplot3_x(a, "hist", hist.n.bins = 40)
+```
+
 #### Grouped
+
+```{r}
+ggplot(iris, aes(x = Sepal.Length, fill = Species)) + 
+  geom_histogram(binwidth = .1)
+```
 
 ```{r}
 mplot3_x(iris$Petal.Length, "hist", group = iris$Species, hist.breaks = 10)
@@ -212,31 +280,48 @@ dplot3_x(iris$Sepal.Length, "hist", group = iris$Species,
          mode = "ridge")
 ```
 
-
-```{r}
-ggplot(iris, aes(x = Sepal.Length, fill = Species)) + 
-  geom_histogram(binwidth = .1)
-```
-
 ## Density plot
 
-There is no builtin density plot, but you can get x and y coordinates from the `density` function and add a polygon:
+There is no builtin density plot, but you can get x and y coordinates from the 
+`density()` function and add a polygon:
 
 ### base
 
 ```{r}
 .density <- density(iris$Sepal.Length)
 class(.density)
+
 plot(.density$x, .density$y,
-     type = "l", yaxs = "i")
+     type = "l",
+     yaxs = "i")
+
 plot(.density$x, .density$y,
-     type = 'l', yaxs = "i",
+     type = 'l',
+     yaxs = "i",
      bty = "n",
-     xlab = "",  ylab = "Density",
+     xlab = "",
+     ylab = "Density",
      col = "#18A3AC66",
      main = "Sepal Length Density")
-polygon(c(.density$x, rev(.density$x)), c(.density$y, rep(0, length(.density$y))),
-        col = "#18A3AC66", border = NA)
+
+polygon(c(.density$x, rev(.density$x)), 
+        c(.density$y, rep(0, length(.density$y))),
+        col = "#18A3AC66", 
+        border = NA)
+```
+
+### **`ggplot2`**
+
+```{r}
+ggplot(iris, aes(x = Sepal.Length)) + geom_density()
+```
+
+Add color:
+
+```{r}
+ggplot(iris, aes(x = Sepal.Length)) + 
+  geom_density(color = "#18A3AC66", 
+               fill = "#18A3AC66")
 ```
 
 ### **`mplot3`**
@@ -251,27 +336,7 @@ mplot3_x(iris$Sepal.Length, 'density')
 dplot3_x(iris$Sepal.Length)
 ```
 
-### **`ggplot2`**
-
-```{r}
-ggplot(iris, aes(x = Sepal.Length)) + geom_density()
-```
-
-Add color:
-
-```{r}
-ggplot(iris, aes(x = Sepal.Length)) + geom_density(color = "#18A3AC66", fill = "#18A3AC66")
-```
-
 #### Grouped
-
-```{r}
-mplot3_x(iris$Sepal.Length, group = iris$Species)
-```
-
-```{r warning=FALSE}
-dplot3_x(iris$Sepal.Length, group = iris$Species)
-```
 
 ```{r}
 (ggplot(iris, aes(Sepal.Length, color = Species, fill = Species)) + 
@@ -279,6 +344,14 @@ dplot3_x(iris$Sepal.Length, group = iris$Species)
   scale_color_manual(values = c("#44A6AC", "#F4A362", "#3574A7")) +
   scale_fill_manual(values = c("#44A6AC", "#F4A362", "#3574A7")) +
   labs(x = "Sepal Length", y = "Density"))
+```
+
+```{r}
+mplot3_x(iris$Sepal.Length, group = iris$Species)
+```
+
+```{r warning=FALSE}
+dplot3_x(iris$Sepal.Length, group = iris$Species)
 ```
 
 ## Barplot
@@ -294,26 +367,19 @@ barplot(as.matrix(schools))
 barplot(as.matrix(schools), col = "dodgerblue3")
 ```
 
-### **`mplot3`**
-
-```{r}
-mplot3_bar(schools)
-```
-
-### **`dplot3`**
-
-```{r warning=FALSE}
-dplot3_bar(schools)
-```
-
 ### **`ggplot2`**
 
-`ggplot` requires an explicit column in the data that define the categorical x-axis:
+`ggplot` requires an explicit column in the data that define the categorical 
+x-axis:
+
 ```{r}
 schools.df <- data.frame(University = colnames(schools),
                          N_schools = as.numeric(schools[1, ]))
+
 ggplot(schools.df, aes(University, N_schools)) +
-  geom_bar(stat = "identity", color = "#18A3AC", fill = "#18A3AC")
+  geom_bar(stat = "identity", 
+           color = "#18A3AC", 
+           fill = "#18A3AC")
 ```
 
 ### **`plotly`**
@@ -326,7 +392,20 @@ plt <- plot_ly(x = names(schools),
 plt
 ```
 
-Note that for the above to work, `y` needs to be a vector, and since x was a data.frame of one line, we use `unlist()` to convert to a vector.
+Note that for the above to work, `y` needs to be a vector, and since x was a 
+data.frame of one row, we can use `unlist()` to convert to a vector.
+
+### **`mplot3`**
+
+```{r}
+mplot3_bar(schools)
+```
+
+### **`dplot3`**
+
+```{r warning=FALSE}
+dplot3_bar(schools)
+```
 
 ## Scatterplot
 
@@ -349,23 +428,10 @@ plot(iris$Sepal.Length, iris$Petal.Length,
      xlab = "Sepal Length", ylab = "Petal Length")
 ```
 
-### **`mplot3`**
-
-```{r}
-mplot3_xy(iris$Sepal.Length, iris$Petal.Length)
-```
-
-[`dplot3`](https://rtemis.lambdamd.org/interactivegraphics.html) provides similar functionality to `mplot3`, built on top of **plotly**. Notice how you can interact with the plot using the mouse:
-
-### **`dplot3`**
-
-```{r warning=FALSE}
-dplot3_xy(iris$Sepal.Length, iris$Petal.Length)
-```
-
 ### **`ggplot2`**
 
-Note: The name of the package is **`ggplot2`**, the name of the function is `ggplot`.
+Note: The name of the package is **`ggplot2`**, the name of the function is 
+`ggplot()`.
 
 ```{r}
 ggplot(iris, aes(Sepal.Length, Petal.Length)) + geom_point()
@@ -379,19 +445,23 @@ p <- plot_ly(iris, x = ~Sepal.Length, y = ~Petal.Length) %>%
 p
 ```
 
-### Grouped
-
-In `mplot3` and `dplot3`, add a `group` argument:
+### **`mplot3`**
 
 ```{r}
-mplot3_xy(iris$Sepal.Length, iris$Petal.Length,
-          group = iris$Species)
+mplot3_xy(iris$Sepal.Length, iris$Petal.Length)
 ```
 
+[`dplot3`](https://rtemis.lambdamd.org/interactivegraphics.html) provides 
+similar functionality to `mplot3`, built on top of **plotly**. Notice how you 
+can interact with the plot using the mouse:
+
+### **`dplot3`**
+
 ```{r warning=FALSE}
-dplot3_xy(iris$Sepal.Length, iris$Petal.Length,
-          group = iris$Species)
+dplot3_xy(iris$Sepal.Length, iris$Petal.Length)
 ```
+
+### Grouped
 
 In **`ggplot2`**, specify `color` within `aes`.  
 `ggplot()` plots can be assigned to an object. Print the object to view it.
@@ -410,39 +480,19 @@ p <- plot_ly(iris, x = ~Sepal.Length, y = ~Petal.Length, color = ~Species) %>%
 p
 ```
 
+In `mplot3` and `dplot3`, add a `group` argument:
+
+```{r}
+mplot3_xy(iris$Sepal.Length, iris$Petal.Length,
+          group = iris$Species)
+```
+
+```{r warning=FALSE}
+dplot3_xy(iris$Sepal.Length, iris$Petal.Length,
+          group = iris$Species)
+```
+
 ## Scatterplot with fit
-
-### **`mplot3`**
-
-In `mplot3_xy()`, define the algorithm to use to fit a curve, with `fit`. `se.fit` allows plotting the standard error bar (if it can be provided by the algorithm in `fit`)
-
-```{r}
-mplot3_xy(iris$Sepal.Length, iris$Petal.Length,
-          fit = "gam", se.fit = T)
-```
-
-Passing a `group` argument, automatically fits separate models:
-
-```{r}
-mplot3_xy(iris$Sepal.Length, iris$Petal.Length,
-          fit = "gam", se.fit = T,
-          group = iris$Species)
-```
-
-### **`dplot3`**
-
-Same syntax as `mplot3_xy()` above:
-
-```{r warning=FALSE}
-dplot3_xy(iris$Sepal.Length, iris$Petal.Length,
-          fit = "gam", se.fit = T)
-```
-
-```{r warning=FALSE}
-dplot3_xy(iris$Sepal.Length, iris$Petal.Length,
-          fit = "gam", se.fit = T,
-          group = iris$Species)
-```
 
 ### **`ggplot2`**
 
@@ -474,7 +524,8 @@ plot_ly(iris, x = ~Sepal.Length) %>%
   add_lines(y = mod.gam$fitted.values)
 ```
 
-To get fit by group, you add all elements one after the other - one way would be this:
+To get fit by group, you add all elements one after the other - one way would 
+be this:
 
 ```{r}
 iris.bySpecies <- split(iris, iris$Species)
@@ -505,6 +556,40 @@ p
 
 It's a lot of work, and that's why `dplot3` exists.
 
+### **`mplot3`**
+
+In `mplot3_xy()`, define the algorithm to use to fit a curve, with `fit`. 
+`se.fit` allows plotting the standard error bar (if it can be provided by the 
+algorithm in `fit`)
+
+```{r}
+mplot3_xy(iris$Sepal.Length, iris$Petal.Length,
+          fit = "gam", se.fit = T)
+```
+
+Passing a `group` argument, automatically fits separate models:
+
+```{r}
+mplot3_xy(iris$Sepal.Length, iris$Petal.Length,
+          fit = "gam", se.fit = T,
+          group = iris$Species)
+```
+
+### **`dplot3`**
+
+Same syntax as `mplot3_xy()` above:
+
+```{r warning=FALSE}
+dplot3_xy(iris$Sepal.Length, iris$Petal.Length,
+          fit = "gam", se.fit = T)
+```
+
+```{r warning=FALSE}
+dplot3_xy(iris$Sepal.Length, iris$Petal.Length,
+          fit = "gam", se.fit = T,
+          group = iris$Species)
+```
+
 ## Heatmap
 
 Let's create some synthetic correlation data:
@@ -517,34 +602,25 @@ x.cor <- cor(x)
 
 ### base
 
-R has a great builtin heatmap function, which supports hierarchical clustering and plots the dendrogram in the margins by default:
+R has a great builtin heatmap function, which supports hierarchical clustering 
+and plots the dendrogram in the margins by default:
 
 ```{r}
 heatmap(x.cor)
 ```
 
-It may be a little surprising that clustering is on by default. To disable row and column dendrograms, set `Rowv` and `Colv` to `NA`:
+It may be a little surprising that clustering is on by default. To disable row 
+and column dendrograms, set `Rowv` and `Colv` to `NA`:
 
 ```{r}
 heatmap(x.cor, Rowv = NA, Colv = NA)
 ```
 
-### **`mplot3`**
-
-mplot3 adds a colorbar to the side of the heatmap. Notice there are 10 circles above and 10 circles below zero to represent 10% increments.
-```{r}
-mplot3_heatmap(x.cor)
-```
-
-### **`dplot3`**
-
-```{r warning=FALSE}
-dplot3_heatmap(x.cor)
-```
-
 ### **`ggplot2`**
 
-ggplot does not have a builtin heatmap function per se, but you can use `geom_tile` to build one. It also needs a data frame input in long form once again:
+ggplot does not have a builtin heatmap function per se, but you can use 
+`geom_tile` to build one. It also needs a data frame input in long form once 
+again:
 
 ```{r}
 x.cor.dat <- as.data.frame(x.cor)
@@ -555,4 +631,19 @@ x.cor.long <- data.frame(NodeA = rownames(x.cor)[row(x.cor)],
                          Weight = c(x.cor))
 (p <- ggplot(x.cor.long, aes(NodeA, NodeB, fill = Weight)) +
     geom_tile() + coord_equal())
+```
+
+### **`mplot3`**
+
+mplot3 adds a colorbar to the side of the heatmap. Notice there are 10 circles 
+above and 10 circles below zero to represent 10% increments.
+
+```{r}
+mplot3_heatmap(x.cor)
+```
+
+### **`dplot3`**
+
+```{r warning=FALSE}
+dplot3_heatmap(x.cor)
 ```

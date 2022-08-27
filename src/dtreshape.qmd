@@ -1,0 +1,67 @@
+# Reshape {#sec-dtreshape}
+
+```{r}
+library(data.table)
+```
+
+## Wide to long: `melt()` {#melt}
+
+```{r}
+dt_wide <- data.table(ID = 1:4, Timepoint_A = 11:14,
+                      Timepoint_B = 21:24, Timepoint_C = 51:54)
+dt_wide
+dt_long <- melt(dt_wide, id.vars = "ID",
+                measure.vars = 2:4, # defaults to all non-id columns
+                variable.name = "Timepoint",
+                value.name = c("Score"))
+dt_long
+```
+
+## Long to wide: `dcast()` {#dcast}
+
+```{r}
+dt_long
+dcast(dt_long, ID ~ Timepoint,
+      value.var = "Score")
+```
+
+### `dcast()` + aggregate
+
+If your `ID ~ Timepoint` combination does not define a unique row in your input 
+dataset, you need to specify an aggregate function.
+
+For example, suppose you have four subjects with IDs "A", "B", "C", "D" who had 
+a couple variables measured 3 times in the AM and 3 times in the PM.
+
+```{r}
+dt_long2 <- data.table(ID = rep(LETTERS[1:4], each = 6),
+                      Timepoint = rep(c("AM", "PM"), length.out = 24, each = 3),
+                      Var1 = rnorm(24, 10),
+                      Var2 = rnorm(24, 20))
+
+dt_long2[sample(24, 4), Var1 := NA]
+dt_long2[sample(24, 4), Var2 := NA]
+dt_long2
+```
+
+If you wanted to convert the above data.table to wide format and get mean AM 
+and PM values using the `fun.aggregate` argument:
+
+```{r}
+dcast(dt_long2,
+      ID ~ Timepoint,
+      value.var = c("Var1", "Var2"),
+      fun.aggregate = mean, na.rm = T)
+```
+
+You can apply multiple aggregating functions by passing a list to 
+`fun.aggregate`:
+
+```{r}
+dcast(dt_long2,
+      ID ~ Timepoint,
+      value.var = c("Var1", "Var2"),
+      fun.aggregate = list(mean, max, min), na.rm = T)
+```
+
+Note how `na.rm = T` was successfully applied to all aggregating functions

@@ -238,34 +238,7 @@ julian(x)
 julian(x, origin = as.Date("2020-01-01"))
 ```
 
-## Handling dates with **lubridate**
 
-Instead of defining Date and/or time formats using POSIX standard abbreviations, we can let the [**lubridate**](https://lubridate.tidyverse.org/) package do some guesswork for us, which works well most of the time.
+## See also
 
-```{r}
-library(lubridate)
-dt <- c("2020-03-04 13:38:54")
-dt_posix <- as_datetime(dt)
-dt_posix
-```
-
-Note that timezone defaults to UTC ([Coordinated Universal Time](https://en.wikipedia.org/wiki/Coordinated_Universal_Time)) and must be set manually. PST is defined with "America/Los_Angeles" or the (officially deprecated) "US/Pacific" ([tz database](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones))
-
-```{r}
-dt_posix <- as_datetime(dt, tz = "America/Los_Angeles")
-dt_posix
-```
-
-```{r}
-dt2_posix <- as_datetime(dt2)
-dt2_posix
-```
-
-`dt2` got misinterpreted as year-month-day.  
-For these cases, **lubridate** includes a number of convenient functions to narrow down the guessing. The functions are named using all permutations of `y`, `m`, and `d`. The letter order signifies the order the information appears in the character you are trying to import, i.e. `ymd`, `dmy`, `mdy`, `ydm`, `myd`
-
-```{r}
-dt2 <- c("03.04.20 01:38.54 pm")
-dt2_posix <- mdy_hms(dt2, tz = "America/Los_Angeles")
-dt2_posix
-```
+- [Handlind Dates with **lubridate**](lubridate.qmd)

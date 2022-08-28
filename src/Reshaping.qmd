@@ -4,29 +4,120 @@
 knitr::include_graphics("wide_long.png", dpi = NA)
 ```
 
-A wide dataset contains only a single row per case (e.g. patient), while a long dataset can contain multiple rows per case (e.g. for multiple timepoints). We want to be able to reshape from one form to the other because different programs (e.g. statistical models, visualization) may expect data in one of the other format for different applications (e.g. longitudinal modeling or grouped visualizations).
+A wide dataset contains only a single row per case (e.g. patient), while a long 
+dataset can contain multiple rows per case (e.g. for multiple timepoints). We 
+want to be able to reshape from one form to the other because different 
+programs (e.g. statistical models, visualization) may expect data in one of the 
+other format for different applications (e.g. longitudinal modeling or grouped 
+visualizations).
+
+
+## Long to Wide
+
+It is very common to receive data in long format. For example, EHR will 
+typically be extracted in long format.
+
+Let's start with a small synthetic dataset:
 
 ```{r}
-library(tidyr)
-library(data.table)
+dat_long <- data.frame(
+    Account_ID = c(8001, 8002, 8003, 8004, 8001, 8002, 8003, 8004, 
+            8001, 8002, 8003, 8004, 8001, 8002, 8003, 8004), 
+    Age = c(67.8017038366664, 42.9198507293701, 46.2301756642422, 
+            39.665983196671, 67.8017038366664, 42.9198507293701, 
+            46.2301756642422, 39.665983196671, 67.8017038366664, 
+            42.9198507293701, 46.2301756642422, 39.665983196671, 
+            67.8017038366664, 42.9198507293701, 46.2301756642422, 
+            39.665983196671), 
+    Admission = c("ED", "Planned", "Planned", "ED", "ED", "Planned", 
+            "Planned", "ED", "ED", "Planned", "Planned", "ED", "ED", "Planned", 
+            "Planned", "ED"), 
+    Lab_key = c("RBC", "RBC", "RBC", "RBC", "WBC", "WBC", "WBC", "WBC", 
+            "Hematocrit", "Hematocrit", "Hematocrit", "Hematocrit", 
+            "Hemoglobin", "Hemoglobin", "Hemoglobin", "Hemoglobin"), 
+    Lab_value = c(4.63449321082268, 3.34968550627897, 4.27037213597765, 
+            4.93897736897793, 8374.22887757195, 7612.37380499927, 
+            8759.27855519425, 6972.28096216548, 36.272693147236, 
+            40.5716317809522, 39.9888624177955, 39.8786884058422, 
+            12.6188444991545, 12.1739747363806, 15.1293426442183, 
+            14.8885696185238)
+)
+dat_long
 ```
+
+The dataset consists of an Account_ID, denoting a unique patient identifier,
+age, type of admission, and four lab key-value pairs: RBC, WBC, Hematocrit,
+Hemoglobin.
+
+Using base `reshape()` for long-to-wide transformation is simpler than 
+wide-to-long:
+
+```{r}
+#| label: longWideSyntax
+#| echo: false
+#| out-width: 100%
+#| fig-align: center
+#| fig-cap: "`reshape()` syntax for Long to Wide transformation."
+knitr::include_graphics("R_reshape_long2wide.png", dpi = NA)
+```
+
+```{r}
+dat_long2wide <- reshape(dat_long,
+                         idvar = "Account_ID",
+                         timevar = "Lab_key",
+                         v.names = "Lab_value",
+                         direction = "wide")
+dat_long2wide
+```
+
+You can optionally clean up columns (See [`gsub()`](StringOps.qmd#gsub)):
+
+```{r}
+colnames(dat_long2wide) <- gsub("Lab_value.", "", colnames(dat_long2wide))
+dat_long2wide
+```
+
 
 ## Wide to Long
 
 Let's create an example data frame:
 
 ```{r}
-dat_wide <- data.frame(ID = c(1, 2, 3),
-                       mango = c(1.1, 2.1, 3.1),
-                       banana = c(1.2, 2.2, 3.2),
-                       tangerine = c(1.3, 2.3, 3.3),
-                       Group = c("a", "b", "b"))
+dat_wide <- structure(list(
+    Account_ID = c(8001, 8002, 8003, 8004), 
+    Age = c(67.8017038366664, 42.9198507293701, 46.2301756642422, 
+        39.665983196671), 
+    RBC = c(4.63449321082268, 3.34968550627897, 4.27037213597765, 
+        4.93897736897793), 
+    WBC = c(8374.22887757195, 7612.37380499927, 8759.27855519425, 
+        6972.28096216548), 
+    Hematocrit = c(36.272693147236, 40.5716317809522, 39.9888624177955, 
+        39.8786884058422), 
+    Hemoglobin = c(12.6188444991545, 12.1739747363806, 15.1293426442183, 
+        14.8885696185238), 
+    Admission = c("ED", "Planned", "Planned", "Planned")), 
+    class = "data.frame", row.names = c(NA, -4L))
+```
+```{r}
+set.seed(2022)
+dat_wide <- data.frame(Account_ID = c(8001, 8002, 8003, 8004),
+                       Age = rnorm(4, 57, 12),
+                       RBC = rnorm(4, 4.8, .5),
+                       WBC = rnorm(4, 7250, 1500),
+                       Hematocrit = rnorm(4, 40.2, 4),
+                       Hemoglobin = rnorm(4, 13.6, 1.5),
+                       Admission = sample(c("ED", "Planned"), 4, T))
 dat_wide
 ```
 
 ### base
 
-The `reshape()` function is probably one of the more complicated builtin functions because its documentation is not entirely clear, especially if you're not used to the jargon and specifically with regards to which arguments refer to the input vs. output data frame. Use the following figure as a guide to understand `reshape()`'s syntax. You can use it as a reference when building your own `reshape()` command by following steps 1 through 5:
+The `reshape()` function is probably one of the more complicated builtin 
+functions because its documentation is not entirely clear, especially if you're 
+not used to the jargon and specifically with regards to which arguments refer 
+to the input vs. output data frame. Use the following figure as a guide to 
+understand `reshape()`'s syntax. You can use it as a reference when building 
+your own `reshape()` command by following steps 1 through 5:
 
 ```{r wideLongSyntax, echo = FALSE, out.width = "100%", fig.align = "center", fig.cap = "`reshape()` syntax for Wide to Long transformation."}
 knitr::include_graphics("R_reshape_wide2long.png", dpi = NA)
@@ -36,26 +127,26 @@ knitr::include_graphics("R_reshape_wide2long.png", dpi = NA)
 dat_wide2long <- reshape(# Data in wide format
                          data = dat_wide,
                          # The column name that defines case ID
-                         idvar = "ID",
+                         idvar = "Account_ID",
                          # The columns whose values we want to keep
-                         varying = list(2:4),
+                         varying = list(3:6),
                          # The name of the new column which will contain all 
                          # the values from the columns above
-                         v.names = "Score",
+                         v.names = "Lab value",
                          # The values/names, of length = (N columns in "varying"), 
-                         #that will be recycled to indicate which column from the 
-                         #wide dataset each row corresponds to
-                         times = c(colnames(dat_wide)[2:4]),
+                         # that will be recycled to indicate which column from the 
+                         # wide dataset each row corresponds to
+                         times = c(colnames(dat_wide)[3:6]),
                          # The name of the new column created to hold the values 
                          # defined by "times"
-                         timevar = "Fruit",                  
+                         timevar = "Lab key",                  
                          direction = "long")
 dat_wide2long
 ```
 
 You can also define `varying` with a character vector:
 
-`varying = list(c("mango", "banana","tangerine")`  
+`varying = list(c("RBC", "WBC", "Hematocrit", "Hemoglobin")`  
 
 Explore the resulting data frame's attributes:
 
@@ -63,89 +154,15 @@ Explore the resulting data frame's attributes:
 attributes(dat_wide2long)
 ```
 
-These attributes are present if and only if a long data.frame was created from a wide data.frame as above. In this case, reshaping back to wide format is as easy as calling `reshape()` on the previously converted data.frame with no arguments:
+These attributes are present if and only if a long data.frame was created from 
+a wide data.frame as above. In this case, reshaping back to wide format is as 
+easy as calling `reshape()` on the previously converted data.frame with no 
+arguments:
 
 ```{r}
 dat_wideagain <- reshape(dat_wide2long)
 dat_wideagain
 ```
 
-Note that the reverse does not work, you need to specify the wide to long reshaping normally.
-
-### tidyr
-
-```{r}
-dat_wide2long_tv <- pivot_longer(dat_wide,
-                           cols = 2:4,
-                           names_to = "Fruit",
-                           values_to = "Score")
-dat_wide2long_tv
-```
-
-### data.table
-
-```{r}
-dat_wide_dt <- as.data.table(dat_wide)
-dat_wide2long_dt <- melt(dat_wide_dt,
-                         id.vars = c(1, 5),
-                         measure.vars = 2:4,
-                         variable.name = "Fruit",
-                         value.name = "Score")
-setorder(dat_wide2long_dt, "ID")
-dat_wide2long_dt
-```
-
-## Long to Wide
-
-Let's recreate the same long dataset:
-
-```{r}
-dat_long <- data.frame(ID = c(1, 2, 3, 1, 2, 3, 1, 2, 3),
-                       Fruit = c("mango", "mango", "mango", 
-                                 "banana", "banana", "banana", 
-                                 "tangerine", "tangerine", "tangerine"),
-                       Score = c(1.1, 2.1, 3.1, 1.2, 2.2, 3.2, 1.3, 2.3, 3.3),
-                       Group = c("a", "b", "b", "a", "b", "b", "a", "b", "b"))
-dat_long
-```
-
-### base
-
-Using base `reshape()` for long-to-wide transformation is simpler than wide-to-long:
-
-```{r longWideSyntax, echo = FALSE, out.width = "100%", fig.align = "center", fig.cap = "`reshape()` syntax for Long to Wide transformation."}
-knitr::include_graphics("R_reshape_long2wide.png", dpi = NA)
-```
-
-```{r}
-dat_long2wide <- reshape(dat_long,
-                         idvar = "ID",
-                         timevar = "Fruit",
-                         v.names = "Score",
-                         direction = "wide")
-# Optionally rename columns
-colnames(dat_long2wide) <- gsub("Score.", "", colnames(dat_long2wide))
-dat_long2wide
-```
-
-### tidyr
-
-```{r}
-dat_long2wide_tv <- pivot_wider(dat_long,
-                                id_cols = c("ID", "Group"),
-                                names_from = "Fruit",
-                                values_from = "Score")
-dat_long2wide_tv
-```
-
-### data.table
-
-`data.table`'s long to wide procedure is defined with a convenient formula notation:
-
-```{r}
-dat_long_dt <- as.data.table(dat_long)
-dat_long2wide_dt <- dcast(dat_long_dt,
-                          ID + Group ~ Fruit,
-                          value.var = "Score")
-dat_long2wide_dt
-```
+Note that the reverse does not work, you need to specify the wide to long 
+reshaping normally.

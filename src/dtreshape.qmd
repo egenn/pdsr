@@ -4,20 +4,66 @@
 library(data.table)
 ```
 
-## Wide to long: `melt()` {#melt}
+## Long to wide using `dcast()` {#dcast}
+
+### Example 1
+
+Using the same example seen in @sec-reshaping:
 
 ```{r}
-dt_wide <- data.table(ID = 1:4, Timepoint_A = 11:14,
-                      Timepoint_B = 21:24, Timepoint_C = 51:54)
-dt_wide
-dt_long <- melt(dt_wide, id.vars = "ID",
-                measure.vars = 2:4, # defaults to all non-id columns
-                variable.name = "Timepoint",
-                value.name = c("Score"))
-dt_long
+dat_long <- data.frame(
+    Account_ID = c(8001, 8002, 8003, 8004, 8001, 8002, 8003, 8004, 
+            8001, 8002, 8003, 8004, 8001, 8002, 8003, 8004), 
+    Age = c(67.8017038366664, 42.9198507293701, 46.2301756642422, 
+            39.665983196671, 67.8017038366664, 42.9198507293701, 
+            46.2301756642422, 39.665983196671, 67.8017038366664, 
+            42.9198507293701, 46.2301756642422, 39.665983196671, 
+            67.8017038366664, 42.9198507293701, 46.2301756642422, 
+            39.665983196671), 
+    Admission = c("ED", "Planned", "Planned", "ED", "ED", "Planned", 
+            "Planned", "ED", "ED", "Planned", "Planned", "ED", "ED", "Planned", 
+            "Planned", "ED"), 
+    Lab_key = c("RBC", "RBC", "RBC", "RBC", "WBC", "WBC", "WBC", "WBC", 
+            "Hematocrit", "Hematocrit", "Hematocrit", "Hematocrit", 
+            "Hemoglobin", "Hemoglobin", "Hemoglobin", "Hemoglobin"), 
+    Lab_value = c(4.63449321082268, 3.34968550627897, 4.27037213597765, 
+            4.93897736897793, 8374.22887757195, 7612.37380499927, 
+            8759.27855519425, 6972.28096216548, 36.272693147236, 
+            40.5716317809522, 39.9888624177955, 39.8786884058422, 
+            12.6188444991545, 12.1739747363806, 15.1293426442183, 
+            14.8885696185238)
+)
+dat_long
 ```
 
-## Long to wide: `dcast()` {#dcast}
+`data.table`'s long to wide procedure is defined with a convenient formula 
+notation:
+
+```{r}
+dat_long_dt <- as.data.table(dat_long)
+dat_long2wide_dt <- dcast(dat_long_dt,
+                          Account_ID + Age + Admission ~ Lab_key,
+                          value.var = "Lab_value")
+dat_long2wide_dt
+```
+
+### Example 2
+
+Another simple synthetic dataset:
+
+```{r}
+dt_long <- structure(list(
+        ID = c(1L, 2L, 3L, 4L, 1L, 2L, 3L, 4L, 1L, 2L, 
+        3L, 4L), 
+        Timepoint = structure(c(1L, 1L, 1L, 1L, 2L, 2L, 2L, 
+        2L, 3L, 3L, 3L, 3L), levels = c("Timepoint_A", "Timepoint_B", 
+        "Timepoint_C"), class = "factor"), 
+        Score = c(11L, 12L, 13L, 14L, 
+        21L, 22L, 23L, 24L, 51L, 52L, 53L, 54L)), 
+        row.names = c(NA, -12L
+        ), class = "data.frame")
+dt_long
+```
 
 ```{r}
 dt_long
@@ -65,3 +111,53 @@ dcast(dt_long2,
 ```
 
 Note how `na.rm = T` was successfully applied to all aggregating functions
+
+
+## Wide to long: `melt()` {#melt}
+
+### Example 1
+
+```{r}
+dt_wide <- data.table(ID = 1:4, Timepoint_A = 11:14,
+                      Timepoint_B = 21:24, Timepoint_C = 51:54)
+dt_wide
+```
+
+```{r}
+dt_long <- melt(dt_wide, id.vars = "ID",
+                measure.vars = 2:4, # defaults to all non-id columns
+                variable.name = "Timepoint",
+                value.name = c("Score"))
+dt_long
+```
+
+### Example 2
+
+Using the same synthetic data as in @sec-reshaping:
+
+```{r}
+dat_wide_dt <- data.table(Account_ID = c(8001, 8002, 8003, 8004),
+                       Age = rnorm(4, 57, 12),
+                       RBC = rnorm(4, 4.8, .5),
+                       WBC = rnorm(4, 7250, 1500),
+                       Hematocrit = rnorm(4, 40.2, 4),
+                       Hemoglobin = rnorm(4, 13.6, 1.5),
+                       Admission = sample(c("ED", "Planned"), 4, T))
+```
+
+```{r}
+dat_wide2long_dt <- melt(dat_wide_dt,
+                         id.vars = c(1:2, 7),
+                         measure.vars = 3:6,
+                         variable.name = "Lab_key",
+                         value.name = "Lab_value")
+dat_wide2long_dt
+```
+
+If desired, you can set the ID column as they key, which will sort the
+data.table by its values:
+
+```{r}
+setorder(dat_wide2long_dt, "Account_ID")
+dat_wide2long_dt
+```

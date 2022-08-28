@@ -1,0 +1,67 @@
+# Reshaping with `tidyr`
+
+```{r}
+library(tidyr)
+```
+
+## Long to wide with `pivot_wider()`
+
+Using the same example seen in @sec-reshaping:
+
+```{r}
+dat_long <- data.frame(
+    Account_ID = c(8001, 8002, 8003, 8004, 8001, 8002, 8003, 8004, 
+            8001, 8002, 8003, 8004, 8001, 8002, 8003, 8004), 
+    Age = c(67.8017038366664, 42.9198507293701, 46.2301756642422, 
+            39.665983196671, 67.8017038366664, 42.9198507293701, 
+            46.2301756642422, 39.665983196671, 67.8017038366664, 
+            42.9198507293701, 46.2301756642422, 39.665983196671, 
+            67.8017038366664, 42.9198507293701, 46.2301756642422, 
+            39.665983196671), 
+    Admission = c("ED", "Planned", "Planned", "ED", "ED", "Planned", 
+            "Planned", "ED", "ED", "Planned", "Planned", "ED", "ED", "Planned", 
+            "Planned", "ED"), 
+    Lab_key = c("RBC", "RBC", "RBC", "RBC", "WBC", "WBC", "WBC", "WBC", 
+            "Hematocrit", "Hematocrit", "Hematocrit", "Hematocrit", 
+            "Hemoglobin", "Hemoglobin", "Hemoglobin", "Hemoglobin"), 
+    Lab_value = c(4.63449321082268, 3.34968550627897, 4.27037213597765, 
+            4.93897736897793, 8374.22887757195, 7612.37380499927, 
+            8759.27855519425, 6972.28096216548, 36.272693147236, 
+            40.5716317809522, 39.9888624177955, 39.8786884058422, 
+            12.6188444991545, 12.1739747363806, 15.1293426442183, 
+            14.8885696185238)
+)
+dat_long
+```
+
+```{r}
+dat_long2wide <- pivot_wider(dat_long,
+                                id_cols = c("Account_ID", "Age", "Admission"),
+                                names_from = "Lab_key",
+                                values_from = "Lab_value")
+dat_long2wide
+```
+
+## Wide to long with `pivot_longer()`
+
+```{r}
+set.seed(2022)
+dat_wide <- data.frame(Account_ID = c(8001, 8002, 8003, 8004),
+                       Age = rnorm(4, 57, 12),
+                       RBC = rnorm(4, 4.8, .5),
+                       WBC = rnorm(4, 7250, 1500),
+                       Hematocrit = rnorm(4, 40.2, 4),
+                       Hemoglobin = rnorm(4, 13.6, 1.5),
+                       Admission = sample(c("ED", "Planned"), 4, T))
+dat_wide
+```
+
+```{r}
+dat_wide2long <- pivot_longer(dat_wide,
+                              cols = 3:6,
+                              names_to = "Lab_key",
+                              values_to = "Lab_value")
+dat_wide2long
+```
+
+Note that the "Age" and "Admission" columns were also reshaped correctly.

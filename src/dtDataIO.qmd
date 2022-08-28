@@ -1,0 +1,37 @@
+# Data I/O {#sec-dtdataio}
+
+## Read delimited data with `fread()`
+
+**data.table**'s "fast read" function `fread()` offers a replacement for the 
+base `read.csv()` command. By default, it creates a data.table object, which
+is likely preferred in most scenarios, but it can create a data.frame by 
+setting `data.table = FALSE`.
+
+It is very useful because it allows:
+
+- very fast, parallelized reading of large delimited files, e.g. with millions 
+of rows
+- can directly read zipped files
+- smart automatic discovery of delimiters when `sep = "auto"` (default)
+- multiple other conveniences
+
+As an example, you can read a gzipped file directly from a URL:
+
+```{r}
+#| eval: false
+library(data.table)
+bcw <- fread("https://github.com/EpistasisLab/penn-ml-benchmarks/raw/master/datasets/classification/breast-cancer-wisconsin/breast-cancer-wisconsin.tsv.gz")
+```
+
+### See also
+
+[Convenience features of fread](https://github.com/Rdatatable/data.table/wiki/Convenience-features-of-fread)
+
+## Write delimited data with `fwrite()`
+
+`fwrite()` similary provides a much faster, parallelized, and more flexible replacement for `write.csv()`
+
+```{r}
+#| eval: false
+fwrite(dat, "/path/to/file.csv")
+```

@@ -109,26 +109,6 @@ bcw <- read.csv(con, header = TRUE, sep = "\t")
 bcw <- read.delim(con, header = TRUE)
 ```
 
-#### using **data.table**'s `fread()`
-
-You can also use [data.table's](#sec-datatable) `fread()`, which can handle 
-zipped files directly:
-
-```{r}
-#| eval: false
-library(data.table)
-bcw <- fread("https://github.com/EpistasisLab/penn-ml-benchmarks/raw/master/datasets/classification/breast-cancer-wisconsin/breast-cancer-wisconsin.tsv.gz")
-```
-
-If you want `fread()` to return a `data.frame` instead of a `data.table`, you
-can set the `data.table` argument `FALSE`:
-
-```{r}
-#| eval: false
-bcw <- fread("https://github.com/EpistasisLab/penn-ml-benchmarks/raw/master/datasets/classification/breast-cancer-wisconsin/breast-cancer-wisconsin.tsv.gz",
-              data.table = FALSE)
-```
-
 ### Write to CSV
 
 Use the `write.csv()` function to write an R object (usually data frame or 
@@ -301,6 +281,11 @@ Note: See issue [here](https://stackoverflow.com/questions/27388964/rmarkdown-no
 | Apache Arrow       | `.feather`              | `arrow::read_feather()` |
 | Apache Arrow       | `.parquet`              | `arrow::read_parquet()` |
 | Weka ARFF          | `.arff`                 | `farff::readARFF()`     |
+
+
+## See also
+
+- [fast data I/O with data.table](dtDataIO.qmd)
 
 ## Resources
 

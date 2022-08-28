@@ -5,15 +5,18 @@ knitr:
     cache: true
 ---
 
-# data.table advanced usage examples
+# **data.table** Advanced usage examples
+
+This is a growing list of more advanced usage examples of **data.table**
 
 ```{r}
 library(data.table)
 ```
+
 ## Index within groups
 
 For example, get index for min or max whithin each group, where index
-refers to entire data.table.
+refers to the entire data.table.
 
 Look at the documentation for `.I`
 
@@ -22,7 +25,7 @@ ir <- as.data.table(iris)
 ir[, .I[which.max(Petal.Width)], by = Species]
 ```
 
-Use that to get the flower with max Petal.Width from each Species
+Use that to get the case with max Petal.Width from each Species
 
 ```{r}
 ir[, ir[, .I[which.max(Petal.Width)], by = Species][[2]]]

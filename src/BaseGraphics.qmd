@@ -12,9 +12,6 @@ knitr:
 # Base Graphics {#sec-basegraphics}
 ```{r}
 #| echo: false
-# This is a workaround for Quarto bug which cannot read default 'Arial' font 
-# from system (MacOS, as of 2022-08-26)
-sysfonts::font_add_google("Inter")
 par(family = "Inter")
 ```
 This chapter is an introduction to what is known as base graphics, which is 
@@ -45,6 +42,22 @@ R documentation for each of the above commands provides extensive coverage of
 graphical parameters. `?par` gives the main documentation file for a long list 
 of graphical parameters. These can be set either with the `par()` command 
 *before* using any plotting command. 
+
+```{block, type="rmdcaution"}
+If you your plots are missing all text and you get warnings that fonts were not 
+found, it may be that the current R installation cannot find the all fonts 
+installed on your system.
+
+One possible workaround is to download a font from Google fonts,
+a good one would be [Inter](https://fonts.google.com/specimen/Inter)
+install it on your system (clicking on the file will usually ask you if you
+want to install it), and then setting it as the default in R by running:
+
+`
+par(family = "Inter")
+`
+
+```
 
 Let's create some synthetic data:
 

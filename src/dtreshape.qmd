@@ -6,7 +6,7 @@ library(data.table)
 
 ## Long to wide using `dcast()` {#dcast}
 
-### Example 1
+### Example 1: key-value pairs
 
 Using the same example seen in @sec-reshaping:
 
@@ -47,7 +47,15 @@ dat_long2wide_dt <- dcast(dat_long_dt,
 dat_long2wide_dt
 ```
 
-### Example 2
+Instead of listing all variables you can use `...`:
+
+```{r}
+dcast(dat_long_dt,
+      ... ~ Lab_key,
+      value.var = "Lab_value")
+```
+
+### Example 2: Timepoints
 
 Another simple synthetic dataset:
 

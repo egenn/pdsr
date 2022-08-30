@@ -29,12 +29,12 @@ following functions:
 
 | Plot type     | Command                  |
 |--------------:|:-------------------------|
-| Scatterplot   | `plot(x, y)`             |
-| Line plot     | `plot(x, y, type = 'l')` |
+| Boxplot       | `boxplot(x)`             |
 | Histogram     | `hist(x)`                |
 | Density plot  | `plot(density(x))`       |
 | Barplot       | `barplot(x)`             |
-| Boxplot       | `boxplot(x)`             |
+| Scatterplot   | `plot(x, y)`             |
+| Line plot     | `plot(x, y, type = 'l')` |
 | Heatmap       | `heatmap(x)`             |
 | Mosaic plot   | `mosaicplot(table(x))`   |
 
@@ -66,247 +66,6 @@ sysfonts::font_add_google("Inter")
 par(family = "Inter")
 `
 ```
-
-Let's create some synthetic data:
-
-```{r}
-set.seed(2020)
-x <- rnorm(300)
-y_true <- 12 + x^3
-y <- 12 + x^3 + 2.5 * rnorm(300)*1.5
-```
-
-## Scatter plot
-
-Input: 2 **numeric vectors**
-
-A 2D scatterplot displays points using two numeric vectors as X and Y 
-coordinates.
-
-```{r}
-plot(x, y)
-```
-
-### **`col`**: point color
-
-See [Colors in R](#sec-colors) to learn about the different ways to define 
-colors in R.
-
-Some common ways include:
-
-- By name, using one of 657 names given by `colors()`, e.g. "magenta", "navy", "cyan"
-- By RGB code in hexadecimal format, e.g. "#ff0000" is red
-
-```{r}
-plot(x, y, col = "red")
-```
-
-### **`bty`**: box type
-
-There are 7 bty options: "o" "l", "7", "c", "u", or "]" and "none".
-They produce a box that resembles the corresponding symbol.
-"none" draws no box but allows the axes to show:
-
-```{r}
-plot(x, y, bty = "l")
-```
-
-```{r}
-plot(x, y, bty = "none")
-```
-
-### **`pch`**: point character
-
-The default point character is a circle as seen above. This helps visualize 
-overlapping points (especially for devices that do not support transparency).  
-
-There are 25 point characters, designated by integers 1 through 25.
-
-Here's a preview of all 25 `pch` options.
-`pch` types 21 through 25 can be filled by a color specified by `bg`.
-
-```{r}
-plot(1:25, rep(1, 25), pch = 1:25, bg = "blue")
-```
-
-Let's use a solid disc:
-
-```{r}
-plot(x, y, bty = "n", pch = 16)
-```
-
-We cannot tell how many points are overlapping in the middle and therefore it's 
-a good idea to make the points a little transparent.
-
-There are different ways to add transparency (see [Colors](#colors)). The 
-easiest way is probably to use `adjustcolor()`. In the context of colors, 
-`alpha` refers to transparency: `a = 1` is opaque and `a = 0` is completely 
-transparent (therefore use a value greater than 0).
-
-```{r}
-plot(x, y,
-     bty = "n", pch = 16,
-     col = adjustcolor("skyblue", alpha.f = .5))
-```
-
-### grid
-
-We can add a grid behind the plot area using the `panel.first` argument, which 
-accepts a graphical expression (a function that draws something), which will be 
-evaluated before plotting the points on the graph (therefore appears behind the 
-points).
-
-```{r}
-plot(x, y,
-     bty = "n", pch = 16,
-     col = adjustcolor("skyblue", alpha.f = .5),
-     panel.first = grid(lty = 1, col = 'gray90'))
-```
-
-### **`main`**, **`xlab`**, **`ylab`**: Title and axes labels
-
-```{r}
-plot(x, y,
-     bty = "n", pch = 16,
-     col = adjustcolor("skyblue", alpha.f = .5),
-     panel.first = grid(lty = 1, col = 'gray90'),
-     main = "y vs. x",
-     xlab = "Variable x (xunits)",
-     ylab = "Variable y (yunits)")
-```
-
-Note that depending on where you intend to display the plot, you may leave the 
-title blank and instead place it in the figure caption along with an 
-explanation of the data (e.g. in a journal article).
-
-## Histogram
-
-Input: **numeric vector**
-
-A histogram displays an approximation of the distribution of a numeric vector. 
-First the data is binned and then the number of elements that falls in each bin 
-is counted. The histogram plot draws bars for each bin whose heights 
-corresponds to the count of elements in the corresponding interval.
-
-```{r}
-hist(x)
-```
-
-### **`col`**: bar color
-
-```{r}
-hist(x, col = "slategrey")
-```
-
-### **`border`**: border color
-
-Setting border color to the same as the background gives a clean look:
-
-```{r}
-hist(x, col = "slategrey", border = "white")
-```
-
-### `breaks`: number or value of breakpoints
-
-The `breaks` argument can be used to define the breakpoints to use for the 
-binning of the values of the input to `hist()`. See the documentation in 
-`?hist` for the full range of options. An easy way to control the number of 
-bins is to pass an integer to the `breaks` argument. Depending on the length of 
-x and its distribution, it may or may not be possible to use the exact number 
-requested, but the closest possible number will be automatically chosen.
-
-```{r}
-hist(x, col = "slategrey", border = "white",
-     breaks = 8)
-```
-
-## Density plot
-
-Input: numeric vector
-
-A density plot is a different way to display an approximation of the 
-distribution of a numeric vector. The `density()` function estimates the 
-density of x and can be passed to `plot()` directly:
-
-```{r}
-plot(density(x))
-```
-
-You can use `main = NA` or `main = ""` to suppress printing a title.
-
-```{r}
-plot(density(x), col = "blue",
-     bty = "n",
-     main = NA)
-```
-
-## Barplot
-
-Input: **vector** or **matrix**
-
-Let's look at the VADeaths built-in dataset which describes death rater per 
-1000 population per year broken down by age range and population group.
-
-### Single vector
-
-We can plot a single column or row. Note how R automatically gets the 
-corresponding dimension names. For this example we use the builtin `VADeaths` 
-dataset, which is a matrix.
-
-```{r, fig.width=6}
-barplot(VADeaths[, 1])
-```
-
-```{r, fig.width=6}
-barplot(VADeaths[1, ])
-```
-
-#### **`col`** and **`border`**: bar fill and border color
-
-As in most plotting functions, color is controlled by the **`col`** argument. 
-**`border`** can be set to any color separately, or to `NA` to omit, which 
-gives a clean look:
-
-```{r, fig.width=6}
-barplot(VADeaths[, 1],
-        col = "aquamarine3", border = NA)
-```
-
-### Matrix
-
-We can draw barplots of multiple columns at the same time by passing a matrix 
-input. The grouping on the x-axis is based on the columns. By default, data 
-from different rows is stacked. The argument `legend.text` can be used to add a 
-legend with the row labels:
-
-```{r, fig.width=7}
-barplot(VADeaths, legend.text = TRUE)
-```
-
-Alternatively, we can draw groups of bars beside each other with the argument 
-`beside = TRUE`:
-
-```{r fig.width= 7, fig.height=5}
-barplot(VADeaths, beside = TRUE,
-        legend.text = TRUE, args.legend = list(x = "topright"))
-```
-
-To use custom colors, we pass a vector of length equal to the number of bars 
-within each group. These will get recycled across groups, giving a consistent 
-color coding.
-
-Here, we use the `adjustcolor()` function again to produce 5 shades of navy.
-
-```{r fig.width= 7, fig.height=5}
-col <- sapply(seq(.2, .8, length.out = 5), function(i) adjustcolor("navy", i))
-barplot(VADeaths,
-        col = col,
-        border = NA,
-        beside = TRUE,
-        legend.text = TRUE, args.legend = list(x = "topright"))
-```
-
-### Formula interface
 
 ## Boxplot
 
@@ -480,6 +239,246 @@ boxplot(extra ~ group, sleep,
         col = col, border = border,
         names = c("Drug A", "Drug B"))
 ```
+
+## Histogram
+
+Input: **numeric vector**
+
+A histogram displays an approximation of the distribution of a numeric vector. 
+First the data is binned and then the number of elements that falls in each bin 
+is counted. The histogram plot draws bars for each bin whose heights 
+corresponds to the count of elements in the corresponding interval.
+
+```{r}
+hist(x)
+```
+
+### **`col`**: bar color
+
+```{r}
+hist(x, col = "slategrey")
+```
+
+### **`border`**: border color
+
+Setting border color to the same as the background gives a clean look:
+
+```{r}
+hist(x, col = "slategrey", border = "white")
+```
+
+### `breaks`: number or value of breakpoints
+
+The `breaks` argument can be used to define the breakpoints to use for the 
+binning of the values of the input to `hist()`. See the documentation in 
+`?hist` for the full range of options. An easy way to control the number of 
+bins is to pass an integer to the `breaks` argument. Depending on the length of 
+x and its distribution, it may or may not be possible to use the exact number 
+requested, but the closest possible number will be automatically chosen.
+
+```{r}
+hist(x, col = "slategrey", border = "white",
+     breaks = 8)
+```
+
+## Density plot
+
+Input: numeric vector
+
+A density plot is a different way to display an approximation of the 
+distribution of a numeric vector. The `density()` function estimates the 
+density of x and can be passed to `plot()` directly:
+
+```{r}
+plot(density(x))
+```
+
+You can use `main = NA` or `main = ""` to suppress printing a title.
+
+```{r}
+plot(density(x), col = "blue",
+     bty = "n",
+     main = NA)
+```
+
+## Barplot
+
+Input: **vector** or **matrix**
+
+Let's look at the VADeaths built-in dataset which describes death rater per 
+1000 population per year broken down by age range and population group.
+
+### Single vector
+
+We can plot a single column or row. Note how R automatically gets the 
+corresponding dimension names. For this example we use the builtin `VADeaths` 
+dataset, which is a matrix.
+
+```{r, fig.width=6}
+barplot(VADeaths[, 1])
+```
+
+```{r, fig.width=6}
+barplot(VADeaths[1, ])
+```
+
+#### **`col`** and **`border`**: bar fill and border color
+
+As in most plotting functions, color is controlled by the **`col`** argument. 
+**`border`** can be set to any color separately, or to `NA` to omit, which 
+gives a clean look:
+
+```{r, fig.width=6}
+barplot(VADeaths[, 1],
+        col = "aquamarine3", border = NA)
+```
+
+### Matrix
+
+We can draw barplots of multiple columns at the same time by passing a matrix 
+input. The grouping on the x-axis is based on the columns. By default, data 
+from different rows is stacked. The argument `legend.text` can be used to add a 
+legend with the row labels:
+
+```{r, fig.width=7}
+barplot(VADeaths, legend.text = TRUE)
+```
+
+Alternatively, we can draw groups of bars beside each other with the argument 
+`beside = TRUE`:
+
+```{r fig.width= 7, fig.height=5}
+barplot(VADeaths, beside = TRUE,
+        legend.text = TRUE, args.legend = list(x = "topright"))
+```
+
+To use custom colors, we pass a vector of length equal to the number of bars 
+within each group. These will get recycled across groups, giving a consistent 
+color coding.
+
+Here, we use the `adjustcolor()` function again to produce 5 shades of navy.
+
+```{r fig.width= 7, fig.height=5}
+col <- sapply(seq(.2, .8, length.out = 5), function(i) adjustcolor("navy", i))
+barplot(VADeaths,
+        col = col,
+        border = NA,
+        beside = TRUE,
+        legend.text = TRUE, args.legend = list(x = "topright"))
+```
+
+
+## Scatter plot
+
+Input: 2 **numeric vectors**
+
+A 2D scatterplot displays points using two numeric vectors as X and Y 
+coordinates.
+
+Let's create some synthetic data:
+
+```{r}
+set.seed(2020)
+x <- rnorm(300)
+y_true <- 12 + x^3
+y <- 12 + x^3 + 2.5 * rnorm(300)*1.5
+```
+
+```{r}
+plot(x, y)
+```
+
+### **`col`**: point color
+
+See [Colors in R](#sec-colors) to learn about the different ways to define 
+colors in R.
+
+Some common ways include:
+
+- By name, using one of 657 names given by `colors()`, e.g. "magenta", "navy", "cyan"
+- By RGB code in hexadecimal format, e.g. "#ff0000" is red
+
+```{r}
+plot(x, y, col = "red")
+```
+
+### **`bty`**: box type
+
+There are 7 bty options: "o" "l", "7", "c", "u", or "]" and "none".
+They produce a box that resembles the corresponding symbol.
+"none" draws no box but allows the axes to show:
+
+```{r}
+plot(x, y, bty = "l")
+```
+
+```{r}
+plot(x, y, bty = "none")
+```
+
+### **`pch`**: point character
+
+The default point character is a circle as seen above. This helps visualize 
+overlapping points (especially for devices that do not support transparency).  
+
+There are 25 point characters, designated by integers 1 through 25.
+
+Here's a preview of all 25 `pch` options.
+`pch` types 21 through 25 can be filled by a color specified by `bg`.
+
+```{r}
+plot(1:25, rep(1, 25), pch = 1:25, bg = "blue")
+```
+
+Let's use a solid disc:
+
+```{r}
+plot(x, y, bty = "n", pch = 16)
+```
+
+We cannot tell how many points are overlapping in the middle and therefore it's 
+a good idea to make the points a little transparent.
+
+There are different ways to add transparency (see [Colors](#colors)). The 
+easiest way is probably to use `adjustcolor()`. In the context of colors, 
+`alpha` refers to transparency: `a = 1` is opaque and `a = 0` is completely 
+transparent (therefore use a value greater than 0).
+
+```{r}
+plot(x, y,
+     bty = "n", pch = 16,
+     col = adjustcolor("skyblue", alpha.f = .5))
+```
+
+### grid
+
+We can add a grid behind the plot area using the `panel.first` argument, which 
+accepts a graphical expression (a function that draws something), which will be 
+evaluated before plotting the points on the graph (therefore appears behind the 
+points).
+
+```{r}
+plot(x, y,
+     bty = "n", pch = 16,
+     col = adjustcolor("skyblue", alpha.f = .5),
+     panel.first = grid(lty = 1, col = 'gray90'))
+```
+
+### **`main`**, **`xlab`**, **`ylab`**: Title and axes labels
+
+```{r}
+plot(x, y,
+     bty = "n", pch = 16,
+     col = adjustcolor("skyblue", alpha.f = .5),
+     panel.first = grid(lty = 1, col = 'gray90'),
+     main = "y vs. x",
+     xlab = "Variable x (xunits)",
+     ylab = "Variable y (yunits)")
+```
+
+Note that depending on where you intend to display the plot, you may leave the 
+title blank and instead place it in the figure caption along with an 
+explanation of the data (e.g. in a journal article).
 
 ## Heatmap
 

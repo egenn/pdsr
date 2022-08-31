@@ -41,37 +41,32 @@ following functions:
 R documentation for each of the above commands provides extensive coverage of 
 graphical parameters. `?par` gives the main documentation file for a long list 
 of graphical parameters. These can be set either with the `par()` command 
-*before* using any plotting command. 
-
-<br>
-Let's get some synthetic example data:
-
-```{r}
-dat <- readRDS(
-     url("https://class.lambdamd.org/pdsr/data/synth2208.rds"))
-```
+*before* using any plotting command.
 
 ## Boxplot
 
-Input: One or more **vectors** of any length
-
-A boxplot is another way to visualize the distribution of one or more vectors. 
-Each vector does not need to be of the same length. For example if you are 
+Input: One or more **vectors** of any length.
+<br><br>
+A boxplot is a way to visualize the distribution of one or more vectors. 
+Each vector does not need to be of the same length. For example, if you are 
 plotting lab results of a patient and control group, they do not have to 
 contain the same number of individuals.
+<br><br>
+`boxplot()` makes it easy to plot data from one or more objects.
 
-`boxplot()` makes it easy to plot your data from different objects. 
 It can accept:
 
-- individual vectors
-- columns of a matrix, columns/elements of a data.frame, elements of a list
-- formula interface of the form `variable ~ factor`
+- Individual vectors: each vector forms a boxplot
+- Matrix, data.frame, list: each column of a matrix, each element/i.e. column of 
+a data.frame, each element of a list form a boxplot
+- Formula of the form `variable ~ factor`: variable is split by factor and each
+level forms a boxplot
 
 ### Single vector
 
 ```{r}
-a <- rnorm(500, mean = 12, sd = 2)
-boxplot(a)
+x <- rnorm(400, 23, 4)
+boxplot(x)
 ```
 
 ### Anatomy of a boxplot
@@ -83,7 +78,11 @@ A boxplot shows:
 - outliers (defined as `x < Q1 - 1.5 * IQR | x > Q3 + 1.5 * IQR`)
 - range after excluding outliers
 
-```{r boxanat, echo=FALSE, fig.height=6, fig.width=5, fig.cap="Boxplot anatomy"}
+```{r}
+#| echo: false
+#| fig-height: 6
+#| fig-width: 5
+#| fig-cap: "Boxplot anatomy"
 # Get par
 par_og <- par(no.readonly = TRUE)
 
@@ -162,19 +161,12 @@ Some synthetic data:
 alpha <- rnorm(10)
 beta <- rnorm(100)
 gamma <- rnorm(200, 1, 2)
-dl <- list(alpha = alpha, beta = beta, gamma = gamma)
 ```
 
-### Multiple vectors
+### Individual vectors
 
 ```{r}
 boxplot(alpha, beta, gamma)
-```
-
-### List
-
-```{r}
-boxplot(dl)
 ```
 
 ### Matrix
@@ -183,7 +175,31 @@ Passing a matrix to `boxplot()` draws one boxplot per column:
 
 ```{r}
 mat <- sapply(seq(5), function(i) rnorm(20))
+mat
 boxplot(mat)
+```
+
+### Data frame
+
+Passing a data.frame to `boxplot()` draws one boxplot per element/column:
+
+```{r}
+boxplot(iris[, 1:4])
+```
+
+### List
+
+```{r}
+dl <- list(alpha, beta, gamma)
+boxplot(dl)
+```
+
+Note that supplying a named list is an easy way to get names to show on the
+categorical axis:
+
+```{r}
+dl <- list(alpha = alpha, beta = beta, gamma = gamma)
+boxplot(dl)
 ```
 
 ### Formula interface
@@ -195,92 +211,122 @@ Let's use the built-in `sleep` dataset which shows the effect of two different
 drugs in increasing hours of sleep compared to a control group.
 
 ```{r}
+dl <- list(alpha = alpha, beta = beta, gamma = gamma)
 boxplot(extra ~ group, sleep)
 ```
 
-The **`col`** and **`border`** arguments work as expected. Here we define two 
-custom colors using their hexadecimal RGB code and use the solid version for 
-the border and a 50% transparent version for the fill. Note that we do not need 
-two separate colors to produce an unambiguous plot since they are clearly 
-labeled in the y-axis. It is often considered desirable/preferred to use the 
-minimum number of different colors that is necessary. (Color coding like the 
-following could be useful if for example data from the two groups were used on 
-a different plot, like a scatterplot, in a multi-panel figure).
+### Common arguments
+
+- `col`: Set boxplot fill color
+- `border`: Set boxplot border color
+- `names`: Group names on the categorical axis
+- `breaks`: Number or value of breakpoints 
+
+Here we define two custom colors using their hexadecimal RGB code and use the 
+solid version for the border and a 33% transparent version for the fill,
+using `adjustcolor()`.
+
+Note that we do not need two separate colors to produce an unambiguous plot 
+since they are clearly labeled in the y-axis. It is often considered 
+desirable/preferred to use the minimum number of different colors that is 
+necessary.
+
+Color coding like the following could be useful if, for example, data 
+from the two groups were used on another plot as well, like a scatterplot, in a 
+multi-panel figure.
 
 ```{r}
-border <- c("#18A3AC", "#F48024")
-col <- c(adjustcolor("#18A3AC", .5), adjustcolor("#F48024", .5))
+col <- c("#16A0AC", "#FA6E1E")
 boxplot(extra ~ group, sleep,
-        col = col, border = border)
+        col = adjustcolor(col, .333), 
+        border = col)
 ```
 
-### **`names`**: group labels
+```{r}
+str(sleep)
+```
 
-The x-axis group names can be defined with the `names` argument:
+```{r}
+boxplot(extra ~ group, sleep)
+```
 
 ```{r}
 boxplot(extra ~ group, sleep,
-        col = col, border = border,
+        col = adjustcolor(col, .333),
+        border = col,
         names = c("Drug A", "Drug B"))
 ```
 
 ## Histogram
 
 Input: **numeric vector**
-
-A histogram displays an approximation of the distribution of a numeric vector. 
-First the data is binned and then the number of elements that falls in each bin 
-is counted. The histogram plot draws bars for each bin whose heights 
-corresponds to the count of elements in the corresponding interval.
+<br><br>
+A histogram is another way to visualize the distribution of a continuous
+variable. First, the data is binned and then the number of elements that fall 
+in each bin is counted. The histogram plot draws bars for each bin whose heights 
+correspond to the count of elements in the given interval.
 
 ```{r}
 hist(x)
 ```
 
-### **`col`**: bar color
+### Common arguments
+
+- `col`: bar color
+- `border`: border color, set to NA to omit borders
 
 ```{r}
-hist(x, col = "slategrey")
+hist(x, col = "slategrey", lwd = 3)
 ```
-
-### **`border`**: border color
-
-Setting border color to the same as the background gives a clean look:
 
 ```{r}
-hist(x, col = "slategrey", border = "white")
+hist(x, 
+     col = adjustcolor("slategray", .5), 
+     border = "slategray")
 ```
 
-### `breaks`: number or value of breakpoints
+Setting border color to the same as the background gives a clean look - though each bar appears slightly shorter than actual.
+
+```{r}
+hist(x, 
+     col = "slategrey", 
+     border = "white")
+```
 
 The `breaks` argument can be used to define the breakpoints to use for the 
-binning of the values of the input to `hist()`. See the documentation in 
-`?hist` for the full range of options. An easy way to control the number of 
-bins is to pass an integer to the `breaks` argument. Depending on the length of 
-x and its distribution, it may or may not be possible to use the exact number 
-requested, but the closest possible number will be automatically chosen.
+binning of the values of the input. See the documentation in for the full range 
+of options. An easy way to control the number of bins is to pass an integer to 
+the `breaks` argument.
+<br><br>
+Note: Depending on the length of x and its distribution, it 
+may or may not be possible to use the exact number requested, but the closest 
+possible number will be used.
 
 ```{r}
-hist(x, col = "slategrey", border = "white",
-     breaks = 8)
+hist(x,
+     col = adjustcolor("slategray", .5), 
+     border = "slategray",
+     breaks = 24)
 ```
 
 ## Density plot
 
 Input: numeric vector
 
-A density plot is a different way to display an approximation of the 
-distribution of a numeric vector. The `density()` function estimates the 
-density of x and can be passed to `plot()` directly:
+A density plot is a another way to display an approximation of the 
+distribution of a continuous variable. The `density()` function estimates the 
+density of x and its output can be passed to directly to `plot()`:
 
 ```{r}
 plot(density(x))
 ```
 
 You can use `main = NA` or `main = ""` to suppress printing a title.
+You can change the box type using the `bty` argument
 
 ```{r}
-plot(density(x), col = "blue",
+plot(density(x), 
+     col = "blue",
      bty = "n",
      main = NA)
 ```
@@ -372,7 +418,15 @@ y <- 12 + x^3 + 2.5 * rnorm(300)*1.5
 plot(x, y)
 ```
 
-### **`col`**: point color
+### Common arguments
+
+- `main`: Plot title
+- `xlab`, `ylab`: x- and y-axis labels
+- `col`: Marker color
+- `bty`: Box type (lines surrounding plot)
+- `pch`: Point character
+
+### **`col`**
 
 See [Colors in R](#sec-colors) to learn about the different ways to define 
 colors in R.
@@ -386,7 +440,7 @@ Some common ways include:
 plot(x, y, col = "red")
 ```
 
-### **`bty`**: box type
+### **`bty`**
 
 There are 7 bty options: "o" "l", "7", "c", "u", or "]" and "none".
 They produce a box that resembles the corresponding symbol.
@@ -400,7 +454,7 @@ plot(x, y, bty = "l")
 plot(x, y, bty = "none")
 ```
 
-### **`pch`**: point character
+### **`pch`**
 
 The default point character is a circle as seen above. This helps visualize 
 overlapping points (especially for devices that do not support transparency).  
@@ -448,7 +502,7 @@ plot(x, y,
      panel.first = grid(lty = 1, col = 'gray90'))
 ```
 
-### **`main`**, **`xlab`**, **`ylab`**: Title and axes labels
+### **`main`**, **`xlab`**, **`ylab`**
 
 ```{r}
 plot(x, y,
@@ -496,9 +550,9 @@ heatmap(x_cor)
 
 Mosaic plots are used to visualize contingency tables. They can be informative 
 to look at during data exploration. They are less likely to be included in a 
-research article where the table itself is more likely to be included.
-
-Synthetic data:
+research article where it's probably best to show the table itself.
+<br><br>
+Some synthetic data:
 
 ```{r}
 set.seed(2021)
@@ -524,7 +578,9 @@ mosaicplot(table(Sex), main = "Males vs. Females",
 ```
 
 Cross-tabulating is usually most informatively. We us the same color for the 
-sexes, which will be recycled. We also remove the border for a cleaner look:
+sexes, which will be recycled.
+
+We also remove the border for a cleaner look:
 
 ```{r}
 mosaicplot(table(Cohort, Sex),
@@ -536,11 +592,15 @@ mosaicplot(table(Cohort, Sex),
 ## Graphical parameters
 
 The `par()` function allows setting or querying graphical parameters of the 
-base graphics system. Have a look at its documentation (`?par`).  
-Some graphical parameters can only be set with a call to `par()` prior to using 
-a base plotting function. However, many parameters can also be passed using the 
-`...` construct of each base plotting function.  
-
+base graphics system. Have a look at its documentation (`?par`).
+<br><br>
+For `par()` to have an effect, it must be called prior to the plotting function
+whose output you wish to customize.
+<br><br>
+Some graphical parameters can only be set with a call to `par()`. However, many 
+parameters can also be passed using the `...` construct of each base plotting 
+function.  
+<br><br>
 Some common base graphical parameters:  
 
 * ***pch***: Point character
@@ -563,10 +623,9 @@ par()$mar
 corresponds to the bottom-left-top-right margin, in that order. Use it to 
 reduce empty white space between plots or add space if labels are getting 
 cropped, for example.
-
+<br><br>
 Always make sure that your plotting characters, axis labels and titles are 
-legible. You must avoid, at all costs, ever using a huge graph with tiny 
-letters spread over an entire slide in a presentation.  
+legible.
 
 * ***cex***: Character expansion for the plotting characters
 * ***cex.axis***: cex for axis annotation
@@ -574,8 +633,8 @@ letters spread over an entire slide in a presentation.
 * ***cex.main***: cex for main title
 
 Note: All of these can be set either with a call to `par()` prior to plotting 
-or passed as arguments in a plotting command, like `plot()`.  
-
+or passed as arguments in a plotting command, like `plot()`.
+<br><br>
 There is one important distinction: `cex` set with `par()` (which defaults to 
 1), sets the baseline and all other `cex` parameters multiply it. However, 
 `cex` set within `plot()` still multiplies `cex` set with `par()`, but only 
@@ -583,21 +642,22 @@ affects the plotting character size.
 
 ### Save and reload graphical parameters
 
-You can make a copy of all current graphical parameters:
+You can save all current graphical parameters by assigning the 
+output of `par()` to an object.
 
 ```{r}
 par_default <- par()
 ```
 
 There are a few parameters that you cannot control, those are read-only. You 
-can optionally exclude those since you cannot edit them anyway:
+can exclude those since you cannot change them anyway:
 
 ```{r}
-par_default <- par(no.readonly = T)
+par_default <- par(no.readonly = TRUE)
 ```
 
 If you make changes to `par()` to produce plots and you want to recover the 
-parameters you saved above, you can use reload them by passing them to `par()`:
+parameters you saved above, you can reload them by passing them to `par()`:
 
 ```{r}
 par(par_default)
@@ -605,15 +665,17 @@ par(par_default)
 
 Alternatively, you can always restart the graphics device using `dev.off()` and 
 then making a new plot. 
-
-Note: here "device" does not refere to a physical device but software graphics 
-interfaces that show a plot to screen or [save to file](#saveplots).
+<br><br>
+Note: here "device" does not refere to a physical device but to  different 
+software graphics interfaces that can be used to disaply a plot to screen or 
+[save to file](#saveplots).
 
 ```{r}
 dev.off() # shuts down graphics device
 plot(rnorm(10))
 ```
 
+`dev.new()` can be used to manually start a new graphics device.
 
 ## Multipanel plots
 
@@ -672,10 +734,14 @@ file of the corresponding type:
 * `pdf(file = "path/to/file", width = [in inches], height = [in inches])`
 
 Notice the difference when writing to PDF: you define a `file` instead of a 
-`filename`, and width and height are in ***inches***, not pixels.  
-It is recommended to save plots in PDF format because it handles vector 
-graphics therefore plots will scale, and it is easy to export to other graphics 
-formats later on if needed.
+`filename`, and width and height are in ***inches***, not pixels.
+
+It is recommended to save plots in PDF format because this will save plots as
+[vector graphics](https://en.wikipedia.org/wiki/Vector_graphics) without any
+loss of information. It is easy to export to other graphics formats later on if 
+and as needed, e.g. to the specification of a journal, which often ask
+for high resolution 
+[bitmap files](https://en.wikipedia.org/wiki/Raster_graphics).
 
 ```{r}
 #| eval: false

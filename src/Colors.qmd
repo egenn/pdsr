@@ -33,7 +33,7 @@ library(rtemis)
 Colors in R can be defined in many different ways:  
 
 * Using names: `colors()` gives all available options
-* Using a [hexadecimal](https://en.wikipedia.org/wiki/Hexadecimal) [RGB](https://en.wikipedia.org/wiki/RGB_color_model) code in the form `#RRGGBBAA`, e.g. `#FF0000FF` for opaque red
+* Using a [hexadecimal](https://en.wikipedia.org/wiki/Hexadecimal) [RGB](https://en.wikipedia.org/wiki/RGB_color_model) code in the form `#RRGGBBAA`, e.g. `#FF0000FF` for opaque red. Here, the max value is "FF" which corresponds to 255.
 * Using the `rgb(red, green, blue, alpha)` function (outputs a hex number)
 * Using the `hsv(h, s, v, alpha)` function for the [HSV color system](https://en.wikipedia.org/wiki/HSL_and_HSV) (also outputs a hex number)
 * Using integers: these index the output of `palette()`, whose defaults can be changed by the user (e.g. `palette("cyan", "blue", "magenta", "red")`)
@@ -100,3 +100,17 @@ inwards to the center, saturation changes from 1 to 0.
 mplot_hsv()
 mplot_hsv(v = .5)
 ```
+
+## Transparency
+
+An easy way to add transparency to any color is using `adjustcolor()`:
+
+For example, to get 50% transparent blue:
+
+```{r}
+adjustcolor("blue", alpha.f = .5)
+```
+
+You can manually create the above, knowing that "FF" is hex for 255, and "80"
+is 128, therefore you want 0 red, 0 green, 255 blue, 128 alpha,
+therefore "#0000FF80"

@@ -164,19 +164,7 @@ Note: The `readxl` package does not include a function to write .XLSX files
 
 ## RDS
 
-### Write single R object to an RDS file
-
-You can write any R object directly to file so that you can recover it at any 
-time, share it, etc. Remember that since a list can contain any number of 
-objects of any type, you can save essentially any collection of objects in an 
-RDS file. For multiple objects, see also the `save.image()` command below.
-
-```{r}
-#| eval: false
-saveRDS(bcw, "bcw.rds")
-```
-
-### Read single object from an RDS file
+### Read single R object from an RDS file
 
 To load an object saved in an RDS file, you read it with `readRDS()` and must
 assign it to an object:
@@ -188,13 +176,27 @@ all(iris == iris_fromFile)
 ```
 
 To read an RDS file directly from a web server, you surround the URL with
-`url()` (the following is an example from @sec-basegraphics):
+`url()`:
 
 ```{r}
 #| eval: false
 dat <- readRDS(
          url("https://class.lambdamd.org/pdsr/data/synth2208.rds")
        )
+```
+
+### Write single R object to an RDS file
+
+You can write any single R object as an RDS file so that you can recover it 
+later, share it, etc. Remember that since a list can contain any number of 
+objects of any type, you can save essentially any collection of objects in an 
+RDS file.
+
+For multiple objects, see also the `save.image()` command below.
+
+```{r}
+#| eval: false
+saveRDS(bcw, "bcw.rds")
 ```
 
 ## RData

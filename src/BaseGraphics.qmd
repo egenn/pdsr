@@ -40,8 +40,10 @@ following functions:
 
 R documentation for each of the above commands provides extensive coverage of 
 graphical parameters. `?par` gives the main documentation file for a long list 
-of graphical parameters. These can be set either with the `par()` command 
-*before* using any plotting command.
+of graphical parameters. These can be set with the `par()` command 
+*before* using any plotting command. Most can also be passed to individual
+plotting commands. `par()` documentation specifies which parameters can only be
+set with a call to `par()`.
 
 ## Boxplot
 
@@ -646,6 +648,7 @@ You can save all current graphical parameters by assigning the
 output of `par()` to an object.
 
 ```{r}
+#| eval: false
 par_default <- par()
 ```
 
@@ -653,6 +656,7 @@ There are a few parameters that you cannot control, those are read-only. You
 can exclude those since you cannot change them anyway:
 
 ```{r}
+#| eval: false
 par_default <- par(no.readonly = TRUE)
 ```
 
@@ -660,6 +664,7 @@ If you make changes to `par()` to produce plots and you want to recover the
 parameters you saved above, you can reload them by passing them to `par()`:
 
 ```{r}
+#| eval: false
 par(par_default)
 ```
 
@@ -696,7 +701,9 @@ or `mfcol` back to `c(1, 1)`
 
 For example, let's plot a 2-by-3 panel of plots, drawn row-wise:
 
-```{r fig.width=7, fig.height=5}
+```{r}
+#| fig-width: 7
+#| fig-height: 5
 # Get the current parameters before changing them
 par_og <- par(no.readonly = TRUE)
 par(mfrow = c(2, 3), mar = c(4, 4, 1, 1))
@@ -724,14 +731,19 @@ To do this, you have to:
 * Close graphics device - `dev.off()`
 
 The following commands are used to open graphical devices that will save to a 
-file of the corresponding type:  
+file of the corresponding type.
 
-* `bmp(filename = "path/to/file", width = [in pixels], height = [in pixels])`
-* `jpeg(filename = "path/to/file", width = [in pixels], height = [in pixels])`
-* `png(filename = "path/to/file", width = [in pixels], height = [in pixels])`
-* `tiff(filename = "path/to/file", width = [in pixels], height = [in pixels])`
-* `svg(filename = "path/to/file", width = [in inches], height = [in inches]`
-* `pdf(file = "path/to/file", width = [in inches], height = [in inches])`
+[Raster graphics](https://en.wikipedia.org/wiki/Raster_graphics):
+
+- `bmp(filename = "path/to/file", width = [in pixels], height = [in pixels])`
+- `jpeg(filename = "path/to/file", width = [in pixels], height = [in pixels])`
+- `png(filename = "path/to/file", width = [in pixels], height = [in pixels])`
+- `tiff(filename = "path/to/file", width = [in pixels], height = [in pixels])`
+
+[Vector graphics](https://en.wikipedia.org/wiki/Vector_graphics):
+
+- `svg(filename = "path/to/file", width = [in inches], height = [in inches]`
+- `pdf(file = "path/to/file", width = [in inches], height = [in inches])`
 
 Notice the difference when writing to PDF: you define a `file` instead of a 
 `filename`, and width and height are in ***inches***, not pixels.

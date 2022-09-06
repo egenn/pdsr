@@ -14,7 +14,25 @@ This is a growing list of slightly more advanced usage examples of
 library(data.table)
 ```
 
-## Index within groups
+## Count by group using `.N`
+```{r}
+library(palmerpenguins)
+peng <- as.data.table(penguins)
+```
+
+Example: Count penguins by island:
+
+```{r}
+peng[, .N, by = island]
+```
+
+Example: Count by island and species:
+
+```{r}
+peng[, .N, by = list(island, species)]
+```
+
+## Index within groups using `.I`
 
 For example, get index for min or max whithin each group, where index
 refers to the entire data.table.

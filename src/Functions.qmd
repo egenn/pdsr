@@ -1,10 +1,15 @@
+---
+execute: 
+  warning: false
+knitr:
+  opts_knit:
+    global.par: true
+  opts_chunk: 
+    comment: ''
+    fig.width: 10
+    fig.height: 5
+---
 # Functions {#sec-functions}
-
-```{r echo = FALSE}
-knitr::opts_chunk$set(fig.width = 10, fig.height = 5,
-                      comment = NA, cache = TRUE) 
-```
-
 Writing functions is a core part of programming.
 
 *When should you write a function?*
@@ -18,10 +23,8 @@ efficiency, reduces the chance of error, and can make code more readable.
 <br><br>
 Functions in R are "first-class objects".  
 This means they can be stored inside other objects (e.g. a list), they can be 
-passed as arguments to other functions and can be returned as output from 
-functions.
-<br><br>
-For example, you can use a command like `apply(mat, 2, mean)`
+passed as arguments to other functions (as we see in @sec-loopfns) and can 
+be returned as output from functions.
 <br><br>
 Functions in R are *for the most part* like mathematical functions: they have 
 one or more inputs and one output. The inputs are known as the function 
@@ -169,8 +172,14 @@ cplot <- function(x, y,
                   pch = 16,
                   col = "#18A3AC",
                   bty = "n", ...) {
-  plot(x, y, cex = cex, pch = pch, col = col, bty = bty, ...)
-                  }
+
+  plot(x, y, 
+       cex = cex, 
+       pch = pch, 
+       col = col, 
+       bty = bty, ...)
+
+}
 ```
 
 `...` is also used for variable number of iputs, often as the first argument of 

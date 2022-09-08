@@ -335,7 +335,10 @@ plot(density(x),
 
 ## Barplot
 
-Input: **vector** or **matrix**
+The `barplot()` function lets you plot bar plots easily. It accepts either
+
+- R objects: **vector** or **matrix**
+- formula interface
 
 Let's look at the VADeaths built-in dataset which describes death rater per 
 1000 population per year broken down by age range and population group.
@@ -399,6 +402,86 @@ barplot(VADeaths,
         legend.text = TRUE, args.legend = list(x = "topright"))
 ```
 
+### Formula
+
+The formula notation allows you to specify one or more continuous variables on 
+the LHS and one or more categorical on the RHS. You first need to summarize
+the data to get one value per category. We'll use the penguin data as an 
+example.
+
+```{r}
+library(palmerpenguins)
+str(penguins)
+```
+
+#### Single continuous by single categorical variables:
+
+```{r}
+bill_length_by_island <- aggregate(bill_length_mm ~ island,
+                                   penguins, mean)
+bill_length_by_island
+```
+
+```{r}
+barplot(bill_length_mm ~ island, bill_length_by_island)
+```
+
+#### Single continuous by multiple categorical variables:
+
+```{r}
+bill_length_by_island_x_species <- aggregate(bill_length_mm ~ island + species,
+                                             penguins, mean)
+bill_length_by_island_x_species
+```
+
+```{r}
+barplot(bill_length_mm ~ island + species, bill_length_by_island_x_species,
+        legend = TRUE)
+```
+
+Or, if you prefer, beside instead of stacked. Note that in this dataset
+not all species are present in each island.
+
+```{r}
+barplot(bill_length_mm ~ island + species, bill_length_by_island_x_species,
+        beside = TRUE, legend = TRUE)
+```
+
+#### Multiple continuous by single categorical
+
+```{r}
+bill_and_flipper_length_by_island <- 
+     aggregate(cbind(bill_length_mm, flipper_length_mm) ~ island,
+     penguins, mean)
+bill_and_flipper_length_by_island
+```
+
+```{r}
+barplot(cbind(bill_length_mm, flipper_length_mm) ~ island, 
+        bill_and_flipper_length_by_island,
+        beside = TRUE, legend = TRUE)
+```
+
+#### Multiple continuous by multiple categorical
+
+The `barplot()` function does not allow you to specify multiple categorical 
+variables on the RHS if you are using multiple continuous variables on the LHS.
+It is, however, trivial to create an interaction of multiple categorical
+variables using `interaction()`
+
+```{r}
+island_x_species <- interaction(penguins$island, penguins$species, sep = " x ")
+bill_and_flipper_length_by_island_x_species <- 
+     aggregate(cbind(bill_length_mm, flipper_length_mm) ~ island_x_species,
+     penguins, mean)
+bill_and_flipper_length_by_island_x_species
+```
+
+```{r}
+barplot(cbind(bill_length_mm, flipper_length_mm) ~ island_x_species, 
+        bill_and_flipper_length_by_island_x_species,
+        beside = TRUE, legend = TRUE)
+```
 
 ## Scatter plot
 

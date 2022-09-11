@@ -1,6 +1,24 @@
+---
+knitr:
+  opts_chunk:
+    comment: ""
+---
 # Table joins {#tablejoins}
 
-We often have data from separate sources that we want to combine into a single data.frame. Table joins allow you to specify how to perform such a merge.
+We often have data from separate sources that we want to combine into a single 
+data.frame. Table joins allow you to specify how to perform such a merge.
+<br>
+
+There are four main types of join operations:
+<br><br>
+
+```{r}
+#| echo: false
+#| out-width: 100%
+#| fig-align: center
+#| fig-cap: Common Join Operations
+knitr::include_graphics("R_joins.png")
+```
 
 Scenario: You have received two tables with clinical data. Each table contains a column with a unique identifier (ID) plus a number of variables which are unique to each table. You want to merge them into one big table so that for each ID you have all available variables. You want to make sure that the same ID number (e.g. 108) corresponds to the same case in both datasets, but not all IDs needs to be present in both datasets.
 
@@ -23,12 +41,6 @@ a
 b
 dim(a)
 dim(b)
-```
-
-There are four main types of join operations:
-
-```{r, echo = FALSE, out.width = "100%", fig.align = "center", fig.cap = "Common Join Operations"}
-knitr::include_graphics("R_joins.png")
 ```
 
 ## `merge()`
@@ -124,3 +136,7 @@ b <- data.frame(PatientID = c(106:112),
 ```{r}
 merge(a, b, by.x = "PID", by.y = "PatientID")
 ```
+
+## See also
+
+- [data.table joins](#sec-dtmerge)

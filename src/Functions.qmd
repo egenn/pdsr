@@ -21,7 +21,8 @@ Whenever you find yourself repeating pieces of code.
 Writing functions helps reduce the total amount of code, which increases 
 efficiency, reduces the chance of error, and can make code more readable.
 <br><br>
-Functions in R are "first-class objects".  
+Functions in R are "first-class objects".
+
 This means they can be stored inside other objects (e.g. a list), they can be 
 passed as arguments to other functions (as we see in @sec-loopfns) and can 
 be returned as output from functions.
@@ -31,9 +32,9 @@ one or more inputs and one output. The inputs are known as the function
 arguments. If you want to return multiple outputs, you can return a list 
 containing any number of R objects.
 <br><br>
-User-defined functions are refered to as "closures" in R. A closure is made of 
-a function and its environment. Closures are distinct from primitive functions, 
-which are internally implemented.
+Functions are refered to as "closures" in R. A closure is made of 
+a function and its environment. Closures are distinct from primitive functions
+(i.e. internally implemented / built-in functions, which are written in C).
 
 ## Simple functions
 
@@ -183,8 +184,8 @@ cplot <- function(x, y,
 ```
 
 `...` is also used for variable number of iputs, often as the first argument of 
-a function. For example, look at the documentation of `c`, `cat`, `cbind`, 
-`rbind`, `paste`  
+a function. For example, look at the documentation of `c()`, `cat()`, `cbind()`, 
+`paste()`  
 
 Note: Any arguments after the `...`, **must** be named fully, i.e. will not be 
 partially matched.
@@ -254,7 +255,7 @@ el10 <- function(x) {
 val3 <- el10(-3)
 ```
 
-Note how, in this case, function evalutation is stopped and no value is 
+Note how, in this case, function evaluation is stopped and no value is 
 returned.
 
 ## Scoping
@@ -277,8 +278,8 @@ cat("Outside the function, x = ", x, " and y = ", y, "\n")
 
 However, if a variable is referenced within a function but no local definition 
 exists, the interpreter will look for the variable at the parent directory. It 
-is best ensure all objects needed within a function are specified as arguments 
-and passed appropriately when the function is called.  
+is best to ensure all objects needed within a function are specified as 
+arguments and passed appropriately when the function is called.  
 
 In the following example, `x` is only defined outside the function definition, 
 but referenced within it.
@@ -342,7 +343,11 @@ if we want to make them available.
 
 ## The pipe operator {#pipe}
 
-```{r FigRpipes, echo = FALSE, out.width = "80%", fig.align = 'center', fig.cap = "Illustration of pipes in R"}
+```{r}
+#| echo: false
+#| out-width: 80%
+#| fig-align: center
+#| fig-cap: Illustration of pipes in R
 knitr::include_graphics("./R_pipes.png")
 ```
 

@@ -4,6 +4,7 @@
 knitr::opts_chunk$set(comment = NA, cache = TRUE) 
 options(rt.theme = "whitegrid")
 options(rt.fit.theme = "whitegrid")
+options(rt.font = "sans")
 ```
 
 ```{r, comment="", results="asis", echo=FALSE}
@@ -12,6 +13,7 @@ options(crayon.enabled = TRUE)
 ```
 
 ```{r}
+#| echo: false
 library(rtemis)
 ```
 
@@ -102,10 +104,11 @@ Sepal.Length_scaled <- (iris$Sepal.Length - .center[1]) / .scale[1]
 all(Sepal.Length_scaled == iris.scaled[, "Sepal.Length"])
 ```
 
-Note: Due to limitation in numerical precision, checking sets of floats for equality after multiple operations is not recommended. One simple option is to plot:
+Note: Due to limitation in numerical precision, checking sets of floats for 
+equality after multiple operations is 
 
 ```{r}
-mplot3_fit(Sepal.Length_scaled, iris.scaled[, "Sepal.Length"])
+all.equal(Sepal.Length_scaled, iris.scaled[, "Sepal.Length"])
 ```
 
 ```{block, type="rmdnote"}
@@ -166,7 +169,9 @@ vp <- (vs - min(vs))
 x <- as.numeric(exp(vp))
 ```
 
-For the following example, `x` is an unknown feature in a new dataset we were just given.  
+For the following example, `x` is an unknown feature in a new dataset we were 
+just given.
+
 We start by plotting its distribution:
 
 ```{r}

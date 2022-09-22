@@ -1,6 +1,6 @@
 # PDSR
 
-<img src="./src/PDSR_cover.jpg" alt="ProgDatSciR" style="width:70%;filter: drop-shadow(0 0 .3rem #333);"/>
+<img src="./src/PDSR_cover_2022_4x3.jpg" alt="ProgDatSciR" style="width:70%;filter: drop-shadow(0 0 .3rem #333);"/>
 <br/><br/>
 Welcome to PDSR!
 <br><br>

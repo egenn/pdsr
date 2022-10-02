@@ -9,7 +9,8 @@ knitr:
 
 Loop functions are some of the most widely used R functions. They replace 
 longer expressions created with a `for` loop, for example.  
-They can result in more compact and readable code.  
+They can result in more compact and readable code and are often faster to 
+execute than a `for` loop.  
 
 * `apply()`: Apply function over array margins (i.e. over one or more dimensions)
 * `lapply()`: Return a *list* where each element is the result of applying a function to each element of the input
@@ -18,17 +19,11 @@ They can result in more compact and readable code.
 * `tapply()`: Apply a function to elements of groups defined by a factor
 * `mapply()`: Multivariate version of `sapply()`: Apply a function using the first elements of the inputs vectors, then using the second, third, and so on
 
-```{r}
-#| label: FigRapplyfam
-#| echo: false
-#| out-width: 100%
-#| fig-align: center
-#| fig-cap: "`*apply()` function family summary (Best to read through this chapter first and then refer back to this figure)"
+```{r FigRapplyfam, echo = FALSE, out.width = "100%", fig.align = 'center', fig.cap = "`*apply()` function family summary (Best to read through this chapter first and then refer back to this figure)"}
 knitr::include_graphics("./R_applyfam.png")
 ```
 
-Before starting to use the above functions, we need to learn about anonymous 
-functions, which are often used within the apply functions.
+Before starting to use the above functions, we need to learn about anonymous functions, which are often used within the apply functions.
 
 ## `apply()` {#apply}
 
@@ -42,76 +37,46 @@ dimensions or more (this includes matrices) or a data frame:
 `MARGIN` can be an integer vector or character indicating the dimensions over 
 which 'FUN' will be applied.
 
-By convention, rows come first (just like in [indexing](#indexing)), therefore:
+By convention, rows come first (just like in [indexing](#indexing)), therefore:  
+`MARGIN = 1`: apply function on each ***row***
+`MARGIN = 2`: apply function on each ***column***
 
-- `MARGIN = 1`: apply function on each ***row***
-- `MARGIN = 2`: apply function on each ***column***
 
 
-Let's create an example dataset
-
-```{r}
-dat <- data.frame(Age = rnorm(50, 42, 8),
-                  Weight = rnorm(50,80, 10),
-                  Height = rnorm(50, 1.72, .14),
-                  SBP = rnorm(50, 134, 4))
-```
-
-Let's calculate the mean value of each column:
+Let's calculate the mean value of each of the first four columns of the iris 
+dataset:
 
 ```{r}
-dat_column_mean <- apply(dat, MARGIN = 2, FUN = mean) 
-dat_column_mean
+x <- iris[, -5]
+iris_column_mean <- apply(x, MARGIN = 2, FUN = mean) 
+iris_column_mean
 ```
 
 ```{block, type="rmdnote"}
-Hint: It is possibly easiest to think of the "MARGIN" as the 
-***dimension you want to keep***.  
-In the above case, we want the mean for each variable, i.e. we want to keep 
-columns and collapse rows.
+Hint: It is possibly easiest to think of the "MARGIN" as the ***dimension you want to keep***.  
+In the above case, we want the mean for each variable, i.e. we want to keep columns and collapse rows.
 ```
 
-Purely as an example to understand what `apply()` does, here is the equivalent
-procedure using a for-loop. You notice how much nore code is needed, and why
-`apply()` and similar functions might be very convenient for many different 
-tasks.
+The above is equivalent to:
 
 ```{r}
-dat_column_mean <- numeric(ncol(dat))
-names(dat_column_mean) <- names(dat)
+iris_column_mean <- numeric(ncol(x))
+names(iris_column_mean) <- names(x)
 
-for (i in seq(dat)) {
-  dat_column_mean[i] <- mean(dat[, i])
+for (i in seq(x)) {
+  iris_column_mean[i] <- mean(x[, i])
 }
-dat_column_mean
+iris_column_mean
 ```
 
-Let's create a different example dataset, where we record weight at multiple
-timepoints:
+If you wanted to get the mean of the rows (makes little sense in this case):
 
 ```{r}
-dat2 <- data.frame(ID = seq(8001, 8020),
-                   Weight_week_1 = rnorm(20, 110, 10))
-dat2$Weight_week_3 <- dat2$Weight_week_1 + rnorm(20, -2, 1)
-dat2$Weight_week_5 <- dat2$Weight_week_3 + rnorm(20, -3, 1.1)
-dat2$Weight_week_7 <- dat2$Weight_week_5 + rnorm(20, -1.8, 1.3)
-```
-
-Let's get the mean weight per week:
-
-```{r}
-apply(dat2[, -1], 2, mean)
-```
-
-Let's get the mean weight per individual across all weeks:
-
-```{r}
-apply(dat2[, -1], 1, mean)
+head(apply(x, 1, mean))
 ```
 
 ```{block, type="rmdnote"}
-`apply()` only works on objects with defined (i.e. not NULL) `dim()`.
-It can be 
+`apply()` only works on objects with defined (i.e. non-NULL) `dim()`, i.e. arrays.
 ```
 
 ```{block, type="rmdnote"}
@@ -135,29 +100,26 @@ a **list** of the outputs.
 
 Note: The 'elements' of a data frame are its columns (remember, a data frame is 
 a list with equal-length elements). The 'elements' of a matrix are each cell 
-one by one, by column. Therefore, unlike `apply()`, `lapply()` has a very 
-different effect on a data frame and a matrix. `lapply()` is commonly used to 
-iterate over the columns of a data frame.
+one by one, by column. Therefore `lapply()` has a very different effect on a 
+data frame and a matrix. `lapply()` is commonly used to iterate over the 
+columns of a data frame.
 
-```{block, type="rmdtip"}
 `lapply()` is the only function of the `*apply()` family that always returns a 
 list.
-```
 
 ```{r}
-dat_median <- lapply(dat, median)
-dat_median
+iris.median <- lapply(iris[, -5], median)
+iris.median
 ```
 
-To understand what `lapply()` does, here is the equivalent for-loop:
+The above is equivalent to:
 
 ```{r}
-dat_median <- vector("list", 4)
-names(dat_median) <- colnames(dat)
+iris.median <- vector("list", 4)
+names(iris.median) <- colnames(iris[, -5])
 for (i in 1:4) {
-  dat_median[[i]] <- median(dat[, 1])
+  iris.median[[i]] <- median(iris[, 1])
 }
-dat_median
 ```
 
 ## `sapply()` {#sapply}
@@ -167,20 +129,20 @@ dat_median
 
 
 ```{block, type="rmdnote"}
-Unlike `lapply()`, the output of `sapply()` is **variable**: 
-it is the simplest R  object that can hold the data type(s) resulting from the 
-operations, i.e. a vector, matrix, data frame, or list.
+Unlike `lapply()`, the output of `sapply()` is variable: it is the simplest R 
+object that can hold the data type(s) resulting from the operations, i.e. a 
+vector, matrix, data frame, or list.
 ```
 
 ```{r}
-dat_median <- sapply(dat, median)
-dat_median
+iris.median <- sapply(iris[, -5], median)
+iris.median
 ```
 
 ```{r}
-dat_summary <- data.frame(Mean = sapply(dat, mean),
-                           SD = sapply(dat, sd))
-dat_summary
+iris.summary <- data.frame(Mean = sapply(iris[, -5], mean),
+                           SD = sapply(iris[, -5], sd))
+iris.summary
 ```
 
 ## `vapply()` {#vapply}
@@ -198,7 +160,7 @@ You add the argument `FUN.VALUE` which must be of the correct **type** and
 **length** of the expected result ***of each iteration***.
 
 ```{r}
-vapply(dat, median, FUN.VALUE = .1)
+vapply(iris[, -5], median, FUN.VALUE = .1)
 ```
 
 Here, each iteration returns the median of each column, i.e. a numeric vector 
@@ -210,13 +172,13 @@ For example, if we instead returned the range of each column, `FUN.VALUE`
 should be a numeric vector of length 2:
 
 ```{r}
-vapply(dat, range, FUN.VALUE = rep(.1, 2))
+vapply(iris[, -5], range, FUN.VALUE = rep(.1, 2))
 ```
 
 If `FUN.VALUE` does not match the returned value, we get an informative error:
 
 ```{r error = TRUE}
-vapply(dat, range, FUN.VALUE = .1)
+vapply(iris[, -5], range, FUN.VALUE = .1)
 ```
 
 ## `tapply()` {#tapply}
@@ -227,32 +189,28 @@ In the following example, we calculate the mean Sepal.Length by species on the
 iris dataset:
 
 ```{r}
-dat$Group <- factor(sample(c("A", "B", "C"), 50, TRUE))
+mean_Sepal.Length_by_Species <- tapply(iris$Sepal.Length, iris$Species, mean)
+mean_Sepal.Length_by_Species
 ```
 
-```{r}
-mean_Age_by_Group <- tapply(dat[["Age"]], dat["Group"], mean)
-mean_Age_by_Group
-```
-
-The for-loop equivalent of the above is:
+The above is equivalent to:
 
 ```{r}
-groups <- levels(dat$Group)
-mean_Age_by_Group <- vector("numeric", length(groups))
-names(mean_Age_by_Group) <- groups
+species <- levels(iris$Species)
+mean_Sepal.Length_by_Species <- vector("numeric", length(species))
+names(mean_Sepal.Length_by_Species) <- species
 
-for (i in seq(groups)) {
-  mean_Age_by_Group[i] <- 
-    mean(dat$Age[iris$Group == groups[i]])
+for (i in seq(species)) {
+  mean_Sepal.Length_by_Species[i] <- 
+    mean(iris$Sepal.Length[iris$Species == species[i]])
 }
-mean_Age_by_Group
+mean_Sepal.Length_by_Species
 ```
 
 ## `mapply()` {#mapply}
 
-The functions we have looked at so far work well when you iterating over 
-elements of a single object.
+The above functions all work well when you iterating over elements of a single 
+object.
 
 `mapply()` allows you to execute a function that accepts two or more inputs, 
 say `fn(x, z)` using the i-th element of each input, and will return:  
@@ -302,18 +260,18 @@ Get the mean of the first four columns of iris:
 
 ```{r}
 # original way: iterate through elements i.e. columns:
-sapply(dat, function(i) mean(i))
+sapply(iris[, -5], function(i) mean(i))
 
 # alternative way: iterate over integer index of elements:
-sapply(1:4, function(i) mean(dat[, i]))
+sapply(1:4, function(i) mean(iris[, i]))
 
 # equivalent to:
 for (i in 1:4) {
-  mean(dat[, i])
+  mean(iris[, i])
 }
 ```
 
-Notice that in this approach, since you are not passing the object (dat, in 
+Notice that in this approach, since you are not passing the object (iris, in 
 the above example) as the input to `lapply()`, it needs to be accessed within 
 the anonymous function.
 
@@ -410,16 +368,16 @@ columns of the iris dataset. In these examples, we often wrap functions around
 `head()` which prints the first few lines of an object to avoid:
 
 ```{r}
-head(dat[, 1:4])
-dat_sq <- sapply(dat[, 1:4], squared)
-head(dat_sq)
+head(iris[, 1:4])
+iris_sq <- sapply(iris[, 1:4], squared)
+head(iris_sq)
 ```
 
 Let's do the same as above, but this time using an anonymous function:
 
 ```{r}
-dat_sqtoo <- sapply(dat[, 1:4], function(x) x^2)
-head(dat_sqtoo)
+iris_sqtoo <- sapply(iris[, 1:4], function(x) x^2)
+head(iris_sqtoo)
 ```
 
 The entire anonymous function definition is passed in the function argument 

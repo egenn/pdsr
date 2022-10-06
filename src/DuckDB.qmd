@@ -1,0 +1,228 @@
+# DuckDB {sec-duckdb}
+
+```{r}
+library(DBI)
+library(data.table)
+```
+
+## Setup Connection
+
+By default, `connect()`'s `database` argument defaults to `:memory:`, creating a non-persistent, in-memory object.
+
+```{r}
+con <- dbConnect(duckdb::duckdb())
+```
+
+## Settings
+
+```{r}
+dbExecute(con, "PRAGMA enable_progress_bar;")
+```
+
+## Read CSV
+
+```{r}
+dbGetQuery(con, 
+    "SELECT * FROM read_csv_auto('~/icloud/Data/iris.csv');"
+) |> head()
+```
+
+```{r}
+dbExecute(con,
+    "CREATE TABLE iris AS SELECT * FROM '~/icloud/Data/iris.csv';"
+)
+```
+
+```{r}
+dbGetQuery(con, "PRAGMA show_tables;")
+```
+
+```{r}
+dbExecute(con,
+    "
+    CREATE TABLE ir AS SELECT * FROM 
+    read_csv_auto('/Users/egenn/icloud/Data/iris.csv', 
+    delim=',', header=True);
+    "
+)
+```
+
+### Fetch data to data.frame
+
+```{r}
+ir = dbGetQuery(con, "SELECT * from iris")
+head(ir)
+```
+
+```{r}
+class(ir)
+```
+
+### Fetch data to data.table:
+
+```{r}
+ir = dbGetQuery(con, "SELECT * from iris")
+setDT(ir)
+```
+
+```{r}
+class(ir)
+head(ir)
+```
+
+## Read CSV specifying schema
+
+```{r}
+dbExecute(con,
+    'CREATE TABLE iris2;
+     COPY iris2 FROM "/Users/egenn/icloud/Data/iris.csv";'
+)
+```
+
+```{r}
+# dbExecute(con,
+#     'CREATE TABLE iris2(
+#         "Sepal.Length" DOUBLE,
+#         "Sepal.Width" DOUBLE, 
+#         "Petal.Length" DOUBLE,
+#         "Petal.Width" DOUBLE, 
+#         Species VARCHAR);
+#      COPY iris2 FROM "/Users/egenn/icloud/Data/iris.csv";'
+# )
+```
+
+```{r}
+dbGetQuery(con, "SELECT * FROM iris2") |> head()
+```
+
+### DuckDBPyRelation
+
+```{r}
+ir = duckdb.from_csv_auto('/Users/egenn/icloud/Data/iris.csv')
+ir
+```
+
+```{python}
+type(ir)
+```
+
+## Select at read
+
+Note: Sepal.Length below **must** have double quotes,
+while Species may have double or none:
+
+```{r}
+iris = pl.from_arrow(
+    con.execute(
+        """
+        SELECT "Sepal.Length", Species
+        FROM read_csv_auto('/Users/egenn/icloud/Data/iris.csv');
+        """
+    ).fetch_arrow_table()
+)
+iris.head()
+```
+
+Concatenate a string to select multiple columns, instead of passing a list or
+tuple:
+
+```{python}
+cols = tuple(["Sepal.Length", "Species"])
+cols = '"' + '", "'.join(cols) + '"'
+iris = pl.from_arrow(
+    con.execute(
+        f"""
+        SELECT {cols}
+        FROM read_csv_auto('/Users/egenn/icloud/Data/iris.csv');
+        """
+    ).fetch_arrow_table()
+)
+iris.head()
+```
+
+## Filter at read
+
+### Read entire table
+
+```{python}
+ids = tuple([21, 22, 23, 24, 25])
+con.execute(
+    f"""
+    CREATE TABLE synth1 AS
+    SELECT * FROM read_csv_auto('/Users/egenn/icloud/Data/synth1.csv')
+    """
+)
+con.execute("SELECT * FROM synth1").df()
+```
+
+### Read only specific IDs
+
+```{python}
+ids = tuple([21, 22, 23, 24, 25])
+con.execute(
+    f"""
+    CREATE TABLE synth1f AS
+    SELECT * FROM read_csv_auto('/Users/egenn/icloud/Data/synth1.csv')
+    WHERE ID in {ids};
+    """
+)
+con.execute("SELECT * FROM synth1f").df()
+```
+
+## Using Queries with the Python API
+
+```{python}
+ids = tuple([21, 22, 23, 24, 25])
+sq = duckdb.query(
+    f"""
+    SELECT * FROM read_csv_auto('/Users/egenn/icloud/Data/synth1.csv')
+    WHERE ID in {ids};
+    """
+)
+sq
+```
+
+You can execute the query at any time:
+
+```{python}
+sq.execute().df()
+```
+
+## Compose queries
+
+How to specify path, select, and filter programmatically
+
+### Select
+
+```{python}
+distinct = "DISTINCT" # set to "" to not filter unique rows
+sep = ","
+path = "/Users/egenn/icloud/Data/synth1.csv"
+cols = tuple(["ID", "Age"])
+cols = '"' + '", "'.join(cols) + '"'
+ignore_errors = True
+# cols = "*" # to select all programmatically
+sq = duckdb.query(
+    f"""
+    SELECT {distinct + cols} FROM 
+    read_csv_auto('{path}', sep = '{sep}', ignore_errors = {ignore_errors});
+    """
+)
+sq.execute().df()
+```
+
+### Filter
+
+Suppose you have a list of IDs in a list, convert to tuple first
+
+```{python}
+ids = list(range(80, 91))
+filter_col = "ID"
+sq = sq.filter(f"{filter_col} in {tuple(ids)}")
+sq.execute().df()
+```
+
+## Resources
+
+- [DuckDB CSV](https://duckdb.org/docs/data/csv)
+- [SO Query comp](https://stackoverflow.com/questions/68546824/duckdb-python-api-query-composition)

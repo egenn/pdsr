@@ -16,7 +16,7 @@ They can result in more compact and readable code.
 | `apply()`  | Apply function over array margins (i.e. over one or more dimensions)
 | `lapply()` | Return a *list* where each element is the result of applying a function to each element of the input
 | `sapply()` | Same as `lapply()`, but returns the simplest possible R object (instead of always returning a list)
-| `vapply()` | Same as `sapply()`, but you pre-specify the return type: this is safer and may also be faster
+| `vapply()` | Same as `sapply()`, but with a pre-specified return type: this is safer and may also be faster
 | `tapply()` | Apply a function to elements of groups defined by a factor
 | `mapply()` | Multivariate `sapply()`: Apply a function using the 1st elements of the inputs vectors, then using the 2nd, 3rd, etc.
 
@@ -355,8 +355,9 @@ data structures. In practice, you would use `apply()` on a matrix.
 Anonymous functions are just like regular functions but they are not assigned 
 to an object - i.e. they are not "named".  
 They are usually passed as arguments to other functions to be used once, hence 
-no need to name them.  
-In R, anonymous functions are often used with the apply family of functions.  
+no need to assign them.
+
+Anonymous functions are often used with the apply family of functions.  
 
 Example of a simple regular function:
 
@@ -366,23 +367,22 @@ squared <- function(x) {
 }
 ```
 
-Because this is a short function definition, it can also be written in a single 
-line without curly brackets:
+Since this is a short function definition, it can also be written in a single 
+line:
 
 ```{r}
 squared <- function(x) x^2
 ```
 
-The equivalent anonymous function is the same, but omitting the assignment:
+An anonymous function definition is just like a regular function - minus it is
+not assigned:
 
 ```{r}
 function(x) x^2
 ```
 
-As of R version 4.1.0, a new compact anonymous function syntax is available:
-where a single back slash replaces `function`.
-<br><br>
-The following is therefore equivalent to the above:
+Since R version 4.1.0, a compact anonymous function syntax is available,
+where a single back slash replaces `function`:
 
 ```{r}
 \(x) x^2

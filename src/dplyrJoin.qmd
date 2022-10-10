@@ -1,0 +1,118 @@
+---
+knitr:
+  opts_chunk:
+    comment: ""
+---
+# Joins {#sec-dplyrjoin}
+
+```{r}
+library(dplyr)
+```
+
+`dplyr` includes the following commands for performing table joins:
+
+- `inner_join()` for inner joins
+- `left_join()` for left outer joins
+- `right_join()` for right outer joins
+- `full_join()` for outer joins
+
+Using the same example data as in the base R example (@sec-dfjoin):
+
+```{r}
+a <- data.frame(PID = c(101:109),
+                Hospital = c("UCSF", "HUP", "Stanford",
+                             "Stanford", "UCSF", "HUP", 
+                             "HUP", "Stanford", "UCSF"),
+                Age = c(22, 34, 41, 19, 53, 21, 63, 22, 19),
+                Sex = c(1, 1, 0, 1, 0, 0, 1, 0, 0))
+a
+dim(a)
+```
+
+```{r}
+b  <- data.frame(PID = c(106:112),
+                 V1 = c(153, 89, 112, 228,  91, 190, 101),
+                 Department = c("Neurology", "Radiology",
+                                "Emergency", "Cardiology",
+                                "Surgery", "Neurology", "Psychiatry"))
+dim(b)
+b
+```
+
+## Inner join
+
+```{r}
+ab_inner <- inner_join(a, b)
+ab_inner
+```
+
+Note that the resulting table only contains ***cases found in both datasets***, 
+i.e. IDs 106 through 109
+
+## Outer join
+
+```{r}
+ab_outer <- full_join(a, b)
+ab_outer
+```
+
+Note that the resulting data frame contains 
+***all cases found in either dataset*** and missing values are represented with 
+`NA`.
+
+## Left outer join
+
+```{r}
+ab_leftOuter <- left_join(a, b)
+ab_leftOuter
+```
+
+Note that the resulting data frame contains 
+***all cases present in the left input dataset*** (i.e. the one defined first 
+in the arguments) only. 
+
+## Right outer join
+
+```{r}
+ab_rightOuter <- right_join(a, b)
+ab_rightOuter
+```
+
+Note how the resulting data frame contains 
+***all cases present in the right input dataset*** (i.e. the one defined 
+seecond in the arguments) only.
+
+## Specifying columns 
+
+If the ID columns in the two data.frames to be merged do 
+not have the same name, you can specify column names using the `by` argument
+with a slightly peculiar syntax: `c("left_by" = "right_by")`
+
+```{r}
+a <- data.frame(PID = c(101:109),
+                Hospital = c("UCSF", "HUP", "Stanford",
+                             "Stanford", "UCSF", "HUP", 
+                             "HUP", "Stanford", "UCSF"),
+                Age = c(22, 34, 41, 19, 53, 21, 63, 22, 19),
+                Sex = c(1, 1, 0, 1, 0, 0, 1, 0, 0))
+a
+```
+
+```{r}
+b <- data.frame(PatientID = c(106:112),
+                 V1 = c(153, 89, 112, 228,  91, 190, 101),
+                 Department = c("Neurology", "Radiology",
+                                "Emergency", "Cardiology",
+                                "Surgery", "Neurology", "Psychiatry"))
+b
+```
+
+```{r}
+ab_inner <- inner_join(a, b, by = c("PID" = "PatientID"))
+ab_inner
+```
+
+## See also
+
+- [base R joins](#sec-dfjoin)
+- [data.table joins](#sec-dtjoin)

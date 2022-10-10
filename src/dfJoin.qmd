@@ -1,0 +1,170 @@
+---
+knitr:
+  opts_chunk:
+    comment: ""
+---
+# Joins {#sec-dfjoin}
+
+We often have data from separate sources that we want to combine into a single 
+data.frame. Table joins allow you to specify how to perform such a merge.
+<br>
+
+There are four main types of join operations:
+<br><br>
+
+```{r}
+#| label: fig-joins
+#| echo: false
+#| out-width: 100%
+#| fig-align: center
+#| fig-cap: Common Join Operations
+knitr::include_graphics("R_joins.png")
+```
+
+Scenario: You have received two tables with clinical data. Each table contains 
+a column with a unique identifier (ID) plus a number of variables which are 
+unique to each table. You want to merge them into one big table so that for 
+each ID you have all available variables. You want to make sure that the same 
+ID number (e.g. 108) corresponds to the same case in both datasets, but not all 
+IDs needs to be present in both datasets.
+
+Let's make up some synthetic data:
+
+```{r}
+a <- data.frame(PID = c(101:109),
+                Hospital = c("UCSF", "HUP", "Stanford",
+                             "Stanford", "UCSF", "HUP", 
+                             "HUP", "Stanford", "UCSF"),
+                Age = c(22, 34, 41, 19, 53, 21, 63, 22, 19),
+                Sex = c(1, 1, 0, 1, 0, 0, 1, 0, 0))
+a
+dim(a)
+```
+
+```{r}
+b  <- data.frame(PID = c(106:112),
+                 V1 = c(153, 89, 112, 228,  91, 190, 101),
+                 Department = c("Neurology", "Radiology",
+                                "Emergency", "Cardiology",
+                                "Surgery", "Neurology", "Psychiatry"))
+dim(b)
+b
+```
+
+## `merge()`
+
+R's `merge()` function is used to perform table joins.
+
+Syntax: `merge(x, y, by)`
+
+where `x` and `y` and the two data.frames to join, and `by` is the column name 
+of the ID variable used to identify rows. If the two datasets' ID column has a 
+different name, e.g. "PatientID" in one and "PID" in the other, you can either 
+rename one of them to match the other, or use the following syntax:
+
+`merge(x, y, by.x, by.y)`
+
+where `by.x` is the name of the ID column for the `x` dataset and `by.y` is the
+ name of the ID column for the `y` dataset.
+
+If you do not specify `by` or `by.x` and `by.y` arguments, `merge()` defaults 
+to using the intersection of column names of the two input datasets. From 
+`merge()`'s documentation: `by = intersect(names(x), names(y))`
+<br><br>
+In our example datasets above, this works as expected and identifies "PID" as 
+the common column:
+
+```{r}
+intersect(names(a), names(b))
+```
+
+## Inner join
+
+The default arguments of `merge()` perform an **inner join**:
+
+```{r}
+ab_inner <- merge(a, b)
+# same as
+ab_inner <- merge(a, b, by = "PID")
+# same as
+ab_inner <- merge(a, b, all = FALSE)
+ab_inner
+```
+
+Note that the resulting table only contains ***cases found in both datasets***, 
+i.e. IDs 106 through 109
+
+## Outer join
+
+You can perform an **outer join** by specifying `all = TRUE`:
+
+```{r}
+ab_outer <- merge(a, b, all = TRUE)
+# same as
+ab_outer <- merge(a, b, by = "PID", all = TRUE)
+ab_outer
+```
+
+Note that the resulting data frame contains 
+***all cases found in either dataset*** and missing values are represented with 
+`NA`.
+
+## Left outer join
+
+You can perform a **left outer join** by specifying `all.x = TRUE`:
+
+```{r}
+ab_leftOuter <- merge(a, b, all.x = TRUE)
+ab_leftOuter
+```
+
+Note that the resulting data frame contains 
+***all cases present in the left input dataset*** (i.e. the one defined first 
+in the arguments) only. 
+
+## Right outer join
+
+You can perform a **right outer join** by specifying `all.y = TRUE`:
+
+```{r}
+ab_rightOuter <- merge(a, b, all.y = TRUE)
+ab_rightOuter
+```
+
+Note how the resulting data frame contains 
+***all cases present in the right input dataset*** (i.e. the one defined 
+seecond in the arguments) only.
+
+## Specifying columns 
+
+As mentioned above, if the ID columns in the two data.frames to be merged do 
+not have the same name, you can specify them directly:
+
+```{r}
+a <- data.frame(PID = c(101:109),
+                Hospital = c("UCSF", "HUP", "Stanford",
+                             "Stanford", "UCSF", "HUP", 
+                             "HUP", "Stanford", "UCSF"),
+                Age = c(22, 34, 41, 19, 53, 21, 63, 22, 19),
+                Sex = c(1, 1, 0, 1, 0, 0, 1, 0, 0))
+a
+```
+
+```{r}
+b <- data.frame(PatientID = c(106:112),
+                 V1 = c(153, 89, 112, 228,  91, 190, 101),
+                 Department = c("Neurology", "Radiology",
+                                "Emergency", "Cardiology",
+                                "Surgery", "Neurology", "Psychiatry"))
+b
+```
+
+```{r}
+ab_inner <- merge(a, b, by.x = "PID", by.y = "PatientID")
+ab_inner
+```
+
+## See also
+
+- [data.table join](#sec-dtjoin)
+- [dplyr join](#sec-dplyrjoin)

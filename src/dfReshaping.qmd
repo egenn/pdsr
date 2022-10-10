@@ -5,13 +5,23 @@ knitr:
 ---
 # Reshaping {#sec-dfreshaping}
 
+A **wide** dataset contains a single row per case (e.g. patient), while a 
+**long ** dataset can contain multiple rows per case (e.g. for multiple 
+variables or timepoints).
+<br><br>
+We want to be able to **reshape** from one form to the other because different 
+programs (e.g. statistical models, plotting functions) expect data in one or the 
+other format for different applications (e.g. longitudinal modeling or grouped 
+visualizations).
+<br><br>
 ```{r}
+#| label: fig-widevslong
 #| echo: false
 #| out-width: 100%
 #| fig-align: center
-#| fig-cap: "Wide and Long data format example. Take a moment to notice how the 
-#| wide table on the left with 3 cases (3 IDs) and 3 variables gets converted 
-#| from a 3 x 4 table to a 9 x 3 long table on the right. The values (outlined 
+#| fig-cap: "Wide and Long data format example. Notice how the wide table on
+#| the left with 3 cases (3 IDs) and 3 variables can be represented as a 3 x 4
+#| table in wide format or a 9 x 3 table in long format. The values (outlined 
 #| in magenta) are present once in each table: on the wide table they form an 
 #| **ID x Variable** matrix, while on the long they are stacked on a 
 #| **single column**. The IDs have to be repeated on the long table, once for 
@@ -20,19 +30,19 @@ knitr:
 knitr::include_graphics("wide_long.png", dpi = NA)
 ```
 
-A wide dataset contains only a single row per case (e.g. patient), while a long 
-dataset can contain multiple rows per case (e.g. for multiple timepoints). We 
-want to be able to reshape from one form to the other because different 
-programs (e.g. statistical models, visualization) may expect data in one of the 
-other format for different applications (e.g. longitudinal modeling or grouped 
-visualizations).
-
+<br><br>
+R's `reshape()` function is very powerful, but can seem intimidating at first,
+because its documentation is not very clear, especially if you're not familiar
+with the jargon.
+<br><br>
+This chapters include detailed diagrams and step-by-step instructions to explain 
+how to build calss for long-to-wide and wide-to-long reshaping.
 
 ## Long to Wide
 
-It is very common to receive data in long format. For example, EHR will 
-typically be extracted in long format.
-
+It is very common to receive data in long format. For example, many tables with 
+electronic health records are stored in long format.
+<br><br>
 Let's start with a small synthetic dataset:
 
 ```{r}
@@ -58,15 +68,21 @@ dat_long <- data.frame(
             12.6188444991545, 12.1739747363806, 15.1293426442183, 
             14.8885696185238)
 )
+dat_long <- dat_long[order(dat_long$Account_ID), ]
 dat_long
 ```
 
-The dataset consists of an Account_ID, denoting a unique patient identifier,
-age, type of admission, and four lab key-value pairs: RBC, WBC, Hematocrit,
+The dataset consists of an `Account_ID`, denoting a unique patient identifier,
+`Age`, `Admission`, and a pair of `Lab_key` and a `Lab_value` columns. The lab
+data contains information on four lab results: RBC, WBC, Hematocrit, and
 Hemoglobin.
+<br><br>
+Use the following figure to understand `reshape()`'s long-to-wide syntax. You 
+can use it as a reference when building a call to `reshape()` by following 
+steps 1 through 3.
 
 ```{r}
-#| label: longWideSyntax
+#| label: fig-reshape_long2wide
 #| echo: false
 #| out-width: 100%
 #| fig-align: center
@@ -89,7 +105,6 @@ You can optionally clean up columns (See [`gsub()`](StringOps.qmd#gsub)):
 colnames(dat_long2wide) <- gsub("Lab_value.", "", colnames(dat_long2wide))
 dat_long2wide
 ```
-
 
 ## Wide to Long
 
@@ -124,23 +139,24 @@ dat_wide <- data.frame(Account_ID = c(8001, 8002, 8003, 8004),
 dat_wide
 ```
 
-### base
+Use the following figure to understand `reshape()`'s wide-to-long syntax. You 
+can use it as a reference when building a call to `reshape()` by following 
+steps 1 through 5. It's important to note which arguments refer to the input vs. 
+output data frame.
 
-The `reshape()` function is probably one of the more complicated builtin 
-functions because its documentation is not entirely clear, especially if you're 
-not used to the jargon and specifically with regards to which arguments refer 
-to the input vs. output data frame. Use the following figure as a guide to 
-understand `reshape()`'s syntax. You can use it as a reference when building 
-your own `reshape()` command by following steps 1 through 5:
-
-```{r wideLongSyntax, echo = FALSE, out.width = "100%", fig.align = "center", fig.cap = "`reshape()` syntax for Wide to Long transformation."}
+```{r}
+#| label: fig-reshape_wide2long
+#| echo: false
+#| out-width: 100%
+#| fig-align: center
+#| fig-cap: "`reshape()` syntax for Wide to Long transformation."
 knitr::include_graphics("R_reshape_wide2long.png", dpi = NA)
 ```
 
 ```{r}
 dat_wide2long <- reshape(# Data in wide format
                          data = dat_wide,
-                         # The column name that defines case ID
+                         # The column name that defines case IDs
                          idvar = "Account_ID",
                          # The columns whose values we want to keep
                          varying = list(3:6),

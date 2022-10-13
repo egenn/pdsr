@@ -108,6 +108,29 @@ colnames(dat_wide) <- gsub("Lab_value.", "", colnames(dat_wide))
 dat_wide
 ```
 
+It is very often the case that not all cases have entries for all variables.
+We can simulate these by removing a few lines from the data frame above.
+
+
+```{r}
+dat_long <- dat_long[-4, ]
+dat_long <- dat_long[-6, ]
+dat_long <- dat_long[-13, ]
+```
+
+In such cases, long to wide conversion will include `NA` values where no data is
+available:
+
+```{r}
+dat_wide <- reshape(dat_long,
+    idvar = "Account_ID",
+    timevar = "Lab_key",
+    v.names = "Lab_value",
+    direction = "wide"
+)
+dat_wide
+```
+
 ### Longitudinal data
 
 ```{r}

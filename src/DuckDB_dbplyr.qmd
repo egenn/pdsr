@@ -1,0 +1,31 @@
+# DuckDB & dbplyr {sec-duckdb}
+
+```{r}
+library(duckdb)
+library(dbplyr)
+```
+
+## Setup Connection
+
+By default, `duckdb()`'s `dbdir` argument defaults to `DBDIR_MEMORY`, which
+creates a non-persistent, in-memory object.
+
+```{r}
+con <- dbConnect(duckdb())
+```
+
+## Settings
+
+```{r}
+dbExecute(con, "PRAGMA enable_progress_bar;")
+```
+
+```{r}
+dbExecute(con,
+    "CREATE TABLE ir AS SELECT * FROM '~/icloud/Data/iris.csv';"
+)
+```
+
+```{r}
+dbplyr()
+```

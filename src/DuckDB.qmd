@@ -1,87 +1,18 @@
-# DuckDB {sec-duckdb}
+# DuckDB
 
-```{r}
-library(DBI)
-library(data.table)
-```
+[DuckDB](https://duckdb.org/) is a popular and powerful "in-process 
+[SQL](https://en.wikipedia.org/wiki/SQL) 
+[OLAP](https://en.wikipedia.org/wiki/Online_analytical_processing) 
+[database management system](https://en.wikipedia.org/wiki/Database#Database_management_system)"
 
-## Setup Connection
+It provides APIs in multiple languages, including R, Python, and Julia.
+<br><br>
+In practical terms, it provides a very efficient way to read, query, and write
+big data in R, which includes datasets that are bigger than memory.
+<br><br>
+For example, it allows lazy-reading of large datasets with optional filtering,
+selecting, and grouping operations before reading into memory.
 
-By default, `connect()`'s `database` argument defaults to `:memory:`, creating a non-persistent, in-memory object.
+## See also
 
-```{r}
-con <- dbConnect(duckdb::duckdb())
-```
-
-## Settings
-
-```{r}
-dbExecute(con, "PRAGMA enable_progress_bar;")
-```
-
-## Read CSV
-
-Directly read into data.frame
-```{r}
-ir <- dbGetQuery(con, 
-    "SELECT * FROM read_csv_auto('~/icloud/Data/iris.csv');"
-)
-head(ir)
-```
-
-Create a DuckDB table that can be queried
-
-```{r}
-dbExecute(con,
-    "CREATE TABLE iris AS SELECT * FROM '~/icloud/Data/iris.csv';"
-)
-```
-
-```{r}
-dbGetQuery(con, "PRAGMA show_tables;")
-```
-
-Filter
-
-```{r}
-dbGetQuery(con,
-    "SELECT * FROM iris WHERE Species in ('setosa', 'versicolor')")
-```
-
-```{r}
-dbExecute(con,
-    "
-    CREATE TABLE ir AS SELECT * FROM 
-    read_csv_auto('/Users/egenn/icloud/Data/iris.csv', 
-    delim=',', header=True);
-    "
-)
-```
-
-### Fetch data to data.frame
-
-```{r}
-ir = dbGetQuery(con, "SELECT * from iris")
-head(ir)
-```
-
-```{r}
-class(ir)
-```
-
-### Fetch data to data.table:
-
-```{r}
-ir = dbGetQuery(con, "SELECT * from iris")
-setDT(ir)
-```
-
-```{r}
-class(ir)
-head(ir)
-```
-
-
-## Resources
-
-- [DuckDB CSV](https://duckdb.org/docs/data/csv)
+- [DuckDB Documentation](https://duckdb.org/docs/)

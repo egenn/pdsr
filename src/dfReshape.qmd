@@ -13,7 +13,8 @@ We want to be able to **reshape** from one form to the other because different
 programs (e.g. statistical models, plotting functions) expect data in one or the 
 other format for different applications (e.g. longitudinal modeling or grouped 
 visualizations).
-<br><br>
+<br>
+
 ```{r}
 #| label: fig-widevslong
 #| echo: false
@@ -38,6 +39,8 @@ This chapters includes detailed diagrams and step-by-step instructions to
 explain how to build cals for long-to-wide and wide-to-long reshaping.
 
 ## Long to Wide
+
+### Key-value pairs
 
 It is very common to receive data in long format. For example, many tables with 
 electronic health records are stored in long format.
@@ -90,24 +93,61 @@ knitr::include_graphics("R_reshape_long2wide.png", dpi = NA)
 ```
 
 ```{r}
-dat_long2wide <- reshape(dat_long,
+dat_wide <- reshape(dat_long,
                          idvar = "Account_ID",
                          timevar = "Lab_key",
                          v.names = "Lab_value",
                          direction = "wide")
-dat_long2wide
+dat_wide
 ```
 
 You can optionally clean up columns (See [`gsub()`](StringOps.qmd#gsub)):
 
 ```{r}
-colnames(dat_long2wide) <- gsub("Lab_value.", "", colnames(dat_long2wide))
-dat_long2wide
+colnames(dat_wide) <- gsub("Lab_value.", "", colnames(dat_wide))
+dat_wide
+```
+
+### Longitudinal data
+
+```{r}
+dat2 <- data.frame(
+    pat_enc_csn_id = rep(c(14568:14571), each = 5),
+    result_date = rep(c(
+        seq(as.Date("2019-08-01"),
+            as.Date("2019-08-05"),
+            length.out = 5
+        )), 4
+    ),
+    order_description = rep("WBC", 20),
+    result_component_value = c(
+        rnorm(5, 6800, 3840),
+        rnorm(5, 7900, 3100),
+        rnorm(5, 8100, 4030),
+        rnorm(5, 3200, 1100)
+    ))
+
+dat2
+```
+
+In this example, we have four unique patient IDs, with five measurements taken
+on different days.
+<br><br>
+Following the same recipe as above, we convert to wide format:
+
+```{r}
+dat2_wide <- reshape(dat2,
+    idvar = "pat_enc_csn_id",
+    timevar = "result_date",
+    v.names = "result_component_value",
+    direction = "wide"
+)
+dat2_wide
 ```
 
 ## Wide to Long
 
-Let's create an example data frame:
+Synthetic data:
 
 ```{r}
 dat_wide <- structure(list(
@@ -138,10 +178,10 @@ dat_wide <- data.frame(Account_ID = c(8001, 8002, 8003, 8004),
 dat_wide
 ```
 
-Use the following figure to understand `reshape()`'s wide-to-long syntax. You 
-can use it as a reference when building a call to `reshape()` by following 
+Use the following figure to understand `reshape()`'s wide-to-long syntax.
+Use it as a reference when building a call to `reshape()` by following 
 steps 1 through 5. It's important to note which arguments refer to the input vs. 
-output data frame.
+the output data frames.
 
 ```{r}
 #| label: fig-reshape_wide2long

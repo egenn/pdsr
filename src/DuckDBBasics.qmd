@@ -1,0 +1,104 @@
+# DuckDB {sec-duckdb}
+
+```{r}
+library(duckdb)
+library(dbplyr)
+```
+
+Operations can be performed using SQL queries. 
+Some are also available in the R API.
+
+## Setup Connection
+
+By default, `duckdb()`'s `dbdir` argument defaults to `DBDIR_MEMORY`, which
+creates a non-persistent, in-memory object.
+
+```{r}
+con <- dbConnect(duckdb::duckdb())
+```
+
+## Settings
+
+```{r}
+dbExecute(con, "PRAGMA enable_progress_bar;")
+```
+
+## Read CSV
+
+Directly read into data.frame
+```{r}
+ir <- dbGetQuery(con, 
+    "SELECT * FROM read_csv_auto('~/icloud/Data/iris.csv');"
+)
+head(ir)
+```
+
+Create a DuckDB table that can be queried
+
+```{r}
+dbExecute(con,
+    "CREATE TABLE iris AS SELECT * FROM '~/icloud/Data/iris.csv';"
+)
+```
+
+### List tables
+
+```{r}
+dbGetQuery(con, "PRAGMA show_tables;")
+```
+
+Using the R API:
+
+```{r}
+dbListTables(con)
+```
+
+
+## Filter
+
+```{r}
+dbGetQuery(con,
+    "SELECT * FROM iris WHERE Species in ('setosa', 'versicolor')") |> head()
+```
+
+```{r}
+rel_filter()
+```
+
+```{r}
+dbExecute(con,
+    "
+    CREATE TABLE ir AS SELECT * FROM 
+    read_csv_auto('/Users/egenn/icloud/Data/iris.csv', 
+    delim=',', header=True);
+    "
+)
+```
+
+### Fetch data to data.frame
+
+```{r}
+ir = dbGetQuery(con, "SELECT * from iris")
+head(ir)
+```
+
+```{r}
+class(ir)
+```
+
+### Fetch data to data.table:
+
+```{r}
+ir = dbGetQuery(con, "SELECT * from iris")
+setDT(ir)
+```
+
+```{r}
+class(ir)
+head(ir)
+```
+
+
+## Resources
+
+- [DuckDB CSV](https://duckdb.org/docs/data/csv)

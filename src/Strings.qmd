@@ -3,7 +3,7 @@ knitr:
   opts_chunk:
     comment: ""
 ---
-# String Operations {#sec-strings}
+# Strings {#sec-strings}
 
 ## Reminder: create, coerce, check
 
@@ -11,17 +11,20 @@ knitr:
 * `as.character()`: Coerce vector to character vector
 * `is.character()`: Test if object is character
 
+Initialize character vector:
 ```{r}
 x <- character(10)
 x
 ```
 
+Coerce to character:
 ```{r}
 v <- c(10, 20, 22, 43)
 x <- as.character(v)
 x
 ```
 
+Test object is character vector:
 ```{r}
 x <- c("PID", "Age", "Sex", "Handedness")
 is.character(x)
@@ -29,10 +32,9 @@ is.character(x)
 
 ## `cat()`: Concatenate and **print**
 
-`cat()` concatenates strings in order to print to screen (console) or to file. 
+`cat()` concatenates its inputs to prints to screen (console) or to file.
 
-It **does not return any object**. It is therefore useful to produce informative 
-messages in your programs.
+It can concatenate strings along with the output of expressions:
 
 ```{r}
 sbp <- 130
@@ -40,8 +42,24 @@ temp <- 98.4
 cat("The blood pressure was", sbp, "and the temperature was", temp, "\n")
 ```
 
+
+`cat()` **does not return any object**. It is therefore useful to produce informative 
+messages in your programs.
+
 Use the `file` argument to write to a text file. The `append` argument allows 
 using multiple `cat()` calls to append to the same file.
+
+Note: if you use `cat()` on a factor, it will print the integer index of the
+factor levels. If you wish to print the levels themselves, use `as.character()`
+on the factor vector:
+
+```{r}
+cat(head(iris$Species), "\n")
+```
+
+```{r}
+cat(as.character(head(iris$Species)), "\n")
+```
 
 ## `paste()`: Concatenate character vectors
 

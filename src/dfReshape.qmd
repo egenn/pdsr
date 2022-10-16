@@ -93,15 +93,16 @@ knitr::include_graphics("R_reshape_long2wide.png", dpi = NA)
 ```
 
 ```{r}
-dat_wide <- reshape(dat_long,
-                         idvar = "Account_ID",
-                         timevar = "Lab_key",
-                         v.names = "Lab_value",
-                         direction = "wide")
+dat_wide <- reshape(
+    dat_long,
+    idvar = "Account_ID",
+    timevar = "Lab_key",
+    v.names = "Lab_value",
+    direction = "wide")
 dat_wide
 ```
 
-You can optionally clean up columns (See [`gsub()`](StringOps.qmd#gsub)):
+You can optionally clean up columns (See [`gsub()`](Strings.qmd#gsub)):
 
 ```{r}
 colnames(dat_wide) <- gsub("Lab_value.", "", colnames(dat_wide))

@@ -487,6 +487,27 @@ factor to character and then to numeric:
 as.numeric(as.character(f))
 ```
 
+## Interactions
+
+On many different occasions we want to look at factor interactions, e.g. for
+visualization, statistical hypothesis testing, predictive modeling, etc.
+Some functions allow you to define factors that should be allowed to interact
+and take of the rest for you. To explicitly create a factor interaction, you
+can use the `interaction()` function:
+
+```{r}
+set.seed(2022)
+dat <- data.frame(PID = 8001:8009,
+                  Sex = factor(sample(c("male", "female"), 9, TRUE)),
+                  Group = factor(sample(c("A", "B"), 9, TRUE)))
+dat
+```
+
+```{r}
+dat["Sex_x_Group"] <- interaction(dat[["Sex"]], dat[["Group"]])
+dat
+```
+
 ## Summary
 
 ```{block, type="rmdnote"}

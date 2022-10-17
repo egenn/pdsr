@@ -175,6 +175,69 @@ directly exclude it:
 merge(a, b[, -2], by.x = "PID", by.y = "PatientID")
 ```
 
+## Joining wide and long tables
+
+The columns defined using the `by` or `by.x` and `by.y` arguments determine
+which rows from each table to include in the merge. These do not have to 
+identify unique rows in either dataset: for example, if you are merging on
+a `PID` column, either table can include repeated PIDs. This allows merging
+wide and long tables.
+
+As an example, we create a long and a wide table and merge them:
+
+```{r}
+dat_long <- data.frame(
+    Account_ID = c(8001, 8002, 8003, 8004, 8001, 8002, 8003, 8004, 
+            8001, 8002, 8003, 8004, 8001, 8002, 8003, 8004), 
+    Age = c(67.8017038366664, 42.9198507293701, 46.2301756642422, 
+            39.665983196671, 67.8017038366664, 42.9198507293701, 
+            46.2301756642422, 39.665983196671, 67.8017038366664, 
+            42.9198507293701, 46.2301756642422, 39.665983196671, 
+            67.8017038366664, 42.9198507293701, 46.2301756642422, 
+            39.665983196671), 
+    Admission = c("ED", "Planned", "Planned", "ED", "ED", "Planned", 
+            "Planned", "ED", "ED", "Planned", "Planned", "ED", "ED", "Planned", 
+            "Planned", "ED"), 
+    Lab_key = c("RBC", "RBC", "RBC", "RBC", "WBC", "WBC", "WBC", "WBC", 
+            "Hematocrit", "Hematocrit", "Hematocrit", "Hematocrit", 
+            "Hemoglobin", "Hemoglobin", "Hemoglobin", "Hemoglobin"), 
+    Lab_value = c(4.63449321082268, 3.34968550627897, 4.27037213597765, 
+            4.93897736897793, 8374.22887757195, 7612.37380499927, 
+            8759.27855519425, 6972.28096216548, 36.272693147236, 
+            40.5716317809522, 39.9888624177955, 39.8786884058422, 
+            12.6188444991545, 12.1739747363806, 15.1293426442183, 
+            14.8885696185238)
+)
+dat_long <- dat_long[order(dat_long$Account_ID), ]
+dat_long
+```
+
+```{r}
+dat_wide <- data.frame(
+    Account_ID = c(8002, 8003, 8005),
+    Department = c("Cardiology", "Neurology", "Surgery"),
+    Site = c("ZSFG", "Mission_Bay", "Mt_Zion")
+)
+dat_wide
+```
+
+Inner join:
+
+```{r}
+merge(dat_wide, dat_long)
+```
+
+Outer join: 
+
+```{r}
+merge(dat_wide, dat_long, all = TRUE)
+```
+
+As you see above, the output of a join between a wide and long table will be a 
+long table. Depending on the specific analysis goals, one can keep the data
+in long format, reshape one table prior to merging, or reshape the merged table
+after joining (See @sec-dfreshape for reshaping).
+
 ## See also
 
 - [data.table join](#sec-dtjoin)

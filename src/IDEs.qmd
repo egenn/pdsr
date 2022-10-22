@@ -90,24 +90,26 @@ There are different ways to install jupyter and jupyter-lab.
 
 One way is:
 
-1. Install [miniforge](https://github.com/conda-forge/miniforge){target="_blank"}
-2. Use conda to install jupyterlab:
+1. Install [mambaforge](https://github.com/conda-forge/miniforge#mambaforge){target="_blank"}
+
+2. Use mamba to install jupyterlab:
 
 ```{sh}
 #| eval: false
-conda install jupyterlab
+mamba install jupyterlab
 ```
 
-3. Install the R kernel:
-```{sh}
-#| eval: false
-conda install r-irkernel   
-```
-
-4. Install the IRkernel R packages:
+3. Install the IRkernel R packages:
 ```{r}
 #| eval: false
-install.packages('IRkernel')
+install.packages("IRkernel")
+# or install latest development version
+remotes::install_github("IRkernel/IRkernel")")
+```
+
+4. Install the R jupyter kernel:
+```{r}
+#| eval: false
 IRkernel::installspec()
 ```
 
@@ -117,3 +119,5 @@ IRkernel::installspec()
 jupyter-lab
 ```
 
+There, you will be able to select the R kernel from the list of available
+kernels - usually at the top-right.

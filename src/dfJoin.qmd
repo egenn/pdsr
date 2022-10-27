@@ -238,6 +238,25 @@ long table. Depending on the specific analysis goals, one can keep the data
 in long format, reshape one table prior to merging, or reshape the merged table
 after joining (See @sec-dfreshape for reshaping).
 
+## Renaming non-unique columns
+
+Two tables may contain shared column names on columns other than those used for merging.
+In such cases, the `suffixes` argument, which defaults to `c(".x",".y")`, defines the 
+suffix to be added to the left and right tables, respectively.
+
+```{r}
+visit1 <- data.frame(ID = c(8001, 8002, 8003),
+        Height = c(1.67, 1.79, 1.74),
+        SBP = c(124, 138, 129))
+visit2 <- data.frame(ID = c(8002, 8003, 8004),
+        Department = c("Cardiology", "Neurology", "Surgery"),
+        SBP = c(128, 136, 131))
+merge(visit1, visit2, by = "ID", suffixes = c("_visit1", "_visit2"))
+```
+
+Note that in these cases, the `by` or `by.x` & `by.y` arguments need to be specified
+so that the other shared column is not erroneously included in the matching.
+
 ## See also
 
 - [data.table join](#sec-dtjoin)

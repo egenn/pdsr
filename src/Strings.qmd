@@ -5,19 +5,41 @@ knitr:
 ---
 # Strings {#sec-strings}
 
-## Reminder: create, coerce, check
+"Strings", in programming, refer to collections of characters, i.e. text data. In R, 
+text is usually stored as objects of class "character" (See @sec-datatypes). In 
+statistics/machine learning/data science, we come across text in a few different ways.
+All the following are character vectors:
+
+- Character variables: each element could include a single word or multiple words, e.g.
+patient name, diagnosis, department name, medication, or entire paragraphs of text, e.g.
+clinical examination notes, test reports, etc.
+- Column names of a data.frame or data.table
+- Factor level names
+
+Some important string operations include:
+
+- Creating character vectors
+- Formatting strings
+- Searching for patterns in strings
+- Replacing patterns in strings
+
+## Creating character vectors
+
+[Reminder](#charactervectors): initialize, coerce, test character vectors:
 
 * `character()`: Initialize empty character vector
 * `as.character()`: Coerce vector to character vector
 * `is.character()`: Test if object is character
 
 Initialize character vector:
+
 ```{r}
 x <- character(10)
 x
 ```
 
 Coerce to character:
+
 ```{r}
 v <- c(10, 20, 22, 43)
 x <- as.character(v)
@@ -25,14 +47,18 @@ x
 ```
 
 Test object is character vector:
+
 ```{r}
 x <- c("PID", "Age", "Sex", "Handedness")
 is.character(x)
 ```
 
-## `cat()`: Concatenate and **print**
+### `cat()`: Concatenate and **print**
 
 `cat()` concatenates its inputs to prints to screen (console) or to file.
+
+`cat()` **does not return any object**. It is therefore useful to produce informative 
+messages in your programs.
 
 It can concatenate strings along with the output of expressions:
 
@@ -41,10 +67,6 @@ sbp <- 130
 temp <- 98.4
 cat("The blood pressure was", sbp, "and the temperature was", temp, "\n")
 ```
-
-
-`cat()` **does not return any object**. It is therefore useful to produce informative 
-messages in your programs.
 
 Use the `file` argument to write to a text file. The `append` argument allows 
 using multiple `cat()` calls to append to the same file.
@@ -61,35 +83,40 @@ cat(head(iris$Species), "\n")
 cat(as.character(head(iris$Species)), "\n")
 ```
 
-## `paste()`: Concatenate character vectors
+### `paste()`: Concatenate character vectors
 
-`paste()` is a commonly used command.
-
-In its simplest form, it acts like `as.character()`:
+In its simplest form, `paste()` acts like `as.character()`:
 
 ```{r}
 v <- c(10, 20, 22, 43)
 paste(v)
 ```
 
-But its main job is to combine strings from multiple vectors elementwise:
+But, its main job is to combine strings.
+
+It can combine two or more strings into one:
+
+```{r}
+first = "Jane"
+last = "Artiste"
+ID = "8001"
+paste(ID, last, first)
+```
+
+The `sep` argument defaults to a single space (" ") and defines the separator:
+
+```{r}
+paste(ID, last, first, sep = " | ")
+```
+
+`paste()` is [vectorized](#sec-vectorization), which means it can combine character 
+vectors elementwise:
 
 ```{r}
 id = c("001", "010", "018", "020", "021", "051")
 dept = c("Emergency", "Cardiology", "Neurology",
          "Anesthesia", "Surgery", "Psychiatry")
-id
-dept
-```
-
-```{r}
 paste(id, dept)
-```
-
-The `sep` argument defines the separator:
-
-```{r}
-paste(id, dept, sep = "+++")
 ```
 
 `paste0()` is an alias for the commonly used `paste(..., sep = "")`:
@@ -98,37 +125,38 @@ paste(id, dept, sep = "+++")
 paste0(id, dept)
 ```
 
-As with other vectorized operations, value recycling can be very convenient:
+As with other vectorized operations, value recycling can be very convenient. In the 
+example below, the shorter vector (i.e. "Feature", a character vector of length 1) is
+recycled to match the length of the longet vector (1:10)
 
 ```{r}
 paste0("Feature_", 1:10)
 ```
 
-The argument `collapse` helps output a *single* character element after 
-collapsing with some string:
+The argument `collapse` helps output a *single* character object after 
+combining with some string:
 
 ```{r}
 paste0("Feature_", 1:10, collapse = ", ")
 ```
 
-## `nchar()`: Get number of characters in element
+## Common string utilities
 
-`nchar()` counts the number of characters in each **element** of type character 
-in a vector:
+### Get number of characters in element with `nchar()`: 
+
+`nchar()` counts the number of characters in each **element** of a character vector:
 
 ```{r}
 x <- c("a", "bb", "ccc")
 nchar(x)
 ```
 
-## `substr()`: Get substring
+### Extract/replace substring with `substr()`: 
 
 `substr()` allows you to get and set individual (literal) characters from a 
-character (R base type) vector, by position:
+character vector, by position:
 
-### Extract
-
-e.g. Get characters 1-3:
+e.g. Extract the first three characters of each character element:
 
 ```{r}
 x <- c("001Emergency", "010Cardiology", "018Neurology", 
@@ -136,7 +164,8 @@ x <- c("001Emergency", "010Cardiology", "018Neurology",
 substr(x, start = 1, stop = 3)
 ```
 
-Neither `start` nor `stop` need to be valid character positions.  
+Neither `start` nor `stop` need to be valid character positions.
+
 For example, if you want to get all characters from the fourth one to the last 
 one, you can specify a very large `stop`
 
@@ -154,14 +183,12 @@ substr(x, 20, 24)
 (first, last) instead of (start, stop). It is available for compatibility with S 
 - check its source code to see how it's an alias for `substr()`
 
-### Replace
+Replace the first three letters:
 
 ```{r}
 x <- c("Jan_1987")
 x
 ```
-
-Replace the first three letters:
 
 ```{r}
 substr(x, 1, 3) <- "Feb"
@@ -176,10 +203,12 @@ substr(x, 1, 3) <- "April"
 x
 ```
 
-## `strsplit()`: Split strings
+## Split strings with `strsplit()`: 
 
-`strsplit()` allows you to split a character vector elements based on any 
+`strsplit()` allows you to split a character vector's elements based on any 
 character or [regular expression](#regex)
+
+For example, extract individual words by splitting a sentence on each space character:
 
 ```{r}
 x <- "This is one sentence"
@@ -191,9 +220,8 @@ x <- "14,910"
 strsplit(x, ",")
 ```
 
-As with any functions, you can compose string operations in complex ways 
-(though it may often be considerably easier to perform multiple separate 
-operations instead):
+As with all functions, you can compose multiple string operations in complex ways, and as
+with all function compositions remember to build and test them steo-by-step.
 
 ```{r}
 x <- c("1,950", "2,347")
@@ -201,7 +229,7 @@ x
 ```
 
 ```{r}
-lapply(strsplit(x, ","), function(i) 
+lapply(strsplit(x, ","), \(i) 
   paste(i, c("thousand", "dollars"), collapse = " and "))
 ```
 
@@ -224,13 +252,26 @@ features_lower <- tolower(features_upper)
 features_lower
 ```
 
+### Convert to Title Case
+
+The `tools` package comes with the base R installation, but is not loaded at startup,
+because it contains rather specialized functions for package development, administration,
+and documentation. However, it includes the `toTitleCase()` function, which can be handy
+for formatting variable names, e.g. before plotting, etc.
+
+```{r}
+features <- c("full name", "admission type", "attending name", "date of admission")
+tools::toTitleCase(features)
+```
+
 ### `abbreviate()`
 
-`abbreviate()` allows to reduce elements of a character vector to short, unique 
+`abbreviate()` allows reducing character vector elements to short, unique 
 abbreviations of a minimumn length (defaults to 4)
 
 ```{r}
-x <- c("Emergency", "Cardiology", "Surgery", "Anesthesia", "Neurology", "Psychiatry", "Clinical Psychology")
+x <- c("Emergency", "Cardiology", "Surgery", "Anesthesia", 
+       "Neurology", "Psychiatry", "Clinical Psychology")
 abbreviate(x)
 abbreviate(x, minlength = 4)
 abbreviate(x, minlength = 5)
@@ -241,8 +282,8 @@ abbreviate(x, minlength = 5)
 A very common task in programming is to find +/- replace string patterns in a 
 vector of strings.  
 <br><br>
-`grep()` and `grepl()` help find strings that contain a given pattern.  
-`sub()` and `gsub()` help find and replace strings.
+- `grep()` and `grepl()` help find strings that contain a given pattern.  
+- `sub()` and `gsub()` help find and replace strings.
 
 ### `grep()`: Get an **integer** index of elements that include a pattern
 
@@ -252,7 +293,7 @@ x <- c("001Age", "002Sex", "010Temp", "014SBP",
 grep(pattern = "SBP", x = x)
 ```
 
-`grep()`'s `value` arguments which defaults to `FALSE`, allows returning the 
+`grep()`'s `value` argument which defaults to `FALSE`, allows returning the 
 matched string itself (the value of the element) instead of its integer index:
 
 ```{r}
@@ -261,7 +302,7 @@ grep("SBP", x, value = TRUE)
 
 ### `grepl()`: Get a **logical** index of elements that include a pattern
 
-`grepl()` is similar to `grep()`, but returns a logical index instead:
+`grepl()` is similar to `grep()`, but returns a logical index:
 
 ```{r}
 grepl("SBP", x)
@@ -270,7 +311,8 @@ grepl("SBP", x)
 ### `sub()`: Find replace **first** match of a pattern
 
 ```{r}
-x <- c("The most important variable was PF ratio. Other significant variables are listed in the supplementary information.")
+x <- c("The most important variable was PF ratio. Other significant variables are listed 
+in the supplementary information.")
 x
 ```
 
@@ -278,7 +320,7 @@ x
 sub(pattern = "variable", replacement = "feature", x = x)
 ```
 
-"First match" refers to each element of a character vector:
+`sub()` is vectorized and "first match" refers to each element of a character vector:
 
 ```{r}
 x <- c("var 1, var 2", "var 3, var 4")
@@ -288,7 +330,7 @@ sub("var", "feat", x)
 ### `gsub()`: Find and replace **all** matches of a pattern {#gsub}
 
 ```{r}
-x <- c("The most important variable was PF ratio. Other significant variables are listed in the supplementary information.")
+x <- c("The most important variable was P/F ratio. Other significant variables are listed in the supplementary information.")
 x
 ```
 
@@ -308,14 +350,14 @@ gsub("var", "feat", x)
 Regular expressions allow you to perform flexible pattern matching. For 
 example, you can look for a pattern specifically at the beginning or the end of 
 a word, or for a variable pattern with certain characteristics.
-
+<br><br>
 Regular expressions are very powerful and heavily used. They exist in multiple 
 programming languages - with many similarities and some differences in their 
 syntax.
-
-There are many rules in defining regular expressions and take a little getting 
+<br><br>
+There are many rules in defining regular expressions and they take a little getting 
 used to. You can read the R manual by typing `?base::regex`.  
-
+<br><br>
 Some of the most important rules are liste below:
 
 ### Match a pattern at the beginning of a line/string with `^`/`\\<`:

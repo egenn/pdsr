@@ -1,0 +1,83 @@
+# Lattice {sec-lattice}
+
+The [`lattice`](https://cran.r-project.org/web/packages/lattice/index.html)
+i s a high-level visualization system that comes bundled with R.
+
+```{r}
+library(lattice)
+```
+
+## Boxplot
+
+```{r}
+x <- rnorm(300)
+y <- rnorm(400, 1.6)
+z <- rnorm(320, -2.2)
+```
+
+```{r}
+bwplot(x)
+```
+
+```{julia}
+boxplot([x, y, z])
+```
+
+## Density
+
+```{julia}
+density([x, y, z])
+```
+
+## Histogram
+
+```{julia}
+histogram(x)
+```
+
+```{julia}
+histogram([x, y, z])
+```
+
+## Scatter
+
+```{julia}
+x = randn(300);
+y = 3 .+ x.^3 + randn(300);
+y2 = 4 .+ x.^2 + randn(300);
+```
+
+```{julia}
+scatter(x, y)
+```
+
+```{julia}
+scatter(x, [y, y2])
+```
+
+## Barplot
+
+```{julia}
+x = ["alpha", "beta", "gamma"];
+y = [3, 9, 5];
+y2 = [5, 8, 7];
+```
+
+```{julia}
+bar(x, y)
+```
+
+```{julia}
+bar(x, [y, y2])
+```
+
+Currently, the GR backend does not allow stacking bars. The following would produce an error:
+"Keyword argument bar_position not supported with Plots.GRBackend()"
+
+```{julia}
+# bar(x, [y, y2], bar_position=:stack)
+```
+
+## Resources
+
+- [StatsPlots Docs](https://docs.juliaplots.org/dev/generated/statsplots/)

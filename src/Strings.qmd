@@ -345,6 +345,23 @@ x <- c("var 1, var 2", "var 3, var 4")
 gsub("var", "feat", x)
 ```
 
+### Match one or more patterns
+
+You can use a vertical bar, `|`, to match one of multiple patterns:
+
+```{r}
+x <- c("Emergency", "Cardiology", "Neurology", "Anesthesia", 
+       "Surgery", "Psychiatry")
+```
+
+```{r}
+grep("Cardio|Neuro", x, value = TRUE)
+```
+
+```{r}
+grep("Emerg|Surg|Anesth", x, value = TRUE)
+```
+
 ## Regular expressions {#regex}
 
 Regular expressions allow you to perform flexible pattern matching. For 
@@ -442,9 +459,9 @@ gsub("[$@]", "_", x)
 
 #### Predefined character classes
 
-A number of character classes are predefined. Slightly confusingly, they are 
+A number of character classes are predefined. Perhaps confusingly, they are 
 themselves surrounded by brackets and to use them as a character class, you 
-need a seconds set of brackets around them. Some of the most common ones 
+need a second set of brackets around them. Some of the most common ones 
 include:  
 
 * `[:alnum:]`: alphanumeric, i.e. all letters and numbers
@@ -482,9 +499,9 @@ x <- c("001$Emergency", "010@Cardiology", "018*Neurology", "020!Anesthesia",
 gsub("[^[:alnum:]]", "_", x)
 ```
 
-### Combining character classes
+### Match from multiple character classes
 
-Use `|` to match from multiple character classes:
+Same as above, you can use `|` to match from multiple character classes:
 
 ```{r}
 x <- c("123#$%alphaBeta")

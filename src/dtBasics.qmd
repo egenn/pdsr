@@ -1,16 +1,9 @@
+---
+knitr:
+  opts_chunk:
+    comment: ""
+---
 # Efficient data analysis with **data.table** {#sec-datatable}
-
-```{r echo = FALSE}
-knitr::opts_chunk$set(fig.width = 10, fig.height = 5,
-                      comment = NA, cache = TRUE) 
-options(rt.theme = "darkgrid")
-options(rt.fit.theme = "darkgrid")
-```
-
-```{r, comment="", results="asis", echo=FALSE}
-old.hooks <- fansi::set_knit_hooks(knitr::knit_hooks)
-options(crayon.enabled = TRUE)
-```
 
 ```{r FigRdatatable, echo = FALSE, , out.width = "50%", fig.align = 'center', fig.cap = "data.table builds on and significantly enhances the base R data.frame"}
 knitr::include_graphics("./R_data.table.png")
@@ -33,32 +26,6 @@ trying to extend rather than replace the latter's functionality.
 a solution. This includes common mistakes new users may make when trying 
 commands that would work on a `data.frame`
 but are different on a `data.table`.
-
-## Installation {#dtinstallation}
-
-You can install **data.table** from CRAN or GitHub. Check out the 
-[data.table wiki](https://github.com/Rdatatable/data.table/wiki/Installation) 
-for more info.
-
-To get the latest version on CRAN:
-
-```{r eval = FALSE}
-install.packages("data.table")
-```
-
-To get the latest development version:
-
-```{r eval = FALSE}
-# install the "remotes" package if you don't already have it and then
-remotes::install_github("Rdatatable/data.table")
-```
-
-`data.table` also includes a built-in command to update to the latest 
-development version:
-
-```{r eval = FALSE}
-data.table::update.dev.pkg()
-```
 
 ### Load the `data.table` package
 
@@ -132,15 +99,18 @@ dat2
 
 ### By coercion ***in-place***: `setDT()`
 
-`setDT` converts a list or data.frame into a `data.table` in-place. Note: the 
-original object itself is changed, you do not need to assign the output of 
-`setDT` to a new name.
+`setDT()` converts a list or data.frame into a `data.table` ***in-place***. This means
+the object passed to `setDT()` is changed and you do not need to assign the output to a 
+new object.
 
 ```{r}
 dat <- data.frame(A = 1:5,
                   B = c(1.2, 4.3, 9.7, 5.6, 8.1),
                   C = c("a", "b", "b", "a", "a"))
 class(dat)
+```
+
+```{r}
 setDT(dat)
 class(dat)
 ```
@@ -345,13 +315,11 @@ dt[, ..colbn]
 dt[, ..colnm]
 ```
 
-If you are familiar with the [system shell](#shell):
-
 Think of working inside the `data.table` frame (i.e. within the "[...]") like 
-an environment. You have direct access to the variables within it. If you want 
-to refer to variables outside the `data.table`, you prefix the variable name 
-with `..` similar to how you access the directory above your current working 
-directory in the system shell:
+an environment: you have direct access to the variables within it. If you want 
+to refer to variables outside the `data.table`, you must prefix the variable name 
+with `..` (similar to how you access the directory above your current working 
+directory in the system shell).
 
 Alternatively, you can use the `.SD` special symbol together with the `.SDcols` 
 argument:
@@ -363,7 +331,7 @@ dt[, .SD, .SDcols = colid]
 Think of `.SD` as a sub-data.table with columns defined by `.SDcols` (if 
 `SDcols` is not defined, `.SD` refers to the entire data.table).
 
-The two dots tell the `data.table` to not look for the variable within the 
+The two dots tell `data.table` to look for the variable not within the 
 data.table columns, but in the enclosing environment.
 
 Selecting a single column by name returns a **vector**:
@@ -474,16 +442,16 @@ for (i in 1:2) {
 
 ## Summarize
 
-You can apply one or multiple summary functions on one of multiple columns.
+You can apply one or multiple summary functions on one or multiple columns.
 Surround the operations in `list()` or `.()` to output a *new* data.table 
-holding the outputs of the operations (the input data.table remains unchanged).
+holding the outputs of the operations, i.e. the input data.table remains unchanged.
 
 ```{r}
-Asummary <- dt[, .(Amax = max(A), Amin = min(A), Asd = sd(A))]
-Asummary
+A_summary <- dt[, .(A_max = max(A), A_min = min(A), A_sd = sd(A))]
+A_summary
 ```
 
-Example: Get sd of all numeric columns:
+Example: Get the standard deviation of all numeric columns:
 
 ```{r}
 numid <- sapply(dt, is.numeric)
@@ -524,34 +492,20 @@ dt[, list(medianBbyGroup = median(B)), by = Group]
 
 ### Group-by operation and assignment
 
-Making an assignment with `:=` in `j`, adds a column in-place. Since here we 
-are grouping, the same value will be assigned to all cases of the group:
+Making an assignment with `:=` in `j`, adds a column in-place. If you combine such an
+assignment with a group-by operation, the same value will be assigned to all cases of the 
+group:
 
 ```{r}
-dt[, meanAbyGroup := mean(A), by = Group]
+dt[, mean_A_by_Group := mean(A), by = Group]
 dt
-```
-
-For more complex operations, you may need to refer to the slice of the 
-`data.table` defined by `by` within `j`. There is a special notation for this: 
-`.SD` (think sub-`data.table`):
-
-```{r}
-dt[, B_DiffFromGroupMin := B - min(B), by = Group]
-dt
-```
-
-```{block, type="rmdnote"}
-By now, it should be clearer that the `data.table` frame provides a very 
-flexible way to perform a very wide range of operations with minimal new 
-notation.
 ```
 
 ## Apply functions to columns
 
 Any function that returns a list can be used in `j` to return a new 
 data.table - therefore lapply is perfect for getting summary on multiple 
-columns:
+columns. This is another example where you have to use the `.SD` notation:
 
 ```{r}
 dt1 <- as.data.table(sapply(1:3, \(i) rnorm(10)))
@@ -613,8 +567,3 @@ through d:
 dt[, bcd.sum := sum(.SD[, b:d]), by = 1:nrow(dt)]
 dt
 ```
-
-## Resources {#dtresources}
-
-- [data.table GitHub](https://github.com/Rdatatable/data.table)
-- [data.table Documentation](https://rdatatable.gitlab.io/data.table/)

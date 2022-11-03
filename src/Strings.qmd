@@ -57,7 +57,7 @@ is.character(x)
 
 `cat()` concatenates its inputs to prints to screen (console) or to file.
 
-`cat()` **does not return any object**. It is therefore useful to produce informative 
+`cat()` **does not return any object**. It is therefore useful for producing informative 
 messages in your programs.
 
 It can concatenate strings along with the output of expressions:
@@ -68,11 +68,22 @@ temp <- 98.4
 cat("The blood pressure was", sbp, "and the temperature was", temp, "\n")
 ```
 
-Use the `file` argument to write to a text file. The `append` argument allows 
-using multiple `cat()` calls to append to the same file.
+```{r}
+weight <- 74
+height <- 1.78
+cat("The weight is", weight, "and the height is", height, 
+    "giving a BMI of", signif(weight/height^2, 3), "\n")
+```
 
-Note: if you use `cat()` on a factor, it will print the integer index of the
-factor levels. If you wish to print the levels themselves, use `as.character()`
+Use the `file` argument to write to a text file. The `append` argument allows 
+using multiple consecutive `cat()` calls to append to the same file.
+
+:::{.callout-note}
+if you use `cat()` on a factor, it will print the integer index of the
+factor levels.
+:::
+
+If you wish to print the levels themselves, use `as.character()`
 on the factor vector:
 
 ```{r}

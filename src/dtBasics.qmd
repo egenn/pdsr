@@ -122,46 +122,6 @@ setDF(dat)
 class(dat)
 ```
 
-### Read into a `data.table` from file with `fread()`
-
-**data.table** includes the `fread()` function to read data from files, in a 
-similar way as the base functions `read.csv()` and `read.table()`. It is orders 
-of magnitude faster for very large data (e.g. thousands to millions of rows) 
-and it can read directly from URLs and zipped files. The `sep` 
-argument defines the separator (same as in `read.csv()` and `read.table()`), 
-but when set to `"auto"` (the default) it does a great job of figuring it out 
-by itself. 
-
-```{r eval = FALSE}
-dat <- fread("path/to/input.csv")
-dat <- fread("https::/url/to/input.csv.gz")
-```
-
-For its speed and convenience, `fread()` is recommended over 
-`read.csv()`/`read.table()` even if 
-you intend to work with a `data.frame` exclusively, in which case you can pass 
-the argument `data.table = FALSE`.
-
-### Write a `data.table` to a CSV: `fwrite()`
-
-Similar to `fread()`, `fwrite()` can be a lot faster than `write.csv()`
-
-```{r eval = FALSE}
-fwrite(dt, "/path/to/text.csv")
-```
-
-### Save `data.table` to an RDS:
-
-Same as any R object, you can save a `data.table` to disk using `saveRDS()`.
-Suppose you have read data in with `fread()` or coerced a dataset using 
-`as.data.table()`, done some cleaning up, type conversions, data 
-transformations, etc, this is the preferred way to save your work, so you can 
-reload at any time.
-
-```{r eval = FALSE}
-saveRDS(dt, "/path/to/data.rds")
-```
-
 ## Display `data.table` structure with `str()`
 
 `str()` works the same (and you should keep using it!)
@@ -293,21 +253,20 @@ df$B
 dt[, B]
 ```
 
-Because of the above, `data.table` requires a slightly different syntax to use 
+Because of this, `data.table` requires a slightly different syntax to use 
 a variable as a column index which can contain integer positions, logical 
-index, or column names:
+index, or column names. While on a data.frame you can do pass an index vector directly:
 
 ```{r}
 colid <- c(1, 2)
-colbn <- c(F, T, T)
+colbn <- c(FALSE, TRUE, TRUE)
 colnm <- c("A", "C")
 df[, colid]
 df[, colbn]
 df[, colnm]
 ```
 
-To use a variable holding a column index in a `data.table`, prefix it with two 
-periods:
+To do the same in a `data.table`, you must prefix the index vector with two dots:
 
 ```{r}
 dt[, ..colid]
@@ -316,23 +275,11 @@ dt[, ..colnm]
 ```
 
 Think of working inside the `data.table` frame (i.e. within the "[...]") like 
-an environment: you have direct access to the variables within it. If you want 
-to refer to variables outside the `data.table`, you must prefix the variable name 
+an environment: you have direct access to the variables, i.e. columns within it. If you 
+want to refer to variables outside the `data.table`, you must prefix their names
 with `..` (similar to how you access the directory above your current working 
 directory in the system shell).
-
-Alternatively, you can use the `.SD` special symbol together with the `.SDcols` 
-argument:
-
-```{r}
-dt[, .SD, .SDcols = colid]
-```
-
-Think of `.SD` as a sub-data.table with columns defined by `.SDcols` (if 
-`SDcols` is not defined, `.SD` refers to the entire data.table).
-
-The two dots tell `data.table` to look for the variable not within the 
-data.table columns, but in the enclosing environment.
+<br><br>
 
 Selecting a single column by name returns a **vector**:
 
@@ -347,6 +294,20 @@ this case, is short for `list()`), always returns a **`data.table`**:
 dt[, .(A)]
 dt[, .(A, B)]
 ```
+
+### `.SD` & `.SDcols`
+
+`.SDcols` is a special symbol that can be used to select columns of a data.table 
+as an alternative to `j`. It can accept a vector of integer positions or column names.
+`.SD` is another special symbol that can be used in `j` and refers to either the entire 
+data.table, or the subset defined by `.SDcols`, if present. The following can be used to
+select columns:
+
+```{r}
+dt[, .SD, .SDcols = colid]
+```
+
+One of the main uses of .SD is shown below in combination with `lapply()`.
 
 ## Add new column ***in-place***
 
@@ -422,13 +383,13 @@ dt
 
 ### Fast loop-able assignment with `set()`
 
-`data.table`'s `set()` is a looop-able version of the `"=` operator. Use it in 
+`data.table`'s `set()` is a looop-able version of the `:=` operator. Use it in 
 a for loop to operate on multiple columns.
 
 Syntax: `set(dt, i, j, value)`
 
 * `dt` the data.table to operate on
-* `i` optionally define which rows to operate on. `i = NULL` to operate on all
+* `i` optionally define which rows to operate on. `i = NULL` to operate on all rows
 * `j` column names or index to be assigned `value`
 * `value` values to be assigned to `j` by reference
 
@@ -566,4 +527,16 @@ through d:
 ```{r}
 dt[, bcd.sum := sum(.SD[, b:d]), by = 1:nrow(dt)]
 dt
+```
+
+## Save a `data.table` to file
+
+Same as any R object, you can save a `data.table` to disk using `saveRDS()`.
+Suppose you have read data in with `fread()` or coerced a dataset using 
+`as.data.table()`, done some cleaning up, type conversions, data 
+transformations, etc, this is the preferred way to save your work, so you can 
+reload at any time.
+
+```{r eval = FALSE}
+saveRDS(dt, "/path/to/data.rds")
 ```

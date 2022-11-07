@@ -5,7 +5,12 @@ knitr:
 ---
 # Efficient data analysis with **data.table** {#sec-datatable}
 
-```{r FigRdatatable, echo = FALSE, , out.width = "50%", fig.align = 'center', fig.cap = "data.table builds on and significantly enhances the base R data.frame"}
+```{r}
+#| label: fig-datatable
+#| echo: false
+#| out-width: 50%
+#| fig-align: center
+#| fig-cap: data.table builds on and significantly enhances the base R data.frame
 knitr::include_graphics("./R_data.table.png")
 ```
 
@@ -428,6 +433,33 @@ dt_range <- dt[, lapply(.SD, range), .SDcols = numid]
 dt_range
 ```
 
+## Set order
+
+You can set the row order of a data.table in-place based on one or multiple columns'
+values using `setorder()`
+
+```{r}
+dt <- data.table(PatientID = sample(1001:9999, 10),
+                 Height = rnorm(10, 175, 14),
+                 Weight = rnorm(10, 78, 10),
+                 Group = factor(sample(c("A", "B"), 10, TRUE)))
+dt
+```
+
+Let's set the order by PatientID:
+
+```{r}
+setorder(dt, PatientID)
+dt
+```
+
+Let's re-order, always in-place, by group and then by height:
+
+```{r}
+setorder(dt, Group, Height)
+dt
+```
+
 ## Group-by operations
 
 Up to now, we have learned how to use the `data.table` frame `dat[i, j]` to 
@@ -540,3 +572,8 @@ reload at any time.
 ```{r eval = FALSE}
 saveRDS(dt, "/path/to/data.rds")
 ```
+
+## Resources
+
+- [Introduction to data.table](https://cran.r-project.org/web/packages/data.table/vignettes/datatable-intro.html)
+- [Using .SD for Data Analysis](https://cran.r-project.org/web/packages/data.table/vignettes/datatable-sd-usage.html)

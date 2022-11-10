@@ -1,3 +1,9 @@
+---
+knitr:
+  opts_chunk:
+    comment: ""
+    error: true
+---
 # Date and Time {#datetime}
 
 ```{r echo = FALSE}
@@ -5,15 +11,39 @@ knitr::opts_chunk$set(fig.width = 5, fig.height = 5,
                       comment = NA, cache = TRUE)
 ```
 
-R includes builtin support for working with date +/- time data. A number of external packages further extend this support.
+R includes support for working with date and time data. There are three builtin classes:  
 
-There are three builtin classes:  
+- **`Date`**: Represents **date** information (not time)
+- **`POSIXct`**: Represents **date & time** information as the signed number of seconds 
+since January 1, 1970 ([Unix Time a.k.a. POSIX time a.k.a. Epoch time](https://en.wikipedia.org/wiki/Unix_time))
+- **`POSIXlt`**: Represents **date & time** information as a named list 
+(See `base::DateTimeClasses`)
 
-* `Date`: Represents **date** information (not time)
-* `POSIXct`: Represents **date and time** information as the signed number of seconds since January 1, 1970 ([Unix Time a.k.a. POSIX time a.k.a. Epoch time](https://en.wikipedia.org/wiki/Unix_time))
-* `POSIXlt`: Represents **date and time** information as a named list (See `base::DateTimeClasses`)
+Background info: 
+[Portable Operating System Interface (POSIX)](https://en.wikipedia.org/wiki/POSIX) is a 
+set of standards for maintaining compatibility among operating systems.
 
-Background info: [Portable Operating System Interface (POSIX)](https://en.wikipedia.org/wiki/POSIX) is a set of standards for maintaining compatibility among operating systems.
+## Date formats
+
+This list serves as reference for formatting functions later in the chapter.
+
+- **`%Y`**: Year with century, (0-9999 accepted) e.g. `2020`
+- **`%y`**: 2-digit year, e.g. `22`
+- **`%m`**: Month, 01-12, e.g. `03`
+- **`%d`**: Day, 01-31, e.g. `04`
+- **`%H`**: Hours, 00-23, e.g. `13`
+- **`%M`**: Minutes, 00-59, e.g. `38`
+- **`%S`**: Seconds, 00-61 (!) allowing for up to two leap seconds, e.g. `54`
+
+There are many more specifications available, see the Details section in the 
+documentation for `strptime()`.
+
+Note that some conversions are 
+[locale](https://en.wikipedia.org/wiki/Locale_(computer_software))-specific, i.e. will
+not work the same across systems.
+
+Regarding the ambiguous `%y`, the documentation states:
+"`%y`   Year without century (00–99). On input, values 00 to 68 are prefixed by 20 and 69 to 99 by 19 – that is the behaviour specified by the 2018 POSIX standard, but it does also say ‘it is expected that in a future version the default century inferred from a 2-digit year will change’."
 
 ## Date objects
 
@@ -27,9 +57,25 @@ x
 class(x)
 ```
 
-The `tryFormats` argument defines which formats are recognized.
+The `tryFormats` argument defines which format or formatss are recognized.
 
-The default is `tryFormats = c("%Y-%m-%d", "%Y/%m/%d")`, i.e. a date of the form "2020-11-16" or "2020/11/16"
+The default is `tryFormats = c("%Y-%m-%d", "%Y/%m/%d")`, i.e. will recognize dates of the 
+form "2020-11-16" or "2020/11/16".
+<br>
+
+Let's see what happens if a date format is *not* recognized.
+Consider the 16th of November, 2021 in the following format:
+
+```{r}
+x <- ("11.16.21")
+as.Date(x)
+```
+
+Passing the appropriate format, will allow the date to be read correctly:
+
+```{r}
+as.Date(x, tryFormats = "%m.%d.%y")
+```
 
 ###  Get current date & time
 
@@ -40,6 +86,7 @@ today <- Sys.Date()
 today
 class(today)
 ```
+
 Get current date and time:
 
 ```{r}
@@ -47,6 +94,7 @@ now <- Sys.time()
 now
 class(now)
 ```
+
 Get local timezone:
 
 ```{r}
@@ -77,23 +125,46 @@ difftime(timepoint2, timepoint1, units = "hours")
 difftime(timepoint2, timepoint1, units = "mins")
 difftime(timepoint2, timepoint1, units = "secs")
 ```
-```{block, type="warning"}
-Why is there no option for "months" or "years" in units?
 
-Think about it.
+:::{.callout-tip}
+Why is there no option for "months" or "years" in units?
 
 Because, unlike seconds, minutes, hours, days, and weeks,
 months and years do not have fixed length,
 i.e. literally a month or a year are not "units" of time.
 
-You can always get a difference in days and divide by 365 (or [365.242](https://www.nist.gov/pml/time-and-frequency-division/popular-links/time-frequency-z/time-and-frequency-z-l).
-```
+You can always get a difference in days and divide by 365 [365.242](https://www.nist.gov/pml/time-and-frequency-division/popular-links/time-frequency-z/time-and-frequency-z-l.
+:::
 
 ```{r}
 DOB <- as.Date("1969-08-04")
-Age <- Sys.Date() - DOB
+Age <- difftime(Sys.Date(), DOB, units = "days")
 Age
-cat("Age today is", round(Age/365), "years")
+```
+`difftime()` outputs objects of class `difftime`:
+
+```{r}
+class(Age)
+```
+
+:::{.callout-caution}
+If you convert the output of `difftime()` using an appropriate mathematical operation,
+e.g. division, the units, which are no longer correct, will remain. You should use 
+`as.numeric()` to convert the difftime object to a regular numeric vector without units.
+:::
+
+Note that the units remain after a mathematical operation:
+
+```{r}
+Age <- Age/365.242
+Age
+```
+
+Eliminate them by converting to numeric:
+
+```{r}
+Age <- as.numeric(difftime(Sys.Date(), DOB, units = "days")/365.242)
+Age
 ```
 
 ### mean/median Date
@@ -101,14 +172,25 @@ cat("Age today is", round(Age/365), "years")
 ```{r}
 x <- as.Date(c(5480, 5723, 5987, 6992), origin = "1970-01-01")
 x
-mean(x)
-median(x)
 ```
 
-To check the median, we can do a mathematical operation using mmultiplication subtraction and addition, and the result is still a Date(!):
+```{r}
+mean_date <- mean(x)
+mean_date
+class(mean_date)
+```
 
 ```{r}
-x[2] + .5 * (x[3] - x[2])
+median_date <- median(x)
+median_date
+class(median_date)
+```
+
+To verify the median, we can do a mathematical operation using multiplication, subtraction,
+and addition, and the result is still a Date(!):
+
+```{r}
+median_date_too <- x[2] + .5 * (x[3] - x[2])
 ```
 
 ### Sequence of dates
@@ -122,7 +204,8 @@ end_date <- as.Date("2020-12-07")
 seq(from = start_date, to = end_date, by = 7)
 ```
 
-Unlike mathematical operations like `difftime()` which require strict units of time, `seq()` can work with months and years.
+Unlike mathematical operations like `difftime()` which require strict units of time, 
+`seq()` can work with months and years.
 
 `by` can be one of:
 
@@ -140,6 +223,7 @@ As with numeric sequences, you can also define the `length.out` argument:
 start_date <- as.Date("2020-01-20")
 seq(from = start_date, by = "year", length.out = 4)
 ```
+
 An integer can be provided as part of character input to `by`:
 
 ```{r}
@@ -152,21 +236,15 @@ seq(start_date, end_date, by = "2 months")
 
 ### Character to Date-Time: `as.POSIXct()`, `as.POSIXlt()`, `strptime()`: 
 
-(As always, it can be very informative to look at the source code. Many of these functions call eachother internally)
+As always, it can be very informative to look at the source code. Many of these 
+functions call eachother internally.
 
-Read `strptime()`'s documentation for conversion specifications. These define the order and format of characters to be read as year, month, day, hour, minute, and second information.
+Read `strptime()`'s documentation for conversion specifications. These define the order
+ and format of characters to be read as year, month, day, hour, minute, and second 
+ information.
 
 For example, the ISO 8601 international standard is defined as:  
 `"%Y-%m-%d %H:%M:%S"`  
-
-- **`%Y`**: Year with century, (0-9999 accepted) e.g. `2020`
-- **`%m`**: Month, 01-12, e.g. `03`
-- **`%d`**: Day, 01-31, e.g. `04`
-- **`%H`**: Hours, 00-23, e.g. `13`
-- **`%M`**: Minutes, 00-59, e.g. `38`
-- **`%S`**: Seconds, 00-61 (!) allowing for up to two leap seconds, e.g. `54`
-
-
 
 ```{r}
 dt <- "2020-03-04 13:38:54"
@@ -174,7 +252,7 @@ dt
 class(dt)
 ```
 
-Use `attributres()` to see the difference between the `POSIXct` and `POSIXlt` classes:
+Use `attributes()` to see the difference between the `POSIXct` and `POSIXlt` classes:
 
 ```{r}
 dt_posixct <- as.POSIXct(dt)

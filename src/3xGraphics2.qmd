@@ -159,7 +159,7 @@ Define a color palette `palette` and a version of the same palette at 50% transp
 ```{r}
 palette = c("#43A4AC", "#FA9860", "#C23A70", "#3574A7", "#85D3DA", "#FECD53", 
 "#C45796", "#4691E9")
-palette_a = adjustcolor(palette, .5)
+palette_a = adjustcolor(palette, .66)
 ```
 
 ## Box plot
@@ -450,8 +450,8 @@ plt |> layout(yaxis = list(title = "N schools"))
 ### base
 
 ```{r}
-plot(dt[, Age], dt[, SysBP], pch = 16,
-    col = palette_a[1], cex = 1.4, bty = "n",
+plot(dt[, Age], dt[, SysBP],
+    pch = 16, col = palette_a[1], cex = 1.4, bty = "n",
     xlab = "Age", ylab = "Systolic Blood Pressure")
 ```
 
@@ -479,6 +479,50 @@ same as:
 ```{r}
 p <- plot_ly(dt, x = ~Age, y = ~SysBP) |> 
     add_trace(type = "scatter", mode = "markers",
+        marker = list(color = palette_a[1])
+    )
+p
+```
+
+## Grouped Scatterplot
+
+### base
+
+```{r}
+plot(dt[Sex == "Female", Age], dt[Sex == "Female", SysBP],
+    pch = 16, col = palette_a[2], cex = 1.4, bty = "n",
+    xlab = "Age", ylab = "Systolic Blood Pressure")
+points(dt[Sex == "Male", Age], dt[Sex == "Male", SysBP],
+    pch = 16, col = palette_a[1], cex = 1.4)
+legend("topright", legend = c("Female", "Male"),
+    fill = palette[2:1],
+    border = palette[2:1],
+    # pch = 16,
+    # col = palette[2:1],
+    # bty = "n",
+    xpd = TRUE)
+```
+
+### **`ggplot2`**
+
+```{r}
+p <- ggplot(dt, aes(Age, SysBP, col = Sex)) +
+    geom_point() +
+    scale_color_manual(values = palette[1:2]) +
+    scale_fill_manual(values = palette_a[2:1])
+p
+```
+
+### **`plotly`**
+
+```{r}
+p <- plot_ly() |> 
+    add_trace(x = dt[Sex == "Female", Age], y = dt[Sex == "Female", SysBP],
+        type = "scatter", mode = "markers",
+        marker = list(color = palette_a[2])
+    ) |> 
+    add_trace(x = dt[Sex == "Male", Age], y = dt[Sex == "Male", SysBP],
+        type = "scatter", mode = "markers",
         marker = list(color = palette_a[1])
     )
 p

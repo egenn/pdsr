@@ -6,32 +6,37 @@ knitr:
     global.par: true
   opts_chunk: 
     comment: ''
-    fig.width: 5
-    fig.height: 5
+    fig.width: 5.5
+    fig.height: 5.5
+    out.width: 80%
 ---
 # 3x Graphics {#sec-graphics3x}
 
 Visualization is central to statistics, machine learning, data science. It is used to 
 check and explore data, present modeling results, and communicate findings.
+<br><br>
+R has powerful graphical capabilities built in to the core language. 
+It contains two largely separate graphics systems: 
 
-R has powerful graphical capabilities built in to the core language. It 
-contains two largely separate graphics systems: 'base' graphics in the 
-`graphics` package, inherited from the S language, and 'grid' graphics in the 
-`grid` package: a "rewrite of the graphics layout capabilities". There is 
-limited support for interaction between the two. In practice, for a given 
-application, choose one or the other. There are no high level functions for the 
-grid graphics system built into the base R distribution, but a few very popular 
-packages have been built on top of it. Both graphics systems can produce 
-beautiful, layered, high quality graphics. It is possible to build functions 
-using either system to produce most, if not all, types of plots.  
+- 'base' graphics in the `graphics` package, inherited from the S language
+- 'grid' graphics in the `grid` package: a "rewrite of the graphics layout capabilities". 
 
-### Base graphics
+There is limited support for interaction between the two. In practice, choose one or the 
+other for a given task. There are no built-in high-level functions for the 
+grid graphics system, but a few popular packages have been built to provide such 
+functionality. 
+<br><br>
+Both graphics systems can produce beautiful, layered, high quality graphics. 
+It is possible to build functions using either system to produce most, if not all, types 
+of plots.  
+
+## Base graphics
 
 Common R plotting functions like `plot`, `barplot`, `boxplot`, `heatmap`, etc. 
 are built ontop of base graphics [@murrell2018r]. Their default arguments 
 provide a minimalist output, but can be tweaked extensively. An advantage of 
 base graphics is they are very fast and relatively easy to extend.  
-
+<br><br>
 The `par` function allows setting or querying graphical parameters of the base 
 graphics system. Have a look at its documentation (`?par`).  
 Some graphical parameters can only be set with a call to `par` prior to using a 
@@ -64,7 +69,7 @@ defaults to 1), sets the baseline and all other `cex` parameters multiply it.
 However, `cex` set within `plot()` stil multiplies `cex` set with `par()`, but 
 only affectts the plotting character size.
 
-### Grid graphics
+## Grid graphics
 
 The two most popular packages built on top of the **`grid`** package are:  
 
@@ -84,7 +89,7 @@ in the `qplot()` function of **`ggplot2`** (but you should avoid it and use
 learn to use the `ggplot()` command which is fun and much more flexible and 
 useful to know).
 
-### 3rd party APIs
+## 3rd party APIs
 
 There are also third party libraries with R APIs that provide even more modern 
 graphic capabilities to the R user:  
@@ -109,7 +114,9 @@ This is meant to get you started but is only scratching the surface. There is
 extensive functionality included in each plotting library and you should 
 consult the respective documentation for details.
 
-## Libraries
+## Setup
+
+### Libraries
 
 Load libraries we will be using in this chapter:
 
@@ -129,7 +136,7 @@ options(rt.theme = "whiteigrid")
 options(rt.fit.theme = "whiteigrid")
 ```
 
-## Synthetic Data
+### Synthetic Data
 
 ```{r}
 library(data.table)
@@ -147,13 +154,12 @@ dt[Sex == "Male", Weight := Weight + rnorm(.N, 16, 1.5)]
 dt[Sex == "Male", Age := Age + rnorm(.N, 6, 1.8)]
 ```
 
-Define a color palette `palette` and a version of the same palette at 50% transparency,
+Define a color palette `palette` and a version of the same palette at 2/3 transparency,
 `palette_a`:
 
 ```{r}
-palette = c("#43A4AC", "#FA9860", "#C23A70", "#3574A7", "#85D3DA", "#FECD53", 
-"#C45796", "#4691E9")
-palette_a = adjustcolor(palette, .66)
+palette <- c("#43A4AC", "#FA9860")
+palette_a <- adjustcolor(palette, .666)
 ```
 
 ## Box plot
@@ -161,9 +167,11 @@ palette_a = adjustcolor(palette, .66)
 ### base
 
 ```{r}
-boxplot(dt[, .(SysBP, DiaBP)],
+boxplot(
+    dt[, .(SysBP, DiaBP)],
     col = palette_a[1:2],
-    border = palette[1:2])
+    border = palette[1:2]
+)
 ```
 
 ### **`ggplot2`**
@@ -171,10 +179,8 @@ boxplot(dt[, .(SysBP, DiaBP)],
 `ggplot` requires a categorical x-axis to draw boxplots. This means 
 we need to convert our dataset from wide to long.
 
-Here we use [**`tidyr`**'s](https://tidyr.tidyverse.org/) `pivot_longer()` 
-function, since it is part of the same cult known as the 
-[tidyverse](https://www.tidyverse.org/). You can instead use the built-in 
-[`reshape()`](dfReshape.qmd) function or **`data.table`**'s [`melt()`](dtReshape.qmd).
+Here we use **`data.table`**'s [`melt()`](dtReshape.qmd), but could use base R 
+[`reshape()`](dfReshape.qmd) function or [**`tidyr`**'s](https://tidyr.tidyverse.org/) `pivot_longer()`.
 
 ```{r}
 dt_long <- melt(
@@ -214,9 +220,11 @@ plt |> layout(showlegend = FALSE)
 ### base
 
 ```{r}
-boxplot(Age ~ Sex, dt,
+boxplot(
+    Age ~ Sex, dt,
     col = palette_a[1:2],
-    border = palette[1:2])
+    border = palette[1:2]
+)
 ```
 
 ### **`ggplot2`**
@@ -254,11 +262,13 @@ p
 ### **`plotly`**
 
 ```{r}
-p <- plot_ly(x = dt[, Age], type = "histogram",
+p <- plot_ly(
+    x = dt[, Age], type = "histogram",
+    nbinsx = 26,
     marker = list(color = palette_a[1], 
         line = list(color = palette[1], width = 2)
     )
-)
+) |> layout(xaxis = list(title = "Age"))
 p
 ```
 
@@ -276,10 +286,11 @@ hist(dt[Sex == "Female", Age], breaks = 20,
 ### **`ggplot2`**
 
 ```{r}
-ggplot(dt, aes(x = Age, fill = Sex)) + 
+p <- ggplot(dt, aes(x = Age, fill = Sex)) + 
     geom_histogram(bins = 20, position = "identity") +
     # scale_color_manual(values = palette[1:2]) +
     scale_fill_manual(values = palette_a[2:1])
+p
 ```
 
 `position = "identity"` displays overlapping bars. Alternatively, `position = "dodge"` can be used to display groups' bars side by side instead. If position is not specified, bars will be stacked vertically, which can be very confusing.
@@ -287,9 +298,37 @@ ggplot(dt, aes(x = Age, fill = Sex)) +
 ### **`plotly`**
 
 ```{r}
-plt <- plot_ly(x = dt[, Age], type = "histogram", color = dt[, Sex],
-    colors = palette[2:1])
-plt
+p <- plot_ly(x = dt[, Age], type = "histogram", color = dt[, Sex],
+    colors = palette_a[2:1])
+p
+```
+
+More control is possible when adding traces one at a time:
+
+```{r}
+p <- plot_ly() |> 
+    add_histogram(
+        x = dt[Sex == "Female", Age],
+        nbinsx = 20, name = "Female",
+        marker = list(color = palette_a[2], 
+        line = list(color = palette[2], width = 1))
+    ) |> 
+    add_histogram(
+        x = dt[Sex == "Male", Age],
+        nbinsx = 20, name = "Male",
+        marker = list(color = palette_a[1], 
+        line = list(color = palette[1], width = 1))
+    ) |> 
+    layout(xaxis = list(title = "Age"))
+p
+```
+
+Can control placement of different traces' bars using `barmode` arguments, which defaults to "group".
+
+To switch to "overlay":
+
+```{r}
+p |> layout(barmode = "overlay")
 ```
 
 ## Density plot
@@ -319,8 +358,9 @@ polygon(c(age_density$x, rev(age_density$x)),
 ### **`ggplot2`**
 
 ```{r}
-ggplot(dt, aes(x = Age)) + 
+p <- ggplot(dt, aes(x = Age)) + 
     geom_density(color = palette[1], fill = palette_a[1])
+p
 ```
 
 ### **`plotly`**
@@ -428,7 +468,7 @@ ggplot(schools_df, aes(University, N_schools)) +
 ### **`plotly`**
 
 ```{r}
-plt <- plot_ly(
+p <- plot_ly(
     x = schools_df$University,
     y = schools_df$N_schools,
     name = "Schools",
@@ -436,7 +476,7 @@ plt <- plot_ly(
     marker = list(color = palette_a[1], 
         line = list(color = palette[1], width = 2)
     ))
-plt |> layout(yaxis = list(title = "N schools"))
+p |> layout(yaxis = list(title = "N schools"))
 ```
 
 ## Scatterplot
@@ -512,12 +552,19 @@ p
 ```{r}
 p <- plot_ly() |> 
     add_trace(x = dt[Sex == "Female", Age], y = dt[Sex == "Female", SysBP],
+        name = "Female",
         type = "scatter", mode = "markers",
         marker = list(color = palette_a[2])
     ) |> 
     add_trace(x = dt[Sex == "Male", Age], y = dt[Sex == "Male", SysBP],
+        name = "Male",
         type = "scatter", mode = "markers",
         marker = list(color = palette_a[1])
     )
 p
 ```
+
+## References
+
+- [ggplot2 Documentation](https://ggplot2.tidyverse.org/reference/index.html)
+- [R plotly Documentation](https://plotly.com/r/)

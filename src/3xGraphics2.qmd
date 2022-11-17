@@ -246,14 +246,17 @@ p |> layout(showlegend = FALSE)
 ### base
 
 ```{r}
-hist(dt[, Age], col = palette_a[1], border = palette[1], xlab = "Age")
+hist(dt[, Age], 
+    col = palette_a[1], border = palette[1], 
+    xlab = "Age (years)", main = "")
 ```
 
 ### **`ggplot2`**
 
 ```{r}
 p <- ggplot(dt, aes(Age)) + 
-    geom_histogram(color = palette[1], fill = palette_a[1])
+    geom_histogram(color = palette[1], fill = palette_a[1]) +
+    xlab("Age (years)")
 p
 ```
 
@@ -265,7 +268,7 @@ p <- plot_ly(x = dt[, Age], type = "histogram",
         line = list(color = palette[1], width = 2)
     )
 )
-p
+p |> layout(xaxis = list(title = "Age (years)"))
 ```
 
 ## Grouped Histogram

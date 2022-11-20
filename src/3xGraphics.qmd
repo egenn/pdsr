@@ -118,12 +118,8 @@ library(plotly)
 
 ```{r}
 #| echo: false
-par(family = "Inter")
-theme_set(theme(text = element_text(family = "Inter")))
-
-# rtemis defaults
-options(rt.theme = "whiteigrid")
-options(rt.fit.theme = "whiteigrid")
+par(family = "Helvetica")
+theme_set(theme(text = element_text(family = "Helvetica")))
 ```
 
 ### Synthetic Data
@@ -221,7 +217,7 @@ boxplot(
 
 ```{r}
 p <- ggplot(dt, aes(x = Sex, y = Age)) + 
-    geom_boxplot(colour = palette[1:2], fill = palette_a[1:2])
+    geom_boxplot(colour = palette[2:1], fill = palette_a[2:1])
 p
 ```
 
@@ -229,7 +225,7 @@ p
 
 ```{r}
 p <- plot_ly(y = dt[, Age], type = "box", color = dt[, Sex],
-    colors = palette[1:2])
+    colors = palette[2:1])
 p |> layout(showlegend = FALSE)
 ```
 
@@ -238,7 +234,8 @@ p |> layout(showlegend = FALSE)
 ### base
 
 ```{r}
-hist(dt[, Age], 
+hist(dt[, Age],
+    breaks = 24,
     col = palette_a[1], border = palette[1], 
     xlab = "Age (years)")
 ```
@@ -247,7 +244,7 @@ hist(dt[, Age],
 
 ```{r}
 p <- ggplot(dt, aes(Age)) + 
-    geom_histogram(color = palette[1], fill = palette_a[1]) +
+    geom_histogram(bins = 24, color = palette[1], fill = palette_a[1]) +
     xlab("Age (years)")
 p
 ```
@@ -257,7 +254,7 @@ p
 ```{r}
 p <- plot_ly(
     x = dt[, Age], type = "histogram",
-    nbinsx = 26,
+    nbinsx = 24,
     marker = list(color = palette_a[1], 
         line = list(color = palette[1], width = 2)
     )
@@ -270,9 +267,9 @@ p
 ### base
 
 ```{r}
-hist(dt[Sex == "Male", Age], breaks = 20,
+hist(dt[Sex == "Male", Age], breaks = 24,
     col = palette_a[1], border = palette[1], xlab = "Age")
-hist(dt[Sex == "Female", Age], breaks = 20,
+hist(dt[Sex == "Female", Age], breaks = 24,
     col = palette_a[2], border = palette[2], add = TRUE)
 ```
 
@@ -280,7 +277,7 @@ hist(dt[Sex == "Female", Age], breaks = 20,
 
 ```{r}
 p <- ggplot(dt, aes(x = Age, fill = Sex)) + 
-    geom_histogram(bins = 20, position = "identity") +
+    geom_histogram(bins = 24, position = "identity") +
     # scale_color_manual(values = palette[1:2]) +
     scale_fill_manual(values = palette_a[2:1])
 p
@@ -292,7 +289,7 @@ p
 
 ```{r}
 p <- plot_ly(x = dt[, Age], type = "histogram", color = dt[, Sex],
-    colors = palette_a[2:1])
+    colors = palette_a[2:1], nbinsx = 24)
 p
 ```
 
@@ -302,13 +299,13 @@ More control is possible when adding traces one at a time:
 p <- plot_ly() |> 
     add_histogram(
         x = dt[Sex == "Female", Age],
-        nbinsx = 20, name = "Female",
+        nbinsx = 24, name = "Female",
         marker = list(color = palette_a[2], 
         line = list(color = palette[2], width = 1))
     ) |> 
     add_histogram(
         x = dt[Sex == "Male", Age],
-        nbinsx = 20, name = "Male",
+        nbinsx = 24, name = "Male",
         marker = list(color = palette_a[1], 
         line = list(color = palette[1], width = 1))
     ) |> 
@@ -556,6 +553,44 @@ p <- plot_ly() |>
         marker = list(color = palette_a[1])
     )
 p
+```
+
+## Save plot to file
+
+We'll use the grouped boxplot example from above to show how to save each type of plot
+to file, using a PDF output as an example.
+
+### base
+
+```{r}
+#| eval: false
+pdf("Age_by_Sex.pdf", width = 5.5, height = 5.5)
+boxplot(
+    Age ~ Sex, dt,
+    col = palette_a[1:2],
+    border = palette[1:2]
+)
+dev.off()
+```
+
+### **`ggplot2`**
+
+```{r}
+#| eval: false
+p <- ggplot(dt, aes(x = Sex, y = Age)) + 
+    geom_boxplot(colour = palette[2:1], fill = palette_a[2:1])
+ggsave("Age_by_Sex_ggplot.pdf", p,
+    width = 5.5, height = 5.5, scale = 1, units = "in")
+```
+
+### **`plotly`**
+
+```{r}
+#| eval: false
+p <- plot_ly(y = dt[, Age], type = "box", color = dt[, Sex],
+    colors = palette[2:1])
+p |> layout(showlegend = FALSE)
+save_image(p, "Age_by_Sex_plotly.pdf", width = 5.5, height = 5.5, scale = 1)
 ```
 
 ## References

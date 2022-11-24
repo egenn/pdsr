@@ -3,6 +3,7 @@
 ```{r}
 library(duckdb)
 library(dbplyr)
+library(dplyr)
 ```
 
 ## Setup Connection
@@ -22,10 +23,19 @@ dbExecute(con, "PRAGMA enable_progress_bar;")
 
 ```{r}
 dbExecute(con,
-    "CREATE TABLE ir AS SELECT * FROM '~/icloud/Data/iris.csv';"
+    "CREATE TABLE ir AS SELECT * FROM '~/icloud/Data/iris2.csv';"
 )
 ```
 
 ```{r}
-dbplyr()
+tbl(con, "ir") |> 
+    group_by(Species) |> 
+    summarize(n()) |> 
+    show_query()
+```
+
+```{r}
+tbl(con, "ir") |> 
+    group_by(Species) |> 
+    summarize(n())
 ```

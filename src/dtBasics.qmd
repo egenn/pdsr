@@ -65,11 +65,11 @@ class(dt)
 Notice how a `data.table` object also inherits from `data.frame`. This means 
 that if a method does not exist for `data.table`, the method for `data.frame` 
 will be used - review [classes and generic functions](#classes).
-
+<br><br>
 As part of improving efficieny, data.tables do away with row names. Instead of 
 using rownames, you can and should add an extra column (e.g. "ID") with the 
 same information - this is advisable when working with data.frames as well.
-
+<br><br>
 A rather convenient option is to have data.tables print each column's class 
 below the column name. You can pass the argument `class = TRUE` to `print()` or 
 set the global option `datatable.print.class` using `options()`
@@ -79,8 +79,8 @@ options(datatable.print.class = TRUE)
 dt
 ```
 
-Same as with a data.frame, to automatically convert string to factors, you can 
-use the `stringsAsFactors` argument (or `factor()` directly):
+Same as with a data.frame, to automatically convert strings to factors, you can 
+use the `stringsAsFactors` argument:
 
 ```{r}
 dt <- data.table(A = 1:5,
@@ -148,6 +148,46 @@ dt1 <- data.table(a = 1:5)
 dt2 <- data.table(b = 11:15)
 cbind(dt1, dt2)
 rbind(dt1, dt1)
+```
+
+## Set column names ***in-place***
+
+```{r}
+dta <- data.table(
+  ID = sample(8000:9000, 10), 
+  A = rnorm(10, 47, 8),
+  W = rnorm(10, 87, 7)
+)
+dta
+```
+Use the syntax:
+
+`setnames(dt, old, new)`
+
+to change the column names of a data.table in-place.
+
+Changes all column names:
+
+```{r}
+setnames(dta, names(dta), c("Patient_ID", "Age", "Weight"))
+dta
+```
+
+Change subset of names:
+
+```{r}
+old_names <- c("Age", "Weight")
+setnames(dta, old_names, paste0(old_names, "_at_Admission"))
+dta
+```
+
+`old` argument can also be integer index of column(s).
+
+For example, change the name of the first column:
+
+```{r}
+setnames(dta, 1, "Hospital_ID")
+dta
 ```
 
 ## Filter rows

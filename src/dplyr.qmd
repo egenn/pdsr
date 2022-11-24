@@ -13,9 +13,9 @@ knitr:
 
 The [**dplyr**](https://dplyr.tidyverse.org/) package offers functionality for 
 data manipulation.
-
-dplyr's functions are named after verbs and depend heavily on the usage of the 
-pipe operator to build pipelines. The package offers a large number of 
+<br><br>
+dplyr's functions are named after verbs (like `filter`, `select`, etc.) and are commonly
+used with the pipe operator to build pipelines. The package offers a large number of 
 functions in total, often with multiple versions of the same "verb". It has 
 undergone many major changes since its introduction, so always make sure to 
 consult the latest documentation.
@@ -37,33 +37,47 @@ Note that **dplyr** masks a number of builtin functions when loaded.
 
 ```{r}
 library(dplyr)
-iris |> as_tibble() -> iris
+iris <- iris |> 
+    as_tibble()
 ```
 
 ## Filter
 
 ```{r}
-iris |> filter(Species == "setosa")
+iris |> 
+    filter(Species == "setosa")
 ```
 
 ## Select
 
 ```{r}
-iris |> select("Sepal.Length")
+iris |> 
+    select("Sepal.Length")
+```
+
+## Group-by
+
+Get N by group:
+
+```{r}
+iris |> 
+    group_by(Species) |> 
+    summarize(n())
 ```
 
 ## Mutate
 
 ```{r}
-iris |> mutate(Sepal_minus_Petal_length = Sepal.Length - Petal.Length)
+iris |> 
+    mutate(Sepal_minus_Petal_length = Sepal.Length - Petal.Length)
 ```
 
 ### Grouped
 
 ```{r}
 iris |> 
-  group_by(Species) |> 
-  mutate(Sepal.Length_minus_mean = Sepal.Length - mean(Sepal.Length))
+    group_by(Species) |> 
+    mutate(Sepal.Length_minus_mean = Sepal.Length - mean(Sepal.Length))
 ```
 
 ## Summarize
@@ -71,43 +85,46 @@ iris |>
 ### Single variable
 
 ```{r}
-iris |> summarize(mean(Sepal.Length))
+iris |> 
+    summarize(mean(Sepal.Length))
 ```
 
 ### Multiple variables
 
 ```{r}
-iris |> summarize(across(c(Sepal.Length, Petal.Length), mean))
+iris |> 
+    summarize(across(c(Sepal.Length, Petal.Length), mean))
 ```
 
 ### Grouped single var
 
 ```{r}
 iris |> 
-  group_by(Species) |> 
-  summarize(mean(Sepal.Length))
+    group_by(Species) |> 
+    summarize(mean(Sepal.Length))
 ```
 
 ### Grouped multivar
 
 ```{r}
 iris |> 
-  group_by(Species) |> 
-  summarize(across(c(Sepal.Length, Petal.Length), mean))
+    group_by(Species) |> 
+    summarize(across(c(Sepal.Length, Petal.Length), mean))
 ```
 
 ## Arrange
 
 ```{r}
-iris |> arrange(Sepal.Length)
+iris |> 
+    arrange(Sepal.Length)
 ```
 
 ### Grouped
 
 ```{r}
 iris |> 
-  group_by(Species) |> 
-  arrange(Sepal.Length)
+    group_by(Species) |> 
+    arrange(Sepal.Length)
 ```
 
 ## Specifying multiple variables
@@ -125,35 +142,41 @@ We'll use `summarize()` to demonstrate.
 ### By integer column index
 
 ```{r}
-iris |> summarize(across(1:4, mean))
+iris |> 
+    summarize(across(1:4, mean))
 ```
 
 ### By character name range
 
 ```{r}
-iris |> summarize(across(Sepal.Length:Petal.Width, mean))
+iris |> 
+    summarize(across(Sepal.Length:Petal.Width, mean))
 ```
 
 ### Pattern-matching
 
 ```{r}
-iris |> summarize(across(starts_with("Sepal"), mean))
+iris |> 
+    summarize(across(starts_with("Sepal"), mean))
 ```
 
 ```{r}
-iris |> summarize(across(ends_with("Length"), mean))
+iris |> 
+    summarize(across(ends_with("Length"), mean))
 ```
 
 ### Using predicate function wrapped in `where()`
 
 ```{r}
-iris |> summarize(across(where(is.numeric), mean))
+iris |> 
+    summarize(across(where(is.numeric), mean))
 ```
 
 Using `table()` in this way does not output level names:
 
 ```{r}
-iris |> summarize(across(where(is.factor), table))
+iris |> 
+    summarize(across(where(is.factor), table))
 ```
 
 ## Resources {#dplyrresources}

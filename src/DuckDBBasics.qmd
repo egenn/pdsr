@@ -25,15 +25,17 @@ dbExecute(con, "PRAGMA enable_progress_bar;")
 
 ## Read CSV
 
-Directly read into data.frame
+You can directly read into data.frame, which may be best for smaller datasets:
+
 ```{r}
 ir <- dbGetQuery(con, 
-    "SELECT * FROM read_csv_auto('~/icloud/Data/iris.csv');"
+    "SELECT * FROM read_csv_auto('~/icloud/Data/iris2.csv');"
 )
 head(ir)
 ```
 
-Create a DuckDB table that can be queried
+For larger datasets, you can create a DuckDB table that can be queried without loading
+the dataset into memory:
 
 ```{r}
 dbExecute(con,

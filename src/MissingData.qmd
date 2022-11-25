@@ -1,4 +1,4 @@
-# Handling Missing data {#missingdata}
+# Handling Missing data {#sec-missingdata}
 
 ```{r echo = FALSE}
 knitr::opts_chunk$set(fig.width = 5, fig.height = 5,
@@ -103,10 +103,10 @@ Get N of missing per column:
 sapply(dat, function(i) sum(is.na(i)))
 ```
 
-`rtemis::checkData()` includes information on missing data:
+`rtemis::check_data()` includes information on missing data:
 
 ```{r}
-checkData(dat)
+check_data(dat)
 ```
 
 ## Handle missing data
@@ -162,10 +162,10 @@ dat_im$pressure[is.na(dat_im$pressure)] <- pressure_mean
 dat_pre <- preprocess(dat, impute = TRUE, impute.type = "meanMode")
 ```
 
-Verify there are no missing data by rerunning `checkData()`:
+Verify there are no missing data by rerunning `check_data()`:
 
 ```{r}
-checkData(dat_pre)
+check_data(dat_pre)
 ```
 
 You may want to include a "missingness" column that indicates which cases were imputed to include in your model. You can create this simply by running:
@@ -177,8 +177,12 @@ pressure_missing = factor(as.integer(is.na(dat$pressure)))
 `preprocess()` includes the option `missingness` to add indicator columns after imputation:
 
 ```{r}
-dat_pre <- preprocess(dat, impute = TRUE, impute.type = "meanMode",
-                      missingness = TRUE)
+dat_pre <- preprocess(
+    dat, 
+    impute = TRUE, 
+    impute.type = "meanMode",
+    missingness = TRUE
+)
 head(dat_pre)
 ```
 
@@ -240,9 +244,15 @@ library(missRanger)
 dat <- iris
 set.seed(2020)
 dat[sample(1:150, 5), 1] <- dat[sample(1:150, 22), 4] <- dat[sample(1:150, 18), 4] <- NA
+```
+
+```{r}
 dat_rfimp <- missRanger(dat, num.trees = 100)
 head(dat_rfimp)
-checkData(dat_rfimp)
+```
+
+```{r}
+check_data(dat_rfimp)
 ```
 
 Note: The default method for `preprocess(impute = TRUE)` is to use `missRanger`.
@@ -251,7 +261,8 @@ Note: The default method for `preprocess(impute = TRUE)` is to use `missRanger`.
 
 Multiple imputation creates multiple estimates of the missing data. It is more statistically valid for small datasets, especially when the goal is to get accurate estimates of a summary statistics, but may not be practical for larger datasets. It is not usually considered an option for machine learning (where duplicating cases may add bias and complexity in resampling). The package `mice` is a popular choice for multiple imputation in R.
 
-```{r eval = FALSE}
+```{r}
+#| eval: false
 library(mice)
 dat_mice <- mice(dat)
 ```

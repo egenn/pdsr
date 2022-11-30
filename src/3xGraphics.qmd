@@ -375,37 +375,48 @@ p
 female_age_density <- density(dt[Sex == "Female", Age])
 male_age_density <- density(dt[Sex == "Male", Age])
 
-plot(female_age_density$x, female_age_density$y,
+# Create empty plot with appropriate x- and y-axis limits
+plot(NULL, NULL,
      type = 'l',
      yaxs = "i",
      bty = "n",
      xlim = c(min(female_age_density$x, male_age_density$x), 
         max(female_age_density$x, male_age_density$x)),
+     ylim = c(min(female_age_density$y, male_age_density$y), 
+        max(female_age_density$y, male_age_density$y)),
      xlab = "",
      ylab = "Density",
      col = palette[2])
 
+# Add shaded polygon for female density
 polygon(c(female_age_density$x, rev(female_age_density$x)), 
         c(female_age_density$y, rep(0, length(female_age_density$y))),
         col = palette_a[2], 
         border = NA)
 
-lines(male_age_density$x, male_age_density$y,
-     add = TRUE,
-     col = palette[1])
-
+# Add shaded polygon for male density
 polygon(c(male_age_density$x, rev(male_age_density$x)), 
         c(male_age_density$y, rep(0, length(male_age_density$y))),
         col = palette_a[1], 
         border = NA)  
+
+# Add legend at the top-right of the plot
+legend("topright", legend = c("Female", "Male"),
+    fill = palette[2:1],
+    border = palette[2:1],
+    # pch = 16,
+    # col = palette[2:1],
+    bty = "n",
+    xpd = TRUE)
 ```
 
 ### **`ggplot2`**
 
+ggplot 
+
 ```{r}
 p <- ggplot(dt, aes(x = Age, fill = Sex)) + 
-    geom_density() +
-    scale_color_manual(values = palette[1:2]) +
+    geom_density(color = NA) +
     scale_fill_manual(values = palette_a[2:1])
 p
 ```

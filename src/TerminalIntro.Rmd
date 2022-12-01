@@ -37,6 +37,18 @@ pwd
 cd /path/to/dir
 ```
 
+### `ls`: List directory contents
+
+```{bash eval = FALSE}
+ls
+```
+
+adding the `-l` argument, prints directory contents as a list
+
+```{sh}
+ls -l
+```
+
 ### `mv`: Move `file` from `/current/dir/` to `/new/dir`  
 
 ```{bash eval = FALSE}
@@ -55,22 +67,32 @@ mv /current/dir/file /current/dir/newfilename
 cp /currentPath/file /altPath/file
 ```
 
+### `rm`: Remove, i.e. delete, file
+
+```{bash eval = FALSE}
+rm /path/to/file
+```
+
 ### `mkdir`: Create a new directory named 'newdir'
 
 ```{bash eval = FALSE}
 mkdir /path/to/newdir
 ```
 
-### `rmdir`: Remove (i.e. delete) `uselessFile`
+### `rmdir`: Remove, i.e. delete, **empty** directory
 
 ```{bash eval = FALSE}
-
+rmdir /path/to/somedir
 ```
 
-### `rm`: Remove (i.e. delete) `uselessFile`
+To remove a non-empty directory and all of its contents, you can use `rm -rf`:
+`-r` is recursive; `-f` is force.
+
+Note: Use with care! it will immediately delete all content in the directory without
+asking for comfirmation
 
 ```{bash eval = FALSE}
-rm /path/to/uselessFile
+rm -rf /path/to/dir
 ```
 
 ### `cat`: Print contents of `file` to the console
@@ -81,6 +103,8 @@ cat /path/to/file
 
 ### `uname`: Get system information
 
+`-a` argument for "all"
+
 ```{bash eval = FALSE}
 uname -a
 ```
@@ -89,6 +113,15 @@ uname -a
 
 ```{bash eval = FALSE}
 whoami
+```
+
+### `id`: Return user identity
+
+The `id` command returns, among other things, the groups a user belong to.
+This informs you which directories and files a user can read, write, and execute.
+
+```{bash eval = FALSE}
+id username
 ```
 
 ## Running system commands within R
@@ -125,7 +158,7 @@ head -1 ~/icloud/Data/iris.csv
 tail ~/icloud/Data/iris.csv
 ```
 
-### `wc`: word, line, character, and byte count
+### `wc`: Word, line, character, and byte count
 
 `wc` can print the word or line count of a file, among other things. This can be 
 particularly useful when dealing with large files
@@ -134,11 +167,31 @@ particularly useful when dealing with large files
 wc -l ~/icloud/Data/iris.csv
 ```
 
-The iris dataset consist of 150 cases, and one line with the column names
+The iris dataset consist of 150 cases plus one line with the column names
+
+### `du`: Display disk usage statistics
+
+`du` can display the size of a file or directory among other things.
+
+This can be very important when trying to determine if the contents of a data file will fit in memory.
+
+Display the size of a file in human-readable format (Kilobytes, Megabytes, Gigabytes, etc)
+
+```{bash}
+du -sh ~/icloud/Data/iris.csv
+```
+
+The same command can be used on an entire directory:
+
+```{bash}
+du -sh ~/icloud/Data
+```
 
 ## Further Resources
 
-Bash is the default shell in most Linux distributions. ZSH replaced Bash as the default 
+Bash is the default shell in most Linux distributions. 
+
+ZSH replaced Bash as the default
 shell in MacOS with the release of macOS Catalina in 2019 (though Bash currently still
 comes installed)
 

@@ -1,6 +1,6 @@
 # Data I/O with vroom
 
-[`vroom`](https://vroom.r-lib.org/index.html) is a high-performance data 
+[`vroom`](https://vroom.r-lib.org/index.html) is a high-performance delimited data 
 reader and writer with extended functionality.
 
 ```{r}
@@ -9,8 +9,18 @@ library(vroom)
 
 ## Read CSV
 
+Argument `delim` specifies, the delimiter. Its default `NULL` value, will cause the 
+function to guess by looking at the data. If you know the delimiter, best to specify it.
+
 ```{r}
-ir <- vroom("~/icloud/Data/iris2.csv", altrep = vroom_altrep(TRUE))
+ir <- vroom("~/icloud/Data/iris2.csv", delim = ",")
+ir
+```
+
+`vroom` return a [tibble](https://tibble.tidyverse.org/), which is very similar to a
+`data.frame.`
+
+```{r}
 class(ir)
 ```
 
@@ -19,10 +29,5 @@ class(ir)
 ```{r}
 ir <- vroom("~/icloud/Data/iris2.csv", 
             col_select = c("Sepal_Length", "Species"))
-class(ir)
-```
-
-```{r}
-ir[]
-class(ir)
+ir
 ```

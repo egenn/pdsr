@@ -1,0 +1,122 @@
+---
+knitr:
+  opts_chunk:
+    comment: ""
+---
+# Data Pipeline Overview {sec-datapipeline}
+
+## Get access to Data
+
+Health-related data comes from many sources, including:
+
+- Electronic Health Records (EPIC)
+- Lab/Clinical research data
+- Public datasets, e.g. NIH, UK Biobank, etc.
+
+## Handle and inspect data in the command line
+
+Particularly useful for data sets of unknown structure (e.g. to find what delimiter is
+used) and very large data (will it fit into memory?)
+
+- [Intro to the system shell](https://class.lambdamd.org/pdsr/TerminalIntro.html)
+
+## Read Data into R
+
+- Using R's [`csv.read()`, `read.table()`](https://class.lambdamd.org/pdsr/DataIO.html#csv)
+- Using data.table's [`fread()`](https://class.lambdamd.org/pdsr/dtDataIO.html#read-delimited-data-with-fread)
+- Using [specialized packages for third-party data formats](https://class.lambdamd.org/pdsr/DataIO.html#read-other-common-tabular-data-third-party-formats)
+
+## Clean data names & values
+
+- Using [string operations](https://class.lambdamd.org/pdsr/Strings.html)
+- Using [`factor()`](https://class.lambdamd.org/pdsr/Factors.html#define-level-labels) 
+to define factor levels
+
+## Define Data Types
+
+- Using the [‘colClasses’ argument](https://class.lambdamd.org/pdsr/DataIO.html#read-local-csv) in `read.csv()`, or `fread()`
+or
+- Coercing data types using 
+[`as.numeric()`, `as.character()`]((https://class.lambdamd.org/pdsr/DataTypes.html#explicit-coercion)), 
+[`factor()`](https://class.lambdamd.org/pdsr/Factors.html#create-a-factor), 
+[`as.Date()`](https://class.lambdamd.org/pdsr/DateTime.html#character-to-date-as.date), 
+[`as.POSIXct`](https://class.lambdamd.org/pdsr/DateTime.html#character-to-date-time-as.posixct-as.posixlt-strptime), 
+etc.
+
+## Reshape
+
+Convert long to wide or vice versa
+
+- Using base [`reshape()`](https://class.lambdamd.org/pdsr/dfReshape.html)
+- Using data.table's [`dcast()` and `melt()`](https://class.lambdamd.org/pdsr/dtReshape.html)
+
+## Join data sets
+
+- Using [`merge()` for data.frames](https://class.lambdamd.org/pdsr/dfJoin.html) or 
+[data.tables](https://class.lambdamd.org/pdsr/dtJoin.html)
+
+## Transform data
+
+Data transformations will depend on the analysis or analyses you wish to perform.
+Note that we often need to perform different data transformation for different statistical 
+tests or machine learning models (supervised, or unsupervised learning).
+
+- [`scale()`, `log()`, `cut()`](https://class.lambdamd.org/pdsr/DataTrans.html)
+- [Handle missing data](https://class.lambdamd.org/pdsr/MissingData.html)
+
+## Visualize
+
+Visualization is essential before, during, and data preparation, hypothesis testing, 
+supervised, and unsupervised learning
+
+- Using base graphics: 
+[`boxplot()`, `hist()`, `plot()`, `barplot()`, etc.](https://class.lambdamd.org/pdsr/BaseGraphics.html)
+- Using [**ggplot2**](https://class.lambdamd.org/pdsr/3xGraphics.html)
+- Using [**plotly** interactive plots](https://class.lambdamd.org/pdsr/3xGraphics.html)
+
+## Summarize & Aggregate
+
+- [Summarize](https://class.lambdamd.org/pdsr/Summarize.html)
+- [Aggregate](https://class.lambdamd.org/pdsr/Aggregate.html)
+
+## Statistical Hypothesis Testing
+
+- [`t.test()`, `wilcox.test()`, `aov()`, `kruskal.test()`](https://class.lambdamd.org/pdsr/HypothesisTesting.html)
+- Generalized Linear Models: [`glm()`](https://class.lambdamd.org/pdsr/GLM.html)
+
+## Predictive Modeling
+
+- [GLMNET, Classification and Regression Trees (CART), Random Forest, Gradient Boosting, etc.](https://class.lambdamd.org/pdsr/Supervised.html)
+
+## Decomposition
+
+- [PCA, ICA, NMF, UMAP, t-SNE, etc...](https://class.lambdamd.org/pdsr/Unsupervised.html#decomposition)
+
+## Clustering
+
+- [K-means, Fuzzy C-means, HOPACH, Spectral Clustering, etc...](https://class.lambdamd.org/pdsr/Unsupervised.html#clustering)
+
+## Saving data to disk
+
+- base [`write.csv()`](https://class.lambdamd.org/pdsr/DataIO.html#write-to-csv)
+- data.table's [`fwrite()`](https://class.lambdamd.org/pdsr/dtDataIO.html#read-delimited-data-with-fread)
+- base [`saveRDS`](https://class.lambdamd.org/pdsr/DataIO.html#rds)
+
+## Program your own functions!
+
+For all the above operations, you will often be better off writing your own customized 
+functions using the above base and third-party packages for your specific data needs and 
+analysis goals.
+
+- [Functions](https://class.lambdamd.org/pdsr/Functions.html)
+
+## Always document your code!
+
+Always remember to add in-line comments (`#`) to your functions, scripts, Quarto 
+documents for your future self, your collaborators, and the world.
+
+## Share your code on GitHub
+
+Consider sharing your code on [GitHub](https://class.lambdamd.org/pdsr/GitHubIntro.html) 
+to allow review by others. This may be done at any time during your work, you should
+especially consider to publish code along with published manuscripts.

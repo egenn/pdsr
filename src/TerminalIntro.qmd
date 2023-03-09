@@ -1,0 +1,216 @@
+# Introduction to the system shell {#shell}
+
+This is a very brief introduction to some of the most commonly used shell commands.
+
+A [shell](https://en.wikipedia.org/wiki/Unix_shell) is a command line interface allowing access to 
+an operating system's services. Multiple different shells exist. The most popular is probably 
+[**bash**](https://en.wikipedia.org/wiki/Bash_%28Unix_shell%29), which is the default in most Linux 
+installations. In MacOS, the default shell switched form **bash** to 
+[**zsh**](https://en.wikipedia.org/wiki/Z_shell) in 2019 with the release of Catalina. In Windows,
+various shells are available through the 
+[Windows Subsystem for Linux](https://en.wikipedia.org/wiki/Windows_Subsystem_for_Linux).
+
+The commands listed here will work similarly in all/most shells.
+
+## Common shell commands
+
+The first thing to look for in a new environment is the help system. In the shell, this is accessed with `man`:
+
+### `man`: Print the manual pages
+
+For example, the following would return the manual pages for the `ls` command, explained
+a little later.
+
+```{bash}
+#| eval: false
+man ls
+```
+
+### `pwd`: Print working directory (the directory you are currently in)
+
+```{bash}
+#| eval: false
+pwd
+```
+
+### `cd`: Set working directory to `/path/to/dir`
+
+```{bash}
+#| eval: false
+cd /path/to/dir
+```
+
+### `ls`: List directory contents
+
+```{bash}
+#| eval: false
+ls
+```
+
+adding the `-l` argument, prints directory contents as a list
+
+```{bash}
+#| eval: false
+ls -l
+```
+
+### `mv`: Move `file` from `/current/dir/` to `/new/dir`  
+
+```{bash}
+#| eval: false
+mv /current/dir/file /new/dir
+```
+
+### `mv`: Rename `file` to `newfilename` 
+
+```{bash eval = FALSE}
+mv /current/dir/file /current/dir/newfilename
+```
+
+### `cp`: Make a copy of `file` from `currentPath` into `altPath`
+
+```{bash}
+#| eval: false
+cp /currentPath/file /altPath/file
+```
+
+### `rm`: Remove, i.e. delete, file
+
+```{bash}
+#| eval: false
+rm /path/to/file
+```
+
+### `mkdir`: Create a new directory named 'newdir'
+
+```{bash}
+#| eval: false
+mkdir /path/to/newdir
+```
+
+### `rmdir`: Remove, i.e. delete, **empty** directory
+
+```{bash}
+#| eval: false
+rmdir /path/to/somedir
+```
+
+To remove a non-empty directory and all of its contents, you can use `rm -rf`:
+`-r` is recursive; `-f` is force.
+
+Note: Use with care! it will immediately delete all content in the directory without
+asking for comfirmation
+
+```{bash}
+#| eval: false
+rm -rf /path/to/dir
+```
+
+### `cat`: Print contents of `file` to the console
+
+```{bash}
+#| eval: false
+cat /path/to/file
+```
+
+### `uname`: Get system information
+
+`-a` argument for "all"
+
+```{bash}
+#| eval: false
+uname -a
+```
+
+### `whoami`: Print the currently logged in user's name
+
+```{bash}
+#| eval: false
+whoami
+```
+
+### `id`: Return user identity
+
+The `id` command returns, among other things, the groups a user belong to.
+This informs you which directories and files a user can read, write, and execute.
+
+```{bash}
+#| eval: false
+id username
+```
+
+## Running system commands within R
+
+You can execute any system command within R using the `system()` command:
+
+```{r}
+system("uname -a")
+```
+
+## Useful terminal commands for working with data
+
+If you receive a data file, you may want to get an idea of the contents before reading it
+into R.
+
+### `head`: Print the first few lines of a file
+
+```{bash}
+head ~/icloud/Data/iris.csv
+```
+
+You can print the first `n` lines using the syntax `head -n /path/to/file`.
+
+For example, you can print just the first line, which would hold the column names in a
+CSV file:
+
+```{bash}
+head -1 ~/icloud/Data/iris.csv
+```
+
+### `tail`: Print the last few lines of a file
+
+```{bash}
+tail ~/icloud/Data/iris.csv
+```
+
+### `wc`: Word, line, character, and byte count
+
+`wc` can print the word or line count of a file, among other things. This can be 
+particularly useful when dealing with large files
+
+```{bash}
+wc -l ~/icloud/Data/iris.csv
+```
+
+The iris dataset consist of 150 cases plus one line with the column names
+
+### `du`: Display disk usage statistics
+
+`du` can display the size of a file or directory among other things.
+
+This can be very important when trying to determine if the contents of a data file will fit in memory.
+
+Display the size of a file in human-readable format (Kilobytes, Megabytes, Gigabytes, etc)
+
+```{bash}
+du -sh ~/icloud/Data/iris.csv
+```
+
+The same command can be used on an entire directory:
+
+```{bash}
+du -sh ~/icloud/Data
+```
+
+## Further Resources
+
+Bash is the default shell in most Linux distributions. 
+
+ZSH replaced Bash as the default
+shell in MacOS with the release of macOS Catalina in 2019 (though Bash currently still
+comes installed)
+
+- [Bash Documentation](https://www.gnu.org/software/bash/manual/)
+- [ZSH Documentation](https://zsh.sourceforge.io/Doc/)
+- [Windows Subsystem for Linux Documentation](https://learn.microsoft.com/en-us/windows/wsl/about)
+- [Windows Powershell Documentation](https://learn.microsoft.com/en-us/powershell/)

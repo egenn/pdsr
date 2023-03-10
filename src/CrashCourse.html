@@ -1,0 +1,1403 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-99.9.9">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>PDSR – Crash Course</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+<!-- htmldependencies:E3FAD763 --><script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script><script type="text/javascript">
+
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-163213745-1', 'auto');
+
+ga('send', {
+  hitType: 'pageview',
+  'anonymizeIp': true,
+});
+</script><link rel="stylesheet" href="bootstrap.lambdamd.css">
+</head>
+<body>
+
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <h1 class="quarto-secondary-nav-title"></h1>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="/">
+      PDSR
+      </a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/egenn/pdsr/tree/master/src/" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Welcome</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="/Preface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">&lt;span class='chapter-number'&gt;1&lt;/span&gt;  &lt;span class='chapter-title'&gt;Preface&lt;/span&gt;</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="/Introduction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">&lt;span class='chapter-number'&gt;2&lt;/span&gt;  &lt;span class='chapter-title'&gt;Introduction&lt;/span&gt;</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="/IDEs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">&lt;span class='chapter-number'&gt;3&lt;/span&gt;  &lt;span class='chapter-title'&gt;IDEs&lt;/span&gt;</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="/Packages.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">&lt;span class='chapter-number'&gt;4&lt;/span&gt;  &lt;span class='chapter-title'&gt;R packages&lt;/span&gt;</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="/BasicOps.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">&lt;span class='chapter-number'&gt;5&lt;/span&gt;  &lt;span class='chapter-title'&gt;Basic operations&lt;/span&gt;</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="/DataTypes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">&lt;span class='chapter-number'&gt;6&lt;/span&gt;  &lt;span class='chapter-title'&gt;Data Types &amp; Vectors&lt;/span&gt;</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="/DataStructures.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">&lt;span class='chapter-number'&gt;7&lt;/span&gt;  &lt;span class='chapter-title'&gt;Data Structures&lt;/span&gt;</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="/Indexing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">&lt;span class='chapter-number'&gt;8&lt;/span&gt;  &lt;span class='chapter-title'&gt;Indexing&lt;/span&gt;</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="/Factors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">&lt;span class='chapter-number'&gt;9&lt;/span&gt;  &lt;span class='chapter-title'&gt;Factors&lt;/span&gt;</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="/DataIO.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">&lt;span class='chapter-number'&gt;10&lt;/span&gt;  &lt;span class='chapter-title'&gt;Data Input/Output&lt;/span&gt;</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="/Vectorization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">&lt;span class='chapter-number'&gt;11&lt;/span&gt;  &lt;span class='chapter-title'&gt;Vectorized Operations&lt;/span&gt;</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="/ControlFlow.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">&lt;span class='chapter-number'&gt;12&lt;/span&gt;  &lt;span class='chapter-title'&gt;Control flow&lt;/span&gt;</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="/Summarize.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">&lt;span class='chapter-number'&gt;13&lt;/span&gt;  &lt;span class='chapter-title'&gt;Summarizing Data&lt;/span&gt;</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="/Aggregate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">&lt;span class='chapter-number'&gt;14&lt;/span&gt;  &lt;span class='chapter-title'&gt;Aggregate&lt;/span&gt;</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="/Functions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">&lt;span class='chapter-number'&gt;15&lt;/span&gt;  &lt;span class='chapter-title'&gt;Functions&lt;/span&gt;</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="/LoopFunctions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">&lt;span class='chapter-number'&gt;16&lt;/span&gt;  &lt;span class='chapter-title'&gt;Loop Functions&lt;/span&gt;</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="/DataFrames.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data Frames</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="/dfBasics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">&lt;span class='chapter-number'&gt;17&lt;/span&gt;  &lt;span class='chapter-title'&gt;Working with Data frames&lt;/span&gt;</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="/dfReshape.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">&lt;span class='chapter-number'&gt;18&lt;/span&gt;  &lt;span class='chapter-title'&gt;Reshaping&lt;/span&gt;</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="/dfJoin.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">&lt;span class='chapter-number'&gt;19&lt;/span&gt;  &lt;span class='chapter-title'&gt;Joins&lt;/span&gt;</span></a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="/DataTrans.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">&lt;span class='chapter-number'&gt;20&lt;/span&gt;  &lt;span class='chapter-title'&gt;Data Transformations&lt;/span&gt;</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="/MissingData.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">&lt;span class='chapter-number'&gt;21&lt;/span&gt;  &lt;span class='chapter-title'&gt;Handling Missing data&lt;/span&gt;</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="/Strings.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">&lt;span class='chapter-number'&gt;22&lt;/span&gt;  &lt;span class='chapter-title'&gt;Strings&lt;/span&gt;</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="/DateTime.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">&lt;span class='chapter-number'&gt;23&lt;/span&gt;  &lt;span class='chapter-title'&gt;Date and Time&lt;/span&gt;</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="/SetOps.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">&lt;span class='chapter-number'&gt;24&lt;/span&gt;  &lt;span class='chapter-title'&gt;Set operations&lt;/span&gt;</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="/ClassesAndOOP.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">&lt;span class='chapter-number'&gt;25&lt;/span&gt;  &lt;span class='chapter-title'&gt;Classes and OOP&lt;/span&gt;</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="/DataTable.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data Table</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="/dtBasics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">&lt;span class='chapter-number'&gt;26&lt;/span&gt;  &lt;span class='chapter-title'&gt;Efficient data analysis with **data.table**&lt;/span&gt;</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="/dtRefSem.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">&lt;span class='chapter-number'&gt;27&lt;/span&gt;  &lt;span class='chapter-title'&gt;Reference semantics&lt;/span&gt;</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="/dtDataIO.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">&lt;span class='chapter-number'&gt;28&lt;/span&gt;  &lt;span class='chapter-title'&gt;Data I/O&lt;/span&gt;</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="/dtReshape.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">&lt;span class='chapter-number'&gt;29&lt;/span&gt;  &lt;span class='chapter-title'&gt;Reshape&lt;/span&gt;</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="/dtJoin.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">&lt;span class='chapter-number'&gt;30&lt;/span&gt;  &lt;span class='chapter-title'&gt;Joins&lt;/span&gt;</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="/DataTableII.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">&lt;span class='chapter-number'&gt;31&lt;/span&gt;  &lt;span class='chapter-title'&gt;Advanced usage examples&lt;/span&gt;</span></a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="/Tidyverse.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tidyverse</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="/dplyr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">&lt;span class='chapter-number'&gt;32&lt;/span&gt;  &lt;span class='chapter-title'&gt;Introduction to **dplyr**&lt;/span&gt;</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="/dplyrJoin.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">&lt;span class='chapter-number'&gt;33&lt;/span&gt;  &lt;span class='chapter-title'&gt;Joins&lt;/span&gt;</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="/tidyrReshape.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">&lt;span class='chapter-number'&gt;34&lt;/span&gt;  &lt;span class='chapter-title'&gt;Reshaping with **tidyr**&lt;/span&gt;</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="/lubridate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">&lt;span class='chapter-number'&gt;35&lt;/span&gt;  &lt;span class='chapter-title'&gt;Dates with **lubridate**&lt;/span&gt;</span></a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="/Graphics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Graphics</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="/BaseGraphics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">&lt;span class='chapter-number'&gt;36&lt;/span&gt;  &lt;span class='chapter-title'&gt;Base Graphics&lt;/span&gt;</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="/Colors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">&lt;span class='chapter-number'&gt;37&lt;/span&gt;  &lt;span class='chapter-title'&gt;Colors&lt;/span&gt;</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="/3xGraphics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">&lt;span class='chapter-number'&gt;38&lt;/span&gt;  &lt;span class='chapter-title'&gt;3x Graphics&lt;/span&gt;</span></a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="/HypothesisTesting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">&lt;span class='chapter-number'&gt;39&lt;/span&gt;  &lt;span class='chapter-title'&gt;Common statistical tests&lt;/span&gt;</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="/GLM.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">&lt;span class='chapter-number'&gt;40&lt;/span&gt;  &lt;span class='chapter-title'&gt;Introduction to the GLM&lt;/span&gt;</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="/Profiling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">&lt;span class='chapter-number'&gt;41&lt;/span&gt;  &lt;span class='chapter-title'&gt;Benchmarking &amp; Profiling&lt;/span&gt;</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="/Optimization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">&lt;span class='chapter-number'&gt;42&lt;/span&gt;  &lt;span class='chapter-title'&gt;Optimization&lt;/span&gt;</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="/IntroML.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction to Machine Learning</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="/Resampling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">&lt;span class='chapter-number'&gt;43&lt;/span&gt;  &lt;span class='chapter-title'&gt;Resampling&lt;/span&gt;</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="/Supervised.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">&lt;span class='chapter-number'&gt;44&lt;/span&gt;  &lt;span class='chapter-title'&gt;Supervised Learning&lt;/span&gt;</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="/Unsupervised.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">&lt;span class='chapter-number'&gt;45&lt;/span&gt;  &lt;span class='chapter-title'&gt;Unsupervised Learning&lt;/span&gt;</span></a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="/Quarto.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">&lt;span class='chapter-number'&gt;46&lt;/span&gt;  &lt;span class='chapter-title'&gt;Quarto&lt;/span&gt;</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="/System.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">System</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="/TerminalIntro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">&lt;span class='chapter-number'&gt;47&lt;/span&gt;  &lt;span class='chapter-title'&gt;Introduction to the system shell&lt;/span&gt;</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="/GitHubIntro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">&lt;span class='chapter-number'&gt;48&lt;/span&gt;  &lt;span class='chapter-title'&gt;Git &amp; GitHub: the basics&lt;/span&gt;</span></a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="/Resources.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">&lt;span class='chapter-number'&gt;49&lt;/span&gt;  &lt;span class='chapter-title'&gt;Resources&lt;/span&gt;</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="/DataPipeline.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">&lt;span class='chapter-number'&gt;50&lt;/span&gt;  &lt;span class='chapter-title'&gt;Data Pipeline Overview&lt;/span&gt;</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="/CrashCourse.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Crash Course</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="/References.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+</div>
+</nav><div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <div id="quarto-toc-target"></div>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<h1 class="title">Crash Course</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header><nav id="TOC" role="doc-toc"><h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+<li><a href="#introduction-format" id="toc-introduction-format">Introduction &amp; Format</a></li>
+  <li><a href="#introduction-to-programming" id="toc-introduction-to-programming">Introduction to Programming</a></li>
+  <li><a href="#the-r-language" id="toc-the-r-language">The R language</a></li>
+  <li><a href="#free-open-source-software" id="toc-free-open-source-software">Free Open Source Software</a></li>
+  <li><a href="#rstudio-integrated-development-environment" id="toc-rstudio-integrated-development-environment">RStudio Integrated Development Environment</a></li>
+  <li><a href="#the-r-core-language-package-ecosystem" id="toc-the-r-core-language-package-ecosystem">The R core language &amp; package ecosystem</a></li>
+  <li>
+<a href="#reading-in-data" id="toc-reading-in-data">Reading in Data</a>
+  <ul>
+<li><a href="#csv" id="toc-csv">CSV</a></li>
+  <li><a href="#xlsx" id="toc-xlsx">XLSX</a></li>
+  </ul>
+</li>
+  <li><a href="#inspect-summarize-data" id="toc-inspect-summarize-data">Inspect &amp; summarize data</a></li>
+  <li><a href="#data-types" id="toc-data-types">Data types</a></li>
+  <li>
+<a href="#data-structures" id="toc-data-structures">Data Structures</a>
+  <ul>
+<li><a href="#factors" id="toc-factors">Factors</a></li>
+  </ul>
+</li>
+  <li><a href="#working-with-data.frames" id="toc-working-with-data.frames">Working with data.frames</a></li>
+  <li><a href="#functions-in-r" id="toc-functions-in-r">Functions in R</a></li>
+  <li>
+<a href="#summarize-data" id="toc-summarize-data">Summarize data</a>
+  <ul>
+<li><a href="#continuous-variables" id="toc-continuous-variables">Continuous variables</a></li>
+  <li><a href="#categorical-variables" id="toc-categorical-variables">Categorical variables</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#plots" id="toc-plots">Plots</a>
+  <ul>
+<li><a href="#histogram" id="toc-histogram">Histogram</a></li>
+  <li><a href="#boxplot" id="toc-boxplot">Boxplot</a></li>
+  <li><a href="#scatter-plot" id="toc-scatter-plot">Scatter plot</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#hypothesis-testing" id="toc-hypothesis-testing">Hypothesis Testing</a>
+  <ul>
+<li><a href="#t-test" id="toc-t-test">T-test</a></li>
+  <li><a href="#chi-squared-test" id="toc-chi-squared-test">Chi-squared test</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#saving-data" id="toc-saving-data">Saving data</a>
+  <ul>
+<li><a href="#csv-1" id="toc-csv-1">CSV</a></li>
+  <li><a href="#rds" id="toc-rds">RDS</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#builtin-documentation" id="toc-builtin-documentation">Builtin Documentation</a>
+  <ul>
+<li><a href="#get-help-on-a-specific-item" id="toc-get-help-on-a-specific-item">Get help on a specific item</a></li>
+  <li><a href="#search-the-docs" id="toc-search-the-docs">Search the docs</a></li>
+  </ul>
+</li>
+  </ul></nav><p>This is the online material for the UCSF DCR ‘Intro to R’ selective.</p>
+<style type="text/css" scoped>
+PRE.fansi SPAN {padding-top: .25em; padding-bottom: .25em};
+</style>
+<section id="introduction-format" class="level2"><h2>Introduction &amp; Format</h2>
+<p>This is a brief introduction to the R programming language for health data science. It covers basic commands to allow you to read in data, perform common manipulations, plot data and run common tests. <br><br><a href="https://en.wikipedia.org/wiki/R_(programming_language)">R</a> is a <a href="https://en.wikipedia.org/wiki/Programming_language">programming language</a> developed specifically for statistical computing and graphics. <br><br> It is often mis-characterized as a “statistical package”, similar to SPSS, for example, but as a full programming language it has far more extensive functionality. <br><br> For a more thorough coverage of the topic, see the main part of this <a href="https://class.lambdamd.org/pdsr/">book</a>. <br><br> Links to book chapters will be provided throughout these notes for those interested in reading up further into particular topics. <br><br> R can be used to perform most, if not all, operations in statistics, data science, machine learning. This is not a crash course in statistics, data science, or machine learning, but an introduction to the language itself. <br><br> If you have any questions, write them down and make sure to ask them during each section’s Q&amp;A.</p>
+</section><section id="introduction-to-programming" class="level2"><h2>Introduction to Programming</h2>
+<p><strong>Everyone can code</strong> <br><br> Everyone can learn how to program. Whether it takes you a minute or a longer to learn how to write the code neessary to perform a certain task, you <em>can</em> master it. Do not compare yourself to others. <br><br> As with most things: a) motivation is key and b) you get good with practice. <br><br> You are here because, presumably, you have important questions to answer using data. <br><br> Knowing how to code even a little can give you the power to work with your own data without depending fully on someone else. At the same time, it makes collaborating with other scientists, clinicians, statisticians, etc. much more effective &amp; efficient. <br><br> You don’t learn to code by reading books or slides, you learn to code by doing. Ideally, work on data you are interested in, trying to asnwer questions you care about. <br><br> Learning to code can be exciting and frustrating. It’s similar to learning to play an instrument - like the guitar. At first, it may seem unnatural and annoying, but you can get better at it rather quickly and it’s very rewarding and satisfying. <br><br> It is important to be able to <strong>read</strong> <strong><em>and</em></strong> <strong>write</strong> code. <br><br><strong>Coding requires logic &amp; creativity</strong> <br><br> Programming is based on logic and learning to code helps structure your thoughts, your experiments, your reasoning. <br><br> Programming languages are human constructs. They were built to answer important needs. They develop with time, as needs evolve. Many design choices are explained historically, a few may be more arbitrary. <br><br><strong>Everything is a series of simple, manageable steps</strong> <br><br> Remember this: the shortest and simplest piece of code up to the longest and most complex is made of a sequence of relatively simple steps. <br><br> Always be clear about what you want to achieve first, then break it down step-by-step in code. Each step is relatively easy to figure out and <strong>check</strong> that it is working as desired. A common mistake is to write multiple steps in one go, and then have a hard time figuring out where an error occurs or why. <br><br> To get from A to B using code there are virtually always multiple different paths. That can be confusing or perhaps frustrating, but it is also exciting. Programming to the uninitiated may seem a a rigid exercise but it is highly creative. Remember that there objective and subjective differences to consider when designing a code to take you from A to B. Suppose you have two approaches that have the same input and produce the same output. An objective difference would be how fast each completes the task and how many lines of code or number of function calls it requires. A subjective difference would be the programming style / syntax used / whether the code is “elegant” - a pretty broad topic. <br><br><strong>Errors happen often but they are not all the same</strong> <br><br> Errors in code happen all the time, it is part of the process. But, not all errors are the same. <br> There are errors that: <br><br></p>
+<ul>
+<li>
+<strong>stop execution</strong> of code and <strong>produce an error message</strong>. This is the best case scenario because it can’t go unnoticed and you are forced to address them.</li>
+<li>
+<strong>do not stop execution</strong> of code but <strong>produce a warning</strong>. These warnings are very often ignored. They may be serious or trivial, but must be investigated.</li>
+<li>
+<strong>do not stop execution</strong> and <strong>produce no warnings</strong>. This is the worst kind of error since it is silent. These can be common and the only way to recognize them is to check the output. <br><em>Always read all error &amp; warning messages.</em> <br><br><strong>Details matter (a lot)</strong> <br><br> A lot of mistakes occur, especially in the beginning, because a variable or function name is misspelled. <br><br><strong>Always check yourself</strong> <br><br> Remember: the most important thing is to ensure you produce correct results at each step. Don’t place writing smart or elegant code above writing correct code. Spend time reviewing your code. If possible, have one or more other people review your code. <br><br><strong>Document everything</strong> <br><br> Make a habit from the very beginning to always use comments in your code to explai what you are trying to achieve and why. You will often need to revisit your code after some time has passed. Life will be very hard if it’s not clear what is happening and why. <br><br> Programming is largely a team sport. A lot of code is written collaboratively or is used by people other than the author. Again, comprehensive documentation is super important. <br><br><strong>Help is at your fingertips</strong> <br><br> Whether you are just starting out or you are a seasoned programmer, you have many sources of information to help you troubleshoot or learn new skills. <br><br>
+</li>
+<li>Use the built-in documentation! Builtin help files, written by the code author, are almost always the best place to start. Their quality will vary, but they are often sufficient to learn how to use a function properly.</li>
+<li>Programming is largely an online activity. All documentation and source code (for open source projects) is available online. Most errors or difficulties you encounter have been encountered many times before by others. A very large number of Q&amp;A sites, blogs, forums are a web search away. Copy-pasting an error message into a search engine will often result in multiple hits.</li>
+</ul></section><section id="the-r-language" class="level2"><h2>The R language</h2>
+<ul>
+<li><p>The <strong>S</strong> statistical programming language was developed in 1976 at Bell Labs by John Chambers and others “to turn ideas into software, quickly and faithfully”.</p></li>
+<li><p><strong>R</strong> is an <a href="https://en.wikipedia.org/wiki/Open_source">open source</a> implementation of S developed by Ross Ihaka and Robert Gentleman at the University of Auckland, New Zealand; initial version released in 1995.</p></li>
+<li><p>Supported by the <a href="https://www.r-project.org/foundation/">R Foundation for Statistical Computing</a>, developed by the <a href="https://www.r-project.org/contributors.html">R Core Team and the contributions of many others</a>.</p></li>
+<li><p>Official part of the <a href="https://www.fsf.org">Free Software Foundation’s</a> <a href="https://www.gnu.org/">GNU project</a> available under <a href="https://www.gnu.org/licenses/old-licenses/gpl-2.0.html">GNU GPL v2</a>.</p></li>
+<li><p>Latest version <a href="https://cloud.r-project.org/">4.2.2 released 2022-10-31</a> (as of writing) The next version, 4.2.3 will be released Sunday 2023-03-05.</p></li>
+</ul></section><section id="free-open-source-software" class="level2"><h2>Free Open Source Software</h2>
+<p><strong><a href="https://en.wikipedia.org/wiki/Free_and_open-source_software">Free Open Source Software (FOSS)</a></strong> is software that is “free” and “open source” - what does that really mean?</p>
+<p><strong><a href="https://www.fsf.org/about/what-is-free-software">What is Free Software?</a></strong></p>
+<blockquote>
+<p>“Free software is software that gives you, the user, the freedom to share, study and modify it. We call this free software because the user is free.”</p>
+<footer>
+— Free Software Foundation
+</footer>
+</blockquote>
+<p><strong><a href="https://opensource.com/resources/what-open-source">What is Open Source Software</a></strong></p>
+<blockquote>
+<p>“Open source software is software with source code that anyone can inspect, modify, and enhance.”</p>
+<footer>
+— opensource.com
+</footer>
+</blockquote>
+<p><strong>Why is FOSS important?</strong> <br><br> There are many advantage to FOSS, in general. Some of those, that are highly relevant in biomedical research and clinical applications include the promotion of <strong>inclusion</strong>, <strong>transparency</strong>, and <strong>trustworthiness.</strong></p>
+</section><section id="rstudio-integrated-development-environment" class="level2"><h2>RStudio Integrated Development Environment</h2>
+<p><a href="https://www.rstudio.com/">RStudio</a> offers a popular, feature-full <a href="https://en.wikipedia.org/wiki/Integrated_development_environment">Integrated Development Environment (IDE)</a> for R. <br><br> More advanced users can use <a href="https://code.visualstudio.com/">Visual Studio Code</a> with the <a href="https://github.com/REditorSupport/vscode-R">R Extension</a> for a similar R IDE experience together with all the extra functionality and convenience of VS Code.</p>
+</section><section id="the-r-core-language-package-ecosystem" class="level2"><h2>The R core language &amp; package ecosystem</h2>
+<p>R boasts extensive quantitative and statistical functionality in the base system.</p>
+<p>This functionality is extended through a vast ecosystem of external packages.</p>
+<ul>
+<li>
+<strong>CRAN</strong>: The Comprehensive R Archive Network (https://cran.r-project.org/): <a href="https://cran.r-project.org/web/packages/">19001 packages</a>
+</li>
+<li>
+<strong>Bioconductor</strong>: Bioinformatics-related packages and more (https://www.bioconductor.org/): <a href="https://bioconductor.org/about/release-announcements/">2083+ packages</a>
+</li>
+<li>
+<strong>GitHub</strong>: The largest source code host (&gt;200M repositories; https://github.com/): Likely hosts most of the above and quite a few more. Also hosts a copy of the entire CRAN.</li>
+</ul></section><section id="reading-in-data" class="level2"><h2>Reading in Data</h2>
+<p>We shall use a heart failure dataset as an example. It is freely available at the UCI repository: “https://archive.ics.uci.edu/ml/machine-learning-databases/00519/heart_failure_clinical_records_dataset.csv”</p>
+<section id="csv" class="level3"><h3>CSV</h3>
+<div class="cell">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="st">"~/icloud/Data/UCI/heart_failure_clinical_records_dataset.csv"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<p>The <code><a href="https://rdrr.io/r/utils/head.html">head()</a></code> function prints the first few lines of an object:</p>
+<div class="cell">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  age anaemia creatinine_phosphokinase diabetes ejection_fraction
+1  75       0                      582        0                20
+2  55       0                     7861        0                38
+3  65       0                      146        0                20
+4  50       1                      111        0                20
+5  65       1                      160        1                20
+6  90       1                       47        0                40
+  high_blood_pressure platelets serum_creatinine serum_sodium sex smoking time
+1                   1    265000              1.9          130   1       0    4
+2                   0    263358              1.1          136   1       0    6
+3                   0    162000              1.3          129   1       1    7
+4                   0    210000              1.9          137   1       0    7
+5                   0    327000              2.7          116   0       0    8
+6                   1    204000              2.1          132   1       1    8
+  DEATH_EVENT
+1           1
+2           1
+3           1
+4           1
+5           1
+6           1</code></pre>
+</div>
+</div>
+<p>The <code><a href="https://rdrr.io/r/utils/read.table.html">read.csv()</a></code> function read the contents of the CSV file into an R object known as a <code>data.frame</code>. This is essentially a table like a spreadsheet, where each row represents a case (e.g. a subject, patient, etc.) and each columnn represents a variable (e.g. Patient ID, Age, Sex, Dx, etc.)</p>
+</section><section id="xlsx" class="level3"><h3>XLSX</h3>
+<div class="cell">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dat_too</span> <span class="op">&lt;-</span> <span class="fu">openxlsx</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/openxlsx/man/read.xlsx.html">read.xlsx</a></span><span class="op">(</span><span class="st">"~/icloud/Data/UCI/heart_failure_clinical_records_dataset.xlsx"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">dat_too</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  age anaemia creatinine_phosphokinase diabetes ejection_fraction
+1  75       0                      582        0                20
+2  55       0                     7861        0                38
+3  65       0                      146        0                20
+4  50       1                      111        0                20
+5  65       1                      160        1                20
+6  90       1                       47        0                40
+  high_blood_pressure platelets serum_creatinine serum_sodium sex smoking time
+1                   1    265000              1.9          130   1       0    4
+2                   0    263358              1.1          136   1       0    6
+3                   0    162000              1.3          129   1       1    7
+4                   0    210000              1.9          137   1       0    7
+5                   0    327000              2.7          116   0       0    8
+6                   1    204000              2.1          132   1       1    8
+  DEATH_EVENT
+1           1
+2           1
+3           1
+4           1
+5           1
+6           1</code></pre>
+</div>
+</div>
+</section></section><section id="inspect-summarize-data" class="level2"><h2>Inspect &amp; summarize data</h2>
+<p>Get data dimensions:</p>
+<div class="cell">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 299  13</code></pre>
+</div>
+</div>
+<p>Look at the data structure, including data types:</p>
+<div class="cell">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   299 obs. of  13 variables:
+ $ age                     : num  75 55 65 50 65 90 75 60 65 80 ...
+ $ anaemia                 : int  0 0 0 1 1 1 1 1 0 1 ...
+ $ creatinine_phosphokinase: int  582 7861 146 111 160 47 246 315 157 123 ...
+ $ diabetes                : int  0 0 0 0 1 0 0 1 0 0 ...
+ $ ejection_fraction       : int  20 38 20 20 20 40 15 60 65 35 ...
+ $ high_blood_pressure     : int  1 0 0 0 0 1 0 0 0 1 ...
+ $ platelets               : num  265000 263358 162000 210000 327000 ...
+ $ serum_creatinine        : num  1.9 1.1 1.3 1.9 2.7 2.1 1.2 1.1 1.5 9.4 ...
+ $ serum_sodium            : int  130 136 129 137 116 132 137 131 138 133 ...
+ $ sex                     : int  1 1 1 1 0 1 1 1 0 1 ...
+ $ smoking                 : int  0 0 1 0 0 1 0 1 0 1 ...
+ $ time                    : int  4 6 7 7 8 8 10 10 10 10 ...
+ $ DEATH_EVENT             : int  1 1 1 1 1 1 1 1 1 1 ...</code></pre>
+</div>
+</div>
+<p>Get summary of dataset:</p>
+<div class="cell">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      age           anaemia       creatinine_phosphokinase    diabetes     
+ Min.   :40.00   Min.   :0.0000   Min.   :  23.0           Min.   :0.0000  
+ 1st Qu.:51.00   1st Qu.:0.0000   1st Qu.: 116.5           1st Qu.:0.0000  
+ Median :60.00   Median :0.0000   Median : 250.0           Median :0.0000  
+ Mean   :60.83   Mean   :0.4314   Mean   : 581.8           Mean   :0.4181  
+ 3rd Qu.:70.00   3rd Qu.:1.0000   3rd Qu.: 582.0           3rd Qu.:1.0000  
+ Max.   :95.00   Max.   :1.0000   Max.   :7861.0           Max.   :1.0000  
+ ejection_fraction high_blood_pressure   platelets      serum_creatinine
+ Min.   :14.00     Min.   :0.0000      Min.   : 25100   Min.   :0.500   
+ 1st Qu.:30.00     1st Qu.:0.0000      1st Qu.:212500   1st Qu.:0.900   
+ Median :38.00     Median :0.0000      Median :262000   Median :1.100   
+ Mean   :38.08     Mean   :0.3512      Mean   :263358   Mean   :1.394   
+ 3rd Qu.:45.00     3rd Qu.:1.0000      3rd Qu.:303500   3rd Qu.:1.400   
+ Max.   :80.00     Max.   :1.0000      Max.   :850000   Max.   :9.400   
+  serum_sodium        sex            smoking            time      
+ Min.   :113.0   Min.   :0.0000   Min.   :0.0000   Min.   :  4.0  
+ 1st Qu.:134.0   1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.: 73.0  
+ Median :137.0   Median :1.0000   Median :0.0000   Median :115.0  
+ Mean   :136.6   Mean   :0.6488   Mean   :0.3211   Mean   :130.3  
+ 3rd Qu.:140.0   3rd Qu.:1.0000   3rd Qu.:1.0000   3rd Qu.:203.0  
+ Max.   :148.0   Max.   :1.0000   Max.   :1.0000   Max.   :285.0  
+  DEATH_EVENT    
+ Min.   :0.0000  
+ 1st Qu.:0.0000  
+ Median :0.0000  
+ Mean   :0.3211  
+ 3rd Qu.:1.0000  
+ Max.   :1.0000  </code></pre>
+</div>
+</div>
+</section><section id="data-types" class="level2"><h2>Data types</h2>
+<p>A vector in R is a collection of items of the same type (e.g. numbers or characters) of any length, including 1 (i.e. there is no distinction between a scalar and a vector).</p>
+<p>Data types in R are essentially different types of vectors.</p>
+<p>R includes a number of builtin data types. Some of the most common are:</p>
+<ul>
+<li>numeric (e.g. 1.2, 5.9, 11.4)</li>
+<li>character (e.g. “SF”, “SD”)</li>
+<li>logical (e.g. “TRUE”, “FALSE”)</li>
+</ul>
+<p>To create a new vector you can use the assignment operator <code>&lt;-</code> or <code>=</code>.</p>
+<div class="cell">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fl">4</span></span></code></pre></div>
+</div>
+<p>You can print the contents of an object just by typing its name in the console:</p>
+<div class="cell">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">a</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4</code></pre>
+</div>
+</div>
+<p>is the same as:</p>
+<div class="cell">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">a</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4</code></pre>
+</div>
+</div>
+<p>A comment beging with <code>#</code>. Anything placed after this will not be executed. <strong>Use comments to document every step in your code.</strong></p>
+<p>Use <code><a href="https://rdrr.io/r/base/c.html">c()</a></code> to combine multiple values:</p>
+<div class="cell">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">5</span>, <span class="fl">7</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">b</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3 5 7</code></pre>
+</div>
+</div>
+<p>To create a character vector, use single or double quotes around each element:</p>
+<div class="cell">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dept</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"ED"</span>, <span class="st">"Neuro"</span>, <span class="st">"Peds"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dept</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "ED"    "Neuro" "Peds" </code></pre>
+</div>
+</div>
+</section><section id="data-structures" class="level2"><h2>Data Structures</h2>
+<p>R includes multiple different data structures. Think of a data structure as a container that holds one or more vectors of data.</p>
+<p>The data.frame is one of the most common data structures for statistics, because it can hold vectors of different kinds, e.g. numeric, categorical, and character.</p>
+<div class="cell" type="rmdnote">
+<div class="rmdnote">
+<p>
+<a href="https://class.lambdamd.org/pdsr/datastructures.html">Read more about data structures</a>
+</p>
+</div>
+</div>
+<section id="factors" class="level3"><h3>Factors</h3>
+<p>Factors in R are used to store categorical variables and therefore have many important uses in statistics / data science / machine learning. <br><br> Let’s convert binary categorical variables in our dataset to factors:</p>
+<div class="cell">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dat</span><span class="op">$</span><span class="va">anaemia</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">dat</span><span class="op">$</span><span class="va">anaemia</span><span class="op">)</span></span>
+<span><span class="va">dat</span><span class="op">$</span><span class="va">diabetes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">dat</span><span class="op">$</span><span class="va">diabetes</span><span class="op">)</span></span>
+<span><span class="va">dat</span><span class="op">$</span><span class="va">high_blood_pressure</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">dat</span><span class="op">$</span><span class="va">high_blood_pressure</span><span class="op">)</span></span>
+<span><span class="va">dat</span><span class="op">$</span><span class="va">sex</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">dat</span><span class="op">$</span><span class="va">sex</span><span class="op">)</span></span>
+<span><span class="va">dat</span><span class="op">$</span><span class="va">smoking</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">dat</span><span class="op">$</span><span class="va">smoking</span><span class="op">)</span></span>
+<span><span class="va">dat</span><span class="op">$</span><span class="va">DEATH_EVENT</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">dat</span><span class="op">$</span><span class="va">DEATH_EVENT</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="cell" type="rmdnote">
+<div class="rmdnote">
+<p>
+<a href="https://class.lambdamd.org/pdsr/factors.html">Read more about factors</a>
+</p>
+</div>
+</div>
+</section></section><section id="working-with-data.frames" class="level2"><h2>Working with data.frames</h2>
+<p>One way to select a column of a data.frame by name, is to use the <code>$</code> notation. Note, we use <code><a href="https://rdrr.io/r/utils/head.html">head()</a></code> to avoid printing the entire variable.</p>
+<div class="cell">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">dat</span><span class="op">$</span><span class="va">age</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 75 55 65 50 65 90</code></pre>
+</div>
+</div>
+</section><section id="functions-in-r" class="level2"><h2>Functions in R</h2>
+<p>R includes a very large number of functions in the base language, which allow you to do a whole lot of data cleaning &amp; manipulation, plotting, and modeling. <br><br> A function is called by typing its name, followed by a parenthesis with or without arguments. <br><br> For example, to get the mean of the <code>b</code> vector from above:</p>
+<div class="cell">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 5</code></pre>
+</div>
+</div>
+<div class="cell" type="rmdnote">
+<div class="rmdnote">
+<p>
+<a href="https://class.lambdamd.org/pdsr/functions.html">Learn how to write your own functions</a>
+</p>
+</div>
+</div>
+</section><section id="summarize-data" class="level2"><h2>Summarize data</h2>
+<p>A lot of statistical functionality is built in to the language. You can easily get summary statistics of variables using functions like <code><a href="https://rdrr.io/r/base/mean.html">mean()</a></code>, <code><a href="https://rdrr.io/r/stats/median.html">median()</a></code>, <code><a href="https://rdrr.io/r/base/range.html">range()</a></code>, <code><a href="https://rdrr.io/r/base/Extremes.html">max()</a></code>, <code><a href="https://rdrr.io/r/base/Extremes.html">min()</a></code>.</p>
+<section id="continuous-variables" class="level3"><h3>Continuous variables</h3>
+<div class="cell">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">dat</span><span class="op">$</span><span class="va">age</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 60.83389</code></pre>
+</div>
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span><span class="op">(</span><span class="va">dat</span><span class="op">$</span><span class="va">age</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 60</code></pre>
+</div>
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">dat</span><span class="op">$</span><span class="va">age</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 40</code></pre>
+</div>
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">dat</span><span class="op">$</span><span class="va">age</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 95</code></pre>
+</div>
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">dat</span><span class="op">$</span><span class="va">age</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  40.00   51.00   60.00   60.83   70.00   95.00 </code></pre>
+</div>
+</div>
+</section><section id="categorical-variables" class="level3"><h3>Categorical variables</h3>
+<p>The <code><a href="https://rdrr.io/r/base/table.html">table()</a></code> function gives you the counts for each level/unique value of a variable:</p>
+<div class="cell">
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">dat</span><span class="op">$</span><span class="va">sex</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+  0   1 
+105 194 </code></pre>
+</div>
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">dat</span><span class="op">$</span><span class="va">smoking</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+  0   1 
+203  96 </code></pre>
+</div>
+</div>
+</section></section><section id="plots" class="level2"><h2>Plots</h2>
+<p>R has powerful and extensive support for graphics built in to the core language.</p>
+<p>Here, we look at how to produce some common and important plot types:</p>
+<section id="histogram" class="level3"><h3>Histogram</h3>
+<p>Draw a histogram using <code>hist(x)</code></p>
+<div class="cell">
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="va">dat</span><span class="op">$</span><span class="va">age</span>, col <span class="op">=</span> <span class="st">"lightseagreen"</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output-display">
+<p><img src="CrashCourse_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid" width="480"></p>
+</div>
+</div>
+</section><section id="boxplot" class="level3"><h3>Boxplot</h3>
+<p>Draw a boxplot using <code>boxplot(x)</code></p>
+<div class="cell">
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/boxplot.html">boxplot</a></span><span class="op">(</span><span class="va">dat</span><span class="op">$</span><span class="va">ejection_fraction</span>, col <span class="op">=</span> <span class="st">"lightseagreen"</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output-display">
+<p><img src="CrashCourse_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid" width="480"></p>
+</div>
+</div>
+<p>You can use a simple formula notation to draw boxplots grouped by a categorical variable using <code>~</code> symbol:<code>continuous variable ~ grouping variable</code></p>
+<div class="cell">
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/boxplot.html">boxplot</a></span><span class="op">(</span><span class="va">dat</span><span class="op">$</span><span class="va">serum_sodium</span> <span class="op">~</span> <span class="va">dat</span><span class="op">$</span><span class="va">smoking</span>, col <span class="op">=</span> <span class="st">"lightseagreen"</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output-display">
+<p><img src="CrashCourse_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid" width="480"></p>
+</div>
+</div>
+</section><section id="scatter-plot" class="level3"><h3>Scatter plot</h3>
+<p>Draw a scatter plot using <code>plot(x, y)</code></p>
+<div class="cell">
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">dat</span><span class="op">$</span><span class="va">age</span>, <span class="va">dat</span><span class="op">$</span><span class="va">serum_sodium</span>, col <span class="op">=</span> <span class="st">"lightseagreen"</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output-display">
+<p><img src="CrashCourse_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid" width="480"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">dat</span><span class="op">$</span><span class="va">age</span>, <span class="va">dat</span><span class="op">$</span><span class="va">serum_sodium</span>, col <span class="op">=</span> <span class="st">"lightseagreen"</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output-display">
+<p><img src="CrashCourse_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid" width="480"></p>
+</div>
+</div>
+</section></section><section id="hypothesis-testing" class="level2"><h2>Hypothesis Testing</h2>
+<section id="t-test" class="level3"><h3>T-test</h3>
+<p>Are the means of two groups significantly different? We use a simple formula notation as with the boxplot above to split values by group:</p>
+<div class="cell">
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/t.test.html">t.test</a></span><span class="op">(</span><span class="va">dat</span><span class="op">$</span><span class="va">serum_sodium</span> <span class="op">~</span> <span class="va">dat</span><span class="op">$</span><span class="va">sex</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Welch Two Sample t-test
+
+data:  dat$serum_sodium by dat$sex
+t = 0.45176, df = 184.61, p-value = 0.652
+alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
+95 percent confidence interval:
+ -0.8565791  1.3653665
+sample estimates:
+mean in group 0 mean in group 1 
+       136.7905        136.5361 </code></pre>
+</div>
+</div>
+</section><section id="chi-squared-test" class="level3"><h3>Chi-squared test</h3>
+<p>Test for association between two categorical variables:</p>
+<div class="cell">
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/chisq.test.html">chisq.test</a></span><span class="op">(</span><span class="va">dat</span><span class="op">$</span><span class="va">smoking</span>, <span class="va">dat</span><span class="op">$</span><span class="va">DEATH_EVENT</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Pearson's Chi-squared test with Yates' continuity correction
+
+data:  dat$smoking and dat$DEATH_EVENT
+X-squared = 0.0073315, df = 1, p-value = 0.9318</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">smoking_sex</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/chisq.test.html">chisq.test</a></span><span class="op">(</span><span class="va">dat</span><span class="op">$</span><span class="va">smoking</span>, <span class="va">dat</span><span class="op">$</span><span class="va">sex</span><span class="op">)</span></span>
+<span><span class="va">smoking_sex</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Pearson's Chi-squared test with Yates' continuity correction
+
+data:  dat$smoking and dat$sex
+X-squared = 57.463, df = 1, p-value = 3.444e-14</code></pre>
+</div>
+</div>
+<p>You can print the observed frequencies:</p>
+<div class="cell">
+<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">smoking_sex</span><span class="op">$</span><span class="va">observed</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           dat$sex
+dat$smoking   0   1
+          0 101 102
+          1   4  92</code></pre>
+</div>
+</div>
+<p>and the expected frequencies:</p>
+<div class="cell">
+<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">smoking_sex</span><span class="op">$</span><span class="va">expected</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           dat$sex
+dat$smoking        0         1
+          0 71.28763 131.71237
+          1 33.71237  62.28763</code></pre>
+</div>
+</div>
+</section></section><section id="saving-data" class="level2"><h2>Saving data</h2>
+<section id="csv-1" class="level3"><h3>CSV</h3>
+<p>You can write R objects to CSV file using `write.csv()’. These can be read directly into any program or language that can handle data.</p>
+<div class="cell">
+<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html">write.csv</a></span><span class="op">(</span><span class="va">dat</span>, <span class="st">"~/Data/dat.csv"</span><span class="op">)</span></span></code></pre></div>
+</div>
+</section><section id="rds" class="level3"><h3>RDS</h3>
+<p>You can also directly save any R object as an “RDS” file. These can be read into R. The advantage is that they are compressed and therefore may take a lot less space, and will maintain any type conversion you have performed.</p>
+<div class="cell">
+<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">saveRDS</a></span><span class="op">(</span><span class="va">dat</span>, <span class="st">"~/Data/dat.rds"</span><span class="op">)</span></span></code></pre></div>
+</div>
+</section></section><section id="builtin-documentation" class="level2"><h2>Builtin Documentation</h2>
+<p>After you’ve successfully installed R and RStudio, one of the first things to know is how to access and search the builtin documentation.</p>
+<section id="get-help-on-a-specific-item" class="level3"><h3>Get help on a specific item</h3>
+<p>If you know the name of what you’re looking for (an R function most commonly, but possibly also the name of a dataset, or a package itself), just type <code>?</code> followed by the name of said function, dataset, etc. in the R prompt:</p>
+<div class="cell">
+<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="op">?</span><span class="va">sample</span></span></code></pre></div>
+</div>
+<p>In RStudio, the above example will bring up the documentation for the <code>sample</code> function in the dedicated “Help” window, commonly situated at the bottom right (but can be moved by the user freely). If you are running R directly at the system shell, the same information is printed directly at the console.<br>
+Try running the above example on your system.</p>
+</section><section id="search-the-docs" class="level3"><h3>Search the docs</h3>
+<p>If you do not know the name of what you are looking for, you can use double question marks, <code>??</code>, followed by your query (this is short for the <code>help.search</code> command that provides a number of arguments you can look up using <code><a href="https://rdrr.io/r/utils/help.search.html">?help.search</a></code>):</p>
+<div class="cell">
+<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="op">?</span><span class="op">?</span><span class="va">bootstrap</span></span></code></pre></div>
+</div>
+<div id="quarto-navigation-envelope" class="hidden">
+<p><span class="hidden" data-render-id="quarto-int-sidebar-title">PDSR</span> <span class="hidden" data-render-id="quarto-int-navbar-title">PDSR</span> <span class="hidden" data-render-id="quarto-int-next">References</span> <span class="hidden" data-render-id="quarto-int-prev"><span class="chapter-number">50</span>  <span class="chapter-title">Data Pipeline Overview</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/index.html">Welcome</span> <span class="hidden" data-render-id="quarto-int-sidebar:/Preface.html"><span class="chapter-number">1</span>  <span class="chapter-title">Preface</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/Introduction.html"><span class="chapter-number">2</span>  <span class="chapter-title">Introduction</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/IDEs.html"><span class="chapter-number">3</span>  <span class="chapter-title">IDEs</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/Packages.html"><span class="chapter-number">4</span>  <span class="chapter-title">R packages</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/BasicOps.html"><span class="chapter-number">5</span>  <span class="chapter-title">Basic operations</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/DataTypes.html"><span class="chapter-number">6</span>  <span class="chapter-title">Data Types &amp; Vectors</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/DataStructures.html"><span class="chapter-number">7</span>  <span class="chapter-title">Data Structures</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/Indexing.html"><span class="chapter-number">8</span>  <span class="chapter-title">Indexing</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/Factors.html"><span class="chapter-number">9</span>  <span class="chapter-title">Factors</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/DataIO.html"><span class="chapter-number">10</span>  <span class="chapter-title">Data Input/Output</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/Vectorization.html"><span class="chapter-number">11</span>  <span class="chapter-title">Vectorized Operations</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/ControlFlow.html"><span class="chapter-number">12</span>  <span class="chapter-title">Control flow</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/Summarize.html"><span class="chapter-number">13</span>  <span class="chapter-title">Summarizing Data</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/Aggregate.html"><span class="chapter-number">14</span>  <span class="chapter-title">Aggregate</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/Functions.html"><span class="chapter-number">15</span>  <span class="chapter-title">Functions</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/LoopFunctions.html"><span class="chapter-number">16</span>  <span class="chapter-title">Loop Functions</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:quarto-sidebar-section-1">Data Frames</span> <span class="hidden" data-render-id="quarto-int-sidebar:/dfBasics.html"><span class="chapter-number">17</span>  <span class="chapter-title">Working with Data frames</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/dfReshape.html"><span class="chapter-number">18</span>  <span class="chapter-title">Reshaping</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/dfJoin.html"><span class="chapter-number">19</span>  <span class="chapter-title">Joins</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/DataTrans.html"><span class="chapter-number">20</span>  <span class="chapter-title">Data Transformations</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/MissingData.html"><span class="chapter-number">21</span>  <span class="chapter-title">Handling Missing data</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/Strings.html"><span class="chapter-number">22</span>  <span class="chapter-title">Strings</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/DateTime.html"><span class="chapter-number">23</span>  <span class="chapter-title">Date and Time</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/SetOps.html"><span class="chapter-number">24</span>  <span class="chapter-title">Set operations</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/ClassesAndOOP.html"><span class="chapter-number">25</span>  <span class="chapter-title">Classes and OOP</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:quarto-sidebar-section-2">Data Table</span> <span class="hidden" data-render-id="quarto-int-sidebar:/dtBasics.html"><span class="chapter-number">26</span>  <span class="chapter-title">Efficient data analysis with <strong>data.table</strong></span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/dtRefSem.html"><span class="chapter-number">27</span>  <span class="chapter-title">Reference semantics</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/dtDataIO.html"><span class="chapter-number">28</span>  <span class="chapter-title">Data I/O</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/dtReshape.html"><span class="chapter-number">29</span>  <span class="chapter-title">Reshape</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/dtJoin.html"><span class="chapter-number">30</span>  <span class="chapter-title">Joins</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/DataTableII.html"><span class="chapter-number">31</span>  <span class="chapter-title">Advanced usage examples</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:quarto-sidebar-section-3">Tidyverse</span> <span class="hidden" data-render-id="quarto-int-sidebar:/dplyr.html"><span class="chapter-number">32</span>  <span class="chapter-title">Introduction to <strong>dplyr</strong></span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/dplyrJoin.html"><span class="chapter-number">33</span>  <span class="chapter-title">Joins</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/tidyrReshape.html"><span class="chapter-number">34</span>  <span class="chapter-title">Reshaping with <strong>tidyr</strong></span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/lubridate.html"><span class="chapter-number">35</span>  <span class="chapter-title">Dates with <strong>lubridate</strong></span></span> <span class="hidden" data-render-id="quarto-int-sidebar:quarto-sidebar-section-4">Graphics</span> <span class="hidden" data-render-id="quarto-int-sidebar:/BaseGraphics.html"><span class="chapter-number">36</span>  <span class="chapter-title">Base Graphics</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/Colors.html"><span class="chapter-number">37</span>  <span class="chapter-title">Colors</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/3xGraphics.html"><span class="chapter-number">38</span>  <span class="chapter-title">3x Graphics</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/HypothesisTesting.html"><span class="chapter-number">39</span>  <span class="chapter-title">Common statistical tests</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/GLM.html"><span class="chapter-number">40</span>  <span class="chapter-title">Introduction to the GLM</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/Profiling.html"><span class="chapter-number">41</span>  <span class="chapter-title">Benchmarking &amp; Profiling</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/Optimization.html"><span class="chapter-number">42</span>  <span class="chapter-title">Optimization</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:quarto-sidebar-section-5">Introduction to Machine Learning</span> <span class="hidden" data-render-id="quarto-int-sidebar:/Resampling.html"><span class="chapter-number">43</span>  <span class="chapter-title">Resampling</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/Supervised.html"><span class="chapter-number">44</span>  <span class="chapter-title">Supervised Learning</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/Unsupervised.html"><span class="chapter-number">45</span>  <span class="chapter-title">Unsupervised Learning</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/Quarto.html"><span class="chapter-number">46</span>  <span class="chapter-title">Quarto</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:quarto-sidebar-section-6">System</span> <span class="hidden" data-render-id="quarto-int-sidebar:/TerminalIntro.html"><span class="chapter-number">47</span>  <span class="chapter-title">Introduction to the system shell</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/GitHubIntro.html"><span class="chapter-number">48</span>  <span class="chapter-title">Git &amp; GitHub: the basics</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/Resources.html"><span class="chapter-number">49</span>  <span class="chapter-title">Resources</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/DataPipeline.html"><span class="chapter-number">50</span>  <span class="chapter-title">Data Pipeline Overview</span></span> <span class="hidden" data-render-id="quarto-int-sidebar:/CrashCourse.html">Crash Course</span> <span class="hidden" data-render-id="quarto-int-sidebar:/References.html">References</span> <span class="hidden" data-render-id="footer-center">© 2022 E.D. Gennatas</span></p>
+</div>
+<div id="quarto-meta-markdown" class="hidden">
+<p><span class="hidden" data-render-id="quarto-metatitle">PDSR - Crash Course</span> <span class="hidden" data-render-id="quarto-twittercardtitle">PDSR - Crash Course</span> <span class="hidden" data-render-id="quarto-ogcardtitle">PDSR - Crash Course</span> <span class="hidden" data-render-id="quarto-metasitename">PDSR</span> <span class="hidden" data-render-id="quarto-twittercarddesc"></span> <span class="hidden" data-render-id="quarto-ogcardddesc"></span></p>
+</div>
+</section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'alternate';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+    

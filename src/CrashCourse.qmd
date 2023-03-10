@@ -276,9 +276,23 @@ variable (e.g. Patient ID, Age, Sex, Dx, etc.)
 
 ### XLSX
 
+To read in XLSX files, you need to install an external package. Multiple packages can
+read such files, one of them is 
+[`openxlsx`](https://cran.r-project.org/web/packages/openxlsx/).
+
+To install it, use the `install.packages()` command:
+
+```{r}
+#| eval: false
+install.packages('openxlsx')
+```
+
 ```{r}
 dat_too <- openxlsx::read.xlsx("~/icloud/Data/UCI/heart_failure_clinical_records_dataset.xlsx")
 ```
+
+Note: if you want to try the above command, open the CSV file using Excel and save it as
+an XLSX file first.
 
 ```{r}
 head(dat_too)
@@ -423,20 +437,23 @@ Index all columns of the 12th row:
 dat[12, ]
 ```
 
-Another way to select a column of a data.frame is by name:
+Another way to select a column of a data.frame is by name.
+
+Note, we wrap the indexing of the data.frame around `head()` to avoid printing the
+entire column.
 
 ```{r}
-dat[, "age"]
+head(dat[, "age"])
 ```
 
 or using the `$` notation:
 
 ```{r}
-dat$age
+head(dat$age)
 ```
 
 ```{block, type="rmdnote"}
-Learn more about data.frames in @sec-dataframes.
+Learn more about data.frames in @sec-dfbasics.
 ```
 
 ## Functions in R

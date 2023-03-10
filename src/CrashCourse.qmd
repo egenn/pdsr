@@ -152,11 +152,12 @@ is super important.
 Whether you are just starting out or you are a seasoned programmer, you have
 many sources of information to help you troubleshoot or learn new skills.
 <br><br>
+
 - Use the built-in documentation! Builtin help files, written by the code author,
 are almost always the best place to start. Their quality will vary, but they
 are often sufficient to learn how to use a function properly.
 - Programming is largely an online activity. All documentation and source code
-(for open source projects) is available online. Most errors or difficulties you 
+(of open source projects) is available online. Most errors or difficulties you 
 encounter have been encountered many times before by others. A very large number
 of Q&A sites, blogs, forums are a web search away. Copy-pasting an error message 
 into a search engine will often result in multiple hits.
@@ -223,9 +224,13 @@ system.
 
 This functionality is extended through a vast ecosystem of external packages.
 
-- **CRAN**: The Comprehensive R Archive Network (https://cran.r-project.org/): [19001 packages](https://cran.r-project.org/web/packages/)
-- **Bioconductor**: Bioinformatics-related packages and more (https://www.bioconductor.org/): [2083+ packages](https://bioconductor.org/about/release-announcements/)
-- **GitHub**: The largest source code host (>200M repositories; https://github.com/): Likely hosts most of the above and quite a few more. Also hosts a copy of the entire CRAN.
+- **CRAN**: The Comprehensive R Archive Network (https://cran.r-project.org/): 
+[19001 packages](https://cran.r-project.org/web/packages/)
+- **Bioconductor**: Bioinformatics-related packages and more 
+(https://www.bioconductor.org/): 
+[2083+ packages](https://bioconductor.org/about/release-announcements/)
+- **GitHub**: The largest source code host (>200M repositories; https://github.com/): 
+Hosts most if not all of the above and a lot more. Also hosts a copy of the entire CRAN.
 
 ## Reading in Data
 
@@ -237,6 +242,25 @@ the UCI repository:
 
 ```{r}
 dat <- read.csv("~/icloud/Data/UCI/heart_failure_clinical_records_dataset.csv")
+```
+
+An important optional argument of the `read.csv()` command is `na.strings`: it lets you
+define which string(s) should be considered as missing data. Some common strings used to 
+indicated missing data are the empty string `""` or `NA`.
+
+The above file does not contain any missing data, so the following is only an example of
+how you would define the `na.strings` argument:
+
+```{r}
+dat <- read.csv("~/icloud/Data/UCI/heart_failure_clinical_records_dataset.csv",
+  na.strings = c("", "NA"))
+```
+
+`read.csv()` can also read files directly from the internet:
+
+```{r}
+#| eval: false
+dat <- read.csv("https://archive.ics.uci.edu/ml/machine-learning-databases/00519/heart_failure_clinical_records_dataset.csv")
 ```
 
 The `head()` function prints the first few lines of an object:
@@ -259,6 +283,8 @@ dat_too <- openxlsx::read.xlsx("~/icloud/Data/UCI/heart_failure_clinical_records
 ```{r}
 head(dat_too)
 ```
+
+Read more about reading in data in @sec-dataio.
 
 ## Inspect & summarize data
 
@@ -334,6 +360,10 @@ dept <- c("ED", "Neuro", "Peds")
 dept
 ```
 
+```{block, type="rmdnote"}
+Learn more about R data types in @sec-datatypes.
+```
+
 ## Data Structures
 
 R includes multiple different data structures. Think of a data structure as a
@@ -343,7 +373,7 @@ The data.frame is one of the most common data structures for statistics, because
 it can hold vectors of different kinds, e.g. numeric, categorical, and character.
 
 ```{block, type="rmdnote"}
-[Read more about data structures](https://class.lambdamd.org/pdsr/datastructures.html)
+Learn more about R data structures in @sec-datastructures.
 ```
 
 ### Factors
@@ -363,16 +393,50 @@ dat$DEATH_EVENT <- factor(dat$DEATH_EVENT)
 ```
 
 ```{block, type="rmdnote"}
-[Read more about factors](https://class.lambdamd.org/pdsr/factors.html)
+Learn more about factors in @sec-factors.
 ```
 
 ## Working with data.frames
 
-One way to select a column of a data.frame by name, is to use the `$` notation.
-Note, we use `head()` to avoid printing the entire variable.
+### Indexing
+
+To index a data.frame means to select one or more rows and one or more rows. You do this
+using bracket notation, where the index of rows is followed by the index of columns.
+
+For example, to index the first 10 rows and first 3 columns:
 
 ```{r}
-head(dat$age)
+dat[1:10, 1:3]
+```
+
+To index all rows or all columns, leave the corresponding index empty.
+
+For example, index all rows of the first column:
+
+```{r}
+dat[, 1]
+```
+
+Index all columns of the 12th row:
+
+```{r}
+dat[12, ]
+```
+
+Another way to select a column of a data.frame is by name:
+
+```{r}
+dat[, "age"]
+```
+
+or using the `$` notation:
+
+```{r}
+dat$age
+```
+
+```{block, type="rmdnote"}
+Learn more about data.frames in @sec-dataframes.
 ```
 
 ## Functions in R
@@ -389,9 +453,8 @@ For example, to get the mean of the `b` vector from above:
 mean(b)
 ```
 
-
 ```{block, type="rmdnote"}
-[Learn how to write your own functions](https://class.lambdamd.org/pdsr/functions.html)
+Learn how to write your own functions in @sec-functions.
 ```
 
 ## Summarize data
@@ -516,6 +579,10 @@ and will maintain any type conversion you have performed.
 
 ```{r eval = FALSE}
 saveRDS(dat, "~/Data/dat.rds")
+```
+
+```{block, type="rmdnote"}
+Learn more about data.frames in @sec-dataio.
 ```
 
 ## Builtin Documentation

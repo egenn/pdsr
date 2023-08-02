@@ -389,9 +389,9 @@ x[c(2, 3)]
 
 ### Flatten list
 
-You can convert a list to one lone vector containing all the individual 
-components of the original list using `unlist()`. Notice how names are 
-automatically created based on the original structure:
+You can convert a list to a single vector containing all individual components of the 
+original list using `unlist()`. Notice how names are automatically created based on the 
+original structure:
 
 ```{r}
 x <- list(alpha = sample(seq(100), 10),
@@ -401,7 +401,8 @@ x
 unlist(x)
 ```
 
-If you want to drop the names, you can use set the `use.names` argument to FALSE or wrap the above in `unname()`:
+If you want to drop the names, you can set the `use.names` argument to FALSE or wrap 
+the above in `unname()`:
 
 ```{r}
 unlist(x, use.names = F)
@@ -467,7 +468,8 @@ Accessing a column by name using square brackets, returns a single-column
 x["Feat_2"]
 ```
 
-Accessing a column by `[row, column]` either by position or name, return a vector by default:
+Accessing a column by `[row, column]` either by position or name, returns a vector by 
+default:
 
 ```{r}
 x[, 2]
@@ -484,7 +486,8 @@ class(x[, 2, drop = FALSE])
 class(x[, "Feat_2", drop = FALSE])
 ```
 
-As in lists, all indexing and slicing operations, with the exception of the `$` notation, work with a variable holding either a column name of or an integer location:
+As in lists, all indexing and slicing operations, with the exception of the `$` 
+notation, work with a variable holding either a column name of or an integer location:
 
 ```{r}
 idi <- 2
@@ -508,7 +511,8 @@ class(x[, 2:3])
 
 ### Get rows
 
-Unlike indexing a row of a matrix, indexing a row of a data.frame returns a single-row data.frame, since it contains multiple columns of potentially different types:
+Unlike indexing a row of a matrix, indexing a row of a data.frame returns a single-row 
+data.frame, since it contains multiple columns of potentially different types:
 
 ```{r}
 x[1, ]
@@ -569,12 +573,14 @@ logical_index
 ### Logical to integer index with `which()`:
 
 
-```{block, type="rmdcaution"}
-The common mistake is to attempt to convert a logical index to an integer index using `as.integer()`. This results in a vector of 1's and 0's, NOT an integer index.  
+::: callout-warning
+The common mistake is to attempt to convert a logical index to an integer index using 
+`as.integer()`. This results in a vector of 1's and 0's, NOT an integer index.  
 `which()` converts a logical index to an integer index.
-```
+:::
 
-`which()` literally gives the position of all `TRUE` elements in a vector, thus converting a logical to an integer index:
+`which()` literally gives the position of all `TRUE` elements in a vector, thus 
+converting a logical to an integer index:
 
 ```{r}
 integer_index <- which(logical_index)
@@ -598,7 +604,9 @@ all(x[logical_index] == x[integer_index])
 
 ### Integer to logical index
 
-On the other hand, if we want to convert an integer index to a logical index, we can begin with a logical vector of the same length or dimension as the object we want to index with all FALSE values:
+On the other hand, if we want to convert an integer index to a logical index, we can 
+begin with a logical vector of the same length or dimension as the object we want to 
+index with all FALSE values:
 
 ```{r}
 logical_index_too <- vector(length = length(x))

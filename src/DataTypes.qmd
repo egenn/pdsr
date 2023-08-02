@@ -44,10 +44,10 @@ x <- 3
 # You can add comments within code blocks using the usual "#" prefix
 ```
 
-```{block, type="rmdtip"}
+::: callout-note
 In [RStudio](https://rstudio.com/) the keyboard shortcut for the assignment 
 operator `<-` is `Option -` (MacOS) or `Alt -` (Windows).
-```
+:::
 
 Typing the name of an object...
 
@@ -101,20 +101,20 @@ x
 z
 ```
 
-```{block, type="rmdnote"}
+::: callout-note
 It's good practice to use clear and descriptive names for all objects you 
 create.
 
 For multi-word names, snake case is a good option:
 
 `admission_date, age_at_onset, etc.`
-```
+:::
 
-```{block, type="rmdcaution"}
+::: callout-caution
 Avoid naming new objects using names of built-in commands.
 For example, avoid assigning your data to an object named `data`, since that
 would conflict with the built-in function `data()`.
-```
+::: 
 
 ## Create vectors with `c()` 
 
@@ -284,28 +284,25 @@ sum(x)
 On the other hand, you cannot sum a [factor](#factors), for example.  
 You get an error with an explanation:
 
-```{r error = TRUE}
+```{r}
+#| error: true
 x <- factor(c("mango", "banana", "mango"))
 sum(x)
 ```
 
-```{block, type="rmdnote"}
+::: callout-note
 Note: We had to add `error = TRUE` in the Rmarkdown's code block's options (not 
 visible in the HTML output), because otherwise compilation of the Rmarkdown 
 document would stop at the error.
-```
+:::
 
-If for some reason it made sense, you could explicitly coerce to numeric and then sum:
-
-```{r}
-x <- factor(c("mango", "banana", "mango"))
-sum(as.numeric(x))
-```
-
-```{block, type="rmdcaution"}
+::: callout-caution
 Many errors in R occur because a variable is, or gets coerced to, the wrong 
-type or class by accident.
-```
+type or class (see @sec-datastructures) by accident.
+That's why it is essential to be able to
+- check the type of a variable using `typeof()` or `class()`
+- convert (coerce) between types or classes using `as.*` functions
+::: 
 
 ## `NA`: Missing value {#na}
 
@@ -338,12 +335,12 @@ x[4, 3] <- NA
 is.na(x)
 ```
 
-```{block, type="rmdnote"}
+::: callout-note
 Note that `is.na()` returns a response for each element 
 (i.e. is [vectorized](#vectorization)) in contrast to `is.numeric()`, 
 `is.logical()`, etc. The latter are checking the type of 
 an object, while the former is checking individual elements. 
-```
+::: 
 
 `anyNA()` is a very useful function to check if there an any NA values in an 
 object:
@@ -352,9 +349,9 @@ object:
 anyNA(x)
 ```
 
-```{block, type="rmdnote"}
+::: callout-note
 Any operations on an `NA` results in `NA`
-```
+:::
 
 ```{r}
 x <- c(1.2, 5.3, 4.8, NA, 9.6)
@@ -440,19 +437,19 @@ But the opposite is not true:
 is.nan(NA)
 ```
 
-```{block, type="rmdnote"}
+::: callout-note
 `NaN` can be considered a subtype of `NA`, 
 as such: `is.na(NaN)` is `TRUE`, 
 but `is.nan(NA)` is `FALSE`.
-```
+:::
 
 ## `NULL`: The empty object
 
 The `NULL` object represents an empty object.
 
-```{block, type="rmdnote"}
+::: callout-note
 `NULL` means empty, ***not missing***, and is therefore entirely different from `NA`
-```
+:::
 
 `NULL` shows up for example when initializing a list:
 
@@ -473,7 +470,8 @@ a
 You cannot replace one or more elements of a vector/matrix/array with `NULL` 
 because `NULL` has length 0 and replacement requires object of equal length:
 
-```{r, error=T}
+```{r}
+#| error: true
 a <- 11:15
 a
 a[1] <- NULL
@@ -509,5 +507,7 @@ The following summary table lists the functions to *initialize*,
 | `numeric(n)`   | `as.numeric(x)`   | `is.numeric(x)`   |
 | `character(n)` | `as.character(x)` | `is.character(x)` |
 
-Note: `numeric` and `double` functions on lines 3 and 4 above are equivalent. 
+::: callout-note
+Note that `numeric` and `double` functions on lines 3 and 4 above are equivalent. 
 (Try printing `numeric` and `double` in the console and compare)
+:::

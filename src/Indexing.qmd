@@ -190,12 +190,6 @@ You can define ranges for both rows and columns:
 mat[6:7, 2:4]
 ```
 
-You can return rows and/or columns reversed if desired:
-
-```{r}
-mat[7:6, 4:2]
-```
-
 You can use vectors to specify any combination of rows and columns.
 
 Get rows 2, 4, and 7 of columns 1, 4, and 3:
@@ -204,7 +198,10 @@ Get rows 2, 4, and 7 of columns 1, 4, and 3:
 mat[c(2, 4, 7), c(1, 4, 3)]
 ```
 
-Since a matrix is a vector with 2 dimensions, you can also index the underlying vector directly. Regardless of whether a matrix was created by row or by column (default), the data is stored and acceesed by column. You can see that by converting the matrix to a 1D vector:
+Since a matrix is a vector with 2 dimensions, you can also index the underlying vector 
+directly. Regardless of whether a matrix was created by row or by column (default), the 
+data is stored and acceesed by column. You can see that by converting the matrix to a 
+one-dimensional vector:
 
 ```{r}
 as.vector(mat)
@@ -215,7 +212,8 @@ same as:
 c(mat)
 ```
 
-For example, 'mat' has 10 rows and 4 columns, therefore the 11th element is in row 1 column 2
+For example, 'mat' has 10 rows and 4 columns, therefore the 11th element is in row 1, 
+column 2 - this only works with matrices, not data.frames:
 
 ```{r}
 mat[11]
@@ -226,18 +224,19 @@ is the same as:
 mat[1, 2]
 ```
 
-This only works with matrices, not data.frames.
-
 ### Matrix of indexes
 
-This is quite less common, but potentially useful. It allows you to specify a series of individual `[i, j]` indexes, i.e. is a way to select multiple individual non-contiguous elements
+This is quite less common, but potentially useful. It allows you to specify a series of 
+individual `[i, j]` indexes, i.e. is a way to select multiple individual non-contiguous 
+elements
 
 ```{r}
 idm <- matrix(c(2, 4, 7, 4, 3, 1), 3)
 idm
 ```
 
-An n-by-2 matrix can be used to index as a length n vector of `[row, colum]` indexes. Therefore, the above matrix, will return elements `[2, 4], [4, 3], [7, 1]`:
+An n-by-2 matrix can be used to index as a length n vector of `[row, colum]` indexes. 
+Therefore, the above matrix, will return elements `[2, 4], [4, 3], [7, 1]`:
 
 ```{r}
 mat[idm]
@@ -259,9 +258,13 @@ It can be used directly to index the matrix:
 mat[mat[, 2] > 15, ]
 ```
 
-Indexing a matrix or a data.frame can return either a smaller matrix/data.frame or a vector.
+Indexing a matrix or a data.frame can return either a smaller matrix/data.frame or a 
+vector.
 
-In general, objects in R are returned in their most simple form unless otherwise specified. This means that if you extract a column or a row, you get a vector:
+In general, many R functions return the simplest R object that can hold the output.
+As always, check function documentation to look for possible arguments that can change
+this and what the default behavior is.
+If you extract a column or a row, you get a vector:
 
 Get the third column:
 
@@ -270,7 +273,8 @@ mat[, 3]
 class(mat[, 3])
 ```
 
-You can specify `drop = FALSE` to stop R from dropping the unused dimension and return a matrix or data.frame of a single column:
+You can specify `drop = FALSE` to stop R from dropping the unused dimension and return a 
+matrix or data.frame of a single column:
 
 ```{r}
 mat[, 3, drop = FALSE]
@@ -302,7 +306,7 @@ x
 
 You can access a *single* list element using:
 
-- Using double brackets `[[` with either *name* or *integer position*
+- double brackets `[[` with either *name* or *integer position*
 - `$` followed by name of the element (therefore only works if elements are named)
 
 For example, to access the third element:
@@ -376,8 +380,8 @@ or
 x[[c(2, 3)]]
 ```
 
-This is called recursive partitioning and is perhaps more often
-used by accident, when one instead wanted to extrant the 2nd and 3rd elements:
+This is called recursive indexing and is perhaps more often
+used by accident, when one instead wanted to extract the 2nd and 3rd elements:
 
 ```{r}
 x[c(2, 3)]

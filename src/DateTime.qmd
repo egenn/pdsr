@@ -6,7 +6,8 @@ knitr:
 ---
 # Date and Time {#datetime}
 
-```{r echo = FALSE}
+```{r}
+#| echo: false
 knitr::opts_chunk$set(fig.width = 5, fig.height = 5,
                       comment = NA, cache = TRUE)
 ```
@@ -38,11 +39,11 @@ This list serves as reference for formatting functions later in the chapter.<br>
 
 There are many more specifications available, see the Details section in the 
 documentation for `strptime()`.
-
+<br><br>
 Note that some conversions are 
 [locale](https://en.wikipedia.org/wiki/Locale_(computer_software))-specific, i.e. will
 not work the same across systems.
-
+<br><br>
 Regarding the ambiguous `%y`, the documentation states:
 "`%y`   Year without century (00–99). On input, values 00 to 68 are prefixed by 20 and 69 to 99 by 19 – that is the behaviour specified by the 2018 POSIX standard, but it does also say ‘it is expected that in a future version the default century inferred from a 2-digit year will change’."
 
@@ -59,11 +60,10 @@ class(x)
 ```
 
 The `tryFormats` argument defines which format or formatss are recognized.
-
+<br><br>
 The default is `tryFormats = c("%Y-%m-%d", "%Y/%m/%d")`, i.e. will recognize dates of the 
 form "2020-11-16" or "2020/11/16".
-<br>
-
+<br><br>
 Let's see what happens if a date format is *not* recognized.
 Consider the 16th of November, 2021 in the following format:
 
@@ -104,8 +104,9 @@ Sys.timezone()
 
 ### Math on Dates
 
-The reason we care about Date objects in R is because we can apply useful mathematical operations on them.
-
+The reason we care about Date objects in R is because we can apply useful mathematical 
+operations on them.
+<br><br>
 For example, we can substract date objects to get time intervals:
 
 ```{r}
@@ -129,14 +130,15 @@ difftime(timepoint2, timepoint1, units = "mins")
 difftime(timepoint2, timepoint1, units = "secs")
 ```
 
-:::{.callout-tip}
+::: callout-tip
 Why is there no option for "months" or "years" in units?
 
 Because, unlike seconds, minutes, hours, days, and weeks,
 months and years do not have fixed length,
 i.e. literally a month or a year are not "units" of time.
-
-You can always get a difference in days and divide by 365 [365.242](https://www.nist.gov/pml/time-and-frequency-division/popular-links/time-frequency-z/time-and-frequency-z-l.
+<br><br>
+You can always get a difference in days and divide by 
+[365.242](https://www.nist.gov/pml/time-and-frequency-division/popular-links/time-frequency-z/time-and-frequency-z-l.
 :::
 
 ```{r}
@@ -150,7 +152,7 @@ Age
 class(Age)
 ```
 
-:::{.callout-caution}
+::: callout-caution
 If you convert the output of `difftime()` using an appropriate mathematical operation,
 e.g. division, the units, which are no longer correct, will remain. You should use 
 `as.numeric()` to convert the difftime object to a regular numeric vector without units.

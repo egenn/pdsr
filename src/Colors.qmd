@@ -22,9 +22,10 @@ options(rt.theme = "whiteigrid")
 options(rt.fit.theme = "whiteigrid")
 ```
 
-```{r, comment="", results="asis", echo=FALSE}
+```{r fansi}
+#| echo: false
+#| results: asis
 old.hooks <- fansi::set_knit_hooks(knitr::knit_hooks)
-options(crayon.enabled = TRUE)
 ```
 
 Colors in R can be defined in many different ways:  
@@ -92,7 +93,8 @@ hsv(1, 1, 1)
 ```
 
 In the following plot, the values around the polar plot represent hue. Moving 
-inwards to the center, saturation changes from 1 to 0.
+inwards to the center, saturation changes from 1 to 0. (The plot is produced using
+the `mplot_hsv()` function from the [`rtemis`](https://rtemis.lambdamd.org/) package.)
 
 ```{r}
 mplot_hsv()
@@ -109,6 +111,5 @@ For example, to get 50% transparent blue:
 adjustcolor("blue", alpha.f = .5)
 ```
 
-You can manually create the above, knowing that "FF" is hex for 255, and "80"
-is 128, therefore you want 0 red, 0 green, 255 blue, 128 alpha,
-therefore "#0000FF80"
+"FF" is hex for 255, and "80" in hex is 128, therefore you can also define the above 
+color as "#0000FF80", i.e. 0 red, 0 green, 255 blue, 128 alpha.

@@ -12,6 +12,9 @@ knitr:
 ---
 # 3x Graphics {#sec-graphics3x}
 
+Note: this chapter combines the **ggplot2** and **plotly** chapters along with
+base graphics equivalents.
+<br><br>
 Visualization is central to statistics, machine learning, data science. It is used to 
 check and explore data, present modeling results, and communicate findings.
 <br><br>
@@ -324,14 +327,16 @@ p |> layout(barmode = "overlay")
 
 ## Density plot
 
-### base
-
 There is no built-in high-level function to draw density plots, but the `density()` 
 function returns x and y coordinates you can use to add a polygon:
 
 ```{r}
 age_density <- density(dt[, Age])
+```
 
+### base
+
+```{r}
 plot(age_density$x, age_density$y,
      type = 'l',
      yaxs = "i",
@@ -369,12 +374,14 @@ p
 
 ## Grouped density
 
-### base
-
 ```{r}
 female_age_density <- density(dt[Sex == "Female", Age])
 male_age_density <- density(dt[Sex == "Male", Age])
+```
 
+### base
+
+```{r}
 # Create empty plot with appropriate x- and y-axis limits
 plot(NULL, NULL,
      type = 'l',
@@ -458,7 +465,9 @@ schools_df <- data.frame(
         levels = c("UCSF", "Stanford", "Penn")),
     N_schools = as.numeric(schools[1, ])
 )
+```
 
+```{r}
 ggplot(schools_df, aes(University, N_schools)) +
   geom_bar(stat = "identity", 
            color = palette[1], 

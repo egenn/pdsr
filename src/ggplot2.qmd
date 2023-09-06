@@ -1,0 +1,197 @@
+---
+execute: 
+  warning: false
+knitr:
+  opts_knit:
+    global.par: true
+  opts_chunk: 
+    comment: ''
+    fig.width: 5.5
+    fig.height: 5.5
+    out.width: 80%
+---
+# Introduction to **ggplot2** {#sec-ggplot2}
+
+**`ggplot2`**, created by Hadley Wickham [@wickham2011ggplot2], follows the 
+[Grammar of Graphics](https://www.springer.com/statistics/computational/book/978-0-387-24544-7) 
+approach of Leland Wilkinson [@wilkinson2012grammar] and has a very different 
+syntax than base functions. It uses the grid graphics package, not base graphics.
+<br><br>
+The general idea is to start by defining the data and then add and/or modify 
+graphical elements in a stepwise manner, which allows one to build complex and 
+layered visualizations. A simplified interface to `ggplot` graphics is provided 
+in the `qplot()` function of **`ggplot2`** (but you should avoid it and use 
+learn to use the `ggplot()` command which is fun and much more flexible and 
+useful to know).
+<br><br>
+For more information on **`ggplot2`**, see the 
+[**`ggplot2`** documentation](https://ggplot2.tidyverse.org/).
+
+## Setup
+
+### Libraries
+
+Load **`ggplot2`**
+
+```{r}
+library(ggplot2)
+```
+
+```{r}
+#| echo: false
+theme_set(theme(text = element_text(family = "Helvetica")))
+```
+
+### Synthetic Data
+
+```{r}
+library(data.table)
+set.seed(2022)
+dt <- data.table(
+    PID = sample(8001:9000, 100),
+    Age = rnorm(100, 33, 8),
+    Weight = rnorm(100, 70, 9),
+    SysBP = rnorm(100, 110, 6),
+    DiaBP = rnorm(100, 80, 6),
+    Sex = factor(sample(c("Female", "Male"), 100, TRUE))
+)
+dt[, SysBP := SysBP + .5 * Age]
+dt[Sex == "Male", Weight := Weight + rnorm(.N, 16, 1.5)]
+dt[Sex == "Male", Age := Age + rnorm(.N, 6, 1.8)]
+```
+
+Define a color palette `palette` and a version of the same palette at 2/3 transparency,
+`palette_a`:
+
+```{r}
+palette <- c("#43A4AC", "#FA9860")
+palette_a <- adjustcolor(palette, .666)
+```
+
+## Box plot
+
+`ggplot` requires a categorical x-axis to draw boxplots. This means 
+we need to convert our dataset from wide to long.
+
+Here we use **`data.table`**'s [`melt()`](dtReshape.qmd), but could use base R 
+[`reshape()`](dfReshape.qmd) function or [**`tidyr`**'s](https://tidyr.tidyverse.org/) `pivot_longer()`.
+
+```{r}
+dt_long <- melt(
+    dt,
+    id.vars = "PID",
+    measure.vars = c("SysBP", "DiaBP"),
+    variable.name = "Measure",
+    value.name = "Value"
+)
+dt_long
+```
+
+```{r}
+p <- ggplot(dt_long, aes(Measure, Value)) + 
+    geom_boxplot(colour = palette[1:2], fill = palette_a[1:2])
+p
+```
+
+### Grouped boxplot
+
+```{r}
+p <- ggplot(dt, aes(x = Sex, y = Age)) + 
+    geom_boxplot(colour = palette[2:1], fill = palette_a[2:1])
+p
+```
+
+## Histogram
+
+```{r}
+p <- ggplot(dt, aes(Age)) + 
+    geom_histogram(bins = 24, color = palette[1], fill = palette_a[1]) +
+    xlab("Age (years)")
+p
+```
+
+### Grouped Histogram
+
+```{r}
+p <- ggplot(dt, aes(x = Age, fill = Sex)) + 
+    geom_histogram(bins = 24, position = "identity") +
+    # scale_color_manual(values = palette[1:2]) +
+    scale_fill_manual(values = palette_a[2:1])
+p
+```
+
+`position = "identity"` displays overlapping bars. Alternatively, `position = "dodge"` can be used to display groups' bars side by side instead. If position is not specified, bars will be stacked vertically, which can be very confusing.
+
+## Density plot
+
+```{r}
+p <- ggplot(dt, aes(x = Age)) + 
+    geom_density(color = palette[1], fill = palette_a[1])
+p
+```
+
+### Grouped density plot
+
+```{r}
+p <- ggplot(dt, aes(x = Age, fill = Sex)) + 
+    geom_density(color = NA) +
+    scale_fill_manual(values = palette_a[2:1])
+p
+```
+
+## Barplot
+
+```{r}
+schools <- data.frame(UCSF = 4, Stanford = 7, Penn = 12)
+```
+
+`ggplot2` requires an explicit column in the data that define the categorical 
+x-axis:
+
+```{r}
+schools_df <- data.frame(
+    University = factor(colnames(schools), 
+        levels = c("UCSF", "Stanford", "Penn")),
+    N_schools = as.numeric(schools[1, ])
+)
+
+ggplot(schools_df, aes(University, N_schools)) +
+  geom_bar(stat = "identity", 
+           color = palette[1], 
+           fill = palette_a[1])
+```
+
+## Scatterplot
+
+```{r}
+p <- ggplot(dt, aes(Age, SysBP)) +
+    geom_point(color = palette_a[1])
+p
+```
+
+### Grouped Scatterplot
+
+```{r}
+p <- ggplot(dt, aes(Age, SysBP, col = Sex)) +
+    geom_point() +
+    scale_color_manual(values = palette[1:2]) +
+    scale_fill_manual(values = palette_a[2:1])
+p
+```
+
+## Save plot to file
+
+We'll use the grouped boxplot example from above to show how to save each type of plot
+to file, using a PDF output as an example.
+
+```{r}
+#| eval: false
+p <- ggplot(dt, aes(x = Sex, y = Age)) + 
+    geom_boxplot(colour = palette[2:1], fill = palette_a[2:1])
+ggsave("Age_by_Sex_ggplot.pdf", p,
+    width = 5.5, height = 5.5, scale = 1, units = "in")
+```
+
+## References
+
+- [ggplot2 Documentation](https://ggplot2.tidyverse.org/)

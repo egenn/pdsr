@@ -1,0 +1,250 @@
+---
+execute: 
+  warning: false
+knitr:
+  opts_knit:
+    global.par: true
+  opts_chunk: 
+    comment: ''
+    fig.width: 5.5
+    fig.height: 5.5
+    out.width: 80%
+---
+
+# Introduction to **plotly**
+
+[Plotly](https://plot.ly) [@sievert2017plotly] is a comprehensive plotting library that
+produces interactive plots.
+
+## Setup
+
+### Libraries
+
+Load libraries we will be using in this chapter:
+
+```{r}
+library(data.table)
+library(plotly)
+```
+
+### Synthetic Data
+
+```{r}
+library(data.table)
+set.seed(2022)
+dt <- data.table(
+    PID = sample(8001:9000, 100),
+    Age = rnorm(100, 33, 8),
+    Weight = rnorm(100, 70, 9),
+    SysBP = rnorm(100, 110, 6),
+    DiaBP = rnorm(100, 80, 6),
+    Sex = factor(sample(c("Female", "Male"), 100, TRUE))
+)
+dt[, SysBP := SysBP + .5 * Age]
+dt[Sex == "Male", Weight := Weight + rnorm(.N, 16, 1.5)]
+dt[Sex == "Male", Age := Age + rnorm(.N, 6, 1.8)]
+```
+
+Define a color palette `palette` and a version of the same palette at 2/3 transparency,
+`palette_a`:
+
+```{r}
+palette <- c("#43A4AC", "#FA9860")
+palette_a <- adjustcolor(palette, .666)
+```
+
+## Box plot
+
+Reference: [R plotly boxplots](https://plotly.com/r/box-plots/)
+
+In plotly, we can use a loop to add each column's boxplot one at a time. In the 
+following example, we turn off the legend, since the names also appear below 
+each boxplot: 
+
+```{r}
+plt <- plot_ly(y = dt[, SysBP], type = "box", name = "SysBP",
+    line = list(color = palette[1]), fillcolor = palette_a[1])  |> 
+    add_boxplot(y = dt[, DiaBP], name = "DiaBP",
+        line = list(color = palette[2]), fillcolor = palette_a[2])
+plt |> layout(showlegend = FALSE)
+```
+
+## Grouped boxplot
+
+```{r}
+p <- plot_ly(y = dt[, Age], type = "box", color = dt[, Sex],
+    colors = palette[2:1])
+p |> layout(showlegend = FALSE)
+```
+
+## Histogram
+
+```{r}
+p <- plot_ly(
+    x = dt[, Age], type = "histogram",
+    nbinsx = 24,
+    marker = list(color = palette_a[1], 
+        line = list(color = palette[1], width = 2)
+    )
+) |> layout(xaxis = list(title = "Age (years)"))
+p
+```
+
+## Grouped Histogram
+
+```{r}
+p <- plot_ly(x = dt[, Age], type = "histogram", color = dt[, Sex],
+    colors = palette_a[2:1], nbinsx = 24)
+p
+```
+
+More control is possible when adding traces one at a time:
+
+```{r}
+p <- plot_ly() |> 
+    add_histogram(
+        x = dt[Sex == "Female", Age],
+        nbinsx = 24, name = "Female",
+        marker = list(color = palette_a[2], 
+        line = list(color = palette[2], width = 1))
+    ) |> 
+    add_histogram(
+        x = dt[Sex == "Male", Age],
+        nbinsx = 24, name = "Male",
+        marker = list(color = palette_a[1], 
+        line = list(color = palette[1], width = 1))
+    ) |> 
+    layout(xaxis = list(title = "Age"))
+p
+```
+
+Can control placement of different traces' bars using `barmode` arguments, which defaults 
+to "group".
+
+To switch to "overlay":
+
+```{r}
+p |> layout(barmode = "overlay")
+```
+
+## Density plot
+
+The built-in `density()` function returns x and y coordinates we can use to draw a
+density plot.
+
+```{r}
+age_density <- density(dt[, Age])
+```
+
+```{r}
+p <- plot_ly(
+    x = age_density$x, 
+    y = age_density$y, 
+    type = "scatter", mode = "none",
+    fill = "tozeroy",
+    fillcolor = palette_a[1]
+)
+p
+```
+
+## Grouped density plot
+
+```{r}
+female_age_density <- density(dt[Sex == "Female", Age])
+male_age_density <- density(dt[Sex == "Male", Age])
+```
+
+```{r}
+p <- plot_ly(
+    x = female_age_density$x, y = female_age_density$y,
+    type = "scatter", mode = "none",
+    name = "Female",
+    fill = "tozeroy", fillcolor = palette_a[2]) |> 
+    add_trace(
+        x = male_age_density$x, y = male_age_density$y,
+        type = "scatter", mode = "none",
+        name = "Male",
+        fill = "tozeroy", fillcolor = palette_a[1])
+p
+```
+
+## Barplot
+
+```{r}
+schools <- data.frame(UCSF = 4, Stanford = 7, Penn = 12)
+```
+
+```{r}
+schools_df <- data.frame(
+    University = factor(colnames(schools), 
+        levels = c("UCSF", "Stanford", "Penn")),
+    N_schools = as.numeric(schools[1, ])
+)
+```
+
+```{r}
+p <- plot_ly(
+    x = schools_df$University,
+    y = schools_df$N_schools,
+    name = "Schools",
+    type = "bar",
+    marker = list(color = palette_a[1], 
+        line = list(color = palette[1], width = 2)
+    ))
+p |> layout(yaxis = list(title = "N schools"))
+```
+
+## Scatterplot
+
+```{r}
+p <- plot_ly(
+    dt, x = ~Age, y = ~SysBP, 
+    type = "scatter", mode = "markers",
+    marker = list(color = palette_a[1])
+)
+p
+```
+
+same as:
+
+```{r}
+p <- plot_ly(dt, x = ~Age, y = ~SysBP) |> 
+    add_trace(type = "scatter", mode = "markers",
+        marker = list(color = palette_a[1])
+    )
+p
+```
+
+## Grouped Scatterplot
+
+```{r}
+p <- plot_ly() |> 
+    add_trace(x = dt[Sex == "Female", Age], y = dt[Sex == "Female", SysBP],
+        name = "Female",
+        type = "scatter", mode = "markers",
+        marker = list(color = palette_a[2])
+    ) |> 
+    add_trace(x = dt[Sex == "Male", Age], y = dt[Sex == "Male", SysBP],
+        name = "Male",
+        type = "scatter", mode = "markers",
+        marker = list(color = palette_a[1])
+    )
+p
+```
+
+## Save plot to file
+
+We'll use the grouped boxplot example from above to show how to save each type of plot
+to file, using a PDF output as an example.
+
+```{r}
+#| eval: false
+p <- plot_ly(y = dt[, Age], type = "box", color = dt[, Sex],
+    colors = palette[2:1])
+p |> layout(showlegend = FALSE)
+save_image(p, "Age_by_Sex_plotly.pdf", width = 5.5, height = 5.5, scale = 1)
+```
+
+## References
+
+- [R plotly Documentation](https://plotly.com/r/)

@@ -135,7 +135,7 @@ mod <- s_GLM(dat_train, dat_test)
 ### Crossvalidated Model
 
 ```{r}
-mod <- elevate(dat, mod = "glm")
+mod <- train(dat, alg = "glm")
 ```
 
 Use the `describe()` function to get a summary in (plain) English:
@@ -153,7 +153,7 @@ mod$plot()
 ### Check Data
 
 ```{r}
-data(Sonar, package = 'mlbench')
+data(Sonar, package = "mlbench")
 check_data(Sonar)
 res <- resample(Sonar)
 sonar_train <- Sonar[res$Subsample_1, ]
@@ -163,13 +163,13 @@ sonar_test <- Sonar[-res$Subsample_1, ]
 ### Single model
 
 ```{r}
-mod <- s_RANGER(sonar_train, sonar_test)
+mod <- s_Ranger(sonar_train, sonar_test)
 ```
 
 ### Crossvalidated Model
 
 ```{r}
-mod <- elevate(Sonar)
+mod <- train(Sonar)
 ```
 
 ```{r}
@@ -240,7 +240,8 @@ mplot3_xy(x, list(Overfitted_model = y_noise, Ideal_model = y_true), type = "l")
 An example of an SVM set up to overfit heavily:
 
 ```{r}
-mplot3_xy(x, y_noise, fit = "svm",
+mplot3_xy(x, y_noise, 
+          fit = "svm",
           fit.params = list(kernel = "radial", cost = 100, gamma = 100))
 ```
 

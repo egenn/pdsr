@@ -2,8 +2,6 @@
 knitr:
   opts_chunk: 
     comment: ''
-    fig.width: 10
-    fig.height: 5
 ---
 # Loop Functions {#sec-loopfns}
 
@@ -31,12 +29,12 @@ knitr::include_graphics("./R_applyfam.png")
 
 ## `apply()` {#apply}
 
-```{block, type="rmdtip"}
+::: callout-tip
 `apply()` applies a function over one or more dimensions of an array of 2 
 dimensions or more (this includes matrices) or a data frame:
 
 `apply(array, MARGIN, FUN)`
-```
+:::
 
 `MARGIN` can be an integer vector or character indicating the dimensions over 
 which 'FUN' will be applied.
@@ -64,12 +62,12 @@ dat_column_mean <- apply(dat, MARGIN = 2, FUN = mean)
 dat_column_mean
 ```
 
-```{block, type="rmdnote"}
+::: callout-tip
 Hint: It is possibly easiest to think of the "MARGIN" as the 
 ***dimension you want to keep***.  
 In the above case, we want the mean for each variable, i.e. we want to keep 
 columns and collapse rows.
-```
+:::
 
 Purely as an example to understand what `apply()` does, here is the equivalent
 procedure using a for-loop. You notice how much nore code is needed, and why
@@ -150,11 +148,11 @@ dat_median
 (Check the source code for `sapply()` by typing `sapply` at the console).  
 
 
-```{block, type="rmdnote"}
+::: callout-note
 Unlike `lapply()`, the output of `sapply()` is **variable**: 
 it is the simplest R  object that can hold the data type(s) resulting from the 
 operations, i.e. a vector, matrix, data frame, or list.
-```
+:::
 
 ```{r}
 dat_median <- sapply(dat, median)
@@ -370,7 +368,6 @@ sapply(1:ncol(amat), function(i) mean(amat[, i]))
 This is shown to help emphasize the differences between the function and the 
 data structures. In practice, you would use `apply()` on a matrix.
 
-
 ## Anonymous functions {#anonfns}
 
 Anonymous functions are just like regular functions but they are not assigned 
@@ -426,5 +423,4 @@ dat_sqtoo <- sapply(dat[, 1:4], function(x) x^2)
 head(dat_sqtoo)
 ```
 
-The entire anonymous function definition is passed in the function argument 
-(`FUN` in the documentation).
+The entire anonymous function definition is passed to the `FUN` argument.

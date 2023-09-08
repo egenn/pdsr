@@ -49,11 +49,21 @@ square <- function(x) {
 Try our new function:
 
 ```{r}
-square(3)
+square(4)
 ```
 
 Notice above that `x^2` is automatically returned by the function. It is the 
 same as explicitly returning it with `return()`:
+
+```{r}
+square <- function(x) {
+  return(x^2)
+}
+
+square(4)
+```
+
+also same:
 
 ```{r}
 square <- function(x) {
@@ -64,7 +74,7 @@ square <- function(x) {
 square(4)
 ```
 
-which is the same as:
+still same:
 
 ```{r}
 square <- function(x) {
@@ -77,14 +87,14 @@ square(5)
 
 A function returns either:
 
-- an object passed to `return()`
 - the value of the last expression within the function definition such as `out` 
 or `x^2` above.
+- an object passed to `return()`
 
 `return()` is a way to end evaluation early:
 
 ```{r}
-square.pos <- function(x) {
+square_pos <- function(x) {
   if (x > 0) {
     return(x^2)
   } else {
@@ -95,7 +105,7 @@ square.pos <- function(x) {
 
 x <- sample(-10:10, 1)
 x
-square.pos(x)
+square_pos(x)
 ```
 
 Multiple arguments, with and without defaults:
@@ -127,7 +137,8 @@ fn(g = 2)
 
 You can match specific values for an argument using `match.arg()`:
 
-```{r error = TRUE}
+```{r}
+#| error: true
 myfn <- function(type = c("alpha", "beta", "gamma")) {
   type <- match.arg(type)
   cat("You have selected type '", type, "'\n", sep = "")
@@ -247,7 +258,8 @@ As you see, the output (`NaN`) still gets returned.
 
 Alternatively, we can use `stop()` to end function execution:
 
-```{r error=TRUE}
+```{r}
+#| error: true
 el10 <- function(x) {
   if (x < 0) stop("x must be positive")
   exp(log10(x))
@@ -313,7 +325,7 @@ cat("environment outside for loop is: ")
 print(environment())
 
 # z-score one column at a time in a for loop
-for (i in 1:ncol(mtcars)) {
+for (i in seq_len(ncol(mtcars))) {
   mtcars_z[, i] <- (mtcars[, i] - mean(mtcars[, i])) / sd(mtcars[, i])
   cat("environment inside for loop is: ")
   print(environment())

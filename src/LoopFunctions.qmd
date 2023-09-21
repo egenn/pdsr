@@ -2,6 +2,7 @@
 knitr:
   opts_chunk: 
     comment: ''
+    error: true
 ---
 # Loop Functions {#sec-loopfns}
 
@@ -110,10 +111,10 @@ apply(dat2[, -1], 1, mean)
 
 ## `lapply()` {#lapply}
 
-```{block, type="rmdtip"}
+::: callout-tip
 `lapply()` applies a **function** on **each element of its input** and returns 
 a **list** of the outputs.  
-```
+:::
 
 Note: The 'elements' of a data frame are its columns (remember, a data frame is 
 a list with equal-length elements). The 'elements' of a matrix are each cell 
@@ -121,10 +122,10 @@ one by one, by column. Therefore, unlike `apply()`, `lapply()` has a very
 different effect on a data frame and a matrix. `lapply()` is commonly used to 
 iterate over the columns of a data frame.
 
-```{block, type="rmdtip"}
+::: callout-tip
 `lapply()` is the only function of the `*apply()` family that always returns a 
 list.
-```
+:::
 
 ```{r}
 dat_median <- lapply(dat, median)
@@ -217,7 +218,7 @@ vapply(dat, range, FUN.VALUE = rep(.1, 2))
 
 If `FUN.VALUE` does not match the returned value, we get an informative error:
 
-```{r error = TRUE}
+```{r}
 vapply(dat, range, FUN.VALUE = .1)
 ```
 

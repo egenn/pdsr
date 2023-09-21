@@ -137,7 +137,7 @@ To understand what `lapply()` does, here is the equivalent for-loop:
 dat_median <- vector("list", 4)
 names(dat_median) <- colnames(dat)
 for (i in 1:4) {
-  dat_median[[i]] <- median(dat[, 1])
+  dat_median[[i]] <- median(dat[, i])
 }
 dat_median
 ```
@@ -286,39 +286,6 @@ for (i in seq(5)) {
 out
 ```
 
-## Iterating over a sequence instead of an object
-
-With `lapply()`, `sapply()` and `vapply()` there is a very simple trick that 
-may often come in handy:
-
-Instead of iterating over elements of an object, you can iterate over an integer 
-index of whichever elements you want to access and use it accordingly within 
-the anonymous function.
-
-This alternative approach is much closer to how we would use an integer 
-sequence in a `for` loop.
-
-It will be clearer through an example:
-
-Get the mean of the first four columns of iris:
-
-```{r}
-# original way: iterate through elements i.e. columns:
-sapply(dat, function(i) mean(i))
-
-# alternative way: iterate over integer index of elements:
-sapply(1:4, function(i) mean(dat[, i]))
-
-# equivalent to:
-for (i in 1:4) {
-  mean(dat[, i])
-}
-```
-
-Notice that in this approach, since you are not passing the object (dat, in 
-the above example) as the input to `lapply()`, it needs to be accessed within 
-the anonymous function.
-
 ## `*apply()`ing on matrices vs. data frames
 
 To consolidate some of what was learned above, let's focus on the difference 
@@ -396,6 +363,7 @@ An anonymous function definition is just like a regular function - minus it is
 not assigned:
 
 ```{r}
+#| eval: false
 function(x) x^2
 ```
 
@@ -403,6 +371,7 @@ Since R version 4.1.0, a compact anonymous function syntax is available,
 where a single back slash replaces `function`:
 
 ```{r}
+#| eval: false
 \(x) x^2
 ```
 
@@ -424,3 +393,36 @@ head(dat_sqtoo)
 ```
 
 The entire anonymous function definition is passed to the `FUN` argument.
+
+## Iterating over a sequence instead of an object
+
+With `lapply()`, `sapply()` and `vapply()` there is a very simple trick that 
+may often come in handy:
+
+Instead of iterating over elements of an object, you can iterate over an integer 
+index of whichever elements you want to access and use it accordingly within 
+the anonymous function.
+
+This alternative approach is much closer to how we would use an integer 
+sequence in a `for` loop.
+
+It will be clearer through an example:
+
+Get the mean of the first four columns of iris:
+
+```{r}
+# original way: iterate through elements i.e. columns:
+sapply(dat, function(i) mean(i))
+
+# alternative way: iterate over integer index of elements:
+sapply(1:4, function(i) mean(dat[, i]))
+
+# equivalent to:
+for (i in 1:4) {
+  mean(dat[, i])
+}
+```
+
+Notice that in this approach, since you are not passing the object (dat, in 
+the above example) as the input to `lapply()`, it needs to be accessed within 
+the anonymous function.

@@ -238,28 +238,38 @@ We shall use a heart failure dataset as an example. It is freely available at
 the UCI repository:
 "https://archive.ics.uci.edu/ml/machine-learning-databases/00519/heart_failure_clinical_records_dataset.csv"
 
+You can either download it to a local folder or read it directly from the internet.
+(If reading directly from the internet, you may get an SSL error. In that case, you
+can either download the file using a browser and reading it from disk, or you can try 
+installing/updating your OpenSSL library.)
+
 ### CSV
 
+Assuming you have downloaded the file to your local disk under "/Data/UCI", you can
+read it into R using the `read.csv()` command:
+
 ```{r}
-dat <- read.csv("~/icloud/Data/UCI/heart_failure_clinical_records_dataset.csv")
+#| eval: false
+dat <- read.csv("/Data/UCI/heart_failure_clinical_records_dataset.csv")
 ```
 
 An important optional argument of the `read.csv()` command is `na.strings`: it lets you
 define which string(s) should be considered as missing data. Some common strings used to 
 indicated missing data are the empty string `""` or `NA`.
-
+<br><br>
 The above file does not contain any missing data, so the following is only an example of
-how you would define the `na.strings` argument:
+how you would define the `na.strings` argument if you wanted to read in a file that 
+includes missing data coded either by an empty string ("") or `NA`:
 
 ```{r}
-dat <- read.csv("~/icloud/Data/UCI/heart_failure_clinical_records_dataset.csv",
-  na.strings = c("", "NA"))
+#| eval: false
+dat <- read.csv("/Data/UCI/heart_failure_clinical_records_dataset.csv",
+                na.strings = c("", "NA"))
 ```
 
 `read.csv()` can also read files directly from the internet:
 
 ```{r}
-#| eval: false
 dat <- read.csv("https://archive.ics.uci.edu/ml/machine-learning-databases/00519/heart_failure_clinical_records_dataset.csv")
 ```
 

@@ -105,6 +105,37 @@ raise(x, power = 3)
 raise(x, 3)
 ```
 
+::: callout-tip
+`return()` can be used to exit a function early
+:::
+
+In the following example, `return()` is used to exit the function early if no negative 
+values are found. This is shown only as a trivial example; it is not particularly
+useful in this case, but can be useful in more complex functions.
+
+```{r}
+preproc <- function(x) {
+  if (all(x >= 0)) {
+    return(x) 
+  } else {
+    cat("Negative values found, returning absolute \n")
+    return(abs(x))
+  }
+}
+```
+
+The following stops early and no message is printed:
+
+```{r}
+preproc(0:10)
+```
+
+The following does not stop early and message is printed:
+
+```{r}
+preproc(-5:5)
+```
+
 ## Argument matching
 
 R will match unambiguous abbreviations of arguments:

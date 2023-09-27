@@ -16,9 +16,9 @@ Missing data is a very common issue in statistics and data science.
 
 Data may be missing for a variety of reasons. We often characterize the type of missingness using the following three types [@mack2018managing]:
 
--   **Missing completely at random (MCAR)**: "The fact that the data are missing is independent of the observed and unobserved data"
--   **Missing at random (MAR)**: "The fact that the data are missing is systematically related to the observed but not the unobserved data"
--   **Missing not at random (MNAR)**: "The fact that the data are missing is systematically related to the unobserved data"
+1. **Missing completely at random (MCAR)**: "The fact that the data are missing is independent of the observed and unobserved data"
+2. **Missing at random (MAR)**: "The fact that the data are missing is systematically related to the observed but not the unobserved data"
+3. **Missing not at random (MNAR)**: "The fact that the data are missing is systematically related to the unobserved data"
 
 ## Check for missing data
 
@@ -58,7 +58,7 @@ sum(is.na(dat))
 
 There are 652 `NA` values in total in the data.frame.
 
-Let's count the number of missing values per feature, i.e. per column, using `sapply()`(#sapply):
+Let's count the number of missing values per feature, i.e. per column, using `sapply()`:
 
 ```{r}
 sapply(dat, function(i) sum(is.na(i)))
@@ -66,7 +66,7 @@ sapply(dat, function(i) sum(is.na(i)))
 
 The features `insulin` and `triceps` have the most NA values.
 
-Let's count the number of missing values per case (i.e. row):
+Let's count the number of missing values per case, i.e. per row:
 
 ```{r}
 sapply(1:nrow(dat), function(i) sum(is.na(dat[i, ])))
@@ -97,7 +97,7 @@ Missing data is shown in magenta by default. The row below the image shows total
 
 ### Summarize
 
-Get N of missing per column:
+Get number of missing values per column:
 
 ```{r}
 sapply(dat, function(i) sum(is.na(i)))

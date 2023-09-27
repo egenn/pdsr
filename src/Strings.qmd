@@ -25,7 +25,7 @@ Some important string operations include:
 
 ## Creating character vectors
 
-[Reminder](#charactervectors): initialize, coerce, test character vectors:
+[Reminder](#charactervectors): To initialize, coerce, test character vectors, use:
 
 * `character()`: Initialize empty character vector
 * `as.character()`: Coerce vector to character vector
@@ -138,7 +138,7 @@ paste0(id, dept)
 
 As with other vectorized operations, value recycling can be very convenient. In the 
 example below, the shorter vector (i.e. "Feature", a character vector of length 1) is
-recycled to match the length of the longest vector (1:10)
+recycled to match the length of the longest vector (1:10).
 
 ```{r}
 paste0("Feature_", 1:10)
@@ -165,9 +165,9 @@ nchar(x)
 ### Extract/replace substring with `substr()`: 
 
 `substr()` allows you to get and set individual (literal) characters from a 
-character vector, by position:
+character vector, by position.
 
-e.g. Extract the first three characters of each character element:
+For example, extract the first three characters of each character element as:
 
 ```{r}
 x <- c("001Emergency", "010Cardiology", "018Neurology", 
@@ -178,7 +178,7 @@ substr(x, start = 1, stop = 3)
 Neither `start` nor `stop` need to be valid character positions.
 
 For example, if you want to get all characters from the fourth one to the last 
-one, you can specify a very large `stop`
+one, you can specify a very large `stop` as:
 
 ```{r}
 substr(x, 4, 99)
@@ -192,9 +192,9 @@ substr(x, 20, 24)
 
 **Note:** `substring()` is also available, with similar syntax to `substr()`: 
 (first, last) instead of (start, stop). It is available for compatibility with S 
-- check its source code to see how it's an alias for `substr()`
+- check its source code to see how it's an alias for `substr()`.
 
-Replace the first three letters:
+To replace the first three letters, use:
 
 ```{r}
 x <- c("Jan_1987")
@@ -217,7 +217,7 @@ x
 ### Split strings with `strsplit()`: 
 
 `strsplit()` allows you to split a character vector's elements based on any 
-character or [regular expression](#regex)
+character or [regular expression](#regex).
 
 For example, extract individual words by splitting a sentence on each space character:
 
@@ -278,7 +278,7 @@ tools::toTitleCase(features)
 ### Abbreviate
 
 `abbreviate()` allows reducing character vector elements to short, unique 
-abbreviations of a minimum length (defaults to 4)
+abbreviations of a minimum length (defaults to 4). For example,
 
 ```{r}
 x <- c("Emergency", "Cardiology", "Surgery", "Anesthesia", 
@@ -304,8 +304,8 @@ x <- c("001Age", "002Sex", "010Temp", "014SBP",
 grep(pattern = "SBP", x = x)
 ```
 
-`grep()`'s `value` argument which defaults to `FALSE`, allows returning the 
-matched string itself (the value of the element) instead of its integer index:
+`grep()`'s `value` argument, which defaults to `FALSE`, allows returning the 
+matched string itself (the value of the element) instead of its integer index, e.g.
 
 ```{r}
 grep("SBP", x, value = TRUE)
@@ -358,7 +358,7 @@ gsub("var", "feat", x)
 
 ### Match one or more patterns
 
-You can use a vertical bar, `|`, to match one of multiple patterns:
+You can use a vertical bar (`|`) in the pattern string to match one of multiple patterns:
 
 ```{r}
 x <- c("Emergency", "Cardiology", "Neurology", "Anesthesia", 
@@ -388,7 +388,7 @@ used to. You can read the R manual by typing `?base::regex`.
 <br><br>
 Some of the most important rules are listed below:
 
-### Match a pattern at the beginning of a line/string with `^`/`\\<`:
+### Match a pattern at the beginning of a line/string with `^` and `\\<`
 
 Use the caret sign `^` in the **beginning** of a pattern to only match strings 
 that begin with that pattern.  
@@ -401,14 +401,14 @@ x
 grep("012", x)
 ```
 
-By adding `^` or `\\<`, only the 2nd element matches:
+By adding `^` or `\\<`, only the 2nd element in our character vector matches:
 
 ```{r}
 grep("^012", x)
 grep("\\<012", x)
 ```
 
-### Match a pattern at the end of a line/string with `$`/`\\>`
+### Match a pattern at the end of a line/string with `$` and `\\>`
 
 The dollar sign `$` is used at the **end** of a pattern to only match strings 
 which end with this pattern:
@@ -425,32 +425,32 @@ grep("one$", x)
 grep("one\\>", x)
 ```
 
-### `.`: Match any character
+### Match any character with `.`
 
 ```{r}
 grep("e.X", c("eX", "enX", "ennX", "ennnX", "ennnnX"))
 ```
 
-### `+`: Match preceding character one or more times:
+### Match preceding character one or more times with `+`
 
 ```{r}
 grep("en+X", c("eX", "enX", "ennX", "ennnX", "ennnnX"))
 ```
 
 
-### `{n}`: Match preceding character `n` times:
+### Match preceding character `n` times with `{n}`
 
 ```{r}
 grep("en{2}X", c("eX", "enX", "ennX", "ennnX", "ennnnX"))
 ```
 
-### `{n,}`: Match preceding character `n` or more times:
+### Match preceding character `n` or more times with `{n,}`
 
 ```{r}
 grep("en{2,}X", c("eX", "enX", "ennX", "ennnX", "ennnnX"))
 ```
 
-### `{n,m}`: Match preceding character at least `n` times and no more than `m` times:
+### Match preceding character at least `n` times and no more than `m` times with `{n,m}`
 
 ```{r}
 grep("en{2,3}X", c("eX", "enX", "ennX", "ennnX", "ennnnX"))
@@ -521,7 +521,7 @@ gsub("[[:digit:]|[:punct:]]", "", x)
 
 ::: callout-note
 For more information on regular expressions, 
-start by reading the built-in documentation: `?regex`
+start by reading the built-in documentation: `?regex`.
 :::
 
 ### Escaping metacharacters
@@ -545,7 +545,7 @@ x
 gsub("\\.", "_", x)
 ```
 
-If we didn't escape the period above, it would have matched every character:
+If we didn't escape the period above, it would have matched *any* character:
 
 ```{r}
 gsub(".", "_", x)

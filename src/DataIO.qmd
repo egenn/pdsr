@@ -49,17 +49,16 @@ its source read the documentation with `?read.table`).
 Some important arguments for `read.table()` listed here with their default 
 values for `read.csv()`:
 
-* `sep = ","`: Character that separate entries. Default is a comma; use "\t" 
-for tab-separated files (default setting in `read.delim()`)
+* `sep = ","`: Character that separate entries. Default is a comma; use `sep = "\t"` for tab-separated files (default setting in `read.delim()`)
 * `dec = "."`: Character for the decimal point. Default is a dot; in some cases 
 where a comma is used as the decimal point, the entry separator `sep` may be a 
 semicolon (default setting in `read.csv2()`)
 * `na.strings = "NA"`: Character vector of strings to be coded as "NA"
 * `colClasses = NA`: Either a character vector defining each column's type 
-(e.g. c("character", "numeric", "numeric") recycled as necessary *or* a named 
-vector defining specific columns' types (e.g. c(ICD9 = "character", 
-Sex = "factor", SBP = "numeric", DOB = "Date")). Unspecified columns are
-automatically determined. Note: Set a column to "NULL" (with quotes) to exclude 
+(e.g. `c("character", "numeric", "numeric")` recycled as necessary *or* a named 
+vector defining specific columns' types (e.g. `c(ICD9 = "character", 
+Sex = "factor", SBP = "numeric", DOB = "Date")`). Unspecified columns are
+automatically determined. Note: Set a column to `"NULL"` (with quotes) to exclude 
 that column.
 * `stringsAsFactors = TRUE`: Will convert all character vectors to factors
 
@@ -69,8 +68,8 @@ men <-  read.csv("../Data/pone.0204161.s001.csv")
 ```
 
 ::: callout-note
-When working in Windows, paths should use either single forward slashes 
-or double backslashes
+When working in Windows, paths should use either single forward slashes (`/`) 
+or double backslashes (`\\`).
 :::
 
 ### Read CSV from the web
@@ -135,22 +134,20 @@ Two popular packages to read Excel files are
 
 ### `openxlsx::read.xlsx()`
 
-`NA` strings are defined with argument `na.strings`
+`NA` strings are defined with argument `na.strings`.
 
 ```{r}
 #| eval: false
-bcw <- openxlsx::read.xlsx("../Data/bcw.xlsx",
-    na.strings = ".")
+bcw <- openxlsx::read.xlsx("../Data/bcw.xlsx", na.strings = ".")
 ```
 
 ### `readxl::read_xlsx()`
 
-`NA` strings are defined with argument `na`
+`NA` strings are defined with argument `na`.
 
 ```{r}
 #| eval: false
-bcw <- readxl::read_xlsx("../Data/bcw.xlsx",
-    na = ".")
+bcw <- readxl::read_xlsx("../Data/bcw.xlsx", na = ".")
 ```
 
 ## Write .xlsx 
@@ -162,7 +159,7 @@ bcw <- readxl::read_xlsx("../Data/bcw.xlsx",
 openxlsx::write.xlsx(bcw, "../Data/bcw.xlsx")
 ```
 
-Note: The `readxl` package does not include a function to write .XLSX files
+Note: The `readxl` package does not include a function to write .XLSX files.
 
 ## RDS
 
@@ -251,21 +248,21 @@ load("workspace_2022-08-10.RData")
 
 ## System commands
 
-Get working directory with `getwd()`
+Get working directory with `getwd()`:
 
 ```{r}
 #| eval: false
 getwd()
 ```
 
-Set the working directory with `setwd()`
+Set the working directory with `setwd()`:
 
 ```{r}
 #| eval: false
 setwd("/Data/")
 ```
 
-You can set a different working directory with `setwd()`  
+You can set a different working directory with `setwd()`.
 
 List files in current directory:
 
@@ -280,7 +277,7 @@ You can send operating system commands using `system()`:
 system("uname -a")
 ```
 
-Note: See issue [here](https://stackoverflow.com/questions/27388964/rmarkdown-not-outputting-results-of-system-command-to-html-file){target="_blank"}
+Note: See issue [here](https://stackoverflow.com/questions/27388964/rmarkdown-not-outputting-results-of-system-command-to-html-file){target="_blank"}.
 
 ## Read other common tabular data third-party formats
 

@@ -98,7 +98,7 @@ By default, the levels are ordered *alphabetically*.
 
 ### Set the order of factor levels
 
-You can define the order of the factor levels with the `level` argument of the 
+You can define the order of the factor levels with the `levels` argument of the 
 `factor()` function.
 
 For example, the first factor level is used as the baseline in some statistical 
@@ -201,7 +201,7 @@ xf
 ::: callout-caution
 The `levels()` command changes the ***names*** of the levels. 
 It ***cannot be used to change the order of levels***, 
-which must be done using `factor()`
+which must be done using `factor()`.
 :::
 
 ## Factors (advanced)
@@ -238,7 +238,7 @@ unique labels.
 Each level is assigned an integer. (Internally, this is the "data" that forms 
 the elements of a factor vector). You don't see these integers unless you 
 convert the factor to numeric (`as.numeric()`) or look at the (truncated) 
-output of `str()`
+output of `str()`;
 
 ```{r}
 as.numeric(x)
@@ -267,13 +267,13 @@ it has two levels labeled as "female" and "male", in that order, i.e. female is
 level 1 and male is level 2.    
 The last part shows that the first five elements (in this case the whole 
 vector) consists of three elements of level 1 (female) followed by 2 elements 
-of level 2 (male)
+of level 2 (male).
 
 #### Setting new level labels
 
 You can use the `levels()` command with an assignment to assign new labels to a 
 factor (same syntax to how you use `rownames()` or `colnames()` to assign new 
-row or column names to a matrix or data frame)
+row or column names to a matrix or data frame);
 
 ```{r}
 xf <- factor(sample(c("patient_status_positive", "patient_status_negative"), 10, T),
@@ -294,7 +294,7 @@ If you want to define the mapping of labels to their integer representation
 of the `factor()` function.  
 
 The vector passed to the `levels` arguments must include at least all unique 
-values passed to `factor()`, otherwise you will get `NA` values
+values passed to `factor()`, otherwise you will get `NA` values.
 
 Without defining `levels` they are assigned alphabetically:
 
@@ -377,8 +377,7 @@ x <- factor(dat,
 x
 ```
 
-Note how the levels now include the `<` sign between levels to indicate the 
-ordering.
+Note how the levels now include the less-than sign (`<`) between levels to indicate the ordering.
 
 ### Change order of levels or labels
 
@@ -425,7 +424,7 @@ outcome
 Some classification procedures expect the first level to be the 'positive' 
 outcome, so you decide to reorder the levels.
 
-You mistakenly use `levels()` instead of `factor(x, levels=c(...))` hoping to 
+You mistakenly use `levels()` instead of `factor(x, levels = c(...))` hoping to 
 achieve this.  
 
 You end up flipping all the outcome values.

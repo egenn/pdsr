@@ -10,6 +10,8 @@ knitr:
 There are 5 main data structures in R:
 <br><br>
 
+<!-- FIXME: 1-D, 2-D, ... is used in table but 1D, 2D, ... in text /HB 2023-09-27 -->
+
 | Data Structure  | Dimensionality     | Contents        | Notes
 |----------------:|-------------------:|----------------:|:--------------------------|
 | **Vector**      | 1-D                | homogeneous     | the "base" object
@@ -43,21 +45,24 @@ knitr::include_graphics("./R_datastructures.png")
 ```
 
 ::: callout-tip
-**Check object class with `class()`**
-**Check object class and contents' types with `str()`**
+**Check object class with `class()`**.
+
+**Check object class and contents' types with `str()`**.
 :::
 
 ::: callout-caution
 Many errors in R occur because a variable is, or gets coerced to, the wrong 
 type or class by accident.
-That's why it is essential to be able to
+That's why it is essential to be able to:
+
 - check the type of a variable using `typeof()` or `class()`
+
 - convert (coerce) between types or classes using `as.*` functions
 ::: 
 
 ## Vectors
 
-A vector is the most basic & fundamental data structure in R. 
+A vector is the most basic and fundamental data structure in R. 
 Other data structures are made up of one or more vectors.
 
 ```{r}
@@ -67,7 +72,7 @@ class(x)
 typeof(x)
 ```
 
-A vector has `length()` but no `dim()`:
+A vector has `length()` but no `dim()`, e.g.
 
 ```{r}
 length(x)
@@ -83,7 +88,7 @@ See [Initializing vectors](#initvectors)
 A matrix is a **vector with 2 dimensions**.  
 
 To create a matrix, you pass a vector to the `matrix()` function and specify 
-number of rows using `nrow` and/or number of columns using `ncol`:
+number of rows using `nrow` and/or number of columns using `ncol`;
 
 ```{r}
 x <- matrix(21:50,
@@ -105,7 +110,7 @@ ncol(x)
 
 ### Construct by row vs. by column
 
-By default, vectors are constructed by column (byrow = FALSE)
+By default, vectors are constructed by column (`byrow = FALSE`), e.g.
 
 ```{r}
 x <- matrix(1:20, nrow = 10, ncol = 2, byrow = FALSE)
@@ -121,6 +126,13 @@ x
 
 ### Initialize a matrix
 
+<!-- FIXME: 
+  NA is logical here, which means it will create a logical matrix.
+  That will be coerced upon first assignment, which is very inefficient
+  (https://www.jottr.org/2014/06/17/matrixna-wrong-way/). The proper way
+  is to use NA_real_.  To avoid introducing that here, maybe use another
+  example? /HB 2023-09-27
+-->
 ```{r}
 x <- matrix(NA, nrow = 6, ncol = 4)
 x
@@ -162,10 +174,10 @@ cbind(matrix(1, 5, 2), matrix(2, 5, 4))
 Arrays are **vectors with dimensions**.  
 You can have 1D, 2D or any-D, i.e. ND arrays.
 
-### 1D array
+### One-dimensional ("1D") array
 
 A 1D array is just like a vector but of class `array` and with `dim(x)` equal 
-to `length(x)` (remember, vectors have only `length(x)` and undefined `dim(x)`):
+to `length(x)`. Remember, vectors have only `length(x)` and undefined `dim(x)`.
 
 ```{r}
 x <- 1:10
@@ -182,7 +194,7 @@ dim(xa)
 
 It is rather unlikely you will need to use a 1D array instead of a vector.
 
-### 2D array
+### Two-dimensional ("2D") array
 
 A 2D array is a matrix:
 
@@ -192,7 +204,7 @@ class(x)
 dim(x)
 ```
 
-### ND array
+### Multi-dimensional ("ND") array
 
 You can build an N-dimensional array:
 
@@ -267,7 +279,8 @@ length(x)
 ### Initialize a list
 
 When setting up experiments, it can be very convenient to set up and empty
-list, where results will be stored (e.g. using a [for-loop](#forloops))
+list, where results will be stored (e.g. using a [for-loop](#forloops)):
+
 ```{r}
 x <- vector("list", 4)
 x
@@ -542,7 +555,7 @@ and value underneath the vector itself:
 x
 ```
 
-Our trusty `str` function will print attributes as well
+Our trusty `str` function will print attributes as well:
 
 ```{r}
 str(x)
@@ -580,4 +593,4 @@ x
 class(x)
 ```
 
-Just like that, we have a matrix.
+Just like that, we have created a matrix.

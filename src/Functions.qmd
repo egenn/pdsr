@@ -89,7 +89,7 @@ A function returns either:
 
 - the value of the last expression within the function definition such as `out` 
 or `x^2` above.
-- an object passed to `return()`
+- an object passed to `return()`.
 
 Multiple arguments, with and without defaults:
 
@@ -177,7 +177,7 @@ cplot <- function(x, y,
 
 `...` is also used for variable number of inputs, often as the first argument of 
 a function. For example, look at the documentation of `c()`, `cat()`, `cbind()`, 
-`paste()`  
+`paste()`.
 
 :::{.callout-note}
 Any arguments after the `...`, **must** be named fully, i.e. will not be 
@@ -294,7 +294,7 @@ itfn(3)
 Let's z-score the built-in `mtcars` dataset once with a for loop and once with 
 a custom function. This links back to the example seen earlier in the 
 [for loop](#fordata) section. In practice, this would be performed with the 
-`scale()` command:
+`scale()` command.
 
 Within the for loop, we are assigning columns directly to the object 
 initialized before the loop. In the following example, we use 
@@ -346,7 +346,7 @@ as
 and, similarly,
 `g(f(x))`
 as
-`x |> f() |> g()`
+`x |> f() |> g()`.
 :::
 
 ```{r}
@@ -363,7 +363,7 @@ A pipe operator was first introduced to R by the
 that a number of other packages that endorse the use of pipes export the pipe 
 operator as well.  
 
-Starting with R version 4.1, a native pipe operator is included with the `|>` 
+Starting with R version 4.1 (May 2021), a native pipe operator is included with the `|>` 
 symbol.
 
 A pipe allows writing `f(x)` as `x |> f()` (native pipe) or `x %>% f` 
@@ -410,17 +410,17 @@ Pipes are used extensively in the [tidyverse](https://www.tidyverse.org)
 packages and many 
 other third-party packages.  
 You can learn more about the magrittr pipe operator in the 
-[vignette](https://cran.r-project.org/web/packages/magrittr/vignettes/magrittr.html)
+[vignette](https://cran.r-project.org/web/packages/magrittr/vignettes/magrittr.html).
 
 ::: callout-tip
 In [RStudio](https://posit.co/products/open-source/rstudio/) the keyboard shortcut for the pipe operator 
-is `Shift-Command-M` (MacOS) or `Ctrl-Shift-M` (Windows)
+is `Shift-Command-M` (MacOS) or `Ctrl-Shift-M` (Windows).
 :::
 
 ### Differences between native pipe and **magrittr**
 
-- native pipe requires `()` after function name, **magrittr** works with or 
-without them
+Native pipe requires parenthesis (`()`) after function name, **magrittr** works with or 
+without them.  For example,
 
 ```{r}
 x <- rnorm(300)
@@ -436,7 +436,7 @@ but this would fail:
 x |> mean
 ```
 
-while either works in **magrittr**
+while either works in **magrittr**:
 
 ```{r}
 library(magrittr)
@@ -447,24 +447,27 @@ x %>% mean()
 x %>% mean
 ```
 
-- native pipe by design only pipes its LHS to the first ***unnamed*** argument 
+<!-- FIXME: In recent R versions, we can use `_` as a place holder 
+     similar to `.` in magrittr /HB 2023-09-27 -->
+Also, by design, native pipe only pipes its LHS to the first ***unnamed*** argument 
 on the RHS. **magrittr** allows using a period `.` to pipe to any position on 
 the RHS. The native pipe workaround is using an anonymous function (can use the 
-new shorter syntax `\(x)` instead of `function(x)`)
+new shorter syntax `\(x)` instead of `function(x)`).
 
+<!-- FIXME: Stray paragraph?!? /HB 2023-09-27 -->
 e.g.: Find the position of "r" in the latin alphabet
 
 In this example, we want to pass the LHS to the second argument of `grep()`.
 
 Using native pipe, we name the first argument `pattern` and the LHS is passed 
 to the first unnamed argument, i.e. the second (which is `x`, the character 
-vector where matches are looked for)
+vector where matches are looked for):
 
 ```{r}
 letters |> grep(pattern = "r")
 ```
 
-with **magrittr** you can use the dot notation to specify where to pipe into:
+With **magrittr** you can use the dot notation to specify where to pipe into:
 
 ```{r}
 letters %>% grep("r", .)

@@ -14,7 +14,7 @@ options(crayon.enabled = TRUE)
 
 ```{r}
 #| echo: false
-library(rtemis)
+suppressPackageStartupMessages(library(rtemis))
 ```
 
 ## Continuous variables
@@ -114,8 +114,8 @@ all.equal(Sepal.Length_scaled, iris.scaled[, "Sepal.Length"])
 ::: callout-note
 If you are manually scaling and/or centering data for **supervised learning**, you must:  
 
-* Perform scaling and centering on your **training data**
-* Save the **centering and scaling parameters** for each feature
+* Perform scaling and centering on your **training data**,
+* Save the **centering and scaling parameters** for each feature, and
 * Apply the training set-derived centering and scaling parameters to the **test set** *prior to prediction/inference*.
 :::
 
@@ -203,7 +203,7 @@ table(x_cut4)
 ::: callout-important
 **Interval Notation**
 
-`\[3, 9)` represents the interval of [real numbers](https://en.wikipedia.org/wiki/Real_number) 
+`[3, 9)` represents the interval of [real numbers](https://en.wikipedia.org/wiki/Real_number) 
 between 3 and 9, **including** 3 and **excluding** 9.
 :::
 
@@ -268,7 +268,7 @@ brightness <- factor(c("bright", "brightest", "darkest",
 brightness
 ```
 
-...can be directly coerced to an integer:
+can be directly coerced to an integer:
 
 ```{r}
 as.integer(brightness)
@@ -291,7 +291,7 @@ admission
 
 Multiple packages include functions that perform one-hot encoding. It's a simple operation and we don't necessarily need to install a large package with many dependencies.
 
-Let's write a simple function to perform one-hot encoding. (Note: you may have heard that for loops can be slow in R, but that depends on the operations performed. Here, we loop over an integer matrix and it is plenty fast)
+Let's write a simple function to perform one-hot encoding. Note, you may have heard that for loops can be slow in R, but that depends on the operations performed. Here, we loop over an integer matrix and it is plenty fast.
 
 ```{r}
 onehot <- function(x, xname = NULL) {

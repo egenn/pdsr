@@ -478,38 +478,58 @@ x %>% mean()
 x %>% mean
 ```
 
-<!-- FIXME: In recent R versions, we can use `_` as a place holder 
-     similar to `.` in magrittr /HB 2023-09-27 -->
-Also, by design, native pipe only pipes its LHS to the first ***unnamed*** argument 
-on the RHS. **magrittr** allows using a period `.` to pipe to any position on 
+The native pipe passes its LHS to the first ***unnamed*** argument 
+on the RHS. Alternatively, it can be passed to any named argument using an underscore
+("_") symbol. 
+
+On the other hand, **magrittr** allows using a period `.` to pipe to any position on 
 the RHS. The native pipe workaround is using an anonymous function (can use the 
 new shorter syntax `\(x)` instead of `function(x)`).
+<br><br>
+Example: Find the position of "r" in the latin alphabet
 
-<!-- FIXME: Stray paragraph?!? /HB 2023-09-27 -->
-e.g.: Find the position of "r" in the latin alphabet
-
-In this example, we want to pass the LHS to the second argument of `grep()`.
+Here, we want to pass the LHS to the second argument of `grep()`.
 
 Using native pipe, we name the first argument `pattern` and the LHS is passed 
 to the first unnamed argument, i.e. the second (which is `x`, the character 
 vector where matches are looked for):
 
+Native pipe or magrittr: pass to the first unnamed argument:
+
 ```{r}
 letters |> grep(pattern = "r")
 ```
 
-With **magrittr** you can use the dot notation to specify where to pipe into:
+```{r}
+letters %>% grep(pattern = "r")
+```
+
+Native pipe: pass to any named argument using an underscore (`_`) placeholder, but 
+argument must be named:
+
+```{r}
+letters |> grep("r", x = _)
+```
+
+**magrittr**: pass to any argument using a period (`.`) placeholder. Argument can be
+named or not (i.e. positional):
+
+```{r}
+letters %>% grep("r", x = .)
+```
 
 ```{r}
 letters %>% grep("r", .)
 ```
 
-For demonstration, here's the slightly involved way you would achieve this with 
-an anonymous function and the native pipe. This may make sense for more complex 
-calls.
+For demonstration purposes, here's how you can achieve the same using the native pipe 
+and an anonymous function.
 
 ```{r}
+# positional:
 letters |> {\(x) grep("r", x)}()
+# named:
+letters |> {\(x) grep("r", x=x)}()
 ```
 
 ## Further reading

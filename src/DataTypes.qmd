@@ -287,13 +287,6 @@ x <- factor(c("mango", "banana", "mango"))
 sum(x)
 ```
 
-<!-- FIXME: Is this relevant for the reader of the book? /HB 2023-09-27 -->
-::: callout-note
-Note: We had to add `error = TRUE` in the Rmarkdown's code block's options (not 
-visible in the HTML output), because otherwise compilation of the Rmarkdown 
-document would stop at the error.
-:::
-
 ::: callout-caution
 Many errors in R occur because a variable is, or gets coerced to, the wrong 
 type or class (see @sec-datastructures) by accident.
@@ -399,8 +392,21 @@ df <- data.frame(a = c(1, 2, NA, 4),
 na.exclude(df)
 ```
 
-The chapter on [Handling Missing Data](#missingdata) describes some approaches 
-to handling missing data in the context of statistics or machine learning.
+@sec-missingdata describes some approaches to handling missing data in the context of statistics or machine learning.
+
+## `NA` types {#natypes}
+
+In the above examples, `NA` was used in vectors of different types. In reality, `NA`
+is a logical constant of length 1 that gets coerced to the type of the vector it is
+placed in. To specify `NA` of a specific type, use the appropriate `NA_*` constant:
+
+- `NA_integer_`
+- `NA_real_`
+- `NA_complex_`
+- `NA_character_`
+
+See `?NA` for more details. These can be useful when you want to initialize a 
+vector/matrix/array of a specific type with `NA` values (for example, see (#initmatrix)).
 
 ## `NaN`: Not a number
 

@@ -10,15 +10,13 @@ knitr:
 There are 5 main data structures in R:
 <br><br>
 
-<!-- FIXME: 1-D, 2-D, ... is used in table but 1D, 2D, ... in text /HB 2023-09-27 -->
-
 | Data Structure  | Dimensionality     | Contents        | Notes
 |----------------:|-------------------:|----------------:|:--------------------------|
-| **Vector**      | 1-D                | homogeneous     | the "base" object
-| **Matrix**      | 2-D                | homogeneous     | a vector with 2 dimensions
-| **Array**       | N-D                | homogeneous     | a vector with N dimensions
-| **List**        | 1-D; can be nested | heterogeneous   | a collection of any R objects, each of any length
-| **Data frame**  | 2-D                | heterogeneous   | a special kind of list: a collection of (column) vectors of any type, all of the same length
+| **Vector**      | 1D                | homogeneous     | the "base" object
+| **Matrix**      | 2D                | homogeneous     | a vector with 2 dimensions
+| **Array**       | ND                | homogeneous     | a vector with N dimensions
+| **List**        | 1D; can be nested | heterogeneous   | a collection of any R objects, each of any length
+| **Data frame**  | 2D                | heterogeneous   | a special kind of list: a collection of (column) vectors of any type, all of the same length
 
 **Vectors** are homogeneous data structures which means all of their elements have 
 to be of the same type (see @sec-datatypes), e.g. integer, double, character, 
@@ -124,19 +122,25 @@ x <- matrix(1:20, nrow = 10, ncol = 2, byrow = TRUE)
 x
 ```
 
-### Initialize a matrix
+### Initialize a matrix {#initmatrix}
 
-<!-- FIXME: 
-  NA is logical here, which means it will create a logical matrix.
-  That will be coerced upon first assignment, which is very inefficient
-  (https://www.jottr.org/2014/06/17/matrixna-wrong-way/). The proper way
-  is to use NA_real_.  To avoid introducing that here, maybe use another
-  example? /HB 2023-09-27
--->
+You can initialize a matrix with some constant value, e.g. 0:
+
 ```{r}
-x <- matrix(NA, nrow = 6, ncol = 4)
-x
 x <- matrix(0, nrow = 6, ncol = 4)
+x
+```
+
+::: callout-note
+To initialize a matrix with `NA` values, it is most efficient to use `NA` of the
+appropriate type, e.g. `NA_real_` for a numeric matrix, `NA_character_` for a
+character matrix, etc. See [NA types](#natypes).
+:::
+
+For example, to initialize a numeric matrix with `NA` values:
+
+```{r}
+x <- matrix(NA_real_, nrow = 6, ncol = 4)
 x
 ```
 
@@ -172,7 +176,7 @@ cbind(matrix(1, 5, 2), matrix(2, 5, 4))
 ## Arrays
 
 Arrays are **vectors with dimensions**.  
-You can have 1D, 2D or any-D, i.e. ND arrays.
+You can have 1D, 2D or any number of dimensions, i.e. ND arrays.
 
 ### One-dimensional ("1D") array
 

@@ -5,10 +5,15 @@ knitr:
 ---
 # Reshaping {#sec-dfreshape}
 
+Tabular data can be stored in different formats. Two of the most common ones are 
+**wide** and **long**. 
+
+::: callout-note
 A **wide** dataset contains a single row per case (e.g. patient), while a 
 **long ** dataset can contain multiple rows per case (e.g. for multiple 
 variables or timepoints).
-<br><br>
+:::
+
 We want to be able to **reshape** from one form to the other because different 
 programs (e.g. statistical models, plotting functions) expect data in one or the 
 other format for different applications (e.g. longitudinal modeling or grouped 
@@ -21,7 +26,7 @@ visualizations).
 #| out-width: 100%
 #| fig-align: center
 #| fig-cap: "Wide and Long data format example. Notice how the wide table on
-#| the left with 3 cases (3 IDs) and 3 variables can be represented as a 3 x 4
+#| the left with 3 cases (3 unique IDs) and 3 variables can be represented as a 3 x 4
 #| table in wide format or a 9 x 3 table in long format. The values (outlined 
 #| in magenta) are present once in each table: on the wide table they form an 
 #| **ID x Variable** matrix, while on the long they are stacked on a 
@@ -119,6 +124,7 @@ We can simulate this by removing a few lines from the data frame above.
 dat_long <- dat_long[-4, ]
 dat_long <- dat_long[-6, ]
 dat_long <- dat_long[-13, ]
+dat_long
 ```
 
 In such cases, long to wide conversion will include `NA` values where no data is

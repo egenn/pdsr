@@ -122,8 +122,8 @@ wilcox.test(depression$change)
 a.k.a Mann-Whitney U test a.k.a. Mann–Whitney–Wilcoxon (MWW) a.k.a. Wilcoxon–Mann–Whitney test
 
 ```{r}
-x1 <- rnorm(500, 3, 1.5)
-x2 <- rnorm(500, 5, 2)
+x1 <- rnorm(500, mean = 3, sd = 1.5)
+x2 <- rnorm(500, mean = 5, sd = 2)
 wilcox.test(x1, x2)
 ```
 
@@ -141,9 +141,12 @@ wilcox.test(x, y, paired = TRUE, alternative = "greater")
 
 ```{r}
 set.seed(20)
-BP_drug <- data.frame(Group = factor(rep(c("Placebo", "Drug_A", "Drug_B"), each = 20),
-                                     levels = c("Placebo", "Drug_A", "Drug_B")),
-                  SBP = c(rnorm(20, 140, 2.2), rnorm(20, 132, 2.1), rnorm(20, 138, 2)))
+BP_drug <- data.frame(
+  Group = factor(rep(c("Placebo", "Drug_A", "Drug_B"), each = 20),
+                 levels = c("Placebo", "Drug_A", "Drug_B")),
+    SBP = c(rnorm(20, mean = 140, sd = 2.2), rnorm(20, mean = 132, sd = 2.1),
+            rnorm(20, mean = 138, sd = 2))
+)
 ```
 
 ```{r}
@@ -346,8 +349,8 @@ Perform a one- or two-sample Kolmogorov-Smirnov test
 Null: x and y were drawn from the same continuous distribution.
 
 ```{r}
-x1 <- rnorm(200, 0, 1)
-x2 <- rnorm(200, -.5, 1.5)
+x1 <- rnorm(200, mean = 0, sd = 1)
+x2 <- rnorm(200, mean = -.5, sd = 1.5)
 ks.test(x1, x2)
 ```
 

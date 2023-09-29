@@ -96,8 +96,8 @@ a couple variables measured 3 times in the AM and 3 times in the PM.
 ```{r}
 dt_long2 <- data.table(ID = rep(LETTERS[1:4], each = 6),
                       Timepoint = rep(c("AM", "PM"), length.out = 24, each = 3),
-                      Var1 = rnorm(24, 10),
-                      Var2 = rnorm(24, 20))
+                      Var1 = rnorm(24, mean = 10),
+                      Var2 = rnorm(24, mean = 20))
 
 dt_long2[sample(24, size = 4), Var1 := NA]
 dt_long2[sample(24, size = 4), Var2 := NA]
@@ -152,11 +152,11 @@ Using the same synthetic data as in @sec-dfreshape:
 ```{r}
 dat_wide_dt <- data.table(
     Account_ID = c(8001, 8002, 8003, 8004),
-    Age = rnorm(4, 57, 12),
-    RBC = rnorm(4, 4.8, .5),
-    WBC = rnorm(4, 7250, 1500),
-    Hematocrit = rnorm(4, 40.2, 4),
-    Hemoglobin = rnorm(4, 13.6, 1.5),
+    Age = rnorm(4, mean = 57, sd = 12),
+    RBC = rnorm(4, mean = 4.8, sd = .5),
+    WBC = rnorm(4, mean = 7250, sd = 1500),
+    Hematocrit = rnorm(4, mean = 40.2, sd = 4),
+    Hemoglobin = rnorm(4, mean = 13.6, sd = 1.5),
     Admission = sample(c("ED", "Planned"), size = 4, replace = TRUE)
 )
 ```

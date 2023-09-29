@@ -1,6 +1,7 @@
 # Data Transformations {#datatrans}
 
-```{r echo = FALSE}
+```{r}
+#| echo: false
 knitr::opts_chunk$set(comment = NA, cache = TRUE) 
 options(rt.theme = "whitegrid")
 options(rt.fit.theme = "whitegrid")
@@ -104,8 +105,8 @@ Sepal.Length_scaled <- (iris$Sepal.Length - .center[1]) / .scale[1]
 all(Sepal.Length_scaled == iris.scaled[, "Sepal.Length"])
 ```
 
-Note: Due to limitation in numerical precision, checking sets of floats for 
-equality after multiple operations is 
+(Note: Due to limitation in numerical precision, checking sets of floats for 
+equality after multiple operations is tricky. `all.equal()` is a good option here and tests for "near equality".)
 
 ```{r}
 all.equal(Sepal.Length_scaled, iris.scaled[, "Sepal.Length"])
@@ -229,7 +230,6 @@ abline(v = xcuts5, col = "red", lwd = 1.5)
 Instead of evenly-spaced intervals, we can get quantiles with `quantile()`. We ask for 5 quantiles using the `length.out` argument, which corresponds to 4 intervals:
 
 ```{r}
-xquants5 <- quantile(x, probs = seq(0, 1, length.out = 5))
 xquants5 <- quantile(x, probs = seq(0, 1, length.out = 5))
 mplot3_x(x, par.reset = FALSE)
 # plot(density(x)) # in base R

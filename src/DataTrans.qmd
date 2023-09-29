@@ -135,7 +135,7 @@ normalize <- function(x) {
 ```
 
 ```{r}
-x <- rnorm(20, 13, 1.4)
+x <- rnorm(20, mean = 13, sd = 1.4)
 x
 ```
 
@@ -229,9 +229,9 @@ abline(v = xcuts5, col = "red", lwd = 1.5)
 Instead of evenly-spaced intervals, we can get quantiles with `quantile()`. We ask for 5 quantiles using the `length.out` argument, which corresponds to 4 intervals:
 
 ```{r}
-xquants5 <- quantile(x, seq(0, 1, length.out = 5))
-xquants5 <- quantile(x, seq(0, 1, length.out = 5))
-mplot3_x(x, par.reset = F)
+xquants5 <- quantile(x, probs = seq(0, 1, length.out = 5))
+xquants5 <- quantile(x, probs = seq(0, 1, length.out = 5))
+mplot3_x(x, par.reset = FALSE)
 # plot(density(x)) # in base R
 abline(v = xquants5, col = "green", lwd = 1.5)
 ```
@@ -285,7 +285,7 @@ variables create `k - 1` new variables.
 ```{r}
 set.seed(21)
 admission_reasons <- c("plannedSurgery", "emergencySurgery", "medical")
-admission <- sample(admission_reasons, 12, T)
+admission <- sample(admission_reasons, size = 12, replace = TRUE)
 admission
 ```
 
@@ -300,7 +300,7 @@ onehot <- function(x, xname = NULL) {
   .levels <- levels(x)      # Get factor levels
   ncases <- NROW(x)         # Get number of cases
   index <- as.integer(x)    # Convert levels to integer
-  oh <- matrix(0, ncases, length(.levels))   # Initialize zeros matrix
+  oh <- matrix(0, nrow = ncases, ncol = length(.levels))  # Initialize zeros matrix
   colnames(oh) <- paste(xname, .levels, sep = "_")  # Name columns by levels
   for (i in seq(ncases)) oh[i, index[i]] <- 1  # Assign "1" to appropriate level
   oh

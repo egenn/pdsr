@@ -44,7 +44,7 @@ You can use `replicate()` to get a measure of time over multiple executions and 
 
 ```{r}
 set.seed(2020)
-x <- matrix(rnorm(500000), 5000)
+x <- matrix(rnorm(500000), nrow = 5000)
 y <- 12 + x[, 3] + x[, 5]^2 + x[, 7]^3 + rnorm(5000)
 fit.glm <- function(x, y) glm.fit(x, y)
     
@@ -70,7 +70,7 @@ Let's create `xmat`, a 500 by 5 matrix and, `xdf` a data.frame with the same dat
 
 ```{r}
 set.seed(2021)
-xmat <- matrix(rnorm(500*5), 5)
+xmat <- matrix(rnorm(500 * 5), nrow = 5)
 xdf <- as.data.frame(xmat)
 ```
 
@@ -88,10 +88,12 @@ silly_square <- function(x) {
 ```
 
 ```{r}
-mat_df_sq <- microbenchmark(silly_square_mat = silly_square(xmat),
-               silly_square_df = silly_square(xdf),
-               mat_squared = xmat^2,
-               df_squared = xdf^2)
+mat_df_sq <- microbenchmark(
+  silly_square_mat = silly_square(xmat),
+   silly_square_df = silly_square(xdf),
+       mat_squared = xmat^2,
+        df_squared = xdf^2
+)
 class(mat_df_sq)
 ```
 
@@ -150,8 +152,8 @@ flights_tapply <- function() {
 
 groupmean_3x <- microbenchmark(
   aggregate_formula = flights_aggregate_formula(),
-  aggregate = flights_aggregate(),
-  tapply = flights_tapply()
+          aggregate = flights_aggregate(),
+             tapply = flights_tapply()
   )
 ```
 

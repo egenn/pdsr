@@ -276,7 +276,8 @@ factor (same syntax to how you use `rownames()` or `colnames()` to assign new
 row or column names to a matrix or data frame);
 
 ```{r}
-xf <- factor(sample(c("patient_status_positive", "patient_status_negative"), 10, T),
+xf <- factor(sample(c("patient_status_positive", "patient_status_negative"),
+                    size = 10, replace = TRUE),
              levels = c("patient_status_positive", "patient_status_negative"))
 xf
 ```
@@ -361,7 +362,7 @@ relationship of the form `level 1 < level 2 < ... < level n`.
 First an unordered factor:
 
 ```{r}
-dat <- sample(c("small", "medium", "large"), 10, TRUE)
+dat <- sample(c("small", "medium", "large"), size = 10, replace = TRUE)
 x <- factor(dat)
 x
 ```
@@ -497,9 +498,11 @@ can use the `interaction()` function:
 
 ```{r}
 set.seed(2022)
-dat <- data.frame(PID = 8001:8009,
-                  Sex = factor(sample(c("male", "female"), 9, TRUE)),
-                  Group = factor(sample(c("A", "B"), 9, TRUE)))
+dat <- data.frame(
+  PID = 8001:8009,
+  Sex = factor(sample(c("male", "female"), size = 9, replace = TRUE)),
+  Group = factor(sample(c("A", "B"), size = 9, replace = TRUE))
+)
 dat
 ```
 

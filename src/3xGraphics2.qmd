@@ -141,16 +141,16 @@ options(rt.fit.theme = "whiteigrid")
 library(data.table)
 set.seed(2022)
 dt <- data.table(
-    PID = sample(8001:9000, 100),
-    Age = rnorm(100, 33, 8),
-    Weight = rnorm(100, 70, 9),
-    SysBP = rnorm(100, 110, 6),
-    DiaBP = rnorm(100, 80, 6),
-    Sex = factor(sample(c("Female", "Male"), 100, TRUE))
+    PID = sample(8001:9000, size = 100),
+    Age = rnorm(100, mean = 33, sd = 8),
+    Weight = rnorm(100, mean = 70, sd = 9),
+    SysBP = rnorm(100, mean = 110, sd = 6),
+    DiaBP = rnorm(100, mean = 80, sd = 6),
+    Sex = factor(sample(c("Female", "Male"), size = 100, replace = TRUE))
 )
 dt[, SysBP := SysBP + .5 * Age]
-dt[Sex == "Male", Weight := Weight + rnorm(.N, 16, 1.5)]
-dt[Sex == "Male", Age := Age + rnorm(.N, 6, 1.8)]
+dt[Sex == "Male", Weight := Weight + rnorm(.N, mean = 16, sd = 1.5)]
+dt[Sex == "Male", Age := Age + rnorm(.N, mean = 6, sd = 1.8)]
 ```
 
 Define a color palette `palette` and a version of the same palette at 50% transparency,

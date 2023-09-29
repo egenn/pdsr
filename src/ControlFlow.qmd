@@ -88,7 +88,7 @@ method of conditional assignment.
 Consider a vector of [blood bilirubin levels](https://www.ucsfhealth.org/medical-tests/bilirubin-blood-test):
 
 ```{r}
-conjBil <- sample(runif(100, 0, .5), 20)
+conjBil <- sample(runif(100, min = 0, max = .5), size = 20)
 conjBil
 ```
 
@@ -116,7 +116,7 @@ It is equivalent to an `if-else` statement within a `for`-loop:
 idl <- a > 5
 yes <- 11:20
 no <- 21:30
-out <- vector("numeric", 10)
+out <- vector("numeric", length = 10)
 for (i in seq(a)) {
   if (idl[i]) {
     out[i] <- yes[i]
@@ -202,7 +202,7 @@ First, initialize the output to be the desired class and dimensions:
 ```{r}
 class(mtcars)
 dim(mtcars)
-mtcars_z <- data.frame(matrix(0, 32, 11))
+mtcars_z <- data.frame(matrix(0, nrow = 32, ncol = 11))
 colnames(mtcars_z) <- colnames(mtcars)
 ```
 
@@ -244,7 +244,7 @@ all.equal(mtcars_z, mtcars_z2)
 #### Nested `for` loops
 
 ```{r}
-a <- matrix(1:9, 3)
+a <- matrix(1:9, nrow = 3)
 for (i in seq(3)) {
   for (j in seq(3)) {
     cat("  a[", i, ",", j, "] is ", a[i, j], "\n", sep = "")
@@ -293,7 +293,7 @@ compact call using `switch`, which is best suited for options that are of type
 character, rather than numeric.
 
 ```{r}
-y <- sample(letters[seq(8)], 1)
+y <- sample(letters[seq(8)], size = 1)
 y
 output <- switch(y,                      # 1. Some expression
                  a = "Well done",        # 2. The possible values of the expression, unquoted
@@ -328,7 +328,7 @@ out
 #### `switch` example: HTTP Status Codes
 
 ```{r}
-status <- sample(400:410, 1)
+status <- sample(400:410, size = 1)
 status
 response <- switch(as.character(status),
                    `400` = "Bad Request",

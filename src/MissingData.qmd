@@ -2,7 +2,7 @@
 
 ```{r echo = FALSE}
 knitr::opts_chunk$set(fig.width = 5, fig.height = 5,
-                      comment = NA, cache = F) 
+                      comment = NA, cache = FALSE) 
 options(rt.theme = "whitegrid")
 options(rt.fit.theme = "whitegrid")
 ```
@@ -194,7 +194,7 @@ Since no factors have missing values in the current dataset we create a copy and
 
 ```{r}
 dat2 <- dat
-dat2$diabetes[sample(1:NROW(dat2), 35)] <- NA
+dat2$diabetes[sample(1:NROW(dat2), size = 35)] <- NA
 sum(is.na(dat2$diabetes))
 levels(dat2$diabetes)
 ```
@@ -214,8 +214,10 @@ In longitudinal / timeseries data, we may want to replace missing values with th
 Some simulated data. We are missing blood pressure measurements on Saturdays and Sundays:
 
 ```{r}
-dat <- data.frame(Day = rep(c("Mon", "Tues", "Wed", "Thu", "Fri", "Sat", "Sun"), 3),
-                  SBP = sample(105:125, 21, TRUE))
+dat <- data.frame(
+     Day = rep(c("Mon", "Tues", "Wed", "Thu", "Fri", "Sat", "Sun"), times = 3),
+     SBP = sample(105:125, size = 7 * 3, replace = TRUE)
+)
 dat$SBP[dat$Day == "Sat" | dat$Day == "Sun"] <- NA
 dat
 ```
@@ -243,7 +245,7 @@ You can use non-missing data to predict missing data in an iterative procedure [
 library(missRanger)
 dat <- iris
 set.seed(2020)
-dat[sample(1:150, 5), 1] <- dat[sample(1:150, 22), 4] <- dat[sample(1:150, 18), 4] <- NA
+dat[sample(1:150, size = 5), 1] <- dat[sample(1:150, size = 22), 4] <- dat[sample(1:150, size = 18), 4] <- NA
 ```
 
 ```{r}

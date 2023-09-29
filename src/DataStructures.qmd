@@ -170,7 +170,7 @@ class(x)
 or vector and matrices:
 
 ```{r}
-cbind(matrix(1, 5, 2), matrix(2, 5, 4))
+cbind(matrix(1, nrow = 5, ncol = 2), matrix(2, nrow = 5, ncol = 4))
 ```
 
 ## Arrays
@@ -234,13 +234,13 @@ x <- array(1:60,
 `rasterImage()` to show how you would visualize such an image:
 
 ```{r}
-x <- array(sample(1:255, 432, TRUE), dim = c(12, 12, 3))
+x <- array(sample(0:255, size = 12 * 12 * 3, replace = TRUE), dim = c(12, 12, 3))
 par("pty")
 par(pty = "s")
 plot(NULL, NULL,
      xlim = c(0, 100), ylim = c(0, 100),
-     axes = F, ann = F, pty = "s")
-rasterImage(x/255, 0, 0, 100, 100)
+     axes = FALSE, ann = FALSE, pty = "s")
+rasterImage(x / 255, xleft = 0, ybottom = 0, xright = 100, ytop = 100)
 ```
 
 ## Lists
@@ -251,7 +251,7 @@ element names:
 
 ```{r}
 x <- list(one = 1:4,
-          two = sample(seq(0, 100, .1), 10),
+          two = sample(seq(0, 100, by = .1), size = 10),
           three = c("mango", "banana", "tangerine"),
           four = median)
 class(x)
@@ -264,7 +264,7 @@ length(x)
 Since each element can be any object, we can build nested lists:
 
 ```{r}
-x <- list(alpha = letters[sample(26, 4)],
+x <- list(alpha = letters[sample(26, size = 4)],
           beta = sample(12),
           gamma = list(i = rnorm(10),
                        j = runif(10),
@@ -286,7 +286,7 @@ When setting up experiments, it can be very convenient to set up and empty
 list, where results will be stored (e.g. using a [for-loop](#forloops)):
 
 ```{r}
-x <- vector("list", 4)
+x <- vector("list", length = 4)
 x
 length(x)
 ```
@@ -358,7 +358,7 @@ data.frames are usually created with named elements:
 ```{r}
 x <- data.frame(Feat_1 = 1:5,
                 Feat_2 = rnorm(5),
-                Feat_3 = paste0("rnd_", sample(seq(100), 5)))
+                Feat_3 = paste0("rnd_", sample(seq(100), size = 5)))
 x
 class(x)
 str(x)
@@ -372,7 +372,7 @@ is equal to the number of columns.
 :::
 
 ```{r}
-mat <- matrix(1:100, 10)
+mat <- matrix(1:100, nrow = 10)
 length(mat)
 df <- as.data.frame(mat)
 length(df)
@@ -382,10 +382,10 @@ Just like with lists, you can add new columns to a data.frame using
 assignment to a new element, i.e. column:
 
 ```{r}
-x <- data.frame(PIDN = sample(8001:9000, 10, TRUE),
-                Age = rnorm(10, 48, 2.9))
+x <- data.frame(PIDN = sample(8001:9000, size = 10, replace = TRUE),
+                Age = rnorm(10, mean = 48, sd = 2.9))
 x
-x$Weight <- rnorm(10, 84, 1.5)
+x$Weight <- rnorm(10, mean = 84, sd = 1.5)
 x
 ```
 
@@ -405,7 +405,7 @@ typeof(x)
 `seq(from, to, by)`
 
 ```{r}
-seq(1, 10, .5)
+seq(1, 10, by = .5)
 ```
 
 `seq(from, to, length.out = n)`
@@ -472,7 +472,7 @@ Matrices and data frames can have column names (`colnames`) and row names
 (`rownames`):
 
 ```{r}
-xm <- matrix(1:15, 5)
+xm <- matrix(1:15, nrow = 5)
 xdf <- as.data.frame(xm)
 colnames(xm)
 colnames(xdf)
@@ -583,7 +583,7 @@ To convert to a matrix, we would normally pass our vector to the `matrix()`
 function and define number of rows and/or columns:
 
 ```{r}
-xm <- matrix(x, 5)
+xm <- matrix(x, nrow = 5)
 xm
 attributes(xm)
 ```

@@ -5,7 +5,7 @@ knitr::opts_chunk$set(fig.width = 4.5, fig.height = 4.5,
                       comment = NA, cache = TRUE)
 options(rt.theme = "whitegrid")
 options(rt.fit.theme = "whitegrid")
-library(rtemis)
+suppressPackageStartupMessages(library(rtemis))
 ```
 
 ```{r, comment="", results="asis", echo=FALSE}
@@ -35,7 +35,7 @@ $$y = Χβ + ε$$
 Let's look at an example using the GLM for regression. We'll use the `diabetes` dataset from the `mlbench` package as an example.
 
 ```{r}
-data(PimaIndiansDiabetes2, package = 'mlbench')
+data(PimaIndiansDiabetes2, package = "mlbench")
 str(PimaIndiansDiabetes2)
 ```
 
@@ -129,7 +129,7 @@ For logistic regression, i.e. classification, you can use `glm()` with `family =
 Using the same dataset, let's predict diabetes status:
 
 ```{r}
-diabetes_mod <- glm(diabetes ~ ., PimaIndiansDiabetes2, 
+diabetes_mod <- glm(diabetes ~ ., data = PimaIndiansDiabetes2, 
                     family = "binomial")
 diabetes_mod
 ```

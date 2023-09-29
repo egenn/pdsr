@@ -82,7 +82,7 @@ t.test(x1)
 ```
 
 ```{r}
-boxplot(extra ~ group, sleep,
+boxplot(extra ~ group, data = sleep,
         col = "#05204999", border = "#052049",
         boxwex = .3)
 ```
@@ -93,7 +93,7 @@ Both `t.test()` and `wilcox.test()` (below) either accept input as two vectors,
 `t.test(x, y)` or a formula of the form `t.test(x ~ group)`. The `paired` argument allows us to define a paired test. Since the `sleep` dataset includes measurements on the same cases in two conditions, we set `paired = TRUE`.
 
 ```{r}
-t.test(extra ~ group, sleep, paired = TRUE)
+t.test(extra ~ group, data = sleep, paired = TRUE)
 ```
 
 ## Wilcoxon test
@@ -147,14 +147,14 @@ BP_drug <- data.frame(Group = factor(rep(c("Placebo", "Drug_A", "Drug_B"), each 
 ```
 
 ```{r}
-boxplot(SBP ~ Group, BP_drug,
+boxplot(SBP ~ Group, data = BP_drug,
         col = "#05204999", border = "#052049",
         boxwex = .3)
 ```
 
 
 ```{r}
-SBP_aov <- aov(SBP ~ Group, BP_drug)
+SBP_aov <- aov(SBP ~ Group, data = BP_drug)
 SBP_aov
 ```
 

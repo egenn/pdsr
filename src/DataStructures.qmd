@@ -234,13 +234,13 @@ x <- array(1:60,
 `rasterImage()` to show how you would visualize such an image:
 
 ```{r}
-x <- array(sample(1:255, size = 432, replace = TRUE), dim = c(12, 12, 3))
+x <- array(sample(0:255, size = 12 * 12 * 3, replace = TRUE), dim = c(12, 12, 3))
 par("pty")
 par(pty = "s")
 plot(NULL, NULL,
      xlim = c(0, 100), ylim = c(0, 100),
      axes = FALSE, ann = FALSE, pty = "s")
-rasterImage(x/255, 0, 0, 100, 100)
+rasterImage(x / 255, xleft = 0, ybottom = 0, xright = 100, ytop = 100)
 ```
 
 ## Lists

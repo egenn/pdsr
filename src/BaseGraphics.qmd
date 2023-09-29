@@ -214,7 +214,7 @@ drugs in increasing hours of sleep compared to a control group.
 
 ```{r}
 dl <- list(alpha = alpha, beta = beta, gamma = gamma)
-boxplot(extra ~ group, sleep)
+boxplot(extra ~ group, data = sleep)
 ```
 
 ### Common arguments
@@ -239,8 +239,8 @@ multi-panel figure.
 
 ```{r}
 col <- c("#16A0AC", "#FA6E1E")
-boxplot(extra ~ group, sleep,
-        col = adjustcolor(col, .333), 
+boxplot(extra ~ group, data = sleep,
+        col = adjustcolor(col, alpha.f = .33), 
         border = col)
 ```
 
@@ -249,12 +249,12 @@ str(sleep)
 ```
 
 ```{r}
-boxplot(extra ~ group, sleep)
+boxplot(extra ~ group, data = sleep)
 ```
 
 ```{r}
-boxplot(extra ~ group, sleep,
-        col = adjustcolor(col, .333),
+boxplot(extra ~ group, data = sleep,
+        col = adjustcolor(col, alpha.f = .33),
         border = col,
         names = c("Drug A", "Drug B"))
 ```
@@ -283,7 +283,7 @@ hist(x, col = "slategray", lwd = 3)
 
 ```{r}
 hist(x, 
-     col = adjustcolor("slategray", .5), 
+     col = adjustcolor("slategray", alpha.f = .5), 
      border = "slategray")
 ```
 
@@ -306,7 +306,7 @@ possible number will be used.
 
 ```{r}
 hist(x,
-     col = adjustcolor("slategray", .5), 
+     col = adjustcolor("slategray", alpha.f = .5), 
      border = "slategray",
      breaks = 24)
 ```
@@ -394,7 +394,7 @@ color coding.
 Here, we use the `adjustcolor()` function again to produce 5 shades of navy.
 
 ```{r fig.width= 7, fig.height=5}
-col <- sapply(seq(.2, .8, length.out = 5), function(i) adjustcolor("navy", i))
+col <- sapply(seq(.2, .8, length.out = 5), function(alpha) adjustcolor("navy", alpha))
 barplot(VADeaths,
         col = col,
         border = NA,
@@ -420,24 +420,25 @@ str(penguins)
 
 ```{r}
 bill_length_by_island <- aggregate(bill_length_mm ~ island,
-                                   penguins, mean)
+                                   data = penguins, mean)
 bill_length_by_island
 ```
 
 ```{r}
-barplot(bill_length_mm ~ island, bill_length_by_island)
+barplot(bill_length_mm ~ island, data = bill_length_by_island)
 ```
 
 #### Single continuous by multiple categorical variables:
 
 ```{r}
 bill_length_by_island_x_species <- aggregate(bill_length_mm ~ island + species,
-                                             penguins, mean)
+                                             data = penguins, mean)
 bill_length_by_island_x_species
 ```
 
 ```{r}
-barplot(bill_length_mm ~ island + species, bill_length_by_island_x_species,
+barplot(bill_length_mm ~ island + species,
+        data = bill_length_by_island_x_species,
         legend = TRUE)
 ```
 
@@ -445,7 +446,8 @@ Or, if you prefer, beside instead of stacked. Note that in this dataset
 not all species are present in each island.
 
 ```{r}
-barplot(bill_length_mm ~ island + species, bill_length_by_island_x_species,
+barplot(bill_length_mm ~ island + species,
+        data = bill_length_by_island_x_species,
         beside = TRUE, legend = TRUE)
 ```
 
@@ -454,13 +456,13 @@ barplot(bill_length_mm ~ island + species, bill_length_by_island_x_species,
 ```{r}
 bill_and_flipper_length_by_island <- 
      aggregate(cbind(bill_length_mm, flipper_length_mm) ~ island,
-     penguins, mean)
+     data = penguins, mean)
 bill_and_flipper_length_by_island
 ```
 
 ```{r}
 barplot(cbind(bill_length_mm, flipper_length_mm) ~ island, 
-        bill_and_flipper_length_by_island,
+        data = bill_and_flipper_length_by_island,
         beside = TRUE, legend = TRUE)
 ```
 
@@ -475,13 +477,13 @@ variables using `interaction()`
 island_x_species <- interaction(penguins$island, penguins$species, sep = " x ")
 bill_and_flipper_length_by_island_x_species <- 
      aggregate(cbind(bill_length_mm, flipper_length_mm) ~ island_x_species,
-     penguins, mean)
+     data = penguins, mean)
 bill_and_flipper_length_by_island_x_species
 ```
 
 ```{r}
 barplot(cbind(bill_length_mm, flipper_length_mm) ~ island_x_species, 
-        bill_and_flipper_length_by_island_x_species,
+        data = bill_and_flipper_length_by_island_x_species,
         beside = TRUE, legend = TRUE)
 ```
 
@@ -498,7 +500,7 @@ Let's create some synthetic data:
 set.seed(2020)
 x <- rnorm(300)
 y_true <- 12 + x^3
-y <- 12 + x^3 + 2.5 * rnorm(300)*1.5
+y <- 12 + x^3 + 2.5 * rnorm(300) * 1.5
 ```
 
 ```{r}

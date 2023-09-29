@@ -15,7 +15,7 @@ library(data.table)
 - Using bracket notation - unique to `data.table` objects.
 
 ```{r}
-a <- data.table(PID = c(1:9),
+a <- data.table(PID = 1:9,
                 Hospital = c("UCSF", "HUP", "Stanford", 
                              "Stanford", "UCSF", "HUP", 
                              "HUP", "Stanford", "UCSF"),
@@ -24,7 +24,7 @@ a <- data.table(PID = c(1:9),
                 key = "PID")
 a
 
-b <- data.table(PID = c(6:12),
+b <- data.table(PID = 6:12,
                 V1 = c(153, 89, 112, 228,  91, 190, 101),
                 Department = c("Neurology", "Radiology", "Emergency",
                                "Cardiology", "Surgery", "Neurology",
@@ -50,19 +50,19 @@ setkey(a, PID, Hospital)
 Keys sort the data.table by the corresponding columns and can be used to 
 perform left and right joins with bracket notation seen later.
 
-## Inner
+## Inner join
 
 ```{r}
 merge(a, b)
 ```
 
-## Outer
+## Outer join
 
 ```{r}
 merge(a, b, all = TRUE)
 ```
 
-## Left outer
+## Left outer join
 
 Using `merge()`:
 
@@ -89,7 +89,7 @@ data.table inside the bracket is used to index the data.table on the outside,
 therefore the resulting table will have rows dictated by the inside table's key.
 :::
 
-## Right outer
+## Right outer join
 
 ```{r}
 merge(a, b, all.y = TRUE)

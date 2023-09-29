@@ -300,7 +300,7 @@ onehot <- function(x, xname = NULL) {
   .levels <- levels(x)      # Get factor levels
   ncases <- NROW(x)         # Get number of cases
   index <- as.integer(x)    # Convert levels to integer
-  oh <- matrix(0, ncases, length(.levels))   # Initialize zeros matrix
+  oh <- matrix(0, nrow = ncases, ncol = length(.levels))  # Initialize zeros matrix
   colnames(oh) <- paste(xname, .levels, sep = "_")  # Name columns by levels
   for (i in seq(ncases)) oh[i, index[i]] <- 1  # Assign "1" to appropriate level
   oh

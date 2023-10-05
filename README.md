@@ -4,8 +4,8 @@
 <br/><br/>
 Welcome to PDSR!
 <br><br>
-This book is aimed as an introductory- to intermediate-level R programming learning resource.  
-It is the online book for UCSF Biostat 213/4.
+This is aimed as an introductory- to intermediate-level R programming learning resource.  
+It is the online companion to the in-person UCSF Biostat 213 & 214 courses, Programming for Health Data Science I & II.
 <br><br>
 E.D. Gennatas
 

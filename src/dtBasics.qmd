@@ -1,7 +1,8 @@
 ---
 knitr:
-  opts_chunk:
-    comment: ""
+  opts_chunk: 
+    comment: ''
+    error: true
 ---
 # Efficient Data Analysis with **data.table** {#sec-datatable}
 
@@ -14,23 +15,22 @@ knitr:
 knitr::include_graphics("R_data.table.png")
 ```
 
-## `data.table` extends the power of `data.frame`
+## `data.table` extends the functionality of `data.frame`
 
 Some of the ways in which a `data.table` differs from a `data.frame`:  
 
-- A lot more than indexing can be done within a `data.table`'s "frame" (`dt[i, j, by]`):
-filter, select & operate on columns, group-by operations
+- Many operations can be performed within a `data.table`'s "frame" (`dt[i, j, by]`):
+filter cases, select columns & *operate* on columns, group-by operations
 - Access column names directly without quoting
-- Many operations can be performed ***"in-place"*** (i.e. with no assignment)
-- Working on big data within a `data.table` can be orders of magnitude faster.
+- Many operations can be performed ***"in-place"*** (i.e. with ***no assignment***)
+- Working on large datasets (e.g. millions of rows) can be orders of magnitude faster with a  `data.table` than a `data.frame`.
 
 `data.table` operations remain as close as possible to `data.frame` operations, 
-trying to extend rather than replace the latter's functionality.
+trying to extend rather than replace `data.frame` functionality.
 
 **data.table** includes thorough and helpful error messages that often point to 
 a solution. This includes common mistakes new users may make when trying 
-commands that would work on a `data.frame`
-but are different on a `data.table`.
+commands that would work on a `data.frame` but not on a `data.table`.
 
 ### Load the `data.table` package
 
@@ -64,11 +64,11 @@ dt
 
 Notice how a `data.table` object also inherits from `data.frame`. This means 
 that if a method does not exist for `data.table`, the method for `data.frame` 
-will be used - review [classes and generic functions](#classes).
+will be used (See [classes and generic functions](#classes)).
 <br><br>
 As part of improving efficiency, data.tables do away with row names. Instead of 
-using rownames, you can and should add an extra column (e.g. "ID") with the 
-same information - this is advisable when working with data.frames as well.
+using row names, you should use a dedicated column or column with a row identifier/s
+(e.g. "ID"). this is advisable when working with data.frames as well.
 <br><br>
 A rather convenient option is to have data.tables print each column's class 
 below the column name. You can pass the argument `class = TRUE` to `print()` or 
@@ -139,7 +139,7 @@ str(df)
 str(dt)
 ```
 
-## Combine `data.table`s
+## Combine `data.tables`
 
 `cbind()` and `rbind()` work on `data.table`s the same as on `data.frame`s:
 
@@ -245,7 +245,7 @@ the same way as with a `data.frame`:
 subset(dt, A > mean(A) & B > mean(B))
 ```
 
-As another example, exclude cases base on missingness in a specific column:
+As another example, exclude cases based on missingness in a specific column:
 
 ```{r}
 adf <- as.data.frame(sapply(1:5, function(i) rnorm(10)))
@@ -326,6 +326,19 @@ with `..` (similar to how you access the directory above your current working
 directory in the system shell).
 <br><br>
 
+::: callout-important
+Always read error messages carefully, no matter what function or package you are using.
+In the case of `data.table`, the error messages are very informative and often point to
+the solution.
+:::
+
+See what happens if you try to use the data.frame syntax by accident:
+
+```{r}
+dt[, colid]
+```
+
+<br><br>
 Selecting a single column by name returns a **vector**:
 
 ```{r}
@@ -357,8 +370,6 @@ One of the main uses of .SD is shown below in combination with `lapply()`.
 ## Add new column ***in-place***
 
 Use `:=` assignment to add a new column in the existing `data.table`.
-In-place assignment means you do not have to assign the result to a variable, 
-the existing `data.table` will be modified.
 
 ```{r}
 dt[, AplusB := A + B]
@@ -601,18 +612,9 @@ dt[, bcd.sum := sum(.SD[, b:d]), by = 1:nrow(dt)]
 dt
 ```
 
-## Save a `data.table` to file
+## Watch out for `data.table` error messages
 
-Same as any R object, you can save a `data.table` to disk using `saveRDS()`.
-Suppose you have read data in with `fread()` or coerced a dataset using 
-`as.data.table()`, done some cleaning up, type conversions, data 
-transformations, etc, this is the preferred way to save your work, so you can 
-reload at any time.
-
-```{r}
-#| eval: false
-saveRDS(dt, "/path/to/data.rds")
-```
+For example
 
 ## Resources
 

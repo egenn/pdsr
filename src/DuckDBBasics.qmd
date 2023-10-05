@@ -1,12 +1,26 @@
-# DuckDB {sec-duckdb}
+# DuckDB Basics {#sec-duckdbbasics}
+
+::: callout-note
+This section is a work in progress.
+:::
 
 ```{r}
 library(duckdb)
 library(dbplyr)
 ```
 
-Operations can be performed using SQL queries. 
-Some are also available in the R API.
+## Installation
+
+```{r}
+#| eval: false
+install.packages("duckdb")
+```
+
+## DuckDB API
+
+DuckDB uses the R Database Interface 
+([DBI](https://cran.r-project.org/web/packages/DBI/index.html)). Learn more about using
+DBI [here](https://solutions.posit.co/connections/db/r-packages/dbi/).
 
 ## Setup Connection
 
@@ -29,7 +43,7 @@ You can directly read into data.frame, which may be best for smaller datasets:
 
 ```{r}
 ir <- dbGetQuery(con, 
-    "SELECT * FROM read_csv_auto('~/icloud/Data/iris2.csv');"
+    "SELECT * FROM read_csv_auto('./iris.csv');"
 )
 head(ir)
 ```
@@ -39,7 +53,7 @@ the dataset into memory:
 
 ```{r}
 dbExecute(con,
-    "CREATE TABLE iris AS SELECT * FROM '~/icloud/Data/iris.csv';"
+    "CREATE TABLE iris AS SELECT * FROM './iris.csv';"
 )
 ```
 
@@ -61,10 +75,6 @@ dbListTables(con)
 ```{r}
 dbGetQuery(con,
     "SELECT * FROM iris WHERE Species in ('setosa', 'versicolor')") |> head()
-```
-
-```{r}
-rel_filter()
 ```
 
 ```{r}
@@ -92,7 +102,6 @@ class(ir)
 
 ```{r}
 ir = dbGetQuery(con, "SELECT * from iris")
-setDT(ir)
 ```
 
 ```{r}
@@ -100,6 +109,13 @@ class(ir)
 head(ir)
 ```
 
+## Close connection
+
+When you are done working with the database, you should close the connection:
+
+```{r}
+dbDisconnect(con)
+```
 
 ## Resources
 

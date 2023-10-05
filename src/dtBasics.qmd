@@ -1,7 +1,8 @@
 ---
 knitr:
-  opts_chunk:
-    comment: ""
+  opts_chunk: 
+    comment: ''
+    error: true
 ---
 # Efficient Data Analysis with **data.table** {#sec-datatable}
 
@@ -325,6 +326,19 @@ with `..` (similar to how you access the directory above your current working
 directory in the system shell).
 <br><br>
 
+::: callout-important
+Always read error messages carefully, no matter what function or package you are using.
+In the case of `data.table`, the error messages are very informative and often point to
+the solution.
+:::
+
+See what happens if you try to use the data.frame syntax by accident:
+
+```{r}
+dt[, colid]
+```
+
+<br><br>
 Selecting a single column by name returns a **vector**:
 
 ```{r}
@@ -597,6 +611,10 @@ through d:
 dt[, bcd.sum := sum(.SD[, b:d]), by = 1:nrow(dt)]
 dt
 ```
+
+## Watch out for `data.table` error messages
+
+For example
 
 ## Resources
 

@@ -67,16 +67,13 @@ dcast(dat_long_dt,
 Another simple synthetic dataset:
 
 ```{r}
-dt_long <- structure(list(
-        ID = c(1L, 2L, 3L, 4L, 1L, 2L, 3L, 4L, 1L, 2L, 
-        3L, 4L), 
+dt_long <- data.table(
+        ID = c(1L, 2L, 3L, 4L, 1L, 2L, 3L, 4L, 1L, 2L, 3L, 4L), 
         Timepoint = structure(c(1L, 1L, 1L, 1L, 2L, 2L, 2L, 
         2L, 3L, 3L, 3L, 3L), levels = c("Timepoint_A", "Timepoint_B", 
         "Timepoint_C"), class = "factor"), 
-        Score = c(11L, 12L, 13L, 14L, 
-        21L, 22L, 23L, 24L, 51L, 52L, 53L, 54L)), 
-        row.names = c(NA, -12L
-        ), class = "data.frame")
+        Score = c(11L, 12L, 13L, 14L, 21L, 22L, 23L, 24L, 51L, 52L, 53L, 54L)
+)
 dt_long
 ```
 
@@ -133,16 +130,21 @@ Note how `na.rm = TRUE` was successfully applied to all aggregating functions
 ### Example 1
 
 ```{r}
-dt_wide <- data.table(ID = 1:4, Timepoint_A = 11:14,
-                      Timepoint_B = 21:24, Timepoint_C = 51:54)
+dt_wide <- data.table(
+        ID = 1:4,
+        Timepoint_A = 11:14,
+        Timepoint_B = 21:24,
+        Timepoint_C = 51:54)
 dt_wide
 ```
 
 ```{r}
-dt_long <- melt(dt_wide, id.vars = "ID",
-                measure.vars = 2:4, # defaults to all non-id columns
-                variable.name = "Timepoint",
-                value.name = c("Score"))
+dt_long <- melt(
+        dt_wide, 
+        id.vars = "ID",
+        measure.vars = 2:4, # defaults to all non-id columns
+        variable.name = "Timepoint",
+        value.name = c("Score"))
 dt_long
 ```
 
@@ -160,6 +162,7 @@ dat_wide_dt <- data.table(
     Hemoglobin = rnorm(4, mean = 13.6, sd = 1.5),
     Admission = sample(c("ED", "Planned"), size = 4, replace = TRUE)
 )
+dat_wide_dt
 ```
 
 ```{r}

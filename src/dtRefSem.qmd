@@ -1,79 +1,275 @@
 # Reference Semantics
 
-Many users new to programming may not have encountered 
-[reference semantics](https://en.wikipedia.org/wiki/Evaluation_strategy#Call_by_reference) before.
+This chapter introduces the concept of
+[reference semantics](https://en.wikipedia.org/wiki/Evaluation_strategy#Call_by_reference),
+which is used by the `data.table` package.
 <br><br>
-This chapter briefly demonstrates how data.table objects are edited in-place.
+
+When you create an object in R, it is stored at some location in memory. The 
+`address()` function in the `data.table` package returns the memory address of an object. 
 
 ```{r}
 library(data.table)
 ```
 
-## Get object's location in memory with `address()`
+## Add column to data.frame
 
-When you add a new column to an existing data.frame, the data.frame is copied 
-behind the scenes - you can tell because its memory address, where it's 
-physically stored in your computer, changes:
+Let's create a simple data.frame, `df1`:
 
 ```{r}
-df1 <- data.frame(alpha = 1:5, beta = 11:15)
-address(df1)
-df1$gamma <- df1$alpha + df1$beta
+df1 <- data.frame(
+  ID = c(8001, 8002),
+  GCS = c(15, 13)
+)
+```
+
+...and print its address:
+
+```{r}
 address(df1)
 ```
 
-When you add a new column in a data.table ***in-place***, the data.table
-object's address remains unchanged:
+Right now, we don't care what the actual address is - but we want to keep track when it 
+changes.
+
+Let's add a new column to `df1`:
 
 ```{r}
-dt1 <- data.table(alpha = 1:5, beta = 11:15)
-address(dt1)
-dt1[, gamma := alpha + beta]
+df1$HR <- c(80, 90)
+```
+
+...and print its address:
+
+```{r}
+address(df1)
+```
+
+The address has changed, even though we're still working on the "same" `df1` object.
+
+Let's change column names
+
+```{r}
+names(df1) <- c("Patient_ID", "GCS", "HR")
+```
+
+```{r}
+address(df1)
+```
+
+Once again, just by changing the column names, a new copy of the data.frame was made
+behind the scenes and therefore the address has changed.
+
+## Add column to data.table
+
+Let's create a simple data.table, `dt1`:
+
+```{r}
+dt1 <- data.table(
+  ID = c(8001, 8002),
+  GCS = c(15, 13)
+)
+```
+
+...and print its address:
+
+```{r}
 address(dt1)
 ```
 
-### Reference semantics at work
-
-Up to now, you are likely used to working with regular R objects that behave 
-like this:
+Let's add a new column to `dt1` ***in-place***:
 
 ```{r}
-df1 <- data.frame(a = rep(1, 5))
+dt1[, HR := c(80, 90)]
+```
+
+...and print its address:
+
+```{r}
+address(dt1)
+```
+
+The address remains the same.
+
+Let's change column names
+
+```{r}
+setnames(dt1, c("Patient_ID", "GCS", "HR"))
+```
+
+```{r}
+address(dt1)
+```
+
+Once again, an opertion on data.table by reference, does not create a new copy of the
+object and therefore the address remains the same.
+
+What if we had used the data.frame syntax (which still works on a data.table) instead?
+
+```{r}
+dt1$HR <- c(80, 90)
+```
+
+```{r}
+address(dt1)
+```
+
+The address indeed changes, just like with data.frames.
+
+::: callout-important
+Making copies of large objects can be time-consuming and memory-intensive.
+Up to this point, we have seen that making changes to data.table by reference, changes the object in-place and does not create
+a new copy.
+:::
+
+## Caution with reference semantics
+
+So far so good, we start to understand one reason why `data.table` is efficient.
+One very important thing to keep in mind is that when you do want to make a copy of a
+data.table, e.g. to create a different version of it, you must use the `copy()`.
+
+Let's see why.
+
+### Copying a data.frame
+
+Let's remind ourselves of the contenets and address of `df1`:
+
+```{r}
 df1
+```
+
+```{r}
+address(df1)
+```
+
+To make a copy of `df1`, we can simply assign it to a new object:
+
+```{r}
 df2 <- df1
+```
+
+```{r}
 df2
-df2$a <- df2$a*2
-df2
-df1
-address(df1)
+```
+
+```{r}
 address(df2)
 ```
 
-`data.table` uses "reference semantics" or "pass-by-reference". Be careful 
-or you might get confused:
+The address of `df2` is the same as `df1`, which means they are pointing to the same
+object in memory.
+
+As we've already seen, if we edit `df2`, its address will change:
 
 ```{r}
-dt1 <- data.table(a = rep(1, 5))
+df2[1, 3] <- 75
+```
+
+```{r}
+df2
+```
+
+```{r}
+address(df2)
+```
+
+The contents and address of `df2` have changed, but `df1` remains the same, as you might
+expect:
+
+```{r}
+df1
+```
+
+```{r}
+address(df1)
+```
+
+### Copying a data.table
+
+Let's remind ourselves of the contenets and address of `dt1`:
+
+```{r}
 dt1
-dt2 <- dt1
-dt2
-dt2[, a := a * 2]
-dt2
-dt1
+```
+
+```{r}
 address(dt1)
+```
+
+Let's see what happens if we assign `dt1` to a new object:
+
+```{r}
+dt2 <- dt1
+```
+
+```{r}
+dt2
+```
+
+```{r}
 address(dt2)
 ```
 
+So far it's the same as with data.frames.
+
+Let's see what happens if we edit `dt2` by reference:
+
+```{r}
+dt2[1, HR := 75]
+```
+
+```{r}
+dt2
+```
+
+```{r}
+address(dt2)
+```
+
+and let's recheck `dt1`:
+
+```{r}
+dt1
+```
+
+`dt1` has changed as well, because `dt1` and `dt2` are still pointing to the same 
+object in memory!
+
+This is crucial to remember to avoid errors and confusion.
+
 ::: callout-important
-If you want to create a copy of a data.table, use `copy()`.
+When you want to make a copy of a data.table, you must use the `copy()` function.
 :::
+
+Let's see what happens if we use `copy()`:
 
 ```{r}
 dt3 <- copy(dt1)
+```
+
+```{r}
 dt3
+```
+
+```{r}
+address(dt1)
+```
+
+```{r}
 address(dt3)
-dt3[, a := a * 2]
+```
+
+`dt3` and `dt1` are pointing to different objects in memory, so editing one does not
+affect the other.
+
+```{r}
+dt3[1, HR := 100]
+```
+
+```{r}
 dt3
+```
+
+```{r}
 dt1
 ```
 

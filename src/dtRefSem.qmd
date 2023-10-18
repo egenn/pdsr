@@ -47,19 +47,6 @@ address(df1)
 
 The address has changed, even though we're still working on the "same" `df1` object.
 
-Let's change column names
-
-```{r}
-names(df1) <- c("Patient_ID", "GCS", "HR")
-```
-
-```{r}
-address(df1)
-```
-
-Once again, just by changing the column names, a new copy of the data.frame was made
-behind the scenes and therefore the address has changed.
-
 ## Add column to data.table
 
 Let's create a simple data.table, `dt1`:
@@ -90,19 +77,6 @@ address(dt1)
 ```
 
 The address remains the same.
-
-Let's change column names
-
-```{r}
-setnames(dt1, c("Patient_ID", "GCS", "HR"))
-```
-
-```{r}
-address(dt1)
-```
-
-Once again, an opertion on data.table by reference, does not create a new copy of the
-object and therefore the address remains the same.
 
 What if we had used the data.frame syntax (which still works on a data.table) instead?
 

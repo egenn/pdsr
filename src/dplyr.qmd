@@ -18,10 +18,10 @@ Core operations include:
 
 - `filter()`: identify cases
 - `select()`: identify columns
-- `mutate()`: create new variables as function of existing ones
+- `mutate()`: create new variables as a function of existing ones
 - `arrange()`: reorder the rows/cases of a dataset
 - `summarize()`: apply functions on columns 
-- `group_by()`: identify columns to group cases by - all the above can be 
+- `group_by()`: identify columns to group rows/cases by - all of the above can be 
 applied on a grouped data frame
 
 **dplyr** operates on data.frames as well as the tidyverse's data.frame 
@@ -286,7 +286,8 @@ A predicate function is a function that returns a logical value, i.e. either `TR
 `FALSE`.
 :::
 
-This is useful for selecting columns based on their type, e.g. numeric or factor.
+For example, you can use `is.*` functions to identify columns based on their type, 
+e.g. numeric or factor.
 
 ```{r}
 dat |> 
@@ -299,6 +300,49 @@ its usefulness.
 ```{r}
 dat |> 
     summarize(across(where(is.factor), table))
+```
+
+### Using anonymous predicate function with `where()`
+
+It is often useful to be able to get the number of unique values per column, e.g. in 
+order to identify which columns may need to be converted to factors.
+`dplyr` includes the function `n_distinct()` which counts the number of unique values of
+a vector.
+<br><br>
+The following example shows the syntax dplyr's 
+[formula shorthand](https://tidyselect.r-lib.org/reference/where.html#the-formula-shorthand) 
+to build an anonymous function using `n_distinct()` in order to select columns with 
+fewer than 10 unique values:
+
+```{r}
+dat |> 
+    select(where(~ n_distinct(.x) < 10))
+```
+
+which is equivalent to using the standard R anonymous function syntax:
+
+```{r}
+dat |> 
+    select(where(\(x) n_distinct(x) < 10))
+```
+
+`n_distinct(x)` is a more concise way of writing `length(unique(x))`:
+
+```{r}
+dat |> 
+    select(where(\(x) length(unique(x)) < 10))
+```
+
+To mutate those columns to factors, we combine `across()` and `where()` with the
+formula notation seen above within `mutate()`:
+
+```{r}
+dat <- dat |> 
+    mutate(across(where(~ n_distinct(.) < 10), as.factor))
+```
+
+```{r}
+str(dat)
 ```
 
 ## dplyr backends

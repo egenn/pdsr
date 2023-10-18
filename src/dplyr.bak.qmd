@@ -1,0 +1,191 @@
+---
+knitr:
+  opts_chunk: 
+    comment: ''
+---
+# Introduction to **dplyr** {#sec-dplyr}
+
+The [**dplyr**](https://dplyr.tidyverse.org/) package offers functionality for 
+data manipulation.
+<br><br>
+dplyr's functions are named after verbs (like `filter`, `select`, etc.) and are commonly
+used with the pipe operator to build pipelines. The package offers a large number of 
+functions in total, often with multiple versions of the same "verb". It has 
+undergone many major changes since its introduction, so always make sure to 
+consult the latest documentation.
+
+Core operations include:
+
+- `filter()`: identify cases
+- `select()`: identify columns
+- `mutate()`: create new variables as function of existing ones
+- `arrange()`: reorder the rows/cases of a dataset
+- `summarize()`: apply functions on columns 
+- `group_by()`: identify columns to group cases by - all the above can be 
+applied on a grouped data frame
+
+**dplyr** operates on data.frames as well as the tidyverse's data.frame 
+replacement, known as [**tibble**](https://tibble.tidyverse.org/).
+
+Note that **dplyr** masks some builtin functions when loaded.
+
+```{r}
+library(dplyr)
+iris <- iris |> 
+    as_tibble()
+```
+
+## Filter
+
+```{r}
+iris |> 
+    filter(Species == "setosa")
+```
+
+## Select
+
+```{r}
+iris |> 
+    select("Sepal.Length")
+```
+
+## Group-by
+
+Get N by group:
+
+```{r}
+iris |> 
+    group_by(Species) |> 
+    summarize(n())
+```
+
+## Mutate
+
+```{r}
+iris |> 
+    mutate(Sepal_minus_Petal_length = Sepal.Length - Petal.Length)
+```
+
+### Grouped
+
+```{r}
+iris |> 
+    group_by(Species) |> 
+    mutate(Sepal.Length_minus_mean = Sepal.Length - mean(Sepal.Length))
+```
+
+## Summarize
+
+### Single variable
+
+```{r}
+iris |> 
+    summarize(mean(Sepal.Length))
+```
+
+### Multiple variables
+
+```{r}
+iris |> 
+    summarize(across(c(Sepal.Length, Petal.Length), mean))
+```
+
+### Grouped single var
+
+```{r}
+iris |> 
+    group_by(Species) |> 
+    summarize(mean(Sepal.Length))
+```
+
+### Grouped multivar
+
+```{r}
+iris |> 
+    group_by(Species) |> 
+    summarize(across(c(Sepal.Length, Petal.Length), mean))
+```
+
+## Arrange
+
+```{r}
+iris |> 
+    arrange(Sepal.Length)
+```
+
+### Grouped
+
+```{r}
+iris |> 
+    group_by(Species) |> 
+    arrange(Sepal.Length)
+```
+
+## Specifying multiple variables
+
+dplyr includes a number of ways to identify multiple variables.
+The latest version of dplyr suggests using `across()` within dplyr functions 
+that allow specifying columns.
+
+This replaces separate functions previously used for each of 
+`filter/select/mutate/summarize/arrange` that had independent functions ending 
+with  `*_all()`, `*_at()`, `*_each()`, `*_if()`.
+
+We'll use `summarize()` to demonstrate.
+
+### By integer column index
+
+```{r}
+iris |> 
+    summarize(across(1:4, mean))
+```
+
+### By character name range
+
+```{r}
+iris |> 
+    summarize(across(Sepal.Length:Petal.Width, mean))
+```
+
+### Pattern-matching
+
+```{r}
+iris |> 
+    summarize(across(starts_with("Sepal"), mean))
+```
+
+```{r}
+iris |> 
+    summarize(across(ends_with("Length"), mean))
+```
+
+### Using predicate function wrapped in `where()`
+
+```{r}
+iris |> 
+    summarize(across(where(is.numeric), mean))
+```
+
+Using `table()` in this way does not output level names:
+
+```{r}
+iris |> 
+    summarize(across(where(is.factor), table))
+```
+
+## dplyr backends
+
+Using dplyr on data.frames or tibbles does not offer any performance benefits over 
+performing the equivalent operations in base R, and may in fact be slower.
+
+A number of alternative [backends](https://dplyr.tidyverse.org/#backends), at different 
+stages of maturity, are available that offer performance benefits for large datasets.
+
+## Resources {#dplyrresources}
+
+- [dplyr website](https://dplyr.tidyverse.org/)
+- [dplyr cheatsheet](https://github.com/rstudio/cheatsheets/blob/master/data-transformation.pdf)
+
+## See also
+
+- [data.table](#sec-datatable)

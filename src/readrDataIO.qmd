@@ -1,0 +1,39 @@
+# readr Data I/O {#sec-readrdataio}
+
+## Read delimited data
+
+The **readr** package includes functions `read_delim()`, `read_csv()`, `read_csv2()`, 
+and `read_tsv()` to read delilmited files.
+
+Important arguments:
+
+- `delim`: The field delimiter, for `read_delim()` only. Defaults to `NULL`, which means
+  it will try to guess the correct delimiter.
+- `na`: Character vector of strings to interpret as missing values, i.e. `NA`.
+
+```{r}
+library(readr)
+```
+
+```{r}
+dat <- read_csv("https://archive.ics.uci.edu/ml/machine-learning-databases/00519/heart_failure_clinical_records_dataset.csv")
+```
+
+As part of the tidyverse, **readr** returns a [tibble](https://cran.r-project.org/web/packages/tibble/vignettes/tibble.html).
+
+```{r}
+dat
+```
+
+## Write delimited data
+
+The **readr** package includes functions `write_delim()`, `write_csv()`, `write_csv2()`.
+
+```{r}
+#| eval: false
+write_csv(dat, "/path/to/file.csv")
+```
+
+## Further reading
+
+- Read more on [tibbles](https://cran.r-project.org/web/packages/tibble/vignettes/tibble.html)

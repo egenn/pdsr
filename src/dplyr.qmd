@@ -30,148 +30,284 @@ replacement, known as [**tibble**](https://tibble.tidyverse.org/).
 Note that **dplyr** masks some builtin functions when loaded.
 
 ```{r}
+library(readr)
 library(dplyr)
-iris <- iris |> 
-    as_tibble()
 ```
+
+As an example, we read in the 
+[Heart Failure Clinical Records](https://archive.ics.uci.edu/ml/datasets/Heart+failure+clinical+records) 
+dataset from the 
+[UCI Machine Learning Repository](https://archive.ics.uci.edu/ml/index.php) using
+[readr](#sec-readrdataio).
+
+```{r}
+dat <- read_csv(
+    "https://archive.ics.uci.edu/ml/machine-learning-databases/00519/heart_failure_clinical_records_dataset.csv",
+    col_types = cols(
+        age = col_double(),
+        anaemia = col_factor(c("0", "1")),
+        creatinine_phosphokinase = col_double(),
+        diabetes = col_factor(c("0", "1")),
+        ejection_fraction = col_double(),
+        high_blood_pressure = col_factor(c("0", "1")),
+        platelets = col_double(),
+        serum_creatinine = col_double(),
+        serum_sodium = col_double(),
+        sex = col_factor(c("0", "1")),
+        smoking = col_factor(c("0", "1")),
+        time = col_double(),
+        DEATH_EVENT = col_factor(c("0", "1")),
+        )
+)
+```
+
+::: callout-note
+`dplyr` and the tidyverse in general operate on data.frames and 
+[tibbles](https://tibble.tidyverse.org/), which can be used as a drop-in replacement
+for data.frames, and heavily promote the use of the [pipe](#sec-pip) 
+operator `|>`.
+:::
 
 ## Filter
 
+Single condition
+
 ```{r}
-iris |> 
-    filter(Species == "setosa")
+dat |> 
+    filter(age > 60)
+```
+
+Multiple conditions
+
+```{r}
+dat |> 
+    filter(age > 60, anaemia == "1")
 ```
 
 ## Select
 
-```{r}
-iris |> 
-    select("Sepal.Length")
-```
+Columns can be specified by name, index, or pattern-matching.
 
-## Group-by
-
-Get N by group:
+### By column name
 
 ```{r}
-iris |> 
-    group_by(Species) |> 
-    summarize(n())
+dat |> 
+    select("age", "diabetes", "ejection_fraction")
 ```
-
-## Mutate
-
-```{r}
-iris |> 
-    mutate(Sepal_minus_Petal_length = Sepal.Length - Petal.Length)
-```
-
-### Grouped
-
-```{r}
-iris |> 
-    group_by(Species) |> 
-    mutate(Sepal.Length_minus_mean = Sepal.Length - mean(Sepal.Length))
-```
-
-## Summarize
-
-### Single variable
-
-```{r}
-iris |> 
-    summarize(mean(Sepal.Length))
-```
-
-### Multiple variables
-
-```{r}
-iris |> 
-    summarize(across(c(Sepal.Length, Petal.Length), mean))
-```
-
-### Grouped single var
-
-```{r}
-iris |> 
-    group_by(Species) |> 
-    summarize(mean(Sepal.Length))
-```
-
-### Grouped multivar
-
-```{r}
-iris |> 
-    group_by(Species) |> 
-    summarize(across(c(Sepal.Length, Petal.Length), mean))
-```
-
-## Arrange
-
-```{r}
-iris |> 
-    arrange(Sepal.Length)
-```
-
-### Grouped
-
-```{r}
-iris |> 
-    group_by(Species) |> 
-    arrange(Sepal.Length)
-```
-
-## Specifying multiple variables
-
-dplyr includes a number of ways to identify multiple variables.
-The latest version of dplyr suggests using `across()` within dplyr functions 
-that allow specifying columns.
-
-This replaces separate functions previously used for each of 
-`filter/select/mutate/summarize/arrange` that had independent functions ending 
-with  `*_all()`, `*_at()`, `*_each()`, `*_if()`.
-
-We'll use `summarize()` to demonstrate.
 
 ### By integer column index
 
 ```{r}
-iris |> 
-    summarize(across(1:4, mean))
+dat |> 
+    select(c(7, 9))
+```
+
+```{r}
+dat |> 
+    select(7:9)
 ```
 
 ### By character name range
 
+For example, select all columns between `platelets` and `serum_sodium` in the order
+they appear in the data.frame/tibble:
+
 ```{r}
-iris |> 
-    summarize(across(Sepal.Length:Petal.Width, mean))
+dat |> 
+    select(platelets:serum_sodium)
 ```
 
 ### Pattern-matching
 
 ```{r}
-iris |> 
-    summarize(across(starts_with("Sepal"), mean))
+dat |> 
+    select(starts_with("serum_"))
 ```
 
 ```{r}
-iris |> 
-    summarize(across(ends_with("Length"), mean))
+dat |> 
+    select(ends_with("fraction"))
+```
+
+
+## Summarize
+
+Operate on a single column:
+
+```{r}
+dat |> 
+    summarize(mean(age))
+```
+
+Operate on multiple columns using `across()`:
+
+```{r}
+dat |> 
+    summarize(across(c(age, ejection_fraction), mean))
+```
+
+### Grouped operation on single column
+
+with single groupin variable:
+
+```{r}
+dat |> 
+    group_by(sex) |> 
+    summarize(mean(age))
+```
+
+with multiple grouping variables:
+
+```{r}
+dat |> 
+    group_by(sex, diabetes) |>
+    summarize(mean(age))
+```
+
+### Grouped operation on multiple columns
+
+```{r}
+dat |> 
+    group_by(sex) |> 
+    summarize(across(c(age, serum_sodium), mean))
+```
+
+```{r}
+dat |> 
+    group_by(smoking, anaemia) |> 
+    summarize(across(c(age, serum_sodium), mean))
+```
+
+## Arrange
+
+`arrange()` sorts a data.frame/tibble, i.e. reorders the rows/cases of a dataset.
+
+```{r}
+dat |> 
+    select(age, sex, serum_sodium) |> 
+    arrange(age)
+```
+
+### Grouped
+
+```{r}
+dat |> 
+    select(age, sex, serum_sodium) |> 
+    group_by(sex) |> 
+    arrange(age)
+```
+
+## Mutate
+
+Add a new column named `Age_days`:
+
+```{r}
+dat <- dat |> 
+    mutate(Age_days = age * 365)
+```
+
+```{r}
+dat$Age_days
+```
+
+### Mutate by group
+
+```{r}
+dat <- dat |> 
+    group_by(sex) |> 
+    mutate(demeaned_sodium_bysex = serum_sodium - mean(serum_sodium)) |> 
+    ungroup()
+```
+
+::: callout-important
+Note that `ungroup()` is required to return the data.frame/tibble to its original
+ungrouped state. If you don't do this, all subsequent operations will be performed on
+the same grouping.
+:::
+
+Inspect the new column:
+
+```{r}
+dat |> 
+    select(sex, serum_sodium, demeaned_sodium_bysex)
+```
+
+## Specifying multiple columns
+
+dplyr includes a number of ways to identify multiple variables.
+The latest version of dplyr suggests using `across()` within dplyr functions 
+that allow specifying columns, as we've used above.
+<br><br>
+This replaces separate functions previously used for each of 
+`filter/select/mutate/summarize/arrange` that had independent functions ending 
+with  `*_all()`, `*_at()`, `*_each()`, `*_if()`.
+<br><br>
+Other than specifying multiple columns by name, they can also be specified by
+index, by range, or by pattern-matching.
+
+### By integer column index
+
+```{r}
+dat |> 
+    summarize(across(c(7, 9), mean))
+```
+
+```{r}
+dat |> 
+    summarize(across(7:9, mean))
+```
+
+### By character name range
+
+For example, select all columns between `platelets` and `serum_sodium` in the order
+they appear in the data.frame/tibble:
+
+```{r}
+dat |> 
+    summarize(across(platelets:serum_sodium, mean))
+```
+
+### Pattern-matching
+
+```{r}
+dat |> 
+    summarize(across(starts_with("serum_"), mean))
+```
+
+```{r}
+dat |> 
+    summarize(across(ends_with("fraction"), mean))
 ```
 
 ### Using predicate function wrapped in `where()`
 
+::: callout-tip
+A predicate function is a function that returns a logical value, i.e. either `TRUE` or 
+`FALSE`.
+:::
+
+This is useful for selecting columns based on their type, e.g. numeric or factor.
+
 ```{r}
-iris |> 
+dat |> 
     summarize(across(where(is.numeric), mean))
 ```
 
-Using `table()` in this way does not output level names:
+Unfortunately, using `table()` in this way does not output level names, which limits
+its usefulness.
 
 ```{r}
-iris |> 
+dat |> 
     summarize(across(where(is.factor), table))
 ```
+
+## dplyr backends
+
+Using dplyr on data.frames or tibbles does not offer any performance benefits over 
+performing the equivalent operations in base R, and may in fact be slower.
+
+A number of alternative [backends](https://dplyr.tidyverse.org/#backends), at different 
+stages of maturity, are available that offer performance benefits for large datasets.
 
 ## Resources {#dplyrresources}
 

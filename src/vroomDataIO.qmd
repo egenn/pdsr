@@ -7,29 +7,30 @@ reader and writer with extended functionality.
 library(vroom)
 ```
 
-## Read CSV
+## Read delimited file
 
-Argument `delim` specifies, the delimiter. Its default `NULL` value, will cause the 
-function to guess by looking at the data. If you know the delimiter, best to specify it.
+Important arguments:
+
+- `delim`: Field delimiter. If `NULL`, will guess by looking at the data.
+- `na`: Character vector of strings to interpret as missing values, i.e. `NA`.
 
 ```{r}
-ir <- vroom("./iris.csv", delim = ",")
-ir
+dat <- vroom("https://archive.ics.uci.edu/ml/machine-learning-databases/00519/heart_failure_clinical_records_dataset.csv")
 ```
 
-`vroom` returns a [tibble](https://tibble.tidyverse.org/), which is very similar to a
-`data.frame.`
+`vroom` returns a [tibble](https://tibble.tidyverse.org/).
 
 ```{r}
-class(ir)
+dat
 ```
 
 ## Select columns to read
 
 ```{r}
-ir <- vroom("./iris.csv", 
-            col_select = c("Sepal_Length", "Species"))
-ir
+dat <- vroom(
+    "https://archive.ics.uci.edu/ml/machine-learning-databases/00519/heart_failure_clinical_records_dataset.csv", 
+    col_select = c("age", "anaemia", "ejection_fraction"))
+dat
 ```
 
 ## Resources

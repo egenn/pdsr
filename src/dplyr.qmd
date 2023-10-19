@@ -3,7 +3,7 @@ knitr:
   opts_chunk: 
     comment: ''
 ---
-# Introduction to **dplyr** {#sec-dplyr}
+# Introduction to dplyr {#sec-dplyr}
 
 The [**dplyr**](https://dplyr.tidyverse.org/) package offers extensive functionality for 
 data manipulation.
@@ -294,12 +294,13 @@ dat |>
     summarize(across(where(is.numeric), mean))
 ```
 
-Unfortunately, using `table()` in this way does not output level names, which limits
-its usefulness.
+To use a summary function that returns more than one row per group, use `reframe()`
+instead of `summarize()`. Unfortunately, using `table()` in this way does not output 
+level names, which limits its usefulness.
 
 ```{r}
 dat |> 
-    summarize(across(where(is.factor), table))
+    reframe(across(where(is.factor), table))
 ```
 
 ### Using anonymous predicate function with `where()`

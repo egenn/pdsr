@@ -15,25 +15,33 @@ knitr:
 **`ggplot2`**, created by Hadley Wickham [@wickham2011ggplot2], follows the 
 [Grammar of Graphics](https://www.springer.com/statistics/computational/book/978-0-387-24544-7) 
 approach of Leland Wilkinson [@wilkinson2012grammar] and has a very different 
-syntax than base functions. It uses the grid graphics package (not base graphics).
+syntax than base R graphics functions. It is based on the `grid` graphics package and is
+for the most part not compatible with base graphics.
 <br><br>
 The general idea is to start by defining the data and then add and/or modify 
 graphical elements in a stepwise manner, which allows one to build complex and 
 layered visualizations. A simplified interface to `ggplot` graphics is provided 
 in the `qplot()` function of **`ggplot2`**. This chapter focuses on the basics of the
 `ggplot()` function, which is more flexible and important to learn.
-<br><br>
-For more information on **`ggplot2`**, see the 
-[**`ggplot2`** documentation](https://ggplot2.tidyverse.org/).
+
+::: callout-warning
+Do not try to combine base R graphics and **`ggplot2`** graphics in the same plot.
+They are based on different graphics engines and are not compatible.
+:::
 
 ## Setup
 
-### Libraries
+### Packages
 
 Load **`ggplot2`**
 
 ```{r}
 library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(tibble)
+# You can alternatively load all tidyverse packages with:
+# library(tidyverse)
 ```
 
 ```{r}
@@ -45,8 +53,6 @@ theme_set(theme(text = element_text(family = "Helvetica")))
 
 ```{r}
 library(data.table)
-options(datatable.print.class = TRUE)
-
 set.seed(2022)
 dt <- data.table(
     PID = sample(8001:9000, size = 100),
@@ -59,38 +65,48 @@ dt <- data.table(
 dt[, SysBP := SysBP + .5 * Age]
 dt[Sex == "Male", Weight := Weight + rnorm(.N, mean = 16, sd = 1.5)]
 dt[Sex == "Male", Age := Age + rnorm(.N, mean = 6, sd = 1.8)]
+dt <- as_tibble(dt)
 ```
 
-Define a color palette `palette` and a version of the same palette at 2/3 transparency,
-`palette_a`:
+Define a color palette, `palette_`, and a version of the same palette at 2/3 
+transparency, `palette_a`, for use in plots:
 
 ```{r}
-palette <- c("#43A4AC", "#FA9860")
-palette_a <- adjustcolor(palette, .666)
+palette_ <- c("#43A4AC", "#FA9860")
+palette_a <- adjustcolor(palette_, .666)
 ```
+
+::: callout-note
+Confusingly, `ggplot2` uses the `aes()` function, short for aesthetics, to define the 
+plot data.
+:::
 
 ## Box plot
 
 `ggplot` requires a categorical x-axis to draw boxplots. This means 
-we need to convert our dataset from wide to long.
-
-Here we use **`data.table`**'s [`melt()`](dtReshape.qmd), but could use base R 
-[`reshape()`](dfReshape.qmd) function or [**`tidyr`**'s](https://tidyr.tidyverse.org/) `pivot_longer()`.
+we need to convert our dataset from wide to long format.
 
 ```{r}
-dt_long <- melt(
-    dt,
-    id.vars = "PID",
-    measure.vars = c("SysBP", "DiaBP"),
-    variable.name = "Measure",
-    value.name = "Value"
+dt_long <- dt |> pivot_longer(
+    cols = c("SysBP", "DiaBP"),
+    names_to = "Measure",
+    values_to = "Value"
 )
 dt_long
 ```
 
 ```{r}
 p <- ggplot(dt_long, aes(Measure, Value)) + 
-    geom_boxplot(colour = palette[1:2], fill = palette_a[1:2])
+    geom_boxplot()
+p
+```
+
+We can specify `color` and `fill` to change the color of the boxplot border and
+fill, respectively.
+
+```{r}
+p <- ggplot(dt_long, aes(Measure, Value)) + 
+    geom_boxplot(color = palette_[1:2], fill = palette_a[1:2])
 p
 ```
 
@@ -98,7 +114,7 @@ p
 
 ```{r}
 p <- ggplot(dt, aes(x = Sex, y = Age)) + 
-    geom_boxplot(colour = palette[2:1], fill = palette_a[2:1])
+    geom_boxplot(colour = palette_[2:1], fill = palette_a[2:1])
 p
 ```
 
@@ -106,7 +122,17 @@ p
 
 ```{r}
 p <- ggplot(dt, aes(Age)) + 
-    geom_histogram(bins = 24, color = palette[1], fill = palette_a[1]) +
+    geom_histogram()
+p
+```
+
+We can specify the number of bins to use with the `bins` argument and the border and
+fill colors with `color` and `fill`, respectively, as above. `xlab()` can be used to
+define the x-axis label.
+
+```{r}
+p <- ggplot(dt, aes(Age)) + 
+    geom_histogram(bins = 24, color = palette_[1], fill = palette_a[1]) +
     xlab("Age (years)")
 p
 ```
@@ -115,19 +141,41 @@ p
 
 ```{r}
 p <- ggplot(dt, aes(x = Age, fill = Sex)) + 
+    geom_histogram(bins = 24, position = "identity")
+p
+```
+
+`scale_fill_manual` can be used to define the colors of the bars:
+
+```{r}
+p <- ggplot(dt, aes(x = Age, fill = Sex)) + 
     geom_histogram(bins = 24, position = "identity") +
-    # scale_color_manual(values = palette[1:2]) +
     scale_fill_manual(values = palette_a[2:1])
 p
 ```
 
-`position = "identity"` displays overlapping bars. Alternatively, `position = "dodge"` can be used to display groups' bars side by side instead. If position is not specified, bars will be stacked vertically, which can be very confusing.
+`position = "identity"` displays overlapping bars. Alternatively, `position = "dodge"` can be used to display groups' bars side by side instead. Finally, `position = "stack"`,is the (unforunate) default and results in vertically stacked bars, which can be
+confusing.
+
+```{r}
+p <- ggplot(dt, aes(x = Age, fill = Sex)) + 
+    geom_histogram(bins = 24, position = "dodge") +
+    scale_fill_manual(values = palette_a[2:1])
+p
+```
+
+```{r}
+p <- ggplot(dt, aes(x = Age, fill = Sex)) + 
+    geom_histogram(bins = 24, position = "stack") +
+    scale_fill_manual(values = palette_a[2:1])
+p
+```
 
 ## Density plot
 
 ```{r}
 p <- ggplot(dt, aes(x = Age)) + 
-    geom_density(color = palette[1], fill = palette_a[1])
+    geom_density(color = palette_[1], fill = palette_a[1])
 p
 ```
 
@@ -155,11 +203,15 @@ schools_df <- data.frame(
         levels = c("UCSF", "Stanford", "Penn")),
      N_schools = as.numeric(schools[1, ])
 )
+```
 
+```{r}
 ggplot(schools_df, aes(University, N_schools)) +
-  geom_bar(stat = "identity", 
-           color = palette[1], 
-           fill = palette_a[1])
+  geom_bar(
+    stat = "identity",
+    color = palette_a[1],
+    fill = palette_a[1]
+  )
 ```
 
 ## Scatterplot
@@ -175,8 +227,7 @@ p
 ```{r}
 p <- ggplot(dt, aes(Age, SysBP, col = Sex)) +
     geom_point() +
-    scale_color_manual(values = palette[1:2]) +
-    scale_fill_manual(values = palette_a[2:1])
+    scale_color_manual(values = palette_[2:1])
 p
 ```
 
@@ -188,11 +239,11 @@ to file, using a PDF output as an example.
 ```{r}
 #| eval: false
 p <- ggplot(dt, aes(x = Sex, y = Age)) + 
-    geom_boxplot(colour = palette[2:1], fill = palette_a[2:1])
+    geom_boxplot(colour = palette_[2:1], fill = palette_a[2:1])
 ggsave("Age_by_Sex_ggplot.pdf", p,
     width = 5.5, height = 5.5, scale = 1, units = "in")
 ```
 
-## References
+## Resources
 
 - [ggplot2 Documentation](https://ggplot2.tidyverse.org/)

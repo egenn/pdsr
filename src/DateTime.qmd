@@ -26,7 +26,7 @@ set of standards for maintaining compatibility among operating systems.
 
 ## Date format specifications
 
-This list serves as reference for formatting functions later in the chapter.<br><br>
+This list serves as a reference for formatting functions later in the chapter.<br><br>
 
 - **`%Y`**: Year with century, (0-9999 accepted) e.g. `2020`
 - **`%y`**: 2-digit year, e.g. `22`
@@ -51,7 +51,7 @@ Regarding the ambiguous `%y`, the documentation states:
 
 ### Character to Date: `as.Date()`
 
-You can create a `Date` object from a string:
+You can create a `Date` object from a character:
 
 ```{r}
 x <- as.Date("1981-02-12")
@@ -59,16 +59,21 @@ x
 class(x)
 ```
 
-The `tryFormats` argument defines which format or formats are recognized.
+The `tryFormats` argument defines which format(s) are recognized.
 <br><br>
-The default is `tryFormats = c("%Y-%m-%d", "%Y/%m/%d")`, i.e. will recognize dates of the 
-form "2020-11-16" or "2020/11/16".
+The default is `tryFormats = c("%Y-%m-%d", "%Y/%m/%d")`, i.e. will recognize dates of 
+the form "2020-11-16" or "2020/11/16".
 <br><br>
 Let's see what happens if a date format is *not* recognized.
-Consider the 16th of November, 2021 in the following format:
+Consider the 16th of November, 2021 written as follows:
 
 ```{r}
 x <- "11.16.21"
+```
+
+Results in an error if passed to `as.Date()`:
+
+```{r}
 as.Date(x)
 ```
 
@@ -312,6 +317,11 @@ dt
 ```{r}
 format(dt, "%m/%d/%Y @ %H:%M:%S")
 ```
+
+::: callout-tip
+To get the relevant R documentation pages, use `?format.Date` and `?format.POSIXct`.
+To learn more about S3 classes and methods, see @sec-classes.
+:::
 
 ## Extract partial date information
 

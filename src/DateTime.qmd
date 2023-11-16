@@ -198,8 +198,9 @@ class(Age)
 
 ::: callout-caution
 If you convert the output of `difftime()` using an appropriate mathematical operation,
-e.g. division, the units, which are no longer correct, will remain. You should use 
-`as.numeric()` to convert the difftime object to a regular numeric vector without units.
+e.g. division, the units will remain, even though they are no longer correct.
+Use `as.numeric()` to convert the difftime object to a regular numeric vector and
+remove the units which are no longer valid.
 :::
 
 Note that the units remain after a mathematical operation:
@@ -235,8 +236,8 @@ median_date
 class(median_date)
 ```
 
-To verify the median, we can do a mathematical operation using multiplication, subtraction,
-and addition, and the result is still a Date(!):
+To verify the median, we can do a mathematical operations using multiplication, 
+subtraction, and addition, and the result is still a Date(!):
 
 ```{r}
 median_date_too <- x[2] + .5 * (x[3] - x[2])
@@ -283,7 +284,7 @@ seq(start_date, end_date, by = "2 months")
 
 ## Date-Time objects
 
-### Character to Date-Time: `as.POSIXct()`, `as.POSIXlt()`, `strptime()`: 
+### Character to Date-Time: `as.POSIXct()`, `as.POSIXlt()`: 
 
 As always, it can be very informative to look at the source code. Many of these 
 functions call each other internally.

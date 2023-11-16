@@ -20,6 +20,18 @@ since January 1, 1970 ([Unix Time a.k.a. POSIX time a.k.a. Epoch time](https://e
 - **`POSIXlt`**: Represents **date & time** information as a named list 
 (See `base::DateTimeClasses`)
 
+The **data.table** package includes the following classes:
+
+- **`IDate`**: Similar to the base `Date` class, but with a more efficient internal 
+representation.
+- **`ITime`**: Represents **time** information as the integer number of seconds since
+midnight.
+
+::: callout-info
+data.table's `fread()` can automatically detect some date and date-time formats and
+will convert them to `IDate` and `POSIXct` respectively.
+:::
+
 Background info: 
 [Portable Operating System Interface (POSIX)](https://en.wikipedia.org/wiki/POSIX) is a 
 set of standards for maintaining compatibility among operating systems.
@@ -68,24 +80,46 @@ Let's see what happens if a date format is *not* recognized.
 Consider the 16th of November, 2021 written as follows:
 
 ```{r}
-x <- "11.16.21"
+z <- "11.09.21"
 ```
 
 Results in an error if passed to `as.Date()`:
 
 ```{r}
-as.Date(x)
+zt <- as.Date(z)
 ```
 
 Passing the appropriate format, will allow the date to be read correctly:
 
 ```{r}
-as.Date(x, tryFormats = "%m.%d.%y")
+zt <- as.Date(z, tryFormats = "%m.%d.%y")
 ```
+
+You can convert to data.table's IDate class using `as.IDate()`:
+
+```{r}
+library(data.table)
+xi <- as.IDate("1981-02-12")
+xi
+class(xi)
+```
+
+`as.IDate()` supports extra arguments just like base `as.Date()`.
+Using the same example as above, we can specify the same `tryFormats` argument:
+
+```{r}
+zi <- as.IDate(z, tryFormats = "%m.%d.%y")
+zi
+class(zi)
+```
+
+::: callout-important
+It's always safest to specify the format of your date string explicitly.
+:::
 
 ###  Get current date & time
 
-Get current data:
+Get current date:
 
 ```{r}
 today <- Sys.Date()
@@ -109,9 +143,11 @@ Sys.timezone()
 
 ### Math on Dates
 
-The reason we care about Date objects in R is because we can apply useful mathematical 
-operations on them.
-<br><br>
+::: callout-info
+The reason we use special date and date-time classes is because they allow us to 
+perform mathematical operations on them.
+:::
+
 For example, we can subtract date objects to get time intervals:
 
 ```{r}
@@ -121,9 +157,11 @@ time_diff
 class(time_diff)
 ```
 
+::: callout-important
 Note: While you can use the subtraction operator `-`, it is advised you use the 
 `difftime()` function to perform subtraction on dates instead, because it allows you to 
 specify units.
+:::
 
 ```{r}
 timepoint1 <- as.Date("2020-01-07")
@@ -143,7 +181,8 @@ months and years do not have fixed length,
 i.e. literally a month or a year are not "units" of time.
 <br><br>
 You can always get a difference in days and divide by 
-[365.242](https://www.nist.gov/pml/time-and-frequency-division/popular-links/time-frequency-z/time-and-frequency-z-l).
+[365.2422](https://pumas.nasa.gov/sites/default/files/examples/04_21_97_1.pdf){target="_blank"}.
+
 :::
 
 ```{r}

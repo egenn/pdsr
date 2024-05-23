@@ -1,0 +1,284 @@
+---
+knitr:
+  opts_chunk:
+    comment: ""
+    error: true
+---
+
+# Data Queries across data frame implementations {#sec-dataqueryx}
+
+This chapter shows how to perform filter, select, and group-by operations using
+different data frame implementations:
+
+- base R's `data.frame`
+- `data.table`'s `data.table`
+- `dplyr`'s `tbl_df`
+- `polars`' `RPolarsDataFrame`
+- `tidypolars`
+- `duckplyr`
+
+Base R and dplyr are both slow for large datasets. `data.table` is very fast and 
+features a very concise and efficient syntax, but is limited to in-memory data.
+`polars` is very fast and can handle both in-memory and out-of-memory data, but
+features a possibly cumbersome syntax. `tidypolars` allows using `dplyr` syntax with
+`polars` data frames. `DuckDB` is also very fast and can handle both in-memory and
+out-of-memory data, but uses SQL syntax, not great for data frame operations. `duckplyr`
+uses `dplyr` syntax with `DuckDB` data frames.
+
+
+::: callout-warning
+As of `{r} Sys.Date()`:
+
+- `duckplyr` fails on a simple `select` operation involving a factor and falls back to using regular `dplyr`.
+- `tidypolars` fails on a simple `group-by` operation.
+:::
+
+::: callout-note
+Throughout this chapter, we will add `head()` as needed only in examples that would 
+result in printing the entire data frame.
+:::
+
+## Setup
+
+### Load packages
+
+::: callout-caution
+Note the masking of functions that happens when all these packages are loaded together.
+In practice, you may want/have to stick to using a single approach at a time.
+:::
+
+```{r}
+library(data.table)
+library(dplyr)
+library(polars)
+library(tidypolars)
+library(duckplyr)
+```
+
+### DuckDB
+
+The following code enables reporting of fallbacks to `dplyr` when `duckplyr` fails.
+
+```{r}
+Sys.setenv(DUCKPLYR_FALLBACK_VERBOSE = TRUE)
+```
+
+### Create data frames
+
+We will use the `iris` built-in dataset for this chapter and create a `data.table`, a
+`tibble`, a `RPolarsDataFrame`, and a `duckplyr` version of it.
+
+::: {.panel-tabset}
+
+## Base R
+
+```{r}
+head(iris)
+```
+
+## data.table
+
+```{r}
+iris_dt <- as.data.table(iris)
+iris_dt
+```
+
+## dplyr
+
+```{r}
+iris_tbl <- as_tibble(iris)
+iris_tbl
+```
+
+## polars
+
+```{r}
+iris_pl <- as_polars_df(iris)
+iris_pl
+```
+
+## DuckDB
+
+```{r}
+iris_db <- as_duckplyr_df(iris)
+head(iris_db)
+```
+
+:::
+
+## Select
+
+Select columns `Sepal.Length` and `Species` from the `iris` dataset.
+
+<!-- Add 4 tabs for base R, data.table, dplyr, and polars -->
+
+::: {.panel-tabset}
+
+## Base R
+
+```{r}
+iris[, c("Sepal.Length", "Species")] |> head()
+```
+
+## data.table
+
+```{r}
+iris_dt[, .(Sepal.Length, Species)]
+```
+
+## dplyr
+
+```{r}
+iris_tbl |> 
+  select(Sepal.Length, Species)
+```
+
+## polars
+
+```{r}
+iris_pl$select(
+  pl$col(c("Sepal.Length", "Species"))
+)
+```
+
+## tidypolars
+
+```{r}
+iris_pl |>
+  select(Sepal.Length, Species)
+```
+
+## duckplyr
+
+```{r}
+iris_db |> 
+  select(Sepal.Length, Species) |> head()
+```
+
+:::
+
+## Filter
+
+We look at an example combining 2 conditions, one on a numeric and one on a factor 
+column:
+
+Filter rows where `Sepal.Length` is less than 5.6 and `Species` is versicolor or virginica.
+
+::: {.panel-tabset}
+
+## Base R
+
+```{r}
+iris[iris$Sepal.Length < 5.6 & iris$Species %in% c("versicolor", "virginica"), ]
+```
+
+or
+
+```{r}
+subset(iris, Sepal.Length < 5.6 & iris$Species %in% c("versicolor", "virginica"))
+```
+
+## data.table
+
+```{r}
+iris_dt[Sepal.Length < 5.6 & iris$Species %in% c("versicolor", "virginica")]
+```
+
+## dplyr
+
+```{r}
+iris_tbl |>
+  filter(
+    Sepal.Length < 5.6,
+    Species %in% c("versicolor", "virginica")
+)
+```
+
+## polars
+
+```{r}
+iris_pl$filter(
+  pl$col("Sepal.Length") < 5.6,
+  pl$col("Species")$is_in(c("versicolor", "virginica"))
+)
+```
+
+## tidypolars
+
+```{r}
+iris_pl |>
+  filter(
+    Sepal.Length < 5.6,
+    Species %in% c("versicolor", "virginica")
+  )
+```
+
+## duckplyr
+
+```{r}
+iris_db |>
+  filter(
+    Sepal.Length < 5.6,
+    Species %in% c("versicolor", "virginica")
+  )
+```
+
+:::
+
+## Group-by
+
+Get the mean of `Sepal.Length` by `Species`.
+
+::: {.panel-tabset}
+
+## Base R
+
+```{r}
+aggregate(Sepal.Length ~ Species, iris, mean)
+```
+
+## data.table
+
+```{r}
+iris_dt[, .(mean(Sepal.Length)), by = Species]
+```
+
+## dplyr
+
+```{r}
+iris_tbl |> 
+  group_by(Species) |> 
+  summarize(mean(Sepal.Length))
+```
+
+## polars
+
+```{r}
+iris_pl$group_by("Species")$agg(pl$mean("Sepal.Length"))
+```
+
+## tidypolars
+
+```{r}
+iris_pl |>
+  group_by(Species) |>
+  summarize(mean(Sepal.Length))
+```
+
+## duckplyr
+
+```{r}
+iris_db |> 
+  group_by(Species) |> 
+  summarize(mean(Sepal.Length))
+```
+
+:::
+
+## References
+
+- [data.table](https://rdatatable.gitlab.io/data.table/)
+- [dplyr](https://dplyr.tidyverse.org/)
+- [r-polars](https://pola-rs.github.io/r-polars/)
+- [tidypolars](https://tidypolars.etiennebacher.com/)
+- [duckplyr](https://duckdblabs.github.io/duckplyr/)

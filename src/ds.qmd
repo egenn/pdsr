@@ -25,14 +25,6 @@ features a possibly cumbersome syntax. `tidypolars` allows using `dplyr` syntax 
 out-of-memory data, but uses SQL syntax, not great for data frame operations. `duckplyr`
 uses `dplyr` syntax with `DuckDB` data frames.
 
-
-::: callout-warning
-As of `{r} Sys.Date()`:
-
-- `duckplyr` fails on a simple `select` operation involving a factor and falls back to using regular `dplyr`.
-- `tidypolars` fails on a simple `group-by` operation.
-:::
-
 ::: callout-note
 Throughout this chapter, we will add `head()` as needed only in examples that would 
 result in printing the entire data frame.
@@ -47,12 +39,15 @@ Note the masking of functions that happens when all these packages are loaded to
 In practice, you may want/have to stick to using a single approach at a time.
 :::
 
+Following isntructions on the [duckplyr docs](https://duckdblabs.github.io/duckplyr/),
+we will not load duckplyr directly, but rather use the `duckplyr::as_duckplyr_df` to
+convert the `iris` data frame to to a duckplyr data frame.
+
 ```{r}
 library(data.table)
 library(dplyr)
 library(polars)
 library(tidypolars)
-library(duckplyr)
 ```
 
 ### DuckDB
@@ -100,7 +95,7 @@ iris_pl
 ## DuckDB
 
 ```{r}
-iris_db <- as_duckplyr_df(iris)
+iris_db <- duckplyr::as_duckplyr_df(iris)
 head(iris_db)
 ```
 
@@ -259,10 +254,13 @@ iris_pl$group_by("Species")$agg(pl$mean("Sepal.Length"))
 
 ## tidypolars
 
+Note that, unlike dplyr, tidypolars requires `summarize` inputs to be named
+(at least at the time of writing).
+
 ```{r}
 iris_pl |>
   group_by(Species) |>
-  summarize(mean(Sepal.Length))
+  summarize(mean_Sepal.Length = mean(Sepal.Length))
 ```
 
 ## duckplyr

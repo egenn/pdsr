@@ -1,37 +1,87 @@
+---
+engine: knitr
+knitr:
+  opts_chunk: 
+    comment: ''
+webr:
+  show-startup-message: true
+filters:
+  - webr
+lightbox: true
+---
 # Preface
 
-Throughout this book you will see boxes with R code followed by its output, if any. The code (or input) is decorated with a light blue border on the left to separate it from its output, like in the following example:
+
+## R code blocks
+
+Throughout this book you will see blocks with R code followed by its output, if the given code 
+produced any. The code (or input) is decorated with a light blue border on the left to separate it
+ from its output, like in the following example:
 
 ```{r}
 x <- rnorm(200)
 x[1:20]
 ```
 
-Notice that R adds numbers in brackets in the beginning of each row. This happens when R prints the contents of a vector. The number is the integer index of the first element in that row. Therefore, the first one is always `[1]` and the number of the subsequent rows depends on how many elements fit in each line. If the output is a single element, it will still have `[1]` in front of it.  
+If you mouse over the input code box, a clickable "Copy to clipboard" button appears on the top 
+right of the box allowing you to copy & paste into an R console or file.
 
-Also notice that if we enclose the assignment operation of a variable in parentheses, this prints the resulting value of the variable. Therefore, this:
+Notice that R adds numbers in brackets in the beginning of each row. This happens when R prints the 
+contents of a vector. The number is the integer index of the first element in that row. Therefore, 
+the first one is always `[1]` and the number of the subsequent rows depends on how many elements fit 
+in each line. If the output is a single element, it will still have `[1]` in front of it.  
+
+If we enclose the assignment operation of a variable in parentheses, the object is printed to the
+console. Therefore, this:
 
 ```{r}
 (y <- 4)
 ```
 
-is equivalent to:
+is equivalent to this:
 
 ```{r}
 y <- 4
 y
 ```
 
-Currently, this site uses [Fira Code](https://github.com/tonsky/FiraCode) to display source code, 
-which supports multiple character ligatures that make code prettier / easier to read.
-<br><br>
-```{r, echo = FALSE, out.width = "75%", fig.align = "center", fig.cap = "Ligated versions of some common character combinations as they should appear in this site"}
-knitr::include_graphics("ligations.png")
+## WebR executable code blocks
+
+WebR is a new technology that allows running R in the browser.
+As the content of the book is being updated and extended, you will see executable blocks like the 
+one below. Note how you can edit the code and hit `Run` or use the keyboard shortcut `Shift + Enter`
+to execute.
+
+```{webr-r}
+x <- 5:9
+y <- sqrt(x)
+cbind(x, y)
 ```
 
-Note that if you mouse over the input code box, a clickable "Copy to clipboard" appears on the top right of the box allowing you to copy paste into an R session or file.
+## Fonts
+
+This site uses [Fira Code](https://github.com/tonsky/FiraCode) to display source code. 
+Like a number of other font families, it supports a number character ligatures that make code 
+look prettier / easier to read. Note that even though ligations make some symbol combinations look
+like a single symbol, they are still separate characters.  
+For example, the assignment operator, `<-`, is still written using the characters `<` and `-`.
 <br><br>
 
-This book was created using [Quarto](https://quarto.org), ported from
-the previous version which used bookdown.
+::: {#fig-ligations}
+
+![](assets/ligations.png){width=75% fig-align="center"}
+
+Ligated versions of some common character combinations as they should appear in this site
+:::
+
+## Themes
+
+The light/dark mode switch is located in the top left of the page.
+Note that most figures will appear with inverted colors when the dark theme is selected, i.e. the
+true colors are displayed with the light theme only.
+
+## Made with Quarto
+
+This book was created using [Quarto](https://quarto.org). The first version of the book had been
+built using bookdown.
 <br>  

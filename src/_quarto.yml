@@ -1,11 +1,11 @@
 project:
   type: book
-  output-dir: /Users/egenn/Web/rtemis.org/docs/pdsr
+  output-dir: ../../rtemis.org/docs/pdsr
 
 book:
   title: "PDSR"
   author: "E.D. Gennatas"
-  date: "06/22/2024"
+  date: "07/17/2024"
   language: en
   google-analytics: "G-E1FN041JRR"
   repo-url: https://github.com/egenn/pdsr
@@ -107,5 +107,18 @@ format:
 execute:
   freeze: auto
 
-# Refs
-# https://quarto.org/docs/output-formats/html-code.html#highlighting
+# cd src; quarto add egenn/quarto-webr
+
+# Set default options for every webpage that may or may not include webR.
+webr: 
+  show-startup-message: false     # Display status of webR initialization
+#  show-header-message: false     # Check to see if COOP&COEP headers are set for speed.
+#  packages: ['ggplot2', 'dplyr'] # Pre-install dependencies
+#  base-url: ''                   # Base URL used for specifying where R WebAssembly binaries should be located
+#  home-dir: '/home/rstudio'      # Customize where the working directory is
+#  channel-type: 'post-message'   # Specify communication channel
+#  service-worker-url: ''         # URL from where to load JavaScript worker scripts when loading webR with the ServiceWorker communication channel.
+
+# Attach webR to every page
+filters:
+  - webr

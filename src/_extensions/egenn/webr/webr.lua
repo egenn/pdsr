@@ -523,7 +523,7 @@ local function ensureWebRSetup()
   -- Insert JS routine to add document status header
   includeFileInHTMLTag("in-header", "qwebr-document-status.js", "js")
 
-  -- Insert the document history script
+  -- Insert the document history script @egenn consider disabling
   includeFileInHTMLTag("in-header", "qwebr-document-history.js", "js")
 
   -- Insert the extension element creation scripts

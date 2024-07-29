@@ -85,6 +85,8 @@ qwebrInstance.then(
           // output-like. 
           const tempOptions = entry.options;
           tempOptions["context"] = "output"
+          // egenn moved from below
+          qwebrLogCodeToHistory(cellCode, entry.options);
           // Run the code in a non-interactive state that is geared to displaying output
           await qwebrExecuteCode(`${cellCode}`, qwebrCounter, tempOptions);
           break;
@@ -95,8 +97,8 @@ qwebrInstance.then(
         case 'setup':
           const activeDiv = document.getElementById(`qwebr-noninteractive-setup-area-${qwebrCounter}`);
 
-          // Store code in history
-          qwebrLogCodeToHistory(cellCode, entry.options);
+          // Store code in history egenn moved to 'interactive'
+          // qwebrLogCodeToHistory(cellCode, entry.options);
 
           // Run the code in a non-interactive state with all output thrown away
           await mainWebR.evalRVoid(`${cellCode}`);

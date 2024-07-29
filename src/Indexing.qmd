@@ -1,4 +1,10 @@
 ---
+date-modified: last-modified
+engine: knitr
+webr:
+  show-startup-message: true
+filters:
+  - webr
 knitr:
   opts_chunk:
     comment: ""
@@ -663,6 +669,103 @@ x[-integer_index]
 ::: callout-note
 To get the complement of an index, you negate a logical index 
 (`!logical_index`) or you subtract an integer index (`-integer_index`).
+:::
+
+```{r}
+#| echo: false
+library(webexercises)
+```
+
+```{webr-r}
+#| context: setup
+check <- function(ans) {
+  ans_name <- deparse(substitute(ans))
+  if (!exists(ans_name)) {
+    stop("Please make sure to run the code above to define ", ans_name, " first.\n")
+  }
+  if (identical(get(paste0(".", ans_name)), ans)) {
+    cat("\n     \u2705 Correct - Well done :)\n")
+  } else {
+    cat("\n     \u274C Incorrect - Please try again :|\n")
+  }
+}
+.iris_f <- iris[iris$Sepal.Length > 7.5, ]
+```
+
+## Comprehension check
+
+::: {.webex-check .webex-box}
+
+```{r}
+#| echo: false
+#| results: asis
+opts <- c("cells", "columns", answer = "rows", "eigenvectors", "columns and rows")
+
+cat('To "filter" a dataset means selecting a subset of its:', longmcq(opts))
+```
+
+:::
+
+::: {#xmpl1}
+
+## Example
+
+For example, to filter the `iris` dataset to only include rows where the `Species` column is 
+`setosa`, we can use the following code:
+
+```{webr-r}
+#| read-only: true
+#| unveil: prac1
+iris_setosa <- iris[iris$Species == "setosa", ]
+head(iris_setosa)
+```
+
+:::
+
+::: {#prac1 .practice}
+
+## Practice
+
+***Your turn:*** Complete the following code to filter the `iris` dataset so that it only includes 
+rows where `Sepal.Length` is greater than 7.5.
+
+```{webr-r}
+#| unveil: check1
+iris_f <- 
+```
+
+:::
+
+::: {#check1 .check}
+
+Now, run the following block to check your answer:
+
+```{webr-r}
+#| read-only: true
+#| unveil: expl1
+check(iris_f)
+```
+
+:::
+
+::: {#expl1 .callout-tip collapse="true"}
+
+## Explanation
+
+***Solution:***
+
+```{r}
+#| eval: false
+iris_f <- iris[iris$Sepal.Length > 7.5, ]
+```
+
+In base R, you can filter any tabular dataset (e.g. `data.frame` or `matrix`) using
+regular indexing. The syntax is `data[condition, ]`, where `condition` is a logical
+vector that specifies which rows to keep. In this case, we filtered the `iris` dataset
+to only include rows where the `Sepal.Length` column is greater than 7.5.  
+
+For more information, see `?Extract`.
+
 :::
 
 ## Resources

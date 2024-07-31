@@ -1,0 +1,44 @@
+---
+knitr:
+  opts_chunk:
+    comment: ""
+    cache: true
+---
+
+# Read and Write Excel Data {#sec-xlsxio}
+
+Two popular packages to read Excel `.xlsx` files in R are:
+
+- [**openxlsx**](https://cran.r-project.org/package=openxlsx)
+- [**readxl**](https://cran.r-project.org/package=readxl)
+
+## Read .xslx 
+
+### `openxlsx::read.xlsx()`
+
+`NA` strings are defined with argument `na.strings`.
+
+```{r}
+#| eval: false
+bcw <- openxlsx::read.xlsx("../Data/bcw.xlsx", na.strings = ".")
+```
+
+### `readxl::read_xlsx()`
+
+`NA` strings are defined with argument `na`.
+
+```{r}
+#| eval: false
+bcw <- readxl::read_xlsx("../Data/bcw.xlsx", na = ".")
+```
+
+## Write .xlsx 
+
+### `openxlsx::write.xlsx()`
+
+```{r}
+#| eval: false
+openxlsx::write.xlsx(bcw, "../Data/bcw.xlsx")
+```
+
+Note: The `readxl` package does not include a function to write .XLSX files.

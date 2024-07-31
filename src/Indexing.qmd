@@ -122,7 +122,7 @@ Logical vectors can be created directly in the brackets:
 x[x > 19]
 ```
 
-### Extract vs. Replace i.e. Get vs. Set
+### Get vs. Set
 
 ```{r}
 x <- c(24, 32, 41, 37, 999, 999, 999)
@@ -245,7 +245,7 @@ mat[1, 2]
 
 ### Matrix of indexes
 
-This is quite less common, but potentially useful. It allows you to specify a series of 
+This is *quite less commonly used*, but potentially useful. It allows you to specify a series of 
 individual `[i, j]` indexes, i.e. is a way to select multiple individual non-contiguous 
 elements
 
@@ -309,7 +309,7 @@ class(df[, 3, drop = FALSE])
 
 ## Lists {#indexlists}
 
-Reminder: A list can contain elements of different classes and of different 
+*Reminder*: A list can contain elements of different classes and of different 
 lengths:
 
 ```{r}
@@ -325,7 +325,7 @@ x
 
 You can access a *single* list element using:
 
-- double brackets `[[` with either *name* or *integer position*
+- double brackets `[[` with either ***name*** or ***integer position***
 - `$` followed by name of the element (therefore only works if elements are named)
 
 For example, to access the third element:
@@ -345,8 +345,9 @@ same as:
 x[["three"]]
 ```
 
-To access a list element programmatically, i.e. using a name or integer index 
-stored in a variable, only the bracket notation works. Therefore, programmatically, you would always use double brackets to access different elements:
+To access a list element ***programmatically***, i.e. using a name or integer index 
+stored in a variable, only the bracket notation works. Therefore, programmatically, you would always 
+use double brackets to access different elements:
 
 ```{r}
 idi <- 3
@@ -672,6 +673,46 @@ x[-integer_index]
 To get the complement of an index, you negate a logical index 
 (`!logical_index`) or you subtract an integer index (`-integer_index`).
 :::
+
+## Beware of `NA`s when indexing
+
+Assume a simple data.frame with a missing value in the Age column:
+```{r}
+df <- data.frame(
+  Age = c(24, 29, 36, NA, 45, 56, 75),
+  SBP = rnorm(7, mean = 120, sd = 10)
+)
+```
+
+Create a logical index to select all cases older than 32:
+
+```{r}
+idl <- df[["Age"]] > 32
+idl
+```
+
+Apply the index on the `SBP` column:
+
+```{r}
+df[["SBP"]][idl]
+```
+
+Similarly, an integer index containing `NA`, will return `NA` for the corresponding element:
+
+```{r}
+df[["SBP"]][c(3, 4, NA, 5)]
+```
+
+But `which()` treats `NA` as `FALSE`:
+
+```{r}
+idi <- which(df[["Age"]] > 32)
+idi
+```
+
+```{r}
+df[["SBP"]][idi]
+```
 
 ```{r}
 #| echo: false

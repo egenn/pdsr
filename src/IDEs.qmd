@@ -105,20 +105,60 @@ which supports multiple programming languages, including R.
 [JupyterLab](https://jupyterlab.readthedocs.io/en/stable/){target="_blank"} is 
 the "next-generation web-based user interface for Project Jupyter".
 
-There are different ways to install jupyter and jupyter-lab.
+Jupyter and JupyterLab are installed using Python, but can be used to work with multiple languages,
+including R.
+<br>
+Python environments are a way to isolate your project's dependencies from the 
+rest of your system. This is useful when you have multiple projects with
+different dependencies, or when you want to avoid conflicts between packages.
+There are different approaches to installing Python packages & managing environments.
+Our current recommendation is to use virtual environments and handle dependencies using `uv`, which
+is a much faster alternative to the classic `pip`. The alternative is to use `conda` or 
 
-One way is:
+### Using `uv` & `pip` (recommended)
 
-1. Install [mambaforge](https://github.com/conda-forge/miniforge#mambaforge){target="_blank"}
-
-2. Use mamba to install jupyterlab:
+Create a new virtual environment named, for example, `myenv`:
 
 ```{sh}
 #| eval: false
-mamba install jupyterlab
+python3 -m venv myenv
 ```
 
-3. Install the IRkernel R packages:
+Activate your new virtual environment:
+
+```{sh}
+#| eval: false
+source myenv/bin/activate
+```
+
+Install `uv`, a faster alternative to `pip`:
+
+```{sh}
+#| eval: false
+pip install uv
+```
+
+Install jupyterlab:
+
+```{sh}
+#| eval: false
+uv pip install jupyterlab
+```
+
+
+### Using conda
+
+We recommend starting by installing [miniconda](https://docs.anaconda.com/miniconda/){target="_blank"}
+
+(system shell) First, use conda to install `jupyterlab` on the command line:
+
+```{sh}
+#| eval: false
+conda install -c conda-forge jupyterlab
+```
+
+(R) Then, install the `IRkernel` R package withn R:
+
 ```{r}
 #| eval: false
 install.packages("IRkernel")
@@ -126,17 +166,19 @@ install.packages("IRkernel")
 remotes::install_github("IRkernel/IRkernel")
 ```
 
-4. Install the R jupyter kernel:
+(R) Install the R jupyter kernel:
+
 ```{r}
 #| eval: false
 IRkernel::installspec()
 ```
 
-5. Start jupyter-lab:
+(system shell) Start jupyter-lab:
+
 ```{sh}
 #| eval: false
 jupyter-lab
 ```
 
 There, you will be able to select the R kernel from the list of available
-kernels - usually at the top-right.
+kernels.

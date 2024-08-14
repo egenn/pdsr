@@ -77,12 +77,29 @@ Notice how a factor is printed in the R console:
 them from character vectors.
 - The factor levels are printed below the vector values.
 
-`table()` is a very useful function for factors - it gives the counts for each 
-level:
+## (Cross) Tabulate factor levels
+
+`table()` is a very useful function that, when applied to factors, counts the number of occurrences 
+of each level:
 
 ```{r}
 table(xf)
 ```
+
+It can also be used to cross-tabulate two factors. For example, let's create two factors:
+
+```{r}
+g1 <- factor(c("case", "control", "control", "case", "control", "control", "case"))
+g2 <- factor(c("untreated", "treated", "untreated", "treated", "treated", "treated", "untreated"))
+```
+
+Then we can cross-tabulate them:
+
+```{r}
+table(g1, g2)
+```
+
+### Set the order of factor levels
 
 Let's look at a different example. We define a factor to identify cases and 
 controls:
@@ -95,8 +112,6 @@ g
 ::: callout-note
 By default, the levels are ordered *alphabetically*.
 :::
-
-### Set the order of factor levels
 
 You can define the order of the factor levels with the `levels` argument of the 
 `factor()` function.

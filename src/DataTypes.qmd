@@ -513,6 +513,59 @@ Finally, `NULL` is often used as the default value in a function's argument.
 The function definition must then determine what the default behavior/value 
 should be.
 
+## Named vectors
+
+While not very common, you can name the elements of a vector. You can do so either when creating
+the vector or after the fact:
+
+First, create a vector without names, in this example, a character vector:
+
+```{r}
+v <- c("UCSF", "Stanford", "Penn")
+v
+```
+
+Now, create a named vector and notice how the element names are displayed above the element values
+when the vector is printed:
+
+```{r}
+site <- c(SiteA = "UCSF", SiteB = "Stanford", SiteC = "Penn")
+site
+```
+
+Note that the `v` has no names, therefore the following returns `NULL`:
+
+```{r}
+names(v)
+```
+
+while `site` has names:
+
+```{r}
+names(site)
+```
+
+If we wanted to add the names of the elements of `v`, we can do so like this:
+
+```{r}
+names(v) <- c("SiteA", "SiteB", "SiteC")
+v
+```
+
+Similarly, if we wanted to change/replace the names of `site`, we can do so like this:
+
+```{r}
+names(site) <- c("Site_1", "Site_2", "Site_3")
+site
+```
+
+Lastly, if we wanted to remove the names of `site`, we can replace them with `NULL`:
+
+```{r}
+names(site) <- NULL
+site
+```
+
 ## Initialize - coerce - test vectors
 
 The following summary table lists the functions to *initialize*, 

@@ -143,6 +143,27 @@ xsc <- ifelse(x %% 2 == 0, c(1:11)^3, c(1:11)^2)
 xsc
 ```
 
+### Conditional assignment with multiple options using `switch()`
+
+Instead of using multiple `if` - `else if` statements, we can build a more 
+compact call using `switch`, which is best suited for options that are of type 
+character, rather than numeric.
+
+```{r}
+Department <- sample(letters[seq(5)], size = 1)
+Department
+output <- switch(Department, # 1. Some expression
+  a = "Outpatient",          # 2. The possible values of the expression, unquoted
+  b = "Emergency",           #    followed by the `=` and the conditional output
+  c = "Cardiology",
+  d = "Neurology",
+  e = "Oncology",
+  "Unknown Department"        # 3. An optional last argument is the default
+                              #    value, if there is no match above
+)
+output
+```
+
 ## Loops
 
 ### `for` loops {#forloops}
@@ -284,47 +305,6 @@ for (i in 1:4) {
   a <- a + i^2
   print(a)
 }
-```
-
-### Conditional assignment with multiple options using `switch()`
-
-Instead of using multiple `if` - `else if` statements, we can build a more 
-compact call using `switch`, which is best suited for options that are of type 
-character, rather than numeric.
-
-```{r}
-y <- sample(letters[seq(8)], size = 1)
-y
-output <- switch(y,                      # 1. Some expression
-                 a = "Well done",        # 2. The possible values of the expression, unquoted
-                 b = "Not bad",          #    followed by the `=` and the conditional output
-                 c = "Nice try",
-                 d = "Not a nice try",
-                 e = "This is bad",
-                 f = "Fail",
-                 "This is not even a possible grade") # 3. An optional last argument is the default
-                                                      #    value, if there is no match above
-output
-```
-
-#### `switch` example: HTTP Status Codes
-
-```{r}
-status <- sample(400:410, size = 1)
-status
-response <- switch(as.character(status),
-                   `400` = "Bad Request",
-                   `401` = "Unauthorized",
-                   `402` = "Payment Required",
-                   `403` = "Forbidden",
-                   `404` = "Not Found",
-                   `405` = "Method Not Allowed",
-                   `406` = "Not Acceptable",
-                   `407` = "Proxy Authentication Required",
-                   `408` = "Request Timeout",
-                   `409` = "Conflict",
-                   `410` = "Gone")
-response
 ```
 
 ### `while` loops

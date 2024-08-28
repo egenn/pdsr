@@ -16,10 +16,10 @@ correct data type.
 
 ```{r}
 #| echo: false
-#| out-width: 60%
+#| out-width: 70%
 #| fig-align: center
-#| fig-cap: R Data Types i.e. vectors are the "units" of data in R.
-knitr::include_graphics("./R_datatypes.png")
+#| fig-cap: Common data types in R.
+knitr::include_graphics("assets/R_datatypes.webp")
 ```
 
 ## Base types
@@ -577,12 +577,19 @@ The following summary table lists the functions to *initialize*,
 | `logical(n)`   | `as.logical(x)`   | `is.logical(x)`   |
 | `integer(n)`   | `as.integer(x)`   | `is.integer(x)`   |
 | `double(n)`    | `as.double(x)`    | `is.double(x)`    |
-| `numeric(n)`   | `as.numeric(x)`   | `is.numeric(x)`   |
 | `character(n)` | `as.character(x)` | `is.character(x)` |
 
-::: callout-note
-Note that the `numeric` and `double` functions are equivalent. 
-(Try printing `numeric` and `double` in the console and compare the output - you'll see that they
-point to the same function definition. Right now, based on this, you can tell that they are 
-equivalent. You will learn more about function in @sec-functions.)
+::: callout-caution
+The usage of the terms `double` and `numeric` across functions is unfortunately inconsistent in R.  
+
+- `double()` is the same as `numeric()`: They both initialize a vector of type **double**.  
+- `as.double()` is the same as `as.numeric()`: They both coerce to type **double**.  
+*BUT*  
+- `is.double()` is NOT the same as `is.numeric()`
+- `is.numeric()` is TRUE for both **integer** and **double** types. It is useful when you want to check if a variable is a number, regardless of whether it is an integer or double.  
+- `is.double()` is TRUE only for type double
+- `is.integer()` is TRUE only for type integer.
+
+Therefore, to promote clarity, prefer using `double()` instead of `numeric()` and `as.double()` 
+instead of `as.numeric()`.
 :::

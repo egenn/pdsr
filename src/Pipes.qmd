@@ -1,0 +1,174 @@
+---
+execute: 
+  warning: false
+knitr:
+  opts_knit:
+    global.par: true
+  opts_chunk: 
+    comment: ''
+---
+
+# Pipes {#sec-pipes}
+
+:::{.callout-note}
+In its basic form, a pipe allows writing:
+`f(x)`
+as
+`x |> f()`
+and, similarly,
+`g(f(x))`
+as
+`x |> f() |> g()`.
+:::
+
+```{r}
+#| label: fig-pipe
+#| echo: false
+#| out-width: 80%
+#| fig-align: center
+#| fig-cap: Illustration of pipes in R
+knitr::include_graphics("assets/R_pipes.webp")
+```
+
+A pipe operator was first introduced to R by the 
+[magrittr](https://magrittr.tidyverse.org/) package with the `%>%` symbol. Note 
+that a number of other packages that endorse the use of pipes export the pipe 
+operator as well.  
+
+Starting with R version 4.1 (May 2021), a native pipe operator is included with the `|>` 
+symbol.
+
+A pipe allows writing `f(x)` as `x |> f()` (native pipe) or `x %>% f` 
+(magrittr).
+
+Note that the native pipe requires parentheses, but magrittr works with or 
+without them.
+
+A pipe is often used to:
+
+- avoid multiple temporary assignments in a multistep procedure, or 
+- as an alternative to nesting functions. 
+
+Some packages and developers promote its use, others discourage it. You should 
+try and see if/when it suits your needs.
+
+The following:
+
+```{r eval = FALSE}
+x <- f1(x)
+x <- f2(x)
+x <- f3(x)
+```
+
+is equivalent to:
+
+```{r eval = FALSE}
+x <- f3(f2(f1(x)))
+```
+
+is equivalent to:
+
+```{r eval = FALSE}
+x <- x |> f1() |> f2() |> f3()
+```
+
+```{r}
+iris[, -5] |>
+  split(iris$Species) |>
+  lapply(function(i) sapply(i, mean))
+```
+
+Pipes are used extensively in the [tidyverse](https://www.tidyverse.org) 
+packages and many 
+other third-party packages.  
+You can learn more about the magrittr pipe operator in the 
+[vignette](https://cran.r-project.org/web/packages/magrittr/vignettes/magrittr.html).
+
+::: callout-tip
+In [RStudio](https://posit.co/products/open-source/rstudio/) the keyboard shortcut for the pipe operator 
+is `Shift-Command-M` (MacOS) or `Ctrl-Shift-M` (Windows).
+:::
+
+### Differences between native pipe and **magrittr**
+
+Native pipe requires parenthesis (`()`) after function name, **magrittr** works with or 
+without them.  For example,
+
+```{r}
+x <- rnorm(300)
+```
+
+```{r}
+x |> mean()
+```
+
+but this would fail:
+
+```{r eval=FALSE}
+x |> mean
+```
+
+while either works in **magrittr**:
+
+```{r}
+library(magrittr)
+x %>% mean()
+```
+
+```{r}
+x %>% mean
+```
+
+The native pipe passes its LHS to the first ***unnamed*** argument 
+on the RHS. Alternatively, it can be passed to any named argument using an underscore
+("_") symbol. 
+
+On the other hand, **magrittr** allows using a period `.` to pipe to any position on 
+the RHS. The native pipe workaround is using an anonymous function (can use the 
+new shorter syntax `\(x)` instead of `function(x)`).
+<br><br>
+Example: Find the position of "r" in the latin alphabet
+
+Here, we want to pass the LHS to the second argument of `grep()`.
+
+Using native pipe, we name the first argument `pattern` and the LHS is passed 
+to the first unnamed argument, i.e. the second (which is `x`, the character 
+vector where matches are looked for):
+
+Native pipe or magrittr: pass to the first unnamed argument:
+
+```{r}
+letters |> grep(pattern = "r")
+```
+
+```{r}
+letters %>% grep(pattern = "r")
+```
+
+Native pipe: pass to any named argument using an underscore (`_`) placeholder, but 
+argument must be named:
+
+```{r}
+letters |> grep("r", x = _)
+```
+
+**magrittr**: pass to any argument using a period (`.`) placeholder. Argument can be
+named or not (i.e. positional):
+
+```{r}
+letters %>% grep("r", x = .)
+```
+
+```{r}
+letters %>% grep("r", .)
+```
+
+For demonstration purposes, here's how you can achieve the same using the native pipe 
+and an anonymous function.
+
+```{r}
+# positional:
+letters |> {\(x) grep("r", x)}()
+# named:
+letters |> {\(x) grep("r", x=x)}()
+```

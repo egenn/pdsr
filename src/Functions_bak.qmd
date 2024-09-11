@@ -1,0 +1,539 @@
+---
+execute: 
+  warning: false
+knitr:
+  opts_knit:
+    global.par: true
+  opts_chunk: 
+    comment: ''
+---
+# Functions {#sec-functions}
+
+Writing functions is a core part of programming.
+
+*When should you write a function?*
+
+Whenever you find yourself repeating pieces of code.
+
+*Why is it important?*
+
+Writing functions helps reduce the total amount of code, which increases 
+efficiency, reduces the chance of error, and can make code more readable.
+<br><br>
+Functions in R are "first-class objects".
+
+This means they can be stored inside other objects (e.g. a list), they can be 
+passed as arguments to other functions (as we see in @sec-loopfns) and can 
+be returned as output from functions.
+<br><br>
+Functions in R are *for the most part* like mathematical functions: they have 
+one or more inputs and one output. The inputs are known as the function 
+arguments. If you want to return multiple outputs, you can return a list 
+containing any number of R objects.
+<br><br>
+Functions are refered to as "closures" in R. A closure is made of 
+a function and its environment. Closures are distinct from primitive functions
+(i.e. internally implemented / built-in functions, which are written in C).
+
+## Simple functions
+
+Let's start with a very simple function: single argument with no default value:
+
+Define the function:
+
+```{r}
+square <- function(x) {
+  x^2
+}
+```
+
+Try our new function:
+
+```{r}
+square(4)
+```
+
+Notice above that `x^2` is automatically returned by the function. It is the 
+same as explicitly returning it with `return()`:
+
+```{r}
+square <- function(x) {
+  return(x^2)
+}
+
+square(4)
+```
+
+also same:
+
+```{r}
+square <- function(x) {
+  out <- x^2
+  return(out)
+}
+
+square(4)
+```
+
+still same:
+
+```{r}
+square <- function(x) {
+  out <- x^2
+  out
+}
+
+square(5)
+```
+
+A function returns either:
+
+- the value of the last expression within the function definition such as `out` 
+or `x^2` above.
+- an object passed to `return()`.
+
+Multiple arguments, with and without defaults:
+
+```{r}
+raise <- function(x, power = 2) {
+  x^power
+}
+
+x <- sample(10, size = 1)
+x
+raise(x)
+raise(x, power = 3)
+raise(x, 3)
+```
+
+::: callout-tip
+`return()` can be used to exit a function early
+:::
+
+In the following example, `return()` is used to exit the function early if no negative 
+values are found. This is shown only as a trivial example; it is not particularly
+useful in this case, but can be useful in more complex functions.
+
+```{r}
+preproc <- function(x) {
+  if (all(x >= 0)) {
+    return(x) 
+  } else {
+    cat("Negative values found, returning absolute \n")
+    return(abs(x))
+  }
+}
+```
+
+The following stops early and no message is printed:
+
+```{r}
+preproc(0:10)
+```
+
+The following does not stop early and message is printed:
+
+```{r}
+preproc(-5:5)
+```
+
+## Argument matching
+
+R will match unambiguous abbreviations of arguments:
+
+```{r}
+fn <- function(alpha = 2, beta = 3, gamma = 4) {
+  alpha * beta + gamma
+}
+fn(g = 2)
+```
+
+## Arguments with prescribed set of allowed values
+
+You can match specific values for an argument using `match.arg()`:
+
+```{r}
+#| error: true
+myfn <- function(type = c("alpha", "beta", "gamma")) {
+  type <- match.arg(type)
+  cat("You have selected type '", type, "'\n", sep = "")
+}
+
+myfn("a")
+myfn("b")
+myfn("g")
+myfn("d")
+```
+
+Above you see that partial matching using `match.arg()` was able to identify a 
+valid option, and when there was no match, an informative error was printed.
+
+Partial matching is also automatically done on the argument names themselves, 
+but it's important to avoid depending on that. 
+
+```{r}
+adsr <- function(attack = 100,
+                 decay = 250,
+                 sustain = 40,
+                 release = 1000) {
+  cat("Attack time:", attack, "ms\n",
+      "Decay time:", decay, "ms\n",
+      "Sustain level:", sustain, "\n",
+      "Release time:", release, "ms\n")
+}
+
+adsr(50, s = 100, r = 500)
+```
+
+## Passing extra arguments to another function with the `...` argument
+
+Many functions include a `...` argument at the end. Any arguments not otherwise 
+matched are collected there. A common use for this is to pass them to another 
+function:
+
+```{r}
+cplot <- function(x, y,
+                  cex = 1.5,
+                  pch = 16,
+                  col = "#18A3AC",
+                  bty = "n", ...) {
+
+  plot(x, y, 
+       cex = cex, 
+       pch = pch, 
+       col = col, 
+       bty = bty, ...)
+
+}
+```
+
+`...` is also used for variable number of inputs, often as the first argument of 
+a function. For example, look at the documentation of `c()`, `cat()`, `cbind()`, 
+`paste()`.
+
+:::{.callout-note}
+Any arguments after the `...`, **must** be named fully, i.e. will not be 
+partially matched.
+:::
+
+## Return multiple objects
+
+R function can only return a single object. This is not much of a problem 
+because you can simply put any collection of objects into a list and return it:
+
+```{r}
+lfn <- function(x, fn = square) {
+  xfn <- fn(x)
+  
+  list(x = x,
+       xfn = xfn,
+       fn = fn)
+}
+
+lfn(3)
+```
+
+## Warnings and errors
+
+You can use `warning("some warning message")` at any point inside a function to 
+produce a warning message during execution. The message gets printed to the R 
+console, but function execution is **not** stopped.  
+
+On the other hand, you can use `stop("some error message")` to print an error 
+message to console and stop function execution.
+
+The following function (`el10`) calculates:
+$$ e^{log_{10}(x)} $$
+
+```{r}
+el10 <- function(x) {
+  exp(log10(x))
+}
+```
+
+which is not defined for negative `x`. In this case, we could let R give a 
+warning when it tries to compute `log10(x)`:
+
+```{r}
+val1 <- el10(-3)
+```
+
+We could instead produce our own warning message:
+
+```{r}
+el10 <- function(x) {
+  if (x < 0) warning("x must be positive")
+  exp(log10(x))
+}
+val2 <- el10(-3)
+val2
+```
+
+As you see, the output (`NaN`) still gets returned.
+
+Alternatively, we can use `stop()` to end function execution:
+
+```{r}
+#| error: true
+el10 <- function(x) {
+  if (x < 0) stop("x must be positive")
+  exp(log10(x))
+}
+val3 <- el10(-3)
+```
+
+Note how, in this case, function evaluation is stopped and no value is 
+returned.
+
+## Scoping
+
+Functions exist in their own environment, i.e. contain their own variable 
+definitions.
+
+```{r}
+x <- 3
+y <- 4
+fn <- function(x, y) {
+  x <- 10*x
+  y <- 20*y
+  cat("Inside the function, x = ", x, " and y = ", y, "\n")
+}
+
+fn(x, y)
+cat("Outside the function, x = ", x, " and y = ", y, "\n")
+```
+
+However, if a variable is referenced within a function but no local definition 
+exists, the interpreter will look for the variable at the parent environment. It 
+is best to ensure all objects needed within a function are specified as 
+arguments and passed appropriately when the function is called.  
+
+In the following example, `x` is only defined outside the function definition, 
+but referenced within it.
+
+```{r}
+x <- 21
+
+itfn <- function(y, lr = 1) {
+  x + lr * y
+}
+
+itfn(3)
+```
+
+### function vs. for loop
+
+Let's z-score the built-in `mtcars` dataset once with a for loop and once with 
+a custom function. This links back to the example seen earlier in the 
+[for loop](#fordata) section. In practice, this would be performed with the 
+`scale()` command.
+
+Within the for loop, we are assigning columns directly to the object 
+initialized before the loop. In the following example, we use 
+`print(environment())` to print the environment outside and inside the loop 
+function to show that it is the same. This is purely for demonstration:
+
+```{r}
+# initialize new object 'mtcars_z'
+mtcars_z <- mtcars
+cat("environment outside for loop is: ")
+print(environment())
+
+# z-score one column at a time in a for loop
+for (i in seq_len(ncol(mtcars))) {
+  mtcars_z[, i] <- (mtcars[, i] - mean(mtcars[, i])) / sd(mtcars[, i])
+  cat("environment inside for loop is: ")
+  print(environment())
+}
+```
+
+In contrast, all operations remain local within a function and the output must 
+be returned:
+
+```{r}
+ztransform <- function(x) {
+  cat("environment inside function body is: ")
+  print(environment())
+  z <- as.data.frame(sapply(mtcars, function(i) (i - mean(i))/sd(i)))
+  rownames(z) <- rownames(x)
+  z
+}
+mtcars_z2 <- ztransform(mtcars)
+cat("environment outside function body is: ")
+print(environment())
+```
+
+Notice how the environment outside and inside the loop function is the same, it 
+is the Global environment, but the environment within the function is different. 
+That is why any objects created or changed within a function must be returned 
+if we want to make them available.
+
+## The pipe operator {#pipe}
+
+:::{.callout-note}
+In its basic form, a pipe allows writing:
+`f(x)`
+as
+`x |> f()`
+and, similarly,
+`g(f(x))`
+as
+`x |> f() |> g()`.
+:::
+
+```{r}
+#| label: fig-pipe
+#| echo: false
+#| out-width: 80%
+#| fig-align: center
+#| fig-cap: Illustration of pipes in R
+knitr::include_graphics("assets/R_pipes.webp")
+```
+
+A pipe operator was first introduced to R by the 
+[magrittr](https://magrittr.tidyverse.org/) package with the `%>%` symbol. Note 
+that a number of other packages that endorse the use of pipes export the pipe 
+operator as well.  
+
+Starting with R version 4.1 (May 2021), a native pipe operator is included with the `|>` 
+symbol.
+
+A pipe allows writing `f(x)` as `x |> f()` (native pipe) or `x %>% f` 
+(magrittr).
+
+Note that the native pipe requires parentheses, but magrittr works with or 
+without them.
+
+A pipe is often used to:
+
+- avoid multiple temporary assignments in a multistep procedure, or 
+- as an alternative to nesting functions. 
+
+Some packages and developers promote its use, others discourage it. You should 
+try and see if/when it suits your needs.
+
+The following:
+
+```{r eval = FALSE}
+x <- f1(x)
+x <- f2(x)
+x <- f3(x)
+```
+
+is equivalent to:
+
+```{r eval = FALSE}
+x <- f3(f2(f1(x)))
+```
+
+is equivalent to:
+
+```{r eval = FALSE}
+x <- x |> f1() |> f2() |> f3()
+```
+
+```{r}
+iris[, -5] |>
+  split(iris$Species) |>
+  lapply(function(i) sapply(i, mean))
+```
+
+Pipes are used extensively in the [tidyverse](https://www.tidyverse.org) 
+packages and many 
+other third-party packages.  
+You can learn more about the magrittr pipe operator in the 
+[vignette](https://cran.r-project.org/web/packages/magrittr/vignettes/magrittr.html).
+
+::: callout-tip
+In [RStudio](https://posit.co/products/open-source/rstudio/) the keyboard shortcut for the pipe operator 
+is `Shift-Command-M` (MacOS) or `Ctrl-Shift-M` (Windows).
+:::
+
+### Differences between native pipe and **magrittr**
+
+Native pipe requires parenthesis (`()`) after function name, **magrittr** works with or 
+without them.  For example,
+
+```{r}
+x <- rnorm(300)
+```
+
+```{r}
+x |> mean()
+```
+
+but this would fail:
+
+```{r eval=FALSE}
+x |> mean
+```
+
+while either works in **magrittr**:
+
+```{r}
+library(magrittr)
+x %>% mean()
+```
+
+```{r}
+x %>% mean
+```
+
+The native pipe passes its LHS to the first ***unnamed*** argument 
+on the RHS. Alternatively, it can be passed to any named argument using an underscore
+("_") symbol. 
+
+On the other hand, **magrittr** allows using a period `.` to pipe to any position on 
+the RHS. The native pipe workaround is using an anonymous function (can use the 
+new shorter syntax `\(x)` instead of `function(x)`).
+<br><br>
+Example: Find the position of "r" in the latin alphabet
+
+Here, we want to pass the LHS to the second argument of `grep()`.
+
+Using native pipe, we name the first argument `pattern` and the LHS is passed 
+to the first unnamed argument, i.e. the second (which is `x`, the character 
+vector where matches are looked for):
+
+Native pipe or magrittr: pass to the first unnamed argument:
+
+```{r}
+letters |> grep(pattern = "r")
+```
+
+```{r}
+letters %>% grep(pattern = "r")
+```
+
+Native pipe: pass to any named argument using an underscore (`_`) placeholder, but 
+argument must be named:
+
+```{r}
+letters |> grep("r", x = _)
+```
+
+**magrittr**: pass to any argument using a period (`.`) placeholder. Argument can be
+named or not (i.e. positional):
+
+```{r}
+letters %>% grep("r", x = .)
+```
+
+```{r}
+letters %>% grep("r", .)
+```
+
+For demonstration purposes, here's how you can achieve the same using the native pipe 
+and an anonymous function.
+
+```{r}
+# positional:
+letters |> {\(x) grep("r", x)}()
+# named:
+letters |> {\(x) grep("r", x=x)}()
+```
+
+## Further reading
+
+See [`roxygen2`](https://roxygen2.r-lib.org/) for writing inline comments that
+can generate complete documentation for your functions.

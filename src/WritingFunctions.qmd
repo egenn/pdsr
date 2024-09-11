@@ -1,0 +1,302 @@
+---
+execute: 
+  warning: false
+knitr:
+  opts_knit:
+    global.par: true
+  opts_chunk: 
+    comment: ''
+---
+# Writing Functions {#sec-functions}
+
+Writing functions is a core part of programming.
+<br><br>
+
+***When should you write a function?***
+
+-> Whenever you find yourself repeating pieces of code.
+<br><br>
+
+***Why is it important?***
+
+-> Writing functions helps reduce the total amount of code, which increases 
+efficiency, reduces the chance of error, and can make code more readable.
+<br><br>
+
+Functions in R are "first-class objects".
+
+This means they can be stored inside other objects (e.g. a list), they can be 
+passed as arguments to other functions (as we see in @sec-loopfns) and can 
+be returned as output from functions.
+<br><br>
+Functions in R are *for the most part* like mathematical functions: they have 
+one or more inputs and one output. The inputs are known as the function 
+arguments. If you want to return multiple outputs, you can return a list 
+containing any number of R objects.
+<br><br>
+Functions are referred to as "closures" in R. A closure is made of 
+a function and its environment. Closures are distinct from primitive functions
+(i.e. internally implemented / built-in functions, which are written in C).
+<br><br>
+
+## Simple functions
+
+Let's start with a very simple function: single argument with no default value:
+
+Define the function:
+
+```{r}
+square <- function(x) {
+  x^2
+}
+```
+
+Try our new function:
+
+```{r}
+square(4)
+```
+
+Notice above that `x^2` is automatically returned by the function. It is the 
+same as explicitly returning it with `return()`:
+
+```{r}
+square <- function(x) {
+  return(x^2)
+}
+
+square(4)
+```
+
+also same:
+
+```{r}
+square <- function(x) {
+  out <- x^2
+  return(out)
+}
+
+square(4)
+```
+
+still same:
+
+```{r}
+square <- function(x) {
+  out <- x^2
+  out
+}
+
+square(5)
+```
+
+A function returns either:
+
+- the value of the last expression within the function definition such as `out` 
+or `x^2` above.
+- an object passed to `return()`.
+
+Multiple arguments, with and without defaults:
+
+```{r}
+raise <- function(x, power = 2) {
+  x^power
+}
+
+x <- sample(10, size = 1)
+x
+raise(x)
+raise(x, power = 3)
+raise(x, 3)
+```
+
+::: callout-tip
+`return()` can be used to exit a function early
+:::
+
+In the following example, `return()` is used to exit the function early if no negative 
+values are found. This is shown only as a trivial example; it is not particularly
+useful in this case, but can be useful in more complex functions.
+
+```{r}
+preproc <- function(x) {
+  if (all(x >= 0)) {
+    return(x) 
+  } else {
+    cat("Negative values found, returning absolute \n")
+    return(abs(x))
+  }
+}
+```
+
+The following stops early and no message is printed:
+
+```{r}
+preproc(0:10)
+```
+
+The following does not stop early and message is printed:
+
+```{r}
+preproc(-5:5)
+```
+
+## Argument matching
+
+R will match unambiguous abbreviations of arguments:
+
+```{r}
+fn <- function(alpha = 2, beta = 3, gamma = 4) {
+  alpha * beta + gamma
+}
+fn(g = 2)
+```
+
+## Arguments with prescribed set of allowed values
+
+You can match specific values for an argument using `match.arg()`:
+
+```{r}
+#| error: true
+myfn <- function(type = c("alpha", "beta", "gamma")) {
+  type <- match.arg(type)
+  cat("You have selected type '", type, "'\n", sep = "")
+}
+
+myfn("a")
+myfn("b")
+myfn("g")
+myfn("d")
+```
+
+Above you see that partial matching using `match.arg()` was able to identify a 
+valid option, and when there was no match, an informative error was printed.
+
+Partial matching is also automatically done on the argument names themselves, 
+but it's important to avoid depending on that. 
+
+```{r}
+adsr <- function(attack = 100,
+                 decay = 250,
+                 sustain = 40,
+                 release = 1000) {
+  cat("Attack time:", attack, "ms\n",
+      "Decay time:", decay, "ms\n",
+      "Sustain level:", sustain, "\n",
+      "Release time:", release, "ms\n")
+}
+
+adsr(50, s = 100, r = 500)
+```
+
+## Passing extra arguments to another function with the `...` argument
+
+Many functions include a `...` argument at the end. Any arguments not otherwise 
+matched are collected there. A common use for this is to pass them to another 
+function:
+
+```{r}
+cplot <- function(x, y,
+                  cex = 1.5,
+                  pch = 16,
+                  col = "#18A3AC",
+                  bty = "n", ...) {
+
+  plot(x, y, 
+       cex = cex, 
+       pch = pch, 
+       col = col, 
+       bty = bty, ...)
+
+}
+```
+
+`...` is also used for variable number of inputs, often as the first argument of 
+a function. For example, look at the documentation of `c()`, `cat()`, `cbind()`, 
+`paste()`.
+
+:::{.callout-note}
+Any arguments after the `...`, **must** be named fully, i.e. will not be 
+partially matched.
+:::
+
+## Return multiple objects
+
+R function can only return a single object. This is not much of a problem 
+because you can simply put any collection of objects into a list and return it:
+
+```{r}
+lfn <- function(x, fn = square) {
+  xfn <- fn(x)
+  
+  list(x = x,
+       xfn = xfn,
+       fn = fn)
+}
+
+lfn(3)
+```
+
+## Warnings and errors
+
+You can use `warning("some warning message")` at any point inside a function to 
+produce a warning message during execution. The message gets printed to the R 
+console, but function execution is **not** stopped.  
+
+On the other hand, you can use `stop("some error message")` to print an error 
+message to console and stop function execution.
+
+The following function (`el10`) calculates:
+$$ e^{log_{10}(x)} $$
+
+```{r}
+el10 <- function(x) {
+  exp(log10(x))
+}
+```
+
+which is not defined for negative `x`. In this case, we could let R give a 
+warning when it tries to compute `log10(x)`:
+
+```{r}
+val1 <- el10(-3)
+```
+
+We could instead produce our own warning message:
+
+```{r}
+el10 <- function(x) {
+  if (x < 0) warning("x must be positive")
+  exp(log10(x))
+}
+val2 <- el10(-3)
+val2
+```
+
+As you see, the output (`NaN`) still gets returned.
+
+Alternatively, we can use `stop()` to end function execution:
+
+```{r}
+#| error: true
+el10 <- function(x) {
+  if (x < 0) stop("x must be positive")
+  exp(log10(x))
+}
+val3 <- el10(-3)
+```
+
+Note how, in this case, function evaluation is stopped and no value is 
+returned.
+
+## Documenting Functions
+
+It is essential to document every function you write, especially if you plan to share it with.
+The [`roxygen2`](https://roxygen2.r-lib.org/) allows you to write special inline comments that
+can generate complete documentation for your functions. Visit the link to read its documentation.
+
+::: callout-tip
+Make it a habit to document your functions as you write them. As you write more & more complex 
+functions, it becomes harder and more time-consuming to document them later. After all, a function
+with incomplete or no documentation is of little use.
+:::

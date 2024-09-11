@@ -1,0 +1,93 @@
+---
+execute: 
+  warning: false
+knitr:
+  opts_knit:
+    global.par: true
+  opts_chunk: 
+    comment: ''
+---
+
+# Scoping of Functions {#sec-scoping}
+
+
+Functions exist in their own environment, i.e. contain their own variable 
+definitions.
+
+```{r}
+x <- 3
+y <- 4
+fn <- function(x, y) {
+  x <- 10*x
+  y <- 20*y
+  cat("Inside the function, x = ", x, " and y = ", y, "\n")
+}
+
+fn(x, y)
+cat("Outside the function, x = ", x, " and y = ", y, "\n")
+```
+
+However, if a variable is referenced within a function but no local definition 
+exists, the interpreter will look for the variable at the parent environment. It 
+is best to ensure all objects needed within a function are specified as 
+arguments and passed appropriately when the function is called.  
+
+In the following example, `x` is only defined outside the function definition, 
+but referenced within it.
+
+```{r}
+x <- 21
+
+itfn <- function(y, lr = 1) {
+  x + lr * y
+}
+
+itfn(3)
+```
+
+### function vs. for loop
+
+Let's z-score the built-in `mtcars` dataset once with a for loop and once with 
+a custom function. This links back to the example seen earlier in the 
+[for loop](#fordata) section. In practice, this would be performed with the 
+`scale()` command.
+
+Within the for loop, we are assigning columns directly to the object 
+initialized before the loop. In the following example, we use 
+`print(environment())` to print the environment outside and inside the loop 
+function to show that it is the same. This is purely for demonstration:
+
+```{r}
+# initialize new object 'mtcars_z'
+mtcars_z <- mtcars
+cat("environment outside for loop is: ")
+print(environment())
+
+# z-score one column at a time in a for loop
+for (i in seq_len(ncol(mtcars))) {
+  mtcars_z[, i] <- (mtcars[, i] - mean(mtcars[, i])) / sd(mtcars[, i])
+  cat("environment inside for loop is: ")
+  print(environment())
+}
+```
+
+In contrast, all operations remain local within a function and the output must 
+be returned:
+
+```{r}
+ztransform <- function(x) {
+  cat("environment inside function body is: ")
+  print(environment())
+  z <- as.data.frame(sapply(mtcars, function(i) (i - mean(i))/sd(i)))
+  rownames(z) <- rownames(x)
+  z
+}
+mtcars_z2 <- ztransform(mtcars)
+cat("environment outside function body is: ")
+print(environment())
+```
+
+Notice how the environment outside and inside the loop function is the same, it 
+is the Global environment, but the environment within the function is different. 
+That is why any objects created or changed within a function must be returned 
+if we want to make them available.

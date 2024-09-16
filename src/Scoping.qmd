@@ -10,8 +10,8 @@ knitr:
 
 # Function Scoping {#sec-scoping}
 
-Functions exist in their own environment, i.e. contain their own variable 
-definitions.
+Functions exist in their own environment. This means that variables defined within a 
+function are not available outside of it. This is known as "lexical scoping".
 
 ```{r}
 x <- 3
@@ -59,13 +59,19 @@ function to show that it is the same. This is purely for demonstration:
 ```{r}
 # initialize new object 'mtcars_z'
 mtcars_z <- mtcars
-cat("environment outside for loop is: ")
-print(environment())
+{
+  cat("environment outside for loop is: ")
+  print(environment())
+}
+```
 
+Note: the curly brackets in the above code block are used to force Quarto to print both lines together. You don't need to do this in a regular R script.
+
+```{r}
 # z-score one column at a time in a for loop
 for (i in seq_len(ncol(mtcars))) {
   mtcars_z[, i] <- (mtcars[, i] - mean(mtcars[, i])) / sd(mtcars[, i])
-  cat("environment inside for loop is: ")
+  cat("environment inside for loop also is: ")
   print(environment())
 }
 ```

@@ -106,15 +106,15 @@ res.loocv <- resample(x, resampler = "loocv")
 
 ## Example: Stratified vs random sampling in a binomial distribution
 
-Imagine `y` is the outcome of interest where events occur with a probability of .1 - a common scenario in many fields.
+Imagine `y` is the outcome of interest where events occur with a probability of 0.1 - a common scenario in many fields.
 
 ```{r}
 set.seed(2020)
-x <- rbinom(100, size = 1, prob = .1)
+x <- rbinom(100, size = 1, prob = 0.1)
 mplot3_x(x)
 freq <- table(x)
 prob <- freq[2] / sum(freq)
-res.nonstrat <- lapply(seq(10), function(i) sample(seq(x), size = .75*length(x)))
+res.nonstrat <- lapply(seq(10), function(i) sample(seq(x), size = 0.75*length(x)))
 res.strat <- resample(x)
 prob.nonstrat <- sapply(seq(10), function(i) {
   freq <- table(x[res.nonstrat[[i]]])

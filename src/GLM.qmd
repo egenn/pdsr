@@ -110,7 +110,7 @@ You use `lines()` to add a line on top of a scatterplot drawn with `plot()`.
 ```{r}
 set.seed(2020)
 x <- rnorm(500)
-y <- .73 * x + .5 * rnorm(500)
+y <- 0.73 * x + 0.5 * rnorm(500)
 xy.fit <- lm(y~x)$fitted
 plot(x, y, pch = 16, col = "#18A3AC99")
 lines(x, xy.fit, col = "#178CCB", lwd = 2)
@@ -152,7 +152,7 @@ n_row <- 1000
 x <- as.data.frame(lapply(seq(n_col), function(i) rnorm(n_row)),
                    col.names = paste0("Feature_", seq(n_col)))
 dim(x)
-y <- .7 + x[, 10] + .3 * x[, 20] + 1.3 * x[, 30] + x[, 50] + rnorm(500)
+y <- 0.7 + x[, 10] + 0.3 * x[, 20] + 1.3 * x[, 30] + x[, 50] + rnorm(500)
 ```
 
 Let's fit a linear model regressing y on each column of x using `lm`:
@@ -180,13 +180,13 @@ mod.xy.massuni.pvals <- sapply(mod.xy.massuni, function(i) summary(i)$coefficien
 Let's see which variable are significant at the 0.05:
 
 ```{r}
-which(mod.xy.massuni.pvals < .05)
+which(mod.xy.massuni.pvals < 0.05)
 ```
 
 ...and which are significant at the 0.01 level:
 
 ```{r}
-which(mod.xy.massuni.pvals < .01)
+which(mod.xy.massuni.pvals < 0.01)
 ```
 
 ## Correction for multiple comparisons
@@ -198,10 +198,10 @@ To do that, we use R's `p.adjust()` function. It adjusts a vector of p-values to
 mod.xy.massuni.pvals.holm_adjusted <- p.adjust(mod.xy.massuni.pvals)
 ```
 
-Now, let's see which features' p-values survive the magical .05 threshold:
+Now, let's see which features' p-values survive the magical 0.05 threshold:
 
 ```{r}
-which(mod.xy.massuni.pvals.holm_adjusted < .05)
+which(mod.xy.massuni.pvals.holm_adjusted < 0.05)
 ```
 
 These are indeed the correct features (not surprisingly, still reassuringly).

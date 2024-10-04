@@ -99,13 +99,13 @@ bg <- "gray10"
 # Data
 set.seed(2020)
 x <- rnorm(600)
-l <- .7
+l <- 0.7
 r <- 1.3
 .min <- min(x)
 .max <- max(x)
 .median <- median(x)
-.q1 <- quantile(x, .25)
-.q3 <- quantile(x, .75)
+.q1 <- quantile(x, 0.25)
+.q3 <- quantile(x, 0.75)
 .iqr <- .q3 - .q1
 .q1m1.5iqr <- .q1 - 1.5*.iqr
 .q3p1.5iqr <- .q3 + 1.5*.iqr
@@ -115,13 +115,13 @@ r <- 1.3
 .max <- max(x)
 
 # boxplot
-par(bty = "none", bg = bg, mar = c(1, .5, 1, .5))
-boxplot(x, axes = FALSE, col = "gray40", border = "white", boxwex = .35)
+par(bty = "none", bg = bg, mar = c(1, 0.5, 1, 0.5))
+boxplot(x, axes = FALSE, col = "gray40", border = "white", boxwex = 0.35)
 
 # '- median
-segments(l + .025, .median, r - .025, .median, 
+segments(l + 0.025, .median, r - 0.025, .median, 
          col = "#53FEBE", lty = lty, lwd = lwd)
-text(r, .median, "median", col = "#53FEBE", adj = c(0, .5))
+text(r, .median, "median", col = "#53FEBE", adj = c(0, 0.5))
 
 # '- Q1
 segments(l, .q1, r, .q1, 
@@ -135,7 +135,7 @@ text(r, .q3, "Q3", col = "#0290EE", adj = c(0, 0))
 
 # '- IQR
 arrows(l, .q1, l, .q3, code = 3, col = "#0290EE", lwd = lwd)
-text(l - .03, .median, "IQR", col = "#0290EE", adj = c(.5, 0), srt = 90)
+text(l - 0.03, .median, "IQR", col = "#0290EE", adj = c(0.5, 0), srt = 90)
 
 # '- min max
 segments(l, .min, r, .min, col = "gray45", lty = lty, lwd = lwd)
@@ -144,13 +144,13 @@ segments(l, .max, r, .max, col = "gray45", lty = lty, lwd = lwd)
 text(r, .max, "max", col = "gray45", adj = c(0, 0))
 
 # '- range excl. outliers
-segments(l - .085, .r[1], r + .085, .r[1],
+segments(l - 0.085, .r[1], r + 0.085, .r[1],
          col = "#FE4AA3", lty = lty, lwd = lwd)
-segments(l - .085, .r[2], r + .085, .r[2],
+segments(l - 0.085, .r[2], r + 0.085, .r[2],
          col = "#FE4AA3", lty = lty, lwd = lwd)
-arrows(l - .085, .r[1], l - .085, .r[2], code = 3, col = "#FE4AA3")
-text(l - .11, .median, "Range excluding outliers", col = "#FE4AA3", 
-     adj = c(.5, 0), srt = 90)
+arrows(l - 0.085, .r[1], l - 0.085, .r[2], code = 3, col = "#FE4AA3")
+text(l - 0.11, .median, "Range excluding outliers", col = "#FE4AA3", 
+     adj = c(0.5, 0), srt = 90)
 
 # '- outliers
 points(rep(1, sum(.outliers)), x[.outliers], col = "red", pch = 1)
@@ -243,7 +243,7 @@ multi-panel figure.
 ```{r}
 col <- c("#16A0AC", "#FA6E1E")
 boxplot(extra ~ group, data = sleep,
-        col = adjustcolor(col, alpha.f = .33), 
+        col = adjustcolor(col, alpha.f = 0.33), 
         border = col)
 ```
 
@@ -257,7 +257,7 @@ boxplot(extra ~ group, data = sleep)
 
 ```{r}
 boxplot(extra ~ group, data = sleep,
-        col = adjustcolor(col, alpha.f = .33),
+        col = adjustcolor(col, alpha.f = 0.33),
         border = col,
         names = c("Drug A", "Drug B"))
 ```
@@ -286,7 +286,7 @@ hist(x, col = "slategray", lwd = 3)
 
 ```{r}
 hist(x, 
-     col = adjustcolor("slategray", alpha.f = .5), 
+     col = adjustcolor("slategray", alpha.f = 0.5), 
      border = "slategray")
 ```
 
@@ -301,7 +301,7 @@ possible number will be used.
 
 ```{r}
 hist(x,
-     col = adjustcolor("slategray", alpha.f = .5), 
+     col = adjustcolor("slategray", alpha.f = 0.5), 
      border = "slategray",
      breaks = 24)
 ```
@@ -389,7 +389,7 @@ color coding.
 Here, we use the `adjustcolor()` function again to produce 5 shades of navy.
 
 ```{r fig.width= 7, fig.height=5}
-col <- sapply(seq(.2, .8, length.out = 5), function(alpha) adjustcolor("navy", alpha))
+col <- sapply(seq(0.2, 0.8, length.out = 5), function(alpha) adjustcolor("navy", alpha))
 barplot(VADeaths,
         col = col,
         border = NA,
@@ -452,7 +452,7 @@ Let's use the `args.legend` argument to push the legend to the right to avoid ov
 barplot(bill_length_mm ~ island + species,
         data = bill_length_by_island_x_species,
         beside = TRUE, legend = TRUE,
-        args.legend = list(x = "topright", inset = c(-.08, 0)))
+        args.legend = list(x = "topright", inset = c(-0.08, 0)))
 ```
 
 What the above value to `args.legend` does is to:
@@ -585,7 +585,7 @@ transparent (therefore use a value greater than 0).
 ```{r}
 plot(x, y,
      bty = "n", pch = 16,
-     col = adjustcolor("skyblue", alpha.f = .5))
+     col = adjustcolor("skyblue", alpha.f = 0.5))
 ```
 
 ### grid
@@ -598,7 +598,7 @@ points).
 ```{r}
 plot(x, y,
      bty = "n", pch = 16,
-     col = adjustcolor("skyblue", alpha.f = .5),
+     col = adjustcolor("skyblue", alpha.f = 0.5),
      panel.first = grid(lty = 1, col = 'gray90'))
 ```
 
@@ -607,7 +607,7 @@ plot(x, y,
 ```{r}
 plot(x, y,
      bty = "n", pch = 16,
-     col = adjustcolor("skyblue", alpha.f = .5),
+     col = adjustcolor("skyblue", alpha.f = 0.5),
      panel.first = grid(lty = 1, col = 'gray90'),
      main = "y vs. x",
      xlab = "Variable x (xunits)",

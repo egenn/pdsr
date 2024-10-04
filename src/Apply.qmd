@@ -171,8 +171,8 @@ dat_median
 
 
 ::: callout-note
-Unlike `lapply()`, the output of `sapply()` is **variable**: 
-it is the simplest R  object that can hold the data type(s) resulting from the 
+Unlike `lapply()`, the output of `sapply()` is **variable**, when the argument `simplify` is set to `TRUE`, which is the default:  
+It is the simplest R  object that can hold the data type/s resulting from the 
 operations, i.e. a vector, matrix, data frame, or list.
 :::
 
@@ -199,12 +199,14 @@ logical index of numeric columns:
 
 ```{r}
 numidl <- sapply(dat2, is.numeric)
+numidl
 ```
 
 integer index of numeric columns:
 
 ```{r}
 numidi <- which(sapply(dat2, is.numeric))
+numidi
 ```
 
 ## `vapply()` {#vapply}
@@ -222,7 +224,7 @@ You add the argument `FUN.VALUE` which must be of the correct **type** and
 **length** of the expected result ***of each iteration***.
 
 ```{r}
-vapply(dat, median, FUN.VALUE = .1)
+vapply(dat, median, FUN.VALUE = 0.0)
 ```
 
 Here, each iteration returns the median of each column, i.e. a numeric vector 
@@ -252,6 +254,7 @@ iris dataset:
 
 ```{r}
 dat$Group <- factor(sample(c("A", "B", "C"), size = 50, replace = TRUE))
+head(dat)
 ```
 
 ```{r}

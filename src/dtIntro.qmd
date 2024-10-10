@@ -1,0 +1,75 @@
+# Data Table {#sec-dtintro}
+
+The [`data.table`](https://cran.r-project.org/web/packages/data.table/index.html) 
+package provides a modern and highly optimized version of R's data.frame structure. It 
+is highly memory efficient and can automatically parallelize internal operations to 
+achieve substantial speed improvements over data.frames. The **data.table** 
+package weighs in at just a few kilobytes, has zero dependencies, and maintains 
+compatibility with R going back many versions.
+<br><br>
+Advantages of **data.table** include:
+
+- Fast and efficient reading, writing, and handling of big datasets
+    - fast read & write of delimited files with `fread()` and `fwrite()`
+    - in-place operations without creating unnecessary copies of data
+- Compact and flexible syntax for data manipulation great for handling small or big data
+
+In health data science, it is common to handle very large datasets, especially 
+when working with electronic health record 
+([EHR](https://en.wikipedia.org/wiki/Electronic_health_record){target="_blank"}) 
+data. In such cases, we often have to read, clean, reshape, transform, and merge
+multiple tables of different dimensions, often featuring many millions of rows
+and thousands of columns. The benefits of `data.table` become immediately 
+apparent in such scenarios.
+
+## Installation {#dtinstallation}
+
+To install from CRAN:
+
+```{r}
+#| eval: false
+install.packages("data.table")
+```
+
+`data.table` includes a built-in command to update to the latest 
+[development version](https://github.com/Rdatatable/data.table/blob/master/NEWS.md):
+
+```{r}
+#| eval: false
+data.table::update.dev.pkg()
+```
+
+## Note on OpenMP support
+
+`data.table` automatically parallelizes operations behind the scenes when 
+possible. It uses the [OpenMP](https://www.openmp.org/) library to support
+parallelization. The current version of macOS comes with disabled support for
+OpenMP.
+
+Currently, if you install `data.table` and OpenMP support is not detected,
+a message is printed to the console when you load the library with
+`library(data.table)` informing you that it is running on a single thread.
+You can still use `data.table` without OpenMP support.
+<br><br>
+The 
+[data.table installation wiki](https://github.com/Rdatatable/data.table/wiki/Installation#openmp-enabled-compiler-for-mac) describes how to enable OpenMP
+support in the macOS compiler. The recommended option is to download the
+libraries from the [mac.r-project site](https://mac.r-project.org/openmp/) and
+copy them to the `usr/local/lib` and `usr/local/include` directories as 
+appropriate.
+<br><br>
+After adding OpenMP support, you can compile the latest version of `data.table`:
+
+```{r}
+#| eval: false
+remotes::install_github("Rdatatable/data.table")
+```
+
+If everything works correctly, when you now load the library, it will inform you
+how many threads are being used.
+
+## Resources {#dtresources}
+
+- [data.table GitHub](https://github.com/Rdatatable/data.table)
+- [data.table Documentation](https://rdatatable.gitlab.io/data.table/)
+- [data.table Cheatsheet](https://raw.githubusercontent.com/rstudio/cheatsheets/master/datatable.pdf)

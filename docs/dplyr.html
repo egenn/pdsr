@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.7.31">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>40&nbsp; Introduction to dplyr – PDSR</title>
+<title>39&nbsp; Introduction to dplyr – PDSR</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -75,7 +75,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-4f97383ec2b0718e090f5a3bf624e0cf.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-294c2a79f4b5c5018fdfa692435fb65c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-dark-1e7b01a6aeb55307b339f3c789586970.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="site_libs/bootstrap/bootstrap-4f97383ec2b0718e090f5a3bf624e0cf.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -260,7 +260,8 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
       }
     };
     const authorPrefersDark = false;
-    const darkModeDefault = authorPrefersDark;
+    const queryPrefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+    const darkModeDefault = queryPrefersDark.matches;
       document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
       document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
     let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
@@ -273,6 +274,14 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
       toggleGiscusIfUsed(toAlternate, darkModeDefault);
       window.dispatchEvent(new Event('resize'));
     };
+    queryPrefersDark.addEventListener("change", e => {
+      if(window.localStorage.getItem("quarto-color-scheme") !== null)
+        return;
+      const alternate = e.matches
+      toggleColorMode(alternate);
+      localAlternateSentinel = e.matches ? 'alternate' : 'default'; // this is used alongside local storage!
+      toggleGiscusIfUsed(alternate, darkModeDefault);
+    });
     // Switch to dark mode if need be
     if (hasAlternateSentinel()) {
       toggleColorMode(true);
@@ -286,7 +295,7 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Tidyverse.html">Tidyverse</a></li><li class="breadcrumb-item"><a href="./dplyr.html"><span class="chapter-number">40</span>&nbsp; <span class="chapter-title">Introduction to dplyr</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Tidyverse.html">Tidyverse</a></li><li class="breadcrumb-item"><a href="./dplyr.html"><span class="chapter-number">39</span>&nbsp; <span class="chapter-title">Introduction to dplyr</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -523,32 +532,26 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./MissingData.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Handling Missing data</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./Strings.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Strings</span></span></a>
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Strings</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./DateTime.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Date and Time</span></span></a>
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Date and Time</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./SetOps.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Set Operations</span></span></a>
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Set Operations</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ClassesAndOOP.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Classes and OOP</span></span></a>
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Classes and OOP</span></span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -563,37 +566,37 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dtIntro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dtBasics.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">data.table basics</span></span></a>
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">data.table basics</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dtRefSem.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Reference Semantics</span></span></a>
+ <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Reference Semantics</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dtReshape.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">Reshape</span></span></a>
+ <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Reshape</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dtJoin.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">38</span>&nbsp; <span class="chapter-title">Joins</span></span></a>
+ <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">Joins</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dtAdvanced.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">39</span>&nbsp; <span class="chapter-title">Advanced Usage</span></span></a>
+ <span class="menu-text"><span class="chapter-number">38</span>&nbsp; <span class="chapter-title">Advanced Usage</span></span></a>
   </div>
 </li>
       </ul>
@@ -610,25 +613,25 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dplyr.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">40</span>&nbsp; <span class="chapter-title">Introduction to dplyr</span></span></a>
+ <span class="menu-text"><span class="chapter-number">39</span>&nbsp; <span class="chapter-title">Introduction to dplyr</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./tidyrReshape.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">41</span>&nbsp; <span class="chapter-title">Reshaping with <strong>tidyr</strong></span></span></a>
+ <span class="menu-text"><span class="chapter-number">40</span>&nbsp; <span class="chapter-title">Reshaping with <strong>tidyr</strong></span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dplyrJoin.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">42</span>&nbsp; <span class="chapter-title">Joins</span></span></a>
+ <span class="menu-text"><span class="chapter-number">41</span>&nbsp; <span class="chapter-title">Joins</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./lubridate.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">43</span>&nbsp; <span class="chapter-title">Dates with <strong>lubridate</strong></span></span></a>
+ <span class="menu-text"><span class="chapter-number">42</span>&nbsp; <span class="chapter-title">Dates with <strong>lubridate</strong></span></span></a>
   </div>
 </li>
       </ul>
@@ -645,25 +648,25 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./BaseGraphics.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">44</span>&nbsp; <span class="chapter-title">Base Graphics</span></span></a>
+ <span class="menu-text"><span class="chapter-number">43</span>&nbsp; <span class="chapter-title">Base Graphics</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Colors.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">45</span>&nbsp; <span class="chapter-title">Colors</span></span></a>
+ <span class="menu-text"><span class="chapter-number">44</span>&nbsp; <span class="chapter-title">Colors</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ggplot2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">46</span>&nbsp; <span class="chapter-title">Introduction to <strong>ggplot2</strong></span></span></a>
+ <span class="menu-text"><span class="chapter-number">45</span>&nbsp; <span class="chapter-title">Introduction to <strong>ggplot2</strong></span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./plotly.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">47</span>&nbsp; <span class="chapter-title">Introduction to <strong>plotly</strong></span></span></a>
+ <span class="menu-text"><span class="chapter-number">46</span>&nbsp; <span class="chapter-title">Introduction to <strong>plotly</strong></span></span></a>
   </div>
 </li>
       </ul>
@@ -671,31 +674,31 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./HypothesisTesting.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">48</span>&nbsp; <span class="chapter-title">Common Statistical Tests</span></span></a>
+ <span class="menu-text"><span class="chapter-number">47</span>&nbsp; <span class="chapter-title">Common Statistical Tests</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./GLM.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">49</span>&nbsp; <span class="chapter-title">Introduction to the GLM</span></span></a>
+ <span class="menu-text"><span class="chapter-number">48</span>&nbsp; <span class="chapter-title">Introduction to the GLM</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Profiling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">50</span>&nbsp; <span class="chapter-title">Benchmarking &amp; Profiling</span></span></a>
+ <span class="menu-text"><span class="chapter-number">49</span>&nbsp; <span class="chapter-title">Benchmarking &amp; Profiling</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Optimization.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">51</span>&nbsp; <span class="chapter-title">Optimization</span></span></a>
+ <span class="menu-text"><span class="chapter-number">50</span>&nbsp; <span class="chapter-title">Optimization</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Quarto.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">52</span>&nbsp; <span class="chapter-title">Quarto</span></span></a>
+ <span class="menu-text"><span class="chapter-number">51</span>&nbsp; <span class="chapter-title">Quarto</span></span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -710,13 +713,13 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./TerminalIntro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">53</span>&nbsp; <span class="chapter-title">Introduction to the System Shell</span></span></a>
+ <span class="menu-text"><span class="chapter-number">52</span>&nbsp; <span class="chapter-title">Introduction to the System Shell</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./GitHubIntro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">54</span>&nbsp; <span class="chapter-title">Git &amp; GitHub: The Basics</span></span></a>
+ <span class="menu-text"><span class="chapter-number">53</span>&nbsp; <span class="chapter-title">Git &amp; GitHub: The Basics</span></span></a>
   </div>
 </li>
       </ul>
@@ -733,13 +736,13 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ds.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">55</span>&nbsp; <span class="chapter-title">Data Queries across implementations</span></span></a>
+ <span class="menu-text"><span class="chapter-number">54</span>&nbsp; <span class="chapter-title">Data Queries across implementations</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./DuckDB.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">56</span>&nbsp; <span class="chapter-title">DuckDB</span></span></a>
+ <span class="menu-text"><span class="chapter-number">55</span>&nbsp; <span class="chapter-title">DuckDB</span></span></a>
   </div>
 </li>
       </ul>
@@ -747,13 +750,13 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Resources.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">57</span>&nbsp; <span class="chapter-title">Resources</span></span></a>
+ <span class="menu-text"><span class="chapter-number">56</span>&nbsp; <span class="chapter-title">Resources</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./DataPipeline.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">58</span>&nbsp; <span class="chapter-title">Data Pipeline Overview</span></span></a>
+ <span class="menu-text"><span class="chapter-number">57</span>&nbsp; <span class="chapter-title">Data Pipeline Overview</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -776,53 +779,53 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
         <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
    
   <ul>
-<li><a href="#filter" id="toc-filter" class="nav-link active" data-scroll-target="#filter"><span class="header-section-number">40.1</span> Filter</a></li>
+<li><a href="#filter" id="toc-filter" class="nav-link active" data-scroll-target="#filter"><span class="header-section-number">39.1</span> Filter</a></li>
   <li>
-<a href="#select" id="toc-select" class="nav-link" data-scroll-target="#select"><span class="header-section-number">40.2</span> Select</a>
+<a href="#select" id="toc-select" class="nav-link" data-scroll-target="#select"><span class="header-section-number">39.2</span> Select</a>
   <ul class="collapse">
-<li><a href="#by-column-name" id="toc-by-column-name" class="nav-link" data-scroll-target="#by-column-name"><span class="header-section-number">40.2.1</span> By column name</a></li>
-  <li><a href="#by-integer-column-index" id="toc-by-integer-column-index" class="nav-link" data-scroll-target="#by-integer-column-index"><span class="header-section-number">40.2.2</span> By integer column index</a></li>
-  <li><a href="#by-character-name-range" id="toc-by-character-name-range" class="nav-link" data-scroll-target="#by-character-name-range"><span class="header-section-number">40.2.3</span> By character name range</a></li>
-  <li><a href="#pattern-matching" id="toc-pattern-matching" class="nav-link" data-scroll-target="#pattern-matching"><span class="header-section-number">40.2.4</span> Pattern-matching</a></li>
+<li><a href="#by-column-name" id="toc-by-column-name" class="nav-link" data-scroll-target="#by-column-name"><span class="header-section-number">39.2.1</span> By column name</a></li>
+  <li><a href="#by-integer-column-index" id="toc-by-integer-column-index" class="nav-link" data-scroll-target="#by-integer-column-index"><span class="header-section-number">39.2.2</span> By integer column index</a></li>
+  <li><a href="#by-character-name-range" id="toc-by-character-name-range" class="nav-link" data-scroll-target="#by-character-name-range"><span class="header-section-number">39.2.3</span> By character name range</a></li>
+  <li><a href="#pattern-matching" id="toc-pattern-matching" class="nav-link" data-scroll-target="#pattern-matching"><span class="header-section-number">39.2.4</span> Pattern-matching</a></li>
   </ul>
 </li>
   <li>
-<a href="#summarize" id="toc-summarize" class="nav-link" data-scroll-target="#summarize"><span class="header-section-number">40.3</span> Summarize</a>
+<a href="#summarize" id="toc-summarize" class="nav-link" data-scroll-target="#summarize"><span class="header-section-number">39.3</span> Summarize</a>
   <ul class="collapse">
-<li><a href="#grouped-operation-on-single-column" id="toc-grouped-operation-on-single-column" class="nav-link" data-scroll-target="#grouped-operation-on-single-column"><span class="header-section-number">40.3.1</span> Grouped operation on single column</a></li>
-  <li><a href="#grouped-operation-on-multiple-columns" id="toc-grouped-operation-on-multiple-columns" class="nav-link" data-scroll-target="#grouped-operation-on-multiple-columns"><span class="header-section-number">40.3.2</span> Grouped operation on multiple columns</a></li>
+<li><a href="#grouped-operation-on-single-column" id="toc-grouped-operation-on-single-column" class="nav-link" data-scroll-target="#grouped-operation-on-single-column"><span class="header-section-number">39.3.1</span> Grouped operation on single column</a></li>
+  <li><a href="#grouped-operation-on-multiple-columns" id="toc-grouped-operation-on-multiple-columns" class="nav-link" data-scroll-target="#grouped-operation-on-multiple-columns"><span class="header-section-number">39.3.2</span> Grouped operation on multiple columns</a></li>
   </ul>
 </li>
   <li>
-<a href="#arrange" id="toc-arrange" class="nav-link" data-scroll-target="#arrange"><span class="header-section-number">40.4</span> Arrange</a>
+<a href="#arrange" id="toc-arrange" class="nav-link" data-scroll-target="#arrange"><span class="header-section-number">39.4</span> Arrange</a>
   <ul class="collapse">
-<li><a href="#grouped" id="toc-grouped" class="nav-link" data-scroll-target="#grouped"><span class="header-section-number">40.4.1</span> Grouped</a></li>
+<li><a href="#grouped" id="toc-grouped" class="nav-link" data-scroll-target="#grouped"><span class="header-section-number">39.4.1</span> Grouped</a></li>
   </ul>
 </li>
   <li>
-<a href="#mutate" id="toc-mutate" class="nav-link" data-scroll-target="#mutate"><span class="header-section-number">40.5</span> Mutate</a>
+<a href="#mutate" id="toc-mutate" class="nav-link" data-scroll-target="#mutate"><span class="header-section-number">39.5</span> Mutate</a>
   <ul class="collapse">
-<li><a href="#mutate-by-group" id="toc-mutate-by-group" class="nav-link" data-scroll-target="#mutate-by-group"><span class="header-section-number">40.5.1</span> Mutate by group</a></li>
+<li><a href="#mutate-by-group" id="toc-mutate-by-group" class="nav-link" data-scroll-target="#mutate-by-group"><span class="header-section-number">39.5.1</span> Mutate by group</a></li>
   </ul>
 </li>
   <li>
-<a href="#specifying-multiple-columns" id="toc-specifying-multiple-columns" class="nav-link" data-scroll-target="#specifying-multiple-columns"><span class="header-section-number">40.6</span> Specifying multiple columns</a>
+<a href="#specifying-multiple-columns" id="toc-specifying-multiple-columns" class="nav-link" data-scroll-target="#specifying-multiple-columns"><span class="header-section-number">39.6</span> Specifying multiple columns</a>
   <ul class="collapse">
-<li><a href="#by-integer-column-index-1" id="toc-by-integer-column-index-1" class="nav-link" data-scroll-target="#by-integer-column-index-1"><span class="header-section-number">40.6.1</span> By integer column index</a></li>
-  <li><a href="#by-character-name-range-1" id="toc-by-character-name-range-1" class="nav-link" data-scroll-target="#by-character-name-range-1"><span class="header-section-number">40.6.2</span> By character name range</a></li>
-  <li><a href="#pattern-matching-1" id="toc-pattern-matching-1" class="nav-link" data-scroll-target="#pattern-matching-1"><span class="header-section-number">40.6.3</span> Pattern-matching</a></li>
-  <li><a href="#using-predicate-function-wrapped-in-where" id="toc-using-predicate-function-wrapped-in-where" class="nav-link" data-scroll-target="#using-predicate-function-wrapped-in-where"><span class="header-section-number">40.6.4</span> Using predicate function wrapped in <code>where()</code></a></li>
-  <li><a href="#using-anonymous-predicate-function-with-where" id="toc-using-anonymous-predicate-function-with-where" class="nav-link" data-scroll-target="#using-anonymous-predicate-function-with-where"><span class="header-section-number">40.6.5</span> Using anonymous predicate function with <code>where()</code></a></li>
+<li><a href="#by-integer-column-index-1" id="toc-by-integer-column-index-1" class="nav-link" data-scroll-target="#by-integer-column-index-1"><span class="header-section-number">39.6.1</span> By integer column index</a></li>
+  <li><a href="#by-character-name-range-1" id="toc-by-character-name-range-1" class="nav-link" data-scroll-target="#by-character-name-range-1"><span class="header-section-number">39.6.2</span> By character name range</a></li>
+  <li><a href="#pattern-matching-1" id="toc-pattern-matching-1" class="nav-link" data-scroll-target="#pattern-matching-1"><span class="header-section-number">39.6.3</span> Pattern-matching</a></li>
+  <li><a href="#using-predicate-function-wrapped-in-where" id="toc-using-predicate-function-wrapped-in-where" class="nav-link" data-scroll-target="#using-predicate-function-wrapped-in-where"><span class="header-section-number">39.6.4</span> Using predicate function wrapped in <code>where()</code></a></li>
+  <li><a href="#using-anonymous-predicate-function-with-where" id="toc-using-anonymous-predicate-function-with-where" class="nav-link" data-scroll-target="#using-anonymous-predicate-function-with-where"><span class="header-section-number">39.6.5</span> Using anonymous predicate function with <code>where()</code></a></li>
   </ul>
 </li>
-  <li><a href="#dplyr-backends" id="toc-dplyr-backends" class="nav-link" data-scroll-target="#dplyr-backends"><span class="header-section-number">40.7</span> dplyr backends</a></li>
-  <li><a href="#dplyrresources" id="toc-dplyrresources" class="nav-link" data-scroll-target="#dplyrresources"><span class="header-section-number">40.8</span> Resources</a></li>
-  <li><a href="#see-also" id="toc-see-also" class="nav-link" data-scroll-target="#see-also"><span class="header-section-number">40.9</span> See also</a></li>
+  <li><a href="#dplyr-backends" id="toc-dplyr-backends" class="nav-link" data-scroll-target="#dplyr-backends"><span class="header-section-number">39.7</span> dplyr backends</a></li>
+  <li><a href="#dplyrresources" id="toc-dplyrresources" class="nav-link" data-scroll-target="#dplyrresources"><span class="header-section-number">39.8</span> Resources</a></li>
+  <li><a href="#see-also" id="toc-see-also" class="nav-link" data-scroll-target="#see-also"><span class="header-section-number">39.9</span> See also</a></li>
   </ul><div class="toc-actions"><ul><li><a href="https://github.com/egenn/pdsr/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Tidyverse.html">Tidyverse</a></li><li class="breadcrumb-item"><a href="./dplyr.html"><span class="chapter-number">40</span>&nbsp; <span class="chapter-title">Introduction to dplyr</span></a></li></ol></nav><div class="quarto-title">
-<h1 class="title"><span id="sec-dplyr" class="quarto-section-identifier"><span class="chapter-number">40</span>&nbsp; <span class="chapter-title">Introduction to dplyr</span></span></h1>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Tidyverse.html">Tidyverse</a></li><li class="breadcrumb-item"><a href="./dplyr.html"><span class="chapter-number">39</span>&nbsp; <span class="chapter-title">Introduction to dplyr</span></a></li></ol></nav><div class="quarto-title">
+<h1 class="title"><span id="sec-dplyr" class="quarto-section-identifier"><span class="chapter-number">39</span>&nbsp; <span class="chapter-title">Introduction to dplyr</span></span></h1>
 </div>
 
 
@@ -874,22 +877,22 @@ Attaching package: 'dplyr'</code></pre>
 </div>
 <p>As an example, we read in the <a href="https://archive.ics.uci.edu/ml/datasets/Heart+failure+clinical+records">Heart Failure Clinical Records</a> dataset from the <a href="https://archive.ics.uci.edu/ml/index.php">UCI Machine Learning Repository</a> using <a href="readrDataIO.html">readr</a>.</p>
 <div class="cell">
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span></span>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span></span>
 <span>    <span class="st">"https://archive.ics.uci.edu/ml/machine-learning-databases/00519/heart_failure_clinical_records_dataset.csv"</span>,</span>
-<span>    col_types <span class="op">=</span> <span class="fu">cols</span><span class="op">(</span></span>
-<span>        age <span class="op">=</span> <span class="fu">col_double</span><span class="op">(</span><span class="op">)</span>,</span>
-<span>        anaemia <span class="op">=</span> <span class="fu">col_factor</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"0"</span>, <span class="st">"1"</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>        creatinine_phosphokinase <span class="op">=</span> <span class="fu">col_double</span><span class="op">(</span><span class="op">)</span>,</span>
-<span>        diabetes <span class="op">=</span> <span class="fu">col_factor</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"0"</span>, <span class="st">"1"</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>        ejection_fraction <span class="op">=</span> <span class="fu">col_double</span><span class="op">(</span><span class="op">)</span>,</span>
-<span>        high_blood_pressure <span class="op">=</span> <span class="fu">col_factor</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"0"</span>, <span class="st">"1"</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>        platelets <span class="op">=</span> <span class="fu">col_double</span><span class="op">(</span><span class="op">)</span>,</span>
-<span>        serum_creatinine <span class="op">=</span> <span class="fu">col_double</span><span class="op">(</span><span class="op">)</span>,</span>
-<span>        serum_sodium <span class="op">=</span> <span class="fu">col_double</span><span class="op">(</span><span class="op">)</span>,</span>
-<span>        sex <span class="op">=</span> <span class="fu">col_factor</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"0"</span>, <span class="st">"1"</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>        smoking <span class="op">=</span> <span class="fu">col_factor</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"0"</span>, <span class="st">"1"</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>        time <span class="op">=</span> <span class="fu">col_double</span><span class="op">(</span><span class="op">)</span>,</span>
-<span>        DEATH_EVENT <span class="op">=</span> <span class="fu">col_factor</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"0"</span>, <span class="st">"1"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    col_types <span class="op">=</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/cols.html">cols</a></span><span class="op">(</span></span>
+<span>        age <span class="op">=</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/parse_atomic.html">col_double</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>        anaemia <span class="op">=</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/parse_factor.html">col_factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"0"</span>, <span class="st">"1"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>        creatinine_phosphokinase <span class="op">=</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/parse_atomic.html">col_double</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>        diabetes <span class="op">=</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/parse_factor.html">col_factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"0"</span>, <span class="st">"1"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>        ejection_fraction <span class="op">=</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/parse_atomic.html">col_double</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>        high_blood_pressure <span class="op">=</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/parse_factor.html">col_factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"0"</span>, <span class="st">"1"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>        platelets <span class="op">=</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/parse_atomic.html">col_double</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>        serum_creatinine <span class="op">=</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/parse_atomic.html">col_double</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>        serum_sodium <span class="op">=</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/parse_atomic.html">col_double</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>        sex <span class="op">=</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/parse_factor.html">col_factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"0"</span>, <span class="st">"1"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>        smoking <span class="op">=</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/parse_factor.html">col_factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"0"</span>, <span class="st">"1"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>        time <span class="op">=</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/parse_atomic.html">col_double</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>        DEATH_EVENT <span class="op">=</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/parse_factor.html">col_factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"0"</span>, <span class="st">"1"</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>        <span class="op">)</span></span>
 <span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -906,8 +909,8 @@ Note
 <p><code>dplyr</code> and the tidyverse in general operate on data.frames and <a href="https://tibble.tidyverse.org/">tibbles</a>, which can be used as a drop-in replacement for data.frames, and heavily promote the use of the <a href="#sec-pip">pipe</a> operator <code>|&gt;</code>.</p>
 </div>
 </div>
-<section id="filter" class="level2" data-number="40.1"><h2 data-number="40.1" class="anchored" data-anchor-id="filter">
-<span class="header-section-number">40.1</span> Filter</h2>
+<section id="filter" class="level2" data-number="39.1"><h2 data-number="39.1" class="anchored" data-anchor-id="filter">
+<span class="header-section-number">39.1</span> Filter</h2>
 <p>Single condition</p>
 <div class="cell">
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat</span> <span class="op">|&gt;</span> </span>
@@ -956,11 +959,11 @@ Note
 #   time &lt;dbl&gt;, DEATH_EVENT &lt;fct&gt;</code></pre>
 </div>
 </div>
-</section><section id="select" class="level2" data-number="40.2"><h2 data-number="40.2" class="anchored" data-anchor-id="select">
-<span class="header-section-number">40.2</span> Select</h2>
+</section><section id="select" class="level2" data-number="39.2"><h2 data-number="39.2" class="anchored" data-anchor-id="select">
+<span class="header-section-number">39.2</span> Select</h2>
 <p>Columns can be specified by name, index, or pattern-matching.</p>
-<section id="by-column-name" class="level3" data-number="40.2.1"><h3 data-number="40.2.1" class="anchored" data-anchor-id="by-column-name">
-<span class="header-section-number">40.2.1</span> By column name</h3>
+<section id="by-column-name" class="level3" data-number="39.2.1"><h3 data-number="39.2.1" class="anchored" data-anchor-id="by-column-name">
+<span class="header-section-number">39.2.1</span> By column name</h3>
 <div class="cell">
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat</span> <span class="op">|&gt;</span> </span>
 <span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="st">"age"</span>, <span class="st">"diabetes"</span>, <span class="st">"ejection_fraction"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -981,8 +984,8 @@ Note
 # ℹ 289 more rows</code></pre>
 </div>
 </div>
-</section><section id="by-integer-column-index" class="level3" data-number="40.2.2"><h3 data-number="40.2.2" class="anchored" data-anchor-id="by-integer-column-index">
-<span class="header-section-number">40.2.2</span> By integer column index</h3>
+</section><section id="by-integer-column-index" class="level3" data-number="39.2.2"><h3 data-number="39.2.2" class="anchored" data-anchor-id="by-integer-column-index">
+<span class="header-section-number">39.2.2</span> By integer column index</h3>
 <div class="cell">
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat</span> <span class="op">|&gt;</span> </span>
 <span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">7</span>, <span class="fl">9</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1023,8 +1026,8 @@ Note
 # ℹ 289 more rows</code></pre>
 </div>
 </div>
-</section><section id="by-character-name-range" class="level3" data-number="40.2.3"><h3 data-number="40.2.3" class="anchored" data-anchor-id="by-character-name-range">
-<span class="header-section-number">40.2.3</span> By character name range</h3>
+</section><section id="by-character-name-range" class="level3" data-number="39.2.3"><h3 data-number="39.2.3" class="anchored" data-anchor-id="by-character-name-range">
+<span class="header-section-number">39.2.3</span> By character name range</h3>
 <p>For example, select all columns between <code>platelets</code> and <code>serum_sodium</code> in the order they appear in the data.frame/tibble:</p>
 <div class="cell">
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat</span> <span class="op">|&gt;</span> </span>
@@ -1046,8 +1049,8 @@ Note
 # ℹ 289 more rows</code></pre>
 </div>
 </div>
-</section><section id="pattern-matching" class="level3" data-number="40.2.4"><h3 data-number="40.2.4" class="anchored" data-anchor-id="pattern-matching">
-<span class="header-section-number">40.2.4</span> Pattern-matching</h3>
+</section><section id="pattern-matching" class="level3" data-number="39.2.4"><h3 data-number="39.2.4" class="anchored" data-anchor-id="pattern-matching">
+<span class="header-section-number">39.2.4</span> Pattern-matching</h3>
 <div class="cell">
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat</span> <span class="op">|&gt;</span> </span>
 <span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">starts_with</a></span><span class="op">(</span><span class="st">"serum_"</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1088,8 +1091,8 @@ Note
 # ℹ 289 more rows</code></pre>
 </div>
 </div>
-</section></section><section id="summarize" class="level2" data-number="40.3"><h2 data-number="40.3" class="anchored" data-anchor-id="summarize">
-<span class="header-section-number">40.3</span> Summarize</h2>
+</section></section><section id="summarize" class="level2" data-number="39.3"><h2 data-number="39.3" class="anchored" data-anchor-id="summarize">
+<span class="header-section-number">39.3</span> Summarize</h2>
 <p>Operate on a single column:</p>
 <div class="cell">
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat</span> <span class="op">|&gt;</span> </span>
@@ -1112,8 +1115,8 @@ Note
 1  60.8              38.1</code></pre>
 </div>
 </div>
-<section id="grouped-operation-on-single-column" class="level3" data-number="40.3.1"><h3 data-number="40.3.1" class="anchored" data-anchor-id="grouped-operation-on-single-column">
-<span class="header-section-number">40.3.1</span> Grouped operation on single column</h3>
+<section id="grouped-operation-on-single-column" class="level3" data-number="39.3.1"><h3 data-number="39.3.1" class="anchored" data-anchor-id="grouped-operation-on-single-column">
+<span class="header-section-number">39.3.1</span> Grouped operation on single column</h3>
 <p>with single groupin variable:</p>
 <div class="cell">
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat</span> <span class="op">|&gt;</span> </span>
@@ -1147,8 +1150,8 @@ argument.</code></pre>
 4 1     1               60.4</code></pre>
 </div>
 </div>
-</section><section id="grouped-operation-on-multiple-columns" class="level3" data-number="40.3.2"><h3 data-number="40.3.2" class="anchored" data-anchor-id="grouped-operation-on-multiple-columns">
-<span class="header-section-number">40.3.2</span> Grouped operation on multiple columns</h3>
+</section><section id="grouped-operation-on-multiple-columns" class="level3" data-number="39.3.2"><h3 data-number="39.3.2" class="anchored" data-anchor-id="grouped-operation-on-multiple-columns">
+<span class="header-section-number">39.3.2</span> Grouped operation on multiple columns</h3>
 <div class="cell">
 <div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat</span> <span class="op">|&gt;</span> </span>
 <span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">sex</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
@@ -1180,8 +1183,8 @@ argument.</code></pre>
 4 1       1        62.6         137 </code></pre>
 </div>
 </div>
-</section></section><section id="arrange" class="level2" data-number="40.4"><h2 data-number="40.4" class="anchored" data-anchor-id="arrange">
-<span class="header-section-number">40.4</span> Arrange</h2>
+</section></section><section id="arrange" class="level2" data-number="39.4"><h2 data-number="39.4" class="anchored" data-anchor-id="arrange">
+<span class="header-section-number">39.4</span> Arrange</h2>
 <p><code><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange()</a></code> sorts a data.frame/tibble, i.e.&nbsp;reorders the rows/cases of a dataset.</p>
 <div class="cell">
 <div class="sourceCode" id="cb36"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat</span> <span class="op">|&gt;</span> </span>
@@ -1204,8 +1207,8 @@ argument.</code></pre>
 # ℹ 289 more rows</code></pre>
 </div>
 </div>
-<section id="grouped" class="level3" data-number="40.4.1"><h3 data-number="40.4.1" class="anchored" data-anchor-id="grouped">
-<span class="header-section-number">40.4.1</span> Grouped</h3>
+<section id="grouped" class="level3" data-number="39.4.1"><h3 data-number="39.4.1" class="anchored" data-anchor-id="grouped">
+<span class="header-section-number">39.4.1</span> Grouped</h3>
 <div class="cell">
 <div class="sourceCode" id="cb38"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat</span> <span class="op">|&gt;</span> </span>
 <span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">age</span>, <span class="va">sex</span>, <span class="va">serum_sodium</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
@@ -1229,8 +1232,8 @@ argument.</code></pre>
 # ℹ 289 more rows</code></pre>
 </div>
 </div>
-</section></section><section id="mutate" class="level2" data-number="40.5"><h2 data-number="40.5" class="anchored" data-anchor-id="mutate">
-<span class="header-section-number">40.5</span> Mutate</h2>
+</section></section><section id="mutate" class="level2" data-number="39.5"><h2 data-number="39.5" class="anchored" data-anchor-id="mutate">
+<span class="header-section-number">39.5</span> Mutate</h2>
 <p>Add a new column named <code>Age_days</code>:</p>
 <div class="cell">
 <div class="sourceCode" id="cb40"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="va">dat</span> <span class="op">|&gt;</span> </span>
@@ -1279,8 +1282,8 @@ argument.</code></pre>
 [297] 16425.00 16425.00 18250.00</code></pre>
 </div>
 </div>
-<section id="mutate-by-group" class="level3" data-number="40.5.1"><h3 data-number="40.5.1" class="anchored" data-anchor-id="mutate-by-group">
-<span class="header-section-number">40.5.1</span> Mutate by group</h3>
+<section id="mutate-by-group" class="level3" data-number="39.5.1"><h3 data-number="39.5.1" class="anchored" data-anchor-id="mutate-by-group">
+<span class="header-section-number">39.5.1</span> Mutate by group</h3>
 <div class="cell">
 <div class="sourceCode" id="cb43"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="va">dat</span> <span class="op">|&gt;</span> </span>
 <span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">sex</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
@@ -1321,11 +1324,11 @@ Important
 # ℹ 289 more rows</code></pre>
 </div>
 </div>
-</section></section><section id="specifying-multiple-columns" class="level2" data-number="40.6"><h2 data-number="40.6" class="anchored" data-anchor-id="specifying-multiple-columns">
-<span class="header-section-number">40.6</span> Specifying multiple columns</h2>
+</section></section><section id="specifying-multiple-columns" class="level2" data-number="39.6"><h2 data-number="39.6" class="anchored" data-anchor-id="specifying-multiple-columns">
+<span class="header-section-number">39.6</span> Specifying multiple columns</h2>
 <p>dplyr includes a number of ways to identify multiple variables. The latest version of dplyr suggests using <code><a href="https://dplyr.tidyverse.org/reference/across.html">across()</a></code> within dplyr functions that allow specifying columns, as we’ve used above. <br><br> This replaces separate functions previously used for each of <code>filter/select/mutate/summarize/arrange</code> that had independent functions ending with <code>*_all()</code>, <code>*_at()</code>, <code>*_each()</code>, <code>*_if()</code>. <br><br> Other than specifying multiple columns by name, they can also be specified by index, by range, or by pattern-matching.</p>
-<section id="by-integer-column-index-1" class="level3" data-number="40.6.1"><h3 data-number="40.6.1" class="anchored" data-anchor-id="by-integer-column-index-1">
-<span class="header-section-number">40.6.1</span> By integer column index</h3>
+<section id="by-integer-column-index-1" class="level3" data-number="39.6.1"><h3 data-number="39.6.1" class="anchored" data-anchor-id="by-integer-column-index-1">
+<span class="header-section-number">39.6.1</span> By integer column index</h3>
 <div class="cell">
 <div class="sourceCode" id="cb46"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat</span> <span class="op">|&gt;</span> </span>
 <span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html">across</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">7</span>, <span class="fl">9</span><span class="op">)</span>, <span class="va">mean</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1346,8 +1349,8 @@ Important
 1   263358.             1.39         137.</code></pre>
 </div>
 </div>
-</section><section id="by-character-name-range-1" class="level3" data-number="40.6.2"><h3 data-number="40.6.2" class="anchored" data-anchor-id="by-character-name-range-1">
-<span class="header-section-number">40.6.2</span> By character name range</h3>
+</section><section id="by-character-name-range-1" class="level3" data-number="39.6.2"><h3 data-number="39.6.2" class="anchored" data-anchor-id="by-character-name-range-1">
+<span class="header-section-number">39.6.2</span> By character name range</h3>
 <p>For example, select all columns between <code>platelets</code> and <code>serum_sodium</code> in the order they appear in the data.frame/tibble:</p>
 <div class="cell">
 <div class="sourceCode" id="cb50"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat</span> <span class="op">|&gt;</span> </span>
@@ -1359,8 +1362,8 @@ Important
 1   263358.             1.39         137.</code></pre>
 </div>
 </div>
-</section><section id="pattern-matching-1" class="level3" data-number="40.6.3"><h3 data-number="40.6.3" class="anchored" data-anchor-id="pattern-matching-1">
-<span class="header-section-number">40.6.3</span> Pattern-matching</h3>
+</section><section id="pattern-matching-1" class="level3" data-number="39.6.3"><h3 data-number="39.6.3" class="anchored" data-anchor-id="pattern-matching-1">
+<span class="header-section-number">39.6.3</span> Pattern-matching</h3>
 <div class="cell">
 <div class="sourceCode" id="cb52"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat</span> <span class="op">|&gt;</span> </span>
 <span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html">across</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">starts_with</a></span><span class="op">(</span><span class="st">"serum_"</span><span class="op">)</span>, <span class="va">mean</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1381,8 +1384,8 @@ Important
 1              38.1</code></pre>
 </div>
 </div>
-</section><section id="using-predicate-function-wrapped-in-where" class="level3" data-number="40.6.4"><h3 data-number="40.6.4" class="anchored" data-anchor-id="using-predicate-function-wrapped-in-where">
-<span class="header-section-number">40.6.4</span> Using predicate function wrapped in <code>where()</code>
+</section><section id="using-predicate-function-wrapped-in-where" class="level3" data-number="39.6.4"><h3 data-number="39.6.4" class="anchored" data-anchor-id="using-predicate-function-wrapped-in-where">
+<span class="header-section-number">39.6.4</span> Using predicate function wrapped in <code>where()</code>
 </h3>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -1422,8 +1425,8 @@ Tip
 2 129         125         105                 194          96         96        </code></pre>
 </div>
 </div>
-</section><section id="using-anonymous-predicate-function-with-where" class="level3" data-number="40.6.5"><h3 data-number="40.6.5" class="anchored" data-anchor-id="using-anonymous-predicate-function-with-where">
-<span class="header-section-number">40.6.5</span> Using anonymous predicate function with <code>where()</code>
+</section><section id="using-anonymous-predicate-function-with-where" class="level3" data-number="39.6.5"><h3 data-number="39.6.5" class="anchored" data-anchor-id="using-anonymous-predicate-function-with-where">
+<span class="header-section-number">39.6.5</span> Using anonymous predicate function with <code>where()</code>
 </h3>
 <p>It is often useful to be able to get the number of unique values per column, e.g.&nbsp;in order to identify which columns may need to be converted to factors. <code>dplyr</code> includes the function <code><a href="https://dplyr.tidyverse.org/reference/n_distinct.html">n_distinct()</a></code> which counts the number of unique values of a vector. <br><br> The following example shows the syntax dplyr’s <a href="https://tidyselect.r-lib.org/reference/where.html#the-formula-shorthand">formula shorthand</a> to build an anonymous function using <code><a href="https://dplyr.tidyverse.org/reference/n_distinct.html">n_distinct()</a></code> in order to select columns with fewer than 10 unique values:</p>
 <div class="cell">
@@ -1514,18 +1517,18 @@ Tip
  $ demeaned_sodium_bysex   : num [1:299] -6.536 -0.536 -7.536 0.464 -20.79 ...</code></pre>
 </div>
 </div>
-</section></section><section id="dplyr-backends" class="level2" data-number="40.7"><h2 data-number="40.7" class="anchored" data-anchor-id="dplyr-backends">
-<span class="header-section-number">40.7</span> dplyr backends</h2>
+</section></section><section id="dplyr-backends" class="level2" data-number="39.7"><h2 data-number="39.7" class="anchored" data-anchor-id="dplyr-backends">
+<span class="header-section-number">39.7</span> dplyr backends</h2>
 <p>Using dplyr on data.frames or tibbles does not offer any performance benefits over performing the equivalent operations in base R, and may in fact be slower.</p>
 <p>A number of alternative <a href="https://dplyr.tidyverse.org/#backends">backends</a>, at different stages of maturity, are available that offer performance benefits for large datasets.</p>
-</section><section id="dplyrresources" class="level2" data-number="40.8"><h2 data-number="40.8" class="anchored" data-anchor-id="dplyrresources">
-<span class="header-section-number">40.8</span> Resources</h2>
+</section><section id="dplyrresources" class="level2" data-number="39.8"><h2 data-number="39.8" class="anchored" data-anchor-id="dplyrresources">
+<span class="header-section-number">39.8</span> Resources</h2>
 <ul>
 <li><a href="https://dplyr.tidyverse.org/">dplyr website</a></li>
 <li><a href="https://github.com/rstudio/cheatsheets/blob/master/data-transformation.pdf">dplyr cheatsheet</a></li>
 <li><a href="https://tibble.tidyverse.org/">tibble website</a></li>
-</ul></section><section id="see-also" class="level2" data-number="40.9"><h2 data-number="40.9" class="anchored" data-anchor-id="see-also">
-<span class="header-section-number">40.9</span> See also</h2>
+</ul></section><section id="see-also" class="level2" data-number="39.9"><h2 data-number="39.9" class="anchored" data-anchor-id="see-also">
+<span class="header-section-number">39.9</span> See also</h2>
 <ul>
 <li><a href="#sec-datatable">data.table</a></li>
 </ul>
@@ -2154,7 +2157,7 @@ window.onload = function() {
   </div>
   <div class="nav-page nav-page-next">
       <a href="./tidyrReshape.html" class="pagination-link" aria-label="Reshaping with **tidyr**">
-        <span class="nav-page-text"><span class="chapter-number">41</span>&nbsp; <span class="chapter-title">Reshaping with <strong>tidyr</strong></span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">40</span>&nbsp; <span class="chapter-title">Reshaping with <strong>tidyr</strong></span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

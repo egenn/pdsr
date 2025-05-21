@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.7.31">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>37&nbsp; Reshape – PDSR</title>
+<title>36&nbsp; Reshape – PDSR</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -75,7 +75,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-4f97383ec2b0718e090f5a3bf624e0cf.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-294c2a79f4b5c5018fdfa692435fb65c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-dark-1e7b01a6aeb55307b339f3c789586970.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="site_libs/bootstrap/bootstrap-4f97383ec2b0718e090f5a3bf624e0cf.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -260,7 +260,8 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
       }
     };
     const authorPrefersDark = false;
-    const darkModeDefault = authorPrefersDark;
+    const queryPrefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+    const darkModeDefault = queryPrefersDark.matches;
       document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
       document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
     let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
@@ -273,6 +274,14 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
       toggleGiscusIfUsed(toAlternate, darkModeDefault);
       window.dispatchEvent(new Event('resize'));
     };
+    queryPrefersDark.addEventListener("change", e => {
+      if(window.localStorage.getItem("quarto-color-scheme") !== null)
+        return;
+      const alternate = e.matches
+      toggleColorMode(alternate);
+      localAlternateSentinel = e.matches ? 'alternate' : 'default'; // this is used alongside local storage!
+      toggleGiscusIfUsed(alternate, darkModeDefault);
+    });
     // Switch to dark mode if need be
     if (hasAlternateSentinel()) {
       toggleColorMode(true);
@@ -286,7 +295,7 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./DataTable.html">Data Table</a></li><li class="breadcrumb-item"><a href="./dtReshape.html"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">Reshape</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./DataTable.html">Data Table</a></li><li class="breadcrumb-item"><a href="./dtReshape.html"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Reshape</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -523,32 +532,26 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./MissingData.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Handling Missing data</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./Strings.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Strings</span></span></a>
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Strings</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./DateTime.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Date and Time</span></span></a>
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Date and Time</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./SetOps.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Set Operations</span></span></a>
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Set Operations</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ClassesAndOOP.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Classes and OOP</span></span></a>
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Classes and OOP</span></span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -563,37 +566,37 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dtIntro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dtBasics.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">data.table basics</span></span></a>
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">data.table basics</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dtRefSem.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Reference Semantics</span></span></a>
+ <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Reference Semantics</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dtReshape.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">Reshape</span></span></a>
+ <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Reshape</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dtJoin.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">38</span>&nbsp; <span class="chapter-title">Joins</span></span></a>
+ <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">Joins</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dtAdvanced.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">39</span>&nbsp; <span class="chapter-title">Advanced Usage</span></span></a>
+ <span class="menu-text"><span class="chapter-number">38</span>&nbsp; <span class="chapter-title">Advanced Usage</span></span></a>
   </div>
 </li>
       </ul>
@@ -610,25 +613,25 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dplyr.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">40</span>&nbsp; <span class="chapter-title">Introduction to dplyr</span></span></a>
+ <span class="menu-text"><span class="chapter-number">39</span>&nbsp; <span class="chapter-title">Introduction to dplyr</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./tidyrReshape.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">41</span>&nbsp; <span class="chapter-title">Reshaping with <strong>tidyr</strong></span></span></a>
+ <span class="menu-text"><span class="chapter-number">40</span>&nbsp; <span class="chapter-title">Reshaping with <strong>tidyr</strong></span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dplyrJoin.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">42</span>&nbsp; <span class="chapter-title">Joins</span></span></a>
+ <span class="menu-text"><span class="chapter-number">41</span>&nbsp; <span class="chapter-title">Joins</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./lubridate.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">43</span>&nbsp; <span class="chapter-title">Dates with <strong>lubridate</strong></span></span></a>
+ <span class="menu-text"><span class="chapter-number">42</span>&nbsp; <span class="chapter-title">Dates with <strong>lubridate</strong></span></span></a>
   </div>
 </li>
       </ul>
@@ -645,25 +648,25 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./BaseGraphics.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">44</span>&nbsp; <span class="chapter-title">Base Graphics</span></span></a>
+ <span class="menu-text"><span class="chapter-number">43</span>&nbsp; <span class="chapter-title">Base Graphics</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Colors.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">45</span>&nbsp; <span class="chapter-title">Colors</span></span></a>
+ <span class="menu-text"><span class="chapter-number">44</span>&nbsp; <span class="chapter-title">Colors</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ggplot2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">46</span>&nbsp; <span class="chapter-title">Introduction to <strong>ggplot2</strong></span></span></a>
+ <span class="menu-text"><span class="chapter-number">45</span>&nbsp; <span class="chapter-title">Introduction to <strong>ggplot2</strong></span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./plotly.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">47</span>&nbsp; <span class="chapter-title">Introduction to <strong>plotly</strong></span></span></a>
+ <span class="menu-text"><span class="chapter-number">46</span>&nbsp; <span class="chapter-title">Introduction to <strong>plotly</strong></span></span></a>
   </div>
 </li>
       </ul>
@@ -671,31 +674,31 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./HypothesisTesting.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">48</span>&nbsp; <span class="chapter-title">Common Statistical Tests</span></span></a>
+ <span class="menu-text"><span class="chapter-number">47</span>&nbsp; <span class="chapter-title">Common Statistical Tests</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./GLM.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">49</span>&nbsp; <span class="chapter-title">Introduction to the GLM</span></span></a>
+ <span class="menu-text"><span class="chapter-number">48</span>&nbsp; <span class="chapter-title">Introduction to the GLM</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Profiling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">50</span>&nbsp; <span class="chapter-title">Benchmarking &amp; Profiling</span></span></a>
+ <span class="menu-text"><span class="chapter-number">49</span>&nbsp; <span class="chapter-title">Benchmarking &amp; Profiling</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Optimization.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">51</span>&nbsp; <span class="chapter-title">Optimization</span></span></a>
+ <span class="menu-text"><span class="chapter-number">50</span>&nbsp; <span class="chapter-title">Optimization</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Quarto.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">52</span>&nbsp; <span class="chapter-title">Quarto</span></span></a>
+ <span class="menu-text"><span class="chapter-number">51</span>&nbsp; <span class="chapter-title">Quarto</span></span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -710,13 +713,13 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./TerminalIntro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">53</span>&nbsp; <span class="chapter-title">Introduction to the System Shell</span></span></a>
+ <span class="menu-text"><span class="chapter-number">52</span>&nbsp; <span class="chapter-title">Introduction to the System Shell</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./GitHubIntro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">54</span>&nbsp; <span class="chapter-title">Git &amp; GitHub: The Basics</span></span></a>
+ <span class="menu-text"><span class="chapter-number">53</span>&nbsp; <span class="chapter-title">Git &amp; GitHub: The Basics</span></span></a>
   </div>
 </li>
       </ul>
@@ -733,13 +736,13 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ds.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">55</span>&nbsp; <span class="chapter-title">Data Queries across implementations</span></span></a>
+ <span class="menu-text"><span class="chapter-number">54</span>&nbsp; <span class="chapter-title">Data Queries across implementations</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./DuckDB.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">56</span>&nbsp; <span class="chapter-title">DuckDB</span></span></a>
+ <span class="menu-text"><span class="chapter-number">55</span>&nbsp; <span class="chapter-title">DuckDB</span></span></a>
   </div>
 </li>
       </ul>
@@ -747,13 +750,13 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Resources.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">57</span>&nbsp; <span class="chapter-title">Resources</span></span></a>
+ <span class="menu-text"><span class="chapter-number">56</span>&nbsp; <span class="chapter-title">Resources</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./DataPipeline.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">58</span>&nbsp; <span class="chapter-title">Data Pipeline Overview</span></span></a>
+ <span class="menu-text"><span class="chapter-number">57</span>&nbsp; <span class="chapter-title">Data Pipeline Overview</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -777,27 +780,27 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
    
   <ul>
 <li>
-<a href="#dcast" id="toc-dcast" class="nav-link active" data-scroll-target="#dcast"><span class="header-section-number">37.1</span> Long to wide using <code>dcast()</code></a>
+<a href="#dcast" id="toc-dcast" class="nav-link active" data-scroll-target="#dcast"><span class="header-section-number">36.1</span> Long to wide using <code>dcast()</code></a>
   <ul class="collapse">
-<li><a href="#example-1-key-value-pairs" id="toc-example-1-key-value-pairs" class="nav-link" data-scroll-target="#example-1-key-value-pairs"><span class="header-section-number">37.1.1</span> Example 1: key-value pairs</a></li>
-  <li><a href="#example-2-timepoints" id="toc-example-2-timepoints" class="nav-link" data-scroll-target="#example-2-timepoints"><span class="header-section-number">37.1.2</span> Example 2: Timepoints</a></li>
-  <li><a href="#dcast-aggregate" id="toc-dcast-aggregate" class="nav-link" data-scroll-target="#dcast-aggregate"><span class="header-section-number">37.1.3</span> <code>dcast()</code> + aggregate</a></li>
+<li><a href="#example-1-key-value-pairs" id="toc-example-1-key-value-pairs" class="nav-link" data-scroll-target="#example-1-key-value-pairs"><span class="header-section-number">36.1.1</span> Example 1: key-value pairs</a></li>
+  <li><a href="#example-2-timepoints" id="toc-example-2-timepoints" class="nav-link" data-scroll-target="#example-2-timepoints"><span class="header-section-number">36.1.2</span> Example 2: Timepoints</a></li>
+  <li><a href="#dcast-aggregate" id="toc-dcast-aggregate" class="nav-link" data-scroll-target="#dcast-aggregate"><span class="header-section-number">36.1.3</span> <code>dcast()</code> + aggregate</a></li>
   </ul>
 </li>
   <li>
-<a href="#melt" id="toc-melt" class="nav-link" data-scroll-target="#melt"><span class="header-section-number">37.2</span> Wide to long: <code>melt()</code></a>
+<a href="#melt" id="toc-melt" class="nav-link" data-scroll-target="#melt"><span class="header-section-number">36.2</span> Wide to long: <code>melt()</code></a>
   <ul class="collapse">
-<li><a href="#example-1" id="toc-example-1" class="nav-link" data-scroll-target="#example-1"><span class="header-section-number">37.2.1</span> Example 1</a></li>
-  <li><a href="#example-2" id="toc-example-2" class="nav-link" data-scroll-target="#example-2"><span class="header-section-number">37.2.2</span> Example 2</a></li>
+<li><a href="#example-1" id="toc-example-1" class="nav-link" data-scroll-target="#example-1"><span class="header-section-number">36.2.1</span> Example 1</a></li>
+  <li><a href="#example-2" id="toc-example-2" class="nav-link" data-scroll-target="#example-2"><span class="header-section-number">36.2.2</span> Example 2</a></li>
   </ul>
 </li>
-  <li><a href="#see-also" id="toc-see-also" class="nav-link" data-scroll-target="#see-also"><span class="header-section-number">37.3</span> See also</a></li>
-  <li><a href="#resources" id="toc-resources" class="nav-link" data-scroll-target="#resources"><span class="header-section-number">37.4</span> Resources</a></li>
+  <li><a href="#see-also" id="toc-see-also" class="nav-link" data-scroll-target="#see-also"><span class="header-section-number">36.3</span> See also</a></li>
+  <li><a href="#resources" id="toc-resources" class="nav-link" data-scroll-target="#resources"><span class="header-section-number">36.4</span> Resources</a></li>
   </ul><div class="toc-actions"><ul><li><a href="https://github.com/egenn/pdsr/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./DataTable.html">Data Table</a></li><li class="breadcrumb-item"><a href="./dtReshape.html"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">Reshape</span></a></li></ol></nav><div class="quarto-title">
-<h1 class="title"><span id="sec-dtreshape" class="quarto-section-identifier"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">Reshape</span></span></h1>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./DataTable.html">Data Table</a></li><li class="breadcrumb-item"><a href="./dtReshape.html"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Reshape</span></a></li></ol></nav><div class="quarto-title">
+<h1 class="title"><span id="sec-dtreshape" class="quarto-section-identifier"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Reshape</span></span></h1>
 </div>
 
 
@@ -815,11 +818,11 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r-datatable.com">data.table</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span>datatable.print.class <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="dcast" class="level2" data-number="37.1"><h2 data-number="37.1" class="anchored" data-anchor-id="dcast">
-<span class="header-section-number">37.1</span> Long to wide using <code>dcast()</code>
+<section id="dcast" class="level2" data-number="36.1"><h2 data-number="36.1" class="anchored" data-anchor-id="dcast">
+<span class="header-section-number">36.1</span> Long to wide using <code>dcast()</code>
 </h2>
-<section id="example-1-key-value-pairs" class="level3" data-number="37.1.1"><h3 data-number="37.1.1" class="anchored" data-anchor-id="example-1-key-value-pairs">
-<span class="header-section-number">37.1.1</span> Example 1: key-value pairs</h3>
+<section id="example-1-key-value-pairs" class="level3" data-number="36.1.1"><h3 data-number="36.1.1" class="anchored" data-anchor-id="example-1-key-value-pairs">
+<span class="header-section-number">36.1.1</span> Example 1: key-value pairs</h3>
 <p>Using the same example seen in <a href="dfReshape.html" class="quarto-xref"><span>Chapter 26</span></a>:</p>
 <div class="cell">
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat_long</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
@@ -897,8 +900,8 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 4:       8004 39.66598        ED   39.87869   14.88857 4.938977 6972.281</code></pre>
 </div>
 </div>
-</section><section id="example-2-timepoints" class="level3" data-number="37.1.2"><h3 data-number="37.1.2" class="anchored" data-anchor-id="example-2-timepoints">
-<span class="header-section-number">37.1.2</span> Example 2: Timepoints</h3>
+</section><section id="example-2-timepoints" class="level3" data-number="36.1.2"><h3 data-number="36.1.2" class="anchored" data-anchor-id="example-2-timepoints">
+<span class="header-section-number">36.1.2</span> Example 2: Timepoints</h3>
 <p>Another simple synthetic dataset:</p>
 <div class="cell">
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt_long</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html">data.table</a></span><span class="op">(</span></span>
@@ -956,8 +959,8 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 4:     4          14          24          54</code></pre>
 </div>
 </div>
-</section><section id="dcast-aggregate" class="level3" data-number="37.1.3"><h3 data-number="37.1.3" class="anchored" data-anchor-id="dcast-aggregate">
-<span class="header-section-number">37.1.3</span> <code>dcast()</code> + aggregate</h3>
+</section><section id="dcast-aggregate" class="level3" data-number="36.1.3"><h3 data-number="36.1.3" class="anchored" data-anchor-id="dcast-aggregate">
+<span class="header-section-number">36.1.3</span> <code>dcast()</code> + aggregate</h3>
 <p>If your <code>ID ~ Timepoint</code> combination does not define a unique row in your input dataset, you need to specify an aggregate function.</p>
 <p>For example, suppose you have four subjects with IDs “A”, “B”, “C”, “D” who had a couple variables measured 3 times in the AM and 3 times in the PM.</p>
 <div class="cell">
@@ -1044,11 +1047,11 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 </div>
 </div>
 <p>Note how <code>na.rm = TRUE</code> was successfully applied to all aggregating functions</p>
-</section></section><section id="melt" class="level2" data-number="37.2"><h2 data-number="37.2" class="anchored" data-anchor-id="melt">
-<span class="header-section-number">37.2</span> Wide to long: <code>melt()</code>
+</section></section><section id="melt" class="level2" data-number="36.2"><h2 data-number="36.2" class="anchored" data-anchor-id="melt">
+<span class="header-section-number">36.2</span> Wide to long: <code>melt()</code>
 </h2>
-<section id="example-1" class="level3" data-number="37.2.1"><h3 data-number="37.2.1" class="anchored" data-anchor-id="example-1">
-<span class="header-section-number">37.2.1</span> Example 1</h3>
+<section id="example-1" class="level3" data-number="36.2.1"><h3 data-number="36.2.1" class="anchored" data-anchor-id="example-1">
+<span class="header-section-number">36.2.1</span> Example 1</h3>
 <div class="cell">
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt_wide</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html">data.table</a></span><span class="op">(</span></span>
 <span>        ID <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">4</span>,</span>
@@ -1090,8 +1093,8 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 12:     4 Timepoint_C    54</code></pre>
 </div>
 </div>
-</section><section id="example-2" class="level3" data-number="37.2.2"><h3 data-number="37.2.2" class="anchored" data-anchor-id="example-2">
-<span class="header-section-number">37.2.2</span> Example 2</h3>
+</section><section id="example-2" class="level3" data-number="36.2.2"><h3 data-number="36.2.2" class="anchored" data-anchor-id="example-2">
+<span class="header-section-number">36.2.2</span> Example 2</h3>
 <p>Using the same synthetic data as in <a href="dfReshape.html" class="quarto-xref"><span>Chapter 26</span></a>:</p>
 <div class="cell">
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat_wide_dt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html">data.table</a></span><span class="op">(</span></span>
@@ -1166,13 +1169,13 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 16:       8004 63.58479        ED Hemoglobin   13.895635</code></pre>
 </div>
 </div>
-</section></section><section id="see-also" class="level2" data-number="37.3"><h2 data-number="37.3" class="anchored" data-anchor-id="see-also">
-<span class="header-section-number">37.3</span> See also</h2>
+</section></section><section id="see-also" class="level2" data-number="36.3"><h2 data-number="36.3" class="anchored" data-anchor-id="see-also">
+<span class="header-section-number">36.3</span> See also</h2>
 <ul>
 <li><a href="dfReshape.html">base reshape</a></li>
 <li><a href="tidyrReshape.html">tidyr reshape</a></li>
-</ul></section><section id="resources" class="level2" data-number="37.4"><h2 data-number="37.4" class="anchored" data-anchor-id="resources">
-<span class="header-section-number">37.4</span> Resources</h2>
+</ul></section><section id="resources" class="level2" data-number="36.4"><h2 data-number="36.4" class="anchored" data-anchor-id="resources">
+<span class="header-section-number">36.4</span> Resources</h2>
 <ul>
 <li><a href="https://cran.r-project.org/web/packages/data.table/vignettes/datatable-reshape.html">Efficient reshaping using data.tables</a></li>
 </ul>
@@ -1796,12 +1799,12 @@ window.onload = function() {
   });
   </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
       <a href="./dtRefSem.html" class="pagination-link" aria-label="Reference Semantics">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Reference Semantics</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Reference Semantics</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./dtJoin.html" class="pagination-link" aria-label="Joins">
-        <span class="nav-page-text"><span class="chapter-number">38</span>&nbsp; <span class="chapter-title">Joins</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">Joins</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

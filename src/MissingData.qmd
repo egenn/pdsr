@@ -11,6 +11,9 @@ options(rt.fit.theme = "whitegrid")
 old.hooks <- fansi::set_knit_hooks(knitr::knit_hooks)
 options(crayon.enabled = TRUE)
 ```
+```{r}
+library(rtemis)
+```
 
 Missing data is a very common issue in statistics and data science.
 
@@ -84,16 +87,18 @@ sum(is.na(dat[50, ]))
 
 Row 50 has 4 missing values.
 
-### Visualize
+<!-- ### Visualize -->
 
-It may be helpful to visualize missing data to get a quick impression of missingness. The [**rtemis**](https://rtemis.lambdamd.org/) package includes the function `mplot3_missing()`:
+<!-- It may be helpful to visualize missing data to get a quick impression of missingness. The [**rtemis**](https://rtemis.lambdamd.org/) package includes the function `mplot3_missing()`: -->
 
 ```{r}
+#| eval: false
+#| echo: false
 library(rtemis)
 mplot3_missing(dat)
 ```
 
-Missing data is shown in magenta by default. The row below the image shows total `NA` values per column
+<!-- Missing data is shown in magenta by default. The row below the image shows total `NA` values per column  -->
 
 ### Summarize
 
@@ -123,11 +128,7 @@ Different approaches can be used to handle missing data:
 
 ### Do nothing
 
-Algorithms like decision trees and ensemble methods that use decision trees like random forest and gradient boosting can handle missing data, depending on the particular implementation. For example, `rpart::rpart()` which is used by `rtemis::s_CART()` has no trouble with missing data in the predictors:
-
-```{r}
-dat.cart <- s_CART(dat)
-```
+Algorithms like decision trees and ensemble methods that use decision trees like random forest and gradient boosting can handle missing data, depending on the particular implementation.
 
 ### Use complete cases only
 
@@ -159,7 +160,10 @@ dat_im$pressure[is.na(dat_im$pressure)] <- pressure_mean
 `rtemis::preprocess()` can replace missing values with mean (for numeric features) and the mode (for factors) for all columns:
 
 ```{r}
-dat_pre <- preprocess(dat, impute = TRUE, impute.type = "meanMode")
+dat_pre <- preprocess(
+    dat,
+    setup_Preprocessor(impute = TRUE, impute_type = "meanMode")
+)["preprocessed"]
 ```
 
 Verify there are no missing data by rerunning `check_data()`:
@@ -245,7 +249,9 @@ You can use non-missing data to predict missing data in an iterative procedure [
 library(missRanger)
 dat <- iris
 set.seed(2020)
-dat[sample(1:150, size = 5), 1] <- dat[sample(1:150, size = 22), 4] <- dat[sample(1:150, size = 18), 4] <- NA
+dat[sample(1:150, size = 5), 1] <- 
+    dat[sample(1:150, size = 22), 4] <- 
+    dat[sample(1:150, size = 18), 4] <- NA
 ```
 
 ```{r}

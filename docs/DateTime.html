@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.7.31">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>31&nbsp; Date and Time – PDSR</title>
+<title>30&nbsp; Date and Time – PDSR</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -75,7 +75,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-4f97383ec2b0718e090f5a3bf624e0cf.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-294c2a79f4b5c5018fdfa692435fb65c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-dark-1e7b01a6aeb55307b339f3c789586970.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="site_libs/bootstrap/bootstrap-4f97383ec2b0718e090f5a3bf624e0cf.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -260,7 +260,8 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
       }
     };
     const authorPrefersDark = false;
-    const darkModeDefault = authorPrefersDark;
+    const queryPrefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+    const darkModeDefault = queryPrefersDark.matches;
       document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
       document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
     let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
@@ -273,6 +274,14 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
       toggleGiscusIfUsed(toAlternate, darkModeDefault);
       window.dispatchEvent(new Event('resize'));
     };
+    queryPrefersDark.addEventListener("change", e => {
+      if(window.localStorage.getItem("quarto-color-scheme") !== null)
+        return;
+      const alternate = e.matches
+      toggleColorMode(alternate);
+      localAlternateSentinel = e.matches ? 'alternate' : 'default'; // this is used alongside local storage!
+      toggleGiscusIfUsed(alternate, darkModeDefault);
+    });
     // Switch to dark mode if need be
     if (hasAlternateSentinel()) {
       toggleColorMode(true);
@@ -286,7 +295,7 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./DateTime.html"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Date and Time</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./DateTime.html"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Date and Time</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -523,32 +532,26 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./MissingData.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Handling Missing data</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./Strings.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Strings</span></span></a>
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Strings</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./DateTime.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Date and Time</span></span></a>
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Date and Time</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./SetOps.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Set Operations</span></span></a>
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Set Operations</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ClassesAndOOP.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Classes and OOP</span></span></a>
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Classes and OOP</span></span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -563,37 +566,37 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dtIntro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dtBasics.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">data.table basics</span></span></a>
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">data.table basics</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dtRefSem.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Reference Semantics</span></span></a>
+ <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Reference Semantics</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dtReshape.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">Reshape</span></span></a>
+ <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Reshape</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dtJoin.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">38</span>&nbsp; <span class="chapter-title">Joins</span></span></a>
+ <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">Joins</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dtAdvanced.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">39</span>&nbsp; <span class="chapter-title">Advanced Usage</span></span></a>
+ <span class="menu-text"><span class="chapter-number">38</span>&nbsp; <span class="chapter-title">Advanced Usage</span></span></a>
   </div>
 </li>
       </ul>
@@ -610,25 +613,25 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dplyr.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">40</span>&nbsp; <span class="chapter-title">Introduction to dplyr</span></span></a>
+ <span class="menu-text"><span class="chapter-number">39</span>&nbsp; <span class="chapter-title">Introduction to dplyr</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./tidyrReshape.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">41</span>&nbsp; <span class="chapter-title">Reshaping with <strong>tidyr</strong></span></span></a>
+ <span class="menu-text"><span class="chapter-number">40</span>&nbsp; <span class="chapter-title">Reshaping with <strong>tidyr</strong></span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dplyrJoin.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">42</span>&nbsp; <span class="chapter-title">Joins</span></span></a>
+ <span class="menu-text"><span class="chapter-number">41</span>&nbsp; <span class="chapter-title">Joins</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./lubridate.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">43</span>&nbsp; <span class="chapter-title">Dates with <strong>lubridate</strong></span></span></a>
+ <span class="menu-text"><span class="chapter-number">42</span>&nbsp; <span class="chapter-title">Dates with <strong>lubridate</strong></span></span></a>
   </div>
 </li>
       </ul>
@@ -645,25 +648,25 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./BaseGraphics.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">44</span>&nbsp; <span class="chapter-title">Base Graphics</span></span></a>
+ <span class="menu-text"><span class="chapter-number">43</span>&nbsp; <span class="chapter-title">Base Graphics</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Colors.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">45</span>&nbsp; <span class="chapter-title">Colors</span></span></a>
+ <span class="menu-text"><span class="chapter-number">44</span>&nbsp; <span class="chapter-title">Colors</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ggplot2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">46</span>&nbsp; <span class="chapter-title">Introduction to <strong>ggplot2</strong></span></span></a>
+ <span class="menu-text"><span class="chapter-number">45</span>&nbsp; <span class="chapter-title">Introduction to <strong>ggplot2</strong></span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./plotly.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">47</span>&nbsp; <span class="chapter-title">Introduction to <strong>plotly</strong></span></span></a>
+ <span class="menu-text"><span class="chapter-number">46</span>&nbsp; <span class="chapter-title">Introduction to <strong>plotly</strong></span></span></a>
   </div>
 </li>
       </ul>
@@ -671,31 +674,31 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./HypothesisTesting.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">48</span>&nbsp; <span class="chapter-title">Common Statistical Tests</span></span></a>
+ <span class="menu-text"><span class="chapter-number">47</span>&nbsp; <span class="chapter-title">Common Statistical Tests</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./GLM.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">49</span>&nbsp; <span class="chapter-title">Introduction to the GLM</span></span></a>
+ <span class="menu-text"><span class="chapter-number">48</span>&nbsp; <span class="chapter-title">Introduction to the GLM</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Profiling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">50</span>&nbsp; <span class="chapter-title">Benchmarking &amp; Profiling</span></span></a>
+ <span class="menu-text"><span class="chapter-number">49</span>&nbsp; <span class="chapter-title">Benchmarking &amp; Profiling</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Optimization.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">51</span>&nbsp; <span class="chapter-title">Optimization</span></span></a>
+ <span class="menu-text"><span class="chapter-number">50</span>&nbsp; <span class="chapter-title">Optimization</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Quarto.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">52</span>&nbsp; <span class="chapter-title">Quarto</span></span></a>
+ <span class="menu-text"><span class="chapter-number">51</span>&nbsp; <span class="chapter-title">Quarto</span></span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -710,13 +713,13 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./TerminalIntro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">53</span>&nbsp; <span class="chapter-title">Introduction to the System Shell</span></span></a>
+ <span class="menu-text"><span class="chapter-number">52</span>&nbsp; <span class="chapter-title">Introduction to the System Shell</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./GitHubIntro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">54</span>&nbsp; <span class="chapter-title">Git &amp; GitHub: The Basics</span></span></a>
+ <span class="menu-text"><span class="chapter-number">53</span>&nbsp; <span class="chapter-title">Git &amp; GitHub: The Basics</span></span></a>
   </div>
 </li>
       </ul>
@@ -733,13 +736,13 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ds.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">55</span>&nbsp; <span class="chapter-title">Data Queries across implementations</span></span></a>
+ <span class="menu-text"><span class="chapter-number">54</span>&nbsp; <span class="chapter-title">Data Queries across implementations</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./DuckDB.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">56</span>&nbsp; <span class="chapter-title">DuckDB</span></span></a>
+ <span class="menu-text"><span class="chapter-number">55</span>&nbsp; <span class="chapter-title">DuckDB</span></span></a>
   </div>
 </li>
       </ul>
@@ -747,13 +750,13 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Resources.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">57</span>&nbsp; <span class="chapter-title">Resources</span></span></a>
+ <span class="menu-text"><span class="chapter-number">56</span>&nbsp; <span class="chapter-title">Resources</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./DataPipeline.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">58</span>&nbsp; <span class="chapter-title">Data Pipeline Overview</span></span></a>
+ <span class="menu-text"><span class="chapter-number">57</span>&nbsp; <span class="chapter-title">Data Pipeline Overview</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -776,33 +779,33 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
         <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
    
   <ul>
-<li><a href="#date-format-specifications" id="toc-date-format-specifications" class="nav-link active" data-scroll-target="#date-format-specifications"><span class="header-section-number">31.1</span> Date format specifications</a></li>
+<li><a href="#date-format-specifications" id="toc-date-format-specifications" class="nav-link active" data-scroll-target="#date-format-specifications"><span class="header-section-number">30.1</span> Date format specifications</a></li>
   <li>
-<a href="#date-objects" id="toc-date-objects" class="nav-link" data-scroll-target="#date-objects"><span class="header-section-number">31.2</span> Date objects</a>
+<a href="#date-objects" id="toc-date-objects" class="nav-link" data-scroll-target="#date-objects"><span class="header-section-number">30.2</span> Date objects</a>
   <ul class="collapse">
-<li><a href="#character-to-date-as.date" id="toc-character-to-date-as.date" class="nav-link" data-scroll-target="#character-to-date-as.date"><span class="header-section-number">31.2.1</span> Character to Date: <code>as.Date()</code></a></li>
-  <li><a href="#get-current-date-time" id="toc-get-current-date-time" class="nav-link" data-scroll-target="#get-current-date-time"><span class="header-section-number">31.2.2</span> Get current date &amp; time</a></li>
-  <li><a href="#math-on-dates" id="toc-math-on-dates" class="nav-link" data-scroll-target="#math-on-dates"><span class="header-section-number">31.2.3</span> Math on Dates</a></li>
-  <li><a href="#meanmedian-date" id="toc-meanmedian-date" class="nav-link" data-scroll-target="#meanmedian-date"><span class="header-section-number">31.2.4</span> mean/median Date</a></li>
-  <li><a href="#sequence-of-dates" id="toc-sequence-of-dates" class="nav-link" data-scroll-target="#sequence-of-dates"><span class="header-section-number">31.2.5</span> Sequence of dates</a></li>
+<li><a href="#character-to-date-as.date" id="toc-character-to-date-as.date" class="nav-link" data-scroll-target="#character-to-date-as.date"><span class="header-section-number">30.2.1</span> Character to Date: <code>as.Date()</code></a></li>
+  <li><a href="#get-current-date-time" id="toc-get-current-date-time" class="nav-link" data-scroll-target="#get-current-date-time"><span class="header-section-number">30.2.2</span> Get current date &amp; time</a></li>
+  <li><a href="#math-on-dates" id="toc-math-on-dates" class="nav-link" data-scroll-target="#math-on-dates"><span class="header-section-number">30.2.3</span> Math on Dates</a></li>
+  <li><a href="#meanmedian-date" id="toc-meanmedian-date" class="nav-link" data-scroll-target="#meanmedian-date"><span class="header-section-number">30.2.4</span> mean/median Date</a></li>
+  <li><a href="#sequence-of-dates" id="toc-sequence-of-dates" class="nav-link" data-scroll-target="#sequence-of-dates"><span class="header-section-number">30.2.5</span> Sequence of dates</a></li>
   </ul>
 </li>
   <li>
-<a href="#date-time-objects" id="toc-date-time-objects" class="nav-link" data-scroll-target="#date-time-objects"><span class="header-section-number">31.3</span> Date-Time objects</a>
+<a href="#date-time-objects" id="toc-date-time-objects" class="nav-link" data-scroll-target="#date-time-objects"><span class="header-section-number">30.3</span> Date-Time objects</a>
   <ul class="collapse">
-<li><a href="#character-to-date-time-as.posixct-as.posixlt" id="toc-character-to-date-time-as.posixct-as.posixlt" class="nav-link" data-scroll-target="#character-to-date-time-as.posixct-as.posixlt"><span class="header-section-number">31.3.1</span> Character to Date-Time: <code>as.POSIXct()</code>, <code>as.POSIXlt()</code>:</a></li>
+<li><a href="#character-to-date-time-as.posixct-as.posixlt" id="toc-character-to-date-time-as.posixct-as.posixlt" class="nav-link" data-scroll-target="#character-to-date-time-as.posixct-as.posixlt"><span class="header-section-number">30.3.1</span> Character to Date-Time: <code>as.POSIXct()</code>, <code>as.POSIXlt()</code>:</a></li>
   </ul>
 </li>
-  <li><a href="#format-date" id="toc-format-date" class="nav-link" data-scroll-target="#format-date"><span class="header-section-number">31.4</span> <code>format()</code> Date</a></li>
-  <li><a href="#format-posixct" id="toc-format-posixct" class="nav-link" data-scroll-target="#format-posixct"><span class="header-section-number">31.5</span> <code>format()</code> POSIXct</a></li>
-  <li><a href="#extract-partial-date-information" id="toc-extract-partial-date-information" class="nav-link" data-scroll-target="#extract-partial-date-information"><span class="header-section-number">31.6</span> Extract partial date information</a></li>
-  <li><a href="#timezones" id="toc-timezones" class="nav-link" data-scroll-target="#timezones"><span class="header-section-number">31.7</span> Timezones</a></li>
-  <li><a href="#see-also" id="toc-see-also" class="nav-link" data-scroll-target="#see-also"><span class="header-section-number">31.8</span> See also</a></li>
+  <li><a href="#format-date" id="toc-format-date" class="nav-link" data-scroll-target="#format-date"><span class="header-section-number">30.4</span> <code>format()</code> Date</a></li>
+  <li><a href="#format-posixct" id="toc-format-posixct" class="nav-link" data-scroll-target="#format-posixct"><span class="header-section-number">30.5</span> <code>format()</code> POSIXct</a></li>
+  <li><a href="#extract-partial-date-information" id="toc-extract-partial-date-information" class="nav-link" data-scroll-target="#extract-partial-date-information"><span class="header-section-number">30.6</span> Extract partial date information</a></li>
+  <li><a href="#timezones" id="toc-timezones" class="nav-link" data-scroll-target="#timezones"><span class="header-section-number">30.7</span> Timezones</a></li>
+  <li><a href="#see-also" id="toc-see-also" class="nav-link" data-scroll-target="#see-also"><span class="header-section-number">30.8</span> See also</a></li>
   </ul><div class="toc-actions"><ul><li><a href="https://github.com/egenn/pdsr/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
-<h1 class="title"><span id="datetime" class="quarto-section-identifier"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Date and Time</span></span></h1>
+<h1 class="title"><span id="datetime" class="quarto-section-identifier"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Date and Time</span></span></h1>
 </div>
 
 
@@ -837,8 +840,8 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <p>data.table’s <code><a href="https://rdatatable.gitlab.io/data.table/reference/fread.html">fread()</a></code> can automatically detect some date and date-time formats and will convert them to <code>IDate</code> and <code>POSIXct</code> respectively.</p>
 </div>
 <p>Background info: <a href="https://en.wikipedia.org/wiki/POSIX">Portable Operating System Interface (POSIX)</a> is a set of standards for maintaining compatibility among operating systems.</p>
-<section id="date-format-specifications" class="level2" data-number="31.1"><h2 data-number="31.1" class="anchored" data-anchor-id="date-format-specifications">
-<span class="header-section-number">31.1</span> Date format specifications</h2>
+<section id="date-format-specifications" class="level2" data-number="30.1"><h2 data-number="30.1" class="anchored" data-anchor-id="date-format-specifications">
+<span class="header-section-number">30.1</span> Date format specifications</h2>
 <p>This list serves as a reference for formatting functions later in the chapter.<br><br></p>
 <ul>
 <li>
@@ -867,10 +870,10 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 </li>
 </ul>
 <p>There are many more specifications available, see the Details section in the documentation for <code><a href="https://rdrr.io/r/base/strptime.html">strptime()</a></code>. <br><br> Note that some conversions are <a href="https://en.wikipedia.org/wiki/Locale_(computer_software)">locale</a>-specific, i.e.&nbsp;will not work the same across systems. <br><br> Regarding the ambiguous <code>%y</code>, the documentation states: “<code>%y</code> Year without century (00–99). On input, values 00 to 68 are prefixed by 20 and 69 to 99 by 19 – that is the behaviour specified by the 2018 POSIX standard, but it does also say ‘it is expected that in a future version the default century inferred from a 2-digit year will change’.”</p>
-</section><section id="date-objects" class="level2" data-number="31.2"><h2 data-number="31.2" class="anchored" data-anchor-id="date-objects">
-<span class="header-section-number">31.2</span> Date objects</h2>
-<section id="character-to-date-as.date" class="level3" data-number="31.2.1"><h3 data-number="31.2.1" class="anchored" data-anchor-id="character-to-date-as.date">
-<span class="header-section-number">31.2.1</span> Character to Date: <code>as.Date()</code>
+</section><section id="date-objects" class="level2" data-number="30.2"><h2 data-number="30.2" class="anchored" data-anchor-id="date-objects">
+<span class="header-section-number">30.2</span> Date objects</h2>
+<section id="character-to-date-as.date" class="level3" data-number="30.2.1"><h3 data-number="30.2.1" class="anchored" data-anchor-id="character-to-date-as.date">
+<span class="header-section-number">30.2.1</span> Character to Date: <code>as.Date()</code>
 </h3>
 <p>You can create a <code>Date</code> object from a character:</p>
 <div class="cell" data-hash="DateTime_cache/html/unnamed-chunk-2_9d24b7ed512d94d52faedc8b4837bae7">
@@ -937,8 +940,8 @@ Important
 <p>It’s always safest to specify the format of your date string explicitly.</p>
 </div>
 </div>
-</section><section id="get-current-date-time" class="level3" data-number="31.2.2"><h3 data-number="31.2.2" class="anchored" data-anchor-id="get-current-date-time">
-<span class="header-section-number">31.2.2</span> Get current date &amp; time</h3>
+</section><section id="get-current-date-time" class="level3" data-number="30.2.2"><h3 data-number="30.2.2" class="anchored" data-anchor-id="get-current-date-time">
+<span class="header-section-number">30.2.2</span> Get current date &amp; time</h3>
 <p>Get current date:</p>
 <div class="cell" data-hash="DateTime_cache/html/unnamed-chunk-8_7e7f439b84c6f3f208f5604f15df153a">
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">today</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.Date</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -970,8 +973,8 @@ Important
 <pre><code>[1] "America/Los_Angeles"</code></pre>
 </div>
 </div>
-</section><section id="math-on-dates" class="level3" data-number="31.2.3"><h3 data-number="31.2.3" class="anchored" data-anchor-id="math-on-dates">
-<span class="header-section-number">31.2.3</span> Math on Dates</h3>
+</section><section id="math-on-dates" class="level3" data-number="30.2.3"><h3 data-number="30.2.3" class="anchored" data-anchor-id="math-on-dates">
+<span class="header-section-number">30.2.3</span> Math on Dates</h3>
 <div class="callout-info">
 <p>The reason we use special date and date-time classes is because they allow us to perform mathematical operations on them.</p>
 </div>
@@ -1083,8 +1086,8 @@ Caution
 <pre><code>[1] 54.32012</code></pre>
 </div>
 </div>
-</section><section id="meanmedian-date" class="level3" data-number="31.2.4"><h3 data-number="31.2.4" class="anchored" data-anchor-id="meanmedian-date">
-<span class="header-section-number">31.2.4</span> mean/median Date</h3>
+</section><section id="meanmedian-date" class="level3" data-number="30.2.4"><h3 data-number="30.2.4" class="anchored" data-anchor-id="meanmedian-date">
+<span class="header-section-number">30.2.4</span> mean/median Date</h3>
 <div class="cell" data-hash="DateTime_cache/html/unnamed-chunk-17_fc32a844e4019e64b8ac361a7364edf4">
 <div class="sourceCode" id="cb49"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html">as.Date</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">5480</span>, <span class="fl">5723</span>, <span class="fl">5987</span>, <span class="fl">6992</span><span class="op">)</span>, origin <span class="op">=</span> <span class="st">"1970-01-01"</span><span class="op">)</span></span>
 <span><span class="va">x</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1118,8 +1121,8 @@ Caution
 <div class="cell">
 <div class="sourceCode" id="cb59"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">median_date_too</span> <span class="op">&lt;-</span> <span class="va">x</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">+</span> <span class="fl">0.5</span> <span class="op">*</span> <span class="op">(</span><span class="va">x</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span> <span class="op">-</span> <span class="va">x</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section><section id="sequence-of-dates" class="level3" data-number="31.2.5"><h3 data-number="31.2.5" class="anchored" data-anchor-id="sequence-of-dates">
-<span class="header-section-number">31.2.5</span> Sequence of dates</h3>
+</section><section id="sequence-of-dates" class="level3" data-number="30.2.5"><h3 data-number="30.2.5" class="anchored" data-anchor-id="sequence-of-dates">
+<span class="header-section-number">30.2.5</span> Sequence of dates</h3>
 <p>You can create a sequence of dates using <code><a href="https://rdrr.io/r/base/seq.html">seq()</a></code>.<br>
 If an integer is passed to <code>by</code>, the unit is assumed to be days:</p>
 <div class="cell" data-hash="DateTime_cache/html/unnamed-chunk-21_361dcff6afa44e0eb28bd249b56fdfb7">
@@ -1162,10 +1165,10 @@ If an integer is passed to <code>by</code>, the unit is assumed to be days:</p>
 [6] "2020-11-20" "2021-01-20"</code></pre>
 </div>
 </div>
-</section></section><section id="date-time-objects" class="level2" data-number="31.3"><h2 data-number="31.3" class="anchored" data-anchor-id="date-time-objects">
-<span class="header-section-number">31.3</span> Date-Time objects</h2>
-<section id="character-to-date-time-as.posixct-as.posixlt" class="level3" data-number="31.3.1"><h3 data-number="31.3.1" class="anchored" data-anchor-id="character-to-date-time-as.posixct-as.posixlt">
-<span class="header-section-number">31.3.1</span> Character to Date-Time: <code>as.POSIXct()</code>, <code>as.POSIXlt()</code>:</h3>
+</section></section><section id="date-time-objects" class="level2" data-number="30.3"><h2 data-number="30.3" class="anchored" data-anchor-id="date-time-objects">
+<span class="header-section-number">30.3</span> Date-Time objects</h2>
+<section id="character-to-date-time-as.posixct-as.posixlt" class="level3" data-number="30.3.1"><h3 data-number="30.3.1" class="anchored" data-anchor-id="character-to-date-time-as.posixct-as.posixlt">
+<span class="header-section-number">30.3.1</span> Character to Date-Time: <code>as.POSIXct()</code>, <code>as.POSIXlt()</code>:</h3>
 <p>As always, it can be very informative to look at the source code. Many of these functions call each other internally.</p>
 <p>Read <code><a href="https://rdrr.io/r/base/strptime.html">strptime()</a></code>’s documentation for conversion specifications. These define the order and format of characters to be read as year, month, day, hour, minute, and second information.</p>
 <p>For example, the international ISO 8601 standard is defined as:<br><code>"%Y-%m-%d %H:%M:%S"</code></p>
@@ -1247,8 +1250,8 @@ $balanced
 <pre><code>[1] "2020-03-04 13:38:54 PST"</code></pre>
 </div>
 </div>
-</section></section><section id="format-date" class="level2" data-number="31.4"><h2 data-number="31.4" class="anchored" data-anchor-id="format-date">
-<span class="header-section-number">31.4</span> <code>format()</code> Date</h2>
+</section></section><section id="format-date" class="level2" data-number="30.4"><h2 data-number="30.4" class="anchored" data-anchor-id="format-date">
+<span class="header-section-number">30.4</span> <code>format()</code> Date</h2>
 <p><code><a href="https://rdrr.io/r/base/format.html">format()</a></code> operates on Date and POSIX objects to convert between representations</p>
 <p>Define Date in US format:</p>
 <div class="cell" data-hash="DateTime_cache/html/unnamed-chunk-29_739c946e8625d37a943f62d81202371c">
@@ -1266,8 +1269,8 @@ $balanced
 <pre><code>[1] "04.07.20"</code></pre>
 </div>
 </div>
-</section><section id="format-posixct" class="level2" data-number="31.5"><h2 data-number="31.5" class="anchored" data-anchor-id="format-posixct">
-<span class="header-section-number">31.5</span> <code>format()</code> POSIXct</h2>
+</section><section id="format-posixct" class="level2" data-number="30.5"><h2 data-number="30.5" class="anchored" data-anchor-id="format-posixct">
+<span class="header-section-number">30.5</span> <code>format()</code> POSIXct</h2>
 <div class="cell" data-hash="DateTime_cache/html/unnamed-chunk-31_0e6ce716c5d32604cc4609486aa1c8c7">
 <div class="sourceCode" id="cb96"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.POSIXlt.html">as.POSIXct</a></span><span class="op">(</span><span class="st">"2020-03-04 13:38:54"</span><span class="op">)</span></span>
 <span><span class="va">dt</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1291,11 +1294,11 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>To get the relevant R documentation pages, use <code><a href="https://rdrr.io/r/base/as.Date.html">?format.Date</a></code> and <code><a href="https://rdrr.io/r/base/strptime.html">?format.POSIXct</a></code>. To learn more about S3 classes and methods, see <a href="ClassesAndOOP.html" class="quarto-xref"><span>Chapter 33</span></a>.</p>
+<p>To get the relevant R documentation pages, use <code><a href="https://rdrr.io/r/base/as.Date.html">?format.Date</a></code> and <code><a href="https://rdrr.io/r/base/strptime.html">?format.POSIXct</a></code>. To learn more about S3 classes and methods, see <a href="ClassesAndOOP.html" class="quarto-xref"><span>Chapter 32</span></a>.</p>
 </div>
 </div>
-</section><section id="extract-partial-date-information" class="level2" data-number="31.6"><h2 data-number="31.6" class="anchored" data-anchor-id="extract-partial-date-information">
-<span class="header-section-number">31.6</span> Extract partial date information</h2>
+</section><section id="extract-partial-date-information" class="level2" data-number="30.6"><h2 data-number="30.6" class="anchored" data-anchor-id="extract-partial-date-information">
+<span class="header-section-number">30.6</span> Extract partial date information</h2>
 <p>R includes convenient functions to extract particular seasonal information</p>
 <ul>
 <li>
@@ -1340,8 +1343,8 @@ attr(,"origin")
 [1] "2020-01-01"</code></pre>
 </div>
 </div>
-</section><section id="timezones" class="level2" data-number="31.7"><h2 data-number="31.7" class="anchored" data-anchor-id="timezones">
-<span class="header-section-number">31.7</span> Timezones</h2>
+</section><section id="timezones" class="level2" data-number="30.7"><h2 data-number="30.7" class="anchored" data-anchor-id="timezones">
+<span class="header-section-number">30.7</span> Timezones</h2>
 <p>R supports timezones. You can see the current timezone using <code><a href="https://rdrr.io/r/base/timezones.html">Sys.timezone()</a></code>:</p>
 <div class="cell">
 <div class="sourceCode" id="cb112"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/timezones.html">Sys.timezone</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1713,8 +1716,8 @@ attr(,"Version")
 </div>
 </div>
 <p>The <code><a href="https://rdrr.io/r/base/print.html">print()</a></code> method for datetime objects calls <code><a href="https://rdrr.io/r/base/format.html">format()</a></code> internally.</p>
-</section><section id="see-also" class="level2" data-number="31.8"><h2 data-number="31.8" class="anchored" data-anchor-id="see-also">
-<span class="header-section-number">31.8</span> See also</h2>
+</section><section id="see-also" class="level2" data-number="30.8"><h2 data-number="30.8" class="anchored" data-anchor-id="see-also">
+<span class="header-section-number">30.8</span> See also</h2>
 <ul>
 <li><a href="./lubridate.html">Handling Dates with <strong>lubridate</strong></a></li>
 </ul>
@@ -2338,12 +2341,12 @@ window.onload = function() {
   });
   </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
       <a href="./Strings.html" class="pagination-link" aria-label="Strings">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Strings</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Strings</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./SetOps.html" class="pagination-link" aria-label="Set Operations">
-        <span class="nav-page-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Set Operations</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Set Operations</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

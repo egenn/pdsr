@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>57&nbsp; Resources – PDSR</title>
+<title>56&nbsp; Resources – PDSR</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -44,7 +44,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-4f97383ec2b0718e090f5a3bf624e0cf.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-294c2a79f4b5c5018fdfa692435fb65c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-dark-1e7b01a6aeb55307b339f3c789586970.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="site_libs/bootstrap/bootstrap-4f97383ec2b0718e090f5a3bf624e0cf.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
@@ -240,7 +240,8 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
       }
     };
     const authorPrefersDark = false;
-    const darkModeDefault = authorPrefersDark;
+    const queryPrefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+    const darkModeDefault = queryPrefersDark.matches;
       document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
       document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
     let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
@@ -253,6 +254,14 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
       toggleGiscusIfUsed(toAlternate, darkModeDefault);
       window.dispatchEvent(new Event('resize'));
     };
+    queryPrefersDark.addEventListener("change", e => {
+      if(window.localStorage.getItem("quarto-color-scheme") !== null)
+        return;
+      const alternate = e.matches
+      toggleColorMode(alternate);
+      localAlternateSentinel = e.matches ? 'alternate' : 'default'; // this is used alongside local storage!
+      toggleGiscusIfUsed(alternate, darkModeDefault);
+    });
     // Switch to dark mode if need be
     if (hasAlternateSentinel()) {
       toggleColorMode(true);
@@ -268,7 +277,7 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Resources.html"><span class="chapter-number">57</span>&nbsp; <span class="chapter-title">Resources</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Resources.html"><span class="chapter-number">56</span>&nbsp; <span class="chapter-title">Resources</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -510,32 +519,26 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./MissingData.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Handling Missing data</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./Strings.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Strings</span></span></a>
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Strings</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./DateTime.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Date and Time</span></span></a>
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Date and Time</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./SetOps.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Set Operations</span></span></a>
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Set Operations</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ClassesAndOOP.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Classes and OOP</span></span></a>
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Classes and OOP</span></span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -550,37 +553,37 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dtIntro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dtBasics.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">data.table basics</span></span></a>
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">data.table basics</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dtRefSem.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Reference Semantics</span></span></a>
+ <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Reference Semantics</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dtReshape.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">Reshape</span></span></a>
+ <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Reshape</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dtJoin.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">38</span>&nbsp; <span class="chapter-title">Joins</span></span></a>
+ <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">Joins</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dtAdvanced.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">39</span>&nbsp; <span class="chapter-title">Advanced Usage</span></span></a>
+ <span class="menu-text"><span class="chapter-number">38</span>&nbsp; <span class="chapter-title">Advanced Usage</span></span></a>
   </div>
 </li>
       </ul>
@@ -597,25 +600,25 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dplyr.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">40</span>&nbsp; <span class="chapter-title">Introduction to dplyr</span></span></a>
+ <span class="menu-text"><span class="chapter-number">39</span>&nbsp; <span class="chapter-title">Introduction to dplyr</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./tidyrReshape.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">41</span>&nbsp; <span class="chapter-title">Reshaping with <strong>tidyr</strong></span></span></a>
+ <span class="menu-text"><span class="chapter-number">40</span>&nbsp; <span class="chapter-title">Reshaping with <strong>tidyr</strong></span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dplyrJoin.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">42</span>&nbsp; <span class="chapter-title">Joins</span></span></a>
+ <span class="menu-text"><span class="chapter-number">41</span>&nbsp; <span class="chapter-title">Joins</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./lubridate.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">43</span>&nbsp; <span class="chapter-title">Dates with <strong>lubridate</strong></span></span></a>
+ <span class="menu-text"><span class="chapter-number">42</span>&nbsp; <span class="chapter-title">Dates with <strong>lubridate</strong></span></span></a>
   </div>
 </li>
       </ul>
@@ -632,25 +635,25 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./BaseGraphics.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">44</span>&nbsp; <span class="chapter-title">Base Graphics</span></span></a>
+ <span class="menu-text"><span class="chapter-number">43</span>&nbsp; <span class="chapter-title">Base Graphics</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Colors.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">45</span>&nbsp; <span class="chapter-title">Colors</span></span></a>
+ <span class="menu-text"><span class="chapter-number">44</span>&nbsp; <span class="chapter-title">Colors</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ggplot2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">46</span>&nbsp; <span class="chapter-title">Introduction to <strong>ggplot2</strong></span></span></a>
+ <span class="menu-text"><span class="chapter-number">45</span>&nbsp; <span class="chapter-title">Introduction to <strong>ggplot2</strong></span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./plotly.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">47</span>&nbsp; <span class="chapter-title">Introduction to <strong>plotly</strong></span></span></a>
+ <span class="menu-text"><span class="chapter-number">46</span>&nbsp; <span class="chapter-title">Introduction to <strong>plotly</strong></span></span></a>
   </div>
 </li>
       </ul>
@@ -658,31 +661,31 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./HypothesisTesting.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">48</span>&nbsp; <span class="chapter-title">Common Statistical Tests</span></span></a>
+ <span class="menu-text"><span class="chapter-number">47</span>&nbsp; <span class="chapter-title">Common Statistical Tests</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./GLM.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">49</span>&nbsp; <span class="chapter-title">Introduction to the GLM</span></span></a>
+ <span class="menu-text"><span class="chapter-number">48</span>&nbsp; <span class="chapter-title">Introduction to the GLM</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Profiling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">50</span>&nbsp; <span class="chapter-title">Benchmarking &amp; Profiling</span></span></a>
+ <span class="menu-text"><span class="chapter-number">49</span>&nbsp; <span class="chapter-title">Benchmarking &amp; Profiling</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Optimization.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">51</span>&nbsp; <span class="chapter-title">Optimization</span></span></a>
+ <span class="menu-text"><span class="chapter-number">50</span>&nbsp; <span class="chapter-title">Optimization</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Quarto.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">52</span>&nbsp; <span class="chapter-title">Quarto</span></span></a>
+ <span class="menu-text"><span class="chapter-number">51</span>&nbsp; <span class="chapter-title">Quarto</span></span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -697,13 +700,13 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./TerminalIntro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">53</span>&nbsp; <span class="chapter-title">Introduction to the System Shell</span></span></a>
+ <span class="menu-text"><span class="chapter-number">52</span>&nbsp; <span class="chapter-title">Introduction to the System Shell</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./GitHubIntro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">54</span>&nbsp; <span class="chapter-title">Git &amp; GitHub: The Basics</span></span></a>
+ <span class="menu-text"><span class="chapter-number">53</span>&nbsp; <span class="chapter-title">Git &amp; GitHub: The Basics</span></span></a>
   </div>
 </li>
       </ul>
@@ -720,13 +723,13 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ds.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">55</span>&nbsp; <span class="chapter-title">Data Queries across implementations</span></span></a>
+ <span class="menu-text"><span class="chapter-number">54</span>&nbsp; <span class="chapter-title">Data Queries across implementations</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./DuckDB.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">56</span>&nbsp; <span class="chapter-title">DuckDB</span></span></a>
+ <span class="menu-text"><span class="chapter-number">55</span>&nbsp; <span class="chapter-title">DuckDB</span></span></a>
   </div>
 </li>
       </ul>
@@ -734,13 +737,13 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Resources.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">57</span>&nbsp; <span class="chapter-title">Resources</span></span></a>
+ <span class="menu-text"><span class="chapter-number">56</span>&nbsp; <span class="chapter-title">Resources</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./DataPipeline.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">58</span>&nbsp; <span class="chapter-title">Data Pipeline Overview</span></span></a>
+ <span class="menu-text"><span class="chapter-number">57</span>&nbsp; <span class="chapter-title">Data Pipeline Overview</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -765,21 +768,21 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#r-project" id="toc-r-project" class="nav-link active" data-scroll-target="#r-project"><span class="header-section-number">57.1</span> R Project</a></li>
-  <li><a href="#r-programming" id="toc-r-programming" class="nav-link" data-scroll-target="#r-programming"><span class="header-section-number">57.2</span> R programming</a></li>
-  <li><a href="#r-for-data-science" id="toc-r-for-data-science" class="nav-link" data-scroll-target="#r-for-data-science"><span class="header-section-number">57.3</span> R for data science</a></li>
-  <li><a href="#markdown" id="toc-markdown" class="nav-link" data-scroll-target="#markdown"><span class="header-section-number">57.4</span> Markdown</a></li>
-  <li><a href="#r-markdown" id="toc-r-markdown" class="nav-link" data-scroll-target="#r-markdown"><span class="header-section-number">57.5</span> R markdown</a></li>
-  <li><a href="#quarto" id="toc-quarto" class="nav-link" data-scroll-target="#quarto"><span class="header-section-number">57.6</span> Quarto</a></li>
-  <li><a href="#writing-r-documentation" id="toc-writing-r-documentation" class="nav-link" data-scroll-target="#writing-r-documentation"><span class="header-section-number">57.7</span> Writing R Documentation</a></li>
-  <li><a href="#graphics" id="toc-graphics" class="nav-link" data-scroll-target="#graphics"><span class="header-section-number">57.8</span> Graphics</a>
+  <li><a href="#r-project" id="toc-r-project" class="nav-link active" data-scroll-target="#r-project"><span class="header-section-number">56.1</span> R Project</a></li>
+  <li><a href="#r-programming" id="toc-r-programming" class="nav-link" data-scroll-target="#r-programming"><span class="header-section-number">56.2</span> R programming</a></li>
+  <li><a href="#r-for-data-science" id="toc-r-for-data-science" class="nav-link" data-scroll-target="#r-for-data-science"><span class="header-section-number">56.3</span> R for data science</a></li>
+  <li><a href="#markdown" id="toc-markdown" class="nav-link" data-scroll-target="#markdown"><span class="header-section-number">56.4</span> Markdown</a></li>
+  <li><a href="#r-markdown" id="toc-r-markdown" class="nav-link" data-scroll-target="#r-markdown"><span class="header-section-number">56.5</span> R markdown</a></li>
+  <li><a href="#quarto" id="toc-quarto" class="nav-link" data-scroll-target="#quarto"><span class="header-section-number">56.6</span> Quarto</a></li>
+  <li><a href="#writing-r-documentation" id="toc-writing-r-documentation" class="nav-link" data-scroll-target="#writing-r-documentation"><span class="header-section-number">56.7</span> Writing R Documentation</a></li>
+  <li><a href="#graphics" id="toc-graphics" class="nav-link" data-scroll-target="#graphics"><span class="header-section-number">56.8</span> Graphics</a>
   <ul class="collapse">
-  <li><a href="#ggplot2" id="toc-ggplot2" class="nav-link" data-scroll-target="#ggplot2"><span class="header-section-number">57.8.1</span> ggplot2</a></li>
-  <li><a href="#plotly" id="toc-plotly" class="nav-link" data-scroll-target="#plotly"><span class="header-section-number">57.8.2</span> Plotly</a></li>
+  <li><a href="#ggplot2" id="toc-ggplot2" class="nav-link" data-scroll-target="#ggplot2"><span class="header-section-number">56.8.1</span> ggplot2</a></li>
+  <li><a href="#plotly" id="toc-plotly" class="nav-link" data-scroll-target="#plotly"><span class="header-section-number">56.8.2</span> Plotly</a></li>
   </ul></li>
-  <li><a href="#git-and-github" id="toc-git-and-github" class="nav-link" data-scroll-target="#git-and-github"><span class="header-section-number">57.9</span> Git and GitHub</a></li>
-  <li><a href="#machine-learning" id="toc-machine-learning" class="nav-link" data-scroll-target="#machine-learning"><span class="header-section-number">57.10</span> Machine Learning</a></li>
-  <li><a href="#datasets" id="toc-datasets" class="nav-link" data-scroll-target="#datasets"><span class="header-section-number">57.11</span> Datasets</a></li>
+  <li><a href="#git-and-github" id="toc-git-and-github" class="nav-link" data-scroll-target="#git-and-github"><span class="header-section-number">56.9</span> Git and GitHub</a></li>
+  <li><a href="#machine-learning" id="toc-machine-learning" class="nav-link" data-scroll-target="#machine-learning"><span class="header-section-number">56.10</span> Machine Learning</a></li>
+  <li><a href="#datasets" id="toc-datasets" class="nav-link" data-scroll-target="#datasets"><span class="header-section-number">56.11</span> Datasets</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/egenn/pdsr/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -789,7 +792,7 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span id="sec-resources" class="quarto-section-identifier"><span class="chapter-number">57</span>&nbsp; <span class="chapter-title">Resources</span></span></h1>
+<h1 class="title"><span id="sec-resources" class="quarto-section-identifier"><span class="chapter-number">56</span>&nbsp; <span class="chapter-title">Resources</span></span></h1>
 </div>
 
 
@@ -806,16 +809,16 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 </header>
 
 
-<section id="r-project" class="level2" data-number="57.1">
-<h2 data-number="57.1" class="anchored" data-anchor-id="r-project"><span class="header-section-number">57.1</span> R Project</h2>
+<section id="r-project" class="level2" data-number="56.1">
+<h2 data-number="56.1" class="anchored" data-anchor-id="r-project"><span class="header-section-number">56.1</span> R Project</h2>
 <p><a href="https://cran.r-project.org/manuals.html" target="_blank">The R Manuals</a> include a number of resources, including:</p>
 <ul>
 <li><a href="https://cran.r-project.org/doc/manuals/r-release/R-intro.html" target="_blank">Introduction to R</a></li>
 <li><a href="https://cran.r-project.org/web/views/" target="_blank">CRAN task views</a> offer curated lists of packages by topic</li>
 </ul>
 </section>
-<section id="r-programming" class="level2" data-number="57.2">
-<h2 data-number="57.2" class="anchored" data-anchor-id="r-programming"><span class="header-section-number">57.2</span> R programming</h2>
+<section id="r-programming" class="level2" data-number="56.2">
+<h2 data-number="56.2" class="anchored" data-anchor-id="r-programming"><span class="header-section-number">56.2</span> R programming</h2>
 <ul>
 <li><a href="https://adv-r.hadley.nz/" target="_blank">Advanced R</a> by Hadley Wickham</li>
 <li><a href="https://bookdown.org/csgillespie/efficientR/" target="_blank">Efficient R Programming</a> by Colin Gillespie &amp; Robin Lovelace</li>
@@ -823,74 +826,74 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <li><a href="https://future.futureverse.org/" target="_blank">Parallel and Distributed Processing with future</a></li>
 </ul>
 </section>
-<section id="r-for-data-science" class="level2" data-number="57.3">
-<h2 data-number="57.3" class="anchored" data-anchor-id="r-for-data-science"><span class="header-section-number">57.3</span> R for data science</h2>
+<section id="r-for-data-science" class="level2" data-number="56.3">
+<h2 data-number="56.3" class="anchored" data-anchor-id="r-for-data-science"><span class="header-section-number">56.3</span> R for data science</h2>
 <ul>
 <li><a href="https://bookdown.org/rdpeng/rprogdatascience/" target="_blank">R Programming for Data Science</a> by Roger D. Peng, based mostly on base R, and also covers the basics of <strong>dplyr</strong>.</li>
 <li><a href="https://stat545.com/">Data wrangling, exploration, and analysis with R b y Jenny Bryan</a></li>
 <li><a href="https://r4ds.had.co.nz/" target="_blank">R for Data Science</a> by Hadley Wickham &amp; Garrett Grolemund</li>
 </ul>
 </section>
-<section id="markdown" class="level2" data-number="57.4">
-<h2 data-number="57.4" class="anchored" data-anchor-id="markdown"><span class="header-section-number">57.4</span> Markdown</h2>
+<section id="markdown" class="level2" data-number="56.4">
+<h2 data-number="56.4" class="anchored" data-anchor-id="markdown"><span class="header-section-number">56.4</span> Markdown</h2>
 <ul>
 <li><a href="https://daringfireball.net/projects/markdown/" target="_blank">Original guide by the author of Markdown</a></li>
 <li><a href="https://www.markdownguide.org/" target="_blank">Markdown guide by Matt Cone</a></li>
 </ul>
 </section>
-<section id="r-markdown" class="level2" data-number="57.5">
-<h2 data-number="57.5" class="anchored" data-anchor-id="r-markdown"><span class="header-section-number">57.5</span> R markdown</h2>
+<section id="r-markdown" class="level2" data-number="56.5">
+<h2 data-number="56.5" class="anchored" data-anchor-id="r-markdown"><span class="header-section-number">56.5</span> R markdown</h2>
 <p>Note: Quarto has superseded R Markdown as the recommended tool for authoring documents in R.</p>
 <ul>
 <li><a href="https://bookdown.org/yihui/rmarkdown/" target="_blank">R Markdown: The Definitive Guide</a> by Yihui Xie, J. J. Allaire, Garrett Grolemund</li>
 <li><a href="https://bookdown.org/yihui/bookdown/" target="_blank">bookdown: Authoring Books and Technical Documents with R Markdown</a>: how to make websites like this one you are on right now</li>
 </ul>
 </section>
-<section id="quarto" class="level2" data-number="57.6">
-<h2 data-number="57.6" class="anchored" data-anchor-id="quarto"><span class="header-section-number">57.6</span> Quarto</h2>
+<section id="quarto" class="level2" data-number="56.6">
+<h2 data-number="56.6" class="anchored" data-anchor-id="quarto"><span class="header-section-number">56.6</span> Quarto</h2>
 <ul>
 <li><a href="https://quarto.org/" target="_blank">Quarto home</a></li>
 </ul>
 </section>
-<section id="writing-r-documentation" class="level2" data-number="57.7">
-<h2 data-number="57.7" class="anchored" data-anchor-id="writing-r-documentation"><span class="header-section-number">57.7</span> Writing R Documentation</h2>
+<section id="writing-r-documentation" class="level2" data-number="56.7">
+<h2 data-number="56.7" class="anchored" data-anchor-id="writing-r-documentation"><span class="header-section-number">56.7</span> Writing R Documentation</h2>
 <ul>
 <li><a href="https://cran.r-project.org/web/packages/roxygen2/vignettes/roxygen2.html" target="_blank">Documentation with roxygen2</a></li>
 </ul>
 </section>
-<section id="graphics" class="level2" data-number="57.8">
-<h2 data-number="57.8" class="anchored" data-anchor-id="graphics"><span class="header-section-number">57.8</span> Graphics</h2>
-<section id="ggplot2" class="level3" data-number="57.8.1">
-<h3 data-number="57.8.1" class="anchored" data-anchor-id="ggplot2"><span class="header-section-number">57.8.1</span> ggplot2</h3>
+<section id="graphics" class="level2" data-number="56.8">
+<h2 data-number="56.8" class="anchored" data-anchor-id="graphics"><span class="header-section-number">56.8</span> Graphics</h2>
+<section id="ggplot2" class="level3" data-number="56.8.1">
+<h3 data-number="56.8.1" class="anchored" data-anchor-id="ggplot2"><span class="header-section-number">56.8.1</span> ggplot2</h3>
 <ul>
 <li><a href="https://ggplot2.tidyverse.org/" target="_blank">ggplot2</a></li>
 </ul>
 </section>
-<section id="plotly" class="level3" data-number="57.8.2">
-<h3 data-number="57.8.2" class="anchored" data-anchor-id="plotly"><span class="header-section-number">57.8.2</span> Plotly</h3>
+<section id="plotly" class="level3" data-number="56.8.2">
+<h3 data-number="56.8.2" class="anchored" data-anchor-id="plotly"><span class="header-section-number">56.8.2</span> Plotly</h3>
 <ul>
 <li><a href="https://plot.ly/r/" target="_blank">Plotly R API</a></li>
 <li><a href="https://plotly-r.com" target="_blank">Interactive web-based data visualization with R, plotly, and shiny</a></li>
 </ul>
 </section>
 </section>
-<section id="git-and-github" class="level2" data-number="57.9">
-<h2 data-number="57.9" class="anchored" data-anchor-id="git-and-github"><span class="header-section-number">57.9</span> Git and GitHub</h2>
+<section id="git-and-github" class="level2" data-number="56.9">
+<h2 data-number="56.9" class="anchored" data-anchor-id="git-and-github"><span class="header-section-number">56.9</span> Git and GitHub</h2>
 <ul>
 <li><a href="https://guides.github.com/">GitHub guides</a></li>
 <li><a href="https://git-scm.com/book/en/v2">Pro Git Book</a> by Scott Chacon and Ben Straub</li>
 </ul>
 </section>
-<section id="machine-learning" class="level2" data-number="57.10">
-<h2 data-number="57.10" class="anchored" data-anchor-id="machine-learning"><span class="header-section-number">57.10</span> Machine Learning</h2>
+<section id="machine-learning" class="level2" data-number="56.10">
+<h2 data-number="56.10" class="anchored" data-anchor-id="machine-learning"><span class="header-section-number">56.10</span> Machine Learning</h2>
 <ul>
 <li><a href="https://www-bcf.usc.edu/~gareth/ISL/">An Introduction to Statistical Learning</a> offers an accessible view of core learning algorithms, without being math-heavy.</li>
 <li><a href="https://web.stanford.edu/~hastie/ElemStatLearn/">Elements of Statistical Learning</a> offers a deeper and more extensive view on learning algorithms.</li>
 <li><a href="https://rtemis.lambdamd.org/">Machine Learning with rtemis</a></li>
 </ul>
 </section>
-<section id="datasets" class="level2" data-number="57.11">
-<h2 data-number="57.11" class="anchored" data-anchor-id="datasets"><span class="header-section-number">57.11</span> Datasets</h2>
+<section id="datasets" class="level2" data-number="56.11">
+<h2 data-number="56.11" class="anchored" data-anchor-id="datasets"><span class="header-section-number">56.11</span> Datasets</h2>
 <p>A number of online repositories offer free access to datasets suitable for data science / statistics / machine learning. Some of them are: <br><br></p>
 <ul>
 <li><a href="https://www.nlm.nih.gov/NIHbmic/nih_data_sharing_repositories.html">NIH Data Repositories</a></li>
@@ -1527,12 +1530,12 @@ window.onload = function() {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./DuckDB.html" class="pagination-link" aria-label="DuckDB">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">56</span>&nbsp; <span class="chapter-title">DuckDB</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">55</span>&nbsp; <span class="chapter-title">DuckDB</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./DataPipeline.html" class="pagination-link" aria-label="Data Pipeline Overview">
-        <span class="nav-page-text"><span class="chapter-number">58</span>&nbsp; <span class="chapter-title">Data Pipeline Overview</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">57</span>&nbsp; <span class="chapter-title">Data Pipeline Overview</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.7.31">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>53&nbsp; Introduction to the System Shell – PDSR</title>
+<title>52&nbsp; Introduction to the System Shell – PDSR</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -75,7 +75,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-4f97383ec2b0718e090f5a3bf624e0cf.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-294c2a79f4b5c5018fdfa692435fb65c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-dark-1e7b01a6aeb55307b339f3c789586970.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="site_libs/bootstrap/bootstrap-4f97383ec2b0718e090f5a3bf624e0cf.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -260,7 +260,8 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
       }
     };
     const authorPrefersDark = false;
-    const darkModeDefault = authorPrefersDark;
+    const queryPrefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+    const darkModeDefault = queryPrefersDark.matches;
       document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
       document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
     let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
@@ -273,6 +274,14 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
       toggleGiscusIfUsed(toAlternate, darkModeDefault);
       window.dispatchEvent(new Event('resize'));
     };
+    queryPrefersDark.addEventListener("change", e => {
+      if(window.localStorage.getItem("quarto-color-scheme") !== null)
+        return;
+      const alternate = e.matches
+      toggleColorMode(alternate);
+      localAlternateSentinel = e.matches ? 'alternate' : 'default'; // this is used alongside local storage!
+      toggleGiscusIfUsed(alternate, darkModeDefault);
+    });
     // Switch to dark mode if need be
     if (hasAlternateSentinel()) {
       toggleColorMode(true);
@@ -286,7 +295,7 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./System.html">System</a></li><li class="breadcrumb-item"><a href="./TerminalIntro.html"><span class="chapter-number">53</span>&nbsp; <span class="chapter-title">Introduction to the System Shell</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./System.html">System</a></li><li class="breadcrumb-item"><a href="./TerminalIntro.html"><span class="chapter-number">52</span>&nbsp; <span class="chapter-title">Introduction to the System Shell</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -523,32 +532,26 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./MissingData.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Handling Missing data</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./Strings.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Strings</span></span></a>
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Strings</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./DateTime.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Date and Time</span></span></a>
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Date and Time</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./SetOps.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Set Operations</span></span></a>
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Set Operations</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ClassesAndOOP.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Classes and OOP</span></span></a>
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Classes and OOP</span></span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -563,37 +566,37 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dtIntro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dtBasics.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">data.table basics</span></span></a>
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">data.table basics</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dtRefSem.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Reference Semantics</span></span></a>
+ <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Reference Semantics</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dtReshape.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">Reshape</span></span></a>
+ <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Reshape</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dtJoin.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">38</span>&nbsp; <span class="chapter-title">Joins</span></span></a>
+ <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">Joins</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dtAdvanced.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">39</span>&nbsp; <span class="chapter-title">Advanced Usage</span></span></a>
+ <span class="menu-text"><span class="chapter-number">38</span>&nbsp; <span class="chapter-title">Advanced Usage</span></span></a>
   </div>
 </li>
       </ul>
@@ -610,25 +613,25 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dplyr.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">40</span>&nbsp; <span class="chapter-title">Introduction to dplyr</span></span></a>
+ <span class="menu-text"><span class="chapter-number">39</span>&nbsp; <span class="chapter-title">Introduction to dplyr</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./tidyrReshape.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">41</span>&nbsp; <span class="chapter-title">Reshaping with <strong>tidyr</strong></span></span></a>
+ <span class="menu-text"><span class="chapter-number">40</span>&nbsp; <span class="chapter-title">Reshaping with <strong>tidyr</strong></span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dplyrJoin.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">42</span>&nbsp; <span class="chapter-title">Joins</span></span></a>
+ <span class="menu-text"><span class="chapter-number">41</span>&nbsp; <span class="chapter-title">Joins</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./lubridate.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">43</span>&nbsp; <span class="chapter-title">Dates with <strong>lubridate</strong></span></span></a>
+ <span class="menu-text"><span class="chapter-number">42</span>&nbsp; <span class="chapter-title">Dates with <strong>lubridate</strong></span></span></a>
   </div>
 </li>
       </ul>
@@ -645,25 +648,25 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./BaseGraphics.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">44</span>&nbsp; <span class="chapter-title">Base Graphics</span></span></a>
+ <span class="menu-text"><span class="chapter-number">43</span>&nbsp; <span class="chapter-title">Base Graphics</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Colors.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">45</span>&nbsp; <span class="chapter-title">Colors</span></span></a>
+ <span class="menu-text"><span class="chapter-number">44</span>&nbsp; <span class="chapter-title">Colors</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ggplot2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">46</span>&nbsp; <span class="chapter-title">Introduction to <strong>ggplot2</strong></span></span></a>
+ <span class="menu-text"><span class="chapter-number">45</span>&nbsp; <span class="chapter-title">Introduction to <strong>ggplot2</strong></span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./plotly.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">47</span>&nbsp; <span class="chapter-title">Introduction to <strong>plotly</strong></span></span></a>
+ <span class="menu-text"><span class="chapter-number">46</span>&nbsp; <span class="chapter-title">Introduction to <strong>plotly</strong></span></span></a>
   </div>
 </li>
       </ul>
@@ -671,31 +674,31 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./HypothesisTesting.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">48</span>&nbsp; <span class="chapter-title">Common Statistical Tests</span></span></a>
+ <span class="menu-text"><span class="chapter-number">47</span>&nbsp; <span class="chapter-title">Common Statistical Tests</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./GLM.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">49</span>&nbsp; <span class="chapter-title">Introduction to the GLM</span></span></a>
+ <span class="menu-text"><span class="chapter-number">48</span>&nbsp; <span class="chapter-title">Introduction to the GLM</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Profiling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">50</span>&nbsp; <span class="chapter-title">Benchmarking &amp; Profiling</span></span></a>
+ <span class="menu-text"><span class="chapter-number">49</span>&nbsp; <span class="chapter-title">Benchmarking &amp; Profiling</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Optimization.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">51</span>&nbsp; <span class="chapter-title">Optimization</span></span></a>
+ <span class="menu-text"><span class="chapter-number">50</span>&nbsp; <span class="chapter-title">Optimization</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Quarto.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">52</span>&nbsp; <span class="chapter-title">Quarto</span></span></a>
+ <span class="menu-text"><span class="chapter-number">51</span>&nbsp; <span class="chapter-title">Quarto</span></span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -710,13 +713,13 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./TerminalIntro.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">53</span>&nbsp; <span class="chapter-title">Introduction to the System Shell</span></span></a>
+ <span class="menu-text"><span class="chapter-number">52</span>&nbsp; <span class="chapter-title">Introduction to the System Shell</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./GitHubIntro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">54</span>&nbsp; <span class="chapter-title">Git &amp; GitHub: The Basics</span></span></a>
+ <span class="menu-text"><span class="chapter-number">53</span>&nbsp; <span class="chapter-title">Git &amp; GitHub: The Basics</span></span></a>
   </div>
 </li>
       </ul>
@@ -733,13 +736,13 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ds.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">55</span>&nbsp; <span class="chapter-title">Data Queries across implementations</span></span></a>
+ <span class="menu-text"><span class="chapter-number">54</span>&nbsp; <span class="chapter-title">Data Queries across implementations</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./DuckDB.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">56</span>&nbsp; <span class="chapter-title">DuckDB</span></span></a>
+ <span class="menu-text"><span class="chapter-number">55</span>&nbsp; <span class="chapter-title">DuckDB</span></span></a>
   </div>
 </li>
       </ul>
@@ -747,13 +750,13 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Resources.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">57</span>&nbsp; <span class="chapter-title">Resources</span></span></a>
+ <span class="menu-text"><span class="chapter-number">56</span>&nbsp; <span class="chapter-title">Resources</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./DataPipeline.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">58</span>&nbsp; <span class="chapter-title">Data Pipeline Overview</span></span></a>
+ <span class="menu-text"><span class="chapter-number">57</span>&nbsp; <span class="chapter-title">Data Pipeline Overview</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -777,40 +780,40 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
    
   <ul>
 <li>
-<a href="#common-shell-commands" id="toc-common-shell-commands" class="nav-link active" data-scroll-target="#common-shell-commands"><span class="header-section-number">53.1</span> Common shell commands</a>
+<a href="#common-shell-commands" id="toc-common-shell-commands" class="nav-link active" data-scroll-target="#common-shell-commands"><span class="header-section-number">52.1</span> Common shell commands</a>
   <ul class="collapse">
-<li><a href="#man-print-the-manual-pages" id="toc-man-print-the-manual-pages" class="nav-link" data-scroll-target="#man-print-the-manual-pages"><span class="header-section-number">53.1.1</span> <code>man</code>: Print the manual pages</a></li>
-  <li><a href="#pwd-print-working-directory-the-directory-you-are-currently-in" id="toc-pwd-print-working-directory-the-directory-you-are-currently-in" class="nav-link" data-scroll-target="#pwd-print-working-directory-the-directory-you-are-currently-in"><span class="header-section-number">53.1.2</span> <code>pwd</code>: Print working directory (the directory you are currently in)</a></li>
-  <li><a href="#cd-set-working-directory-to-pathtodir" id="toc-cd-set-working-directory-to-pathtodir" class="nav-link" data-scroll-target="#cd-set-working-directory-to-pathtodir"><span class="header-section-number">53.1.3</span> <code>cd</code>: Set working directory to <code>/path/to/dir</code></a></li>
-  <li><a href="#ls-list-directory-contents" id="toc-ls-list-directory-contents" class="nav-link" data-scroll-target="#ls-list-directory-contents"><span class="header-section-number">53.1.4</span> <code>ls</code>: List directory contents</a></li>
-  <li><a href="#mv-move-file-from-currentdir-to-newdir" id="toc-mv-move-file-from-currentdir-to-newdir" class="nav-link" data-scroll-target="#mv-move-file-from-currentdir-to-newdir"><span class="header-section-number">53.1.5</span> <code>mv</code>: Move <code>file</code> from <code>/current/dir/</code> to <code>/new/dir</code></a></li>
-  <li><a href="#mv-rename-file-to-newfilename" id="toc-mv-rename-file-to-newfilename" class="nav-link" data-scroll-target="#mv-rename-file-to-newfilename"><span class="header-section-number">53.1.6</span> <code>mv</code>: Rename <code>file</code> to <code>newfilename</code></a></li>
-  <li><a href="#cp-make-a-copy-of-file-from-currentpath-into-altpath" id="toc-cp-make-a-copy-of-file-from-currentpath-into-altpath" class="nav-link" data-scroll-target="#cp-make-a-copy-of-file-from-currentpath-into-altpath"><span class="header-section-number">53.1.7</span> <code>cp</code>: Make a copy of <code>file</code> from <code>currentPath</code> into <code>altPath</code></a></li>
-  <li><a href="#rm-remove-i.e.-delete-file" id="toc-rm-remove-i.e.-delete-file" class="nav-link" data-scroll-target="#rm-remove-i.e.-delete-file"><span class="header-section-number">53.1.8</span> <code>rm</code>: Remove, i.e.&nbsp;delete, file</a></li>
-  <li><a href="#mkdir-create-a-new-directory-named-newdir" id="toc-mkdir-create-a-new-directory-named-newdir" class="nav-link" data-scroll-target="#mkdir-create-a-new-directory-named-newdir"><span class="header-section-number">53.1.9</span> <code>mkdir</code>: Create a new directory named ‘newdir’</a></li>
-  <li><a href="#rmdir-remove-i.e.-delete-empty-directory" id="toc-rmdir-remove-i.e.-delete-empty-directory" class="nav-link" data-scroll-target="#rmdir-remove-i.e.-delete-empty-directory"><span class="header-section-number">53.1.10</span> <code>rmdir</code>: Remove, i.e.&nbsp;delete, <strong>empty</strong> directory</a></li>
-  <li><a href="#cat-print-contents-of-file-to-the-console" id="toc-cat-print-contents-of-file-to-the-console" class="nav-link" data-scroll-target="#cat-print-contents-of-file-to-the-console"><span class="header-section-number">53.1.11</span> <code>cat</code>: Print contents of <code>file</code> to the console</a></li>
-  <li><a href="#uname-get-system-information" id="toc-uname-get-system-information" class="nav-link" data-scroll-target="#uname-get-system-information"><span class="header-section-number">53.1.12</span> <code>uname</code>: Get system information</a></li>
-  <li><a href="#whoami-print-the-currently-logged-in-users-name" id="toc-whoami-print-the-currently-logged-in-users-name" class="nav-link" data-scroll-target="#whoami-print-the-currently-logged-in-users-name"><span class="header-section-number">53.1.13</span> <code>whoami</code>: Print the currently logged in user’s name</a></li>
-  <li><a href="#id-return-user-identity" id="toc-id-return-user-identity" class="nav-link" data-scroll-target="#id-return-user-identity"><span class="header-section-number">53.1.14</span> <code>id</code>: Return user identity</a></li>
+<li><a href="#man-print-the-manual-pages" id="toc-man-print-the-manual-pages" class="nav-link" data-scroll-target="#man-print-the-manual-pages"><span class="header-section-number">52.1.1</span> <code>man</code>: Print the manual pages</a></li>
+  <li><a href="#pwd-print-working-directory-the-directory-you-are-currently-in" id="toc-pwd-print-working-directory-the-directory-you-are-currently-in" class="nav-link" data-scroll-target="#pwd-print-working-directory-the-directory-you-are-currently-in"><span class="header-section-number">52.1.2</span> <code>pwd</code>: Print working directory (the directory you are currently in)</a></li>
+  <li><a href="#cd-set-working-directory-to-pathtodir" id="toc-cd-set-working-directory-to-pathtodir" class="nav-link" data-scroll-target="#cd-set-working-directory-to-pathtodir"><span class="header-section-number">52.1.3</span> <code>cd</code>: Set working directory to <code>/path/to/dir</code></a></li>
+  <li><a href="#ls-list-directory-contents" id="toc-ls-list-directory-contents" class="nav-link" data-scroll-target="#ls-list-directory-contents"><span class="header-section-number">52.1.4</span> <code>ls</code>: List directory contents</a></li>
+  <li><a href="#mv-move-file-from-currentdir-to-newdir" id="toc-mv-move-file-from-currentdir-to-newdir" class="nav-link" data-scroll-target="#mv-move-file-from-currentdir-to-newdir"><span class="header-section-number">52.1.5</span> <code>mv</code>: Move <code>file</code> from <code>/current/dir/</code> to <code>/new/dir</code></a></li>
+  <li><a href="#mv-rename-file-to-newfilename" id="toc-mv-rename-file-to-newfilename" class="nav-link" data-scroll-target="#mv-rename-file-to-newfilename"><span class="header-section-number">52.1.6</span> <code>mv</code>: Rename <code>file</code> to <code>newfilename</code></a></li>
+  <li><a href="#cp-make-a-copy-of-file-from-currentpath-into-altpath" id="toc-cp-make-a-copy-of-file-from-currentpath-into-altpath" class="nav-link" data-scroll-target="#cp-make-a-copy-of-file-from-currentpath-into-altpath"><span class="header-section-number">52.1.7</span> <code>cp</code>: Make a copy of <code>file</code> from <code>currentPath</code> into <code>altPath</code></a></li>
+  <li><a href="#rm-remove-i.e.-delete-file" id="toc-rm-remove-i.e.-delete-file" class="nav-link" data-scroll-target="#rm-remove-i.e.-delete-file"><span class="header-section-number">52.1.8</span> <code>rm</code>: Remove, i.e.&nbsp;delete, file</a></li>
+  <li><a href="#mkdir-create-a-new-directory-named-newdir" id="toc-mkdir-create-a-new-directory-named-newdir" class="nav-link" data-scroll-target="#mkdir-create-a-new-directory-named-newdir"><span class="header-section-number">52.1.9</span> <code>mkdir</code>: Create a new directory named ‘newdir’</a></li>
+  <li><a href="#rmdir-remove-i.e.-delete-empty-directory" id="toc-rmdir-remove-i.e.-delete-empty-directory" class="nav-link" data-scroll-target="#rmdir-remove-i.e.-delete-empty-directory"><span class="header-section-number">52.1.10</span> <code>rmdir</code>: Remove, i.e.&nbsp;delete, <strong>empty</strong> directory</a></li>
+  <li><a href="#cat-print-contents-of-file-to-the-console" id="toc-cat-print-contents-of-file-to-the-console" class="nav-link" data-scroll-target="#cat-print-contents-of-file-to-the-console"><span class="header-section-number">52.1.11</span> <code>cat</code>: Print contents of <code>file</code> to the console</a></li>
+  <li><a href="#uname-get-system-information" id="toc-uname-get-system-information" class="nav-link" data-scroll-target="#uname-get-system-information"><span class="header-section-number">52.1.12</span> <code>uname</code>: Get system information</a></li>
+  <li><a href="#whoami-print-the-currently-logged-in-users-name" id="toc-whoami-print-the-currently-logged-in-users-name" class="nav-link" data-scroll-target="#whoami-print-the-currently-logged-in-users-name"><span class="header-section-number">52.1.13</span> <code>whoami</code>: Print the currently logged in user’s name</a></li>
+  <li><a href="#id-return-user-identity" id="toc-id-return-user-identity" class="nav-link" data-scroll-target="#id-return-user-identity"><span class="header-section-number">52.1.14</span> <code>id</code>: Return user identity</a></li>
   </ul>
 </li>
-  <li><a href="#running-system-commands-within-r" id="toc-running-system-commands-within-r" class="nav-link" data-scroll-target="#running-system-commands-within-r"><span class="header-section-number">53.2</span> Running system commands within R</a></li>
+  <li><a href="#running-system-commands-within-r" id="toc-running-system-commands-within-r" class="nav-link" data-scroll-target="#running-system-commands-within-r"><span class="header-section-number">52.2</span> Running system commands within R</a></li>
   <li>
-<a href="#useful-terminal-commands-for-working-with-data" id="toc-useful-terminal-commands-for-working-with-data" class="nav-link" data-scroll-target="#useful-terminal-commands-for-working-with-data"><span class="header-section-number">53.3</span> Useful terminal commands for working with data</a>
+<a href="#useful-terminal-commands-for-working-with-data" id="toc-useful-terminal-commands-for-working-with-data" class="nav-link" data-scroll-target="#useful-terminal-commands-for-working-with-data"><span class="header-section-number">52.3</span> Useful terminal commands for working with data</a>
   <ul class="collapse">
-<li><a href="#head-print-the-first-few-lines-of-a-file" id="toc-head-print-the-first-few-lines-of-a-file" class="nav-link" data-scroll-target="#head-print-the-first-few-lines-of-a-file"><span class="header-section-number">53.3.1</span> <code>head</code>: Print the first few lines of a file</a></li>
-  <li><a href="#tail-print-the-last-few-lines-of-a-file" id="toc-tail-print-the-last-few-lines-of-a-file" class="nav-link" data-scroll-target="#tail-print-the-last-few-lines-of-a-file"><span class="header-section-number">53.3.2</span> <code>tail</code>: Print the last few lines of a file</a></li>
-  <li><a href="#wc-word-line-character-and-byte-count" id="toc-wc-word-line-character-and-byte-count" class="nav-link" data-scroll-target="#wc-word-line-character-and-byte-count"><span class="header-section-number">53.3.3</span> <code>wc</code>: Word, line, character, and byte count</a></li>
-  <li><a href="#du-display-disk-usage-statistics" id="toc-du-display-disk-usage-statistics" class="nav-link" data-scroll-target="#du-display-disk-usage-statistics"><span class="header-section-number">53.3.4</span> <code>du</code>: Display disk usage statistics</a></li>
+<li><a href="#head-print-the-first-few-lines-of-a-file" id="toc-head-print-the-first-few-lines-of-a-file" class="nav-link" data-scroll-target="#head-print-the-first-few-lines-of-a-file"><span class="header-section-number">52.3.1</span> <code>head</code>: Print the first few lines of a file</a></li>
+  <li><a href="#tail-print-the-last-few-lines-of-a-file" id="toc-tail-print-the-last-few-lines-of-a-file" class="nav-link" data-scroll-target="#tail-print-the-last-few-lines-of-a-file"><span class="header-section-number">52.3.2</span> <code>tail</code>: Print the last few lines of a file</a></li>
+  <li><a href="#wc-word-line-character-and-byte-count" id="toc-wc-word-line-character-and-byte-count" class="nav-link" data-scroll-target="#wc-word-line-character-and-byte-count"><span class="header-section-number">52.3.3</span> <code>wc</code>: Word, line, character, and byte count</a></li>
+  <li><a href="#du-display-disk-usage-statistics" id="toc-du-display-disk-usage-statistics" class="nav-link" data-scroll-target="#du-display-disk-usage-statistics"><span class="header-section-number">52.3.4</span> <code>du</code>: Display disk usage statistics</a></li>
   </ul>
 </li>
-  <li><a href="#further-resources" id="toc-further-resources" class="nav-link" data-scroll-target="#further-resources"><span class="header-section-number">53.4</span> Further Resources</a></li>
+  <li><a href="#further-resources" id="toc-further-resources" class="nav-link" data-scroll-target="#further-resources"><span class="header-section-number">52.4</span> Further Resources</a></li>
   </ul><div class="toc-actions"><ul><li><a href="https://github.com/egenn/pdsr/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./System.html">System</a></li><li class="breadcrumb-item"><a href="./TerminalIntro.html"><span class="chapter-number">53</span>&nbsp; <span class="chapter-title">Introduction to the System Shell</span></a></li></ol></nav><div class="quarto-title">
-<h1 class="title"><span id="shell" class="quarto-section-identifier"><span class="chapter-number">53</span>&nbsp; <span class="chapter-title">Introduction to the System Shell</span></span></h1>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./System.html">System</a></li><li class="breadcrumb-item"><a href="./TerminalIntro.html"><span class="chapter-number">52</span>&nbsp; <span class="chapter-title">Introduction to the System Shell</span></a></li></ol></nav><div class="quarto-title">
+<h1 class="title"><span id="shell" class="quarto-section-identifier"><span class="chapter-number">52</span>&nbsp; <span class="chapter-title">Introduction to the System Shell</span></span></h1>
 </div>
 
 
@@ -827,28 +830,28 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 </header><p>This is a very brief introduction to some of the most commonly used shell commands.</p>
 <p>A <a href="https://en.wikipedia.org/wiki/Unix_shell">shell</a> is a command line interface allowing access to an operating system’s services. Multiple different shells exist. The most popular is probably <a href="https://en.wikipedia.org/wiki/Bash_%28Unix_shell%29"><strong>bash</strong></a>, which is the default in most Linux installations. In macOS, the default shell switched form <strong>bash</strong> to <a href="https://en.wikipedia.org/wiki/Z_shell"><strong>zsh</strong></a> in 2019 with the release of Catalina. In Windows, various shells are available through the <a href="https://en.wikipedia.org/wiki/Windows_Subsystem_for_Linux">Windows Subsystem for Linux</a>.</p>
 <p>The commands listed here will work similarly in all/most shells.</p>
-<section id="common-shell-commands" class="level2" data-number="53.1"><h2 data-number="53.1" class="anchored" data-anchor-id="common-shell-commands">
-<span class="header-section-number">53.1</span> Common shell commands</h2>
+<section id="common-shell-commands" class="level2" data-number="52.1"><h2 data-number="52.1" class="anchored" data-anchor-id="common-shell-commands">
+<span class="header-section-number">52.1</span> Common shell commands</h2>
 <p>The first thing to look for in a new environment is the help system. In the shell, this is accessed with <code>man</code>:</p>
-<section id="man-print-the-manual-pages" class="level3" data-number="53.1.1"><h3 data-number="53.1.1" class="anchored" data-anchor-id="man-print-the-manual-pages">
-<span class="header-section-number">53.1.1</span> <code>man</code>: Print the manual pages</h3>
+<section id="man-print-the-manual-pages" class="level3" data-number="52.1.1"><h3 data-number="52.1.1" class="anchored" data-anchor-id="man-print-the-manual-pages">
+<span class="header-section-number">52.1.1</span> <code>man</code>: Print the manual pages</h3>
 <p>For example, the following would return the manual pages for the <code>ls</code> command, explained a little later.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">man</span> ls</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section><section id="pwd-print-working-directory-the-directory-you-are-currently-in" class="level3" data-number="53.1.2"><h3 data-number="53.1.2" class="anchored" data-anchor-id="pwd-print-working-directory-the-directory-you-are-currently-in">
-<span class="header-section-number">53.1.2</span> <code>pwd</code>: Print working directory (the directory you are currently in)</h3>
+</section><section id="pwd-print-working-directory-the-directory-you-are-currently-in" class="level3" data-number="52.1.2"><h3 data-number="52.1.2" class="anchored" data-anchor-id="pwd-print-working-directory-the-directory-you-are-currently-in">
+<span class="header-section-number">52.1.2</span> <code>pwd</code>: Print working directory (the directory you are currently in)</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">pwd</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section><section id="cd-set-working-directory-to-pathtodir" class="level3" data-number="53.1.3"><h3 data-number="53.1.3" class="anchored" data-anchor-id="cd-set-working-directory-to-pathtodir">
-<span class="header-section-number">53.1.3</span> <code>cd</code>: Set working directory to <code>/path/to/dir</code>
+</section><section id="cd-set-working-directory-to-pathtodir" class="level3" data-number="52.1.3"><h3 data-number="52.1.3" class="anchored" data-anchor-id="cd-set-working-directory-to-pathtodir">
+<span class="header-section-number">52.1.3</span> <code>cd</code>: Set working directory to <code>/path/to/dir</code>
 </h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /path/to/dir</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section><section id="ls-list-directory-contents" class="level3" data-number="53.1.4"><h3 data-number="53.1.4" class="anchored" data-anchor-id="ls-list-directory-contents">
-<span class="header-section-number">53.1.4</span> <code>ls</code>: List directory contents</h3>
+</section><section id="ls-list-directory-contents" class="level3" data-number="52.1.4"><h3 data-number="52.1.4" class="anchored" data-anchor-id="ls-list-directory-contents">
+<span class="header-section-number">52.1.4</span> <code>ls</code>: List directory contents</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -856,36 +859,36 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section><section id="mv-move-file-from-currentdir-to-newdir" class="level3" data-number="53.1.5"><h3 data-number="53.1.5" class="anchored" data-anchor-id="mv-move-file-from-currentdir-to-newdir">
-<span class="header-section-number">53.1.5</span> <code>mv</code>: Move <code>file</code> from <code>/current/dir/</code> to <code>/new/dir</code>
+</section><section id="mv-move-file-from-currentdir-to-newdir" class="level3" data-number="52.1.5"><h3 data-number="52.1.5" class="anchored" data-anchor-id="mv-move-file-from-currentdir-to-newdir">
+<span class="header-section-number">52.1.5</span> <code>mv</code>: Move <code>file</code> from <code>/current/dir/</code> to <code>/new/dir</code>
 </h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> /current/dir/file /new/dir</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section><section id="mv-rename-file-to-newfilename" class="level3" data-number="53.1.6"><h3 data-number="53.1.6" class="anchored" data-anchor-id="mv-rename-file-to-newfilename">
-<span class="header-section-number">53.1.6</span> <code>mv</code>: Rename <code>file</code> to <code>newfilename</code>
+</section><section id="mv-rename-file-to-newfilename" class="level3" data-number="52.1.6"><h3 data-number="52.1.6" class="anchored" data-anchor-id="mv-rename-file-to-newfilename">
+<span class="header-section-number">52.1.6</span> <code>mv</code>: Rename <code>file</code> to <code>newfilename</code>
 </h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> /current/dir/file /current/dir/newfilename</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section><section id="cp-make-a-copy-of-file-from-currentpath-into-altpath" class="level3" data-number="53.1.7"><h3 data-number="53.1.7" class="anchored" data-anchor-id="cp-make-a-copy-of-file-from-currentpath-into-altpath">
-<span class="header-section-number">53.1.7</span> <code>cp</code>: Make a copy of <code>file</code> from <code>currentPath</code> into <code>altPath</code>
+</section><section id="cp-make-a-copy-of-file-from-currentpath-into-altpath" class="level3" data-number="52.1.7"><h3 data-number="52.1.7" class="anchored" data-anchor-id="cp-make-a-copy-of-file-from-currentpath-into-altpath">
+<span class="header-section-number">52.1.7</span> <code>cp</code>: Make a copy of <code>file</code> from <code>currentPath</code> into <code>altPath</code>
 </h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> /currentPath/file /altPath/file</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section><section id="rm-remove-i.e.-delete-file" class="level3" data-number="53.1.8"><h3 data-number="53.1.8" class="anchored" data-anchor-id="rm-remove-i.e.-delete-file">
-<span class="header-section-number">53.1.8</span> <code>rm</code>: Remove, i.e.&nbsp;delete, file</h3>
+</section><section id="rm-remove-i.e.-delete-file" class="level3" data-number="52.1.8"><h3 data-number="52.1.8" class="anchored" data-anchor-id="rm-remove-i.e.-delete-file">
+<span class="header-section-number">52.1.8</span> <code>rm</code>: Remove, i.e.&nbsp;delete, file</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> /path/to/file</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section><section id="mkdir-create-a-new-directory-named-newdir" class="level3" data-number="53.1.9"><h3 data-number="53.1.9" class="anchored" data-anchor-id="mkdir-create-a-new-directory-named-newdir">
-<span class="header-section-number">53.1.9</span> <code>mkdir</code>: Create a new directory named ‘newdir’</h3>
+</section><section id="mkdir-create-a-new-directory-named-newdir" class="level3" data-number="52.1.9"><h3 data-number="52.1.9" class="anchored" data-anchor-id="mkdir-create-a-new-directory-named-newdir">
+<span class="header-section-number">52.1.9</span> <code>mkdir</code>: Create a new directory named ‘newdir’</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> /path/to/newdir</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section><section id="rmdir-remove-i.e.-delete-empty-directory" class="level3" data-number="53.1.10"><h3 data-number="53.1.10" class="anchored" data-anchor-id="rmdir-remove-i.e.-delete-empty-directory">
-<span class="header-section-number">53.1.10</span> <code>rmdir</code>: Remove, i.e.&nbsp;delete, <strong>empty</strong> directory</h3>
+</section><section id="rmdir-remove-i.e.-delete-empty-directory" class="level3" data-number="52.1.10"><h3 data-number="52.1.10" class="anchored" data-anchor-id="rmdir-remove-i.e.-delete-empty-directory">
+<span class="header-section-number">52.1.10</span> <code>rmdir</code>: Remove, i.e.&nbsp;delete, <strong>empty</strong> directory</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rmdir</span> /path/to/somedir</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -894,39 +897,39 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-rf</span> /path/to/dir</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section><section id="cat-print-contents-of-file-to-the-console" class="level3" data-number="53.1.11"><h3 data-number="53.1.11" class="anchored" data-anchor-id="cat-print-contents-of-file-to-the-console">
-<span class="header-section-number">53.1.11</span> <code>cat</code>: Print contents of <code>file</code> to the console</h3>
+</section><section id="cat-print-contents-of-file-to-the-console" class="level3" data-number="52.1.11"><h3 data-number="52.1.11" class="anchored" data-anchor-id="cat-print-contents-of-file-to-the-console">
+<span class="header-section-number">52.1.11</span> <code>cat</code>: Print contents of <code>file</code> to the console</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> /path/to/file</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section><section id="uname-get-system-information" class="level3" data-number="53.1.12"><h3 data-number="53.1.12" class="anchored" data-anchor-id="uname-get-system-information">
-<span class="header-section-number">53.1.12</span> <code>uname</code>: Get system information</h3>
+</section><section id="uname-get-system-information" class="level3" data-number="52.1.12"><h3 data-number="52.1.12" class="anchored" data-anchor-id="uname-get-system-information">
+<span class="header-section-number">52.1.12</span> <code>uname</code>: Get system information</h3>
 <p><code>-a</code> argument for “all”</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">uname</span> <span class="at">-a</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section><section id="whoami-print-the-currently-logged-in-users-name" class="level3" data-number="53.1.13"><h3 data-number="53.1.13" class="anchored" data-anchor-id="whoami-print-the-currently-logged-in-users-name">
-<span class="header-section-number">53.1.13</span> <code>whoami</code>: Print the currently logged in user’s name</h3>
+</section><section id="whoami-print-the-currently-logged-in-users-name" class="level3" data-number="52.1.13"><h3 data-number="52.1.13" class="anchored" data-anchor-id="whoami-print-the-currently-logged-in-users-name">
+<span class="header-section-number">52.1.13</span> <code>whoami</code>: Print the currently logged in user’s name</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">whoami</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section><section id="id-return-user-identity" class="level3" data-number="53.1.14"><h3 data-number="53.1.14" class="anchored" data-anchor-id="id-return-user-identity">
-<span class="header-section-number">53.1.14</span> <code>id</code>: Return user identity</h3>
+</section><section id="id-return-user-identity" class="level3" data-number="52.1.14"><h3 data-number="52.1.14" class="anchored" data-anchor-id="id-return-user-identity">
+<span class="header-section-number">52.1.14</span> <code>id</code>: Return user identity</h3>
 <p>The <code>id</code> command returns, among other things, the groups a user belong to. This informs you which directories and files a user can read, write, and execute.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">id</span> username</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section></section><section id="running-system-commands-within-r" class="level2" data-number="53.2"><h2 data-number="53.2" class="anchored" data-anchor-id="running-system-commands-within-r">
-<span class="header-section-number">53.2</span> Running system commands within R</h2>
+</section></section><section id="running-system-commands-within-r" class="level2" data-number="52.2"><h2 data-number="52.2" class="anchored" data-anchor-id="running-system-commands-within-r">
+<span class="header-section-number">52.2</span> Running system commands within R</h2>
 <p>You can execute any system command within R using the <code><a href="https://rdrr.io/r/base/system.html">system()</a></code> command:</p>
 <div class="cell">
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.html">system</a></span><span class="op">(</span><span class="st">"uname -a"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section><section id="useful-terminal-commands-for-working-with-data" class="level2" data-number="53.3"><h2 data-number="53.3" class="anchored" data-anchor-id="useful-terminal-commands-for-working-with-data">
-<span class="header-section-number">53.3</span> Useful terminal commands for working with data</h2>
+</section><section id="useful-terminal-commands-for-working-with-data" class="level2" data-number="52.3"><h2 data-number="52.3" class="anchored" data-anchor-id="useful-terminal-commands-for-working-with-data">
+<span class="header-section-number">52.3</span> Useful terminal commands for working with data</h2>
 <p>If you receive a data file, you may want to get an idea of the contents before reading it into R.</p>
-<section id="head-print-the-first-few-lines-of-a-file" class="level3" data-number="53.3.1"><h3 data-number="53.3.1" class="anchored" data-anchor-id="head-print-the-first-few-lines-of-a-file">
-<span class="header-section-number">53.3.1</span> <code>head</code>: Print the first few lines of a file</h3>
+<section id="head-print-the-first-few-lines-of-a-file" class="level3" data-number="52.3.1"><h3 data-number="52.3.1" class="anchored" data-anchor-id="head-print-the-first-few-lines-of-a-file">
+<span class="header-section-number">52.3.1</span> <code>head</code>: Print the first few lines of a file</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span> iris.csv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -950,8 +953,8 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <pre><code>Sepal.Length,Sepal.Width,Petal.Length,Petal.Width,Species</code></pre>
 </div>
 </div>
-</section><section id="tail-print-the-last-few-lines-of-a-file" class="level3" data-number="53.3.2"><h3 data-number="53.3.2" class="anchored" data-anchor-id="tail-print-the-last-few-lines-of-a-file">
-<span class="header-section-number">53.3.2</span> <code>tail</code>: Print the last few lines of a file</h3>
+</section><section id="tail-print-the-last-few-lines-of-a-file" class="level3" data-number="52.3.2"><h3 data-number="52.3.2" class="anchored" data-anchor-id="tail-print-the-last-few-lines-of-a-file">
+<span class="header-section-number">52.3.2</span> <code>tail</code>: Print the last few lines of a file</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span> iris.csv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -967,8 +970,8 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 5.9,3,5.1,1.8,virginica</code></pre>
 </div>
 </div>
-</section><section id="wc-word-line-character-and-byte-count" class="level3" data-number="53.3.3"><h3 data-number="53.3.3" class="anchored" data-anchor-id="wc-word-line-character-and-byte-count">
-<span class="header-section-number">53.3.3</span> <code>wc</code>: Word, line, character, and byte count</h3>
+</section><section id="wc-word-line-character-and-byte-count" class="level3" data-number="52.3.3"><h3 data-number="52.3.3" class="anchored" data-anchor-id="wc-word-line-character-and-byte-count">
+<span class="header-section-number">52.3.3</span> <code>wc</code>: Word, line, character, and byte count</h3>
 <p><code>wc</code> can print the word or line count of a file, among other things. This can be particularly useful when dealing with large files</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wc</span> <span class="at">-l</span> iris.csv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -977,8 +980,8 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 </div>
 </div>
 <p>The iris dataset consist of 150 cases plus one line with the column names</p>
-</section><section id="du-display-disk-usage-statistics" class="level3" data-number="53.3.4"><h3 data-number="53.3.4" class="anchored" data-anchor-id="du-display-disk-usage-statistics">
-<span class="header-section-number">53.3.4</span> <code>du</code>: Display disk usage statistics</h3>
+</section><section id="du-display-disk-usage-statistics" class="level3" data-number="52.3.4"><h3 data-number="52.3.4" class="anchored" data-anchor-id="du-display-disk-usage-statistics">
+<span class="header-section-number">52.3.4</span> <code>du</code>: Display disk usage statistics</h3>
 <p><code>du</code> can display the size of a file or directory among other things.</p>
 <p>This can be very important when trying to determine if the contents of a data file will fit in memory.</p>
 <p>Display the size of a file in human-readable format (Kilobytes, Megabytes, Gigabytes, etc)</p>
@@ -995,8 +998,8 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <pre><code>874M    .</code></pre>
 </div>
 </div>
-</section></section><section id="further-resources" class="level2" data-number="53.4"><h2 data-number="53.4" class="anchored" data-anchor-id="further-resources">
-<span class="header-section-number">53.4</span> Further Resources</h2>
+</section></section><section id="further-resources" class="level2" data-number="52.4"><h2 data-number="52.4" class="anchored" data-anchor-id="further-resources">
+<span class="header-section-number">52.4</span> Further Resources</h2>
 <p>Bash is the default shell in most Linux distributions.</p>
 <p>ZSH replaced Bash as the default shell in macOS with the release of macOS Catalina in 2019 (though Bash currently still comes installed)</p>
 <ul>
@@ -1630,7 +1633,7 @@ window.onload = function() {
   </div>
   <div class="nav-page nav-page-next">
       <a href="./GitHubIntro.html" class="pagination-link" aria-label="Git &amp; GitHub: The Basics">
-        <span class="nav-page-text"><span class="chapter-number">54</span>&nbsp; <span class="chapter-title">Git &amp; GitHub: The Basics</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">53</span>&nbsp; <span class="chapter-title">Git &amp; GitHub: The Basics</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

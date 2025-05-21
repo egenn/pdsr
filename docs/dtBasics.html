@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.7.31">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>35&nbsp; data.table basics – PDSR</title>
+<title>34&nbsp; data.table basics – PDSR</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -75,7 +75,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-4f97383ec2b0718e090f5a3bf624e0cf.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-294c2a79f4b5c5018fdfa692435fb65c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-dark-1e7b01a6aeb55307b339f3c789586970.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="site_libs/bootstrap/bootstrap-4f97383ec2b0718e090f5a3bf624e0cf.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script src="site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
@@ -263,7 +263,8 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
       }
     };
     const authorPrefersDark = false;
-    const darkModeDefault = authorPrefersDark;
+    const queryPrefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+    const darkModeDefault = queryPrefersDark.matches;
       document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
       document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
     let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
@@ -276,6 +277,14 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
       toggleGiscusIfUsed(toAlternate, darkModeDefault);
       window.dispatchEvent(new Event('resize'));
     };
+    queryPrefersDark.addEventListener("change", e => {
+      if(window.localStorage.getItem("quarto-color-scheme") !== null)
+        return;
+      const alternate = e.matches
+      toggleColorMode(alternate);
+      localAlternateSentinel = e.matches ? 'alternate' : 'default'; // this is used alongside local storage!
+      toggleGiscusIfUsed(alternate, darkModeDefault);
+    });
     // Switch to dark mode if need be
     if (hasAlternateSentinel()) {
       toggleColorMode(true);
@@ -289,7 +298,7 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./DataTable.html">Data Table</a></li><li class="breadcrumb-item"><a href="./dtBasics.html"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">data.table basics</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./DataTable.html">Data Table</a></li><li class="breadcrumb-item"><a href="./dtBasics.html"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">data.table basics</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -526,32 +535,26 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./MissingData.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Handling Missing data</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./Strings.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Strings</span></span></a>
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Strings</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./DateTime.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Date and Time</span></span></a>
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Date and Time</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./SetOps.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Set Operations</span></span></a>
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Set Operations</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ClassesAndOOP.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Classes and OOP</span></span></a>
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Classes and OOP</span></span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -566,37 +569,37 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dtIntro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dtBasics.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">data.table basics</span></span></a>
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">data.table basics</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dtRefSem.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Reference Semantics</span></span></a>
+ <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Reference Semantics</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dtReshape.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">Reshape</span></span></a>
+ <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Reshape</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dtJoin.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">38</span>&nbsp; <span class="chapter-title">Joins</span></span></a>
+ <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">Joins</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dtAdvanced.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">39</span>&nbsp; <span class="chapter-title">Advanced Usage</span></span></a>
+ <span class="menu-text"><span class="chapter-number">38</span>&nbsp; <span class="chapter-title">Advanced Usage</span></span></a>
   </div>
 </li>
       </ul>
@@ -613,25 +616,25 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dplyr.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">40</span>&nbsp; <span class="chapter-title">Introduction to dplyr</span></span></a>
+ <span class="menu-text"><span class="chapter-number">39</span>&nbsp; <span class="chapter-title">Introduction to dplyr</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./tidyrReshape.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">41</span>&nbsp; <span class="chapter-title">Reshaping with <strong>tidyr</strong></span></span></a>
+ <span class="menu-text"><span class="chapter-number">40</span>&nbsp; <span class="chapter-title">Reshaping with <strong>tidyr</strong></span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dplyrJoin.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">42</span>&nbsp; <span class="chapter-title">Joins</span></span></a>
+ <span class="menu-text"><span class="chapter-number">41</span>&nbsp; <span class="chapter-title">Joins</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./lubridate.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">43</span>&nbsp; <span class="chapter-title">Dates with <strong>lubridate</strong></span></span></a>
+ <span class="menu-text"><span class="chapter-number">42</span>&nbsp; <span class="chapter-title">Dates with <strong>lubridate</strong></span></span></a>
   </div>
 </li>
       </ul>
@@ -648,25 +651,25 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./BaseGraphics.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">44</span>&nbsp; <span class="chapter-title">Base Graphics</span></span></a>
+ <span class="menu-text"><span class="chapter-number">43</span>&nbsp; <span class="chapter-title">Base Graphics</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Colors.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">45</span>&nbsp; <span class="chapter-title">Colors</span></span></a>
+ <span class="menu-text"><span class="chapter-number">44</span>&nbsp; <span class="chapter-title">Colors</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ggplot2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">46</span>&nbsp; <span class="chapter-title">Introduction to <strong>ggplot2</strong></span></span></a>
+ <span class="menu-text"><span class="chapter-number">45</span>&nbsp; <span class="chapter-title">Introduction to <strong>ggplot2</strong></span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./plotly.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">47</span>&nbsp; <span class="chapter-title">Introduction to <strong>plotly</strong></span></span></a>
+ <span class="menu-text"><span class="chapter-number">46</span>&nbsp; <span class="chapter-title">Introduction to <strong>plotly</strong></span></span></a>
   </div>
 </li>
       </ul>
@@ -674,31 +677,31 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./HypothesisTesting.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">48</span>&nbsp; <span class="chapter-title">Common Statistical Tests</span></span></a>
+ <span class="menu-text"><span class="chapter-number">47</span>&nbsp; <span class="chapter-title">Common Statistical Tests</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./GLM.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">49</span>&nbsp; <span class="chapter-title">Introduction to the GLM</span></span></a>
+ <span class="menu-text"><span class="chapter-number">48</span>&nbsp; <span class="chapter-title">Introduction to the GLM</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Profiling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">50</span>&nbsp; <span class="chapter-title">Benchmarking &amp; Profiling</span></span></a>
+ <span class="menu-text"><span class="chapter-number">49</span>&nbsp; <span class="chapter-title">Benchmarking &amp; Profiling</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Optimization.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">51</span>&nbsp; <span class="chapter-title">Optimization</span></span></a>
+ <span class="menu-text"><span class="chapter-number">50</span>&nbsp; <span class="chapter-title">Optimization</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Quarto.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">52</span>&nbsp; <span class="chapter-title">Quarto</span></span></a>
+ <span class="menu-text"><span class="chapter-number">51</span>&nbsp; <span class="chapter-title">Quarto</span></span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -713,13 +716,13 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./TerminalIntro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">53</span>&nbsp; <span class="chapter-title">Introduction to the System Shell</span></span></a>
+ <span class="menu-text"><span class="chapter-number">52</span>&nbsp; <span class="chapter-title">Introduction to the System Shell</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./GitHubIntro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">54</span>&nbsp; <span class="chapter-title">Git &amp; GitHub: The Basics</span></span></a>
+ <span class="menu-text"><span class="chapter-number">53</span>&nbsp; <span class="chapter-title">Git &amp; GitHub: The Basics</span></span></a>
   </div>
 </li>
       </ul>
@@ -736,13 +739,13 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ds.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">55</span>&nbsp; <span class="chapter-title">Data Queries across implementations</span></span></a>
+ <span class="menu-text"><span class="chapter-number">54</span>&nbsp; <span class="chapter-title">Data Queries across implementations</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./DuckDB.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">56</span>&nbsp; <span class="chapter-title">DuckDB</span></span></a>
+ <span class="menu-text"><span class="chapter-number">55</span>&nbsp; <span class="chapter-title">DuckDB</span></span></a>
   </div>
 </li>
       </ul>
@@ -750,13 +753,13 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Resources.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">57</span>&nbsp; <span class="chapter-title">Resources</span></span></a>
+ <span class="menu-text"><span class="chapter-number">56</span>&nbsp; <span class="chapter-title">Resources</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./DataPipeline.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">58</span>&nbsp; <span class="chapter-title">Data Pipeline Overview</span></span></a>
+ <span class="menu-text"><span class="chapter-number">57</span>&nbsp; <span class="chapter-title">Data Pipeline Overview</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -780,64 +783,64 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
    
   <ul>
 <li>
-<a href="#data.table-extends-the-functionality-of-the-data.frame" id="toc-data.table-extends-the-functionality-of-the-data.frame" class="nav-link active" data-scroll-target="#data.table-extends-the-functionality-of-the-data.frame"><span class="header-section-number">35.1</span> <code>data.table</code> extends the functionality of the <code>data.frame</code></a>
+<a href="#data.table-extends-the-functionality-of-the-data.frame" id="toc-data.table-extends-the-functionality-of-the-data.frame" class="nav-link active" data-scroll-target="#data.table-extends-the-functionality-of-the-data.frame"><span class="header-section-number">34.1</span> <code>data.table</code> extends the functionality of the <code>data.frame</code></a>
   <ul class="collapse">
-<li><a href="#load-the-data.table-package" id="toc-load-the-data.table-package" class="nav-link" data-scroll-target="#load-the-data.table-package"><span class="header-section-number">35.1.1</span> Load the <code>data.table</code> package</a></li>
+<li><a href="#load-the-data.table-package" id="toc-load-the-data.table-package" class="nav-link" data-scroll-target="#load-the-data.table-package"><span class="header-section-number">34.1.1</span> Load the <code>data.table</code> package</a></li>
   </ul>
 </li>
   <li>
-<a href="#create-a-data.table" id="toc-create-a-data.table" class="nav-link" data-scroll-target="#create-a-data.table"><span class="header-section-number">35.2</span> Create a <code>data.table</code></a>
+<a href="#create-a-data.table" id="toc-create-a-data.table" class="nav-link" data-scroll-target="#create-a-data.table"><span class="header-section-number">34.2</span> Create a <code>data.table</code></a>
   <ul class="collapse">
-<li><a href="#by-assignment-data.table" id="toc-by-assignment-data.table" class="nav-link" data-scroll-target="#by-assignment-data.table"><span class="header-section-number">35.2.1</span> By assignment: <code>data.table()</code></a></li>
-  <li><a href="#by-coercion-as.data.table" id="toc-by-coercion-as.data.table" class="nav-link" data-scroll-target="#by-coercion-as.data.table"><span class="header-section-number">35.2.2</span> By coercion: <code>as.data.table()</code></a></li>
-  <li><a href="#by-coercion-in-place-setdt" id="toc-by-coercion-in-place-setdt" class="nav-link" data-scroll-target="#by-coercion-in-place-setdt"><span class="header-section-number">35.2.3</span> By coercion <strong><em>in-place</em></strong>: <code>setDT()</code></a></li>
+<li><a href="#by-assignment-data.table" id="toc-by-assignment-data.table" class="nav-link" data-scroll-target="#by-assignment-data.table"><span class="header-section-number">34.2.1</span> By assignment: <code>data.table()</code></a></li>
+  <li><a href="#by-coercion-as.data.table" id="toc-by-coercion-as.data.table" class="nav-link" data-scroll-target="#by-coercion-as.data.table"><span class="header-section-number">34.2.2</span> By coercion: <code>as.data.table()</code></a></li>
+  <li><a href="#by-coercion-in-place-setdt" id="toc-by-coercion-in-place-setdt" class="nav-link" data-scroll-target="#by-coercion-in-place-setdt"><span class="header-section-number">34.2.3</span> By coercion <strong><em>in-place</em></strong>: <code>setDT()</code></a></li>
   </ul>
 </li>
-  <li><a href="#display-data.table-structure-with-str" id="toc-display-data.table-structure-with-str" class="nav-link" data-scroll-target="#display-data.table-structure-with-str"><span class="header-section-number">35.3</span> Display <code>data.table</code> structure with <code>str()</code></a></li>
-  <li><a href="#combine-data.tables" id="toc-combine-data.tables" class="nav-link" data-scroll-target="#combine-data.tables"><span class="header-section-number">35.4</span> Combine <code>data.tables</code></a></li>
-  <li><a href="#set-column-names-in-place" id="toc-set-column-names-in-place" class="nav-link" data-scroll-target="#set-column-names-in-place"><span class="header-section-number">35.5</span> Set column names <strong><em>in-place</em></strong></a></li>
+  <li><a href="#display-data.table-structure-with-str" id="toc-display-data.table-structure-with-str" class="nav-link" data-scroll-target="#display-data.table-structure-with-str"><span class="header-section-number">34.3</span> Display <code>data.table</code> structure with <code>str()</code></a></li>
+  <li><a href="#combine-data.tables" id="toc-combine-data.tables" class="nav-link" data-scroll-target="#combine-data.tables"><span class="header-section-number">34.4</span> Combine <code>data.tables</code></a></li>
+  <li><a href="#set-column-names-in-place" id="toc-set-column-names-in-place" class="nav-link" data-scroll-target="#set-column-names-in-place"><span class="header-section-number">34.5</span> Set column names <strong><em>in-place</em></strong></a></li>
   <li>
-<a href="#filter-rows" id="toc-filter-rows" class="nav-link" data-scroll-target="#filter-rows"><span class="header-section-number">35.6</span> Filter rows</a>
+<a href="#filter-rows" id="toc-filter-rows" class="nav-link" data-scroll-target="#filter-rows"><span class="header-section-number">34.6</span> Filter rows</a>
   <ul class="collapse">
-<li><a href="#conditional-filtering" id="toc-conditional-filtering" class="nav-link" data-scroll-target="#conditional-filtering"><span class="header-section-number">35.6.1</span> Conditional filtering</a></li>
+<li><a href="#conditional-filtering" id="toc-conditional-filtering" class="nav-link" data-scroll-target="#conditional-filtering"><span class="header-section-number">34.6.1</span> Conditional filtering</a></li>
   </ul>
 </li>
   <li>
-<a href="#select-columns" id="toc-select-columns" class="nav-link" data-scroll-target="#select-columns"><span class="header-section-number">35.7</span> Select columns</a>
+<a href="#select-columns" id="toc-select-columns" class="nav-link" data-scroll-target="#select-columns"><span class="header-section-number">34.7</span> Select columns</a>
   <ul class="collapse">
-<li><a href="#by-positions" id="toc-by-positions" class="nav-link" data-scroll-target="#by-positions"><span class="header-section-number">35.7.1</span> By position(s)</a></li>
-  <li><a href="#by-names" id="toc-by-names" class="nav-link" data-scroll-target="#by-names"><span class="header-section-number">35.7.2</span> By name(s)</a></li>
-  <li><a href="#sd-.sdcols" id="toc-sd-.sdcols" class="nav-link" data-scroll-target="#sd-.sdcols"><span class="header-section-number">35.7.3</span> <code>.SD</code> &amp; <code>.SDcols</code></a></li>
+<li><a href="#by-positions" id="toc-by-positions" class="nav-link" data-scroll-target="#by-positions"><span class="header-section-number">34.7.1</span> By position(s)</a></li>
+  <li><a href="#by-names" id="toc-by-names" class="nav-link" data-scroll-target="#by-names"><span class="header-section-number">34.7.2</span> By name(s)</a></li>
+  <li><a href="#sd-.sdcols" id="toc-sd-.sdcols" class="nav-link" data-scroll-target="#sd-.sdcols"><span class="header-section-number">34.7.3</span> <code>.SD</code> &amp; <code>.SDcols</code></a></li>
   </ul>
 </li>
-  <li><a href="#add-new-column-in-place" id="toc-add-new-column-in-place" class="nav-link" data-scroll-target="#add-new-column-in-place"><span class="header-section-number">35.8</span> Add new column <strong><em>in-place</em></strong></a></li>
-  <li><a href="#add-multiple-columns-in-place" id="toc-add-multiple-columns-in-place" class="nav-link" data-scroll-target="#add-multiple-columns-in-place"><span class="header-section-number">35.9</span> Add multiple columns <strong><em>in-place</em></strong></a></li>
+  <li><a href="#add-new-column-in-place" id="toc-add-new-column-in-place" class="nav-link" data-scroll-target="#add-new-column-in-place"><span class="header-section-number">34.8</span> Add new column <strong><em>in-place</em></strong></a></li>
+  <li><a href="#add-multiple-columns-in-place" id="toc-add-multiple-columns-in-place" class="nav-link" data-scroll-target="#add-multiple-columns-in-place"><span class="header-section-number">34.9</span> Add multiple columns <strong><em>in-place</em></strong></a></li>
   <li>
-<a href="#convert-column-type" id="toc-convert-column-type" class="nav-link" data-scroll-target="#convert-column-type"><span class="header-section-number">35.10</span> Convert column type</a>
+<a href="#convert-column-type" id="toc-convert-column-type" class="nav-link" data-scroll-target="#convert-column-type"><span class="header-section-number">34.10</span> Convert column type</a>
   <ul class="collapse">
-<li><a href="#assignment-by-reference-with" id="toc-assignment-by-reference-with" class="nav-link" data-scroll-target="#assignment-by-reference-with"><span class="header-section-number">35.10.1</span> Assignment by reference with <code>:=</code></a></li>
-  <li><a href="#delete-columns-in-place-with" id="toc-delete-columns-in-place-with" class="nav-link" data-scroll-target="#delete-columns-in-place-with"><span class="header-section-number">35.10.2</span> Delete columns in-place with <code>:=</code></a></li>
-  <li><a href="#fast-loop-able-assignment-with-set" id="toc-fast-loop-able-assignment-with-set" class="nav-link" data-scroll-target="#fast-loop-able-assignment-with-set"><span class="header-section-number">35.10.3</span> Fast loop-able assignment with <code>set()</code></a></li>
+<li><a href="#assignment-by-reference-with" id="toc-assignment-by-reference-with" class="nav-link" data-scroll-target="#assignment-by-reference-with"><span class="header-section-number">34.10.1</span> Assignment by reference with <code>:=</code></a></li>
+  <li><a href="#delete-columns-in-place-with" id="toc-delete-columns-in-place-with" class="nav-link" data-scroll-target="#delete-columns-in-place-with"><span class="header-section-number">34.10.2</span> Delete columns in-place with <code>:=</code></a></li>
+  <li><a href="#fast-loop-able-assignment-with-set" id="toc-fast-loop-able-assignment-with-set" class="nav-link" data-scroll-target="#fast-loop-able-assignment-with-set"><span class="header-section-number">34.10.3</span> Fast loop-able assignment with <code>set()</code></a></li>
   </ul>
 </li>
-  <li><a href="#summarize" id="toc-summarize" class="nav-link" data-scroll-target="#summarize"><span class="header-section-number">35.11</span> Summarize</a></li>
-  <li><a href="#set-order" id="toc-set-order" class="nav-link" data-scroll-target="#set-order"><span class="header-section-number">35.12</span> Set order</a></li>
+  <li><a href="#summarize" id="toc-summarize" class="nav-link" data-scroll-target="#summarize"><span class="header-section-number">34.11</span> Summarize</a></li>
+  <li><a href="#set-order" id="toc-set-order" class="nav-link" data-scroll-target="#set-order"><span class="header-section-number">34.12</span> Set order</a></li>
   <li>
-<a href="#group-by-operations" id="toc-group-by-operations" class="nav-link" data-scroll-target="#group-by-operations"><span class="header-section-number">35.13</span> Group-by operations</a>
+<a href="#group-by-operations" id="toc-group-by-operations" class="nav-link" data-scroll-target="#group-by-operations"><span class="header-section-number">34.13</span> Group-by operations</a>
   <ul class="collapse">
-<li><a href="#group-by-summary" id="toc-group-by-summary" class="nav-link" data-scroll-target="#group-by-summary"><span class="header-section-number">35.13.1</span> Group-by summary</a></li>
-  <li><a href="#group-by-operation-and-assignment" id="toc-group-by-operation-and-assignment" class="nav-link" data-scroll-target="#group-by-operation-and-assignment"><span class="header-section-number">35.13.2</span> Group-by operation and assignment</a></li>
+<li><a href="#group-by-summary" id="toc-group-by-summary" class="nav-link" data-scroll-target="#group-by-summary"><span class="header-section-number">34.13.1</span> Group-by summary</a></li>
+  <li><a href="#group-by-operation-and-assignment" id="toc-group-by-operation-and-assignment" class="nav-link" data-scroll-target="#group-by-operation-and-assignment"><span class="header-section-number">34.13.2</span> Group-by operation and assignment</a></li>
   </ul>
 </li>
-  <li><a href="#apply-functions-to-columns" id="toc-apply-functions-to-columns" class="nav-link" data-scroll-target="#apply-functions-to-columns"><span class="header-section-number">35.14</span> Apply functions to columns</a></li>
-  <li><a href="#row-wise-operations" id="toc-row-wise-operations" class="nav-link" data-scroll-target="#row-wise-operations"><span class="header-section-number">35.15</span> Row-wise operations</a></li>
-  <li><a href="#watch-out-for-data.table-error-messages" id="toc-watch-out-for-data.table-error-messages" class="nav-link" data-scroll-target="#watch-out-for-data.table-error-messages"><span class="header-section-number">35.16</span> Watch out for <code>data.table</code> error messages</a></li>
-  <li><a href="#resources" id="toc-resources" class="nav-link" data-scroll-target="#resources"><span class="header-section-number">35.17</span> Resources</a></li>
+  <li><a href="#apply-functions-to-columns" id="toc-apply-functions-to-columns" class="nav-link" data-scroll-target="#apply-functions-to-columns"><span class="header-section-number">34.14</span> Apply functions to columns</a></li>
+  <li><a href="#row-wise-operations" id="toc-row-wise-operations" class="nav-link" data-scroll-target="#row-wise-operations"><span class="header-section-number">34.15</span> Row-wise operations</a></li>
+  <li><a href="#watch-out-for-data.table-error-messages" id="toc-watch-out-for-data.table-error-messages" class="nav-link" data-scroll-target="#watch-out-for-data.table-error-messages"><span class="header-section-number">34.16</span> Watch out for <code>data.table</code> error messages</a></li>
+  <li><a href="#resources" id="toc-resources" class="nav-link" data-scroll-target="#resources"><span class="header-section-number">34.17</span> Resources</a></li>
   </ul><div class="toc-actions"><ul><li><a href="https://github.com/egenn/pdsr/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./DataTable.html">Data Table</a></li><li class="breadcrumb-item"><a href="./dtBasics.html"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">data.table basics</span></a></li></ol></nav><div class="quarto-title">
-<h1 class="title"><span id="sec-dtbasics" class="quarto-section-identifier"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">data.table basics</span></span></h1>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./DataTable.html">Data Table</a></li><li class="breadcrumb-item"><a href="./dtBasics.html"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">data.table basics</span></a></li></ol></nav><div class="quarto-title">
+<h1 class="title"><span id="sec-dtbasics" class="quarto-section-identifier"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">data.table basics</span></span></h1>
 </div>
 
 
@@ -855,16 +858,16 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <div class="cell-output-display">
 <div id="fig-datatable" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-datatable-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="assets/R_data.table.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;35.1: data.table significantly enhances the base R data.frame"><img src="assets/R_data.table.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%"></a>
+<a href="assets/R_data.table.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;34.1: data.table significantly enhances the base R data.frame"><img src="assets/R_data.table.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-datatable-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;35.1: data.table significantly enhances the base R data.frame
+Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 </figcaption></figure>
 </div>
 </div>
 </div>
-<section id="data.table-extends-the-functionality-of-the-data.frame" class="level2" data-number="35.1"><h2 data-number="35.1" class="anchored" data-anchor-id="data.table-extends-the-functionality-of-the-data.frame">
-<span class="header-section-number">35.1</span> <code>data.table</code> extends the functionality of the <code>data.frame</code>
+<section id="data.table-extends-the-functionality-of-the-data.frame" class="level2" data-number="34.1"><h2 data-number="34.1" class="anchored" data-anchor-id="data.table-extends-the-functionality-of-the-data.frame">
+<span class="header-section-number">34.1</span> <code>data.table</code> extends the functionality of the <code>data.frame</code>
 </h2>
 <p>Some of the ways in which a <code>data.table</code> differs from a <code>data.frame</code>:</p>
 <ul>
@@ -875,16 +878,16 @@ Figure&nbsp;35.1: data.table significantly enhances the base R data.frame
 </ul>
 <p><code>data.table</code> operations remain as close as possible to <code>data.frame</code> operations, trying to extend rather than replace <code>data.frame</code> functionality.</p>
 <p><strong>data.table</strong> includes thorough and helpful error messages that often point to a solution. This includes common mistakes new users may make when trying commands that would work on a <code>data.frame</code> but not on a <code>data.table</code>.</p>
-<section id="load-the-data.table-package" class="level3" data-number="35.1.1"><h3 data-number="35.1.1" class="anchored" data-anchor-id="load-the-data.table-package">
-<span class="header-section-number">35.1.1</span> Load the <code>data.table</code> package</h3>
+<section id="load-the-data.table-package" class="level3" data-number="34.1.1"><h3 data-number="34.1.1" class="anchored" data-anchor-id="load-the-data.table-package">
+<span class="header-section-number">34.1.1</span> Load the <code>data.table</code> package</h3>
 <div class="cell">
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r-datatable.com">data.table</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section></section><section id="create-a-data.table" class="level2" data-number="35.2"><h2 data-number="35.2" class="anchored" data-anchor-id="create-a-data.table">
-<span class="header-section-number">35.2</span> Create a <code>data.table</code>
+</section></section><section id="create-a-data.table" class="level2" data-number="34.2"><h2 data-number="34.2" class="anchored" data-anchor-id="create-a-data.table">
+<span class="header-section-number">34.2</span> Create a <code>data.table</code>
 </h2>
-<section id="by-assignment-data.table" class="level3" data-number="35.2.1"><h3 data-number="35.2.1" class="anchored" data-anchor-id="by-assignment-data.table">
-<span class="header-section-number">35.2.1</span> By assignment: <code>data.table()</code>
+<section id="by-assignment-data.table" class="level3" data-number="34.2.1"><h3 data-number="34.2.1" class="anchored" data-anchor-id="by-assignment-data.table">
+<span class="header-section-number">34.2.1</span> By assignment: <code>data.table()</code>
 </h3>
 <p>Let’s create a <code>data.frame</code> and a <code>data.table</code> to explore side by side.</p>
 <div class="cell">
@@ -956,8 +959,8 @@ Figure&nbsp;35.1: data.table significantly enhances the base R data.frame
 5:     5   8.1      a</code></pre>
 </div>
 </div>
-</section><section id="by-coercion-as.data.table" class="level3" data-number="35.2.2"><h3 data-number="35.2.2" class="anchored" data-anchor-id="by-coercion-as.data.table">
-<span class="header-section-number">35.2.2</span> By coercion: <code>as.data.table()</code>
+</section><section id="by-coercion-as.data.table" class="level3" data-number="34.2.2"><h3 data-number="34.2.2" class="anchored" data-anchor-id="by-coercion-as.data.table">
+<span class="header-section-number">34.2.2</span> By coercion: <code>as.data.table()</code>
 </h3>
 <div class="cell">
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>A <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,</span>
@@ -985,8 +988,8 @@ Figure&nbsp;35.1: data.table significantly enhances the base R data.frame
 5:     5   8.1      a</code></pre>
 </div>
 </div>
-</section><section id="by-coercion-in-place-setdt" class="level3" data-number="35.2.3"><h3 data-number="35.2.3" class="anchored" data-anchor-id="by-coercion-in-place-setdt">
-<span class="header-section-number">35.2.3</span> By coercion <strong><em>in-place</em></strong>: <code>setDT()</code>
+</section><section id="by-coercion-in-place-setdt" class="level3" data-number="34.2.3"><h3 data-number="34.2.3" class="anchored" data-anchor-id="by-coercion-in-place-setdt">
+<span class="header-section-number">34.2.3</span> By coercion <strong><em>in-place</em></strong>: <code>setDT()</code>
 </h3>
 <p><code><a href="https://rdatatable.gitlab.io/data.table/reference/setDT.html">setDT()</a></code> converts a list or data.frame into a <code>data.table</code> <strong><em>in-place</em></strong>. This means the object passed to <code><a href="https://rdatatable.gitlab.io/data.table/reference/setDT.html">setDT()</a></code> is changed and you do not need to assign the output to a new object.</p>
 <div class="cell">
@@ -1013,8 +1016,8 @@ Figure&nbsp;35.1: data.table significantly enhances the base R data.frame
 <pre><code>[1] "data.frame"</code></pre>
 </div>
 </div>
-</section></section><section id="display-data.table-structure-with-str" class="level2" data-number="35.3"><h2 data-number="35.3" class="anchored" data-anchor-id="display-data.table-structure-with-str">
-<span class="header-section-number">35.3</span> Display <code>data.table</code> structure with <code>str()</code>
+</section></section><section id="display-data.table-structure-with-str" class="level2" data-number="34.3"><h2 data-number="34.3" class="anchored" data-anchor-id="display-data.table-structure-with-str">
+<span class="header-section-number">34.3</span> Display <code>data.table</code> structure with <code>str()</code>
 </h2>
 <p><code><a href="https://rdrr.io/r/utils/str.html">str()</a></code> works the same (and you should keep using it!)</p>
 <div class="cell">
@@ -1036,8 +1039,8 @@ Figure&nbsp;35.1: data.table significantly enhances the base R data.frame
  - attr(*, ".internal.selfref")=&lt;externalptr&gt; </code></pre>
 </div>
 </div>
-</section><section id="combine-data.tables" class="level2" data-number="35.4"><h2 data-number="35.4" class="anchored" data-anchor-id="combine-data.tables">
-<span class="header-section-number">35.4</span> Combine <code>data.tables</code>
+</section><section id="combine-data.tables" class="level2" data-number="34.4"><h2 data-number="34.4" class="anchored" data-anchor-id="combine-data.tables">
+<span class="header-section-number">34.4</span> Combine <code>data.tables</code>
 </h2>
 <p><code><a href="https://rdrr.io/r/base/cbind.html">cbind()</a></code> and <code><a href="https://rdrr.io/r/base/cbind.html">rbind()</a></code> work on <code>data.table</code>s the same as on <code>data.frame</code>s:</p>
 <div class="cell">
@@ -1069,8 +1072,8 @@ Figure&nbsp;35.1: data.table significantly enhances the base R data.frame
 10:     5</code></pre>
 </div>
 </div>
-</section><section id="set-column-names-in-place" class="level2" data-number="35.5"><h2 data-number="35.5" class="anchored" data-anchor-id="set-column-names-in-place">
-<span class="header-section-number">35.5</span> Set column names <strong><em>in-place</em></strong>
+</section><section id="set-column-names-in-place" class="level2" data-number="34.5"><h2 data-number="34.5" class="anchored" data-anchor-id="set-column-names-in-place">
+<span class="header-section-number">34.5</span> Set column names <strong><em>in-place</em></strong>
 </h2>
 <div class="cell">
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html">data.table</a></span><span class="op">(</span></span>
@@ -1156,8 +1159,8 @@ Figure&nbsp;35.1: data.table significantly enhances the base R data.frame
 10:        8181         59.72485            90.59614</code></pre>
 </div>
 </div>
-</section><section id="filter-rows" class="level2" data-number="35.6"><h2 data-number="35.6" class="anchored" data-anchor-id="filter-rows">
-<span class="header-section-number">35.6</span> Filter rows</h2>
+</section><section id="filter-rows" class="level2" data-number="34.6"><h2 data-number="34.6" class="anchored" data-anchor-id="filter-rows">
+<span class="header-section-number">34.6</span> Filter rows</h2>
 <p>There are many similarities and some notable differences in how indexing works in a <code>data.table</code> vs.&nbsp;a <code>data.frame</code>.</p>
 <p>Filtering rows with an integer or logical index is largely the same in a <code>data.frame</code> and a <code>data.table</code>, but in a <code>data.table</code> you can omit the comma to select all columns:</p>
 <div class="cell">
@@ -1238,8 +1241,8 @@ Figure&nbsp;35.1: data.table significantly enhances the base R data.frame
 3:     5   8.1      a</code></pre>
 </div>
 </div>
-<section id="conditional-filtering" class="level3" data-number="35.6.1"><h3 data-number="35.6.1" class="anchored" data-anchor-id="conditional-filtering">
-<span class="header-section-number">35.6.1</span> Conditional filtering</h3>
+<section id="conditional-filtering" class="level3" data-number="34.6.1"><h3 data-number="34.6.1" class="anchored" data-anchor-id="conditional-filtering">
+<span class="header-section-number">34.6.1</span> Conditional filtering</h3>
 <p>As a reminder, there are a few ways to conditionally filter cases in a data.frame:</p>
 <div class="cell">
 <div class="sourceCode" id="cb58"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">df</span><span class="op">[</span><span class="va">df</span><span class="op">$</span><span class="va">A</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">A</span><span class="op">)</span> <span class="op">&amp;</span> <span class="va">df</span><span class="op">$</span><span class="va">B</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">B</span><span class="op">)</span>, <span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1317,10 +1320,10 @@ Figure&nbsp;35.1: data.table significantly enhances the base R data.frame
 7:  2.077229177  1.8165615  0.9781020  0.03906486 -2.2223410</code></pre>
 </div>
 </div>
-</section></section><section id="select-columns" class="level2" data-number="35.7"><h2 data-number="35.7" class="anchored" data-anchor-id="select-columns">
-<span class="header-section-number">35.7</span> Select columns</h2>
-<section id="by-positions" class="level3" data-number="35.7.1"><h3 data-number="35.7.1" class="anchored" data-anchor-id="by-positions">
-<span class="header-section-number">35.7.1</span> By position(s)</h3>
+</section></section><section id="select-columns" class="level2" data-number="34.7"><h2 data-number="34.7" class="anchored" data-anchor-id="select-columns">
+<span class="header-section-number">34.7</span> Select columns</h2>
+<section id="by-positions" class="level3" data-number="34.7.1"><h3 data-number="34.7.1" class="anchored" data-anchor-id="by-positions">
+<span class="header-section-number">34.7.1</span> By position(s)</h3>
 <p>Selecting a single column in <code>data.table</code> does not drop to a vector, similar to using <code>drop = FALSE</code> in a data.frame:</p>
 <div class="cell">
 <div class="sourceCode" id="cb75"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">df</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1380,8 +1383,8 @@ Figure&nbsp;35.1: data.table significantly enhances the base R data.frame
 5:     5   8.1</code></pre>
 </div>
 </div>
-</section><section id="by-names" class="level3" data-number="35.7.2"><h3 data-number="35.7.2" class="anchored" data-anchor-id="by-names">
-<span class="header-section-number">35.7.2</span> By name(s)</h3>
+</section><section id="by-names" class="level3" data-number="34.7.2"><h3 data-number="34.7.2" class="anchored" data-anchor-id="by-names">
+<span class="header-section-number">34.7.2</span> By name(s)</h3>
 <p>In <code>data.table</code>, you access column names directly without quoting or using the <code>$</code> notation:</p>
 <div class="cell">
 <div class="sourceCode" id="cb89"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">df</span><span class="op">[</span>, <span class="st">"B"</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1514,8 +1517,8 @@ Important
 5:     5   8.1</code></pre>
 </div>
 </div>
-</section><section id="sd-.sdcols" class="level3" data-number="35.7.3"><h3 data-number="35.7.3" class="anchored" data-anchor-id="sd-.sdcols">
-<span class="header-section-number">35.7.3</span> <code>.SD</code> &amp; <code>.SDcols</code>
+</section><section id="sd-.sdcols" class="level3" data-number="34.7.3"><h3 data-number="34.7.3" class="anchored" data-anchor-id="sd-.sdcols">
+<span class="header-section-number">34.7.3</span> <code>.SD</code> &amp; <code>.SDcols</code>
 </h3>
 <p><code>.SDcols</code> is a special symbol that can be used to select columns of a data.table as an alternative to <code>j</code>. It can accept a vector of integer positions or column names. <code>.SD</code> is another special symbol that can be used in <code>j</code> and refers to either the entire data.table, or the subset defined by <code>.SDcols</code>, if present. The following can be used to select columns:</p>
 <div class="cell">
@@ -1531,8 +1534,8 @@ Important
 </div>
 </div>
 <p>One of the main uses of .SD is shown below in combination with <code><a href="https://rdrr.io/r/base/lapply.html">lapply()</a></code>.</p>
-</section></section><section id="add-new-column-in-place" class="level2" data-number="35.8"><h2 data-number="35.8" class="anchored" data-anchor-id="add-new-column-in-place">
-<span class="header-section-number">35.8</span> Add new column <strong><em>in-place</em></strong>
+</section></section><section id="add-new-column-in-place" class="level2" data-number="34.8"><h2 data-number="34.8" class="anchored" data-anchor-id="add-new-column-in-place">
+<span class="header-section-number">34.8</span> Add new column <strong><em>in-place</em></strong>
 </h2>
 <p>Use <code>:=</code> assignment to add a new column in the existing <code>data.table</code>.</p>
 <div class="cell">
@@ -1549,8 +1552,8 @@ Important
 </div>
 </div>
 <p>Note how <code>dt</code> was modified even though we did not run <code>dt &lt;- dt[, AplusB := A + B]</code></p>
-</section><section id="add-multiple-columns-in-place" class="level2" data-number="35.9"><h2 data-number="35.9" class="anchored" data-anchor-id="add-multiple-columns-in-place">
-<span class="header-section-number">35.9</span> Add multiple columns <strong><em>in-place</em></strong>
+</section><section id="add-multiple-columns-in-place" class="level2" data-number="34.9"><h2 data-number="34.9" class="anchored" data-anchor-id="add-multiple-columns-in-place">
+<span class="header-section-number">34.9</span> Add multiple columns <strong><em>in-place</em></strong>
 </h2>
 <p>You can define multiple new column names using a character vector of new column names on the left of <code>:=</code> and a list on the right.</p>
 <div class="cell">
@@ -1592,10 +1595,10 @@ Important
 5: 0.6172840</code></pre>
 </div>
 </div>
-</section><section id="convert-column-type" class="level2" data-number="35.10"><h2 data-number="35.10" class="anchored" data-anchor-id="convert-column-type">
-<span class="header-section-number">35.10</span> Convert column type</h2>
-<section id="assignment-by-reference-with" class="level3" data-number="35.10.1"><h3 data-number="35.10.1" class="anchored" data-anchor-id="assignment-by-reference-with">
-<span class="header-section-number">35.10.1</span> Assignment by reference with <code>:=</code>
+</section><section id="convert-column-type" class="level2" data-number="34.10"><h2 data-number="34.10" class="anchored" data-anchor-id="convert-column-type">
+<span class="header-section-number">34.10</span> Convert column type</h2>
+<section id="assignment-by-reference-with" class="level3" data-number="34.10.1"><h3 data-number="34.10.1" class="anchored" data-anchor-id="assignment-by-reference-with">
+<span class="header-section-number">34.10.1</span> Assignment by reference with <code>:=</code>
 </h3>
 <p>Use any base R coercion function (<code>as.*</code>) to convert a column in-place using the <code>:=</code> notation</p>
 <div class="cell">
@@ -1618,8 +1621,8 @@ Important
 5: 0.6172840</code></pre>
 </div>
 </div>
-</section><section id="delete-columns-in-place-with" class="level3" data-number="35.10.2"><h3 data-number="35.10.2" class="anchored" data-anchor-id="delete-columns-in-place-with">
-<span class="header-section-number">35.10.2</span> Delete columns in-place with <code>:=</code>
+</section><section id="delete-columns-in-place-with" class="level3" data-number="34.10.2"><h3 data-number="34.10.2" class="anchored" data-anchor-id="delete-columns-in-place-with">
+<span class="header-section-number">34.10.2</span> Delete columns in-place with <code>:=</code>
 </h3>
 <p>To delete a column, use <code>:=</code> to set it to NULL:</p>
 <div class="cell">
@@ -1653,8 +1656,8 @@ Important
 5:     5   8.1      a    40.5 0.6172840</code></pre>
 </div>
 </div>
-</section><section id="fast-loop-able-assignment-with-set" class="level3" data-number="35.10.3"><h3 data-number="35.10.3" class="anchored" data-anchor-id="fast-loop-able-assignment-with-set">
-<span class="header-section-number">35.10.3</span> Fast loop-able assignment with <code>set()</code>
+</section><section id="fast-loop-able-assignment-with-set" class="level3" data-number="34.10.3"><h3 data-number="34.10.3" class="anchored" data-anchor-id="fast-loop-able-assignment-with-set">
+<span class="header-section-number">34.10.3</span> Fast loop-able assignment with <code>set()</code>
 </h3>
 <p><code>data.table</code>’s <code><a href="https://rdatatable.gitlab.io/data.table/reference/assign.html">set()</a></code> is a loop-able version of the <code>:=</code> operator. Use it in a for loop to operate on multiple columns.</p>
 <p>Syntax: <code>set(dt, i, j, value)</code></p>
@@ -1675,8 +1678,8 @@ Important
 <span>  <span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/assign.html">set</a></span><span class="op">(</span><span class="va">dt</span>, i <span class="op">=</span> <span class="cn">NULL</span>, j <span class="op">=</span> <span class="va">i</span>, value <span class="op">=</span> <span class="va">dt</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section></section><section id="summarize" class="level2" data-number="35.11"><h2 data-number="35.11" class="anchored" data-anchor-id="summarize">
-<span class="header-section-number">35.11</span> Summarize</h2>
+</section></section><section id="summarize" class="level2" data-number="34.11"><h2 data-number="34.11" class="anchored" data-anchor-id="summarize">
+<span class="header-section-number">34.11</span> Summarize</h2>
 <p>You can apply one or multiple summary functions on one or multiple columns. Surround the operations in <code><a href="https://rdrr.io/r/base/list.html">list()</a></code> or <code>.()</code> to output a <em>new</em> data.table holding the outputs of the operations, i.e.&nbsp;the input data.table remains unchanged.</p>
 <div class="cell">
 <div class="sourceCode" id="cb132"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">A_summary</span> <span class="op">&lt;-</span> <span class="va">dt</span><span class="op">[</span>, <span class="fu">.</span><span class="op">(</span>A_max <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">A</span><span class="op">)</span>, A_min <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">A</span><span class="op">)</span>, A_sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">A</span><span class="op">)</span><span class="op">)</span><span class="op">]</span></span>
@@ -1709,8 +1712,8 @@ Important
 2:    25 94.09    40.5 0.8333333</code></pre>
 </div>
 </div>
-</section><section id="set-order" class="level2" data-number="35.12"><h2 data-number="35.12" class="anchored" data-anchor-id="set-order">
-<span class="header-section-number">35.12</span> Set order</h2>
+</section><section id="set-order" class="level2" data-number="34.12"><h2 data-number="34.12" class="anchored" data-anchor-id="set-order">
+<span class="header-section-number">34.12</span> Set order</h2>
 <p>You can set the row order of a data.table in-place based on one or multiple columns’ values using <code><a href="https://rdatatable.gitlab.io/data.table/reference/setorder.html">setorder()</a></code></p>
 <div class="cell">
 <div class="sourceCode" id="cb138"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html">data.table</a></span><span class="op">(</span>PatientID <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fl">1001</span><span class="op">:</span><span class="fl">9999</span>, size <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>,</span>
@@ -1771,8 +1774,8 @@ Important
 10:      1234 195.2610 66.14451      B</code></pre>
 </div>
 </div>
-</section><section id="group-by-operations" class="level2" data-number="35.13"><h2 data-number="35.13" class="anchored" data-anchor-id="group-by-operations">
-<span class="header-section-number">35.13</span> Group-by operations</h2>
+</section><section id="group-by-operations" class="level2" data-number="34.13"><h2 data-number="34.13" class="anchored" data-anchor-id="group-by-operations">
+<span class="header-section-number">34.13</span> Group-by operations</h2>
 <p>Up to now, we have learned how to use the <code>data.table</code> frame <code>dat[i, j]</code> to filter cases in <code>i</code> or add/remove/transform columns in-place in <code>j</code>. <code>dat[i, j, by]</code> allows to perform operations separately on groups of cases.</p>
 <div class="cell">
 <div class="sourceCode" id="cb144"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html">data.table</a></span><span class="op">(</span>A <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,</span>
@@ -1790,8 +1793,8 @@ Important
 5:     5   8.1 -0.1807966      a</code></pre>
 </div>
 </div>
-<section id="group-by-summary" class="level3" data-number="35.13.1"><h3 data-number="35.13.1" class="anchored" data-anchor-id="group-by-summary">
-<span class="header-section-number">35.13.1</span> Group-by summary</h3>
+<section id="group-by-summary" class="level3" data-number="34.13.1"><h3 data-number="34.13.1" class="anchored" data-anchor-id="group-by-summary">
+<span class="header-section-number">34.13.1</span> Group-by summary</h3>
 <p>As we’ve seen, using <code>.()</code> or <code><a href="https://rdrr.io/r/base/list.html">list()</a></code> in <code>j</code>, returns a new <code>data.table</code>:</p>
 <div class="cell">
 <div class="sourceCode" id="cb146"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span><span class="op">[</span>, <span class="fu">.</span><span class="op">(</span>mean_A_by_Group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">A</span><span class="op">)</span><span class="op">)</span>, by <span class="op">=</span> <span class="va">Group</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1809,8 +1812,8 @@ Important
 2:      b               7.0</code></pre>
 </div>
 </div>
-</section><section id="group-by-operation-and-assignment" class="level3" data-number="35.13.2"><h3 data-number="35.13.2" class="anchored" data-anchor-id="group-by-operation-and-assignment">
-<span class="header-section-number">35.13.2</span> Group-by operation and assignment</h3>
+</section><section id="group-by-operation-and-assignment" class="level3" data-number="34.13.2"><h3 data-number="34.13.2" class="anchored" data-anchor-id="group-by-operation-and-assignment">
+<span class="header-section-number">34.13.2</span> Group-by operation and assignment</h3>
 <p>Making an assignment with <code>:=</code> in <code>j</code>, adds a column in-place. If you combine such an assignment with a group-by operation, the same value will be assigned to all cases of the group:</p>
 <div class="cell">
 <div class="sourceCode" id="cb150"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span><span class="op">[</span>, <span class="va">mean_A_by_Group</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">A</span><span class="op">)</span>, by <span class="op">=</span> <span class="va">Group</span><span class="op">]</span></span>
@@ -1825,8 +1828,8 @@ Important
 5:     5   8.1 -0.1807966      a        3.333333</code></pre>
 </div>
 </div>
-</section></section><section id="apply-functions-to-columns" class="level2" data-number="35.14"><h2 data-number="35.14" class="anchored" data-anchor-id="apply-functions-to-columns">
-<span class="header-section-number">35.14</span> Apply functions to columns</h2>
+</section></section><section id="apply-functions-to-columns" class="level2" data-number="34.14"><h2 data-number="34.14" class="anchored" data-anchor-id="apply-functions-to-columns">
+<span class="header-section-number">34.14</span> Apply functions to columns</h2>
 <p>Any function that returns a list can be used in <code>j</code> to return a new data.table - therefore lapply is perfect for getting summary on multiple columns. This is another example where you have to use the <code>.SD</code> notation:</p>
 <div class="cell">
 <div class="sourceCode" id="cb152"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/as.data.table.html">as.data.table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, \<span class="op">(</span><span class="va">i</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
@@ -1958,8 +1961,8 @@ Important
 5:     5   8.1  0.5502497      a    3.333333   0.5463679</code></pre>
 </div>
 </div>
-</section><section id="row-wise-operations" class="level2" data-number="35.15"><h2 data-number="35.15" class="anchored" data-anchor-id="row-wise-operations">
-<span class="header-section-number">35.15</span> Row-wise operations</h2>
+</section><section id="row-wise-operations" class="level2" data-number="34.15"><h2 data-number="34.15" class="anchored" data-anchor-id="row-wise-operations">
+<span class="header-section-number">34.15</span> Row-wise operations</h2>
 <div class="cell">
 <div class="sourceCode" id="cb174"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html">data.table</a></span><span class="op">(</span>a <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, b <span class="op">=</span> <span class="fl">11</span><span class="op">:</span><span class="fl">15</span>, c <span class="op">=</span> <span class="fl">21</span><span class="op">:</span><span class="fl">25</span>, </span>
 <span>                 d <span class="op">=</span> <span class="fl">31</span><span class="op">:</span><span class="fl">35</span>, e <span class="op">=</span> <span class="fl">41</span><span class="op">:</span><span class="fl">45</span><span class="op">)</span></span>
@@ -1988,11 +1991,11 @@ Important
 5:     5    15    25    35    45      75</code></pre>
 </div>
 </div>
-</section><section id="watch-out-for-data.table-error-messages" class="level2" data-number="35.16"><h2 data-number="35.16" class="anchored" data-anchor-id="watch-out-for-data.table-error-messages">
-<span class="header-section-number">35.16</span> Watch out for <code>data.table</code> error messages</h2>
+</section><section id="watch-out-for-data.table-error-messages" class="level2" data-number="34.16"><h2 data-number="34.16" class="anchored" data-anchor-id="watch-out-for-data.table-error-messages">
+<span class="header-section-number">34.16</span> Watch out for <code>data.table</code> error messages</h2>
 <p>For example</p>
-</section><section id="resources" class="level2" data-number="35.17"><h2 data-number="35.17" class="anchored" data-anchor-id="resources">
-<span class="header-section-number">35.17</span> Resources</h2>
+</section><section id="resources" class="level2" data-number="34.17"><h2 data-number="34.17" class="anchored" data-anchor-id="resources">
+<span class="header-section-number">34.17</span> Resources</h2>
 <ul>
 <li><a href="https://cran.r-project.org/web/packages/data.table/vignettes/datatable-intro.html">Introduction to data.table</a></li>
 <li><a href="https://cran.r-project.org/web/packages/data.table/vignettes/datatable-sd-usage.html">Using .SD for Data Analysis</a></li>
@@ -2617,12 +2620,12 @@ window.onload = function() {
   });
   </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
       <a href="./dtIntro.html" class="pagination-link" aria-label="Introduction">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Introduction</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Introduction</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./dtRefSem.html" class="pagination-link" aria-label="Reference Semantics">
-        <span class="nav-page-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Reference Semantics</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Reference Semantics</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

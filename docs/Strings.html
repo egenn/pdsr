@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.7.31">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>30&nbsp; Strings – PDSR</title>
+<title>29&nbsp; Strings – PDSR</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -62,7 +62,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./DateTime.html" rel="next">
-<link href="./MissingData.html" rel="prev">
+<link href="./DataTrans.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -75,7 +75,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-4f97383ec2b0718e090f5a3bf624e0cf.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-294c2a79f4b5c5018fdfa692435fb65c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-dark-1e7b01a6aeb55307b339f3c789586970.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="site_libs/bootstrap/bootstrap-4f97383ec2b0718e090f5a3bf624e0cf.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -260,7 +260,8 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
       }
     };
     const authorPrefersDark = false;
-    const darkModeDefault = authorPrefersDark;
+    const queryPrefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+    const darkModeDefault = queryPrefersDark.matches;
       document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
       document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
     let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
@@ -273,6 +274,14 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
       toggleGiscusIfUsed(toAlternate, darkModeDefault);
       window.dispatchEvent(new Event('resize'));
     };
+    queryPrefersDark.addEventListener("change", e => {
+      if(window.localStorage.getItem("quarto-color-scheme") !== null)
+        return;
+      const alternate = e.matches
+      toggleColorMode(alternate);
+      localAlternateSentinel = e.matches ? 'alternate' : 'default'; // this is used alongside local storage!
+      toggleGiscusIfUsed(alternate, darkModeDefault);
+    });
     // Switch to dark mode if need be
     if (hasAlternateSentinel()) {
       toggleColorMode(true);
@@ -286,7 +295,7 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Strings.html"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Strings</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Strings.html"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Strings</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -523,32 +532,26 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./MissingData.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Handling Missing data</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./Strings.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Strings</span></span></a>
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Strings</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./DateTime.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Date and Time</span></span></a>
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Date and Time</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./SetOps.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Set Operations</span></span></a>
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Set Operations</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ClassesAndOOP.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Classes and OOP</span></span></a>
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Classes and OOP</span></span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -563,37 +566,37 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dtIntro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dtBasics.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">data.table basics</span></span></a>
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">data.table basics</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dtRefSem.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Reference Semantics</span></span></a>
+ <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Reference Semantics</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dtReshape.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">Reshape</span></span></a>
+ <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Reshape</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dtJoin.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">38</span>&nbsp; <span class="chapter-title">Joins</span></span></a>
+ <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">Joins</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dtAdvanced.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">39</span>&nbsp; <span class="chapter-title">Advanced Usage</span></span></a>
+ <span class="menu-text"><span class="chapter-number">38</span>&nbsp; <span class="chapter-title">Advanced Usage</span></span></a>
   </div>
 </li>
       </ul>
@@ -610,25 +613,25 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dplyr.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">40</span>&nbsp; <span class="chapter-title">Introduction to dplyr</span></span></a>
+ <span class="menu-text"><span class="chapter-number">39</span>&nbsp; <span class="chapter-title">Introduction to dplyr</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./tidyrReshape.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">41</span>&nbsp; <span class="chapter-title">Reshaping with <strong>tidyr</strong></span></span></a>
+ <span class="menu-text"><span class="chapter-number">40</span>&nbsp; <span class="chapter-title">Reshaping with <strong>tidyr</strong></span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dplyrJoin.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">42</span>&nbsp; <span class="chapter-title">Joins</span></span></a>
+ <span class="menu-text"><span class="chapter-number">41</span>&nbsp; <span class="chapter-title">Joins</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./lubridate.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">43</span>&nbsp; <span class="chapter-title">Dates with <strong>lubridate</strong></span></span></a>
+ <span class="menu-text"><span class="chapter-number">42</span>&nbsp; <span class="chapter-title">Dates with <strong>lubridate</strong></span></span></a>
   </div>
 </li>
       </ul>
@@ -645,25 +648,25 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./BaseGraphics.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">44</span>&nbsp; <span class="chapter-title">Base Graphics</span></span></a>
+ <span class="menu-text"><span class="chapter-number">43</span>&nbsp; <span class="chapter-title">Base Graphics</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Colors.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">45</span>&nbsp; <span class="chapter-title">Colors</span></span></a>
+ <span class="menu-text"><span class="chapter-number">44</span>&nbsp; <span class="chapter-title">Colors</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ggplot2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">46</span>&nbsp; <span class="chapter-title">Introduction to <strong>ggplot2</strong></span></span></a>
+ <span class="menu-text"><span class="chapter-number">45</span>&nbsp; <span class="chapter-title">Introduction to <strong>ggplot2</strong></span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./plotly.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">47</span>&nbsp; <span class="chapter-title">Introduction to <strong>plotly</strong></span></span></a>
+ <span class="menu-text"><span class="chapter-number">46</span>&nbsp; <span class="chapter-title">Introduction to <strong>plotly</strong></span></span></a>
   </div>
 </li>
       </ul>
@@ -671,31 +674,31 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./HypothesisTesting.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">48</span>&nbsp; <span class="chapter-title">Common Statistical Tests</span></span></a>
+ <span class="menu-text"><span class="chapter-number">47</span>&nbsp; <span class="chapter-title">Common Statistical Tests</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./GLM.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">49</span>&nbsp; <span class="chapter-title">Introduction to the GLM</span></span></a>
+ <span class="menu-text"><span class="chapter-number">48</span>&nbsp; <span class="chapter-title">Introduction to the GLM</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Profiling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">50</span>&nbsp; <span class="chapter-title">Benchmarking &amp; Profiling</span></span></a>
+ <span class="menu-text"><span class="chapter-number">49</span>&nbsp; <span class="chapter-title">Benchmarking &amp; Profiling</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Optimization.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">51</span>&nbsp; <span class="chapter-title">Optimization</span></span></a>
+ <span class="menu-text"><span class="chapter-number">50</span>&nbsp; <span class="chapter-title">Optimization</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Quarto.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">52</span>&nbsp; <span class="chapter-title">Quarto</span></span></a>
+ <span class="menu-text"><span class="chapter-number">51</span>&nbsp; <span class="chapter-title">Quarto</span></span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -710,13 +713,13 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./TerminalIntro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">53</span>&nbsp; <span class="chapter-title">Introduction to the System Shell</span></span></a>
+ <span class="menu-text"><span class="chapter-number">52</span>&nbsp; <span class="chapter-title">Introduction to the System Shell</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./GitHubIntro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">54</span>&nbsp; <span class="chapter-title">Git &amp; GitHub: The Basics</span></span></a>
+ <span class="menu-text"><span class="chapter-number">53</span>&nbsp; <span class="chapter-title">Git &amp; GitHub: The Basics</span></span></a>
   </div>
 </li>
       </ul>
@@ -733,13 +736,13 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ds.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">55</span>&nbsp; <span class="chapter-title">Data Queries across implementations</span></span></a>
+ <span class="menu-text"><span class="chapter-number">54</span>&nbsp; <span class="chapter-title">Data Queries across implementations</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./DuckDB.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">56</span>&nbsp; <span class="chapter-title">DuckDB</span></span></a>
+ <span class="menu-text"><span class="chapter-number">55</span>&nbsp; <span class="chapter-title">DuckDB</span></span></a>
   </div>
 </li>
       </ul>
@@ -747,13 +750,13 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Resources.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">57</span>&nbsp; <span class="chapter-title">Resources</span></span></a>
+ <span class="menu-text"><span class="chapter-number">56</span>&nbsp; <span class="chapter-title">Resources</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./DataPipeline.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">58</span>&nbsp; <span class="chapter-title">Data Pipeline Overview</span></span></a>
+ <span class="menu-text"><span class="chapter-number">57</span>&nbsp; <span class="chapter-title">Data Pipeline Overview</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -777,58 +780,58 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
    
   <ul>
 <li>
-<a href="#creating-character-vectors" id="toc-creating-character-vectors" class="nav-link active" data-scroll-target="#creating-character-vectors"><span class="header-section-number">30.1</span> Creating character vectors</a>
+<a href="#creating-character-vectors" id="toc-creating-character-vectors" class="nav-link active" data-scroll-target="#creating-character-vectors"><span class="header-section-number">29.1</span> Creating character vectors</a>
   <ul class="collapse">
-<li><a href="#cat-concatenate-and-print" id="toc-cat-concatenate-and-print" class="nav-link" data-scroll-target="#cat-concatenate-and-print"><span class="header-section-number">30.1.1</span> <code>cat()</code>: Concatenate and <strong>print</strong></a></li>
-  <li><a href="#paste-concatenate-character-vectors" id="toc-paste-concatenate-character-vectors" class="nav-link" data-scroll-target="#paste-concatenate-character-vectors"><span class="header-section-number">30.1.2</span> <code>paste()</code>: Concatenate character vectors</a></li>
+<li><a href="#cat-concatenate-and-print" id="toc-cat-concatenate-and-print" class="nav-link" data-scroll-target="#cat-concatenate-and-print"><span class="header-section-number">29.1.1</span> <code>cat()</code>: Concatenate and <strong>print</strong></a></li>
+  <li><a href="#paste-concatenate-character-vectors" id="toc-paste-concatenate-character-vectors" class="nav-link" data-scroll-target="#paste-concatenate-character-vectors"><span class="header-section-number">29.1.2</span> <code>paste()</code>: Concatenate character vectors</a></li>
   </ul>
 </li>
   <li>
-<a href="#common-string-utilities" id="toc-common-string-utilities" class="nav-link" data-scroll-target="#common-string-utilities"><span class="header-section-number">30.2</span> Common string utilities</a>
+<a href="#common-string-utilities" id="toc-common-string-utilities" class="nav-link" data-scroll-target="#common-string-utilities"><span class="header-section-number">29.2</span> Common string utilities</a>
   <ul class="collapse">
-<li><a href="#get-number-of-characters-in-element-with-nchar" id="toc-get-number-of-characters-in-element-with-nchar" class="nav-link" data-scroll-target="#get-number-of-characters-in-element-with-nchar"><span class="header-section-number">30.2.1</span> Get number of characters in element with <code>nchar()</code>:</a></li>
-  <li><a href="#extractreplace-substring-with-substr" id="toc-extractreplace-substring-with-substr" class="nav-link" data-scroll-target="#extractreplace-substring-with-substr"><span class="header-section-number">30.2.2</span> Extract/replace substring with <code>substr()</code>:</a></li>
-  <li><a href="#split-strings-with-strsplit" id="toc-split-strings-with-strsplit" class="nav-link" data-scroll-target="#split-strings-with-strsplit"><span class="header-section-number">30.2.3</span> Split strings with <code>strsplit()</code>:</a></li>
+<li><a href="#get-number-of-characters-in-element-with-nchar" id="toc-get-number-of-characters-in-element-with-nchar" class="nav-link" data-scroll-target="#get-number-of-characters-in-element-with-nchar"><span class="header-section-number">29.2.1</span> Get number of characters in element with <code>nchar()</code>:</a></li>
+  <li><a href="#extractreplace-substring-with-substr" id="toc-extractreplace-substring-with-substr" class="nav-link" data-scroll-target="#extractreplace-substring-with-substr"><span class="header-section-number">29.2.2</span> Extract/replace substring with <code>substr()</code>:</a></li>
+  <li><a href="#split-strings-with-strsplit" id="toc-split-strings-with-strsplit" class="nav-link" data-scroll-target="#split-strings-with-strsplit"><span class="header-section-number">29.2.3</span> Split strings with <code>strsplit()</code>:</a></li>
   </ul>
 </li>
   <li>
-<a href="#string-formatting" id="toc-string-formatting" class="nav-link" data-scroll-target="#string-formatting"><span class="header-section-number">30.3</span> String formatting</a>
+<a href="#string-formatting" id="toc-string-formatting" class="nav-link" data-scroll-target="#string-formatting"><span class="header-section-number">29.3</span> String formatting</a>
   <ul class="collapse">
-<li><a href="#change-case-with-toupper-and-tolower" id="toc-change-case-with-toupper-and-tolower" class="nav-link" data-scroll-target="#change-case-with-toupper-and-tolower"><span class="header-section-number">30.3.1</span> Change case with <code>toupper()</code> and <code>tolower()</code></a></li>
-  <li><a href="#convert-to-title-case" id="toc-convert-to-title-case" class="nav-link" data-scroll-target="#convert-to-title-case"><span class="header-section-number">30.3.2</span> Convert to Title Case</a></li>
-  <li><a href="#abbreviate" id="toc-abbreviate" class="nav-link" data-scroll-target="#abbreviate"><span class="header-section-number">30.3.3</span> Abbreviate</a></li>
+<li><a href="#change-case-with-toupper-and-tolower" id="toc-change-case-with-toupper-and-tolower" class="nav-link" data-scroll-target="#change-case-with-toupper-and-tolower"><span class="header-section-number">29.3.1</span> Change case with <code>toupper()</code> and <code>tolower()</code></a></li>
+  <li><a href="#convert-to-title-case" id="toc-convert-to-title-case" class="nav-link" data-scroll-target="#convert-to-title-case"><span class="header-section-number">29.3.2</span> Convert to Title Case</a></li>
+  <li><a href="#abbreviate" id="toc-abbreviate" class="nav-link" data-scroll-target="#abbreviate"><span class="header-section-number">29.3.3</span> Abbreviate</a></li>
   </ul>
 </li>
   <li>
-<a href="#pattern-matching" id="toc-pattern-matching" class="nav-link" data-scroll-target="#pattern-matching"><span class="header-section-number">30.4</span> Pattern matching</a>
+<a href="#pattern-matching" id="toc-pattern-matching" class="nav-link" data-scroll-target="#pattern-matching"><span class="header-section-number">29.4</span> Pattern matching</a>
   <ul class="collapse">
-<li><a href="#grep" id="toc-grep" class="nav-link" data-scroll-target="#grep"><span class="header-section-number">30.4.1</span> <code>grep()</code>: Get <strong>integer</strong> index of elements that match a pattern</a></li>
-  <li><a href="#grepl" id="toc-grepl" class="nav-link" data-scroll-target="#grepl"><span class="header-section-number">30.4.2</span> <code>grepl()</code>: Get <strong>logical</strong> index of elements that match a pattern</a></li>
-  <li><a href="#sub" id="toc-sub" class="nav-link" data-scroll-target="#sub"><span class="header-section-number">30.4.3</span> <code>sub()</code>: Replace <strong>first</strong> match of a pattern</a></li>
-  <li><a href="#gsub" id="toc-gsub" class="nav-link" data-scroll-target="#gsub"><span class="header-section-number">30.4.4</span> <code>gsub()</code>: Replace <strong>all</strong> matches of a pattern</a></li>
-  <li><a href="#match-one-or-more-patterns" id="toc-match-one-or-more-patterns" class="nav-link" data-scroll-target="#match-one-or-more-patterns"><span class="header-section-number">30.4.5</span> Match one or more patterns</a></li>
+<li><a href="#grep" id="toc-grep" class="nav-link" data-scroll-target="#grep"><span class="header-section-number">29.4.1</span> <code>grep()</code>: Get <strong>integer</strong> index of elements that match a pattern</a></li>
+  <li><a href="#grepl" id="toc-grepl" class="nav-link" data-scroll-target="#grepl"><span class="header-section-number">29.4.2</span> <code>grepl()</code>: Get <strong>logical</strong> index of elements that match a pattern</a></li>
+  <li><a href="#sub" id="toc-sub" class="nav-link" data-scroll-target="#sub"><span class="header-section-number">29.4.3</span> <code>sub()</code>: Replace <strong>first</strong> match of a pattern</a></li>
+  <li><a href="#gsub" id="toc-gsub" class="nav-link" data-scroll-target="#gsub"><span class="header-section-number">29.4.4</span> <code>gsub()</code>: Replace <strong>all</strong> matches of a pattern</a></li>
+  <li><a href="#match-one-or-more-patterns" id="toc-match-one-or-more-patterns" class="nav-link" data-scroll-target="#match-one-or-more-patterns"><span class="header-section-number">29.4.5</span> Match one or more patterns</a></li>
   </ul>
 </li>
   <li>
-<a href="#regex" id="toc-regex" class="nav-link" data-scroll-target="#regex"><span class="header-section-number">30.5</span> Regular expressions</a>
+<a href="#regex" id="toc-regex" class="nav-link" data-scroll-target="#regex"><span class="header-section-number">29.5</span> Regular expressions</a>
   <ul class="collapse">
-<li><a href="#match-a-pattern-at-the-beginning-of-a-linestring-with-and" id="toc-match-a-pattern-at-the-beginning-of-a-linestring-with-and" class="nav-link" data-scroll-target="#match-a-pattern-at-the-beginning-of-a-linestring-with-and"><span class="header-section-number">30.5.1</span> Match a pattern at the beginning of a line/string with <code>^</code> and <code>\\&lt;</code></a></li>
-  <li><a href="#match-a-pattern-at-the-end-of-a-linestring-with-and" id="toc-match-a-pattern-at-the-end-of-a-linestring-with-and" class="nav-link" data-scroll-target="#match-a-pattern-at-the-end-of-a-linestring-with-and"><span class="header-section-number">30.5.2</span> Match a pattern at the end of a line/string with <code>$</code> and <code>\\&gt;</code></a></li>
-  <li><a href="#match-any-character-with-." id="toc-match-any-character-with-." class="nav-link" data-scroll-target="#match-any-character-with-."><span class="header-section-number">30.5.3</span> Match any character with <code>.</code></a></li>
-  <li><a href="#match-preceding-character-one-or-more-times-with" id="toc-match-preceding-character-one-or-more-times-with" class="nav-link" data-scroll-target="#match-preceding-character-one-or-more-times-with"><span class="header-section-number">30.5.4</span> Match preceding character one or more times with <code>+</code></a></li>
-  <li><a href="#match-preceding-character-n-times-with-n" id="toc-match-preceding-character-n-times-with-n" class="nav-link" data-scroll-target="#match-preceding-character-n-times-with-n"><span class="header-section-number">30.5.5</span> Match preceding character <code>n</code> times with <code>{n}</code></a></li>
-  <li><a href="#match-preceding-character-n-or-more-times-with-n" id="toc-match-preceding-character-n-or-more-times-with-n" class="nav-link" data-scroll-target="#match-preceding-character-n-or-more-times-with-n"><span class="header-section-number">30.5.6</span> Match preceding character <code>n</code> or more times with <code>{n,}</code></a></li>
-  <li><a href="#match-preceding-character-at-least-n-times-and-no-more-than-m-times-with-nm" id="toc-match-preceding-character-at-least-n-times-and-no-more-than-m-times-with-nm" class="nav-link" data-scroll-target="#match-preceding-character-at-least-n-times-and-no-more-than-m-times-with-nm"><span class="header-section-number">30.5.7</span> Match preceding character at least <code>n</code> times and no more than <code>m</code> times with <code>{n,m}</code></a></li>
-  <li><a href="#characterclasses" id="toc-characterclasses" class="nav-link" data-scroll-target="#characterclasses"><span class="header-section-number">30.5.8</span> Character classes</a></li>
-  <li><a href="#match-from-multiple-character-classes" id="toc-match-from-multiple-character-classes" class="nav-link" data-scroll-target="#match-from-multiple-character-classes"><span class="header-section-number">30.5.9</span> Match from multiple character classes</a></li>
-  <li><a href="#escaping-metacharacters" id="toc-escaping-metacharacters" class="nav-link" data-scroll-target="#escaping-metacharacters"><span class="header-section-number">30.5.10</span> Escaping metacharacters</a></li>
+<li><a href="#match-a-pattern-at-the-beginning-of-a-linestring-with-and" id="toc-match-a-pattern-at-the-beginning-of-a-linestring-with-and" class="nav-link" data-scroll-target="#match-a-pattern-at-the-beginning-of-a-linestring-with-and"><span class="header-section-number">29.5.1</span> Match a pattern at the beginning of a line/string with <code>^</code> and <code>\\&lt;</code></a></li>
+  <li><a href="#match-a-pattern-at-the-end-of-a-linestring-with-and" id="toc-match-a-pattern-at-the-end-of-a-linestring-with-and" class="nav-link" data-scroll-target="#match-a-pattern-at-the-end-of-a-linestring-with-and"><span class="header-section-number">29.5.2</span> Match a pattern at the end of a line/string with <code>$</code> and <code>\\&gt;</code></a></li>
+  <li><a href="#match-any-character-with-." id="toc-match-any-character-with-." class="nav-link" data-scroll-target="#match-any-character-with-."><span class="header-section-number">29.5.3</span> Match any character with <code>.</code></a></li>
+  <li><a href="#match-preceding-character-one-or-more-times-with" id="toc-match-preceding-character-one-or-more-times-with" class="nav-link" data-scroll-target="#match-preceding-character-one-or-more-times-with"><span class="header-section-number">29.5.4</span> Match preceding character one or more times with <code>+</code></a></li>
+  <li><a href="#match-preceding-character-n-times-with-n" id="toc-match-preceding-character-n-times-with-n" class="nav-link" data-scroll-target="#match-preceding-character-n-times-with-n"><span class="header-section-number">29.5.5</span> Match preceding character <code>n</code> times with <code>{n}</code></a></li>
+  <li><a href="#match-preceding-character-n-or-more-times-with-n" id="toc-match-preceding-character-n-or-more-times-with-n" class="nav-link" data-scroll-target="#match-preceding-character-n-or-more-times-with-n"><span class="header-section-number">29.5.6</span> Match preceding character <code>n</code> or more times with <code>{n,}</code></a></li>
+  <li><a href="#match-preceding-character-at-least-n-times-and-no-more-than-m-times-with-nm" id="toc-match-preceding-character-at-least-n-times-and-no-more-than-m-times-with-nm" class="nav-link" data-scroll-target="#match-preceding-character-at-least-n-times-and-no-more-than-m-times-with-nm"><span class="header-section-number">29.5.7</span> Match preceding character at least <code>n</code> times and no more than <code>m</code> times with <code>{n,m}</code></a></li>
+  <li><a href="#characterclasses" id="toc-characterclasses" class="nav-link" data-scroll-target="#characterclasses"><span class="header-section-number">29.5.8</span> Character classes</a></li>
+  <li><a href="#match-from-multiple-character-classes" id="toc-match-from-multiple-character-classes" class="nav-link" data-scroll-target="#match-from-multiple-character-classes"><span class="header-section-number">29.5.9</span> Match from multiple character classes</a></li>
+  <li><a href="#escaping-metacharacters" id="toc-escaping-metacharacters" class="nav-link" data-scroll-target="#escaping-metacharacters"><span class="header-section-number">29.5.10</span> Escaping metacharacters</a></li>
   </ul>
 </li>
   </ul><div class="toc-actions"><ul><li><a href="https://github.com/egenn/pdsr/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
-<h1 class="title"><span id="sec-strings" class="quarto-section-identifier"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Strings</span></span></h1>
+<h1 class="title"><span id="sec-strings" class="quarto-section-identifier"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Strings</span></span></h1>
 </div>
 
 
@@ -855,8 +858,8 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <li>Searching for patterns in strings</li>
 <li>Replacing patterns in strings</li>
 </ul>
-<section id="creating-character-vectors" class="level2" data-number="30.1"><h2 data-number="30.1" class="anchored" data-anchor-id="creating-character-vectors">
-<span class="header-section-number">30.1</span> Creating character vectors</h2>
+<section id="creating-character-vectors" class="level2" data-number="29.1"><h2 data-number="29.1" class="anchored" data-anchor-id="creating-character-vectors">
+<span class="header-section-number">29.1</span> Creating character vectors</h2>
 <p><a href="DataTypes.html#charactervectors">Reminder</a>: To initialize, coerce, test character vectors, use:</p>
 <ul>
 <li>
@@ -891,8 +894,8 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <pre><code>[1] TRUE</code></pre>
 </div>
 </div>
-<section id="cat-concatenate-and-print" class="level3" data-number="30.1.1"><h3 data-number="30.1.1" class="anchored" data-anchor-id="cat-concatenate-and-print">
-<span class="header-section-number">30.1.1</span> <code>cat()</code>: Concatenate and <strong>print</strong>
+<section id="cat-concatenate-and-print" class="level3" data-number="29.1.1"><h3 data-number="29.1.1" class="anchored" data-anchor-id="cat-concatenate-and-print">
+<span class="header-section-number">29.1.1</span> <code>cat()</code>: Concatenate and <strong>print</strong>
 </h3>
 <p><code><a href="https://rdrr.io/r/base/cat.html">cat()</a></code> concatenates its inputs to prints to screen (console) or to file.</p>
 <p><code><a href="https://rdrr.io/r/base/cat.html">cat()</a></code> <strong>does not return any object</strong>. It is therefore useful for producing informative messages in your programs.</p>
@@ -941,8 +944,8 @@ Note
 <pre><code>setosa setosa setosa setosa setosa setosa </code></pre>
 </div>
 </div>
-</section><section id="paste-concatenate-character-vectors" class="level3" data-number="30.1.2"><h3 data-number="30.1.2" class="anchored" data-anchor-id="paste-concatenate-character-vectors">
-<span class="header-section-number">30.1.2</span> <code>paste()</code>: Concatenate character vectors</h3>
+</section><section id="paste-concatenate-character-vectors" class="level3" data-number="29.1.2"><h3 data-number="29.1.2" class="anchored" data-anchor-id="paste-concatenate-character-vectors">
+<span class="header-section-number">29.1.2</span> <code>paste()</code>: Concatenate character vectors</h3>
 <p>In its simplest form, <code><a href="https://rdrr.io/r/base/paste.html">paste()</a></code> acts like <code><a href="https://rdrr.io/r/base/character.html">as.character()</a></code>:</p>
 <div class="cell">
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">v</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">20</span>, <span class="fl">22</span>, <span class="fl">43</span><span class="op">)</span></span>
@@ -1003,10 +1006,10 @@ Note
 <pre><code>[1] "Feature_1, Feature_2, Feature_3, Feature_4, Feature_5, Feature_6, Feature_7, Feature_8, Feature_9, Feature_10"</code></pre>
 </div>
 </div>
-</section></section><section id="common-string-utilities" class="level2" data-number="30.2"><h2 data-number="30.2" class="anchored" data-anchor-id="common-string-utilities">
-<span class="header-section-number">30.2</span> Common string utilities</h2>
-<section id="get-number-of-characters-in-element-with-nchar" class="level3" data-number="30.2.1"><h3 data-number="30.2.1" class="anchored" data-anchor-id="get-number-of-characters-in-element-with-nchar">
-<span class="header-section-number">30.2.1</span> Get number of characters in element with <code>nchar()</code>:</h3>
+</section></section><section id="common-string-utilities" class="level2" data-number="29.2"><h2 data-number="29.2" class="anchored" data-anchor-id="common-string-utilities">
+<span class="header-section-number">29.2</span> Common string utilities</h2>
+<section id="get-number-of-characters-in-element-with-nchar" class="level3" data-number="29.2.1"><h3 data-number="29.2.1" class="anchored" data-anchor-id="get-number-of-characters-in-element-with-nchar">
+<span class="header-section-number">29.2.1</span> Get number of characters in element with <code>nchar()</code>:</h3>
 <p><code><a href="https://rdrr.io/r/base/nchar.html">nchar()</a></code> counts the number of characters in each <strong>element</strong> of a character vector:</p>
 <div class="cell">
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"bb"</span>, <span class="st">"ccc"</span><span class="op">)</span></span>
@@ -1015,8 +1018,8 @@ Note
 <pre><code>[1] 1 2 3</code></pre>
 </div>
 </div>
-</section><section id="extractreplace-substring-with-substr" class="level3" data-number="30.2.2"><h3 data-number="30.2.2" class="anchored" data-anchor-id="extractreplace-substring-with-substr">
-<span class="header-section-number">30.2.2</span> Extract/replace substring with <code>substr()</code>:</h3>
+</section><section id="extractreplace-substring-with-substr" class="level3" data-number="29.2.2"><h3 data-number="29.2.2" class="anchored" data-anchor-id="extractreplace-substring-with-substr">
+<span class="header-section-number">29.2.2</span> Extract/replace substring with <code>substr()</code>:</h3>
 <p><code><a href="https://rdrr.io/r/base/substr.html">substr()</a></code> allows you to get and set individual (literal) characters from a character vector, by position.</p>
 <p>For example, extract the first three characters of each character element as:</p>
 <div class="cell">
@@ -1067,8 +1070,8 @@ Note
 <pre><code>[1] "Apr_1987"</code></pre>
 </div>
 </div>
-</section><section id="split-strings-with-strsplit" class="level3" data-number="30.2.3"><h3 data-number="30.2.3" class="anchored" data-anchor-id="split-strings-with-strsplit">
-<span class="header-section-number">30.2.3</span> Split strings with <code>strsplit()</code>:</h3>
+</section><section id="split-strings-with-strsplit" class="level3" data-number="29.2.3"><h3 data-number="29.2.3" class="anchored" data-anchor-id="split-strings-with-strsplit">
+<span class="header-section-number">29.2.3</span> Split strings with <code>strsplit()</code>:</h3>
 <p><code><a href="https://rdrr.io/r/base/strsplit.html">strsplit()</a></code> allows you to split a character vector’s elements based on any character or <a href="#regex">regular expression</a>.</p>
 <p>For example, extract individual words by splitting a sentence on each space character:</p>
 <div class="cell">
@@ -1106,10 +1109,10 @@ Note
 [1] "2 thousand and 347 dollars"</code></pre>
 </div>
 </div>
-</section></section><section id="string-formatting" class="level2" data-number="30.3"><h2 data-number="30.3" class="anchored" data-anchor-id="string-formatting">
-<span class="header-section-number">30.3</span> String formatting</h2>
-<section id="change-case-with-toupper-and-tolower" class="level3" data-number="30.3.1"><h3 data-number="30.3.1" class="anchored" data-anchor-id="change-case-with-toupper-and-tolower">
-<span class="header-section-number">30.3.1</span> Change case with <code>toupper()</code> and <code>tolower()</code>
+</section></section><section id="string-formatting" class="level2" data-number="29.3"><h2 data-number="29.3" class="anchored" data-anchor-id="string-formatting">
+<span class="header-section-number">29.3</span> String formatting</h2>
+<section id="change-case-with-toupper-and-tolower" class="level3" data-number="29.3.1"><h3 data-number="29.3.1" class="anchored" data-anchor-id="change-case-with-toupper-and-tolower">
+<span class="header-section-number">29.3.1</span> Change case with <code>toupper()</code> and <code>tolower()</code>
 </h3>
 <div class="cell">
 <div class="sourceCode" id="cb51"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">features</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"id"</span>, <span class="st">"age"</span>, <span class="st">"sex"</span>, <span class="st">"sbp"</span>, <span class="st">"dbp"</span>, <span class="st">"hct"</span>, <span class="st">"urea"</span>, <span class="st">"creatinine"</span><span class="op">)</span></span>
@@ -1135,8 +1138,8 @@ Note
 [6] "hct"        "urea"       "creatinine"</code></pre>
 </div>
 </div>
-</section><section id="convert-to-title-case" class="level3" data-number="30.3.2"><h3 data-number="30.3.2" class="anchored" data-anchor-id="convert-to-title-case">
-<span class="header-section-number">30.3.2</span> Convert to Title Case</h3>
+</section><section id="convert-to-title-case" class="level3" data-number="29.3.2"><h3 data-number="29.3.2" class="anchored" data-anchor-id="convert-to-title-case">
+<span class="header-section-number">29.3.2</span> Convert to Title Case</h3>
 <p>The <code>tools</code> package comes with the base R installation, but is not loaded at startup, because it contains rather specialized functions for package development, administration, and documentation. However, it includes the <code>toTitleCase()</code> function, which can be handy for formatting variable names, e.g.&nbsp;before plotting, etc.</p>
 <div class="cell">
 <div class="sourceCode" id="cb57"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">features</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"full name"</span>, <span class="st">"admission type"</span>, <span class="st">"attending name"</span>, <span class="st">"date of admission"</span><span class="op">)</span></span>
@@ -1146,8 +1149,8 @@ Note
 [4] "Date of Admission"</code></pre>
 </div>
 </div>
-</section><section id="abbreviate" class="level3" data-number="30.3.3"><h3 data-number="30.3.3" class="anchored" data-anchor-id="abbreviate">
-<span class="header-section-number">30.3.3</span> Abbreviate</h3>
+</section><section id="abbreviate" class="level3" data-number="29.3.3"><h3 data-number="29.3.3" class="anchored" data-anchor-id="abbreviate">
+<span class="header-section-number">29.3.3</span> Abbreviate</h3>
 <p><code><a href="https://rdrr.io/r/base/abbreviate.html">abbreviate()</a></code> allows reducing character vector elements to short, unique abbreviations of a minimum length (defaults to 4). For example,</p>
 <div class="cell">
 <div class="sourceCode" id="cb59"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Emergency"</span>, <span class="st">"Cardiology"</span>, <span class="st">"Surgery"</span>, <span class="st">"Anesthesia"</span>, </span>
@@ -1174,12 +1177,12 @@ Note
             "Nrlgy"             "Psych"             "ClncP" </code></pre>
 </div>
 </div>
-</section></section><section id="pattern-matching" class="level2" data-number="30.4"><h2 data-number="30.4" class="anchored" data-anchor-id="pattern-matching">
-<span class="header-section-number">30.4</span> Pattern matching</h2>
+</section></section><section id="pattern-matching" class="level2" data-number="29.4"><h2 data-number="29.4" class="anchored" data-anchor-id="pattern-matching">
+<span class="header-section-number">29.4</span> Pattern matching</h2>
 <p>A very common task in programming is to find +/- replace string patterns in a vector of strings.<br><br><br> - <code><a href="https://rdrr.io/r/base/grep.html">grep()</a></code> and <code><a href="https://rdrr.io/r/base/grep.html">grepl()</a></code> help find strings that contain a given pattern.<br>
 - <code><a href="https://rdrr.io/r/base/grep.html">sub()</a></code> and <code><a href="https://rdrr.io/r/base/grep.html">gsub()</a></code> help find and replace strings.</p>
-<section id="grep" class="level3" data-number="30.4.1"><h3 data-number="30.4.1" class="anchored" data-anchor-id="grep">
-<span class="header-section-number">30.4.1</span> <code>grep()</code>: Get <strong>integer</strong> index of elements that match a pattern</h3>
+<section id="grep" class="level3" data-number="29.4.1"><h3 data-number="29.4.1" class="anchored" data-anchor-id="grep">
+<span class="header-section-number">29.4.1</span> <code>grep()</code>: Get <strong>integer</strong> index of elements that match a pattern</h3>
 <div class="cell">
 <div class="sourceCode" id="cb65"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"001Age"</span>, <span class="st">"002Sex"</span>, <span class="st">"010Temp"</span>, <span class="st">"014SBP"</span>, </span>
 <span>       <span class="st">"018Hct"</span>, <span class="st">"022PFratio"</span>, <span class="st">"030GCS"</span>, <span class="st">"112SBP-DBP"</span><span class="op">)</span></span>
@@ -1195,8 +1198,8 @@ Note
 <pre><code>[1] "014SBP"     "112SBP-DBP"</code></pre>
 </div>
 </div>
-</section><section id="grepl" class="level3" data-number="30.4.2"><h3 data-number="30.4.2" class="anchored" data-anchor-id="grepl">
-<span class="header-section-number">30.4.2</span> <code>grepl()</code>: Get <strong>logical</strong> index of elements that match a pattern</h3>
+</section><section id="grepl" class="level3" data-number="29.4.2"><h3 data-number="29.4.2" class="anchored" data-anchor-id="grepl">
+<span class="header-section-number">29.4.2</span> <code>grepl()</code>: Get <strong>logical</strong> index of elements that match a pattern</h3>
 <p><code><a href="https://rdrr.io/r/base/grep.html">grepl()</a></code> is similar to <code><a href="https://rdrr.io/r/base/grep.html">grep()</a></code>, but returns a logical index:</p>
 <div class="cell">
 <div class="sourceCode" id="cb69"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">grepl</a></span><span class="op">(</span><span class="st">"SBP"</span>, <span class="va">x</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1204,8 +1207,8 @@ Note
 <pre><code>[1] FALSE FALSE FALSE  TRUE FALSE FALSE FALSE  TRUE</code></pre>
 </div>
 </div>
-</section><section id="sub" class="level3" data-number="30.4.3"><h3 data-number="30.4.3" class="anchored" data-anchor-id="sub">
-<span class="header-section-number">30.4.3</span> <code>sub()</code>: Replace <strong>first</strong> match of a pattern</h3>
+</section><section id="sub" class="level3" data-number="29.4.3"><h3 data-number="29.4.3" class="anchored" data-anchor-id="sub">
+<span class="header-section-number">29.4.3</span> <code>sub()</code>: Replace <strong>first</strong> match of a pattern</h3>
 <div class="cell">
 <div class="sourceCode" id="cb71"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"The most important variable was PF ratio. Other significant variables are listed </span></span>
 <span><span class="st">in the supplementary information."</span><span class="op">)</span></span>
@@ -1228,8 +1231,8 @@ Note
 <pre><code>[1] "feat 1, var 2" "feat 3, var 4"</code></pre>
 </div>
 </div>
-</section><section id="gsub" class="level3" data-number="30.4.4"><h3 data-number="30.4.4" class="anchored" data-anchor-id="gsub">
-<span class="header-section-number">30.4.4</span> <code>gsub()</code>: Replace <strong>all</strong> matches of a pattern</h3>
+</section><section id="gsub" class="level3" data-number="29.4.4"><h3 data-number="29.4.4" class="anchored" data-anchor-id="gsub">
+<span class="header-section-number">29.4.4</span> <code>gsub()</code>: Replace <strong>all</strong> matches of a pattern</h3>
 <div class="cell">
 <div class="sourceCode" id="cb77"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"The most important variable was P/F ratio. Other significant variables are listed in the supplementary information."</span><span class="op">)</span></span>
 <span><span class="va">x</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1251,8 +1254,8 @@ Note
 <pre><code>[1] "feat 1, feat 2" "feat 3, feat 4"</code></pre>
 </div>
 </div>
-</section><section id="match-one-or-more-patterns" class="level3" data-number="30.4.5"><h3 data-number="30.4.5" class="anchored" data-anchor-id="match-one-or-more-patterns">
-<span class="header-section-number">30.4.5</span> Match one or more patterns</h3>
+</section><section id="match-one-or-more-patterns" class="level3" data-number="29.4.5"><h3 data-number="29.4.5" class="anchored" data-anchor-id="match-one-or-more-patterns">
+<span class="header-section-number">29.4.5</span> Match one or more patterns</h3>
 <p>You can use a vertical bar (<code>|</code>) in the pattern string to match one of multiple patterns:</p>
 <div class="cell">
 <div class="sourceCode" id="cb83"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Emergency"</span>, <span class="st">"Cardiology"</span>, <span class="st">"Neurology"</span>, <span class="st">"Anesthesia"</span>, </span>
@@ -1270,11 +1273,11 @@ Note
 <pre><code>[1] "Emergency"  "Anesthesia" "Surgery"   </code></pre>
 </div>
 </div>
-</section></section><section id="regex" class="level2" data-number="30.5"><h2 data-number="30.5" class="anchored" data-anchor-id="regex">
-<span class="header-section-number">30.5</span> Regular expressions</h2>
+</section></section><section id="regex" class="level2" data-number="29.5"><h2 data-number="29.5" class="anchored" data-anchor-id="regex">
+<span class="header-section-number">29.5</span> Regular expressions</h2>
 <p>Regular expressions allow you to perform flexible pattern matching. For example, you can look for a pattern specifically at the beginning or the end of a word, or for a variable pattern with certain characteristics. <br><br> Regular expressions are very powerful and heavily used. They exist in multiple programming languages - with many similarities and some differences in their syntax. <br><br> There are many rules in defining regular expressions and they take a little getting used to. You can read the R manual by typing <code><a href="https://rdrr.io/r/base/regex.html">?base::regex</a></code>. <br><br> Some of the most important rules are listed below:</p>
-<section id="match-a-pattern-at-the-beginning-of-a-linestring-with-and" class="level3" data-number="30.5.1"><h3 data-number="30.5.1" class="anchored" data-anchor-id="match-a-pattern-at-the-beginning-of-a-linestring-with-and">
-<span class="header-section-number">30.5.1</span> Match a pattern at the beginning of a line/string with <code>^</code> and <code>\\&lt;</code>
+<section id="match-a-pattern-at-the-beginning-of-a-linestring-with-and" class="level3" data-number="29.5.1"><h3 data-number="29.5.1" class="anchored" data-anchor-id="match-a-pattern-at-the-beginning-of-a-linestring-with-and">
+<span class="header-section-number">29.5.1</span> Match a pattern at the beginning of a line/string with <code>^</code> and <code>\\&lt;</code>
 </h3>
 <p>Use the caret sign <code>^</code> in the <strong>beginning</strong> of a pattern to only match strings that begin with that pattern.</p>
 <p>Pattern <code>012</code> matches both 2nd and 3rd elements:</p>
@@ -1300,8 +1303,8 @@ Note
 <pre><code>[1] 2</code></pre>
 </div>
 </div>
-</section><section id="match-a-pattern-at-the-end-of-a-linestring-with-and" class="level3" data-number="30.5.2"><h3 data-number="30.5.2" class="anchored" data-anchor-id="match-a-pattern-at-the-end-of-a-linestring-with-and">
-<span class="header-section-number">30.5.2</span> Match a pattern at the end of a line/string with <code>$</code> and <code>\\&gt;</code>
+</section><section id="match-a-pattern-at-the-end-of-a-linestring-with-and" class="level3" data-number="29.5.2"><h3 data-number="29.5.2" class="anchored" data-anchor-id="match-a-pattern-at-the-end-of-a-linestring-with-and">
+<span class="header-section-number">29.5.2</span> Match a pattern at the end of a line/string with <code>$</code> and <code>\\&gt;</code>
 </h3>
 <p>The dollar sign <code>$</code> is used at the <strong>end</strong> of a pattern to only match strings which end with this pattern:</p>
 <div class="cell">
@@ -1329,8 +1332,8 @@ Note
 <pre><code>[1] 1 2</code></pre>
 </div>
 </div>
-</section><section id="match-any-character-with-." class="level3" data-number="30.5.3"><h3 data-number="30.5.3" class="anchored" data-anchor-id="match-any-character-with-.">
-<span class="header-section-number">30.5.3</span> Match any character with <code>.</code>
+</section><section id="match-any-character-with-." class="level3" data-number="29.5.3"><h3 data-number="29.5.3" class="anchored" data-anchor-id="match-any-character-with-.">
+<span class="header-section-number">29.5.3</span> Match any character with <code>.</code>
 </h3>
 <div class="cell">
 <div class="sourceCode" id="cb106"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">grep</a></span><span class="op">(</span><span class="st">"e.X"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"eX"</span>, <span class="st">"enX"</span>, <span class="st">"ennX"</span>, <span class="st">"ennnX"</span>, <span class="st">"ennnnX"</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1338,8 +1341,8 @@ Note
 <pre><code>[1] 2</code></pre>
 </div>
 </div>
-</section><section id="match-preceding-character-one-or-more-times-with" class="level3" data-number="30.5.4"><h3 data-number="30.5.4" class="anchored" data-anchor-id="match-preceding-character-one-or-more-times-with">
-<span class="header-section-number">30.5.4</span> Match preceding character one or more times with <code>+</code>
+</section><section id="match-preceding-character-one-or-more-times-with" class="level3" data-number="29.5.4"><h3 data-number="29.5.4" class="anchored" data-anchor-id="match-preceding-character-one-or-more-times-with">
+<span class="header-section-number">29.5.4</span> Match preceding character one or more times with <code>+</code>
 </h3>
 <div class="cell">
 <div class="sourceCode" id="cb108"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">grep</a></span><span class="op">(</span><span class="st">"en+X"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"eX"</span>, <span class="st">"enX"</span>, <span class="st">"ennX"</span>, <span class="st">"ennnX"</span>, <span class="st">"ennnnX"</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1347,8 +1350,8 @@ Note
 <pre><code>[1] 2 3 4 5</code></pre>
 </div>
 </div>
-</section><section id="match-preceding-character-n-times-with-n" class="level3" data-number="30.5.5"><h3 data-number="30.5.5" class="anchored" data-anchor-id="match-preceding-character-n-times-with-n">
-<span class="header-section-number">30.5.5</span> Match preceding character <code>n</code> times with <code>{n}</code>
+</section><section id="match-preceding-character-n-times-with-n" class="level3" data-number="29.5.5"><h3 data-number="29.5.5" class="anchored" data-anchor-id="match-preceding-character-n-times-with-n">
+<span class="header-section-number">29.5.5</span> Match preceding character <code>n</code> times with <code>{n}</code>
 </h3>
 <div class="cell">
 <div class="sourceCode" id="cb110"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">grep</a></span><span class="op">(</span><span class="st">"en{2}X"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"eX"</span>, <span class="st">"enX"</span>, <span class="st">"ennX"</span>, <span class="st">"ennnX"</span>, <span class="st">"ennnnX"</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1356,8 +1359,8 @@ Note
 <pre><code>[1] 3</code></pre>
 </div>
 </div>
-</section><section id="match-preceding-character-n-or-more-times-with-n" class="level3" data-number="30.5.6"><h3 data-number="30.5.6" class="anchored" data-anchor-id="match-preceding-character-n-or-more-times-with-n">
-<span class="header-section-number">30.5.6</span> Match preceding character <code>n</code> or more times with <code>{n,}</code>
+</section><section id="match-preceding-character-n-or-more-times-with-n" class="level3" data-number="29.5.6"><h3 data-number="29.5.6" class="anchored" data-anchor-id="match-preceding-character-n-or-more-times-with-n">
+<span class="header-section-number">29.5.6</span> Match preceding character <code>n</code> or more times with <code>{n,}</code>
 </h3>
 <div class="cell">
 <div class="sourceCode" id="cb112"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">grep</a></span><span class="op">(</span><span class="st">"en{2,}X"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"eX"</span>, <span class="st">"enX"</span>, <span class="st">"ennX"</span>, <span class="st">"ennnX"</span>, <span class="st">"ennnnX"</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1365,8 +1368,8 @@ Note
 <pre><code>[1] 3 4 5</code></pre>
 </div>
 </div>
-</section><section id="match-preceding-character-at-least-n-times-and-no-more-than-m-times-with-nm" class="level3" data-number="30.5.7"><h3 data-number="30.5.7" class="anchored" data-anchor-id="match-preceding-character-at-least-n-times-and-no-more-than-m-times-with-nm">
-<span class="header-section-number">30.5.7</span> Match preceding character at least <code>n</code> times and no more than <code>m</code> times with <code>{n,m}</code>
+</section><section id="match-preceding-character-at-least-n-times-and-no-more-than-m-times-with-nm" class="level3" data-number="29.5.7"><h3 data-number="29.5.7" class="anchored" data-anchor-id="match-preceding-character-at-least-n-times-and-no-more-than-m-times-with-nm">
+<span class="header-section-number">29.5.7</span> Match preceding character at least <code>n</code> times and no more than <code>m</code> times with <code>{n,m}</code>
 </h3>
 <div class="cell">
 <div class="sourceCode" id="cb114"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">grep</a></span><span class="op">(</span><span class="st">"en{2,3}X"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"eX"</span>, <span class="st">"enX"</span>, <span class="st">"ennX"</span>, <span class="st">"ennnX"</span>, <span class="st">"ennnnX"</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1374,8 +1377,8 @@ Note
 <pre><code>[1] 3 4</code></pre>
 </div>
 </div>
-</section><section id="characterclasses" class="level3" data-number="30.5.8"><h3 data-number="30.5.8" class="anchored" data-anchor-id="characterclasses">
-<span class="header-section-number">30.5.8</span> Character classes</h3>
+</section><section id="characterclasses" class="level3" data-number="29.5.8"><h3 data-number="29.5.8" class="anchored" data-anchor-id="characterclasses">
+<span class="header-section-number">29.5.8</span> Character classes</h3>
 <p>You can define a set of characters to be matched using square brackets. Any number of the characters in the set will be matched.</p>
 <p>For example match and replace <code>$</code> and/or <code>@</code> with an underscore:</p>
 <div class="cell">
@@ -1385,8 +1388,8 @@ Note
 <pre><code>[1] "Feat1_alpha"   "Feat2_gamma_5" "Feat9_zeta2"  </code></pre>
 </div>
 </div>
-<section id="predefined-character-classes" class="level4" data-number="30.5.8.1"><h4 data-number="30.5.8.1" class="anchored" data-anchor-id="predefined-character-classes">
-<span class="header-section-number">30.5.8.1</span> Predefined character classes</h4>
+<section id="predefined-character-classes" class="level4" data-number="29.5.8.1"><h4 data-number="29.5.8.1" class="anchored" data-anchor-id="predefined-character-classes">
+<span class="header-section-number">29.5.8.1</span> Predefined character classes</h4>
 <p>A number of character classes are predefined. Perhaps confusingly, they are themselves surrounded by brackets and to use them as a character class, you need a second set of brackets around them. Some of the most common ones include:</p>
 <ul>
 <li>
@@ -1439,8 +1442,8 @@ Note
 [5] "021_Surgery"    "051_Psychiatry"</code></pre>
 </div>
 </div>
-</section></section><section id="match-from-multiple-character-classes" class="level3" data-number="30.5.9"><h3 data-number="30.5.9" class="anchored" data-anchor-id="match-from-multiple-character-classes">
-<span class="header-section-number">30.5.9</span> Match from multiple character classes</h3>
+</section></section><section id="match-from-multiple-character-classes" class="level3" data-number="29.5.9"><h3 data-number="29.5.9" class="anchored" data-anchor-id="match-from-multiple-character-classes">
+<span class="header-section-number">29.5.9</span> Match from multiple character classes</h3>
 <div class="cell">
 <div class="sourceCode" id="cb126"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"123#$%alphaBeta"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">"[[:digit:][:punct:]]"</span>, <span class="st">""</span>, <span class="va">x</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1461,8 +1464,8 @@ Note
 <p>For more information on regular expressions, start by reading the built-in documentation: <code><a href="https://rdrr.io/r/base/regex.html">?regex</a></code>.</p>
 </div>
 </div>
-</section><section id="escaping-metacharacters" class="level3" data-number="30.5.10"><h3 data-number="30.5.10" class="anchored" data-anchor-id="escaping-metacharacters">
-<span class="header-section-number">30.5.10</span> Escaping metacharacters</h3>
+</section><section id="escaping-metacharacters" class="level3" data-number="29.5.10"><h3 data-number="29.5.10" class="anchored" data-anchor-id="escaping-metacharacters">
+<span class="header-section-number">29.5.10</span> Escaping metacharacters</h3>
 <p>Metacharacters are characters that have a special meaning within a regular expression. They include:</p>
 <p><code>. \ | ( ) [ { ^ $ * + ?</code>.</p>
 <p>For example, we have seen above that the period matches any character and the square brackets are used to define <a href="#characterclasses">character classes</a> If you want to match one of these characters itself, you must “escape” it using a double backslash. Escaping a character simply means “this is not part of a regular expression, match it as is”. <br><br> For example, to match a period (<code>.</code>) and replace it with underscores:</p>
@@ -2127,13 +2130,13 @@ window.onload = function() {
     }
   });
   </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
-      <a href="./MissingData.html" class="pagination-link" aria-label="Handling Missing data">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Handling Missing data</span></span>
+      <a href="./DataTrans.html" class="pagination-link" aria-label="Data Transformations">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Data Transformations</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./DateTime.html" class="pagination-link" aria-label="Date and Time">
-        <span class="nav-page-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Date and Time</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Date and Time</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

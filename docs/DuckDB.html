@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.7.31">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>56&nbsp; DuckDB – PDSR</title>
+<title>55&nbsp; DuckDB – PDSR</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -75,7 +75,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-4f97383ec2b0718e090f5a3bf624e0cf.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-294c2a79f4b5c5018fdfa692435fb65c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-dark-1e7b01a6aeb55307b339f3c789586970.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="site_libs/bootstrap/bootstrap-4f97383ec2b0718e090f5a3bf624e0cf.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -260,7 +260,8 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
       }
     };
     const authorPrefersDark = false;
-    const darkModeDefault = authorPrefersDark;
+    const queryPrefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+    const darkModeDefault = queryPrefersDark.matches;
       document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
       document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
     let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
@@ -273,6 +274,14 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
       toggleGiscusIfUsed(toAlternate, darkModeDefault);
       window.dispatchEvent(new Event('resize'));
     };
+    queryPrefersDark.addEventListener("change", e => {
+      if(window.localStorage.getItem("quarto-color-scheme") !== null)
+        return;
+      const alternate = e.matches
+      toggleColorMode(alternate);
+      localAlternateSentinel = e.matches ? 'alternate' : 'default'; // this is used alongside local storage!
+      toggleGiscusIfUsed(alternate, darkModeDefault);
+    });
     // Switch to dark mode if need be
     if (hasAlternateSentinel()) {
       toggleColorMode(true);
@@ -286,7 +295,7 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Advanced.html">Advanced R</a></li><li class="breadcrumb-item"><a href="./DuckDB.html"><span class="chapter-number">56</span>&nbsp; <span class="chapter-title">DuckDB</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Advanced.html">Advanced R</a></li><li class="breadcrumb-item"><a href="./DuckDB.html"><span class="chapter-number">55</span>&nbsp; <span class="chapter-title">DuckDB</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -523,32 +532,26 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./MissingData.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Handling Missing data</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./Strings.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Strings</span></span></a>
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Strings</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./DateTime.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Date and Time</span></span></a>
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Date and Time</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./SetOps.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Set Operations</span></span></a>
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Set Operations</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ClassesAndOOP.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Classes and OOP</span></span></a>
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Classes and OOP</span></span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -563,37 +566,37 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dtIntro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dtBasics.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">data.table basics</span></span></a>
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">data.table basics</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dtRefSem.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Reference Semantics</span></span></a>
+ <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Reference Semantics</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dtReshape.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">Reshape</span></span></a>
+ <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Reshape</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dtJoin.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">38</span>&nbsp; <span class="chapter-title">Joins</span></span></a>
+ <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">Joins</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dtAdvanced.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">39</span>&nbsp; <span class="chapter-title">Advanced Usage</span></span></a>
+ <span class="menu-text"><span class="chapter-number">38</span>&nbsp; <span class="chapter-title">Advanced Usage</span></span></a>
   </div>
 </li>
       </ul>
@@ -610,25 +613,25 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dplyr.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">40</span>&nbsp; <span class="chapter-title">Introduction to dplyr</span></span></a>
+ <span class="menu-text"><span class="chapter-number">39</span>&nbsp; <span class="chapter-title">Introduction to dplyr</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./tidyrReshape.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">41</span>&nbsp; <span class="chapter-title">Reshaping with <strong>tidyr</strong></span></span></a>
+ <span class="menu-text"><span class="chapter-number">40</span>&nbsp; <span class="chapter-title">Reshaping with <strong>tidyr</strong></span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dplyrJoin.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">42</span>&nbsp; <span class="chapter-title">Joins</span></span></a>
+ <span class="menu-text"><span class="chapter-number">41</span>&nbsp; <span class="chapter-title">Joins</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./lubridate.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">43</span>&nbsp; <span class="chapter-title">Dates with <strong>lubridate</strong></span></span></a>
+ <span class="menu-text"><span class="chapter-number">42</span>&nbsp; <span class="chapter-title">Dates with <strong>lubridate</strong></span></span></a>
   </div>
 </li>
       </ul>
@@ -645,25 +648,25 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./BaseGraphics.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">44</span>&nbsp; <span class="chapter-title">Base Graphics</span></span></a>
+ <span class="menu-text"><span class="chapter-number">43</span>&nbsp; <span class="chapter-title">Base Graphics</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Colors.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">45</span>&nbsp; <span class="chapter-title">Colors</span></span></a>
+ <span class="menu-text"><span class="chapter-number">44</span>&nbsp; <span class="chapter-title">Colors</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ggplot2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">46</span>&nbsp; <span class="chapter-title">Introduction to <strong>ggplot2</strong></span></span></a>
+ <span class="menu-text"><span class="chapter-number">45</span>&nbsp; <span class="chapter-title">Introduction to <strong>ggplot2</strong></span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./plotly.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">47</span>&nbsp; <span class="chapter-title">Introduction to <strong>plotly</strong></span></span></a>
+ <span class="menu-text"><span class="chapter-number">46</span>&nbsp; <span class="chapter-title">Introduction to <strong>plotly</strong></span></span></a>
   </div>
 </li>
       </ul>
@@ -671,31 +674,31 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./HypothesisTesting.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">48</span>&nbsp; <span class="chapter-title">Common Statistical Tests</span></span></a>
+ <span class="menu-text"><span class="chapter-number">47</span>&nbsp; <span class="chapter-title">Common Statistical Tests</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./GLM.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">49</span>&nbsp; <span class="chapter-title">Introduction to the GLM</span></span></a>
+ <span class="menu-text"><span class="chapter-number">48</span>&nbsp; <span class="chapter-title">Introduction to the GLM</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Profiling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">50</span>&nbsp; <span class="chapter-title">Benchmarking &amp; Profiling</span></span></a>
+ <span class="menu-text"><span class="chapter-number">49</span>&nbsp; <span class="chapter-title">Benchmarking &amp; Profiling</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Optimization.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">51</span>&nbsp; <span class="chapter-title">Optimization</span></span></a>
+ <span class="menu-text"><span class="chapter-number">50</span>&nbsp; <span class="chapter-title">Optimization</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Quarto.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">52</span>&nbsp; <span class="chapter-title">Quarto</span></span></a>
+ <span class="menu-text"><span class="chapter-number">51</span>&nbsp; <span class="chapter-title">Quarto</span></span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -710,13 +713,13 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./TerminalIntro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">53</span>&nbsp; <span class="chapter-title">Introduction to the System Shell</span></span></a>
+ <span class="menu-text"><span class="chapter-number">52</span>&nbsp; <span class="chapter-title">Introduction to the System Shell</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./GitHubIntro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">54</span>&nbsp; <span class="chapter-title">Git &amp; GitHub: The Basics</span></span></a>
+ <span class="menu-text"><span class="chapter-number">53</span>&nbsp; <span class="chapter-title">Git &amp; GitHub: The Basics</span></span></a>
   </div>
 </li>
       </ul>
@@ -733,13 +736,13 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ds.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">55</span>&nbsp; <span class="chapter-title">Data Queries across implementations</span></span></a>
+ <span class="menu-text"><span class="chapter-number">54</span>&nbsp; <span class="chapter-title">Data Queries across implementations</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./DuckDB.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">56</span>&nbsp; <span class="chapter-title">DuckDB</span></span></a>
+ <span class="menu-text"><span class="chapter-number">55</span>&nbsp; <span class="chapter-title">DuckDB</span></span></a>
   </div>
 </li>
       </ul>
@@ -747,13 +750,13 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Resources.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">57</span>&nbsp; <span class="chapter-title">Resources</span></span></a>
+ <span class="menu-text"><span class="chapter-number">56</span>&nbsp; <span class="chapter-title">Resources</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./DataPipeline.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">58</span>&nbsp; <span class="chapter-title">Data Pipeline Overview</span></span></a>
+ <span class="menu-text"><span class="chapter-number">57</span>&nbsp; <span class="chapter-title">Data Pipeline Overview</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -776,30 +779,30 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
         <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
    
   <ul>
-<li><a href="#installation" id="toc-installation" class="nav-link active" data-scroll-target="#installation"><span class="header-section-number">56.1</span> Installation</a></li>
-  <li><a href="#duckdb-api" id="toc-duckdb-api" class="nav-link" data-scroll-target="#duckdb-api"><span class="header-section-number">56.2</span> DuckDB API</a></li>
-  <li><a href="#setup-connection" id="toc-setup-connection" class="nav-link" data-scroll-target="#setup-connection"><span class="header-section-number">56.3</span> Setup Connection</a></li>
-  <li><a href="#settings" id="toc-settings" class="nav-link" data-scroll-target="#settings"><span class="header-section-number">56.4</span> Settings</a></li>
+<li><a href="#installation" id="toc-installation" class="nav-link active" data-scroll-target="#installation"><span class="header-section-number">55.1</span> Installation</a></li>
+  <li><a href="#duckdb-api" id="toc-duckdb-api" class="nav-link" data-scroll-target="#duckdb-api"><span class="header-section-number">55.2</span> DuckDB API</a></li>
+  <li><a href="#setup-connection" id="toc-setup-connection" class="nav-link" data-scroll-target="#setup-connection"><span class="header-section-number">55.3</span> Setup Connection</a></li>
+  <li><a href="#settings" id="toc-settings" class="nav-link" data-scroll-target="#settings"><span class="header-section-number">55.4</span> Settings</a></li>
   <li>
-<a href="#read-csv" id="toc-read-csv" class="nav-link" data-scroll-target="#read-csv"><span class="header-section-number">56.5</span> Read CSV</a>
+<a href="#read-csv" id="toc-read-csv" class="nav-link" data-scroll-target="#read-csv"><span class="header-section-number">55.5</span> Read CSV</a>
   <ul class="collapse">
-<li><a href="#list-tables" id="toc-list-tables" class="nav-link" data-scroll-target="#list-tables"><span class="header-section-number">56.5.1</span> List tables</a></li>
+<li><a href="#list-tables" id="toc-list-tables" class="nav-link" data-scroll-target="#list-tables"><span class="header-section-number">55.5.1</span> List tables</a></li>
   </ul>
 </li>
   <li>
-<a href="#filter" id="toc-filter" class="nav-link" data-scroll-target="#filter"><span class="header-section-number">56.6</span> Filter</a>
+<a href="#filter" id="toc-filter" class="nav-link" data-scroll-target="#filter"><span class="header-section-number">55.6</span> Filter</a>
   <ul class="collapse">
-<li><a href="#fetch-data-to-data.frame" id="toc-fetch-data-to-data.frame" class="nav-link" data-scroll-target="#fetch-data-to-data.frame"><span class="header-section-number">56.6.1</span> Fetch data to data.frame</a></li>
-  <li><a href="#fetch-data-to-data.table" id="toc-fetch-data-to-data.table" class="nav-link" data-scroll-target="#fetch-data-to-data.table"><span class="header-section-number">56.6.2</span> Fetch data to data.table:</a></li>
+<li><a href="#fetch-data-to-data.frame" id="toc-fetch-data-to-data.frame" class="nav-link" data-scroll-target="#fetch-data-to-data.frame"><span class="header-section-number">55.6.1</span> Fetch data to data.frame</a></li>
+  <li><a href="#fetch-data-to-data.table" id="toc-fetch-data-to-data.table" class="nav-link" data-scroll-target="#fetch-data-to-data.table"><span class="header-section-number">55.6.2</span> Fetch data to data.table:</a></li>
   </ul>
 </li>
-  <li><a href="#close-connection" id="toc-close-connection" class="nav-link" data-scroll-target="#close-connection"><span class="header-section-number">56.7</span> Close connection</a></li>
-  <li><a href="#resources" id="toc-resources" class="nav-link" data-scroll-target="#resources"><span class="header-section-number">56.8</span> Resources</a></li>
+  <li><a href="#close-connection" id="toc-close-connection" class="nav-link" data-scroll-target="#close-connection"><span class="header-section-number">55.7</span> Close connection</a></li>
+  <li><a href="#resources" id="toc-resources" class="nav-link" data-scroll-target="#resources"><span class="header-section-number">55.8</span> Resources</a></li>
   </ul><div class="toc-actions"><ul><li><a href="https://github.com/egenn/pdsr/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Advanced.html">Advanced R</a></li><li class="breadcrumb-item"><a href="./DuckDB.html"><span class="chapter-number">56</span>&nbsp; <span class="chapter-title">DuckDB</span></a></li></ol></nav><div class="quarto-title">
-<h1 class="title"><span id="sec-duckdb" class="quarto-section-identifier"><span class="chapter-number">56</span>&nbsp; <span class="chapter-title">DuckDB</span></span></h1>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Advanced.html">Advanced R</a></li><li class="breadcrumb-item"><a href="./DuckDB.html"><span class="chapter-number">55</span>&nbsp; <span class="chapter-title">DuckDB</span></a></li></ol></nav><div class="quarto-title">
+<h1 class="title"><span id="sec-duckdb" class="quarto-section-identifier"><span class="chapter-number">55</span>&nbsp; <span class="chapter-title">DuckDB</span></span></h1>
 </div>
 
 
@@ -814,7 +817,7 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 
 
 </header><p><a href="https://duckdb.org/">DuckDB</a> is a popular and powerful “in-process <a href="https://en.wikipedia.org/wiki/SQL">SQL</a> <a href="https://en.wikipedia.org/wiki/Online_analytical_processing">OLAP</a> <a href="https://en.wikipedia.org/wiki/Database#Database_management_system">database management system</a>”</p>
-<p>It provides APIs in multiple languages, including R, Python, and Julia. <br><br> In practical terms, it provides a very efficient way to read, query, and write big data in R, which includes datasets that are bigger than memory. <br><br> For example, it allows lazy-reading of large datasets with optional filtering, selecting, and grouping operations before reading into memory. <br><br><a href="ds.html" class="quarto-xref"><span>Chapter 55</span></a> includes examples using <a href="https://duckdblabs.github.io/duckplyr/">duckplyr</a></p>
+<p>It provides APIs in multiple languages, including R, Python, and Julia. <br><br> In practical terms, it provides a very efficient way to read, query, and write big data in R, which includes datasets that are bigger than memory. <br><br> For example, it allows lazy-reading of large datasets with optional filtering, selecting, and grouping operations before reading into memory. <br><br><a href="ds.html" class="quarto-xref"><span>Chapter 54</span></a> includes examples using <a href="https://duckdblabs.github.io/duckplyr/">duckplyr</a></p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -835,30 +838,30 @@ Note
 </div>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dbplyr.tidyverse.org/">dbplyr</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="installation" class="level2" data-number="56.1"><h2 data-number="56.1" class="anchored" data-anchor-id="installation">
-<span class="header-section-number">56.1</span> Installation</h2>
+<section id="installation" class="level2" data-number="55.1"><h2 data-number="55.1" class="anchored" data-anchor-id="installation">
+<span class="header-section-number">55.1</span> Installation</h2>
 <div class="cell">
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"duckdb"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section><section id="duckdb-api" class="level2" data-number="56.2"><h2 data-number="56.2" class="anchored" data-anchor-id="duckdb-api">
-<span class="header-section-number">56.2</span> DuckDB API</h2>
+</section><section id="duckdb-api" class="level2" data-number="55.2"><h2 data-number="55.2" class="anchored" data-anchor-id="duckdb-api">
+<span class="header-section-number">55.2</span> DuckDB API</h2>
 <p>DuckDB uses the R Database Interface (<a href="https://cran.r-project.org/web/packages/DBI/index.html">DBI</a>). Learn more about using DBI <a href="https://solutions.posit.co/connections/db/r-packages/dbi/">here</a>.</p>
-</section><section id="setup-connection" class="level2" data-number="56.3"><h2 data-number="56.3" class="anchored" data-anchor-id="setup-connection">
-<span class="header-section-number">56.3</span> Setup Connection</h2>
+</section><section id="setup-connection" class="level2" data-number="55.3"><h2 data-number="55.3" class="anchored" data-anchor-id="setup-connection">
+<span class="header-section-number">55.3</span> Setup Connection</h2>
 <p>By default, <code>duckdb()</code>’s <code>dbdir</code> argument defaults to <code>DBDIR_MEMORY</code>, which creates a non-persistent, in-memory object.</p>
 <div class="cell">
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">con</span> <span class="op">&lt;-</span> <span class="fu">dbConnect</span><span class="op">(</span><span class="fu">duckdb</span><span class="fu">::</span><span class="fu">duckdb</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section><section id="settings" class="level2" data-number="56.4"><h2 data-number="56.4" class="anchored" data-anchor-id="settings">
-<span class="header-section-number">56.4</span> Settings</h2>
+</section><section id="settings" class="level2" data-number="55.4"><h2 data-number="55.4" class="anchored" data-anchor-id="settings">
+<span class="header-section-number">55.4</span> Settings</h2>
 <div class="cell">
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">dbExecute</span><span class="op">(</span><span class="va">con</span>, <span class="st">"PRAGMA enable_progress_bar;"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0</code></pre>
 </div>
 </div>
-</section><section id="read-csv" class="level2" data-number="56.5"><h2 data-number="56.5" class="anchored" data-anchor-id="read-csv">
-<span class="header-section-number">56.5</span> Read CSV</h2>
+</section><section id="read-csv" class="level2" data-number="55.5"><h2 data-number="55.5" class="anchored" data-anchor-id="read-csv">
+<span class="header-section-number">55.5</span> Read CSV</h2>
 <p>You can directly read into data.frame, which may be best for smaller datasets:</p>
 <div class="cell">
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ir</span> <span class="op">&lt;-</span> <span class="fu">dbGetQuery</span><span class="op">(</span><span class="va">con</span>, </span>
@@ -884,8 +887,8 @@ Note
 <pre><code>[1] 150</code></pre>
 </div>
 </div>
-<section id="list-tables" class="level3" data-number="56.5.1"><h3 data-number="56.5.1" class="anchored" data-anchor-id="list-tables">
-<span class="header-section-number">56.5.1</span> List tables</h3>
+<section id="list-tables" class="level3" data-number="55.5.1"><h3 data-number="55.5.1" class="anchored" data-anchor-id="list-tables">
+<span class="header-section-number">55.5.1</span> List tables</h3>
 <div class="cell">
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">dbGetQuery</span><span class="op">(</span><span class="va">con</span>, <span class="st">"PRAGMA show_tables;"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -900,8 +903,8 @@ Note
 <pre><code>[1] "iris"</code></pre>
 </div>
 </div>
-</section></section><section id="filter" class="level2" data-number="56.6"><h2 data-number="56.6" class="anchored" data-anchor-id="filter">
-<span class="header-section-number">56.6</span> Filter</h2>
+</section></section><section id="filter" class="level2" data-number="55.6"><h2 data-number="55.6" class="anchored" data-anchor-id="filter">
+<span class="header-section-number">55.6</span> Filter</h2>
 <div class="cell">
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">dbGetQuery</span><span class="op">(</span><span class="va">con</span>,</span>
 <span>    <span class="st">"SELECT * FROM iris WHERE Species in ('setosa', 'versicolor')"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -927,8 +930,8 @@ Note
 <pre><code>[1] 150</code></pre>
 </div>
 </div>
-<section id="fetch-data-to-data.frame" class="level3" data-number="56.6.1"><h3 data-number="56.6.1" class="anchored" data-anchor-id="fetch-data-to-data.frame">
-<span class="header-section-number">56.6.1</span> Fetch data to data.frame</h3>
+<section id="fetch-data-to-data.frame" class="level3" data-number="55.6.1"><h3 data-number="55.6.1" class="anchored" data-anchor-id="fetch-data-to-data.frame">
+<span class="header-section-number">55.6.1</span> Fetch data to data.frame</h3>
 <div class="cell">
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ir</span> <span class="op">=</span> <span class="fu">dbGetQuery</span><span class="op">(</span><span class="va">con</span>, <span class="st">"SELECT * from iris"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">ir</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -948,8 +951,8 @@ Note
 <pre><code>[1] "data.frame"</code></pre>
 </div>
 </div>
-</section><section id="fetch-data-to-data.table" class="level3" data-number="56.6.2"><h3 data-number="56.6.2" class="anchored" data-anchor-id="fetch-data-to-data.table">
-<span class="header-section-number">56.6.2</span> Fetch data to data.table:</h3>
+</section><section id="fetch-data-to-data.table" class="level3" data-number="55.6.2"><h3 data-number="55.6.2" class="anchored" data-anchor-id="fetch-data-to-data.table">
+<span class="header-section-number">55.6.2</span> Fetch data to data.table:</h3>
 <div class="cell">
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ir</span> <span class="op">=</span> <span class="fu">dbGetQuery</span><span class="op">(</span><span class="va">con</span>, <span class="st">"SELECT * from iris"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -969,14 +972,14 @@ Note
 6          5.4         3.9          1.7         0.4  setosa</code></pre>
 </div>
 </div>
-</section></section><section id="close-connection" class="level2" data-number="56.7"><h2 data-number="56.7" class="anchored" data-anchor-id="close-connection">
-<span class="header-section-number">56.7</span> Close connection</h2>
+</section></section><section id="close-connection" class="level2" data-number="55.7"><h2 data-number="55.7" class="anchored" data-anchor-id="close-connection">
+<span class="header-section-number">55.7</span> Close connection</h2>
 <p>When you are done working with the database, you should close the connection:</p>
 <div class="cell">
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">dbDisconnect</span><span class="op">(</span><span class="va">con</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section><section id="resources" class="level2" data-number="56.8"><h2 data-number="56.8" class="anchored" data-anchor-id="resources">
-<span class="header-section-number">56.8</span> Resources</h2>
+</section><section id="resources" class="level2" data-number="55.8"><h2 data-number="55.8" class="anchored" data-anchor-id="resources">
+<span class="header-section-number">55.8</span> Resources</h2>
 <ul>
 <li><a href="https://duckdb.org/docs/">DuckDB Documentation</a></li>
 <li><a href="https://duckdb.org/docs/data/csv">DuckDB CSV</a></li>
@@ -1601,12 +1604,12 @@ window.onload = function() {
   });
   </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
       <a href="./ds.html" class="pagination-link" aria-label="Data Queries across implementations">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">55</span>&nbsp; <span class="chapter-title">Data Queries across implementations</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">54</span>&nbsp; <span class="chapter-title">Data Queries across implementations</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./Resources.html" class="pagination-link" aria-label="Resources">
-        <span class="nav-page-text"><span class="chapter-number">57</span>&nbsp; <span class="chapter-title">Resources</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">56</span>&nbsp; <span class="chapter-title">Resources</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

@@ -174,27 +174,7 @@
     "href": "IDEs.html",
     "title": "\n5  IDEs\n",
     "section": "",
-    "text": "5.1 RStudio by Posit\nAn Integrated Development Environment (IDE) is a software application that offers extensive functionality for programmers, including ability to read, write, and execute code, develop and test software packages, etc.\nIDEs that support R usually also allow viewing plots or launching web applications within the same environment. An IDE can make working in R easier, more productive, and, importantly, more fun.\nPosit (formerly RStudio), develops RStudio Desktop, a popular integrated development environment (IDE) for R, which can be downloaded from here. This is the recommended environment for beginners. Make sure to keep your installation up-to-date.\nIt is recommended to set up a new RStudio project for each data project.\nRStudio projects allows you to organize your work. Each project keeps track of your working directory, workspace, history, and source documents.\nTo create a new RStudio Project click on File &gt; New Project… from the main menu or the “Create a project” icon (second from top-left usually) in the RStudio toolbar.",
-    "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>IDEs</span>"
-    ]
-  },
-  {
-    "objectID": "IDEs.html#rstudio-by-posit",
-    "href": "IDEs.html#rstudio-by-posit",
-    "title": "\n5  IDEs\n",
-    "section": "",
-    "text": "Tip\n\n\n\nRStudio may ask you whether to save your workspace upon exit. That’s the same question that R will ask when you terminate a (default) R session in the console.It is recommended to answer “No”. If you answer “Yes”, it will save all objects currently in your workspace to a file called .RData in your working directory. Next time you start RStudio, it will reload all objects from this file. This can make RStudio slow to start and will clutter your workspace with objects from previous sessions, which you are unlikely to need or remember what they are/how they were created. Instead, see Chapter 12, for saving and loading specific objects to your preferred location.",
-    "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>IDEs</span>"
-    ]
-  },
-  {
-    "objectID": "IDEs.html#vscode",
-    "href": "IDEs.html#vscode",
-    "title": "\n5  IDEs\n",
-    "section": "\n5.2 VS Code",
-    "text": "5.2 VS Code\nVisual Studio Code, a.k.a. VS Code, is a source code editor and one of the most popular IDEs across different languages. The VS Code Extension Marketplace includes a very large number of extensions.\nThe ‘vscode-R’ extension allows using VS Code as an R IDE. To use it, you need to install the languageserver and rlang packages:\n\ninstall.packages(c(\"languageserver\", \"rlang\"))\n\nThe httpgd graphics device is recommended.\nInstall it using:\n\ninstall.packages(\"httpgd\")\n\nand enable it in the extension settings (“Plot: Use httpgd”).\nThe ‘Remote - SSH’ extension allows using a local VS Code installation (e.g. on your laptop) and executing code (R, Python, etc.) on a remote server on which you have SSH access. \nVS Code’s ‘Jupyter’ extension allows you to open and run jupyter notebooks. \nRead more about R support in VS Code here",
+    "text": "5.1 VS Code\nAn Integrated Development Environment (IDE) is a software application that offers extensive functionality for programmers, including ability to read, write, and execute code, develop and test software packages, etc.\nIDEs that support R usually also allow viewing plots or launching web applications within the same environment. An IDE can make working in R easier, more productive, and, importantly, more fun.\nVisual Studio Code, a.k.a. VS Code, is a source code editor and one of the most popular IDEs across different languages. The VS Code Extension Marketplace includes a very large number of extensions.\nThe ‘vscode-R’ extension allows using VS Code as an R IDE. To use it, you need to install the languageserver and rlang packages:\ninstall.packages(c(\"languageserver\", \"rlang\"))\nThe httpgd graphics device is recommended.\nInstall it using:\ninstall.packages(\"httpgd\")\nand enable it in the extension settings (“Plot: Use httpgd”).\nThe ‘Remote - SSH’ extension allows using a local VS Code installation (e.g. on your laptop) and executing code (R, Python, etc.) on a remote server on which you have SSH access.\nVS Code’s ‘Jupyter’ extension allows you to open and run jupyter notebooks.\nRead more about R support in VS Code here",
     "crumbs": [
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>IDEs</span>"
     ]
@@ -203,8 +183,8 @@
     "objectID": "IDEs.html#positron-by-posit",
     "href": "IDEs.html#positron-by-posit",
     "title": "\n5  IDEs\n",
-    "section": "\n5.3 Positron by Posit",
-    "text": "5.3 Positron by Posit\nPositron is “a next-generation data science IDE” built by Posit. First public release was made available on June 24 2024 and as stated in the GitHub repo “is an early stage project under active development”. This is a new IDE by the developers of RStudio built on top of VS Code open source (“Code OSS”). May be too new and untested for beginners, who might benefit from sticking with RStudio for the time being. May be fun to try for more experienced users and those already familiar with VS Code.",
+    "section": "\n5.2 Positron by Posit",
+    "text": "5.2 Positron by Posit\nPositron is “a next-generation data science IDE” built by Posit. First public release was made available on June 24 2024 and as stated in the GitHub repo “is an early stage project under active development”. This is a new IDE by the developers of RStudio built on top of VS Code open source (“Code OSS”). May be too new and untested for beginners, who might benefit from sticking with RStudio for the time being. May be fun to try for more experienced users and those already familiar with VS Code.",
     "crumbs": [
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>IDEs</span>"
     ]
@@ -213,8 +193,8 @@
     "objectID": "IDEs.html#jupyter",
     "href": "IDEs.html#jupyter",
     "title": "\n5  IDEs\n",
-    "section": "\n5.4 Jupyter / Jupyter Lab",
-    "text": "5.4 Jupyter / Jupyter Lab\nJupyter is a popular notebook interface, which supports multiple programming languages, including R.\nJupyterLab is the “next-generation web-based user interface for Project Jupyter”.\nJupyter and JupyterLab are installed using Python, but can be used to work with multiple languages, including R.  Python environments are a way to isolate your project’s dependencies from the rest of your system. This is useful when you have multiple projects with different dependencies, or when you want to avoid conflicts between packages. There are different approaches to installing Python packages & managing environments. Our current recommendation is to use virtual environments and handle dependencies using uv, which is a much faster alternative to the classic pip. The alternative is to use conda or\n\n5.4.1 Using uv & pip (recommended)\nCreate a new virtual environment named, for example, myenv:\n\npython3 -m venv myenv\n\nActivate your new virtual environment:\n\nsource myenv/bin/activate\n\nInstall uv, a faster alternative to pip:\n\npip install uv\n\nInstall jupyterlab:\n\nuv pip install jupyterlab\n\n\n5.4.2 Using conda\nWe recommend starting by installing miniconda\n(system shell) First, use conda to install jupyterlab on the command line:\n\nconda install -c conda-forge jupyterlab\n\n\nThen, install the IRkernel R package withn R:\n\n\ninstall.packages(\"IRkernel\")\n# or install latest development version\nremotes::install_github(\"IRkernel/IRkernel\")\n\n\nInstall the R jupyter kernel:\n\n\nIRkernel::installspec()\n\n(system shell) Start jupyter-lab:\n\njupyter-lab\n\nThere, you will be able to select the R kernel from the list of available kernels.",
+    "section": "\n5.3 Jupyter / Jupyter Lab",
+    "text": "5.3 Jupyter / Jupyter Lab\nJupyter is a popular notebook interface, which supports multiple programming languages, including R.\nJupyterLab is the “next-generation web-based user interface for Project Jupyter”.\nJupyter and JupyterLab are installed using Python, but can be used to work with multiple languages, including R.  Python environments are a way to isolate your project’s dependencies from the rest of your system. This is useful when you have multiple projects with different dependencies, or when you want to avoid conflicts between packages. There are different approaches to installing Python packages & managing environments. Our current recommendation is to use virtual environments and handle dependencies using uv, which is a much faster alternative to the classic pip. The alternative is to use conda or\n\n5.3.1 Using uv & pip (recommended)\nCreate a new virtual environment named, for example, myenv:\n\npython3 -m venv myenv\n\nActivate your new virtual environment:\n\nsource myenv/bin/activate\n\nInstall uv, a faster alternative to pip:\n\npip install uv\n\nInstall jupyterlab:\n\nuv pip install jupyterlab",
     "crumbs": [
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>IDEs</span>"
     ]

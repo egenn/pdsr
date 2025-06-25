@@ -1,4 +1,4 @@
-# ![PDSR](src/assets/pdsr_.svg)
+# ![PDSR](src/assets/pdsr>.svg)
 
 <img src="./src/assets/pdsr_cover.webp" alt="PDSR" style="width:100%;filter: drop-shadow(0 0 .3rem #333);"/>
 <br>

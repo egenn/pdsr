@@ -877,18 +877,15 @@ Figure&nbsp;24.1: <code>*apply()</code> function family summary (Best to read th
 <section id="apply" class="level2" data-number="24.1"><h2 data-number="24.1" class="anchored" data-anchor-id="apply">
 <span class="header-section-number">24.1</span> <code>apply()</code>
 </h2>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
+<div class="callout callout-style-simple callout-tip">
+<div class="callout-body d-flex">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
+<div class="callout-body-container">
 <p><code><a href="https://rdrr.io/r/base/apply.html">apply()</a></code> applies a function over one or more dimensions of an array of 2 dimensions or more (this includes matrices) or a data frame:</p>
 <p><code>apply(array, MARGIN, FUN)</code></p>
+</div>
 </div>
 </div>
 <p><code>MARGIN</code> can be an integer vector or character indicating the dimensions over which ‘FUN’ will be applied.</p>
@@ -927,18 +924,15 @@ Tip
  41.355183  80.976511   1.697381 134.461052 </code></pre>
 </div>
 </div>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
+<div class="callout callout-style-simple callout-tip">
+<div class="callout-body d-flex">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
+<div class="callout-body-container">
 <p>Hint: It is possibly easiest to think of the “MARGIN” as the <strong><em>dimension you want to keep</em></strong>.<br>
 In the above case, we want the mean for each variable, i.e.&nbsp;we want to keep columns and collapse rows.</p>
+</div>
 </div>
 </div>
 <p>Purely as an example to understand what <code><a href="https://rdrr.io/r/base/apply.html">apply()</a></code> does, here is the equivalent procedure using a for-loop. You notice how much more code is needed, and why <code><a href="https://rdrr.io/r/base/apply.html">apply()</a></code> and similar functions might be very convenient for many different tasks.</p>
@@ -1004,19 +998,16 @@ In the above case, we want the mean for each variable, i.e.&nbsp;we want to keep
 [15] 104.55603  90.50447 108.01655 120.93865  94.99395 109.86419</code></pre>
 </div>
 </div>
-<div class="callout callout-style-default callout-caution callout-titled">
-<div class="callout-header d-flex align-content-center">
+<div class="callout callout-style-simple callout-caution">
+<div class="callout-body d-flex">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-title-container flex-fill">
-Caution
-</div>
-</div>
-<div class="callout-body-container callout-body">
+<div class="callout-body-container">
 <p><code><a href="https://rdrr.io/r/base/apply.html">apply()</a></code> converts 2-dimensional objects to matrices before applying the function. Therefore, if applied on a data.frame with mixed data types, it will be coerced to a character matrix.</p>
 <p>This is explained in the <code><a href="https://rdrr.io/r/base/apply.html">apply()</a></code> documentation under “Details”:</p>
 <p><em>“If X is not an array but an object of a class with a non-null dim value (such as a data frame), apply attempts to coerce it to an array via as.matrix if it is two-dimensional (e.g., a data frame) or via as.array.”</em></p>
+</div>
 </div>
 </div>
 <p>Because of the above, see what happens when you use apply on the <code>iris</code> data.frame which contains 4 numeric variables and one factor:</p>
@@ -1041,31 +1032,25 @@ Caution
 </section><section id="lapply" class="level2" data-number="24.2"><h2 data-number="24.2" class="anchored" data-anchor-id="lapply">
 <span class="header-section-number">24.2</span> <code>lapply()</code>
 </h2>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
+<div class="callout callout-style-simple callout-tip">
+<div class="callout-body d-flex">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
+<div class="callout-body-container">
 <p><code><a href="https://rdrr.io/r/base/lapply.html">lapply()</a></code> applies a <strong>function</strong> on <strong>each element of its input</strong> and returns a <strong>list</strong> of the outputs.</p>
 </div>
 </div>
+</div>
 <p>Note: The ‘elements’ of a data frame are its columns (remember, a data frame is a list with equal-length elements). The ‘elements’ of a matrix are each cell one by one, by column. Therefore, unlike <code><a href="https://rdrr.io/r/base/apply.html">apply()</a></code>, <code><a href="https://rdrr.io/r/base/lapply.html">lapply()</a></code> has a very different effect on a data frame and a matrix. <code><a href="https://rdrr.io/r/base/lapply.html">lapply()</a></code> is commonly used to iterate over the columns of a data frame.</p>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
+<div class="callout callout-style-simple callout-tip">
+<div class="callout-body d-flex">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
+<div class="callout-body-container">
 <p><code><a href="https://rdrr.io/r/base/lapply.html">lapply()</a></code> is the only function of the <code>*apply()</code> family that always returns a list.</p>
+</div>
 </div>
 </div>
 <div class="cell">
@@ -1112,18 +1097,15 @@ $SBP
 </h2>
 <p><code><a href="https://rdrr.io/r/base/lapply.html">sapply()</a></code> is an alias for <code><a href="https://rdrr.io/r/base/lapply.html">lapply()</a></code>, followed by a call to <code><a href="https://rdrr.io/r/base/lapply.html">simplify2array()</a></code>.<br>
 (Check the source code for <code><a href="https://rdrr.io/r/base/lapply.html">sapply()</a></code> by typing <code>sapply</code> at the console).</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
+<div class="callout callout-style-simple callout-note">
+<div class="callout-body d-flex">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
+<div class="callout-body-container">
 <p>Unlike <code><a href="https://rdrr.io/r/base/lapply.html">lapply()</a></code>, the output of <code><a href="https://rdrr.io/r/base/lapply.html">sapply()</a></code> is <strong>variable</strong>, when the argument <code>simplify</code> is set to <code>TRUE</code>, which is the default:<br>
 It is the simplest R object that can hold the data type/s resulting from the operations, i.e.&nbsp;a vector, matrix, data frame, or list.</p>
+</div>
 </div>
 </div>
 <div class="cell">

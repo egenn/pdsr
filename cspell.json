@@ -1,0 +1,52 @@
+{
+  "version": "0.2",
+  "language": "en",
+  "words": [
+    "knitr",
+    "qmd",
+    "quarto"
+  ],
+  "files": [
+    // This pattern tells cspell to check all .qmd files recursively within the 'src' directory
+    "src/**/*.qmd"
+    // You might also want to explicitly check R code files or other markdown
+    // "src/**/*.R",
+    // "**/*.md"
+  ],
+  "ignorePaths": [
+    // Essential to ignore build and dependency folders
+    "node_modules/**",
+    "_site/**",
+    "vendor/**",
+    "__dev/**",
+    ".quarto/**",
+    "cache/**",
+    "docs/**",
+    "src/_extensions/**",
+    "src/_freeze/**",
+    "src/.quarto/**",
+    "src/data/**",
+    "src/styles/**",
+    "src/*._cache/**"
+  ],
+  "patterns": [
+    {
+      "name": "r-code-chunk",
+      // This regex matches a code block, starting and ending with three backticks,
+      // and capturing everything in between. The 'm' flag is for multi-line support.
+      "pattern": "/^```[\\s\\S]*?^```/m"
+    }
+  ],
+  "languageSettings": [
+    {
+      "languageId": "quarto, markdown, rmarkdown",
+      // Ignore the 'r-code-chunk' pattern defined above in these file types
+      "ignoreRegExpList": [
+        "r-code-chunk"
+      ]
+    }
+  ],
+  "ignoreWords": [
+    // Add any additional words to ignore here
+  ]
+}

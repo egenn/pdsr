@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.34">
+<meta name="generator" content="quarto-1.8.25">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <title>20&nbsp; Aggregate – PDSR</title>
 <style>
@@ -65,18 +65,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="./Summarize.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-83aa21ed72f0068e2bb8f0090f02f802.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-f0a4794d096e7901d871e43f74665444.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-83aa21ed72f0068e2bb8f0090f02f802.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-a14e345711173c227b21482e2eb4cc70.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-6d7e0e055978adcb0dc3bbe98a6d8351.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-a14e345711173c227b21482e2eb4cc70.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-f8924e736652ca8b7dab48655b7519d0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-4514b15909a5d13b848445a164ca2ccc.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-f8924e736652ca8b7dab48655b7519d0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+<link href="site_libs/bootstrap/bootstrap-e4e4efce03f2effa39958eaff4fa9396.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-69c38ddbb70a2148ed40cdad022cd47c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-e4e4efce03f2effa39958eaff4fa9396.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
@@ -308,7 +309,7 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
       <a href="./index.html" class="sidebar-logo-link">
-      <img src="./assets/pdsr>.svg" alt="" class="sidebar-logo py-0 d-lg-inline d-none"></a>
+      <img src="./assets/pdsr>.svg" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none"><img src="./assets/pdsr>.svg" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none"></a>
     <div class="sidebar-title mb-0 py-0">
       <a href="./"></a> 
         <div class="sidebar-tools-main tools-wide">
@@ -812,8 +813,8 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 </ul>
 <p>We shall see how to perform each operation below with each approach. <br><br> The formula interface might be easier to work with interactively on the console. Note that while you <em>can</em> programmatically create a formula, it is easier to use vector inputs when calling <code><a href="https://rdrr.io/r/stats/aggregate.html">aggregate()</a></code> programmatically. <br><br> For this example, we shall use the penguin data from the <strong>palmerpenguins</strong> package:</p>
 <div class="cell" data-hash="Aggregate_cache/html/unnamed-chunk-1_c0e6c98a77bd8a62d39ca6a49c9424de">
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://allisonhorst.github.io/palmerpenguins/">palmerpenguins</a></span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">penguins</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://allisonhorst.github.io/palmerpenguins/">palmerpenguins</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">penguins</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>tibble [344 × 8] (S3: tbl_df/tbl/data.frame)
  $ species          : Factor w/ 3 levels "Adelie","Chinstrap",..: 1 1 1 1 1 1 1 1 1 1 ...
@@ -831,9 +832,9 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <p>Note that the formula method defaults to na.action = na.omit</p>
 <p>Using the formula interface:</p>
 <div class="cell" data-hash="Aggregate_cache/html/unnamed-chunk-2_857d257567d66241fb51c8228e139553">
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/aggregate.html">aggregate</a></span><span class="op">(</span><span class="va">bill_length_mm</span> <span class="op">~</span> <span class="va">species</span>,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/aggregate.html">aggregate</a></span><span class="op">(</span><span class="va">bill_length_mm</span> <span class="op">~</span> <span class="va">species</span>,</span>
 <span>          data <span class="op">=</span> <span class="va">penguins</span>,</span>
-<span>          <span class="va">mean</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>          <span class="va">mean</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    species bill_length_mm
 1    Adelie       38.79139
@@ -843,9 +844,9 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 </div>
 <p>Using R objects directly:</p>
 <div class="cell" data-hash="Aggregate_cache/html/unnamed-chunk-3_f451d74bb04b52fd6ccd6222f9ff19dd">
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/aggregate.html">aggregate</a></span><span class="op">(</span><span class="va">penguins</span><span class="op">$</span><span class="va">bill_length_mm</span>,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/aggregate.html">aggregate</a></span><span class="op">(</span><span class="va">penguins</span><span class="op">$</span><span class="va">bill_length_mm</span>,</span>
 <span>          by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">penguins</span><span class="op">$</span><span class="va">species</span><span class="op">)</span>,</span>
-<span>          <span class="va">mean</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>          <span class="va">mean</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    Group.1        x
 1    Adelie 38.79139
@@ -856,9 +857,9 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <p>Note that, unlike the formula notation, if your input is a vector which is unnamed, the output columns are also unnamed.</p>
 <p>If instead of passing a vector, you pass a data.frame or list with one or more named elements, the output includes the names:</p>
 <div class="cell" data-hash="Aggregate_cache/html/unnamed-chunk-4_40025221f5ffffe6ff7bcef8598b7c50">
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/aggregate.html">aggregate</a></span><span class="op">(</span><span class="va">penguins</span><span class="op">[</span><span class="st">"bill_length_mm"</span><span class="op">]</span>,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/aggregate.html">aggregate</a></span><span class="op">(</span><span class="va">penguins</span><span class="op">[</span><span class="st">"bill_length_mm"</span><span class="op">]</span>,</span>
 <span>          by <span class="op">=</span> <span class="va">penguins</span><span class="op">[</span><span class="st">"species"</span><span class="op">]</span>,</span>
-<span>          <span class="va">mean</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>          <span class="va">mean</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    species bill_length_mm
 1    Adelie       38.79139
@@ -868,9 +869,9 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 </div>
 <p>By creating a list instead of indexing the given data.frame also allows you to set custom names:</p>
 <div class="cell" data-hash="Aggregate_cache/html/unnamed-chunk-5_2e6b994433ca6fb663b093ecc71875be">
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/aggregate.html">aggregate</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>`Bill length` <span class="op">=</span> <span class="va">penguins</span><span class="op">$</span><span class="va">bill_length_mm</span><span class="op">)</span>,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/aggregate.html">aggregate</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>`Bill length` <span class="op">=</span> <span class="va">penguins</span><span class="op">$</span><span class="va">bill_length_mm</span><span class="op">)</span>,</span>
 <span>          by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>Species <span class="op">=</span> <span class="va">penguins</span><span class="op">$</span><span class="va">species</span><span class="op">)</span>,</span>
-<span>          <span class="va">mean</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>          <span class="va">mean</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    Species Bill.length
 1    Adelie    38.79139
@@ -882,9 +883,9 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <span class="header-section-number">20.2</span> Multiple variables by single grouping</h2>
 <p>Formula notation:</p>
 <div class="cell" data-hash="Aggregate_cache/html/unnamed-chunk-6_7aa5ffadc9f696bf81704c45e91c9ac3">
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/aggregate.html">aggregate</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">bill_length_mm</span>, <span class="va">flipper_length_mm</span><span class="op">)</span> <span class="op">~</span> <span class="va">species</span>,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/aggregate.html">aggregate</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">bill_length_mm</span>, <span class="va">flipper_length_mm</span><span class="op">)</span> <span class="op">~</span> <span class="va">species</span>,</span>
 <span>          data <span class="op">=</span> <span class="va">penguins</span>,</span>
-<span>          <span class="va">mean</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>          <span class="va">mean</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    species bill_length_mm flipper_length_mm
 1    Adelie       38.79139          189.9536
@@ -894,9 +895,9 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 </div>
 <p>Objects:</p>
 <div class="cell" data-hash="Aggregate_cache/html/unnamed-chunk-7_f24a10e04fd5b030530f784cb62e5d9b">
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/aggregate.html">aggregate</a></span><span class="op">(</span><span class="va">penguins</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"bill_length_mm"</span>, <span class="st">"flipper_length_mm"</span><span class="op">)</span><span class="op">]</span>,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/aggregate.html">aggregate</a></span><span class="op">(</span><span class="va">penguins</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"bill_length_mm"</span>, <span class="st">"flipper_length_mm"</span><span class="op">)</span><span class="op">]</span>,</span>
 <span>          by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>Species <span class="op">=</span> <span class="va">penguins</span><span class="op">$</span><span class="va">species</span><span class="op">)</span>,</span>
-<span>          <span class="va">mean</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>          <span class="va">mean</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    Species bill_length_mm flipper_length_mm
 1    Adelie       38.79139          189.9536
@@ -908,7 +909,7 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <span class="header-section-number">20.3</span> Single variable by multiple groups</h2>
 <p>Formula notation:</p>
 <div class="cell" data-hash="Aggregate_cache/html/unnamed-chunk-8_af3bd1781917b652c3c0527c48d983fa">
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/aggregate.html">aggregate</a></span><span class="op">(</span><span class="va">bill_length_mm</span> <span class="op">~</span> <span class="va">species</span> <span class="op">+</span> <span class="va">island</span>, data <span class="op">=</span> <span class="va">penguins</span>, <span class="va">mean</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/aggregate.html">aggregate</a></span><span class="op">(</span><span class="va">bill_length_mm</span> <span class="op">~</span> <span class="va">species</span> <span class="op">+</span> <span class="va">island</span>, data <span class="op">=</span> <span class="va">penguins</span>, <span class="va">mean</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    species    island bill_length_mm
 1    Adelie    Biscoe       38.97500
@@ -920,10 +921,10 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 </div>
 <p>Objects:</p>
 <div class="cell" data-hash="Aggregate_cache/html/unnamed-chunk-9_28ef5257c23d08eaa3f3bca09fe68e9d">
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/aggregate.html">aggregate</a></span><span class="op">(</span><span class="va">penguins</span><span class="op">[</span><span class="st">"bill_length_mm"</span><span class="op">]</span>,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/aggregate.html">aggregate</a></span><span class="op">(</span><span class="va">penguins</span><span class="op">[</span><span class="st">"bill_length_mm"</span><span class="op">]</span>,</span>
 <span>          by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>Species <span class="op">=</span> <span class="va">penguins</span><span class="op">$</span><span class="va">species</span>, </span>
 <span>                    Island <span class="op">=</span> <span class="va">penguins</span><span class="op">$</span><span class="va">island</span><span class="op">)</span>,</span>
-<span>          <span class="va">mean</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>          <span class="va">mean</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    Species    Island bill_length_mm
 1    Adelie    Biscoe       38.97500
@@ -937,8 +938,8 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <span class="header-section-number">20.4</span> Multiple variables by multiple groupings</h2>
 <p>Formula notation:</p>
 <div class="cell" data-hash="Aggregate_cache/html/unnamed-chunk-10_ff476a8937e0dc1bb774a950e345b69c">
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/aggregate.html">aggregate</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">bill_length_mm</span>, <span class="va">flipper_length_mm</span><span class="op">)</span> <span class="op">~</span> <span class="va">species</span> <span class="op">+</span> <span class="va">island</span>,</span>
-<span>          data <span class="op">=</span> <span class="va">penguins</span>, <span class="va">mean</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/aggregate.html">aggregate</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">bill_length_mm</span>, <span class="va">flipper_length_mm</span><span class="op">)</span> <span class="op">~</span> <span class="va">species</span> <span class="op">+</span> <span class="va">island</span>,</span>
+<span>          data <span class="op">=</span> <span class="va">penguins</span>, <span class="va">mean</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    species    island bill_length_mm flipper_length_mm
 1    Adelie    Biscoe       38.97500          188.7955
@@ -950,10 +951,10 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 </div>
 <p>Objects:</p>
 <div class="cell" data-hash="Aggregate_cache/html/unnamed-chunk-11_58a09877d1cccabbbbfaefa7df07a639">
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/aggregate.html">aggregate</a></span><span class="op">(</span><span class="va">penguins</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"bill_length_mm"</span>, <span class="st">"flipper_length_mm"</span><span class="op">)</span><span class="op">]</span>,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/aggregate.html">aggregate</a></span><span class="op">(</span><span class="va">penguins</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"bill_length_mm"</span>, <span class="st">"flipper_length_mm"</span><span class="op">)</span><span class="op">]</span>,</span>
 <span>          by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>Species <span class="op">=</span> <span class="va">penguins</span><span class="op">$</span><span class="va">species</span>, </span>
 <span>                    Island <span class="op">=</span> <span class="va">penguins</span><span class="op">$</span><span class="va">island</span><span class="op">)</span>,</span>
-<span>          <span class="va">mean</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>          <span class="va">mean</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    Species    Island bill_length_mm flipper_length_mm
 1    Adelie    Biscoe       38.97500          188.7955
@@ -969,10 +970,10 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <p>R’s <code><a href="https://rdrr.io/r/base/with.html">with()</a></code> allows you to use expression of the form <code>with(data, expression)</code>. <code>data</code> can be a data.frame, list, or environment, and within the expression you can refer to any elements of <code>data</code> directly by their name.</p>
 <p>For example, <code>with(df, expression)</code> means you can use the data.frame’s column names directly within the expression without the need to use <code>df[["column_name"]]</code> or <code>df$column_name</code>:</p>
 <div class="cell" data-hash="Aggregate_cache/html/unnamed-chunk-12_0c4affffe7f58757dcd8871bd969333d">
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span><span class="op">(</span><span class="va">penguins</span>,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span><span class="op">(</span><span class="va">penguins</span>,</span>
 <span>     <span class="fu"><a href="https://rdrr.io/r/stats/aggregate.html">aggregate</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>`Bill length` <span class="op">=</span> <span class="va">bill_length_mm</span><span class="op">)</span>,</span>
 <span>               by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>Species <span class="op">=</span> <span class="va">species</span><span class="op">)</span>,</span>
-<span>               <span class="va">mean</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>               <span class="va">mean</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    Species Bill.length
 1    Adelie    38.79139
@@ -1269,13 +1270,14 @@ window.onload = function() {
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

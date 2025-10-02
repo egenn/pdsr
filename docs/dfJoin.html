@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.34">
+<meta name="generator" content="quarto-1.8.25">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <title>27&nbsp; Joins – PDSR</title>
 <style>
@@ -65,18 +65,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="./dfReshape.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-83aa21ed72f0068e2bb8f0090f02f802.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-f0a4794d096e7901d871e43f74665444.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-83aa21ed72f0068e2bb8f0090f02f802.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-a14e345711173c227b21482e2eb4cc70.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-6d7e0e055978adcb0dc3bbe98a6d8351.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-a14e345711173c227b21482e2eb4cc70.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-f8924e736652ca8b7dab48655b7519d0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-4514b15909a5d13b848445a164ca2ccc.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-f8924e736652ca8b7dab48655b7519d0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+<link href="site_libs/bootstrap/bootstrap-e4e4efce03f2effa39958eaff4fa9396.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-69c38ddbb70a2148ed40cdad022cd47c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-e4e4efce03f2effa39958eaff4fa9396.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
@@ -308,7 +309,7 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
       <a href="./index.html" class="sidebar-logo-link">
-      <img src="./assets/pdsr>.svg" alt="" class="sidebar-logo py-0 d-lg-inline d-none"></a>
+      <img src="./assets/pdsr>.svg" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none"><img src="./assets/pdsr>.svg" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none"></a>
     <div class="sidebar-title mb-0 py-0">
       <a href="./"></a> 
         <div class="sidebar-tools-main tools-wide">
@@ -826,13 +827,13 @@ Figure&nbsp;27.1: Common Join Operations
 <p>Scenario: You have received two tables with clinical data. Each table contains a column with a unique identifier (ID) plus a number of variables which are unique to each table. You want to merge them into one big table so that for each ID you have all available variables. You want to make sure that the same ID number (e.g.&nbsp;108) corresponds to the same case in both datasets, but not all IDs needs to be present in both datasets.</p>
 <p>Let’s make up some synthetic data:</p>
 <div class="cell">
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>PID <span class="op">=</span> <span class="fl">101</span><span class="op">:</span><span class="fl">109</span>,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>PID <span class="op">=</span> <span class="fl">101</span><span class="op">:</span><span class="fl">109</span>,</span>
 <span>                Hospital <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"UCSF"</span>, <span class="st">"HUP"</span>, <span class="st">"Stanford"</span>,</span>
 <span>                             <span class="st">"Stanford"</span>, <span class="st">"UCSF"</span>, <span class="st">"HUP"</span>, </span>
 <span>                             <span class="st">"HUP"</span>, <span class="st">"Stanford"</span>, <span class="st">"UCSF"</span><span class="op">)</span>,</span>
 <span>                Age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">22</span>, <span class="fl">34</span>, <span class="fl">41</span>, <span class="fl">19</span>, <span class="fl">53</span>, <span class="fl">21</span>, <span class="fl">63</span>, <span class="fl">22</span>, <span class="fl">19</span><span class="op">)</span>,</span>
 <span>                Sex <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">a</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="va">a</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  PID Hospital Age Sex
 1 101     UCSF  22   1
@@ -845,22 +846,22 @@ Figure&nbsp;27.1: Common Join Operations
 8 108 Stanford  22   0
 9 109     UCSF  19   0</code></pre>
 </div>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="va">a</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="va">a</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 9 4</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">b</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>PID <span class="op">=</span> <span class="fl">106</span><span class="op">:</span><span class="fl">112</span>,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">b</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>PID <span class="op">=</span> <span class="fl">106</span><span class="op">:</span><span class="fl">112</span>,</span>
 <span>                 V1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">153</span>, <span class="fl">89</span>, <span class="fl">112</span>, <span class="fl">228</span>,  <span class="fl">91</span>, <span class="fl">190</span>, <span class="fl">101</span><span class="op">)</span>,</span>
 <span>                 Department <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Neurology"</span>, <span class="st">"Radiology"</span>,</span>
 <span>                                <span class="st">"Emergency"</span>, <span class="st">"Cardiology"</span>,</span>
 <span>                                <span class="st">"Surgery"</span>, <span class="st">"Neurology"</span>, <span class="st">"Psychiatry"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 7 3</code></pre>
 </div>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">b</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">b</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  PID  V1 Department
 1 106 153  Neurology
@@ -882,7 +883,7 @@ Figure&nbsp;27.1: Common Join Operations
 <p>where <code>by.x</code> is the name of the ID column for the <code>x</code> dataset and <code>by.y</code> is the name of the ID column for the <code>y</code> dataset.</p>
 <p>If you do not specify <code>by</code> or <code>by.x</code> and <code>by.y</code> arguments, <code><a href="https://rdrr.io/r/base/merge.html">merge()</a></code> defaults to using the intersection of column names of the two input datasets. From <code><a href="https://rdrr.io/r/base/merge.html">merge()</a></code>’s documentation: <code>by = intersect(names(x), names(y))</code> <br><br> In our example datasets above, this works as expected and identifies “PID” as the common column:</p>
 <div class="cell">
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/sets.html">intersect</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">a</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/sets.html">intersect</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">a</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "PID"</code></pre>
 </div>
@@ -891,12 +892,12 @@ Figure&nbsp;27.1: Common Join Operations
 <span class="header-section-number">27.2</span> Inner join</h2>
 <p>The default arguments of <code><a href="https://rdrr.io/r/base/merge.html">merge()</a></code> perform an <strong>inner join</strong>:</p>
 <div class="cell">
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ab_inner</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/merge.html">merge</a></span><span class="op">(</span><span class="va">a</span>, <span class="va">b</span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ab_inner</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/merge.html">merge</a></span><span class="op">(</span><span class="va">a</span>, <span class="va">b</span><span class="op">)</span></span>
 <span><span class="co"># same as</span></span>
 <span><span class="va">ab_inner</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/merge.html">merge</a></span><span class="op">(</span><span class="va">a</span>, <span class="va">b</span>, by <span class="op">=</span> <span class="st">"PID"</span><span class="op">)</span></span>
 <span><span class="co"># same as</span></span>
 <span><span class="va">ab_inner</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/merge.html">merge</a></span><span class="op">(</span><span class="va">a</span>, <span class="va">b</span>, all <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="va">ab_inner</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="va">ab_inner</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  PID Hospital Age Sex  V1 Department
 1 106      HUP  21   0 153  Neurology
@@ -910,10 +911,10 @@ Figure&nbsp;27.1: Common Join Operations
 <span class="header-section-number">27.3</span> Outer join</h2>
 <p>You can perform an <strong>outer join</strong> by specifying <code>all = TRUE</code>:</p>
 <div class="cell">
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ab_outer</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/merge.html">merge</a></span><span class="op">(</span><span class="va">a</span>, <span class="va">b</span>, all <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ab_outer</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/merge.html">merge</a></span><span class="op">(</span><span class="va">a</span>, <span class="va">b</span>, all <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co"># same as</span></span>
 <span><span class="va">ab_outer</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/merge.html">merge</a></span><span class="op">(</span><span class="va">a</span>, <span class="va">b</span>, by <span class="op">=</span> <span class="st">"PID"</span>, all <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="va">ab_outer</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="va">ab_outer</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   PID Hospital Age Sex  V1 Department
 1  101     UCSF  22   1  NA       &lt;NA&gt;
@@ -935,8 +936,8 @@ Figure&nbsp;27.1: Common Join Operations
 <span class="header-section-number">27.4</span> Left outer join</h2>
 <p>You can perform a <strong>left outer join</strong> by specifying <code>all.x = TRUE</code>:</p>
 <div class="cell">
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ab_leftOuter</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/merge.html">merge</a></span><span class="op">(</span><span class="va">a</span>, <span class="va">b</span>, all.x <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="va">ab_leftOuter</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ab_leftOuter</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/merge.html">merge</a></span><span class="op">(</span><span class="va">a</span>, <span class="va">b</span>, all.x <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">ab_leftOuter</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  PID Hospital Age Sex  V1 Department
 1 101     UCSF  22   1  NA       &lt;NA&gt;
@@ -955,8 +956,8 @@ Figure&nbsp;27.1: Common Join Operations
 <span class="header-section-number">27.5</span> Right outer join</h2>
 <p>You can perform a <strong>right outer join</strong> by specifying <code>all.y = TRUE</code>:</p>
 <div class="cell">
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ab_rightOuter</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/merge.html">merge</a></span><span class="op">(</span><span class="va">a</span>, <span class="va">b</span>, all.y <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="va">ab_rightOuter</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ab_rightOuter</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/merge.html">merge</a></span><span class="op">(</span><span class="va">a</span>, <span class="va">b</span>, all.y <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">ab_rightOuter</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  PID Hospital Age Sex  V1 Department
 1 106      HUP  21   0 153  Neurology
@@ -973,13 +974,13 @@ Figure&nbsp;27.1: Common Join Operations
 <span class="header-section-number">27.6</span> Specifying columns</h2>
 <p>As mentioned above, if the ID columns in the two data.frames to be merged do not have the same name, you can specify them directly:</p>
 <div class="cell">
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>PID <span class="op">=</span> <span class="fl">101</span><span class="op">:</span><span class="fl">109</span>,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>PID <span class="op">=</span> <span class="fl">101</span><span class="op">:</span><span class="fl">109</span>,</span>
 <span>                Hospital <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"UCSF"</span>, <span class="st">"HUP"</span>, <span class="st">"Stanford"</span>,</span>
 <span>                             <span class="st">"Stanford"</span>, <span class="st">"UCSF"</span>, <span class="st">"HUP"</span>, </span>
 <span>                             <span class="st">"HUP"</span>, <span class="st">"Stanford"</span>, <span class="st">"UCSF"</span><span class="op">)</span>,</span>
 <span>                Age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">22</span>, <span class="fl">34</span>, <span class="fl">41</span>, <span class="fl">19</span>, <span class="fl">53</span>, <span class="fl">21</span>, <span class="fl">63</span>, <span class="fl">22</span>, <span class="fl">19</span><span class="op">)</span>,</span>
 <span>                Sex <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">a</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="va">a</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  PID Hospital Age Sex
 1 101     UCSF  22   1
@@ -994,12 +995,12 @@ Figure&nbsp;27.1: Common Join Operations
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>PatientID <span class="op">=</span> <span class="fl">106</span><span class="op">:</span><span class="fl">112</span>,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>PatientID <span class="op">=</span> <span class="fl">106</span><span class="op">:</span><span class="fl">112</span>,</span>
 <span>                 V1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">153</span>, <span class="fl">89</span>, <span class="fl">112</span>, <span class="fl">228</span>,  <span class="fl">91</span>, <span class="fl">190</span>, <span class="fl">101</span><span class="op">)</span>,</span>
 <span>                 Department <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Neurology"</span>, <span class="st">"Radiology"</span>,</span>
 <span>                                <span class="st">"Emergency"</span>, <span class="st">"Cardiology"</span>,</span>
 <span>                                <span class="st">"Surgery"</span>, <span class="st">"Neurology"</span>, <span class="st">"Psychiatry"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">b</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="va">b</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  PatientID  V1 Department
 1       106 153  Neurology
@@ -1012,8 +1013,8 @@ Figure&nbsp;27.1: Common Join Operations
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ab_inner</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/merge.html">merge</a></span><span class="op">(</span><span class="va">a</span>, <span class="va">b</span>, by.x <span class="op">=</span> <span class="st">"PID"</span>, by.y <span class="op">=</span> <span class="st">"PatientID"</span><span class="op">)</span></span>
-<span><span class="va">ab_inner</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ab_inner</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/merge.html">merge</a></span><span class="op">(</span><span class="va">a</span>, <span class="va">b</span>, by.x <span class="op">=</span> <span class="st">"PID"</span>, by.y <span class="op">=</span> <span class="st">"PatientID"</span><span class="op">)</span></span>
+<span><span class="va">ab_inner</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  PID Hospital Age Sex  V1 Department
 1 106      HUP  21   0 153  Neurology
@@ -1026,7 +1027,7 @@ Figure&nbsp;27.1: Common Join Operations
 <span class="header-section-number">27.7</span> Subsetting</h2>
 <p>Remember that whatever operation you are performing on one or multiple data.frames, you can always subset rows and/or columns as needed. If, for example, you don’t need to include the “V1” variables in your join, you can directly exclude it:</p>
 <div class="cell">
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/merge.html">merge</a></span><span class="op">(</span><span class="va">a</span>, <span class="va">b</span><span class="op">[</span>, <span class="op">-</span><span class="fl">2</span><span class="op">]</span>, by.x <span class="op">=</span> <span class="st">"PID"</span>, by.y <span class="op">=</span> <span class="st">"PatientID"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/merge.html">merge</a></span><span class="op">(</span><span class="va">a</span>, <span class="va">b</span><span class="op">[</span>, <span class="op">-</span><span class="fl">2</span><span class="op">]</span>, by.x <span class="op">=</span> <span class="st">"PID"</span>, by.y <span class="op">=</span> <span class="st">"PatientID"</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  PID Hospital Age Sex Department
 1 106      HUP  21   0  Neurology
@@ -1040,7 +1041,7 @@ Figure&nbsp;27.1: Common Join Operations
 <p>The columns defined using the <code>by</code> or <code>by.x</code> and <code>by.y</code> arguments determine which rows from each table to include in the merge. These do not have to identify unique rows in either dataset: for example, if you are merging on a <code>PID</code> column, either table can include repeated PIDs. This allows merging wide and long tables.</p>
 <p>As an example, we create a long and a wide table and merge them:</p>
 <div class="cell">
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat_long</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat_long</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
 <span>    Account_ID <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">8001</span>, <span class="fl">8002</span>, <span class="fl">8003</span>, <span class="fl">8004</span>, <span class="fl">8001</span>, <span class="fl">8002</span>, <span class="fl">8003</span>, <span class="fl">8004</span>, </span>
 <span>            <span class="fl">8001</span>, <span class="fl">8002</span>, <span class="fl">8003</span>, <span class="fl">8004</span>, <span class="fl">8001</span>, <span class="fl">8002</span>, <span class="fl">8003</span>, <span class="fl">8004</span><span class="op">)</span>, </span>
 <span>    Age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">67.8017038366664</span>, <span class="fl">42.9198507293701</span>, <span class="fl">46.2301756642422</span>, </span>
@@ -1063,7 +1064,7 @@ Figure&nbsp;27.1: Common Join Operations
 <span>            <span class="fl">14.8885696185238</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="va">dat_long</span> <span class="op">&lt;-</span> <span class="va">dat_long</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html">order</a></span><span class="op">(</span><span class="va">dat_long</span><span class="op">$</span><span class="va">Account_ID</span><span class="op">)</span>, <span class="op">]</span></span>
-<span><span class="va">dat_long</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="va">dat_long</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Account_ID      Age Admission    Lab_key   Lab_value
 1        8001 67.80170        ED        RBC    4.634493
@@ -1085,12 +1086,12 @@ Figure&nbsp;27.1: Common Join Operations
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat_wide</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat_wide</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
 <span>    Account_ID <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">8002</span>, <span class="fl">8003</span>, <span class="fl">8005</span><span class="op">)</span>,</span>
 <span>    Department <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Cardiology"</span>, <span class="st">"Neurology"</span>, <span class="st">"Surgery"</span><span class="op">)</span>,</span>
 <span>    Site <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"ZSFG"</span>, <span class="st">"Mission_Bay"</span>, <span class="st">"Mt_Zion"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
-<span><span class="va">dat_wide</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="va">dat_wide</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  Account_ID Department        Site
 1       8002 Cardiology        ZSFG
@@ -1100,7 +1101,7 @@ Figure&nbsp;27.1: Common Join Operations
 </div>
 <p>Inner join:</p>
 <div class="cell">
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/merge.html">merge</a></span><span class="op">(</span><span class="va">dat_wide</span>, <span class="va">dat_long</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/merge.html">merge</a></span><span class="op">(</span><span class="va">dat_wide</span>, <span class="va">dat_long</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  Account_ID Department        Site      Age Admission    Lab_key   Lab_value
 1       8002 Cardiology        ZSFG 42.91985   Planned        RBC    3.349686
@@ -1115,7 +1116,7 @@ Figure&nbsp;27.1: Common Join Operations
 </div>
 <p>Outer join:</p>
 <div class="cell">
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/merge.html">merge</a></span><span class="op">(</span><span class="va">dat_wide</span>, <span class="va">dat_long</span>, all <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/merge.html">merge</a></span><span class="op">(</span><span class="va">dat_wide</span>, <span class="va">dat_long</span>, all <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Account_ID Department        Site      Age Admission    Lab_key   Lab_value
 1        8001       &lt;NA&gt;        &lt;NA&gt; 67.80170        ED        RBC    4.634493
@@ -1137,18 +1138,18 @@ Figure&nbsp;27.1: Common Join Operations
 17       8005    Surgery     Mt_Zion       NA      &lt;NA&gt;       &lt;NA&gt;          NA</code></pre>
 </div>
 </div>
-<p>As you see above, the output of a join between a wide and long table will be a long table. Depending on the specific analysis goals, one can keep the data in long format, reshape one table prior to merging, or reshape the merged table after joining (See <a href="dfReshape.html" class="quarto-xref"><span>Chapter 26</span></a> for reshaping).</p>
+<p>As you see above, the output of a join between a wide and long table will be a long table. Depending on the specific analysis goals, one can keep the data in long format, reshape one table prior to merging, or reshape the merged table after joining (See <a href="#sec-dfreshape" class="quarto-xref"><span class="quarto-unresolved-ref">sec-dfreshape</span></a> for reshaping).</p>
 </section><section id="renaming-non-unique-columns" class="level2" data-number="27.9"><h2 data-number="27.9" class="anchored" data-anchor-id="renaming-non-unique-columns">
 <span class="header-section-number">27.9</span> Renaming non-unique columns</h2>
 <p>Two tables may contain shared column names on columns other than those used for merging. In such cases, the <code>suffixes</code> argument, which defaults to <code>c(".x",".y")</code>, defines the suffix to be added to the left and right tables, respectively.</p>
 <div class="cell">
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">visit1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>ID <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">8001</span>, <span class="fl">8002</span>, <span class="fl">8003</span><span class="op">)</span>,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">visit1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>ID <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">8001</span>, <span class="fl">8002</span>, <span class="fl">8003</span><span class="op">)</span>,</span>
 <span>        Height <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1.67</span>, <span class="fl">1.79</span>, <span class="fl">1.74</span><span class="op">)</span>,</span>
 <span>        SBP <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">124</span>, <span class="fl">138</span>, <span class="fl">129</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">visit2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>ID <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">8002</span>, <span class="fl">8003</span>, <span class="fl">8004</span><span class="op">)</span>,</span>
 <span>        Department <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Cardiology"</span>, <span class="st">"Neurology"</span>, <span class="st">"Surgery"</span><span class="op">)</span>,</span>
 <span>        SBP <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">128</span>, <span class="fl">136</span>, <span class="fl">131</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/merge.html">merge</a></span><span class="op">(</span><span class="va">visit1</span>, <span class="va">visit2</span>, by <span class="op">=</span> <span class="st">"ID"</span>, suffixes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"_visit1"</span>, <span class="st">"_visit2"</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/base/merge.html">merge</a></span><span class="op">(</span><span class="va">visit1</span>, <span class="va">visit2</span>, by <span class="op">=</span> <span class="st">"ID"</span>, suffixes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"_visit1"</span>, <span class="st">"_visit2"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    ID Height SBP_visit1 Department SBP_visit2
 1 8002   1.79        138 Cardiology        128
@@ -1159,8 +1160,8 @@ Figure&nbsp;27.1: Common Join Operations
 </section><section id="see-also" class="level2" data-number="27.10"><h2 data-number="27.10" class="anchored" data-anchor-id="see-also">
 <span class="header-section-number">27.10</span> See also</h2>
 <ul>
-<li><a href="dtJoin.html">data.table joins</a></li>
-<li><a href="dplyrJoin.html">dplyr joins</a></li>
+<li><a href="#sec-dtjoin">data.table joins</a></li>
+<li><a href="#sec-dplyrjoin">dplyr joins</a></li>
 </ul>
 
 
@@ -1444,13 +1445,14 @@ window.onload = function() {
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

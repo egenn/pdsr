@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.34">
+<meta name="generator" content="quarto-1.8.25">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <title>26&nbsp; Reshaping – PDSR</title>
 <style>
@@ -65,18 +65,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="./dfBasics.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-83aa21ed72f0068e2bb8f0090f02f802.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-f0a4794d096e7901d871e43f74665444.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-83aa21ed72f0068e2bb8f0090f02f802.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-a14e345711173c227b21482e2eb4cc70.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-6d7e0e055978adcb0dc3bbe98a6d8351.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-a14e345711173c227b21482e2eb4cc70.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-f8924e736652ca8b7dab48655b7519d0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-4514b15909a5d13b848445a164ca2ccc.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-f8924e736652ca8b7dab48655b7519d0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-e4e4efce03f2effa39958eaff4fa9396.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-69c38ddbb70a2148ed40cdad022cd47c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-e4e4efce03f2effa39958eaff4fa9396.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script src="site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet"><script id="quarto-search-options" type="application/json">{
@@ -311,7 +312,7 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
       <a href="./index.html" class="sidebar-logo-link">
-      <img src="./assets/pdsr>.svg" alt="" class="sidebar-logo py-0 d-lg-inline d-none"></a>
+      <img src="./assets/pdsr>.svg" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none"><img src="./assets/pdsr>.svg" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none"></a>
     <div class="sidebar-title mb-0 py-0">
       <a href="./"></a> 
         <div class="sidebar-tools-main tools-wide">
@@ -843,7 +844,7 @@ Figure&nbsp;26.1: Wide and Long data format example. Notice how the wide table o
 <span class="header-section-number">26.1.1</span> Key-value pairs</h3>
 <p>It is very common to receive data in long format. For example, many tables with electronic health records are stored in long format. <br><br> Let’s start with a small synthetic dataset:</p>
 <div class="cell">
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat_long</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat_long</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
 <span>    Account_ID <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">8001</span>, <span class="fl">8002</span>, <span class="fl">8003</span>, <span class="fl">8004</span>, <span class="fl">8001</span>, <span class="fl">8002</span>, <span class="fl">8003</span>, <span class="fl">8004</span>, </span>
 <span>            <span class="fl">8001</span>, <span class="fl">8002</span>, <span class="fl">8003</span>, <span class="fl">8004</span>, <span class="fl">8001</span>, <span class="fl">8002</span>, <span class="fl">8003</span>, <span class="fl">8004</span><span class="op">)</span>, </span>
 <span>    Age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">67.8017038366664</span>, <span class="fl">42.9198507293701</span>, <span class="fl">46.2301756642422</span>, </span>
@@ -866,7 +867,7 @@ Figure&nbsp;26.1: Wide and Long data format example. Notice how the wide table o
 <span>            <span class="fl">14.8885696185238</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="va">dat_long</span> <span class="op">&lt;-</span> <span class="va">dat_long</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html">order</a></span><span class="op">(</span><span class="va">dat_long</span><span class="op">$</span><span class="va">Account_ID</span><span class="op">)</span>, <span class="op">]</span></span>
-<span><span class="va">dat_long</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="va">dat_long</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Account_ID      Age Admission    Lab_key   Lab_value
 1        8001 67.80170        ED        RBC    4.634493
@@ -901,13 +902,13 @@ Figure&nbsp;26.2: <code><a href="https://rdrr.io/r/stats/reshape.html">reshape()
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat_wide</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/reshape.html">reshape</a></span><span class="op">(</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat_wide</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/reshape.html">reshape</a></span><span class="op">(</span></span>
 <span>    <span class="va">dat_long</span>,</span>
 <span>    idvar <span class="op">=</span> <span class="st">"Account_ID"</span>,</span>
 <span>    timevar <span class="op">=</span> <span class="st">"Lab_key"</span>,</span>
 <span>    v.names <span class="op">=</span> <span class="st">"Lab_value"</span>,</span>
 <span>    direction <span class="op">=</span> <span class="st">"wide"</span><span class="op">)</span></span>
-<span><span class="va">dat_wide</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="va">dat_wide</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  Account_ID      Age Admission Lab_value.RBC Lab_value.WBC
 1       8001 67.80170        ED      4.634493      8374.229
@@ -923,8 +924,8 @@ Figure&nbsp;26.2: <code><a href="https://rdrr.io/r/stats/reshape.html">reshape()
 </div>
 <p>You can optionally clean up column names using <a href="./Strings.html#gsub"><code>gsub()</code></a>, e.g.</p>
 <div class="cell">
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">dat_wide</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">"Lab_value."</span>, <span class="st">""</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">dat_wide</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">dat_wide</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">dat_wide</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">"Lab_value."</span>, <span class="st">""</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">dat_wide</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">dat_wide</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  Account_ID      Age Admission      RBC      WBC Hematocrit Hemoglobin
 1       8001 67.80170        ED 4.634493 8374.229   36.27269   12.61884
@@ -937,10 +938,10 @@ Figure&nbsp;26.2: <code><a href="https://rdrr.io/r/stats/reshape.html">reshape()
 <span class="header-section-number">26.1.2</span> Incomplete data</h3>
 <p>It is very common that not all cases have entries for all variables. We can simulate this by removing a few lines from the data frame above.</p>
 <div class="cell">
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat_long</span> <span class="op">&lt;-</span> <span class="va">dat_long</span><span class="op">[</span><span class="op">-</span><span class="fl">4</span>, <span class="op">]</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat_long</span> <span class="op">&lt;-</span> <span class="va">dat_long</span><span class="op">[</span><span class="op">-</span><span class="fl">4</span>, <span class="op">]</span></span>
 <span><span class="va">dat_long</span> <span class="op">&lt;-</span> <span class="va">dat_long</span><span class="op">[</span><span class="op">-</span><span class="fl">6</span>, <span class="op">]</span></span>
 <span><span class="va">dat_long</span> <span class="op">&lt;-</span> <span class="va">dat_long</span><span class="op">[</span><span class="op">-</span><span class="fl">13</span>, <span class="op">]</span></span>
-<span><span class="va">dat_long</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="va">dat_long</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Account_ID      Age Admission    Lab_key   Lab_value
 1        8001 67.80170        ED        RBC    4.634493
@@ -960,13 +961,13 @@ Figure&nbsp;26.2: <code><a href="https://rdrr.io/r/stats/reshape.html">reshape()
 </div>
 <p>In such cases, long to wide conversion will include <code>NA</code> values where no data is available:</p>
 <div class="cell">
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat_wide</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/reshape.html">reshape</a></span><span class="op">(</span><span class="va">dat_long</span>,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat_wide</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/reshape.html">reshape</a></span><span class="op">(</span><span class="va">dat_long</span>,</span>
 <span>    idvar <span class="op">=</span> <span class="st">"Account_ID"</span>,</span>
 <span>    timevar <span class="op">=</span> <span class="st">"Lab_key"</span>,</span>
 <span>    v.names <span class="op">=</span> <span class="st">"Lab_value"</span>,</span>
 <span>    direction <span class="op">=</span> <span class="st">"wide"</span></span>
 <span><span class="op">)</span></span>
-<span><span class="va">dat_wide</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="va">dat_wide</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  Account_ID      Age Admission Lab_value.RBC Lab_value.WBC
 1       8001 67.80170        ED      4.634493      8374.229
@@ -983,7 +984,7 @@ Figure&nbsp;26.2: <code><a href="https://rdrr.io/r/stats/reshape.html">reshape()
 </section><section id="longitudinal-data" class="level3" data-number="26.1.3"><h3 data-number="26.1.3" class="anchored" data-anchor-id="longitudinal-data">
 <span class="header-section-number">26.1.3</span> Longitudinal data</h3>
 <div class="cell">
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
 <span>    pat_enc_csn_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">14568</span><span class="op">:</span><span class="fl">14571</span><span class="op">)</span>, each <span class="op">=</span> <span class="fl">5</span><span class="op">)</span>,</span>
 <span>    result_date <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span></span>
 <span>        <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.Date.html">as.Date</a></span><span class="op">(</span><span class="st">"2019-08-01"</span><span class="op">)</span>,</span>
@@ -999,7 +1000,7 @@ Figure&nbsp;26.2: <code><a href="https://rdrr.io/r/stats/reshape.html">reshape()
 <span>        <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">5</span>, mean <span class="op">=</span> <span class="fl">3200</span>, sd <span class="op">=</span> <span class="fl">1100</span><span class="op">)</span></span>
 <span>    <span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">dat2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="va">dat2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   pat_enc_csn_id result_date order_description result_component_value
 1           14568  2019-08-01               WBC               7772.795
@@ -1026,13 +1027,13 @@ Figure&nbsp;26.2: <code><a href="https://rdrr.io/r/stats/reshape.html">reshape()
 </div>
 <p>In this example, we have four unique patient IDs, with five measurements taken on different days. <br><br> Following the same recipe as above, we convert to wide format:</p>
 <div class="cell">
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat2_wide</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/reshape.html">reshape</a></span><span class="op">(</span><span class="va">dat2</span>,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat2_wide</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/reshape.html">reshape</a></span><span class="op">(</span><span class="va">dat2</span>,</span>
 <span>    idvar <span class="op">=</span> <span class="st">"pat_enc_csn_id"</span>,</span>
 <span>    timevar <span class="op">=</span> <span class="st">"result_date"</span>,</span>
 <span>    v.names <span class="op">=</span> <span class="st">"result_component_value"</span>,</span>
 <span>    direction <span class="op">=</span> <span class="st">"wide"</span></span>
 <span><span class="op">)</span></span>
-<span><span class="va">dat2_wide</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="va">dat2_wide</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   pat_enc_csn_id order_description result_component_value.2019-08-01
 1           14568               WBC                          7772.795
@@ -1055,7 +1056,7 @@ Figure&nbsp;26.2: <code><a href="https://rdrr.io/r/stats/reshape.html">reshape()
 <span class="header-section-number">26.2</span> Wide to Long</h2>
 <p>Synthetic data:</p>
 <div class="cell">
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">2022</span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">2022</span><span class="op">)</span></span>
 <span><span class="va">dat_wide</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
 <span>    Account_ID <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">8001</span>, <span class="fl">8002</span>, <span class="fl">8003</span>, <span class="fl">8004</span><span class="op">)</span>,</span>
 <span>    Age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">4</span>, mean <span class="op">=</span> <span class="fl">57</span>, sd <span class="op">=</span> <span class="fl">12</span><span class="op">)</span>,</span>
@@ -1065,7 +1066,7 @@ Figure&nbsp;26.2: <code><a href="https://rdrr.io/r/stats/reshape.html">reshape()
 <span>    Hemoglobin <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">4</span>, mean <span class="op">=</span> <span class="fl">13.6</span>, sd <span class="op">=</span> <span class="fl">1.5</span><span class="op">)</span>,</span>
 <span>    Admission <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"ED"</span>, <span class="st">"Planned"</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">4</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
-<span><span class="va">dat_wide</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="va">dat_wide</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  Account_ID      Age      RBC      WBC Hematocrit Hemoglobin Admission
 1       8001 67.80170 4.634493 8374.229   36.27269   12.61884        ED
@@ -1088,7 +1089,7 @@ Figure&nbsp;26.3: <code><a href="https://rdrr.io/r/stats/reshape.html">reshape()
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat_wide2long</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/reshape.html">reshape</a></span><span class="op">(</span><span class="co"># Data in wide format</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat_wide2long</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/reshape.html">reshape</a></span><span class="op">(</span><span class="co"># Data in wide format</span></span>
 <span>                         data <span class="op">=</span> <span class="va">dat_wide</span>,</span>
 <span>                         <span class="co"># The column name that defines case IDs</span></span>
 <span>                         idvar <span class="op">=</span> <span class="st">"Account_ID"</span>,</span>
@@ -1105,7 +1106,7 @@ Figure&nbsp;26.3: <code><a href="https://rdrr.io/r/stats/reshape.html">reshape()
 <span>                         <span class="co"># defined by "times"</span></span>
 <span>                         timevar <span class="op">=</span> <span class="st">"Lab key"</span>,                  </span>
 <span>                         direction <span class="op">=</span> <span class="st">"long"</span><span class="op">)</span></span>
-<span><span class="va">dat_wide2long</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="va">dat_wide2long</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                Account_ID      Age Admission    Lab key   Lab value
 8001.RBC              8001 67.80170        ED        RBC    4.634493
@@ -1130,7 +1131,7 @@ Figure&nbsp;26.3: <code><a href="https://rdrr.io/r/stats/reshape.html">reshape()
 <p><code>varying = list(c("RBC", "WBC", "Hematocrit", "Hemoglobin")</code></p>
 <p>Explore the resulting data frame’s attributes:</p>
 <div class="cell">
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/attributes.html">attributes</a></span><span class="op">(</span><span class="va">dat_wide2long</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/attributes.html">attributes</a></span><span class="op">(</span><span class="va">dat_wide2long</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$row.names
  [1] "8001.RBC"        "8002.RBC"        "8003.RBC"        "8004.RBC"       
@@ -1162,8 +1163,8 @@ $reshapeLong$timevar
 </div>
 <p>These attributes are present if and only if a long data.frame was created from a wide data.frame as above. In this case, reshaping back to wide format is as easy as calling <code><a href="https://rdrr.io/r/stats/reshape.html">reshape()</a></code> on the previously converted data.frame with no arguments:</p>
 <div class="cell">
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat_wideagain</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/reshape.html">reshape</a></span><span class="op">(</span><span class="va">dat_wide2long</span><span class="op">)</span></span>
-<span><span class="va">dat_wideagain</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat_wideagain</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/reshape.html">reshape</a></span><span class="op">(</span><span class="va">dat_wide2long</span><span class="op">)</span></span>
+<span><span class="va">dat_wideagain</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>         Account_ID      Age Admission      RBC      WBC Hematocrit Hemoglobin
 8001.RBC       8001 67.80170        ED 4.634493 8374.229   36.27269   12.61884
@@ -1176,8 +1177,8 @@ $reshapeLong$timevar
 </section><section id="see-also" class="level2" data-number="26.3"><h2 data-number="26.3" class="anchored" data-anchor-id="see-also">
 <span class="header-section-number">26.3</span> See also</h2>
 <ul>
-<li><a href="dtReshape.html">data.table reshape</a></li>
-<li><a href="tidyrReshape.html">tidyr reshape</a></li>
+<li><a href="#sec-dtreshape">data.table reshape</a></li>
+<li><a href="#sec-tidyrreshape">tidyr reshape</a></li>
 </ul>
 
 
@@ -1461,13 +1462,14 @@ window.onload = function() {
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

@@ -41,7 +41,7 @@ changes.
 Let's add a new column to `df1`:
 
 ```{r}
-df1$HR <- c(80, 90)
+df1[["HR"]] <- c(80, 90)
 ```
 
 ...and print its address:
@@ -86,7 +86,7 @@ The address remains the same.
 What if we had used the data.frame syntax (which still works on a data.table) instead?
 
 ```{r}
-dt1$HR <- c(80, 90)
+dt1[["HR_too"]] <- c(80, 90)
 ```
 
 ```{r}
@@ -165,7 +165,7 @@ address(df1)
 
 ### Copying a data.table
 
-Let's remind ourselves of the contenets and address of `dt1`:
+Let's remind ourselves of the contents and address of `dt1`:
 
 ```{r}
 dt1
@@ -252,6 +252,16 @@ dt3
 ```{r}
 dt1
 ```
+
+## Summary
+
+| Operation                | data.frame              | data.table        |
+|--------------------------|-------------------------|-------------------|
+| `df[["col"]] <- x`       | Creates copy            | Creates copy      |
+| `dt[, col := x]`         | N/A                     | Modifies in-place |
+| `df2 <- df1`             | df1 unchanged           | -                 |
+| `dt2 <- dt1`             | -                       | dt1 also changes! |
+
 
 ## Resources
 

@@ -799,6 +799,8 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
   <li><a href="#mapply" id="toc-mapply" class="nav-link" data-scroll-target="#mapply"><span class="header-section-number">24.7</span> <code>mapply()</code></a></li>
   <li><a href="#applying-on-matrices-vs.-data-frames" id="toc-applying-on-matrices-vs.-data-frames" class="nav-link" data-scroll-target="#applying-on-matrices-vs.-data-frames"><span class="header-section-number">24.8</span> <code>*apply()</code>ing on matrices vs.&nbsp;data frames</a></li>
   <li><a href="#iterating-over-a-sequence-instead-of-an-object" id="toc-iterating-over-a-sequence-instead-of-an-object" class="nav-link" data-scroll-target="#iterating-over-a-sequence-instead-of-an-object"><span class="header-section-number">24.9</span> Iterating over a sequence instead of an object</a></li>
+  <li><a href="#replicate" id="toc-replicate" class="nav-link" data-scroll-target="#replicate"><span class="header-section-number">24.10</span> <code>replicate()</code></a></li>
+  <li><a href="#map" id="toc-map" class="nav-link" data-scroll-target="#map"><span class="header-section-number">24.11</span> <code>Map()</code></a></li>
   </ul><div class="toc-actions"><ul><li><a href="https://github.com/egenn/pdsr/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
@@ -899,13 +901,13 @@ Figure&nbsp;24.1: <code>*apply()</code> function family summary (Best to read th
 <span>                  SBP <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">50</span>, mean <span class="op">=</span> <span class="fl">134</span>, sd <span class="op">=</span> <span class="fl">4</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>       Age    Weight   Height      SBP
-1 35.47856 101.66184 1.522141 136.9108
-2 40.49030  62.91946 1.941657 135.9413
-3 38.87254  83.81231 1.801641 133.5437
-4 38.81485  67.71788 1.935146 136.5797
-5 31.61250  73.40226 1.538828 132.7557
-6 48.65360  72.22759 1.823053 136.2772</code></pre>
+<pre><code>       Age   Weight   Height      SBP
+1 51.67420 77.06823 1.794637 137.3177
+2 32.64995 89.67741 1.586985 134.3028
+3 52.25848 68.08589 1.715268 131.0210
+4 35.54736 72.19760 1.663803 141.1949
+5 47.94940 86.11446 1.610170 130.2001
+6 44.08980 91.90529 1.927367 131.8156</code></pre>
 </div>
 </div>
 <p>Let’s calculate the mean value of each column:</p>
@@ -914,7 +916,7 @@ Figure&nbsp;24.1: <code>*apply()</code> function family summary (Best to read th
 <span><span class="va">dat_column_mean</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       Age     Weight     Height        SBP 
- 41.550490  79.855047   1.704841 135.397487 </code></pre>
+ 40.598625  81.379302   1.703907 133.505097 </code></pre>
 </div>
 </div>
 <div class="callout callout-style-simple callout-tip">
@@ -939,7 +941,7 @@ In the above case, we want the mean for each variable, i.e.&nbsp;we want to keep
 <span><span class="va">dat_column_mean</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       Age     Weight     Height        SBP 
- 41.550490  79.855047   1.704841 135.397487 </code></pre>
+ 40.598625  81.379302   1.703907 133.505097 </code></pre>
 </div>
 </div>
 <p>Let’s create a different example dataset, where we record weight at multiple timepoints:</p>
@@ -952,26 +954,26 @@ In the above case, we want the mean for each variable, i.e.&nbsp;we want to keep
 <span><span class="va">dat2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     ID Weight_week_1 Weight_week_3 Weight_week_5 Weight_week_7
-1  8001     116.68035     112.93680     110.90462     109.19910
-2  8002     102.84784     100.52159      94.76348      93.15713
-3  8003     114.78067     112.57786     110.17764     109.36492
-4  8004     108.32080     107.27396     104.51815     102.81536
-5  8005     100.91374      98.27478      95.64158      94.45859
-6  8006     114.14434     111.14050     108.48504     106.30187
-7  8007     123.51105     121.18260     118.09722     117.38980
-8  8008     125.41419     121.13950     118.03041     116.70768
-9  8009     106.12537     104.19561     101.60459      98.02130
-10 8010      91.95843      89.01773      85.87935      85.68358
-11 8011     101.47167      98.90937      96.67821      95.22845
-12 8012      95.18319      92.96481      89.12925      87.13150
-13 8013     109.58044     106.89404     103.37371     100.45276
-14 8014      95.97144      92.97021      89.81512      86.97985
-15 8015     110.16989     109.09416     104.38646     102.33526
-16 8016     105.62448     105.19109     101.63967     100.03533
-17 8017     109.88216     107.63931     105.04391     102.54668
-18 8018     113.85251     114.39186     112.09366     108.54384
-19 8019     120.50394     117.39751     115.80743     113.83103
-20 8020     115.72379     115.45354     114.51713     112.21256</code></pre>
+1  8001      99.41496      96.30331      94.83615      91.56452
+2  8002     115.12341     113.64793     110.51166     111.01627
+3  8003      88.95580      88.20542      83.48939      81.39373
+4  8004     122.18896     121.01184     117.67137     114.09245
+5  8005     116.53977     115.56811     113.36360     109.84926
+6  8006     104.45218     101.92656      98.54851      97.28882
+7  8007     100.56742      98.48190      95.24303      94.43424
+8  8008     106.38687     104.04165     100.72809      98.22103
+9  8009     103.98854     102.45418      99.44170      99.26960
+10 8010     111.20976     108.06881     105.00070     102.75910
+11 8011     112.81180     113.60818     109.54418     106.16393
+12 8012     103.99354     100.61707      96.00303      95.42184
+13 8013     100.56028      97.84219      95.94924      95.11883
+14 8014     114.74244     113.83834     112.11038     108.16107
+15 8015     116.69766     113.45902     112.16417     110.83978
+16 8016     119.67970     116.94697     112.24042     113.79312
+17 8017      94.67688      93.22920      91.44834      90.17542
+18 8018      98.81062      96.42674      95.11938      93.89352
+19 8019     102.34411      99.53872      96.05375      95.71461
+20 8020     119.82172     116.54430     113.02806     110.10707</code></pre>
 </div>
 </div>
 <p>Let’s get the mean weight per week:</p>
@@ -979,16 +981,16 @@ In the above case, we want the mean for each variable, i.e.&nbsp;we want to keep
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">dat2</span><span class="op">[</span>, <span class="op">-</span><span class="fl">1</span><span class="op">]</span>, <span class="fl">2</span>, <span class="va">mean</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Weight_week_1 Weight_week_3 Weight_week_5 Weight_week_7 
-     109.1330      106.9583      104.0293      102.1198 </code></pre>
+     107.6483      105.5880      102.6248      100.9639 </code></pre>
 </div>
 </div>
 <p>Let’s get the mean weight per individual across all weeks:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">dat2</span><span class="op">[</span>, <span class="op">-</span><span class="fl">1</span><span class="op">]</span>, <span class="fl">1</span>, <span class="va">mean</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] 112.43022  97.82251 111.72527 105.73207  97.32217 110.01794 120.04517
- [8] 120.32295 102.48672  88.13478  98.07192  91.10219 105.07524  91.43415
-[15] 106.49644 103.12264 106.27802 112.22047 116.88498 114.47675</code></pre>
+<pre><code> [1]  95.52973 112.57482  85.51109 118.74116 113.83018 100.55402  97.18164
+ [8] 102.34441 101.28851 106.75959 110.53202  99.00887  97.36764 112.21306
+[15] 113.29016 115.66505  92.38246  96.06256  98.41280 114.87529</code></pre>
 </div>
 </div>
 <div class="callout callout-style-simple callout-caution">
@@ -1051,16 +1053,16 @@ In the above case, we want the mean for each variable, i.e.&nbsp;we want to keep
 <span><span class="va">dat_median</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$Age
-[1] 41.40081
+[1] 40.16885
 
 $Weight
-[1] 78.9383
+[1] 82.84913
 
 $Height
-[1] 1.694569
+[1] 1.680258
 
 $SBP
-[1] 135.467</code></pre>
+[1] 133.7506</code></pre>
 </div>
 </div>
 <p>To understand what <code><a href="https://rdrr.io/r/base/lapply.html">lapply()</a></code> does, here is the equivalent for-loop:</p>
@@ -1073,16 +1075,16 @@ $SBP
 <span><span class="va">dat_median</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$Age
-[1] 41.40081
+[1] 40.16885
 
 $Weight
-[1] 78.9383
+[1] 82.84913
 
 $Height
-[1] 1.694569
+[1] 1.680258
 
 $SBP
-[1] 135.467</code></pre>
+[1] 133.7506</code></pre>
 </div>
 </div>
 </section><section id="sapply" class="level2" data-number="24.3"><h2 data-number="24.3" class="anchored" data-anchor-id="sapply">
@@ -1106,7 +1108,7 @@ It is the simplest R object that can hold the data type/s resulting from the ope
 <span><span class="va">dat_median</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       Age     Weight     Height        SBP 
- 41.400812  78.938301   1.694569 135.467024 </code></pre>
+ 40.168846  82.849127   1.680258 133.750577 </code></pre>
 </div>
 </div>
 <div class="cell">
@@ -1115,10 +1117,10 @@ It is the simplest R object that can hold the data type/s resulting from the ope
 <span><span class="va">dat_summary</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>             Mean         SD
-Age     41.550490  7.2768791
-Weight  79.855047 10.0553771
-Height   1.704841  0.1489044
-SBP    135.397487  3.2461858</code></pre>
+Age     40.598625  7.3642128
+Weight  81.379302 12.0518386
+Height   1.703907  0.1404802
+SBP    133.505097  4.1883336</code></pre>
 </div>
 </div>
 <section id="example-get-index-of-numeric-variables" class="level3" data-number="24.3.1"><h3 data-number="24.3.1" class="anchored" data-anchor-id="example-get-index-of-numeric-variables">
@@ -1128,12 +1130,12 @@ SBP    135.397487  3.2461858</code></pre>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">dat2</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    ID Weight_week_1 Weight_week_3 Weight_week_5 Weight_week_7
-1 8001      116.6804     112.93680     110.90462     109.19910
-2 8002      102.8478     100.52159      94.76348      93.15713
-3 8003      114.7807     112.57786     110.17764     109.36492
-4 8004      108.3208     107.27396     104.51815     102.81536
-5 8005      100.9137      98.27478      95.64158      94.45859
-6 8006      114.1443     111.14050     108.48504     106.30187</code></pre>
+1 8001      99.41496      96.30331      94.83615      91.56452
+2 8002     115.12341     113.64793     110.51166     111.01627
+3 8003      88.95580      88.20542      83.48939      81.39373
+4 8004     122.18896     121.01184     117.67137     114.09245
+5 8005     116.53977     115.56811     113.36360     109.84926
+6 8006     104.45218     101.92656      98.54851      97.28882</code></pre>
 </div>
 </div>
 <p>logical index of numeric columns:</p>
@@ -1181,24 +1183,24 @@ They are usually passed as arguments to other functions to be used once, hence n
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">dat</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>       Age    Weight   Height      SBP
-1 35.47856 101.66184 1.522141 136.9108
-2 40.49030  62.91946 1.941657 135.9413
-3 38.87254  83.81231 1.801641 133.5437
-4 38.81485  67.71788 1.935146 136.5797
-5 31.61250  73.40226 1.538828 132.7557
-6 48.65360  72.22759 1.823053 136.2772</code></pre>
+<pre><code>       Age   Weight   Height      SBP
+1 51.67420 77.06823 1.794637 137.3177
+2 32.64995 89.67741 1.586985 134.3028
+3 52.25848 68.08589 1.715268 131.0210
+4 35.54736 72.19760 1.663803 141.1949
+5 47.94940 86.11446 1.610170 130.2001
+6 44.08980 91.90529 1.927367 131.8156</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat_sq</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="va">dat</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span>, <span class="va">squared</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">dat_sq</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>           Age    Weight   Height      SBP
-[1,] 1258.7282 10335.131 2.316913 18744.55
-[2,] 1639.4642  3958.859 3.770031 18480.05
-[3,] 1511.0747  7024.503 3.245909 17833.91
-[4,] 1506.5927  4585.711 3.744791 18654.02
-[5,]  999.3503  5387.891 2.367992 17624.08
-[6,] 2367.1731  5216.824 3.323523 18571.48</code></pre>
+<pre><code>          Age   Weight   Height      SBP
+[1,] 2670.223 5939.512 3.220721 18856.14
+[2,] 1066.019 8042.038 2.518521 18037.25
+[3,] 2730.948 4635.688 2.942145 17166.51
+[4,] 1263.615 5212.494 2.768241 19935.99
+[5,] 2299.145 7415.700 2.592646 16952.07
+[6,] 1943.911 8446.582 3.714745 17375.35</code></pre>
 </div>
 </div>
 <p>Let’s do the same as above, but this time using an anonymous function:</p>
@@ -1206,13 +1208,13 @@ They are usually passed as arguments to other functions to be used once, hence n
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat_sqtoo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="va">dat</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="va">x</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">dat_sqtoo</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>           Age    Weight   Height      SBP
-[1,] 1258.7282 10335.131 2.316913 18744.55
-[2,] 1639.4642  3958.859 3.770031 18480.05
-[3,] 1511.0747  7024.503 3.245909 17833.91
-[4,] 1506.5927  4585.711 3.744791 18654.02
-[5,]  999.3503  5387.891 2.367992 17624.08
-[6,] 2367.1731  5216.824 3.323523 18571.48</code></pre>
+<pre><code>          Age   Weight   Height      SBP
+[1,] 2670.223 5939.512 3.220721 18856.14
+[2,] 1066.019 8042.038 2.518521 18037.25
+[3,] 2730.948 4635.688 2.942145 17166.51
+[4,] 1263.615 5212.494 2.768241 19935.99
+[5,] 2299.145 7415.700 2.592646 16952.07
+[6,] 1943.911 8446.582 3.714745 17375.35</code></pre>
 </div>
 </div>
 <p>The entire anonymous function definition is passed to the <code>FUN</code> argument.</p>
@@ -1230,7 +1232,7 @@ They are usually passed as arguments to other functions to be used once, hence n
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb41"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">vapply</a></span><span class="op">(</span><span class="va">dat</span>, <span class="va">median</span>, FUN.VALUE <span class="op">=</span> <span class="fl">0.0</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       Age     Weight     Height        SBP 
- 41.400812  78.938301   1.694569 135.467024 </code></pre>
+ 40.168846  82.849127   1.680258 133.750577 </code></pre>
 </div>
 </div>
 <p>Here, each iteration returns the median of each column, i.e.&nbsp;a numeric vector of length 1.</p>
@@ -1239,9 +1241,9 @@ They are usually passed as arguments to other functions to be used once, hence n
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb43"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">vapply</a></span><span class="op">(</span><span class="va">dat</span>, <span class="va">range</span>, FUN.VALUE <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">0.0</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>          Age    Weight   Height      SBP
-[1,] 22.14093  61.08735 1.385558 127.4761
-[2,] 57.08669 101.66184 1.941657 145.5097</code></pre>
+<pre><code>          Age   Weight   Height      SBP
+[1,] 26.62786  54.6638 1.422268 124.3808
+[2,] 54.33412 105.1798 2.071770 143.0358</code></pre>
 </div>
 </div>
 <p>If <code>FUN.VALUE</code> does not match the returned value, we get an informative error:</p>
@@ -1260,13 +1262,13 @@ They are usually passed as arguments to other functions to be used once, hence n
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb47"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat</span><span class="op">[[</span><span class="st">"Group"</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">50</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>       Age    Weight   Height      SBP Group
-1 35.47856 101.66184 1.522141 136.9108     A
-2 40.49030  62.91946 1.941657 135.9413     B
-3 38.87254  83.81231 1.801641 133.5437     A
-4 38.81485  67.71788 1.935146 136.5797     B
-5 31.61250  73.40226 1.538828 132.7557     A
-6 48.65360  72.22759 1.823053 136.2772     B</code></pre>
+<pre><code>       Age   Weight   Height      SBP Group
+1 51.67420 77.06823 1.794637 137.3177     B
+2 32.64995 89.67741 1.586985 134.3028     B
+3 52.25848 68.08589 1.715268 131.0210     B
+4 35.54736 72.19760 1.663803 141.1949     A
+5 47.94940 86.11446 1.610170 130.2001     B
+6 44.08980 91.90529 1.927367 131.8156     B</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -1274,7 +1276,7 @@ They are usually passed as arguments to other functions to be used once, hence n
 <span><span class="va">mean_Age_by_Group</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       A        B        C 
-41.10756 41.46723 42.39613 </code></pre>
+40.42082 41.14495 39.82352 </code></pre>
 </div>
 </div>
 <p>The for-loop equivalent of the above is:</p>
@@ -1296,7 +1298,7 @@ They are usually passed as arguments to other functions to be used once, hence n
 <span><span class="va">mean_Age_by_Group</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       A        B        C 
-41.10756 41.46723 42.39613 </code></pre>
+40.42082 41.14495 39.82352 </code></pre>
 </div>
 </div>
 </section><section id="mapply" class="level2" data-number="24.7"><h2 data-number="24.7" class="anchored" data-anchor-id="mapply">
@@ -1425,14 +1427,14 @@ First, let’s create a matrix and a data frame with the same data:</p>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       Age     Weight     Height        SBP      Group 
- 41.550490  79.855047   1.704841 135.397487         NA </code></pre>
+ 40.598625  81.379302   1.703907 133.505097         NA </code></pre>
 </div>
 </div>
 <p>Just for demonstraion, iterate over integer index of the elements:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb77"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, <span class="kw">function</span><span class="op">(</span><span class="va">i</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">dat</span><span class="op">[</span>, <span class="va">i</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1]  41.550490  79.855047   1.704841 135.397487</code></pre>
+<pre><code>[1]  40.598625  81.379302   1.703907 133.505097</code></pre>
 </div>
 </div>
 <p>Notice that in the above approach you are not passing the object (<code>dat</code>) to <code><a href="https://rdrr.io/r/base/lapply.html">lapply()</a></code>. You therefore need to access it within the anonymous function.</p>
@@ -1441,6 +1443,46 @@ First, let’s create a matrix and a data frame with the same data:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb79"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">dat</span><span class="op">[</span>, <span class="va">i</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section><section id="replicate" class="level2" data-number="24.10"><h2 data-number="24.10" class="anchored" data-anchor-id="replicate">
+<span class="header-section-number">24.10</span> <code>replicate()</code>
+</h2>
+<p><code><a href="https://rdrr.io/r/base/lapply.html">replicate()</a></code> is a wrapper around <code><a href="https://rdrr.io/r/base/lapply.html">sapply()</a></code> that is useful when you want to repeat an expression multiple times, for example to perform a simulation study.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb80"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">replicate</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -0.212364236 -0.139696551 -0.008558773 -0.008724249 -0.062304277</code></pre>
+</div>
+</div>
+<p>This is equivalent to:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb82"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="kw">function</span><span class="op">(</span><span class="va">i</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  0.05435119 -0.03195623 -0.01494476 -0.08176406 -0.06191274</code></pre>
+</div>
+</div>
+</section><section id="map" class="level2" data-number="24.11"><h2 data-number="24.11" class="anchored" data-anchor-id="map">
+<span class="header-section-number">24.11</span> <code>Map()</code>
+</h2>
+<p><code><a href="https://rdrr.io/r/base/funprog.html">Map()</a></code> is a wrapper around <code><a href="https://rdrr.io/r/base/mapply.html">mapply()</a></code> with <code>SIMPLIFY = FALSE</code>, making it more predictable (always returns a list, like <code><a href="https://rdrr.io/r/base/lapply.html">lapply()</a></code>):</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb84"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/funprog.html">Map</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span> <span class="va">x</span> <span class="op">+</span> <span class="va">y</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="fl">6</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[[1]]
+[1] 7
+
+[[2]]
+[1] 9
+
+[[3]]
+[1] 11
+
+[[4]]
+[1] 13
+
+[[5]]
+[1] 15</code></pre>
+</div>
 </div>
 
 

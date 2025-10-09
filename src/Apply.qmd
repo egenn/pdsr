@@ -463,3 +463,25 @@ for (i in 1:4) {
   mean(dat[, i])
 }
 ```
+
+## `replicate()` {#replicate}
+`replicate()` is a wrapper around `sapply()` that is useful when you want to
+repeat an expression multiple times, for example to perform a simulation study.
+
+```{r}
+replicate(5, mean(rnorm(100)))
+```
+
+This is equivalent to:
+
+```{r}
+sapply(1:5, function(i) mean(rnorm(100)))
+```
+
+## `Map()` {#map}
+
+`Map()` is a wrapper around `mapply()` with `SIMPLIFY = FALSE`, making it more predictable (always returns a list, like `lapply()`):
+
+```{r}
+Map(function(x, y) x + y, 1:5, 6:10)
+```

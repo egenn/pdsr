@@ -791,7 +791,8 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
   <li><a href="#copying-a-data.table" id="toc-copying-a-data.table" class="nav-link" data-scroll-target="#copying-a-data.table"><span class="header-section-number">35.3.2</span> Copying a data.table</a></li>
   </ul>
 </li>
-  <li><a href="#resources" id="toc-resources" class="nav-link" data-scroll-target="#resources"><span class="header-section-number">35.4</span> Resources</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">35.4</span> Summary</a></li>
+  <li><a href="#resources" id="toc-resources" class="nav-link" data-scroll-target="#resources"><span class="header-section-number">35.5</span> Resources</a></li>
   </ul><div class="toc-actions"><ul><li><a href="https://github.com/egenn/pdsr/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
@@ -829,19 +830,19 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/address.html">address</a></span><span class="op">(</span><span class="va">df1</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "0x10c3a6688"</code></pre>
+<pre><code>[1] "0x10f209788"</code></pre>
 </div>
 </div>
 <p>Right now, we don’t care what the actual address is - but we want to keep track when it changes.</p>
 <p>Let’s add a new column to <code>df1</code>:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">df1</span><span class="op">$</span><span class="va">HR</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">80</span>, <span class="fl">90</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">df1</span><span class="op">[[</span><span class="st">"HR"</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">80</span>, <span class="fl">90</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>…and print its address:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/address.html">address</a></span><span class="op">(</span><span class="va">df1</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "0x142876758"</code></pre>
+<pre><code>[1] "0x10eaf0048"</code></pre>
 </div>
 </div>
 <p>The address has changed, even though we’re still working on the “same” <code>df1</code> object.</p>
@@ -858,7 +859,7 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/address.html">address</a></span><span class="op">(</span><span class="va">dt1</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "0x120e0ac00"</code></pre>
+<pre><code>[1] "0x10d3eac00"</code></pre>
 </div>
 </div>
 <p>Let’s add a new column to <code>dt1</code> <strong><em>in-place</em></strong>:</p>
@@ -869,18 +870,18 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/address.html">address</a></span><span class="op">(</span><span class="va">dt1</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "0x120e0ac00"</code></pre>
+<pre><code>[1] "0x10d3eac00"</code></pre>
 </div>
 </div>
 <p>The address remains the same.</p>
 <p>What if we had used the data.frame syntax (which still works on a data.table) instead?</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt1</span><span class="op">$</span><span class="va">HR</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">80</span>, <span class="fl">90</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt1</span><span class="op">[[</span><span class="st">"HR_too"</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">80</span>, <span class="fl">90</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/address.html">address</a></span><span class="op">(</span><span class="va">dt1</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "0x143228400"</code></pre>
+<pre><code>[1] "0x10e6e0f38"</code></pre>
 </div>
 </div>
 <p>The address indeed changes, just like with data.frames.</p>
@@ -912,7 +913,7 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/address.html">address</a></span><span class="op">(</span><span class="va">df1</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "0x142876758"</code></pre>
+<pre><code>[1] "0x10eaf0048"</code></pre>
 </div>
 </div>
 <p>To make a copy of <code>df1</code>, we can simply assign it to a new object:</p>
@@ -930,7 +931,7 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/address.html">address</a></span><span class="op">(</span><span class="va">df2</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "0x142876758"</code></pre>
+<pre><code>[1] "0x10eaf0048"</code></pre>
 </div>
 </div>
 <p>The address of <code>df2</code> is the same as <code>df1</code>, which means they are pointing to the same object in memory.</p>
@@ -949,7 +950,7 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/address.html">address</a></span><span class="op">(</span><span class="va">df2</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "0x120bd4788"</code></pre>
+<pre><code>[1] "0x10f22f158"</code></pre>
 </div>
 </div>
 <p>The contents and address of <code>df2</code> have changed, but <code>df1</code> remains the same, as you might expect:</p>
@@ -964,25 +965,25 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/address.html">address</a></span><span class="op">(</span><span class="va">df1</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "0x142876758"</code></pre>
+<pre><code>[1] "0x10eaf0048"</code></pre>
 </div>
 </div>
 </section><section id="copying-a-data.table" class="level3" data-number="35.3.2"><h3 data-number="35.3.2" class="anchored" data-anchor-id="copying-a-data.table">
 <span class="header-section-number">35.3.2</span> Copying a data.table</h3>
-<p>Let’s remind ourselves of the contenets and address of <code>dt1</code>:</p>
+<p>Let’s remind ourselves of the contents and address of <code>dt1</code>:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>      ID   GCS    HR
-   &lt;num&gt; &lt;num&gt; &lt;num&gt;
-1:  8001    15    80
-2:  8002    13    90</code></pre>
+<pre><code>      ID   GCS    HR HR_too
+   &lt;num&gt; &lt;num&gt; &lt;num&gt;  &lt;num&gt;
+1:  8001    15    80     80
+2:  8002    13    90     90</code></pre>
 </div>
 </div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/address.html">address</a></span><span class="op">(</span><span class="va">dt1</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "0x143228400"</code></pre>
+<pre><code>[1] "0x10e6e0f38"</code></pre>
 </div>
 </div>
 <p>Let’s see what happens if we assign <code>dt1</code> to a new object:</p>
@@ -992,16 +993,16 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>      ID   GCS    HR
-   &lt;num&gt; &lt;num&gt; &lt;num&gt;
-1:  8001    15    80
-2:  8002    13    90</code></pre>
+<pre><code>      ID   GCS    HR HR_too
+   &lt;num&gt; &lt;num&gt; &lt;num&gt;  &lt;num&gt;
+1:  8001    15    80     80
+2:  8002    13    90     90</code></pre>
 </div>
 </div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/address.html">address</a></span><span class="op">(</span><span class="va">dt2</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "0x143228400"</code></pre>
+<pre><code>[1] "0x10e6e0f38"</code></pre>
 </div>
 </div>
 <p>So far it’s the same as with data.frames.</p>
@@ -1012,26 +1013,26 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb45"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>      ID   GCS    HR
-   &lt;num&gt; &lt;num&gt; &lt;num&gt;
-1:  8001    15    75
-2:  8002    13    90</code></pre>
+<pre><code>      ID   GCS    HR HR_too
+   &lt;num&gt; &lt;num&gt; &lt;num&gt;  &lt;num&gt;
+1:  8001    15    75     80
+2:  8002    13    90     90</code></pre>
 </div>
 </div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb47"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/address.html">address</a></span><span class="op">(</span><span class="va">dt2</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "0x143228400"</code></pre>
+<pre><code>[1] "0x10e6e0f38"</code></pre>
 </div>
 </div>
 <p>and let’s recheck <code>dt1</code>:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb49"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>      ID   GCS    HR
-   &lt;num&gt; &lt;num&gt; &lt;num&gt;
-1:  8001    15    75
-2:  8002    13    90</code></pre>
+<pre><code>      ID   GCS    HR HR_too
+   &lt;num&gt; &lt;num&gt; &lt;num&gt;  &lt;num&gt;
+1:  8001    15    75     80
+2:  8002    13    90     90</code></pre>
 </div>
 </div>
 <p><code>dt1</code> has changed as well, because <code>dt1</code> and <code>dt2</code> are still pointing to the same object in memory!</p>
@@ -1053,22 +1054,22 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb52"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt3</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>      ID   GCS    HR
-   &lt;num&gt; &lt;num&gt; &lt;num&gt;
-1:  8001    15    75
-2:  8002    13    90</code></pre>
+<pre><code>      ID   GCS    HR HR_too
+   &lt;num&gt; &lt;num&gt; &lt;num&gt;  &lt;num&gt;
+1:  8001    15    75     80
+2:  8002    13    90     90</code></pre>
 </div>
 </div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb54"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/address.html">address</a></span><span class="op">(</span><span class="va">dt1</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "0x143228400"</code></pre>
+<pre><code>[1] "0x10e6e0f38"</code></pre>
 </div>
 </div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb56"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/address.html">address</a></span><span class="op">(</span><span class="va">dt3</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "0x1432dc400"</code></pre>
+<pre><code>[1] "0x10eaa8000"</code></pre>
 </div>
 </div>
 <p><code>dt3</code> and <code>dt1</code> are pointing to different objects in memory, so editing one does not affect the other.</p>
@@ -1078,23 +1079,58 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb59"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt3</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>      ID   GCS    HR
-   &lt;num&gt; &lt;num&gt; &lt;num&gt;
-1:  8001    15   100
-2:  8002    13    90</code></pre>
+<pre><code>      ID   GCS    HR HR_too
+   &lt;num&gt; &lt;num&gt; &lt;num&gt;  &lt;num&gt;
+1:  8001    15   100     80
+2:  8002    13    90     90</code></pre>
 </div>
 </div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb61"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>      ID   GCS    HR
-   &lt;num&gt; &lt;num&gt; &lt;num&gt;
-1:  8001    15    75
-2:  8002    13    90</code></pre>
+<pre><code>      ID   GCS    HR HR_too
+   &lt;num&gt; &lt;num&gt; &lt;num&gt;  &lt;num&gt;
+1:  8001    15    75     80
+2:  8002    13    90     90</code></pre>
 </div>
 </div>
-</section></section><section id="resources" class="level2" data-number="35.4"><h2 data-number="35.4" class="anchored" data-anchor-id="resources">
-<span class="header-section-number">35.4</span> Resources</h2>
+</section></section><section id="summary" class="level2" data-number="35.4"><h2 data-number="35.4" class="anchored" data-anchor-id="summary">
+<span class="header-section-number">35.4</span> Summary</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 37%">
+<col style="width: 35%">
+<col style="width: 27%">
+</colgroup>
+<thead><tr class="header">
+<th>Operation</th>
+<th>data.frame</th>
+<th>data.table</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td><code>df[["col"]] &lt;- x</code></td>
+<td>Creates copy</td>
+<td>Creates copy</td>
+</tr>
+<tr class="even">
+<td><code>dt[, col := x]</code></td>
+<td>N/A</td>
+<td>Modifies in-place</td>
+</tr>
+<tr class="odd">
+<td><code>df2 &lt;- df1</code></td>
+<td>df1 unchanged</td>
+<td>-</td>
+</tr>
+<tr class="even">
+<td><code>dt2 &lt;- dt1</code></td>
+<td>-</td>
+<td>dt1 also changes!</td>
+</tr>
+</tbody>
+</table></section><section id="resources" class="level2" data-number="35.5"><h2 data-number="35.5" class="anchored" data-anchor-id="resources">
+<span class="header-section-number">35.5</span> Resources</h2>
 <ul>
 <li><a href="https://cran.r-project.org/web/packages/data.table/vignettes/datatable-reference-semantics.html">data.table Reference Semantics</a></li>
 </ul>

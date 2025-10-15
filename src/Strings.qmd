@@ -5,10 +5,11 @@ knitr:
 ---
 # Strings {#sec-strings}
 
-"Strings", in programming, refer to collections of characters, i.e. text data. In R, 
+In programming, "strings" refer to collections of characters, i.e. text data. In R, 
 text is usually stored as objects of class "character" (See @sec-datatypes). In 
-statistics/machine learning/data science, we come across text in a few different ways.
-All the following are character vectors:
+statistics/machine learning/data science, we come across text in a few different ways.  
+
+The following are all character vectors:
 
 - Character variables: each element could include a single word or multiple words, e.g.
 patient name, diagnosis, department name, medication, or entire paragraphs of text, e.g.
@@ -25,11 +26,11 @@ Some important string operations include:
 
 ## Creating character vectors
 
-[Reminder](#charactervectors): To initialize, coerce, test character vectors, use:
+[Reminder](#charactervectors): To initialize, coerce, and test character vectors, use:
 
-* `character()`: Initialize empty character vector
-* `as.character()`: Coerce vector to character vector
-* `is.character()`: Test if object is character
+* `character()`: **Initialize** empty character vector.
+* `as.character()`: **Coerce** vector to character vector.
+* `is.character()`: **Test** if object is character.
 
 Initialize character vector:
 
@@ -55,10 +56,9 @@ is.character(x)
 
 ### `cat()`: Concatenate and **print**
 
-`cat()` concatenates its inputs to prints to screen (console) or to file.
+`cat()` concatenates its inputs and prints to screen (console) or to file.
 
-`cat()` **does not return any object**. It is therefore useful for producing informative 
-messages in your programs.
+`cat()` returns `NULL` invisibly, i.e. is not used to assign values. It is useful for printing informative content to the console.
 
 It can concatenate strings along with the output of expressions:
 
@@ -68,11 +68,15 @@ temp <- 98.4
 cat("The blood pressure was", sbp, "and the temperature was", temp, "\n")
 ```
 
+The `sep` arguments defaults to a single space (" ") and defines the separator between
+the concatenated items. We often use `sep = ""` to avoid spaces, but have to manually add them 
+where needed:
+
 ```{r}
 weight <- 74
 height <- 1.78
-cat("The weight is", weight, "and the height is", height, 
-    "giving a BMI of", signif(weight/height^2, 3), "\n")
+cat("The weight is ", weight, " and the height is ", height, 
+    " giving a BMI of ", signif(weight/height^2, 3), ".\n", sep = "")
 ```
 
 Use the `file` argument to write to a text file. The `append` argument allows 
@@ -83,15 +87,15 @@ if you use `cat()` on a factor, it will print the integer index of the
 factor levels.
 :::
 
-If you wish to print the levels themselves, use `as.character()`
-on the factor vector:
-
 ```{r}
-cat(head(iris$Species), "\n")
+cat(head(iris[["Species"]]), "\n")
 ```
 
+If you want to print the factor levels themselves, use `as.character()`
+on the factor:
+
 ```{r}
-cat(as.character(head(iris$Species)), "\n")
+cat(as.character(head(iris[["Species"]])), "\n")
 ```
 
 ### `paste()`: Concatenate character vectors
@@ -130,7 +134,9 @@ dept <- c("Emergency", "Cardiology", "Neurology",
 paste(id, dept)
 ```
 
-`paste0()` is an alias for the commonly used `paste(..., sep = "")`:
+::: callout-tip
+`paste0()` is an alias for the commonly used `paste(..., sep = "")`
+:::
 
 ```{r}
 paste0(id, dept)
@@ -149,6 +155,111 @@ combining with some string:
 
 ```{r}
 paste0("Feature_", 1:10, collapse = ", ")
+```
+
+## C-style string formatting with `sprintf()`
+
+`sprintf()` is a very powerful function for formatting strings. It is based on the C
+programming language's `printf()` function. It allows you to create formatted strings
+using format specifiers.
+
+The general syntax is `sprintf(fmt, ...)`, where `fmt` is a character string containing format specifiers, and `...` are the values to be formatted.  
+
+For example, to format a number with two decimal places:
+
+```{r}
+SBP <- 125.6783
+sprintf("The systolic blood pressure is %.2f", SBP)
+```
+
+You can format any number of values:
+
+```{r}
+age <- 37
+gender <- "female"
+temperature <- 38.9452
+sprintf("A %d-year-old %s with a temperature of %.1f C", age, gender, temperature)
+```
+
+### `sprintf()` common format specifiers
+
+| Specifier | Description                          | Example               | With Width/Precision |
+|-----------|--------------------------------------|-----------------------|----------------------|
+| `%s`      | String                              | `"Hello"`             | `%10s` (right-pad to width 10) |
+| `%d`      | Integer                             | `42`                  | `%5d` (right-pad to width 5), `%05d` (zero-pad) |
+| `%f`      | Floating-point number               | `3.14159`             | `%8.2f` (width 8, 2 decimals) |
+| `%.nf`    | Floating-point with `n` decimals    | `3.14` (for `n=2`)    | Use `%w.nf` for width `w` |
+| `%e`      | Scientific notation                  | `1.23e+04`            | `%12.3e` (width 12, 3 decimals) |
+| `%g`      | General format (auto `%e` or `%f`)  | `3.14` or `1e+05`     | `%10.3g` |
+| `%x`      | Hexadecimal representation          | `2a` (for `42`)       | `%04x` (zero-pad to width 4) |
+| `%%`      | Literal percent sign                | `%`                   | N/A |
+
+**Width and precision modifiers:**
+
+- **Width** (e.g., `%10s`, `%5d`): Minimum field width. Right-aligns by default, pads with spaces.
+- **Left-align** (e.g., `%-10s`): Use negative width to left-align.
+- **Zero-padding** (e.g., `%05d`): For numbers, pad with zeros instead of spaces.
+- **Precision** (e.g., `%.2f`): Number of decimal places for floats, or max characters for strings.
+
+::: callout-tip
+**`sprintf()` vs `paste()`**:
+- Use `paste()` for simple concatenation with default spacing
+- Use `sprintf()` when you need precise control over formatting (decimal places, padding, alignment)
+:::
+
+### Padding and alignment
+
+`sprintf()` can produce precisely formatted strings with padding and alignment.
+
+#### Right-aligned with padding
+
+You can specify a minimum width for each field by adding a number between `%` and the format specifier. If the value is shorter than the specified width, it will be padded with spaces on the left (right-aligned).
+
+```{r}
+sprintf("Patient: %5s, Age: %3d", "ID001", 42)
+```
+
+```{r}
+sprintf("Patient: %10s, Age: %10d", "ID10", 7)
+```
+
+#### Left-aligned (use negative width)
+
+Use a negative width to left-align the value within the specified width:
+
+```{r}
+sprintf("Patient: %-5s, Age: %-3d", "ID001", 48)
+```
+
+```{r}
+sprintf("Patient: %-10s, Age: %-10d", "ID10", 7)
+```
+
+#### Zero-padding
+
+Some times, you may want to pad numbers, usually integers, with leading zeros. You can do this by adding a `0` before the width specifier. For example, this can be useful when formatting IDs:
+
+```{r}
+sprintf("Patient ID: %05d", 42)
+```
+
+### Vectorization
+
+`sprintf()` is vectorized, which means it can format multiple values at once. Each format specifier corresponds to an element in the provided vectors.
+
+```{r}
+ids <- c("82", "179", "8804")
+ages <- c(45.12398, 32.98763, 67.23432)
+sprintf("Patient %04s is %.1f years old", ids, ages)
+```
+
+```{r}
+patient_id <- c("P001", "P002", "P003")
+fasting_blood_glucose <- c(95.3, 74, 142.9)
+status <- c("Normal", "Normal", "High")
+
+sprintf("Patient %s: Fasting Blood Glucose = %5.1f mg/dL [%s]", 
+        patient_id, fasting_blood_glucose, status)
 ```
 
 ## Common string utilities
@@ -386,7 +497,12 @@ syntax.
 There are many rules in defining regular expressions and they take a little getting 
 used to. You can read the R manual by typing `?base::regex`.
 <br><br>
-Some of the most important rules are listed below:
+Some of the most important rules are listed below.
+
+::: callout-tip
+Start with simple literal patterns and gradually add regex features. 
+It is a good idea to test each component separately before combining multiple in a complex expression.
+:::
 
 ### Match a pattern at the beginning of a line/string with `^` and `\\<`
 

@@ -486,3 +486,64 @@ sapply(1:5, function(i) mean(rnorm(100)))
 ```{r}
 Map(function(x, y) x + y, 1:5, 6:10)
 ```
+
+## `Reduce()` {#reduce}
+
+`Reduce()` is a function that iteratively applies a binary function (a function
+that takes two arguments) to the elements of a vector or list, reducing it to a
+single value. It uses `for` loops internally.
+
+Let's start with a simple example to understand how `Reduce()` works:
+
+```{r}
+# Calculate total weekly medication dose across multiple daily doses
+daily_doses <- c(50, 50, 50, 50, 50, 50, 50) # mg per day
+
+total_weekly_dose <- Reduce(`+`, daily_doses)
+total_weekly_dose
+```
+
+The above is equivalent to:
+
+```{r}
+sum(daily_doses)
+```
+
+In this case, `Reduce()` gives us the same result as `sum()`, so it's not 
+useful. However, it helps us understand what's happening: 
+`Reduce()` takes the first two elements (50 + 50 = 100), then adds the third 
+(100 + 50 = 150), then the fourth (150 + 50 = 200), and so on.
+
+`Reduce()` becomes much more useful when we set `accumulate = TRUE`, which 
+returns all the intermediate results:
+
+```{r}
+# Track cumulative medication dose across the week
+cumulative_doses <- Reduce(`+`, daily_doses, accumulate = TRUE)
+cumulative_doses
+```
+
+Now we can see the cumulative dose after each day, which is clinically relevant 
+for monitoring total drug exposure over time.
+
+Here's a more complex example where `Reduce()` is truly useful - calculating 
+drug concentration after multiple doses, accounting for both accumulation and 
+decay between doses:
+
+```{r}
+# Simulate drug concentration after multiple doses
+# Each dose adds 100mg, but concentration decays by 30% between doses
+doses <- rep(100, 5) # 5 doses of 100mg each
+
+# Function: current concentration + new dose, after 30% decay
+accumulate_drug <- function(current, new_dose) {
+  current * 0.7 + new_dose
+}
+
+concentrations <- Reduce(accumulate_drug, doses, accumulate = TRUE)
+concentrations
+```
+
+This shows the concentration after each dose, accounting for the fact that some 
+of the previous dose remains in the system (70% of it) when the next dose is 
+administered.

@@ -2521,155 +2521,155 @@
   {
     "objectID": "dplyr.html",
     "href": "dplyr.html",
-    "title": "39  Introduction to dplyr",
+    "title": "39  dplyr basics",
     "section": "",
     "text": "39.1 Filter\nThe dplyr package offers extensive functionality for data manipulation.  dplyr’s functions are named after verbs (like filter, select, etc.) and are commonly used with the pipe operator to build pipelines. The package offers a large number of functions in total, often with multiple versions of the same “verb”. It has undergone many major changes since its introduction, so always make sure to consult the latest documentation.\nCore operations include:\ndplyr operates on data.frames as well as the tidyverse’s data.frame replacement, known as tibble.\nNote that dplyr masks some builtin functions when loaded.\nAs an example, we read in the Heart Failure Clinical Records dataset from the UCI Machine Learning Repository using readr.\nFor this example, we are showing how you can specify column types when reading in data using the col_types argument of readr’s read_csv() function. In practice, you may want to let readr infer column types automatically and fix any types, as needed, afterwards.\nSingle condition\ndat |&gt; \n    filter(age &gt; 60)\n\n# A tibble: 137 × 13\n     age anaemia creatinine_phosphokinase diabetes ejection_fraction\n   &lt;dbl&gt; &lt;fct&gt;                      &lt;dbl&gt; &lt;fct&gt;                &lt;dbl&gt;\n 1    75 0                            582 0                       20\n 2    65 0                            146 0                       20\n 3    65 1                            160 1                       20\n 4    90 1                             47 0                       40\n 5    75 1                            246 0                       15\n 6    65 0                            157 0                       65\n 7    80 1                            123 0                       35\n 8    75 1                             81 0                       38\n 9    62 0                            231 0                       25\n10    82 1                            379 0                       50\n# ℹ 127 more rows\n# ℹ 8 more variables: high_blood_pressure &lt;fct&gt;, platelets &lt;dbl&gt;,\n#   serum_creatinine &lt;dbl&gt;, serum_sodium &lt;dbl&gt;, sex &lt;fct&gt;, smoking &lt;fct&gt;,\n#   time &lt;dbl&gt;, DEATH_EVENT &lt;fct&gt;\nMultiple conditions\ndat |&gt; \n    filter(age &gt; 60, anaemia == \"1\")\n\n# A tibble: 61 × 13\n     age anaemia creatinine_phosphokinase diabetes ejection_fraction\n   &lt;dbl&gt; &lt;fct&gt;                      &lt;dbl&gt; &lt;fct&gt;                &lt;dbl&gt;\n 1    65 1                            160 1                       20\n 2    90 1                             47 0                       40\n 3    75 1                            246 0                       15\n 4    80 1                            123 0                       35\n 5    75 1                             81 0                       38\n 6    82 1                            379 0                       50\n 7    87 1                            149 0                       38\n 8    70 1                            125 0                       25\n 9    65 1                             52 0                       25\n10    65 1                            128 1                       30\n# ℹ 51 more rows\n# ℹ 8 more variables: high_blood_pressure &lt;fct&gt;, platelets &lt;dbl&gt;,\n#   serum_creatinine &lt;dbl&gt;, serum_sodium &lt;dbl&gt;, sex &lt;fct&gt;, smoking &lt;fct&gt;,\n#   time &lt;dbl&gt;, DEATH_EVENT &lt;fct&gt;",
     "crumbs": [
       "Tidyverse",
-      "<span class='chapter-number'>39</span>  <span class='chapter-title'>Introduction to dplyr</span>"
+      "<span class='chapter-number'>39</span>  <span class='chapter-title'>dplyr basics</span>"
     ]
   },
   {
     "objectID": "dplyr.html#select",
     "href": "dplyr.html#select",
-    "title": "39  Introduction to dplyr",
+    "title": "39  dplyr basics",
     "section": "\n39.2 Select",
     "text": "39.2 Select\nColumns can be specified by name, index, or pattern-matching.\n\n39.2.1 By column name\n\ndat |&gt; \n    select(\"age\", \"diabetes\", \"ejection_fraction\")\n\n# A tibble: 299 × 3\n     age diabetes ejection_fraction\n   &lt;dbl&gt; &lt;fct&gt;                &lt;dbl&gt;\n 1    75 0                       20\n 2    55 0                       38\n 3    65 0                       20\n 4    50 0                       20\n 5    65 1                       20\n 6    90 0                       40\n 7    75 0                       15\n 8    60 1                       60\n 9    65 0                       65\n10    80 0                       35\n# ℹ 289 more rows\n\n\n\n39.2.2 By integer column index\n\ndat |&gt; \n    select(c(7, 9))\n\n# A tibble: 299 × 2\n   platelets serum_sodium\n       &lt;dbl&gt;        &lt;dbl&gt;\n 1   265000           130\n 2   263358.          136\n 3   162000           129\n 4   210000           137\n 5   327000           116\n 6   204000           132\n 7   127000           137\n 8   454000           131\n 9   263358.          138\n10   388000           133\n# ℹ 289 more rows\n\n\n\ndat |&gt; \n    select(7:9)\n\n# A tibble: 299 × 3\n   platelets serum_creatinine serum_sodium\n       &lt;dbl&gt;            &lt;dbl&gt;        &lt;dbl&gt;\n 1   265000               1.9          130\n 2   263358.              1.1          136\n 3   162000               1.3          129\n 4   210000               1.9          137\n 5   327000               2.7          116\n 6   204000               2.1          132\n 7   127000               1.2          137\n 8   454000               1.1          131\n 9   263358.              1.5          138\n10   388000               9.4          133\n# ℹ 289 more rows\n\n\n\n39.2.3 By character name range\nFor example, select all columns between platelets and serum_sodium in the order they appear in the data.frame/tibble:\n\ndat |&gt; \n    select(platelets:serum_sodium)\n\n# A tibble: 299 × 3\n   platelets serum_creatinine serum_sodium\n       &lt;dbl&gt;            &lt;dbl&gt;        &lt;dbl&gt;\n 1   265000               1.9          130\n 2   263358.              1.1          136\n 3   162000               1.3          129\n 4   210000               1.9          137\n 5   327000               2.7          116\n 6   204000               2.1          132\n 7   127000               1.2          137\n 8   454000               1.1          131\n 9   263358.              1.5          138\n10   388000               9.4          133\n# ℹ 289 more rows\n\n\n\n39.2.4 Pattern-matching\n\ndat |&gt; \n    select(starts_with(\"serum_\"))\n\n# A tibble: 299 × 2\n   serum_creatinine serum_sodium\n              &lt;dbl&gt;        &lt;dbl&gt;\n 1              1.9          130\n 2              1.1          136\n 3              1.3          129\n 4              1.9          137\n 5              2.7          116\n 6              2.1          132\n 7              1.2          137\n 8              1.1          131\n 9              1.5          138\n10              9.4          133\n# ℹ 289 more rows\n\n\n\ndat |&gt; \n    select(ends_with(\"fraction\"))\n\n# A tibble: 299 × 1\n   ejection_fraction\n               &lt;dbl&gt;\n 1                20\n 2                38\n 3                20\n 4                20\n 5                20\n 6                40\n 7                15\n 8                60\n 9                65\n10                35\n# ℹ 289 more rows",
     "crumbs": [
       "Tidyverse",
-      "<span class='chapter-number'>39</span>  <span class='chapter-title'>Introduction to dplyr</span>"
+      "<span class='chapter-number'>39</span>  <span class='chapter-title'>dplyr basics</span>"
     ]
   },
   {
     "objectID": "dplyr.html#count",
     "href": "dplyr.html#count",
-    "title": "39  Introduction to dplyr",
+    "title": "39  dplyr basics",
     "section": "\n39.3 Count",
     "text": "39.3 Count\nCount the number of smokers over age 60 by sex:\n\ndat |&gt; \n    filter(smoking == \"1\", age &gt; 60) |&gt; \n    count(sex)\n\n# A tibble: 2 × 2\n  sex       n\n  &lt;fct&gt; &lt;int&gt;\n1 1        43\n2 0         2",
     "crumbs": [
       "Tidyverse",
-      "<span class='chapter-number'>39</span>  <span class='chapter-title'>Introduction to dplyr</span>"
+      "<span class='chapter-number'>39</span>  <span class='chapter-title'>dplyr basics</span>"
     ]
   },
   {
     "objectID": "dplyr.html#summarize",
     "href": "dplyr.html#summarize",
-    "title": "39  Introduction to dplyr",
+    "title": "39  dplyr basics",
     "section": "\n39.4 Summarize",
     "text": "39.4 Summarize\nOperate on a single column:\n\ndat |&gt; \n    summarize(mean(age))\n\n# A tibble: 1 × 1\n  `mean(age)`\n        &lt;dbl&gt;\n1        60.8\n\n\nOperate on multiple columns using across():\n\ndat |&gt; \n    summarize(across(c(age, ejection_fraction), mean))\n\n# A tibble: 1 × 2\n    age ejection_fraction\n  &lt;dbl&gt;             &lt;dbl&gt;\n1  60.8              38.1\n\n\n\n39.4.1 Grouped operation on single column\nwith single grouping variable:\n\ndat |&gt; \n    group_by(sex) |&gt; \n    summarize(mean(age))\n\n# A tibble: 2 × 2\n  sex   `mean(age)`\n  &lt;fct&gt;       &lt;dbl&gt;\n1 1            61.4\n2 0            59.8\n\n\nor using the .by argument of summarize():\n\ndat |&gt; \n    summarize(mean(age), .by = sex)\n\n# A tibble: 2 × 2\n  sex   `mean(age)`\n  &lt;fct&gt;       &lt;dbl&gt;\n1 1            61.4\n2 0            59.8\n\n\nwith multiple grouping variables:\n\ndat |&gt; \n    group_by(sex, diabetes) |&gt;\n    summarize(mean(age))\n\n`summarise()` has grouped output by 'sex'. You can override using the `.groups`\nargument.\n\n\n# A tibble: 4 × 3\n# Groups:   sex [2]\n  sex   diabetes `mean(age)`\n  &lt;fct&gt; &lt;fct&gt;          &lt;dbl&gt;\n1 1     0               62.0\n2 1     1               60.4\n3 0     0               61.6\n4 0     1               58.2\n\n\nor\n\ndat |&gt; \n    summarize(mean(age), .by = c(sex, diabetes))\n\n# A tibble: 4 × 3\n  sex   diabetes `mean(age)`\n  &lt;fct&gt; &lt;fct&gt;          &lt;dbl&gt;\n1 1     0               62.0\n2 0     1               58.2\n3 1     1               60.4\n4 0     0               61.6\n\n\n\n39.4.2 Grouped operation on multiple columns\nGroup by single variable:\n\ndat |&gt; \n    group_by(sex) |&gt; \n    summarize(across(c(age, serum_sodium), mean))\n\n# A tibble: 2 × 3\n  sex     age serum_sodium\n  &lt;fct&gt; &lt;dbl&gt;        &lt;dbl&gt;\n1 1      61.4         137.\n2 0      59.8         137.\n\n\nor:\n\ndat |&gt; \n    summarize(across(c(age, serum_sodium), mean), .by = sex)\n\n# A tibble: 2 × 3\n  sex     age serum_sodium\n  &lt;fct&gt; &lt;dbl&gt;        &lt;dbl&gt;\n1 1      61.4         137.\n2 0      59.8         137.\n\n\nGroup by multiple variables:\n\ndat |&gt; \n    group_by(smoking, anaemia) |&gt; \n    summarize(across(c(age, serum_sodium), mean))\n\n`summarise()` has grouped output by 'smoking'. You can override using the\n`.groups` argument.\n\n\n# A tibble: 4 × 4\n# Groups:   smoking [2]\n  smoking anaemia   age serum_sodium\n  &lt;fct&gt;   &lt;fct&gt;   &lt;dbl&gt;        &lt;dbl&gt;\n1 0       0        59.7         136.\n2 0       1        61.8         137.\n3 1       0        60.4         136.\n4 1       1        62.6         137 \n\n\nor:\n\ndat |&gt; \n    summarize(across(c(age, serum_sodium), mean), .by = c(smoking, anaemia))\n\n# A tibble: 4 × 4\n  smoking anaemia   age serum_sodium\n  &lt;fct&gt;   &lt;fct&gt;   &lt;dbl&gt;        &lt;dbl&gt;\n1 0       0        59.7         136.\n2 1       0        60.4         136.\n3 0       1        61.8         137.\n4 1       1        62.6         137",
     "crumbs": [
       "Tidyverse",
-      "<span class='chapter-number'>39</span>  <span class='chapter-title'>Introduction to dplyr</span>"
+      "<span class='chapter-number'>39</span>  <span class='chapter-title'>dplyr basics</span>"
     ]
   },
   {
     "objectID": "dplyr.html#arrange",
     "href": "dplyr.html#arrange",
-    "title": "39  Introduction to dplyr",
+    "title": "39  dplyr basics",
     "section": "\n39.5 Arrange",
     "text": "39.5 Arrange\narrange() sorts a data.frame/tibble, i.e. reorders the rows/cases of a dataset.\n\ndat |&gt; \n    select(age, sex, serum_sodium) |&gt; \n    arrange(age)\n\n# A tibble: 299 × 3\n     age sex   serum_sodium\n   &lt;dbl&gt; &lt;fct&gt;        &lt;dbl&gt;\n 1    40 1              136\n 2    40 0              140\n 3    40 0              141\n 4    40 1              137\n 5    40 1              136\n 6    40 1              142\n 7    40 1              132\n 8    41 1              140\n 9    42 0              136\n10    42 1              140\n# ℹ 289 more rows",
     "crumbs": [
       "Tidyverse",
-      "<span class='chapter-number'>39</span>  <span class='chapter-title'>Introduction to dplyr</span>"
+      "<span class='chapter-number'>39</span>  <span class='chapter-title'>dplyr basics</span>"
     ]
   },
   {
     "objectID": "dplyr.html#slice",
     "href": "dplyr.html#slice",
-    "title": "39  Introduction to dplyr",
+    "title": "39  dplyr basics",
     "section": "\n39.6 Slice",
     "text": "39.6 Slice\nReturn the row with the highest ejection_fraction value:\n\ndat |&gt;\n  slice_max(ejection_fraction)\n\n# A tibble: 1 × 13\n    age anaemia creatinine_phosphokinase diabetes ejection_fraction\n  &lt;dbl&gt; &lt;fct&gt;                      &lt;dbl&gt; &lt;fct&gt;                &lt;dbl&gt;\n1    45 0                            582 0                       80\n# ℹ 8 more variables: high_blood_pressure &lt;fct&gt;, platelets &lt;dbl&gt;,\n#   serum_creatinine &lt;dbl&gt;, serum_sodium &lt;dbl&gt;, sex &lt;fct&gt;, smoking &lt;fct&gt;,\n#   time &lt;dbl&gt;, DEATH_EVENT &lt;fct&gt;\n\n\nReturn the row with the minimum age:\n\ndat |&gt;\n  slice_min(age)\n\n# A tibble: 7 × 13\n    age anaemia creatinine_phosphokinase diabetes ejection_fraction\n  &lt;dbl&gt; &lt;fct&gt;                      &lt;dbl&gt; &lt;fct&gt;                &lt;dbl&gt;\n1    40 0                            478 1                       30\n2    40 0                            244 0                       45\n3    40 1                            101 0                       40\n4    40 1                            129 0                       35\n5    40 0                             90 0                       35\n6    40 0                            624 0                       35\n7    40 0                            582 1                       35\n# ℹ 8 more variables: high_blood_pressure &lt;fct&gt;, platelets &lt;dbl&gt;,\n#   serum_creatinine &lt;dbl&gt;, serum_sodium &lt;dbl&gt;, sex &lt;fct&gt;, smoking &lt;fct&gt;,\n#   time &lt;dbl&gt;, DEATH_EVENT &lt;fct&gt;\n\n\n\n\n\n\n\n\nslice_max() and slice_min() return all rows with the maximum/minimum value by default. To return only a single row, use the with_ties = FALSE argument.\n\n\n\n\ndat |&gt;\n  slice_min(age, with_ties = FALSE)\n\n# A tibble: 1 × 13\n    age anaemia creatinine_phosphokinase diabetes ejection_fraction\n  &lt;dbl&gt; &lt;fct&gt;                      &lt;dbl&gt; &lt;fct&gt;                &lt;dbl&gt;\n1    40 0                            478 1                       30\n# ℹ 8 more variables: high_blood_pressure &lt;fct&gt;, platelets &lt;dbl&gt;,\n#   serum_creatinine &lt;dbl&gt;, serum_sodium &lt;dbl&gt;, sex &lt;fct&gt;, smoking &lt;fct&gt;,\n#   time &lt;dbl&gt;, DEATH_EVENT &lt;fct&gt;",
     "crumbs": [
       "Tidyverse",
-      "<span class='chapter-number'>39</span>  <span class='chapter-title'>Introduction to dplyr</span>"
+      "<span class='chapter-number'>39</span>  <span class='chapter-title'>dplyr basics</span>"
     ]
   },
   {
     "objectID": "dplyr.html#relocate",
     "href": "dplyr.html#relocate",
-    "title": "39  Introduction to dplyr",
+    "title": "39  dplyr basics",
     "section": "\n39.7 Relocate",
     "text": "39.7 Relocate\nMove the sex column after the age column:\n\ndat &lt;- dat |&gt;\n    relocate(sex, .after = age)\n\nnames(dat)\n\n [1] \"age\"                      \"sex\"                     \n [3] \"anaemia\"                  \"creatinine_phosphokinase\"\n [5] \"diabetes\"                 \"ejection_fraction\"       \n [7] \"high_blood_pressure\"      \"platelets\"               \n [9] \"serum_creatinine\"         \"serum_sodium\"            \n[11] \"smoking\"                  \"time\"                    \n[13] \"DEATH_EVENT\"             \n\n\nMake the diabetes column the last column:\n\ndat &lt;- dat |&gt;\n    relocate(diabetes, .after = last_col())\n\nnames(dat)\n\n [1] \"age\"                      \"sex\"                     \n [3] \"anaemia\"                  \"creatinine_phosphokinase\"\n [5] \"ejection_fraction\"        \"high_blood_pressure\"     \n [7] \"platelets\"                \"serum_creatinine\"        \n [9] \"serum_sodium\"             \"smoking\"                 \n[11] \"time\"                     \"DEATH_EVENT\"             \n[13] \"diabetes\"                \n\n\nNote: above we use names() to show the column names of the resulting data.frame/tibble and verify the changes, since only the first few columns are printed by default.",
     "crumbs": [
       "Tidyverse",
-      "<span class='chapter-number'>39</span>  <span class='chapter-title'>Introduction to dplyr</span>"
+      "<span class='chapter-number'>39</span>  <span class='chapter-title'>dplyr basics</span>"
     ]
   },
   {
     "objectID": "dplyr.html#mutate",
     "href": "dplyr.html#mutate",
-    "title": "39  Introduction to dplyr",
+    "title": "39  dplyr basics",
     "section": "\n39.8 Mutate",
     "text": "39.8 Mutate\nAdd a new column named Age_days:\n\ndat &lt;- dat |&gt; \n    mutate(Age_days = age * 365)\n\n\ndat[\"Age_days\"]\n\n# A tibble: 299 × 1\n   Age_days\n      &lt;dbl&gt;\n 1    27375\n 2    20075\n 3    23725\n 4    18250\n 5    23725\n 6    32850\n 7    27375\n 8    21900\n 9    23725\n10    29200\n# ℹ 289 more rows",
     "crumbs": [
       "Tidyverse",
-      "<span class='chapter-number'>39</span>  <span class='chapter-title'>Introduction to dplyr</span>"
+      "<span class='chapter-number'>39</span>  <span class='chapter-title'>dplyr basics</span>"
     ]
   },
   {
     "objectID": "dplyr.html#rename",
     "href": "dplyr.html#rename",
-    "title": "39  Introduction to dplyr",
+    "title": "39  dplyr basics",
     "section": "\n39.9 Rename",
     "text": "39.9 Rename\nRename the DEATH_EVENT to Mortality:\n\ndat &lt;- dat |&gt; \n    rename(Mortality = DEATH_EVENT)\n\nnames(dat)\n\n [1] \"age\"                      \"sex\"                     \n [3] \"anaemia\"                  \"creatinine_phosphokinase\"\n [5] \"ejection_fraction\"        \"high_blood_pressure\"     \n [7] \"platelets\"                \"serum_creatinine\"        \n [9] \"serum_sodium\"             \"smoking\"                 \n[11] \"time\"                     \"Mortality\"               \n[13] \"diabetes\"                 \"Age_days\"                \n\n\n\n39.9.1 Mutate by group\n\ndat &lt;- dat |&gt; \n    group_by(sex) |&gt; \n    mutate(demeaned_sodium_bysex = serum_sodium - mean(serum_sodium)) |&gt; \n    ungroup()\n\n\n\n\n\n\n\nNote that ungroup() is required to return the data.frame/tibble to its original ungrouped state. If you don’t do this, all subsequent operations will be performed on the same grouping.\n\n\n\nInspect the new column:\n\ndat |&gt; \n    select(sex, serum_sodium, demeaned_sodium_bysex)\n\n# A tibble: 299 × 3\n   sex   serum_sodium demeaned_sodium_bysex\n   &lt;fct&gt;        &lt;dbl&gt;                 &lt;dbl&gt;\n 1 1              130                -6.54 \n 2 1              136                -0.536\n 3 1              129                -7.54 \n 4 1              137                 0.464\n 5 0              116               -20.8  \n 6 1              132                -4.54 \n 7 1              137                 0.464\n 8 1              131                -5.54 \n 9 0              138                 1.21 \n10 1              133                -3.54 \n# ℹ 289 more rows",
     "crumbs": [
       "Tidyverse",
-      "<span class='chapter-number'>39</span>  <span class='chapter-title'>Introduction to dplyr</span>"
+      "<span class='chapter-number'>39</span>  <span class='chapter-title'>dplyr basics</span>"
     ]
   },
   {
     "objectID": "dplyr.html#specifying-multiple-columns",
     "href": "dplyr.html#specifying-multiple-columns",
-    "title": "39  Introduction to dplyr",
+    "title": "39  dplyr basics",
     "section": "\n39.10 Specifying multiple columns",
     "text": "39.10 Specifying multiple columns\ndplyr includes a number of ways to identify multiple variables. The latest version of dplyr suggests using across() within dplyr functions that allow specifying columns, as we’ve used above.  This replaces separate functions previously used for each of filter/select/mutate/summarize/arrange that had independent functions ending with *_all(), *_at(), *_each(), *_if().  Other than specifying multiple columns by name, they can also be specified by index, by range, or by pattern-matching.\n\n39.10.1 By integer column index\n\ndat |&gt; \n    summarize(across(c(7, 9), mean))\n\n# A tibble: 1 × 2\n  platelets serum_sodium\n      &lt;dbl&gt;        &lt;dbl&gt;\n1   263358.         137.\n\n\n\ndat |&gt; \n    summarize(across(7:9, mean))\n\n# A tibble: 1 × 3\n  platelets serum_creatinine serum_sodium\n      &lt;dbl&gt;            &lt;dbl&gt;        &lt;dbl&gt;\n1   263358.             1.39         137.\n\n\n\n39.10.2 By character name range\nFor example, select all columns between platelets and serum_sodium in the order they appear in the data.frame/tibble:\n\ndat |&gt; \n    summarize(across(platelets:serum_sodium, mean))\n\n# A tibble: 1 × 3\n  platelets serum_creatinine serum_sodium\n      &lt;dbl&gt;            &lt;dbl&gt;        &lt;dbl&gt;\n1   263358.             1.39         137.\n\n\n\n39.10.3 Pattern-matching\n\ndat |&gt; \n    summarize(across(starts_with(\"serum_\"), mean))\n\n# A tibble: 1 × 2\n  serum_creatinine serum_sodium\n             &lt;dbl&gt;        &lt;dbl&gt;\n1             1.39         137.\n\n\n\ndat |&gt; \n    summarize(across(ends_with(\"fraction\"), mean))\n\n# A tibble: 1 × 1\n  ejection_fraction\n              &lt;dbl&gt;\n1              38.1\n\n\n\n39.10.4 Using predicate function wrapped in where()\n\n\n\n\n\n\n\nA predicate function is a function that returns a logical value, i.e. either TRUE or FALSE.\n\n\n\nFor example, you can use is.* functions to identify columns based on their type, e.g. numeric or factor.\n\ndat |&gt; \n    summarize(across(where(is.numeric), mean))\n\n# A tibble: 1 × 9\n    age creatinine_phosphokinase ejection_fraction platelets serum_creatinine\n  &lt;dbl&gt;                    &lt;dbl&gt;             &lt;dbl&gt;     &lt;dbl&gt;            &lt;dbl&gt;\n1  60.8                     582.              38.1   263358.             1.39\n# ℹ 4 more variables: serum_sodium &lt;dbl&gt;, time &lt;dbl&gt;, Age_days &lt;dbl&gt;,\n#   demeaned_sodium_bysex &lt;dbl&gt;\n\n\nTo use a summary function that returns more than one row per group, use reframe() instead of summarize(). For example, to get the range (min and max) of all numeric columns:\n\ndat |&gt; \n    reframe(across(where(is.numeric), range))\n\n# A tibble: 2 × 9\n    age creatinine_phosphokinase ejection_fraction platelets serum_creatinine\n  &lt;dbl&gt;                    &lt;dbl&gt;             &lt;dbl&gt;     &lt;dbl&gt;            &lt;dbl&gt;\n1    40                       23                14     25100              0.5\n2    95                     7861                80    850000              9.4\n# ℹ 4 more variables: serum_sodium &lt;dbl&gt;, time &lt;dbl&gt;, Age_days &lt;dbl&gt;,\n#   demeaned_sodium_bysex &lt;dbl&gt;\n\n\n\n39.10.5 Using anonymous predicate function with where()\n\nIt is often useful to be able to get the number of unique values per column, e.g. in order to identify which columns may need to be converted to factors. dplyr includes the function n_distinct() which counts the number of unique values of a vector.  The following example shows dplyr’s formula shorthand syntax to build an anonymous function using n_distinct() in order to select columns with fewer than 10 unique values:\n\ndat |&gt; \n    select(where(~ n_distinct(.x) &lt; 10))\n\n# A tibble: 299 × 6\n   sex   anaemia high_blood_pressure smoking Mortality diabetes\n   &lt;fct&gt; &lt;fct&gt;   &lt;fct&gt;               &lt;fct&gt;   &lt;fct&gt;     &lt;fct&gt;   \n 1 1     0       1                   0       1         0       \n 2 1     0       0                   0       1         0       \n 3 1     0       0                   1       1         0       \n 4 1     1       0                   0       1         0       \n 5 0     1       0                   0       1         1       \n 6 1     1       1                   1       1         0       \n 7 1     1       0                   0       1         0       \n 8 1     1       0                   1       1         1       \n 9 0     0       0                   0       1         0       \n10 1     1       1                   1       1         0       \n# ℹ 289 more rows\n\n\nwhich is equivalent to using a standard R anonymous function:\n\ndat |&gt; \n    select(where(\\(x) n_distinct(x) &lt; 10))\n\n# A tibble: 299 × 6\n   sex   anaemia high_blood_pressure smoking Mortality diabetes\n   &lt;fct&gt; &lt;fct&gt;   &lt;fct&gt;               &lt;fct&gt;   &lt;fct&gt;     &lt;fct&gt;   \n 1 1     0       1                   0       1         0       \n 2 1     0       0                   0       1         0       \n 3 1     0       0                   1       1         0       \n 4 1     1       0                   0       1         0       \n 5 0     1       0                   0       1         1       \n 6 1     1       1                   1       1         0       \n 7 1     1       0                   0       1         0       \n 8 1     1       0                   1       1         1       \n 9 0     0       0                   0       1         0       \n10 1     1       1                   1       1         0       \n# ℹ 289 more rows\n\n\nn_distinct(x) is equivalent to length(unique(x)):\n\ndat |&gt; \n    select(where(\\(x) length(unique(x)) &lt; 10))\n\n# A tibble: 299 × 6\n   sex   anaemia high_blood_pressure smoking Mortality diabetes\n   &lt;fct&gt; &lt;fct&gt;   &lt;fct&gt;               &lt;fct&gt;   &lt;fct&gt;     &lt;fct&gt;   \n 1 1     0       1                   0       1         0       \n 2 1     0       0                   0       1         0       \n 3 1     0       0                   1       1         0       \n 4 1     1       0                   0       1         0       \n 5 0     1       0                   0       1         1       \n 6 1     1       1                   1       1         0       \n 7 1     1       0                   0       1         0       \n 8 1     1       0                   1       1         1       \n 9 0     0       0                   0       1         0       \n10 1     1       1                   1       1         0       \n# ℹ 289 more rows\n\n\nTo mutate those columns to factors, we combine across() and where() with the formula notation seen above within mutate():\n\ndat &lt;- dat |&gt; \n    mutate(across(where(~ n_distinct(.) &lt; 10), as.factor))\n\n\nstr(dat)\n\ntibble [299 × 15] (S3: tbl_df/tbl/data.frame)\n $ age                     : num [1:299] 75 55 65 50 65 90 75 60 65 80 ...\n $ sex                     : Factor w/ 2 levels \"1\",\"0\": 1 1 1 1 2 1 1 1 2 1 ...\n $ anaemia                 : Factor w/ 2 levels \"0\",\"1\": 1 1 1 2 2 2 2 2 1 2 ...\n $ creatinine_phosphokinase: num [1:299] 582 7861 146 111 160 ...\n $ ejection_fraction       : num [1:299] 20 38 20 20 20 40 15 60 65 35 ...\n $ high_blood_pressure     : Factor w/ 2 levels \"1\",\"0\": 1 2 2 2 2 1 2 2 2 1 ...\n $ platelets               : num [1:299] 265000 263358 162000 210000 327000 ...\n $ serum_creatinine        : num [1:299] 1.9 1.1 1.3 1.9 2.7 2.1 1.2 1.1 1.5 9.4 ...\n $ serum_sodium            : num [1:299] 130 136 129 137 116 132 137 131 138 133 ...\n $ smoking                 : Factor w/ 2 levels \"0\",\"1\": 1 1 2 1 1 2 1 2 1 2 ...\n $ time                    : num [1:299] 4 6 7 7 8 8 10 10 10 10 ...\n $ Mortality               : Factor w/ 2 levels \"1\",\"0\": 1 1 1 1 1 1 1 1 1 1 ...\n $ diabetes                : Factor w/ 2 levels \"0\",\"1\": 1 1 1 1 2 1 1 2 1 1 ...\n $ Age_days                : num [1:299] 27375 20075 23725 18250 23725 ...\n $ demeaned_sodium_bysex   : num [1:299] -6.536 -0.536 -7.536 0.464 -20.79 ...",
     "crumbs": [
       "Tidyverse",
-      "<span class='chapter-number'>39</span>  <span class='chapter-title'>Introduction to dplyr</span>"
+      "<span class='chapter-number'>39</span>  <span class='chapter-title'>dplyr basics</span>"
     ]
   },
   {
     "objectID": "dplyr.html#combining-multiple-dplyr-operations",
     "href": "dplyr.html#combining-multiple-dplyr-operations",
-    "title": "39  Introduction to dplyr",
+    "title": "39  dplyr basics",
     "section": "\n39.11 Combining multiple dplyr operations",
     "text": "39.11 Combining multiple dplyr operations\nFor example, filter for smokers over age 60 and show mean platelets by sex:\n\ndat |&gt; \n    filter(smoking == \"1\", age &gt; 60) |&gt; \n    group_by(sex) |&gt; \n    summarize(mean(platelets))\n\n# A tibble: 2 × 2\n  sex   `mean(platelets)`\n  &lt;fct&gt;             &lt;dbl&gt;\n1 1               248792.\n2 0               469000",
     "crumbs": [
       "Tidyverse",
-      "<span class='chapter-number'>39</span>  <span class='chapter-title'>Introduction to dplyr</span>"
+      "<span class='chapter-number'>39</span>  <span class='chapter-title'>dplyr basics</span>"
     ]
   },
   {
     "objectID": "dplyr.html#dplyr-backends",
     "href": "dplyr.html#dplyr-backends",
-    "title": "39  Introduction to dplyr",
+    "title": "39  dplyr basics",
     "section": "\n39.12 dplyr backends",
     "text": "39.12 dplyr backends\nUsing dplyr on data.frames or tibbles does not offer any performance benefits over performing the equivalent operations in base R (and may in fact be slightly slower).\nA number of alternative backends, at different stages of maturity, are available that offer performance benefits for large datasets.",
     "crumbs": [
       "Tidyverse",
-      "<span class='chapter-number'>39</span>  <span class='chapter-title'>Introduction to dplyr</span>"
+      "<span class='chapter-number'>39</span>  <span class='chapter-title'>dplyr basics</span>"
     ]
   },
   {
     "objectID": "dplyr.html#dplyrresources",
     "href": "dplyr.html#dplyrresources",
-    "title": "39  Introduction to dplyr",
+    "title": "39  dplyr basics",
     "section": "\n39.13 Resources",
     "text": "39.13 Resources\n\ndplyr website\ndplyr cheatsheet\ntibble website",
     "crumbs": [
       "Tidyverse",
-      "<span class='chapter-number'>39</span>  <span class='chapter-title'>Introduction to dplyr</span>"
+      "<span class='chapter-number'>39</span>  <span class='chapter-title'>dplyr basics</span>"
     ]
   },
   {
     "objectID": "dplyr.html#see-also",
     "href": "dplyr.html#see-also",
-    "title": "39  Introduction to dplyr",
+    "title": "39  dplyr basics",
     "section": "\n39.14 See also",
     "text": "39.14 See also\n\ndata.table",
     "crumbs": [
       "Tidyverse",
-      "<span class='chapter-number'>39</span>  <span class='chapter-title'>Introduction to dplyr</span>"
+      "<span class='chapter-number'>39</span>  <span class='chapter-title'>dplyr basics</span>"
     ]
   },
   {

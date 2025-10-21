@@ -5,7 +5,7 @@ knitr:
     error: true
 lightbox: true
 ---
-# Reshaping with **tidyr** {#sec-tidyrreshape}
+# Reshaping (**tidyr**) {#sec-tidyrreshape}
 
 ```{r}
 library(tidyr)
@@ -16,7 +16,7 @@ library(tidyr)
 Using the same example seen in @sec-dfreshape:
 
 ```{r}
-dat_long <- data.frame(
+tb_long <- tibble(
     Account_ID = c(8001, 8002, 8003, 8004, 8001, 8002, 8003, 8004, 
             8001, 8002, 8003, 8004, 8001, 8002, 8003, 8004), 
     Age = c(67.8017038366664, 42.9198507293701, 46.2301756642422, 
@@ -38,37 +38,71 @@ dat_long <- data.frame(
             12.6188444991545, 12.1739747363806, 15.1293426442183, 
             14.8885696185238)
 )
-dat_long
+tb_long
 ```
 
 ```{r}
-dat_long2wide <- pivot_wider(dat_long,
-                             id_cols = c("Account_ID", "Age", "Admission"),
-                             names_from = "Lab_key",
-                             values_from = "Lab_value")
-dat_long2wide
+tb_wide <- pivot_wider(
+        tb_long,
+        id_cols = c("Account_ID", "Age", "Admission"),
+        names_from = "Lab_key",
+        values_from = "Lab_value")
+tb_wide
 ```
 
 ## Wide to long with `pivot_longer()`
 
+### Example 1: Timepoints
+
 ```{r}
-set.seed(2022)
-dat_wide <- data.frame(Account_ID = c(8001, 8002, 8003, 8004),
-                       Age = rnorm(4, mean = 57, sd = 12),
-                       RBC = rnorm(4, mean = 4.8, sd = 0.5),
-                       WBC = rnorm(4, mean = 7250, sd = 1500),
-                       Hematocrit = rnorm(4, mean = 40.2, sd = 4),
-                       Hemoglobin = rnorm(4, mean = 13.6, sd = 1.5),
-                       Admission = sample(c("ED", "Planned"), size = 4, replace = TRUE))
-dat_wide
+tb_wide <- tibble(
+        ID = 1:4,
+        Timepoint_A = 11:14,
+        Timepoint_B = 21:24,
+        Timepoint_C = 51:54)
+tb_wide
 ```
 
 ```{r}
-dat_wide2long <- pivot_longer(dat_wide,
-                              cols = 3:6,
-                              names_to = "Lab_key",
-                              values_to = "Lab_value")
-dat_wide2long
+tb_long <- pivot_longer(tb_wide,
+                        cols = starts_with("Timepoint_"),
+                        names_to = "Timepoint",
+                        values_to = "Score")
+tb_long
+```
+
+### Example 2: Key-value pairs
+
+```{r}
+set.seed(2022)
+tb_wide <- tibble(
+  Account_ID = c(8001, 8002, 8003, 8004),
+  Age = rnorm(4, mean = 57, sd = 12),
+  RBC = rnorm(4, mean = 4.8, sd = 0.5),
+  WBC = rnorm(4, mean = 7250, sd = 1500),
+  Hematocrit = rnorm(4, mean = 40.2, sd = 4),
+  Hemoglobin = rnorm(4, mean = 13.6, sd = 1.5),
+  Admission = sample(c("ED", "Planned"), size = 4, replace = TRUE)
+)
+tb_wide
+```
+
+```{r}
+tb_long <- pivot_longer(tb_wide,
+                        cols = 3:6,
+                        names_to = "Lab_key",
+                        values_to = "Lab_value")
+tb_long
+```
+
+or using column names:
+
+```{r}
+tb_long <- pivot_longer(tb_wide,
+                        cols = c("RBC", "WBC", "Hematocrit", "Hemoglobin"),
+                        names_to = "Lab_key",
+                        values_to = "Lab_value")
+tb_long
 ```
 
 Note that the "Age" and "Admission" columns were also reshaped correctly.

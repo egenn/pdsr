@@ -11,7 +11,7 @@ Tabular data can be stored in different formats. Two of the most common ones are
 
 ::: callout-note
 A **wide** dataset contains a single row per case (e.g. patient), while a 
-**long ** dataset can contain multiple rows per case (e.g. for multiple 
+**long** dataset can contain multiple rows per case (e.g. for multiple 
 variables or timepoints).
 :::
 
@@ -180,22 +180,6 @@ dat2_wide
 
 ## Wide to Long
 
-Synthetic data:
-
-```{r}
-set.seed(2022)
-dat_wide <- data.frame(
-    Account_ID = c(8001, 8002, 8003, 8004),
-    Age = rnorm(4, mean = 57, sd = 12),
-    RBC = rnorm(4, mean = 4.8, sd = 0.5),
-    WBC = rnorm(4, mean = 7250, sd = 1500),
-    Hematocrit = rnorm(4, mean = 40.2, sd = 4),
-    Hemoglobin = rnorm(4, mean = 13.6, sd = 1.5),
-    Admission = sample(c("ED", "Planned"), size = 4, replace = TRUE)
-)
-dat_wide
-```
-
 Use the following figure to understand `reshape()`'s wide-to-long syntax.
 Use it as a reference when building a call to `reshape()` by following 
 steps 1 through 5. It's important to note which arguments refer to the input vs. 
@@ -210,35 +194,84 @@ the output data frames.
 knitr::include_graphics("assets/R_reshape_wide2long.png", dpi = NA)
 ```
 
+### Example 1: Timepoints
+
 ```{r}
-dat_wide2long <- reshape(# Data in wide format
-                         data = dat_wide,
-                         # The column name that defines case IDs
-                         idvar = "Account_ID",
-                         # The columns whose values we want to keep
-                         varying = list(3:6),
-                         # The name of the new column which will contain all 
-                         # the values from the columns above
-                         v.names = "Lab value",
-                         # The values/names, of length = (N columns in "varying"), 
-                         # that will be recycled to indicate which column from the 
-                         # wide dataset each row corresponds to
-                         times = c(colnames(dat_wide)[3:6]),
-                         # The name of the new column created to hold the values 
-                         # defined by "times"
-                         timevar = "Lab key",                  
-                         direction = "long")
-dat_wide2long
+df_wide <- data.frame(
+        ID = 1:4,
+        Timepoint_A = 11:14,
+        Timepoint_B = 21:24,
+        Timepoint_C = 51:54)
+df_wide
 ```
 
-You can also define `varying` with a character vector:
+```{r}
+df_long <- reshape(
+        df_wide,
+        idvar = "ID",
+        varying = list(2:4),
+        v.names = "Score",
+        times = c("Timepoint_A", "Timepoint_B", "Timepoint_C"),
+        timevar = "Timepoint",
+        direction = "long")
+df_long
+```
 
-`varying = list(c("RBC", "WBC", "Hematocrit", "Hemoglobin")`  
+### Example 2: Key-value pairs
+
+```{r}
+set.seed(2022)
+df_wide <- data.frame(
+  Account_ID = c(8001, 8002, 8003, 8004),
+  Age = rnorm(4, mean = 57, sd = 12),
+  RBC = rnorm(4, mean = 4.8, sd = 0.5),
+  WBC = rnorm(4, mean = 7250, sd = 1500),
+  Hematocrit = rnorm(4, mean = 40.2, sd = 4),
+  Hemoglobin = rnorm(4, mean = 13.6, sd = 1.5),
+  Admission = sample(c("ED", "Planned"), size = 4, replace = TRUE)
+)
+df_wide
+```
+
+```{r}
+df_long <- reshape(# Data in wide format
+                    data = df_wide,
+                    # The column name that defines case IDs
+                    idvar = "Account_ID",
+                    # The columns whose values we want to keep
+                    varying = list(3:6),
+                    # The name of the new column which will contain all 
+                    # the values from the columns above
+                    v.names = "Lab value",
+                    # The values/names, of length = (N columns in "varying"), 
+                    # that will be recycled to indicate which column from the 
+                    # wide dataset each row corresponds to
+                    times = c(colnames(dat_wide)[3:6]),
+                    # The name of the new column created to hold the values 
+                    # defined by "times"
+                    timevar = "Lab key",                  
+                    direction = "long")
+df_long
+```
+
+or using column names:
+
+```{r}
+df_long <- reshape(
+        data = df_wide,
+        idvar = "Account_ID",
+        varying = list(c("RBC", "WBC", "Hematocrit", "Hemoglobin")),
+        v.names = "Lab value",
+        times = c("RBC", "WBC", "Hematocrit", "Hemoglobin"),
+        timevar = "Lab key",
+        direction = "long")
+df_long
+``` 
 
 Explore the resulting data frame's attributes:
 
 ```{r}
-attributes(dat_wide2long)
+attributes(df_long)
 ```
 
 These attributes are present if and only if a long data.frame was created from 
@@ -247,8 +280,8 @@ easy as calling `reshape()` on the previously converted data.frame with no
 arguments:
 
 ```{r}
-dat_wideagain <- reshape(dat_wide2long)
-dat_wideagain
+df_wideagain <- reshape(df_long)
+df_wideagain
 ```
 
 Note that the reverse does not work, you need to specify the wide to long 

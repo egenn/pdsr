@@ -4,7 +4,7 @@ knitr:
     comment: ""
 lightbox: true
 ---
-# Reshape {#sec-dtreshape}
+# Reshaping {#sec-dtreshape}
 
 ```{r}
 library(data.table)
@@ -128,7 +128,7 @@ Note how `na.rm = TRUE` was successfully applied to all aggregating functions
 
 ## Wide to long: `melt()` {#melt}
 
-### Example 1
+### Example 1: Timepoints
 
 ```{r}
 dt_wide <- data.table(
@@ -149,38 +149,50 @@ dt_long <- melt(
 dt_long
 ```
 
-### Example 2
+### Example 2: Key-value pairs
 
 Using the same synthetic data as in @sec-dfreshape:
 
 ```{r}
-dat_wide_dt <- data.table(
-    Account_ID = c(8001, 8002, 8003, 8004),
-    Age = rnorm(4, mean = 57, sd = 12),
-    RBC = rnorm(4, mean = 4.8, sd = 0.5),
-    WBC = rnorm(4, mean = 7250, sd = 1500),
-    Hematocrit = rnorm(4, mean = 40.2, sd = 4),
-    Hemoglobin = rnorm(4, mean = 13.6, sd = 1.5),
-    Admission = sample(c("ED", "Planned"), size = 4, replace = TRUE)
+set.seed(2022)
+dt_wide <- data.table(
+  Account_ID = c(8001, 8002, 8003, 8004),
+  Age = rnorm(4, mean = 57, sd = 12),
+  RBC = rnorm(4, mean = 4.8, sd = 0.5),
+  WBC = rnorm(4, mean = 7250, sd = 1500),
+  Hematocrit = rnorm(4, mean = 40.2, sd = 4),
+  Hemoglobin = rnorm(4, mean = 13.6, sd = 1.5),
+  Admission = sample(c("ED", "Planned"), size = 4, replace = TRUE)
 )
-dat_wide_dt
+dt_wide
 ```
 
 ```{r}
-dat_wide2long_dt <- melt(dat_wide_dt,
-                         id.vars = c(1:2, 7),
-                         measure.vars = 3:6,
-                         variable.name = "Lab_key",
-                         value.name = "Lab_value")
-dat_wide2long_dt
+dt_long <- melt(dt_wide,
+                id.vars = c(1:2, 7),
+                measure.vars = 3:6,
+                variable.name = "Lab_key",
+                value.name = "Lab_value")
+dt_long
 ```
 
-If desired, you can set the ID column as they key, which will sort the
+or using column names:
+
+```{r}
+dt_long <- melt(dt_wide,
+                id.vars = c("Account_ID", "Age", "Admission"),
+                measure.vars = c("RBC", "WBC", "Hematocrit", "Hemoglobin"),
+                variable.name = "Lab_key",
+                value.name = "Lab_value")
+dt_long
+```
+
+If desired, you can set the ID column as the key, which will sort the
 data.table by its values:
 
 ```{r}
-setorder(dat_wide2long_dt, "Account_ID")
-dat_wide2long_dt
+setorder(dt_long, "Account_ID")
+dt_long
 ```
 
 ## See also

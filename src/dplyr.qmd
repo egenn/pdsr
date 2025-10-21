@@ -21,8 +21,7 @@ Core operations include:
 - `mutate()`: create new variables as a function of existing ones
 - `arrange()`: reorder the rows/cases of a dataset
 - `summarize()`: apply functions on columns 
-- `group_by()`: identify columns to group rows/cases by - all of the above can be 
-applied on a grouped data frame
+- `group_by()`: identify columns to group rows/cases by. All of the above can be applied on a grouped data frame
 
 **dplyr** operates on data.frames as well as the tidyverse's data.frame 
 replacement, known as [**tibble**](https://tibble.tidyverse.org/).
@@ -40,24 +39,26 @@ dataset from the
 [UCI Machine Learning Repository](https://archive.ics.uci.edu/ml/index.php) using
 [readr](#sec-readrdataio).
 
+For this example, we are showing how you can specify column types when reading in data using the `col_types` argument of `readr`'s `read_csv()` function. In practice, you may want to let `readr` infer column types automatically and fix any types, as needed, afterwards.
+
 ```{r}
 dat <- read_csv(
     "https://archive.ics.uci.edu/ml/machine-learning-databases/00519/heart_failure_clinical_records_dataset.csv",
     col_types = cols(
         age = col_double(),
-        anaemia = col_factor(c("0", "1")),
+        anaemia = col_factor(),
         creatinine_phosphokinase = col_double(),
-        diabetes = col_factor(c("0", "1")),
+        diabetes = col_factor(),
         ejection_fraction = col_double(),
-        high_blood_pressure = col_factor(c("0", "1")),
+        high_blood_pressure = col_factor(),
         platelets = col_double(),
         serum_creatinine = col_double(),
         serum_sodium = col_double(),
-        sex = col_factor(c("0", "1")),
-        smoking = col_factor(c("0", "1")),
+        sex = col_factor(),
+        smoking = col_factor(),
         time = col_double(),
-        DEATH_EVENT = col_factor(c("0", "1")),
-        )
+        DEATH_EVENT = col_factor()
+    )
 )
 ```
 
@@ -129,6 +130,15 @@ dat |>
     select(ends_with("fraction"))
 ```
 
+## Count
+
+Count the number of smokers over age 60 by sex:
+
+```{r}
+dat |> 
+    filter(smoking == "1", age > 60) |> 
+    count(sex)
+```
 
 ## Summarize
 
@@ -148,12 +158,19 @@ dat |>
 
 ### Grouped operation on single column
 
-with single groupin variable:
+with single grouping variable:
 
 ```{r}
 dat |> 
     group_by(sex) |> 
     summarize(mean(age))
+```
+
+or using the `.by` argument of `summarize()`:
+
+```{r}
+dat |> 
+    summarize(mean(age), .by = sex)
 ```
 
 with multiple grouping variables:
@@ -164,7 +181,16 @@ dat |>
     summarize(mean(age))
 ```
 
+or
+
+```{r}
+dat |> 
+    summarize(mean(age), .by = c(sex, diabetes))
+```
+
 ### Grouped operation on multiple columns
+
+Group by single variable:
 
 ```{r}
 dat |> 
@@ -172,10 +198,26 @@ dat |>
     summarize(across(c(age, serum_sodium), mean))
 ```
 
+or:
+
+```{r}
+dat |> 
+    summarize(across(c(age, serum_sodium), mean), .by = sex)
+```
+
+Group by multiple variables:
+
 ```{r}
 dat |> 
     group_by(smoking, anaemia) |> 
     summarize(across(c(age, serum_sodium), mean))
+```
+
+or:
+
+```{r}
+dat |> 
+    summarize(across(c(age, serum_sodium), mean), .by = c(smoking, anaemia))
 ```
 
 ## Arrange
@@ -188,14 +230,53 @@ dat |>
     arrange(age)
 ```
 
-### Grouped
+## Slice
+
+Return the row with the highest ejection_fraction value:
 
 ```{r}
-dat |> 
-    select(age, sex, serum_sodium) |> 
-    group_by(sex) |> 
-    arrange(age)
+dat |>
+  slice_max(ejection_fraction)
 ```
+
+Return the row with the minimum age:
+
+```{r}
+dat |>
+  slice_min(age)
+```
+
+::: callout-note
+`slice_max()` and `slice_min()` return all rows with the maximum/minimum value by
+default. To return only a single row, use the `with_ties = FALSE` argument.
+:::
+
+```{r}
+dat |>
+  slice_min(age, with_ties = FALSE)
+```
+
+## Relocate
+
+Move the `sex` column after the `age` column:
+
+```{r}
+dat <- dat |>
+    relocate(sex, .after = age)
+
+names(dat)
+```
+
+Make the `diabetes` column the last column:
+
+```{r}
+dat <- dat |>
+    relocate(diabetes, .after = last_col())
+
+names(dat)
+```
+
+Note: above we use `names()` to show the column names of the resulting data.frame/tibble and verify the changes, since only the first few columns are printed by default.
 
 ## Mutate
 
@@ -207,7 +288,18 @@ dat <- dat |>
 ```
 
 ```{r}
-dat$Age_days
+dat["Age_days"]
+```
+
+## Rename
+
+Rename the `DEATH_EVENT` to `Mortality`:
+
+```{r}
+dat <- dat |> 
+    rename(Mortality = DEATH_EVENT)
+
+names(dat)
 ```
 
 ### Mutate by group
@@ -295,12 +387,11 @@ dat |>
 ```
 
 To use a summary function that returns more than one row per group, use `reframe()`
-instead of `summarize()`. Unfortunately, using `table()` in this way does not output 
-level names, which limits its usefulness.
+instead of `summarize()`. For example, to get the range (min and max) of all numeric columns:
 
 ```{r}
 dat |> 
-    reframe(across(where(is.factor), table))
+    reframe(across(where(is.numeric), range))
 ```
 
 ### Using anonymous predicate function with `where()`
@@ -310,9 +401,9 @@ order to identify which columns may need to be converted to factors.
 `dplyr` includes the function `n_distinct()` which counts the number of unique values of
 a vector.
 <br><br>
-The following example shows the syntax dplyr's 
+The following example shows dplyr's 
 [formula shorthand](https://tidyselect.r-lib.org/reference/where.html#the-formula-shorthand) 
-to build an anonymous function using `n_distinct()` in order to select columns with 
+syntax to build an anonymous function using `n_distinct()` in order to select columns with 
 fewer than 10 unique values:
 
 ```{r}
@@ -320,14 +411,14 @@ dat |>
     select(where(~ n_distinct(.x) < 10))
 ```
 
-which is equivalent to using the standard R anonymous function syntax:
+which is equivalent to using a standard R anonymous function:
 
 ```{r}
 dat |> 
     select(where(\(x) n_distinct(x) < 10))
 ```
 
-`n_distinct(x)` is a more concise way of writing `length(unique(x))`:
+`n_distinct(x)` is equivalent to `length(unique(x))`:
 
 ```{r}
 dat |> 
@@ -346,10 +437,21 @@ dat <- dat |>
 str(dat)
 ```
 
+## Combining multiple dplyr operations
+
+For example, filter for smokers over age 60 and show mean platelets by sex:
+
+```{r}
+dat |> 
+    filter(smoking == "1", age > 60) |> 
+    group_by(sex) |> 
+    summarize(mean(platelets))
+```
+
 ## dplyr backends
 
 Using dplyr on data.frames or tibbles does not offer any performance benefits over 
-performing the equivalent operations in base R, and may in fact be slower.
+performing the equivalent operations in base R (and may in fact be slightly slower).
 
 A number of alternative [backends](https://dplyr.tidyverse.org/#backends), at different 
 stages of maturity, are available that offer performance benefits for large datasets.

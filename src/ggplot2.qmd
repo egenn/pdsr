@@ -15,14 +15,13 @@ knitr:
 **`ggplot2`**, created by Hadley Wickham [@wickham2011ggplot2], follows the 
 [Grammar of Graphics](https://www.springer.com/statistics/computational/book/978-0-387-24544-7) 
 approach of Leland Wilkinson [@wilkinson2012grammar]. It therefore features a very different 
-syntax from base R graphics functions seen in @basegraphics. It is based on the `grid` graphics package and is
-for the most part not compatible with base graphics.
+syntax from base R graphics functions seen in @sec-basegraphics. It is based on the `grid` graphics package, which, perhaps confusingly, is included in base R.
 <br><br>
 The general idea is to start by defining the data and then add and/or modify 
 graphical elements in a stepwise manner, which allows one to build complex and 
 layered visualizations. A simplified interface to `ggplot` graphics is provided 
 in the `qplot()` function of **`ggplot2`**. This chapter focuses on the basics of the
-`ggplot()` function, which is more flexible and important to learn.
+`ggplot()` function, which is more flexible and powerful.
 
 ::: callout-warning
 Do not try to combine base R graphics and **`ggplot2`** graphics in the same plot.
@@ -80,6 +79,27 @@ palette_a <- adjustcolor(palette_, 0.666)
 Confusingly, `ggplot2` uses the `aes()` function, short for aesthetics, to define the 
 plot data.
 :::
+
+## Grammar of Graphics
+
+The general syntax of a `ggplot` command is as follows:
+
+```{r}
+#| eval: false
+ggplot(data, aes(x, y)) + geom_*() + theme_*() + scale_*()
+```
+
+Where:
+
+- `data` is the data frame or tibble containing the data to be plotted.
+- `aes(x, y)` defines which variables are mapped to which axes, etc. as well as other mappings, like
+  color, shape, size, etc.
+- `geom_*()` specifies the type of geometric object to be used for the plot,
+  such as points, lines, bars, etc.
+- `theme_*()` allows customization of the plot's appearance, such as background,
+  grid lines, text size, etc.
+- `scale_*()` allows customization of the scales used for the axes and other
+  aesthetics, such as color scales, axis limits, etc.
 
 ## Box plot
 
@@ -154,8 +174,7 @@ p <- ggplot(dt, aes(x = Age, fill = Sex)) +
 p
 ```
 
-`position = "identity"` displays overlapping bars. Alternatively, `position = "dodge"` can be used to display groups' bars side by side instead. Finally, `position = "stack"`, is the (unfortunate) default and results in vertically stacked bars, which can be
-confusing.
+`position = "identity"` displays overlapping bars. Alternatively, `position = "dodge"` can be used to display groups' bars side by side instead. Finally, `position = "stack"`, is the (unfortunate) default and results in vertically stacked bars, which can be useful for showing totals but otherwise confusing.
 
 ```{r}
 p <- ggplot(dt, aes(x = Age, fill = Sex)) + 
@@ -231,6 +250,40 @@ p <- ggplot(dt, aes(Age, SysBP, col = Sex)) +
 p
 ```
 
+## Themes
+
+`ggplot2` includes several built-in themes that can be applied to plots to change their overall appearance. The default theme is `theme_grey()`, but other popular themes include `theme_minimal()`, `theme_bw()`, and `theme_classic()`.
+
+```{r}
+p <- ggplot(dt, aes(Age, SysBP)) +
+  geom_point() +
+  theme_minimal() # or theme_bw(), theme_classic(), etc.
+```
+
+## Faceting
+
+Faceting allows you to create multiple plots based on the values of one or more categorical variables. This is useful for comparing distributions or relationships across different groups.
+
+```{r}
+p <- ggplot(dt, aes(Age, SysBP)) +
+  geom_point() +
+  facet_wrap(~Sex)
+p
+```
+
+## Adding labels
+
+```{r}
+p <- ggplot(dt, aes(Age, SysBP)) +
+    geom_point() +
+    labs(
+        title = "Systolic BP vs Age",
+        x = "Age (years)",
+        y = "Systolic BP (mmHg)"
+    )
+p
+```
+
 ## Save plot to file
 
 We'll use the grouped boxplot example from above to show how to save each type of plot
@@ -243,6 +296,11 @@ p <- ggplot(dt, aes(x = Sex, y = Age)) +
 ggsave("Age_by_Sex_ggplot.pdf", p,
     width = 5.5, height = 5.5, scale = 1, units = "in")
 ```
+
+## See also
+
+- Base R Graphics ([@sec-basegraphics])
+- Introduction to **plotly** ([@sec-plotly])
 
 ## Resources
 

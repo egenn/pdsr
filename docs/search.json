@@ -1302,7 +1302,7 @@
     "href": "WritingFunctions.html#return-multiple-objects",
     "title": "21  Writing Functions",
     "section": "\n21.5 Return multiple objects",
-    "text": "21.5 Return multiple objects\nR function can only return a single object. This is not much of a problem because you can simply put any collection of objects into a list and return it:\n\nlfn &lt;- function(x, fn = square) {\n  xfn &lt;- fn(x)\n  \n  list(x = x,\n       xfn = xfn,\n       fn = fn)\n}\n\nlfn(3)\n\n$x\n[1] 3\n\n$xfn\n[1] 9\n\n$fn\nfunction(x) {\n  out &lt;- x^2\n  out\n}\n&lt;bytecode: 0x10df82e38&gt;",
+    "text": "21.5 Return multiple objects\nR function can only return a single object. This is not much of a problem because you can simply put any collection of objects into a list and return it:\n\nlfn &lt;- function(x, fn = square) {\n  xfn &lt;- fn(x)\n  \n  list(x = x,\n       xfn = xfn,\n       fn = fn)\n}\n\nlfn(3)\n\n$x\n[1] 3\n\n$xfn\n[1] 9\n\n$fn\nfunction (x) \n{\n    out &lt;- x^2\n    out\n}\n&lt;bytecode: 0x10db81b58&gt;",
     "crumbs": [
       "Functions",
       "<span class='chapter-number'>21</span>  <span class='chapter-title'>Writing Functions</span>"
@@ -1324,7 +1324,7 @@
     "href": "WritingFunctions.html#documenting-functions",
     "title": "21  Writing Functions",
     "section": "\n21.7 Documenting Functions",
-    "text": "21.7 Documenting Functions\nIt is essential to document every function you write, especially if you plan to share it with. The roxygen2 allows you to write special inline comments that can generate complete documentation for your functions. Visit the link to read its documentation.\n\n\n\n\n\n\nMake it a habit to document your functions as you write them. As you write more & more complex functions, it becomes harder and more time-consuming to document them later. After all, a function with incomplete or no documentation is of little use.",
+    "text": "21.7 Documenting Functions\nIt is essential to document every function you write. The roxygen2 allows you to write special inline comments that can generate complete documentation for your functions. Visit the link to read its documentation.\n\n\n\n\n\n\nMake it a habit to document your functions as you write them. As you write more & more complex functions, it becomes harder and more time-consuming to document them later. After all, a function with incomplete or no documentation is of little use.",
     "crumbs": [
       "Functions",
       "<span class='chapter-number'>21</span>  <span class='chapter-title'>Writing Functions</span>"
@@ -2104,7 +2104,7 @@
     "href": "dtIntro.html#note-on-openmp-support",
     "title": "33  Introduction",
     "section": "\n33.2 Note on OpenMP support",
-    "text": "33.2 Note on OpenMP support\ndata.table automatically parallelizes operations behind the scenes when possible. It uses the OpenMP library to support parallelization. The current version of macOS comes with disabled support for OpenMP.\nCurrently, if you install data.table and OpenMP support is not detected, a message is printed to the console when you load the library with library(data.table) informing you that it is running on a single thread. You can still use data.table without OpenMP support.  The data.table installation wiki describes how to enable OpenMP support in the macOS compiler. The recommended option is to download the libraries from the mac.r-project site and copy them to the /usr/local/lib and /usr/local/include directories as appropriate.  After adding OpenMP support, you can compile the latest version of data.table:\n\nremotes::install_github(\"Rdatatable/data.table\")\n\nIf everything works correctly, when you now load the library, it will inform you how many threads are being used.",
+    "text": "33.2 Note on OpenMP support\ndata.table automatically parallelizes operations behind the scenes when possible. It uses the OpenMP library to support parallelization. The current version of macOS comes with disabled support for OpenMP.\nCurrently, if you install data.table and OpenMP support is not detected, a message is printed to the console when you load the library with library(data.table) informing you that it is running on a single thread. You can still use data.table without OpenMP support.  The data.table installation wiki describes how to enable OpenMP support in the macOS compiler. The recommended option is to download the libraries from the mac.r-project site and copy them to the /usr/local/lib and /usr/local/include directories as appropriate.  After adding OpenMP support, you can compile the latest version of data.table:\n\npak::pak(\"Rdatatable/data.table\")\n\nIf everything works correctly, when you now load the library, it will inform you how many threads are being used.",
     "crumbs": [
       "Data Table",
       "<span class='chapter-number'>33</span>  <span class='chapter-title'>Introduction</span>"
@@ -2993,7 +2993,7 @@
     "href": "ggplot2.html",
     "title": "45  Introduction to ggplot2",
     "section": "",
-    "text": "45.1 Setup\nggplot2, created by Hadley Wickham (Wickham 2011), follows the Grammar of Graphics approach of Leland Wilkinson (Wilkinson 2012) and has a very different syntax than base R graphics functions. It is based on the grid graphics package and is for the most part not compatible with base graphics.  The general idea is to start by defining the data and then add and/or modify graphical elements in a stepwise manner, which allows one to build complex and layered visualizations. A simplified interface to ggplot graphics is provided in the qplot() function of ggplot2. This chapter focuses on the basics of the ggplot() function, which is more flexible and important to learn.",
+    "text": "45.1 Setup\nggplot2, created by Hadley Wickham (Wickham 2011), follows the Grammar of Graphics approach of Leland Wilkinson (Wilkinson 2012). It therefore features a very different syntax from base R graphics functions seen in Chapter 43. It is based on the grid graphics package, which, perhaps confusingly, is included in base R.  The general idea is to start by defining the data and then add and/or modify graphical elements in a stepwise manner, which allows one to build complex and layered visualizations. A simplified interface to ggplot graphics is provided in the qplot() function of ggplot2. This chapter focuses on the basics of the ggplot() function, which is more flexible and powerful.",
     "crumbs": [
       "Graphics",
       "<span class='chapter-number'>45</span>  <span class='chapter-title'>Introduction to **ggplot2**</span>"
@@ -3011,11 +3011,22 @@
     ]
   },
   {
+    "objectID": "ggplot2.html#grammar-of-graphics",
+    "href": "ggplot2.html#grammar-of-graphics",
+    "title": "45  Introduction to ggplot2",
+    "section": "\n45.2 Grammar of Graphics",
+    "text": "45.2 Grammar of Graphics\nThe general syntax of a ggplot command is as follows:\n\nggplot(data, aes(x, y)) + geom_*() + theme_*() + scale_*()\n\nWhere:\n\n\ndata is the data frame or tibble containing the data to be plotted.\n\naes(x, y) defines which variables are mapped to which axes, etc. as well as other mappings, like color, shape, size, etc.\n\ngeom_*() specifies the type of geometric object to be used for the plot, such as points, lines, bars, etc.\n\ntheme_*() allows customization of the plot’s appearance, such as background, grid lines, text size, etc.\n\nscale_*() allows customization of the scales used for the axes and other aesthetics, such as color scales, axis limits, etc.",
+    "crumbs": [
+      "Graphics",
+      "<span class='chapter-number'>45</span>  <span class='chapter-title'>Introduction to **ggplot2**</span>"
+    ]
+  },
+  {
     "objectID": "ggplot2.html#box-plot",
     "href": "ggplot2.html#box-plot",
     "title": "45  Introduction to ggplot2",
-    "section": "\n45.2 Box plot",
-    "text": "45.2 Box plot\nggplot requires a categorical x-axis to draw boxplots. This means we need to convert our dataset from wide to long format.\n\ndt_long &lt;- dt |&gt; pivot_longer(\n    cols = c(\"SysBP\", \"DiaBP\"),\n    names_to = \"Measure\",\n    values_to = \"Value\"\n)\ndt_long\n\n# A tibble: 200 × 6\n     PID   Age Weight Sex    Measure Value\n   &lt;int&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;fct&gt;  &lt;chr&gt;   &lt;dbl&gt;\n 1  8228  28.5   82.2 Male   SysBP   122. \n 2  8228  28.5   82.2 Male   DiaBP    79.1\n 3  8435  50.1   72.6 Female SysBP   136. \n 4  8435  50.1   72.6 Female DiaBP    84.3\n 5  8718  31.0   73.0 Female SysBP   124. \n 6  8718  31.0   73.0 Female DiaBP    78.1\n 7  8823  30.0   77.5 Male   SysBP   126. \n 8  8823  30.0   77.5 Male   DiaBP    80.9\n 9  8843  40.5   86.7 Male   SysBP   133. \n10  8843  40.5   86.7 Male   DiaBP    68.6\n# ℹ 190 more rows\n\n\n\np &lt;- ggplot(dt_long, aes(Measure, Value)) + \n    geom_boxplot()\np\n\n\n\n\n\n\n\nWe can specify color and fill to change the color of the boxplot border and fill, respectively.\n\np &lt;- ggplot(dt_long, aes(Measure, Value)) + \n    geom_boxplot(color = palette_[1:2], fill = palette_a[1:2])\np\n\n\n\n\n\n\n\n\n45.2.1 Grouped boxplot\n\np &lt;- ggplot(dt, aes(x = Sex, y = Age)) + \n    geom_boxplot(colour = palette_[2:1], fill = palette_a[2:1])\np",
+    "section": "\n45.3 Box plot",
+    "text": "45.3 Box plot\nggplot requires a categorical x-axis to draw boxplots. This means we need to convert our dataset from wide to long format.\n\ndt_long &lt;- dt |&gt; pivot_longer(\n    cols = c(\"SysBP\", \"DiaBP\"),\n    names_to = \"Measure\",\n    values_to = \"Value\"\n)\ndt_long\n\n# A tibble: 200 × 6\n     PID   Age Weight Sex    Measure Value\n   &lt;int&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;fct&gt;  &lt;chr&gt;   &lt;dbl&gt;\n 1  8228  28.5   82.2 Male   SysBP   122. \n 2  8228  28.5   82.2 Male   DiaBP    79.1\n 3  8435  50.1   72.6 Female SysBP   136. \n 4  8435  50.1   72.6 Female DiaBP    84.3\n 5  8718  31.0   73.0 Female SysBP   124. \n 6  8718  31.0   73.0 Female DiaBP    78.1\n 7  8823  30.0   77.5 Male   SysBP   126. \n 8  8823  30.0   77.5 Male   DiaBP    80.9\n 9  8843  40.5   86.7 Male   SysBP   133. \n10  8843  40.5   86.7 Male   DiaBP    68.6\n# ℹ 190 more rows\n\n\n\np &lt;- ggplot(dt_long, aes(Measure, Value)) + \n    geom_boxplot()\np\n\n\n\n\n\n\n\nWe can specify color and fill to change the color of the boxplot border and fill, respectively.\n\np &lt;- ggplot(dt_long, aes(Measure, Value)) + \n    geom_boxplot(color = palette_[1:2], fill = palette_a[1:2])\np\n\n\n\n\n\n\n\n\n45.3.1 Grouped boxplot\n\np &lt;- ggplot(dt, aes(x = Sex, y = Age)) + \n    geom_boxplot(colour = palette_[2:1], fill = palette_a[2:1])\np",
     "crumbs": [
       "Graphics",
       "<span class='chapter-number'>45</span>  <span class='chapter-title'>Introduction to **ggplot2**</span>"
@@ -3025,8 +3036,8 @@
     "objectID": "ggplot2.html#histogram",
     "href": "ggplot2.html#histogram",
     "title": "45  Introduction to ggplot2",
-    "section": "\n45.3 Histogram",
-    "text": "45.3 Histogram\n\np &lt;- ggplot(dt, aes(Age)) + \n    geom_histogram()\np\n\n\n\n\n\n\n\nWe can specify the number of bins to use with the bins argument and the border and fill colors with color and fill, respectively, as above. xlab() can be used to define the x-axis label.\n\np &lt;- ggplot(dt, aes(Age)) + \n    geom_histogram(bins = 24, color = palette_[1], fill = palette_a[1]) +\n    xlab(\"Age (years)\")\np\n\n\n\n\n\n\n\n\n45.3.1 Grouped Histogram\n\np &lt;- ggplot(dt, aes(x = Age, fill = Sex)) + \n    geom_histogram(bins = 24, position = \"identity\")\np\n\n\n\n\n\n\n\nscale_fill_manual can be used to define the colors of the bars:\n\np &lt;- ggplot(dt, aes(x = Age, fill = Sex)) + \n    geom_histogram(bins = 24, position = \"identity\") +\n    scale_fill_manual(values = palette_a[2:1])\np\n\n\n\n\n\n\n\nposition = \"identity\" displays overlapping bars. Alternatively, position = \"dodge\" can be used to display groups’ bars side by side instead. Finally, position = \"stack\", is the (unfortunate) default and results in vertically stacked bars, which can be confusing.\n\np &lt;- ggplot(dt, aes(x = Age, fill = Sex)) + \n    geom_histogram(bins = 24, position = \"dodge\") +\n    scale_fill_manual(values = palette_a[2:1])\np\n\n\n\n\n\n\n\n\np &lt;- ggplot(dt, aes(x = Age, fill = Sex)) + \n    geom_histogram(bins = 24, position = \"stack\") +\n    scale_fill_manual(values = palette_a[2:1])\np",
+    "section": "\n45.4 Histogram",
+    "text": "45.4 Histogram\n\np &lt;- ggplot(dt, aes(Age)) + \n    geom_histogram()\np\n\n\n\n\n\n\n\nWe can specify the number of bins to use with the bins argument and the border and fill colors with color and fill, respectively, as above. xlab() can be used to define the x-axis label.\n\np &lt;- ggplot(dt, aes(Age)) + \n    geom_histogram(bins = 24, color = palette_[1], fill = palette_a[1]) +\n    xlab(\"Age (years)\")\np\n\n\n\n\n\n\n\n\n45.4.1 Grouped Histogram\n\np &lt;- ggplot(dt, aes(x = Age, fill = Sex)) + \n    geom_histogram(bins = 24, position = \"identity\")\np\n\n\n\n\n\n\n\nscale_fill_manual can be used to define the colors of the bars:\n\np &lt;- ggplot(dt, aes(x = Age, fill = Sex)) + \n    geom_histogram(bins = 24, position = \"identity\") +\n    scale_fill_manual(values = palette_a[2:1])\np\n\n\n\n\n\n\n\nposition = \"identity\" displays overlapping bars. Alternatively, position = \"dodge\" can be used to display groups’ bars side by side instead. Finally, position = \"stack\", is the (unfortunate) default and results in vertically stacked bars, which can be useful for showing totals but otherwise confusing.\n\np &lt;- ggplot(dt, aes(x = Age, fill = Sex)) + \n    geom_histogram(bins = 24, position = \"dodge\") +\n    scale_fill_manual(values = palette_a[2:1])\np\n\n\n\n\n\n\n\n\np &lt;- ggplot(dt, aes(x = Age, fill = Sex)) + \n    geom_histogram(bins = 24, position = \"stack\") +\n    scale_fill_manual(values = palette_a[2:1])\np",
     "crumbs": [
       "Graphics",
       "<span class='chapter-number'>45</span>  <span class='chapter-title'>Introduction to **ggplot2**</span>"
@@ -3036,8 +3047,8 @@
     "objectID": "ggplot2.html#density-plot",
     "href": "ggplot2.html#density-plot",
     "title": "45  Introduction to ggplot2",
-    "section": "\n45.4 Density plot",
-    "text": "45.4 Density plot\n\np &lt;- ggplot(dt, aes(x = Age)) + \n    geom_density(color = palette_[1], fill = palette_a[1])\np\n\n\n\n\n\n\n\n\n45.4.1 Grouped density plot\n\np &lt;- ggplot(dt, aes(x = Age, fill = Sex)) + \n    geom_density(color = NA) +\n    scale_fill_manual(values = palette_a[2:1])\np",
+    "section": "\n45.5 Density plot",
+    "text": "45.5 Density plot\n\np &lt;- ggplot(dt, aes(x = Age)) + \n    geom_density(color = palette_[1], fill = palette_a[1])\np\n\n\n\n\n\n\n\n\n45.5.1 Grouped density plot\n\np &lt;- ggplot(dt, aes(x = Age, fill = Sex)) + \n    geom_density(color = NA) +\n    scale_fill_manual(values = palette_a[2:1])\np",
     "crumbs": [
       "Graphics",
       "<span class='chapter-number'>45</span>  <span class='chapter-title'>Introduction to **ggplot2**</span>"
@@ -3047,8 +3058,8 @@
     "objectID": "ggplot2.html#barplot",
     "href": "ggplot2.html#barplot",
     "title": "45  Introduction to ggplot2",
-    "section": "\n45.5 Barplot",
-    "text": "45.5 Barplot\n\nschools &lt;- data.frame(UCSF = 4, Stanford = 7, Penn = 12)\n\nggplot2 requires an explicit column in the data that define the categorical x-axis:\n\nschools_df &lt;- data.frame(\n    University = factor(colnames(schools), \n        levels = c(\"UCSF\", \"Stanford\", \"Penn\")),\n     N_schools = as.numeric(schools[1, ])\n)\n\n\nggplot(schools_df, aes(University, N_schools)) +\n  geom_bar(\n    stat = \"identity\",\n    color = palette_a[1],\n    fill = palette_a[1]\n  )",
+    "section": "\n45.6 Barplot",
+    "text": "45.6 Barplot\n\nschools &lt;- data.frame(UCSF = 4, Stanford = 7, Penn = 12)\n\nggplot2 requires an explicit column in the data that define the categorical x-axis:\n\nschools_df &lt;- data.frame(\n    University = factor(colnames(schools), \n        levels = c(\"UCSF\", \"Stanford\", \"Penn\")),\n     N_schools = as.numeric(schools[1, ])\n)\n\n\nggplot(schools_df, aes(University, N_schools)) +\n  geom_bar(\n    stat = \"identity\",\n    color = palette_a[1],\n    fill = palette_a[1]\n  )",
     "crumbs": [
       "Graphics",
       "<span class='chapter-number'>45</span>  <span class='chapter-title'>Introduction to **ggplot2**</span>"
@@ -3058,8 +3069,41 @@
     "objectID": "ggplot2.html#scatterplot",
     "href": "ggplot2.html#scatterplot",
     "title": "45  Introduction to ggplot2",
-    "section": "\n45.6 Scatterplot",
-    "text": "45.6 Scatterplot\n\np &lt;- ggplot(dt, aes(Age, SysBP)) +\n    geom_point(color = palette_a[1])\np\n\n\n\n\n\n\n\n\n45.6.1 Grouped Scatterplot\n\np &lt;- ggplot(dt, aes(Age, SysBP, col = Sex)) +\n    geom_point() +\n    scale_color_manual(values = palette_[2:1])\np",
+    "section": "\n45.7 Scatterplot",
+    "text": "45.7 Scatterplot\n\np &lt;- ggplot(dt, aes(Age, SysBP)) +\n    geom_point(color = palette_a[1])\np\n\n\n\n\n\n\n\n\n45.7.1 Grouped Scatterplot\n\np &lt;- ggplot(dt, aes(Age, SysBP, col = Sex)) +\n    geom_point() +\n    scale_color_manual(values = palette_[2:1])\np",
+    "crumbs": [
+      "Graphics",
+      "<span class='chapter-number'>45</span>  <span class='chapter-title'>Introduction to **ggplot2**</span>"
+    ]
+  },
+  {
+    "objectID": "ggplot2.html#themes",
+    "href": "ggplot2.html#themes",
+    "title": "45  Introduction to ggplot2",
+    "section": "\n45.8 Themes",
+    "text": "45.8 Themes\nggplot2 includes several built-in themes that can be applied to plots to change their overall appearance. The default theme is theme_grey(), but other popular themes include theme_minimal(), theme_bw(), and theme_classic().\n\np &lt;- ggplot(dt, aes(Age, SysBP)) +\n  geom_point() +\n  theme_minimal() # or theme_bw(), theme_classic(), etc.",
+    "crumbs": [
+      "Graphics",
+      "<span class='chapter-number'>45</span>  <span class='chapter-title'>Introduction to **ggplot2**</span>"
+    ]
+  },
+  {
+    "objectID": "ggplot2.html#faceting",
+    "href": "ggplot2.html#faceting",
+    "title": "45  Introduction to ggplot2",
+    "section": "\n45.9 Faceting",
+    "text": "45.9 Faceting\nFaceting allows you to create multiple plots based on the values of one or more categorical variables. This is useful for comparing distributions or relationships across different groups.\n\np &lt;- ggplot(dt, aes(Age, SysBP)) +\n  geom_point() +\n  facet_wrap(~Sex)\np",
+    "crumbs": [
+      "Graphics",
+      "<span class='chapter-number'>45</span>  <span class='chapter-title'>Introduction to **ggplot2**</span>"
+    ]
+  },
+  {
+    "objectID": "ggplot2.html#adding-labels",
+    "href": "ggplot2.html#adding-labels",
+    "title": "45  Introduction to ggplot2",
+    "section": "\n45.10 Adding labels",
+    "text": "45.10 Adding labels\n\np &lt;- ggplot(dt, aes(Age, SysBP)) +\n    geom_point() +\n    labs(\n        title = \"Systolic BP vs Age\",\n        x = \"Age (years)\",\n        y = \"Systolic BP (mmHg)\"\n    )\np",
     "crumbs": [
       "Graphics",
       "<span class='chapter-number'>45</span>  <span class='chapter-title'>Introduction to **ggplot2**</span>"
@@ -3069,8 +3113,19 @@
     "objectID": "ggplot2.html#save-plot-to-file",
     "href": "ggplot2.html#save-plot-to-file",
     "title": "45  Introduction to ggplot2",
-    "section": "\n45.7 Save plot to file",
-    "text": "45.7 Save plot to file\nWe’ll use the grouped boxplot example from above to show how to save each type of plot to file, using a PDF output as an example.\n\np &lt;- ggplot(dt, aes(x = Sex, y = Age)) + \n    geom_boxplot(colour = palette_[2:1], fill = palette_a[2:1])\nggsave(\"Age_by_Sex_ggplot.pdf\", p,\n    width = 5.5, height = 5.5, scale = 1, units = \"in\")",
+    "section": "\n45.11 Save plot to file",
+    "text": "45.11 Save plot to file\nWe’ll use the grouped boxplot example from above to show how to save each type of plot to file, using a PDF output as an example.\n\np &lt;- ggplot(dt, aes(x = Sex, y = Age)) + \n    geom_boxplot(colour = palette_[2:1], fill = palette_a[2:1])\nggsave(\"Age_by_Sex_ggplot.pdf\", p,\n    width = 5.5, height = 5.5, scale = 1, units = \"in\")",
+    "crumbs": [
+      "Graphics",
+      "<span class='chapter-number'>45</span>  <span class='chapter-title'>Introduction to **ggplot2**</span>"
+    ]
+  },
+  {
+    "objectID": "ggplot2.html#see-also",
+    "href": "ggplot2.html#see-also",
+    "title": "45  Introduction to ggplot2",
+    "section": "\n45.12 See also",
+    "text": "45.12 See also\n\nBase R Graphics (Chapter 43)\nIntroduction to plotly (Chapter 46)",
     "crumbs": [
       "Graphics",
       "<span class='chapter-number'>45</span>  <span class='chapter-title'>Introduction to **ggplot2**</span>"
@@ -3080,8 +3135,8 @@
     "objectID": "ggplot2.html#resources",
     "href": "ggplot2.html#resources",
     "title": "45  Introduction to ggplot2",
-    "section": "\n45.8 Resources",
-    "text": "45.8 Resources\n\nggplot2 Documentation\n\n\n\n\n\nWickham, Hadley. 2011. “Ggplot2.” Wiley Interdisciplinary Reviews: Computational Statistics 3 (2): 180–85.\n\n\nWilkinson, Leland. 2012. “The Grammar of Graphics.” In Handbook of Computational Statistics, 375–414. Springer.",
+    "section": "\n45.13 Resources",
+    "text": "45.13 Resources\n\nggplot2 Documentation\n\n\n\n\n\nWickham, Hadley. 2011. “Ggplot2.” Wiley Interdisciplinary Reviews: Computational Statistics 3 (2): 180–85.\n\n\nWilkinson, Leland. 2012. “The Grammar of Graphics.” In Handbook of Computational Statistics, 375–414. Springer.",
     "crumbs": [
       "Graphics",
       "<span class='chapter-number'>45</span>  <span class='chapter-title'>Introduction to **ggplot2**</span>"

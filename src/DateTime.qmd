@@ -21,7 +21,7 @@ since January 1, 1970 ([Unix Time a.k.a. POSIX time a.k.a. Epoch time](https://e
 (See `base::DateTimeClasses`)
 
 `POSIXct` is more efficient and faster than `POSIXlt` and therefore is the recommended structure
-for date-time data.
+for date-time data. At the same time, `POSIXlt` can be convenient for extracting individual components using the `$` operator.
 
 The **data.table** package includes the following classes:
 
@@ -34,10 +34,6 @@ midnight.
 data.table's `fread()` can automatically detect some date and date-time formats and
 will convert them to `IDate` and `POSIXct` respectively.
 :::
-
-Background info: 
-[Portable Operating System Interface (POSIX)](https://en.wikipedia.org/wiki/POSIX) is a 
-set of standards for maintaining compatibility among operating systems.
 
 ## Date format specifications
 
@@ -62,11 +58,16 @@ not work the same across systems.
 Regarding the ambiguous `%y`, the documentation states:
 "`%y`   Year without century (00–99). On input, values 00 to 68 are prefixed by 20 and 69 to 99 by 19 – that is the behaviour specified by the 2018 POSIX standard, but it does also say ‘it is expected that in a future version the default century inferred from a 2-digit year will change’."
 
+## POSIX standard
+
+[Portable Operating System Interface (POSIX)](https://en.wikipedia.org/wiki/POSIX) is a 
+set of standards for maintaining compatibility among operating systems. We recommend using the POSIX standard for date, `"%Y-%m-%d"`, and date-time, `"%Y-%m-%d %H:%M:%S"`, formats whenever possible.
+
 ## Date objects
 
 ### Character to Date: `as.Date()`
 
-You can create a `Date` object from a character:
+You can create a `Date` object from a character using `as.Date()`:
 
 ```{r}
 x <- as.Date("1981-02-12")
@@ -86,16 +87,17 @@ Consider the 16th of November, 2021 written as follows:
 z <- "11.09.21"
 ```
 
-Results in an error if passed to `as.Date()`:
+When passed to `as.Date()`, it will result to an error, because it is not in a recognized format:
 
 ```{r}
 zt <- as.Date(z)
 ```
 
-Passing the appropriate format, will allow the date to be read correctly:
+Defining format will allow the date to be read correctly:
 
 ```{r}
 zt <- as.Date(z, tryFormats = "%m.%d.%y")
+zt
 ```
 
 You can convert to data.table's IDate class using `as.IDate()`:
@@ -120,7 +122,7 @@ class(zi)
 It's always safest to specify the format of your date string explicitly.
 :::
 
-###  Get current date & time
+###  Get current date or date & time
 
 Get current date:
 
@@ -179,9 +181,7 @@ difftime(timepoint2, timepoint1, units = "secs")
 ::: callout-tip
 Why is there no option for "months" or "years" in units?
 
-Because, unlike seconds, minutes, hours, days, and weeks,
-months and years do not have fixed length,
-i.e. literally a month or a year are not "units" of time.
+Unlike seconds, minutes, hours, days, and weeks, months and years do not have fixed length. Months can contain 28-31 days and years can contain 365 or 366 days and therefore cannot be used as units of time.
 <br><br>
 You can always get a difference in days and divide by 
 [365.2422](https://pumas.nasa.gov/sites/default/files/examples/04_21_97_1.pdf){target="_blank"} or some other approximation.
@@ -193,6 +193,7 @@ DOB <- as.Date("1969-08-04")
 Age <- difftime(Sys.Date(), DOB, units = "days")
 Age
 ```
+
 `difftime()` outputs objects of class `difftime`:
 
 ```{r}
@@ -201,23 +202,34 @@ class(Age)
 
 ::: callout-caution
 If you convert the output of `difftime()` using an appropriate mathematical operation,
-e.g. division, the units will remain, even though they are no longer correct.
+e.g. division, the units will remain, *even though they are no longer correct*.
 Use `as.numeric()` to convert the difftime object to a regular numeric vector and
 remove the units which are no longer valid.
 :::
 
-Note that the units remain after a mathematical operation:
+Note that the units (in this case, "days") remain after a mathematical operation.
+For example, if you wanted to convert the age to years, you would want to **avoid** this:
 
 ```{r}
-Age <- Age / 365.2422
-Age
+Age_years <- Age / 365.2422
+Age_years
 ```
 
-Eliminate them by converting to numeric:
+The output is still of class `difftime` with units "days".
 
 ```{r}
-Age <- as.numeric(difftime(Sys.Date(), DOB, units = "days") / 365.2422)
-Age
+class(Age_years)
+```
+
+Instead, eliminate the units by converting the `difftime` object to numeric:
+
+```{r}
+Age_years <- as.numeric(Age) / 365.2422
+Age_years
+```
+
+```{r}
+class(Age_years)
 ```
 
 ### mean/median Date
@@ -248,8 +260,9 @@ median_date_too <- x[2] + 0.5 * (x[3] - x[2])
 
 ### Sequence of dates
 
-You can create a sequence of dates using `seq()`.  
-If an integer is passed to `by`, the unit is assumed to be days:
+We have previously used `seq()` to create numeric sequences. When applied on Date
+objects, it will create sequences of dates.
+Note that when `seq()` is applied on a Date object and an integer is passed to the `by` argument, the unit is assumed to be days:
 
 ```{r}
 start_date <- as.Date("2020-09-14")
@@ -257,17 +270,33 @@ end_date <- as.Date("2020-12-07")
 seq(from = start_date, to = end_date, by = 7)
 ```
 
-Unlike mathematical operations like `difftime()` which require strict units of time, 
+Conveniently, unlike mathematical operations like `difftime()` which require strict units of time,
 `seq()` can work with months and years.
 
-Argument `by` can be one of:
+Argument `by` can also be one of:
 
-"day", "week", "month", "quarter", "year".
+"day", "week", "month", "quarter", "year", or combination of an integer and one of these strings:
 
-The above is therefore equivalent to:
+"3 days", "2 weeks", "6 months", "4 years", etc.
+
+Therefore, `by = 7` is equivalent to `by = "7 days"`.
+
+```{r}
+seq(from = start_date, to = end_date, by = "7 days")
+```
+
+and also to `by = week` or `by = "1 week"`:
 
 ```{r}
 seq(from = start_date, to = end_date, by = "week")
+```
+
+As another example, create a sequence of dates every 2 months:
+
+```{r}
+start_date <- as.Date("2020-01-20")
+end_date <- as.Date("2021-01-20")
+seq(start_date, end_date, by = "2 months")
 ```
 
 As with numeric sequences, you can also define the `length.out` argument:
@@ -277,27 +306,13 @@ start_date <- as.Date("2020-01-20")
 seq(from = start_date, by = "year", length.out = 4)
 ```
 
-An integer can be provided as part of character input to `by`:
-
-```{r}
-start_date <- as.Date("2020-01-20")
-end_date <- as.Date("2021-01-20")
-seq(start_date, end_date, by = "2 months")
-```
-
 ## Date-Time objects
 
-### Character to Date-Time: `as.POSIXct()`, `as.POSIXlt()`: 
+`POSIXct` and `POSIXlt` are two classes for representing date-time objects in R.
 
-As always, it can be very informative to look at the source code. Many of these 
-functions call each other internally.
+### Character to Date-Time: `as.POSIXct()` & `as.POSIXlt()`: 
 
-Read `strptime()`'s documentation for conversion specifications. These define the order
- and format of characters to be read as year, month, day, hour, minute, and second 
- information.
-
-For example, the international ISO 8601 standard is defined as:  
-`"%Y-%m-%d %H:%M:%S"`  
+We start by creating a character string representing date and time:
 
 ```{r}
 dt <- "2020-03-04 13:38:54"
@@ -305,14 +320,22 @@ dt
 class(dt)
 ```
 
-Use `attributes()` to see the difference between the `POSIXct` and `POSIXlt` classes:
+We can then use `as.POSIXct()`  and `as.POSIXlt()` to convert the character string to `POSIXct` and `POSIXlt` date-time objects, respectively:
 
 ```{r}
 dt_posixct <- as.POSIXct(dt)
 dt_posixct
 class(dt_posixct)
 str(dt_posixct)
-attributes(dt_posixct)
+```
+
+:::callout-info
+`POSIXct` stores date-time information as the number of seconds since January 1, 1970.
+This becomes apparent when converting the object to numeric.
+:::
+
+```{r}
+as.numeric(dt_posixct)
 ```
 
 ```{r}
@@ -321,13 +344,56 @@ dt_posixlt
 class(dt_posixlt)
 str(dt_posixlt)
 dt_posixlt$year
+```
+
+:::callout-info
+`POSIXlt` stores date-time information as a named list with components for year, month, day, hour, minute, second, etc. The year component is stored as the number of years since 1900.
+Confusingly, converting the object to numeric will give the number of seconds since January 1, 1970,
+just like `POSIXct`.
+:::
+
+```{r}
+dt_posixlt$year
+dt_posixlt$year + 1900
+as.numeric(dt_posixlt)
+```
+
+You can use `attributes()` to see the difference between the `POSIXct` and `POSIXlt` classes:
+
+```{r}
+attributes(dt_posixct)
 attributes(dt_posixlt)
 ```
 
-You can compose a large number of combinations of specification to match your data.
+One of the advantages of `POSIXlt` is that you can access individual components
+using the `$` operator:
+
+```{r}
+dt_posixlt$year + 1900  # year, stored as years since 1900
+dt_posixlt$mon  # month is 0-indexed (0 = January, ..., 11 = December)
+dt_posixlt$mday # day of month
+dt_posixlt$hour # hour
+dt_posixlt$min  # minute
+dt_posixlt$sec  # second
+```
+
+Both functions feature a `format` argument, which defines the order and format of characters to be read as year, month, day, hour, minute, and second information.
+
+:::callout-important
+You can learn more about the format syntax by reading `strptime()`'s documentation.
+:::
+
+For example, the international [ISO 8601 standard](https://en.wikipedia.org/wiki/ISO_8601) is defined as `"%Y-%m-%d %H:%M:%S"` .
+
+You can use any combination of specifications to match your data. For example, consider the following date-time string:
 
 ```{r}
 dt2 <- c("03.04.20 01:38.54 pm")
+```
+
+The correct format for this would be as follows:
+
+```{r}
 dt2_posix <- as.POSIXct(dt2, format = "%m.%d.%y %I:%M.%S %p")
 dt2_posix
 ```
@@ -343,7 +409,7 @@ dt_us <- as.Date("07-04-2020", format = "%m-%d-%Y")
 dt_us
 ```
 
-Convert to European format:
+Convert to European format (i.e. day followed by month):
 
 ```{r}
 dt_eu <- format(dt_us, "%d.%m.%y")
@@ -402,13 +468,15 @@ now <- Sys.time()
 now
 ```
 
-Get a list of all available timezones:
+You can get a list of all available timezones using `OlsonNames()`.
+There are `r length(OlsonNames())` available timezones.
+Let's print the first 20:
 
 ```{r}
-OlsonNames()
+OlsonNames()[1:20]
 ```
 
-Set to a different timezone:
+You can use `Sys.setenv()` to set the timezone temporarily within an R session:
 
 ```{r}
 Sys.setenv(TZ = "America/New_York")
@@ -419,6 +487,12 @@ Note how setting the timezone changes how the date and time are printed:
 ```{r}
 now
 ```
+
+:::callout-important
+Setting the timezone using `Sys.setenv()` affects the current R session.
+To set the timezone permanently, you need to set the `TZ` environment variable
+in your operating system.
+:::
 
 Use `format()`'s `tz` argument to convert date & time to different timezones.
 
@@ -443,6 +517,38 @@ attributes(now)
 ```
 
 The `print()` method for datetime objects calls `format()` internally.
+
+## Mixing Date and Date-Time objects
+
+:::callout-important
+Do not perform mathematical operations between Date and POSIXct/lt objects.
+You may get a warning (not an error) and incorrect results.
+:::
+
+```{r}
+x_date <- as.Date("2020-11-16")
+y_datetime <- as.POSIXct("2020-11-18 15:30:00")
+x_date
+y_datetime
+```
+
+The following produces a warning and an incorrect result:
+
+```{r}
+y_datetime - x_date
+```
+
+In this case, you could convert the POSIXct object to Date first, effectively stripping the time information:
+
+```{r}
+as.Date(y_datetime) - x_date
+```
+
+Note that if you convert the Date object to POSIXct first, the time will be set to midnight (00:00:00), which may not be what you want:
+
+```{r}
+y_datetime - as.POSIXct(x_date)
+```
 
 ## See also
 

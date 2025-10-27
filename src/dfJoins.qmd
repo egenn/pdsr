@@ -32,24 +32,27 @@ IDs needs to be present in both datasets.
 Let's make up some synthetic data:
 
 ```{r}
-a <- data.frame(PID = 101:109,
-                Hospital = c("UCSF", "HUP", "Stanford",
-                             "Stanford", "UCSF", "HUP", 
-                             "HUP", "Stanford", "UCSF"),
-                Age = c(22, 34, 41, 19, 53, 21, 63, 22, 19),
-                Sex = c(1, 1, 0, 1, 0, 0, 1, 0, 0))
+a <- data.frame(
+  PID = 101:109,
+  Hospital = c("UCSF", "HUP", "Stanford",
+                "Stanford", "UCSF", "HUP", 
+                "HUP", "Stanford", "UCSF"),
+  Age = c(22, 34, 41, 19, 53, 21, 63, 22, 19),
+  Sex = factor(c(1, 1, 0, 1, 0, 0, 1, 0, 0))
+)
 a
 dim(a)
 ```
 
 ```{r}
-b  <- data.frame(PID = 106:112,
-                 V1 = c(153, 89, 112, 228,  91, 190, 101),
-                 Department = c("Neurology", "Radiology",
+b  <- data.frame(
+  PID = 106:112,
+  V1 = c(153, 89, 112, 228,  91, 190, 101),
+  Department = c("Neurology", "Radiology",
                                 "Emergency", "Cardiology",
                                 "Surgery", "Neurology", "Psychiatry"))
-dim(b)
 b
+dim(b)
 ```
 
 ## `merge()`
@@ -142,21 +145,29 @@ As mentioned above, if the ID columns in the two data.frames to be merged do
 not have the same name, you can specify them directly:
 
 ```{r}
-a <- data.frame(PID = 101:109,
-                Hospital = c("UCSF", "HUP", "Stanford",
-                             "Stanford", "UCSF", "HUP", 
-                             "HUP", "Stanford", "UCSF"),
-                Age = c(22, 34, 41, 19, 53, 21, 63, 22, 19),
-                Sex = c(1, 1, 0, 1, 0, 0, 1, 0, 0))
+a <- data.frame(
+  PID = 101:109,
+  Hospital = c(
+    "UCSF", "HUP", "Stanford",
+    "Stanford", "UCSF", "HUP",
+    "HUP", "Stanford", "UCSF"
+  ),
+  Age = c(22, 34, 41, 19, 53, 21, 63, 22, 19),
+  Sex = factor(c(1, 1, 0, 1, 0, 0, 1, 0, 0))
+)
 a
 ```
 
 ```{r}
-b <- data.frame(PatientID = 106:112,
-                 V1 = c(153, 89, 112, 228,  91, 190, 101),
-                 Department = c("Neurology", "Radiology",
-                                "Emergency", "Cardiology",
-                                "Surgery", "Neurology", "Psychiatry"))
+b <- data.frame(
+  PatientID = 106:112,
+  V1 = c(153, 89, 112, 228, 91, 190, 101),
+  Department = c(
+    "Neurology", "Radiology",
+    "Emergency", "Cardiology",
+    "Surgery", "Neurology", "Psychiatry"
+  )
+)
 b
 ```
 

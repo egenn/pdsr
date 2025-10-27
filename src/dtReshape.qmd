@@ -40,14 +40,14 @@ dat_long <- data.frame(
             12.6188444991545, 12.1739747363806, 15.1293426442183, 
             14.8885696185238)
 )
-dat_long
+dat_long_dt <- as.data.table(dat_long)
+dat_long_dt
 ```
 
 `data.table`'s long to wide procedure is defined with a convenient formula 
 notation:
 
 ```{r}
-dat_long_dt <- as.data.table(dat_long)
 dat_long2wide_dt <- dcast(dat_long_dt,
                           Account_ID + Age + Admission ~ Lab_key,
                           value.var = "Lab_value")
@@ -70,13 +70,16 @@ Another simple synthetic dataset:
 ```{r}
 dt_long <- data.table(
         ID = c(1L, 2L, 3L, 4L, 1L, 2L, 3L, 4L, 1L, 2L, 3L, 4L), 
-        Timepoint = structure(c(1L, 1L, 1L, 1L, 2L, 2L, 2L, 
-        2L, 3L, 3L, 3L, 3L), levels = c("Timepoint_A", "Timepoint_B", 
-        "Timepoint_C"), class = "factor"), 
+        Timepoint = factor(
+                c(1L, 1L, 1L, 1L, 2L, 2L, 2L, 2L, 3L, 3L, 3L, 3L),
+                labels = c("Timepoint_A", "Timepoint_B", "Timepoint_C")
+        ), 
         Score = c(11L, 12L, 13L, 14L, 21L, 22L, 23L, 24L, 51L, 52L, 53L, 54L)
 )
 dt_long
 ```
+
+Using `dcast()` again to convert to wide format:
 
 ```{r}
 dt_long
@@ -103,7 +106,7 @@ dt_long2[sample(24, size = 4), Var2 := NA]
 dt_long2
 ```
 
-If you wanted to convert the above data.table to wide format and get mean AM 
+To convert the above data.table to wide format and get mean AM 
 and PM values using the `fun.aggregate` argument:
 
 ```{r}
@@ -139,6 +142,8 @@ dt_wide <- data.table(
 dt_wide
 ```
 
+Use `melt()` to convert from wide to long format:
+
 ```{r}
 dt_long <- melt(
         dt_wide, 
@@ -167,6 +172,7 @@ dt_wide <- data.table(
 dt_wide
 ```
 
+Convert from wide to long format using `melt()` again:
 ```{r}
 dt_long <- melt(dt_wide,
                 id.vars = c(1:2, 7),

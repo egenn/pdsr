@@ -1,0 +1,293 @@
+---
+knitr:
+  opts_chunk: 
+    comment: ''
+---
+# Polars {#sec-polars}
+
+The Polars R package exports two environments that host most of the API: `pl` and `cs`. To access functions and objects in these environments, use the `$` operator. `pl` provides the main polars DataFrame operations, allowing you to filter, select, and operate on polars DataFrame. `cs` includes column selectors, like selecting columns by name patterns, type, etc.
+
+```{r}
+library(polars)
+```
+
+## Read a CSV file
+
+Use the `read_csv()` function within the `pl` environment to read a CSV file into a Polars DataFrame:
+
+```{r}
+dat <- pl$read_csv(
+  "../docs/data/heart_failure_clinical_records_dataset.csv",
+  infer_schema_length = 1000
+)
+dat
+```
+
+or use `scan_csv()` for lazy loading, followed by `collect()` to load into memory:
+
+```{r}
+#| eval: false
+dat <- pl$scan_csv(
+  "./docs/data/heart_failure_clinical_records_dataset.csv",
+  infer_schema_length = 1000
+)$collect()
+```
+
+:::callout-tip
+Lazy loading with `scan_csv()` is more memory efficient for large datasets,
+as it allows for deferred computation and optimizations, like filtering rows and selecting columns before loading the data into memory.
+:::
+
+## Convert types
+
+Let's convert columns with fewer than 5 unique values to factors.
+
+First, get n_unique for each column:
+
+```{r}
+dat$select(pl$all()$n_unique())
+```
+
+Can view the results transposed for easier reading:
+
+```{r}
+dat$select(pl$all()$n_unique())$transpose(include_header = TRUE)
+```
+
+In either case, the output is cropped.  
+We can get the names of columns with fewer than 5 unique values:
+
+```{r}
+to_factor <- names(dat)[dat$select(
+  pl$all()$n_unique() < 5
+)$transpose()$to_series()$to_r_vector()]
+to_factor
+```
+
+Convert identified columns to factors using `cast()` within a loop:
+
+```{r}
+for (col in to_factor) {
+  dat <- dat$with_columns(
+    pl$col(col)$cast(pl$String)$cast(pl$Categorical())
+  )
+}
+dat
+```
+
+## Filter
+
+To filter rows in a Polars DataFrame, use the `filter()` method along with column expressions from the `pl` environment.
+
+Single condition:
+
+```{r}
+dat$filter(pl$col("age") > 60)
+```
+
+Multiple conditions:
+
+```{r}
+dat$filter(
+  (pl$col("age") > 60) & 
+  (pl$col("anaemia") == "1")
+)
+```
+
+## Select
+
+### By column names
+
+```{r}
+dat$select("age", "diabetes", "ejection_fraction")
+```
+
+### By column index
+
+```{r}
+dat$select(pl$nth(c(7, 9)))
+```
+
+```{r}
+dat$select(pl$nth(c(7:9)))
+```
+
+### By name pattern matching
+
+```{r}
+dat$select(cs$starts_with("serum_"))
+```
+
+```{r}
+dat$select(cs$ends_with("_fraction"))
+```
+
+### By data type
+
+For example, to select all numeric columns:
+
+```{r}
+dat$select(cs$numeric())
+```
+
+## Count
+
+Count the number of smokers over age 60 by sex:
+
+Here, we filter based on two conditions, group_by sex, and then aggregate using `len()` to count the number of rows in each group.
+
+```{r}
+dat$
+  filter(pl$col("smoking") == "1", pl$col("age") > 60)$
+  group_by("sex")$
+  agg(
+    N = pl$len()
+  )
+```
+
+Another way would be to use `value_counts()` after filtering, but this does not return the count as a separate column:
+
+```{r}
+dat$filter(
+  (pl$col("smoking") == "1") & 
+  (pl$col("age") > 60)
+)$select(pl$col("sex")$value_counts())
+```
+
+## Summarize
+
+To get the mean age, we can use the `mean()` function on the age column:
+
+```{r}
+dat$select(
+  pl$col("age")$mean()
+)
+```
+
+It is good practice to give the resulting column a meaningful name using `alias()`:
+
+```{r}
+dat$select(
+  pl$col("age")$mean()$alias("Mean_Age")
+)
+```
+
+```{r}
+dat$select(
+  pl$col("age")$mean()$alias("Mean_Age"),
+  pl$col("ejection_fraction")$mean()$alias("Mean_Ejection_Fraction")
+)
+```
+
+### Grouped summarize
+
+```{r}
+dat$group_by("sex")$agg(
+  pl$col("age")$mean()$alias("Mean_Age")
+)
+```
+
+You can name arguments in `group_by()` to give the grouping variable a different name in the output:
+
+```{r}
+dat$group_by(Sex = "sex")$agg(
+  pl$col("age")$mean()$alias("Mean_Age")
+)
+```
+
+Group by multiple variables:
+
+```{r}
+dat$group_by(Smoking = "smoking", Anaemia = "anaemia")$agg(
+  pl$col("age")$mean()$alias("Mean_Age"),
+  pl$col("serum_sodium")$mean()$alias("Mean_Serum_Sodium")
+)
+```
+
+## Sort
+
+Select age, sex, and serum_sodium columns and sort by age in ascending order:
+
+```{r}
+dat$select(
+  pl$col("age", "sex", "serum_sodium")
+)$sort("age")
+```
+
+## Slice
+
+`top_k()` and `bottom_k()` methods allow you to retrieve the top or bottom k rows based on a specified column.
+
+Return the row with the highest ejection_fraction value:
+
+```{r}
+dat$top_k(1, by = "ejection_fraction")
+```
+
+Return 10 rows with the lowest age values:
+
+```{r}
+dat$bottom_k(10, by = "age")
+```
+
+By contrast, if you want to return all rows with the minimum age, you would use `filter()`:
+
+```{r}
+dat$filter(pl$col("age") == pl$col("age")$min())
+```
+
+## Relocate
+
+To change order of columns, you can use the `select()` method.  
+For example, move the `sex` column after the `age` column:
+
+```{r}
+dat$select("age", "sex", pl$all()$exclude("age", "sex"))
+```
+
+## Append new columns
+
+To create a new column, use the `with_columns()` method. For example, to create a new column with age in days:
+
+```{r}
+dat <- dat$with_columns(
+  (pl$col("age") * 365)$alias("Age_days")
+)
+dat["Age_days"]
+```
+
+### By group
+
+To create a new column using a grouped operation, use the `over()` method. For example, to create a column with demeaned serum_sodium by sex:
+
+```{r}
+dat <- dat$with_columns(
+  demeaned_sodium_bysex = (pl$col("serum_sodium") -
+    pl$col("serum_sodium")$mean()$over("sex"))
+)
+
+```
+
+## Rename columns
+
+Use the `rename()` method to rename columns. For example, to rename the `DEATH_EVENT` column to `Mortality`:
+
+```{r}
+dat <- dat$rename(
+  DEATH_EVENT = "Mortality"
+)
+```
+
+:::callout-important
+Note that the syntax is `old_name = new_name`.
+This is the opposite of `dplyr`'s `rename()` function.
+:::
+
+## Resources
+
+- [R Polars Documentation](https://pola-rs.github.io/r-polars/)
+
+## See also
+
+- [data.table](#sec-datatable)
+- [dplyr](#sec-dplyr)

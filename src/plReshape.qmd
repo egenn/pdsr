@@ -1,0 +1,176 @@
+---
+knitr:
+  opts_chunk:
+    comment: ""
+lightbox: true
+---
+# Reshaping {#sec-dtreshape}
+
+```{r}
+library(polars)
+```
+
+## Long to wide using `pivot()`
+
+### Example 1: key-value pairs
+
+Using the same example seen in @sec-dfreshape, we start by showing `as_polars_df()` to convert a data.frame to a polars DataFrame:
+
+```{r}
+df_long <- data.frame(
+    Account_ID = as.integer(c(8001, 8002, 8003, 8004, 8001, 8002, 8003, 8004, 
+            8001, 8002, 8003, 8004, 8001, 8002, 8003, 8004)), 
+    Age = c(67.8017038366664, 42.9198507293701, 46.2301756642422, 
+            39.665983196671, 67.8017038366664, 42.9198507293701, 
+            46.2301756642422, 39.665983196671, 67.8017038366664, 
+            42.9198507293701, 46.2301756642422, 39.665983196671, 
+            67.8017038366664, 42.9198507293701, 46.2301756642422, 
+            39.665983196671), 
+    Admission = c("ED", "Planned", "Planned", "ED", "ED", "Planned", 
+            "Planned", "ED", "ED", "Planned", "Planned", "ED", "ED", "Planned", 
+            "Planned", "ED"), 
+    Lab_key = c("RBC", "RBC", "RBC", "RBC", "WBC", "WBC", "WBC", "WBC", 
+            "Hematocrit", "Hematocrit", "Hematocrit", "Hematocrit", 
+            "Hemoglobin", "Hemoglobin", "Hemoglobin", "Hemoglobin"), 
+    Lab_value = c(4.63449321082268, 3.34968550627897, 4.27037213597765, 
+            4.93897736897793, 8374.22887757195, 7612.37380499927, 
+            8759.27855519425, 6972.28096216548, 36.272693147236, 
+            40.5716317809522, 39.9888624177955, 39.8786884058422, 
+            12.6188444991545, 12.1739747363806, 15.1293426442183, 
+            14.8885696185238)
+)
+pl_long <- as_polars_df(df_long)
+pl_long
+```
+
+Polars provides the `pivot()` function to reshape data from long to wide format:
+
+```{r}
+pl_wide <- pl_long$pivot(
+  values = "Lab_value",
+  index = c("Account_ID", "Age", "Admission"),
+  on = "Lab_key"
+)
+pl_wide
+```
+
+### Example 2: Timepoints
+
+Another simple synthetic dataset, this time using `pl$DataFrame()` to create a polars DataFrame directly:
+
+```{r}
+pl_long <- pl$DataFrame(
+  ID = c(1L, 2L, 3L, 4L, 1L, 2L, 3L, 4L, 1L, 2L, 3L, 4L),
+  Timepoint = factor(
+    c(1L, 1L, 1L, 1L, 2L, 2L, 2L, 2L, 3L, 3L, 3L, 3L),
+    labels = c("Timepoint_A", "Timepoint_B", "Timepoint_C")
+  ),
+  Score = c(11L, 12L, 13L, 14L, 21L, 22L, 23L, 24L, 51L, 52L, 53L, 54L)
+)
+pl_long
+```
+
+Using the `pivot()` function again:
+
+```{r}
+pl_wide <- pl_long$pivot(
+  values = "Score",
+  index = "ID",
+  on = "Timepoint"
+)
+pl_wide
+```
+
+### `pivot()` + aggregate
+
+If your data contains multiple entries for the same combination of index and column values, you can use the `aggregate_function` argument to specify how to aggregate these values. 
+
+For example, suppose you have four subjects with IDs "A", "B", "C", "D" who had 
+a couple variables measured 3 times in the AM and 3 times in the PM.
+
+```{r}
+pl_long <- pl$DataFrame(
+  ID = rep(LETTERS[1:4], each = 6),
+  Timepoint = rep(c("AM", "PM"), length.out = 24, each = 3),
+  Var1 = rnorm(24, mean = 10),
+  Var2 = rnorm(24, mean = 20)
+)
+pl_long
+```
+
+To convert the above DataFrame to wide format and get mean AM 
+and PM values using the `aggregate_function` argument:
+
+```{r}
+pl_wide <- pl_long$pivot(
+  values = c("Var1", "Var2"),
+  index = "ID",
+  on = "Timepoint",
+  aggregate_function = "mean"
+)
+pl_wide
+```
+
+:::callout-important
+Here, "mean" is a convenience string that is equivalent to the more verbose pl$element()$mean(). Other convenience strings include "first", "last", "min", "max", "median", "sum", and "count".
+:::
+
+## Wide to long using `unpivot()`
+
+### Example 1: Timepoints
+
+```{r}
+pl_wide <- pl$DataFrame(
+    ID = 1:4,
+    Timepoint_A = 11:14,
+    Timepoint_B = 21:24,
+    Timepoint_C = 51:54
+)
+pl_wide
+```
+
+Use `unpivot()` to convert from wide to long format:
+
+```{r}
+pl_long <- pl_wide$unpivot(
+  index = "ID",
+  on = c("Timepoint_A", "Timepoint_B", "Timepoint_C"),
+  variable_name = "Timepoint",
+  value_name = "Score"
+)
+pl_long
+```
+
+### Example 2: Key-value pairs
+
+Using the same synthetic data as in @sec-dfreshape:
+
+```{r}
+set.seed(2022)
+pl_wide <- pl$DataFrame(
+  Account_ID = c(8001, 8002, 8003, 8004),
+  Age = rnorm(4, mean = 57, sd = 12),
+  RBC = rnorm(4, mean = 4.8, sd = 0.5),
+  WBC = rnorm(4, mean = 7250, sd = 1500),
+  Hematocrit = rnorm(4, mean = 40.2, sd = 4),
+  Hemoglobin = rnorm(4, mean = 13.6, sd = 1.5),
+  Admission = sample(c("ED", "Planned"), size = 4, replace = TRUE)
+)
+pl_wide
+```
+
+Convert from wide to long format using `unpivot()` again:
+
+```{r}
+pl_long <- pl_wide$unpivot(
+  index = c("Account_ID", "Age", "Admission"),
+  on = c("RBC", "WBC", "Hematocrit", "Hemoglobin"),
+  variable_name = "Lab_key",
+  value_name = "Lab_value"
+)
+pl_long
+```
+
+### References
+
+[Polars reshape](https://pola-rs.github.io/r-polars/vignettes/polars.html#reshape)

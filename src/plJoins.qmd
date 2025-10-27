@@ -1,0 +1,142 @@
+---
+knitr:
+  opts_chunk:
+    comment: ""
+lightbox: true
+---
+# Joins {#sec-pljoin}
+
+```{r}
+library(polars)
+```
+
+Scenario: You have received two tables with clinical data. Each table contains 
+a column with a unique identifier (ID) plus a number of variables which are 
+unique to each table. You want to merge them into one big table so that for 
+each ID you have all available variables. You want to make sure that the same 
+ID number (e.g. 108) corresponds to the same case in both datasets, but not all 
+IDs needs to be present in both datasets.
+
+Using the same synthetic data as in @sec-dfjoin, we start by creating two polars DataFrames:
+
+```{r}
+a <- pl$DataFrame(
+  PID = 101:109,
+  Hospital = c(
+    "UCSF", "HUP", "Stanford",
+    "Stanford", "UCSF", "HUP",
+    "HUP", "Stanford", "UCSF"
+  ),
+  Age = c(22, 34, 41, 19, 53, 21, 63, 22, 19),
+  Sex = as_polars_series(factor(c(1, 1, 0, 1, 0, 0, 1, 0, 0)))
+)
+a
+```
+
+```{r}
+b <- pl$DataFrame(
+  PID = 106:112,
+  V1 = c(153, 89, 112, 228,  91, 190, 101),
+  Department = c("Neurology", "Radiology",
+                "Emergency", "Cardiology",
+                "Surgery", "Neurology", "Psychiatry")
+)
+b
+```
+
+## Inner join
+
+using the `join()` method of a polars DataFrame:
+
+```{r}
+ab_inner <- a$join(b, on = "PID", how = "inner")
+ab_inner
+```
+
+Note that base R `merge()` also works on polars DataFrames, but returns a data.frame:
+
+```{r}
+merge(a, b, by = "PID")
+```
+
+## Outer join
+
+An outer join can be performed by specifying `how = "full"` and `coalesce = TRUE` in the `join()` method:
+
+```{r}
+ab_outer <- a$join(b, on = "PID", how = "full", coalesce = TRUE)
+ab_outer
+```
+
+Without `coalesce = TRUE`, a `PID_right` column would be created:
+
+```{r}
+ab_outer_no_coalesce <- a$join(b, on = "PID", how = "full", coalesce = FALSE)
+ab_outer_no_coalesce
+```
+
+Note that the resulting DataFrame contains ***all cases present in either input datasets*** and missing values are filled in where data is not available using `null`.
+
+## Left outer join
+
+You can perform a left outer join by specifying `how = "left"` in the `join()` method:
+
+```{r}
+ab_left <- a$join(b, on = "PID", how = "left")
+ab_left
+```
+
+Note that the resulting DataFrame contains
+***all cases present in the left input dataset*** (i.e. the one defined first
+in the arguments) only.
+
+## Right outer join
+
+You can perform a right outer join by specifying `how = "right"` in the `join()` method:
+
+```{r}
+ab_right <- a$join(b, on = "PID", how = "right")
+ab_right
+```
+
+## Specifying columns
+
+If the ID columns in the two input DataFrames have different names, you can specify them using the `left_on` and `right_on` arguments:
+
+```{r}
+a <- pl$DataFrame(
+  PID = 101:109,
+  Hospital = c(
+    "UCSF", "HUP", "Stanford",
+    "Stanford", "UCSF", "HUP",
+    "HUP", "Stanford", "UCSF"
+  ),
+  Age = c(22, 34, 41, 19, 53, 21, 63, 22, 19),
+  Sex = factor(c(1, 1, 0, 1, 0, 0, 1, 0, 0))
+)
+a
+```
+
+```{r}
+b <- pl$DataFrame(
+  PatientID = 106:112,
+  V1 = c(153, 89, 112, 228, 91, 190, 101),
+  Department = c(
+    "Neurology", "Radiology",
+    "Emergency", "Cardiology",
+    "Surgery", "Neurology", "Psychiatry"
+  )
+)
+b
+```
+
+```{r}
+ab_inner <- a$join(b, left_on = "PID", right_on = "PatientID", how = "inner")
+ab_inner
+```
+
+## See also
+
+- [base R joins](#sec-dfjoin)
+- [data.table joins](#sec-dtjoin)
+- [dplyr joins](#sec-dplyrjoin)

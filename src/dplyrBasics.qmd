@@ -127,7 +127,7 @@ dat |>
 
 ```{r}
 dat |> 
-    select(ends_with("fraction"))
+    select(ends_with("_fraction"))
 ```
 
 ## Count
@@ -291,17 +291,6 @@ dat <- dat |>
 dat["Age_days"]
 ```
 
-## Rename
-
-Rename the `DEATH_EVENT` to `Mortality`:
-
-```{r}
-dat <- dat |> 
-    rename(Mortality = DEATH_EVENT)
-
-names(dat)
-```
-
 ### Mutate by group
 
 ```{r}
@@ -322,6 +311,17 @@ Inspect the new column:
 ```{r}
 dat |> 
     select(sex, serum_sodium, demeaned_sodium_bysex)
+```
+
+## Rename
+
+Rename the `DEATH_EVENT` to `Mortality`:
+
+```{r}
+dat <- dat |> 
+    rename(Mortality = DEATH_EVENT)
+
+names(dat)
 ```
 
 ## Specifying multiple columns

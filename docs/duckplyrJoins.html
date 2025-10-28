@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.8.25">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>13&nbsp; Read and Write Excel Data – PDSR</title>
+<title>45&nbsp; Joins – PDSR</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -61,8 +61,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./dtDataIO.html" rel="next">
-<link href="./baseDataIO.html" rel="prev">
+<link href="./Polars.html" rel="next">
+<link href="./duckplyrReshape.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -298,7 +298,7 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./DataIO.html">Data Input/Output</a></li><li class="breadcrumb-item"><a href="./xlsxIO.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Read and Write Excel Data</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./duckplyr.html">duckplyr</a></li><li class="breadcrumb-item"><a href="./duckplyrJoins.html"><span class="chapter-number">45</span>&nbsp; <span class="chapter-title">Joins</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -415,7 +415,7 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./xlsxIO.html" class="sidebar-item-text sidebar-link active">
+  <a href="./xlsxIO.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Read and Write Excel Data</span></span></a>
   </div>
 </li>
@@ -662,7 +662,7 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./duckplyrJoins.html" class="sidebar-item-text sidebar-link">
+  <a href="./duckplyrJoins.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">45</span>&nbsp; <span class="chapter-title">Joins</span></span></a>
   </div>
 </li>
@@ -840,24 +840,17 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
         <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
    
   <ul>
-<li>
-<a href="#read-.xslx" id="toc-read-.xslx" class="nav-link active" data-scroll-target="#read-.xslx"><span class="header-section-number">13.1</span> Read .xslx</a>
-  <ul class="collapse">
-<li><a href="#openxlsxread.xlsx" id="toc-openxlsxread.xlsx" class="nav-link" data-scroll-target="#openxlsxread.xlsx"><span class="header-section-number">13.1.1</span> <code>openxlsx::read.xlsx()</code></a></li>
-  <li><a href="#readxlread_xlsx" id="toc-readxlread_xlsx" class="nav-link" data-scroll-target="#readxlread_xlsx"><span class="header-section-number">13.1.2</span> <code>readxl::read_xlsx()</code></a></li>
-  </ul>
-</li>
-  <li>
-<a href="#write-.xlsx" id="toc-write-.xlsx" class="nav-link" data-scroll-target="#write-.xlsx"><span class="header-section-number">13.2</span> Write .xlsx</a>
-  <ul class="collapse">
-<li><a href="#openxlsxwrite.xlsx" id="toc-openxlsxwrite.xlsx" class="nav-link" data-scroll-target="#openxlsxwrite.xlsx"><span class="header-section-number">13.2.1</span> <code>openxlsx::write.xlsx()</code></a></li>
-  </ul>
-</li>
+<li><a href="#inner-join" id="toc-inner-join" class="nav-link active" data-scroll-target="#inner-join"><span class="header-section-number">45.1</span> Inner join</a></li>
+  <li><a href="#outer-join" id="toc-outer-join" class="nav-link" data-scroll-target="#outer-join"><span class="header-section-number">45.2</span> Outer join</a></li>
+  <li><a href="#left-outer-join" id="toc-left-outer-join" class="nav-link" data-scroll-target="#left-outer-join"><span class="header-section-number">45.3</span> Left outer join</a></li>
+  <li><a href="#right-outer-join" id="toc-right-outer-join" class="nav-link" data-scroll-target="#right-outer-join"><span class="header-section-number">45.4</span> Right outer join</a></li>
+  <li><a href="#specifying-columns" id="toc-specifying-columns" class="nav-link" data-scroll-target="#specifying-columns"><span class="header-section-number">45.5</span> Specifying columns</a></li>
+  <li><a href="#see-also" id="toc-see-also" class="nav-link" data-scroll-target="#see-also"><span class="header-section-number">45.6</span> See also</a></li>
   </ul><div class="toc-actions"><ul><li><a href="https://github.com/egenn/pdsr/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./DataIO.html">Data Input/Output</a></li><li class="breadcrumb-item"><a href="./xlsxIO.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Read and Write Excel Data</span></a></li></ol></nav><div class="quarto-title">
-<h1 class="title"><span id="sec-xlsxio" class="quarto-section-identifier"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Read and Write Excel Data</span></span></h1>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./duckplyr.html">duckplyr</a></li><li class="breadcrumb-item"><a href="./duckplyrJoins.html"><span class="chapter-number">45</span>&nbsp; <span class="chapter-title">Joins</span></a></li></ol></nav><div class="quarto-title">
+<h1 class="title"><span id="sec-dplyrjoin" class="quarto-section-identifier"><span class="chapter-number">45</span>&nbsp; <span class="chapter-title">Joins</span></span></h1>
 </div>
 
 
@@ -871,39 +864,283 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
   
 
 
-</header><p>Two popular packages to read Excel <code>.xlsx</code> files in R are:</p>
+</header><div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://duckplyr.tidyverse.org">duckplyr</a></span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: dplyr</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The duckplyr package is configured to fall back to dplyr when it encounters an
+incompatibility. Fallback events can be collected and uploaded for analysis to
+guide future development. By default, data will be collected but no data will
+be uploaded.
+ℹ Automatic fallback uploading is not controlled and therefore disabled, see
+  `?duckplyr::fallback()`.
+✔ Number of reports ready for upload: 6.
+→ Review with `duckplyr::fallback_review()`, upload with
+  `duckplyr::fallback_upload()`.
+ℹ Configure automatic uploading with `duckplyr::fallback_config()`.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ Overwriting dplyr methods with duckplyr methods.
+ℹ Turn off with `duckplyr::methods_restore()`.</code></pre>
+</div>
+</div>
+<p><code>duckplyr</code> supports the dplyr commands for performing table joins:</p>
 <ul>
-<li><a href="https://cran.r-project.org/package=openxlsx"><strong>openxlsx</strong></a></li>
-<li><a href="https://cran.r-project.org/package=readxl"><strong>readxl</strong></a></li>
+<li>
+<code><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">inner_join()</a></code> for inner joins</li>
+<li>
+<code><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join()</a></code> for left outer joins</li>
+<li>
+<code><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">right_join()</a></code> for right outer joins</li>
+<li>
+<code><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">full_join()</a></code> for outer joins</li>
 </ul>
-<section id="read-.xslx" class="level2" data-number="13.1"><h2 data-number="13.1" class="anchored" data-anchor-id="read-.xslx">
-<span class="header-section-number">13.1</span> Read .xslx</h2>
-<section id="openxlsxread.xlsx" class="level3" data-number="13.1.1"><h3 data-number="13.1.1" class="anchored" data-anchor-id="openxlsxread.xlsx">
-<span class="header-section-number">13.1.1</span> <code>openxlsx::read.xlsx()</code>
-</h3>
-<p><code>NA</code> strings are defined with argument <code>na.strings</code>.</p>
+<p>Using the same example data as in the base R example (<a href="dfJoins.html" class="quarto-xref"><span>Chapter 27</span></a>):</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">bcw</span> <span class="op">&lt;-</span> <span class="fu">openxlsx</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/openxlsx/man/read.xlsx.html">read.xlsx</a></span><span class="op">(</span><span class="st">"../Data/bcw.xlsx"</span>, na.strings <span class="op">=</span> <span class="st">"."</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://duckplyr.tidyverse.org/reference/duckdb_tibble.html">duckdb_tibble</a></span><span class="op">(</span></span>
+<span>  PID <span class="op">=</span> <span class="fl">101</span><span class="op">:</span><span class="fl">109</span>,</span>
+<span>  Hospital <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span></span>
+<span>    <span class="st">"UCSF"</span>, <span class="st">"HUP"</span>, <span class="st">"Stanford"</span>,</span>
+<span>    <span class="st">"Stanford"</span>, <span class="st">"UCSF"</span>, <span class="st">"HUP"</span>,</span>
+<span>    <span class="st">"HUP"</span>, <span class="st">"Stanford"</span>, <span class="st">"UCSF"</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  Age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">22</span>, <span class="fl">34</span>, <span class="fl">41</span>, <span class="fl">19</span>, <span class="fl">53</span>, <span class="fl">21</span>, <span class="fl">63</span>, <span class="fl">22</span>, <span class="fl">19</span><span class="op">)</span>,</span>
+<span>  Sex <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">a</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A duckplyr data frame: 4 variables
+    PID Hospital   Age   Sex
+  &lt;int&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt;
+1   101 UCSF        22     1
+2   102 HUP         34     1
+3   103 Stanford    41     0
+4   104 Stanford    19     1
+5   105 UCSF        53     0
+6   106 HUP         21     0
+7   107 HUP         63     1
+8   108 Stanford    22     0
+9   109 UCSF        19     0</code></pre>
 </div>
-</section><section id="readxlread_xlsx" class="level3" data-number="13.1.2"><h3 data-number="13.1.2" class="anchored" data-anchor-id="readxlread_xlsx">
-<span class="header-section-number">13.1.2</span> <code>readxl::read_xlsx()</code>
-</h3>
-<p><code>NA</code> strings are defined with argument <code>na</code>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="va">a</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 9 4</code></pre>
+</div>
+</div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">bcw</span> <span class="op">&lt;-</span> <span class="fu">readxl</span><span class="fu">::</span><span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_xlsx</a></span><span class="op">(</span><span class="st">"../Data/bcw.xlsx"</span>, na <span class="op">=</span> <span class="st">"."</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://duckplyr.tidyverse.org/reference/duckdb_tibble.html">duckdb_tibble</a></span><span class="op">(</span></span>
+<span>  PID <span class="op">=</span> <span class="fl">106</span><span class="op">:</span><span class="fl">112</span>,</span>
+<span>  V1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">153</span>, <span class="fl">89</span>, <span class="fl">112</span>, <span class="fl">228</span>, <span class="fl">91</span>, <span class="fl">190</span>, <span class="fl">101</span><span class="op">)</span>,</span>
+<span>  Department <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span></span>
+<span>    <span class="st">"Neurology"</span>, <span class="st">"Radiology"</span>,</span>
+<span>    <span class="st">"Emergency"</span>, <span class="st">"Cardiology"</span>,</span>
+<span>    <span class="st">"Surgery"</span>, <span class="st">"Neurology"</span>, <span class="st">"Psychiatry"</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 7 3</code></pre>
 </div>
-</section></section><section id="write-.xlsx" class="level2" data-number="13.2"><h2 data-number="13.2" class="anchored" data-anchor-id="write-.xlsx">
-<span class="header-section-number">13.2</span> Write .xlsx</h2>
-<section id="openxlsxwrite.xlsx" class="level3" data-number="13.2.1"><h3 data-number="13.2.1" class="anchored" data-anchor-id="openxlsxwrite.xlsx">
-<span class="header-section-number">13.2.1</span> <code>openxlsx::write.xlsx()</code>
-</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">b</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A duckplyr data frame: 3 variables
+    PID    V1 Department
+  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;     
+1   106   153 Neurology 
+2   107    89 Radiology 
+3   108   112 Emergency 
+4   109   228 Cardiology
+5   110    91 Surgery   
+6   111   190 Neurology 
+7   112   101 Psychiatry</code></pre>
+</div>
+</div>
+<section id="inner-join" class="level2" data-number="45.1"><h2 data-number="45.1" class="anchored" data-anchor-id="inner-join">
+<span class="header-section-number">45.1</span> Inner join</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">openxlsx</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/openxlsx/man/write.xlsx.html">write.xlsx</a></span><span class="op">(</span><span class="va">bcw</span>, <span class="st">"../Data/bcw.xlsx"</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ab_inner</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">inner_join</a></span><span class="op">(</span><span class="va">a</span>, <span class="va">b</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Joining with `by = join_by(PID)`</code></pre>
 </div>
-<p>Note: The <code>readxl</code> package does not include a function to write .XLSX files.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ab_inner</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A duckplyr data frame: 6 variables
+    PID Hospital   Age   Sex    V1 Department
+  &lt;int&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;     
+1   106 HUP         21     0   153 Neurology 
+2   107 HUP         63     1    89 Radiology 
+3   108 Stanford    22     0   112 Emergency 
+4   109 UCSF        19     0   228 Cardiology</code></pre>
+</div>
+</div>
+<p>Note that the resulting table only contains <strong><em>cases found in both datasets</em></strong>, i.e.&nbsp;IDs 106 through 109</p>
+</section><section id="outer-join" class="level2" data-number="45.2"><h2 data-number="45.2" class="anchored" data-anchor-id="outer-join">
+<span class="header-section-number">45.2</span> Outer join</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ab_outer</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">full_join</a></span><span class="op">(</span><span class="va">a</span>, <span class="va">b</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Joining with `by = join_by(PID)`</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ab_outer</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A duckplyr data frame: 6 variables
+     PID Hospital   Age   Sex    V1 Department
+   &lt;int&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;     
+ 1   106 HUP         21     0   153 Neurology 
+ 2   107 HUP         63     1    89 Radiology 
+ 3   108 Stanford    22     0   112 Emergency 
+ 4   109 UCSF        19     0   228 Cardiology
+ 5   101 UCSF        22     1    NA &lt;NA&gt;      
+ 6   102 HUP         34     1    NA &lt;NA&gt;      
+ 7   103 Stanford    41     0    NA &lt;NA&gt;      
+ 8   104 Stanford    19     1    NA &lt;NA&gt;      
+ 9   105 UCSF        53     0    NA &lt;NA&gt;      
+10   110 &lt;NA&gt;        NA    NA    91 Surgery   
+11   112 &lt;NA&gt;        NA    NA   101 Psychiatry
+12   111 &lt;NA&gt;        NA    NA   190 Neurology </code></pre>
+</div>
+</div>
+<p>Note that the resulting data frame contains <strong><em>all cases found in either dataset</em></strong> and missing values are represented with <code>NA</code>.</p>
+</section><section id="left-outer-join" class="level2" data-number="45.3"><h2 data-number="45.3" class="anchored" data-anchor-id="left-outer-join">
+<span class="header-section-number">45.3</span> Left outer join</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ab_leftOuter</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">a</span>, <span class="va">b</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Joining with `by = join_by(PID)`</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ab_leftOuter</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A duckplyr data frame: 6 variables
+    PID Hospital   Age   Sex    V1 Department
+  &lt;int&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;     
+1   106 HUP         21     0   153 Neurology 
+2   107 HUP         63     1    89 Radiology 
+3   108 Stanford    22     0   112 Emergency 
+4   109 UCSF        19     0   228 Cardiology
+5   101 UCSF        22     1    NA &lt;NA&gt;      
+6   102 HUP         34     1    NA &lt;NA&gt;      
+7   103 Stanford    41     0    NA &lt;NA&gt;      
+8   104 Stanford    19     1    NA &lt;NA&gt;      
+9   105 UCSF        53     0    NA &lt;NA&gt;      </code></pre>
+</div>
+</div>
+<p>Note that the resulting data frame contains <strong><em>all cases present in the left input dataset</em></strong> (i.e.&nbsp;the one defined first in the arguments) only.</p>
+</section><section id="right-outer-join" class="level2" data-number="45.4"><h2 data-number="45.4" class="anchored" data-anchor-id="right-outer-join">
+<span class="header-section-number">45.4</span> Right outer join</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ab_rightOuter</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">right_join</a></span><span class="op">(</span><span class="va">a</span>, <span class="va">b</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Joining with `by = join_by(PID)`</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ab_rightOuter</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A duckplyr data frame: 6 variables
+    PID Hospital   Age   Sex    V1 Department
+  &lt;int&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;     
+1   106 HUP         21     0   153 Neurology 
+2   107 HUP         63     1    89 Radiology 
+3   108 Stanford    22     0   112 Emergency 
+4   109 UCSF        19     0   228 Cardiology
+5   110 &lt;NA&gt;        NA    NA    91 Surgery   
+6   112 &lt;NA&gt;        NA    NA   101 Psychiatry
+7   111 &lt;NA&gt;        NA    NA   190 Neurology </code></pre>
+</div>
+</div>
+<p>Note how the resulting data frame contains <strong><em>all cases present in the right input dataset</em></strong> (i.e.&nbsp;the one defined second in the arguments) only.</p>
+</section><section id="specifying-columns" class="level2" data-number="45.5"><h2 data-number="45.5" class="anchored" data-anchor-id="specifying-columns">
+<span class="header-section-number">45.5</span> Specifying columns</h2>
+<p>If the ID columns in the two data.frames to be merged do not have the same name, you can specify column names using the <code>by</code> argument with a slightly peculiar syntax: <code>c("left_by" = "right_by")</code></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://duckplyr.tidyverse.org/reference/duckdb_tibble.html">duckdb_tibble</a></span><span class="op">(</span></span>
+<span>  PID <span class="op">=</span> <span class="fl">101</span><span class="op">:</span><span class="fl">109</span>,</span>
+<span>  Hospital <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span></span>
+<span>    <span class="st">"UCSF"</span>, <span class="st">"HUP"</span>, <span class="st">"Stanford"</span>,</span>
+<span>    <span class="st">"Stanford"</span>, <span class="st">"UCSF"</span>, <span class="st">"HUP"</span>,</span>
+<span>    <span class="st">"HUP"</span>, <span class="st">"Stanford"</span>, <span class="st">"UCSF"</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  Age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">22</span>, <span class="fl">34</span>, <span class="fl">41</span>, <span class="fl">19</span>, <span class="fl">53</span>, <span class="fl">21</span>, <span class="fl">63</span>, <span class="fl">22</span>, <span class="fl">19</span><span class="op">)</span>,</span>
+<span>  Sex <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">a</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A duckplyr data frame: 4 variables
+    PID Hospital   Age   Sex
+  &lt;int&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt;
+1   101 UCSF        22     1
+2   102 HUP         34     1
+3   103 Stanford    41     0
+4   104 Stanford    19     1
+5   105 UCSF        53     0
+6   106 HUP         21     0
+7   107 HUP         63     1
+8   108 Stanford    22     0
+9   109 UCSF        19     0</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://duckplyr.tidyverse.org/reference/duckdb_tibble.html">duckdb_tibble</a></span><span class="op">(</span></span>
+<span>  PatientID <span class="op">=</span> <span class="fl">106</span><span class="op">:</span><span class="fl">112</span>,</span>
+<span>  V1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">153</span>, <span class="fl">89</span>, <span class="fl">112</span>, <span class="fl">228</span>, <span class="fl">91</span>, <span class="fl">190</span>, <span class="fl">101</span><span class="op">)</span>,</span>
+<span>  Department <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span></span>
+<span>    <span class="st">"Neurology"</span>, <span class="st">"Radiology"</span>,</span>
+<span>    <span class="st">"Emergency"</span>, <span class="st">"Cardiology"</span>,</span>
+<span>    <span class="st">"Surgery"</span>, <span class="st">"Neurology"</span>, <span class="st">"Psychiatry"</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">b</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A duckplyr data frame: 3 variables
+  PatientID    V1 Department
+      &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;     
+1       106   153 Neurology 
+2       107    89 Radiology 
+3       108   112 Emergency 
+4       109   228 Cardiology
+5       110    91 Surgery   
+6       111   190 Neurology 
+7       112   101 Psychiatry</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ab_inner</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">inner_join</a></span><span class="op">(</span><span class="va">a</span>, <span class="va">b</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"PID"</span> <span class="op">=</span> <span class="st">"PatientID"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">ab_inner</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A duckplyr data frame: 6 variables
+    PID Hospital   Age   Sex    V1 Department
+  &lt;int&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;     
+1   106 HUP         21     0   153 Neurology 
+2   107 HUP         63     1    89 Radiology 
+3   108 Stanford    22     0   112 Emergency 
+4   109 UCSF        19     0   228 Cardiology</code></pre>
+</div>
+</div>
+</section><section id="see-also" class="level2" data-number="45.6"><h2 data-number="45.6" class="anchored" data-anchor-id="see-also">
+<span class="header-section-number">45.6</span> See also</h2>
+<ul>
+<li><a href="dfJoins.html">base R joins</a></li>
+<li><a href="dtJoins.html">data.table joins</a></li>
+<li><a href="#sec-dplyrjoin">dplyr joins</a></li>
+<li><a href="plJoins.html">Polars joins</a></li>
+</ul>
 
 
-</section></section></main><!-- /main --><script>
+</section></main><!-- /main --><script>
 
 /* update total correct if #webex-total_correct exists */
 update_total_correct = function() {
@@ -1532,13 +1769,13 @@ window.onload = function() {
     }
   });
   </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
-      <a href="./baseDataIO.html" class="pagination-link" aria-label="Base Data I/O">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Base Data I/O</span></span>
+      <a href="./duckplyrReshape.html" class="pagination-link" aria-label="Reshaping (**tidyr**)">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">44</span>&nbsp; <span class="chapter-title">Reshaping (<strong>tidyr</strong>)</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./dtDataIO.html" class="pagination-link" aria-label="data.table Data I/O">
-        <span class="nav-page-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">data.table Data I/O</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./Polars.html" class="pagination-link" aria-label="Polars">
+        <span class="nav-page-text">Polars</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

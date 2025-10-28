@@ -8,10 +8,10 @@ lightbox: true
 # Joins {#sec-dplyrjoin}
 
 ```{r}
-library(dplyr)
+library(duckplyr)
 ```
 
-`dplyr` includes the following commands for performing table joins:
+`duckplyr` supports the dplyr commands for performing table joins:
 
 - `inner_join()` for inner joins
 - `left_join()` for left outer joins
@@ -21,24 +21,31 @@ library(dplyr)
 Using the same example data as in the base R example (@sec-dfjoin):
 
 ```{r}
-a <- tibble(
+a <- duckdb_tibble(
   PID = 101:109,
-  Hospital = c("UCSF", "HUP", "Stanford",
-                "Stanford", "UCSF", "HUP", 
-                "HUP", "Stanford", "UCSF"),
+  Hospital = c(
+    "UCSF", "HUP", "Stanford",
+    "Stanford", "UCSF", "HUP",
+    "HUP", "Stanford", "UCSF"
+  ),
   Age = c(22, 34, 41, 19, 53, 21, 63, 22, 19),
-  Sex = c(1, 1, 0, 1, 0, 0, 1, 0, 0))
+  Sex = c(1, 1, 0, 1, 0, 0, 1, 0, 0)
+)
 a
+dim(a)
 ```
 
 ```{r}
-b  <- tibble(
+b <- duckdb_tibble(
   PID = 106:112,
-  V1 = c(153, 89, 112, 228,  91, 190, 101),
-  Department = c("Neurology", "Radiology",
-                "Emergency", "Cardiology",
-                "Surgery", "Neurology", "Psychiatry")
+  V1 = c(153, 89, 112, 228, 91, 190, 101),
+  Department = c(
+    "Neurology", "Radiology",
+    "Emergency", "Cardiology",
+    "Surgery", "Neurology", "Psychiatry"
+  )
 )
+dim(b)
 b
 ```
 
@@ -92,12 +99,13 @@ not have the same name, you can specify column names using the `by` argument
 with a slightly peculiar syntax: `c("left_by" = "right_by")`
 
 ```{r}
-a <- tibble(
+a <- duckdb_tibble(
   PID = 101:109,
   Hospital = c(
     "UCSF", "HUP", "Stanford",
-    "Stanford", "UCSF", "HUP", 
-    "HUP", "Stanford", "UCSF"),
+    "Stanford", "UCSF", "HUP",
+    "HUP", "Stanford", "UCSF"
+  ),
   Age = c(22, 34, 41, 19, 53, 21, 63, 22, 19),
   Sex = c(1, 1, 0, 1, 0, 0, 1, 0, 0)
 )
@@ -105,9 +113,9 @@ a
 ```
 
 ```{r}
-b <- tibble(
+b <- duckdb_tibble(
   PatientID = 106:112,
-  V1 = c(153, 89, 112, 228,  91, 190, 101),
+  V1 = c(153, 89, 112, 228, 91, 190, 101),
   Department = c(
     "Neurology", "Radiology",
     "Emergency", "Cardiology",
@@ -126,3 +134,6 @@ ab_inner
 
 - [base R joins](#sec-dfjoin)
 - [data.table joins](#sec-dtjoin)
+- [dplyr joins](#sec-dplyrjoin)
+- [Polars joins](#sec-pljoin)
+

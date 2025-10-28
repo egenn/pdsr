@@ -3,12 +3,12 @@ knitr:
   opts_chunk: 
     comment: ''
 ---
-# dplyr basics {#sec-dplyr}
+# duckplyr basics {#sec-duckplyr}
 
-The [**dplyr**](https://dplyr.tidyverse.org/) package offers extensive functionality for 
+The [**duckplyr**](https://duckplyr.tidyverse.org/) package offers extensive functionality for 
 data manipulation.
 <br><br>
-dplyr's functions are named after verbs (like `filter`, `select`, etc.) and are commonly
+duckplyr's functions are named after verbs (like `filter`, `select`, etc.) and are commonly
 used with the pipe operator to build pipelines. The package offers a large number of 
 functions in total, often with multiple versions of the same "verb". It has 
 undergone many major changes since its introduction, so always make sure to 
@@ -21,16 +21,14 @@ Core operations include:
 - `mutate()`: create new variables as a function of existing ones
 - `arrange()`: reorder the rows/cases of a dataset
 - `summarize()`: apply functions on columns 
-- `group_by()`: identify columns to group rows/cases by. All of the above can be applied on a grouped data frame
 
-**dplyr** operates on data.frames as well as the tidyverse's data.frame 
+**duckplyr** operates on data.frames as well as the tidyverse's data.frame 
 replacement, known as [**tibble**](https://tibble.tidyverse.org/).
 
-Note that **dplyr** masks some builtin functions when loaded.
+Note that **duckplyr** masks some builtin functions when loaded.
 
 ```{r}
-library(readr)
-library(dplyr)
+library(duckplyr)
 ```
 
 As an example, we read in the 
@@ -39,35 +37,20 @@ dataset from the
 [UCI Machine Learning Repository](https://archive.ics.uci.edu/ml/index.php) using
 [readr](#sec-readrdataio).
 
-For this example, we are showing how you can specify column types when reading in data using the `col_types` argument of `readr`'s `read_csv()` function. In practice, you may want to let `readr` infer column types automatically and fix any types, as needed, afterwards.
+To read from https or S3 URLs, we need to install and load the `httpfs` extension in DuckDB first:
 
 ```{r}
-dat <- read_csv(
-    "https://archive.ics.uci.edu/ml/machine-learning-databases/00519/heart_failure_clinical_records_dataset.csv",
-    col_types = cols(
-        age = col_double(),
-        anaemia = col_factor(),
-        creatinine_phosphokinase = col_double(),
-        diabetes = col_factor(),
-        ejection_fraction = col_double(),
-        high_blood_pressure = col_factor(),
-        platelets = col_double(),
-        serum_creatinine = col_double(),
-        serum_sodium = col_double(),
-        sex = col_factor(),
-        smoking = col_factor(),
-        time = col_double(),
-        DEATH_EVENT = col_factor()
-    )
-)
+db_exec("INSTALL httpfs")
+db_exec("LOAD httpfs")
 ```
 
-::: callout-note
-`dplyr` and the tidyverse in general operate on data.frames and 
-[tibbles](https://tibble.tidyverse.org/), which can be used as a drop-in replacement
-for data.frames, and heavily promote the use of the [pipe](#sec-pip) 
-operator `|>`.
-:::
+```{r}
+dat <- read_csv_duckdb(
+  "https://archive.ics.uci.edu/ml/machine-learning-databases/00519/heart_failure_clinical_records_dataset.csv"
+) |> 
+as_duckdb_tibble()
+dat
+```
 
 ## Filter
 
@@ -162,14 +145,6 @@ with single grouping variable:
 
 ```{r}
 dat |> 
-    group_by(sex) |> 
-    summarize(mean(age))
-```
-
-or using the `.by` argument of `summarize()`:
-
-```{r}
-dat |> 
     summarize(mean(age), .by = sex)
 ```
 
@@ -177,16 +152,12 @@ with multiple grouping variables:
 
 ```{r}
 dat |> 
-    group_by(sex, diabetes) |>
-    summarize(mean(age))
-```
-
-or
-
-```{r}
-dat |> 
     summarize(mean(age), .by = c(sex, diabetes))
 ```
+
+:::callout-info
+`group_by()` followed by `summarize()` can also be used but results in a tibble, not a duckplyr data frame. The `.by` argument of `summarize()` is preferred.
+:::
 
 ### Grouped operation on multiple columns
 
@@ -194,26 +165,10 @@ Group by single variable:
 
 ```{r}
 dat |> 
-    group_by(sex) |> 
-    summarize(across(c(age, serum_sodium), mean))
-```
-
-or:
-
-```{r}
-dat |> 
     summarize(across(c(age, serum_sodium), mean), .by = sex)
 ```
 
 Group by multiple variables:
-
-```{r}
-dat |> 
-    group_by(smoking, anaemia) |> 
-    summarize(across(c(age, serum_sodium), mean))
-```
-
-or:
 
 ```{r}
 dat |> 
@@ -263,8 +218,7 @@ Move the `sex` column after the `age` column:
 ```{r}
 dat <- dat |>
     relocate(sex, .after = age)
-
-names(dat)
+dat
 ```
 
 Make the `diabetes` column the last column:
@@ -272,7 +226,6 @@ Make the `diabetes` column the last column:
 ```{r}
 dat <- dat |>
     relocate(diabetes, .after = last_col())
-
 names(dat)
 ```
 
@@ -294,8 +247,8 @@ dat["Age_days"]
 ### Mutate by group
 
 ```{r}
-dat <- dat |> 
-    mutate(demeaned_sodium_bysex = serum_sodium - mean(serum_sodium), .by = sex)
+dat <- dat |>
+    mutate(demeaned_sodium_bysex = serum_sodium - mean(serum_sodium), .by = "sex")
 ```
 
 ::: callout-important
@@ -324,8 +277,8 @@ names(dat)
 
 ## Specifying multiple columns
 
-dplyr includes a number of ways to identify multiple variables.
-The latest version of dplyr suggests using `across()` within dplyr functions 
+duckplyr includes a number of ways to identify multiple variables.
+The latest version of duckplyr suggests using `across()` within duckplyr functions 
 that allow specifying columns, as we've used above.
 <br><br>
 This replaces separate functions previously used for each of 
@@ -396,10 +349,10 @@ dat |>
 
 It is often useful to be able to get the number of unique values per column, e.g. in 
 order to identify which columns may need to be converted to factors.
-`dplyr` includes the function `n_distinct()` which counts the number of unique values of
+`duckplyr` includes the function `n_distinct()` which counts the number of unique values of
 a vector.
 <br><br>
-The following example shows dplyr's 
+The following example shows duckplyr's 
 [formula shorthand](https://tidyselect.r-lib.org/reference/where.html#the-formula-shorthand) 
 syntax to build an anonymous function using `n_distinct()` in order to select columns with 
 fewer than 10 unique values:
@@ -435,7 +388,7 @@ dat <- dat |>
 str(dat)
 ```
 
-## Combining multiple dplyr operations
+## Combining multiple duckplyr operations
 
 For example, filter for smokers over age 60 and show mean platelets by sex:
 
@@ -445,20 +398,14 @@ dat |>
     summarize(Mean_platelets_by_sex = mean(platelets), .by = sex)
 ```
 
-## dplyr backends
+## Resources {#duckplyrresources}
 
-Using dplyr on data.frames or tibbles does not offer any performance benefits over 
-performing the equivalent operations in base R (and may in fact be slightly slower).
-
-A number of alternative [backends](https://dplyr.tidyverse.org/#backends), at different 
-stages of maturity, are available that offer performance benefits for large datasets.
-
-## Resources {#dplyrresources}
-
-- [dplyr website](https://dplyr.tidyverse.org/)
-- [dplyr cheatsheet](https://github.com/rstudio/cheatsheets/blob/master/data-transformation.pdf)
+- [duckplyr website](https://duckplyr.tidyverse.org/)
+- [duckplyr cheatsheet](https://github.com/rstudio/cheatsheets/blob/master/data-transformation.pdf)
 - [tibble website](https://tibble.tidyverse.org/)
 
 ## See also
 
 - [data.table](#sec-datatable)
+- [dplyr](#sec-dplyr)
+- [Polars](#sec-polars)

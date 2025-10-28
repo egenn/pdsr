@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.8.25">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>13&nbsp; Read and Write Excel Data – PDSR</title>
+
+
+<title>duckplyr – PDSR</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -17,42 +20,8 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
+
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="site_libs/quarto-nav/headroom.min.js"></script>
@@ -61,8 +30,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./dtDataIO.html" rel="next">
-<link href="./baseDataIO.html" rel="prev">
+<link href="./duckplyrBasics.html" rel="next">
+<link href="./lubridate.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -77,7 +46,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-e4e4efce03f2effa39958eaff4fa9396.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
 <link href="site_libs/bootstrap/bootstrap-dark-69c38ddbb70a2148ed40cdad022cd47c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-e4e4efce03f2effa39958eaff4fa9396.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+<link href="site_libs/bootstrap/bootstrap-e4e4efce03f2effa39958eaff4fa9396.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
@@ -102,24 +72,36 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
-}</script><script async="" src="https://www.googletagmanager.com/gtag/js?id=G-E1FN041JRR"></script><script type="text/javascript">
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-E1FN041JRR"></script>
+
+<script type="text/javascript">
 
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
-</script><!-- Apple Touch Icons and Favicons --><link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+</script>
+<!-- Apple Touch Icons and Favicons -->
+<link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon.png">
 <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon.png">
 <link rel="shortcut icon" href="assets/favicon.ico">
-<!-- Additional iOS Meta Tags --><meta name="apple-mobile-web-app-capable" content="yes">
+
+<!-- Additional iOS Meta Tags -->
+<meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="PDSR">
-<!-- Android/Chrome Mobile --><meta name="mobile-web-app-capable" content="yes">
+
+<!-- Android/Chrome Mobile -->
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#ffffff">
+
+
 <link rel="stylesheet" href="styles/rtemis.css">
 </head>
+
 <body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
@@ -294,22 +276,30 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
   </script>
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./DataIO.html">Data Input/Output</a></li><li class="breadcrumb-item"><a href="./xlsxIO.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Read and Write Excel Data</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./duckplyr.html">duckplyr</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
-  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
       <a href="./index.html" class="sidebar-logo-link">
-      <img src="./assets/pdsr>.svg" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none"><img src="./assets/pdsr>.svg" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none"></a>
+      <img src="./assets/pdsr>.svg" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="./assets/pdsr>.svg" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
+      </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="./"></a> 
         <div class="sidebar-tools-main tools-wide">
@@ -326,7 +316,7 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
       </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
-<li class="sidebar-item">
+        <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Home</span></a>
@@ -406,8 +396,8 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
-<li class="sidebar-item">
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./baseDataIO.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Base Data I/O</span></span></a>
@@ -415,7 +405,7 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./xlsxIO.html" class="sidebar-item-text sidebar-link active">
+  <a href="./xlsxIO.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Read and Write Excel Data</span></span></a>
   </div>
 </li>
@@ -438,7 +428,7 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
   </div>
 </li>
       </ul>
-</li>
+  </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Vectorization.html" class="sidebar-item-text sidebar-link">
@@ -471,8 +461,8 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
-<li class="sidebar-item">
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./WritingFunctions.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Writing Functions</span></span></a>
@@ -491,7 +481,7 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
   </div>
 </li>
       </ul>
-</li>
+  </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Apply.html" class="sidebar-item-text sidebar-link">
@@ -506,8 +496,8 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">
-<li class="sidebar-item">
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dfBasics.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Working with Data frames</span></span></a>
@@ -526,7 +516,7 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
   </div>
 </li>
       </ul>
-</li>
+  </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./DataTrans.html" class="sidebar-item-text sidebar-link">
@@ -565,8 +555,8 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">
-<li class="sidebar-item">
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dtIntro.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
@@ -603,7 +593,7 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
   </div>
 </li>
       </ul>
-</li>
+  </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="./Tidyverse.html" class="sidebar-item-text sidebar-link">
@@ -612,8 +602,8 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">
-<li class="sidebar-item">
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dplyrBasics.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">39</span>&nbsp; <span class="chapter-title">dplyr basics</span></span></a>
@@ -638,17 +628,17 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
   </div>
 </li>
       </ul>
-</li>
+  </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="./duckplyr.html" class="sidebar-item-text sidebar-link">
+            <a href="./duckplyr.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">duckplyr</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">
-<li class="sidebar-item">
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./duckplyrBasics.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">43</span>&nbsp; <span class="chapter-title">duckplyr basics</span></span></a>
@@ -667,7 +657,7 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
   </div>
 </li>
       </ul>
-</li>
+  </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="./Polars.html" class="sidebar-item-text sidebar-link">
@@ -676,8 +666,8 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">
-<li class="sidebar-item">
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./plBasics.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">46</span>&nbsp; <span class="chapter-title">Polars basics</span></span></a>
@@ -696,7 +686,7 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
   </div>
 </li>
       </ul>
-</li>
+  </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="./Graphics.html" class="sidebar-item-text sidebar-link">
@@ -705,8 +695,8 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">
-<li class="sidebar-item">
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./BaseGraphics.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">49</span>&nbsp; <span class="chapter-title">Base Graphics</span></span></a>
@@ -731,7 +721,7 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
   </div>
 </li>
       </ul>
-</li>
+  </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./HypothesisTesting.html" class="sidebar-item-text sidebar-link">
@@ -770,8 +760,8 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">
-<li class="sidebar-item">
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./TerminalIntro.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">58</span>&nbsp; <span class="chapter-title">Introduction to the System Shell</span></span></a>
@@ -784,7 +774,7 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
   </div>
 </li>
       </ul>
-</li>
+  </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="./Advanced.html" class="sidebar-item-text sidebar-link">
@@ -793,8 +783,8 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth1 show">
-<li class="sidebar-item">
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ds.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">60</span>&nbsp; <span class="chapter-title">Data Queries across implementations</span></span></a>
@@ -807,7 +797,7 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
   </div>
 </li>
       </ul>
-</li>
+  </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Resources.html" class="sidebar-item-text sidebar-link">
@@ -833,31 +823,20 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
   </div>
 </li>
     </ul>
-</div>
-</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
-   
-  <ul>
-<li>
-<a href="#read-.xslx" id="toc-read-.xslx" class="nav-link active" data-scroll-target="#read-.xslx"><span class="header-section-number">13.1</span> Read .xslx</a>
-  <ul class="collapse">
-<li><a href="#openxlsxread.xlsx" id="toc-openxlsxread.xlsx" class="nav-link" data-scroll-target="#openxlsxread.xlsx"><span class="header-section-number">13.1.1</span> <code>openxlsx::read.xlsx()</code></a></li>
-  <li><a href="#readxlread_xlsx" id="toc-readxlread_xlsx" class="nav-link" data-scroll-target="#readxlread_xlsx"><span class="header-section-number">13.1.2</span> <code>readxl::read_xlsx()</code></a></li>
-  </ul>
-</li>
-  <li>
-<a href="#write-.xlsx" id="toc-write-.xlsx" class="nav-link" data-scroll-target="#write-.xlsx"><span class="header-section-number">13.2</span> Write .xlsx</a>
-  <ul class="collapse">
-<li><a href="#openxlsxwrite.xlsx" id="toc-openxlsxwrite.xlsx" class="nav-link" data-scroll-target="#openxlsxwrite.xlsx"><span class="header-section-number">13.2.1</span> <code>openxlsx::write.xlsx()</code></a></li>
-  </ul>
-</li>
-  </ul><div class="toc-actions"><ul><li><a href="https://github.com/egenn/pdsr/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./DataIO.html">Data Input/Output</a></li><li class="breadcrumb-item"><a href="./xlsxIO.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Read and Write Excel Data</span></a></li></ol></nav><div class="quarto-title">
-<h1 class="title"><span id="sec-xlsxio" class="quarto-section-identifier"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Read and Write Excel Data</span></span></h1>
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">duckplyr</h1>
 </div>
 
 
@@ -871,39 +850,18 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
   
 
 
-</header><p>Two popular packages to read Excel <code>.xlsx</code> files in R are:</p>
-<ul>
-<li><a href="https://cran.r-project.org/package=openxlsx"><strong>openxlsx</strong></a></li>
-<li><a href="https://cran.r-project.org/package=readxl"><strong>readxl</strong></a></li>
-</ul>
-<section id="read-.xslx" class="level2" data-number="13.1"><h2 data-number="13.1" class="anchored" data-anchor-id="read-.xslx">
-<span class="header-section-number">13.1</span> Read .xslx</h2>
-<section id="openxlsxread.xlsx" class="level3" data-number="13.1.1"><h3 data-number="13.1.1" class="anchored" data-anchor-id="openxlsxread.xlsx">
-<span class="header-section-number">13.1.1</span> <code>openxlsx::read.xlsx()</code>
-</h3>
-<p><code>NA</code> strings are defined with argument <code>na.strings</code>.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">bcw</span> <span class="op">&lt;-</span> <span class="fu">openxlsx</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/openxlsx/man/read.xlsx.html">read.xlsx</a></span><span class="op">(</span><span class="st">"../Data/bcw.xlsx"</span>, na.strings <span class="op">=</span> <span class="st">"."</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</section><section id="readxlread_xlsx" class="level3" data-number="13.1.2"><h3 data-number="13.1.2" class="anchored" data-anchor-id="readxlread_xlsx">
-<span class="header-section-number">13.1.2</span> <code>readxl::read_xlsx()</code>
-</h3>
-<p><code>NA</code> strings are defined with argument <code>na</code>.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">bcw</span> <span class="op">&lt;-</span> <span class="fu">readxl</span><span class="fu">::</span><span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_xlsx</a></span><span class="op">(</span><span class="st">"../Data/bcw.xlsx"</span>, na <span class="op">=</span> <span class="st">"."</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</section></section><section id="write-.xlsx" class="level2" data-number="13.2"><h2 data-number="13.2" class="anchored" data-anchor-id="write-.xlsx">
-<span class="header-section-number">13.2</span> Write .xlsx</h2>
-<section id="openxlsxwrite.xlsx" class="level3" data-number="13.2.1"><h3 data-number="13.2.1" class="anchored" data-anchor-id="openxlsxwrite.xlsx">
-<span class="header-section-number">13.2.1</span> <code>openxlsx::write.xlsx()</code>
-</h3>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">openxlsx</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/openxlsx/man/write.xlsx.html">write.xlsx</a></span><span class="op">(</span><span class="va">bcw</span>, <span class="st">"../Data/bcw.xlsx"</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>Note: The <code>readxl</code> package does not include a function to write .XLSX files.</p>
+</header>
 
 
-</section></section></main><!-- /main --><script>
+<p><a href="https://duckdb.org/">DuckDB</a> is a popular and powerful “in-process <a href="https://en.wikipedia.org/wiki/SQL">SQL</a> <a href="https://en.wikipedia.org/wiki/Online_analytical_processing">OLAP</a> <a href="https://en.wikipedia.org/wiki/Database#Database_management_system">database management system</a>”</p>
+<p>It provides APIs in multiple languages, including R, Python, and Julia.</p>
+<p>The duckdb R package uses the R Database Interface (<a href="https://cran.r-project.org/web/packages/DBI/index.html">DBI</a>). Learn more about using DBI <a href="https://solutions.posit.co/connections/db/r-packages/dbi/">here</a>.</p>
+<p>The <a href="https://duckplyr.tidyverse.org/index.html">duckplyr</a> package provides a dplyr interface to DuckDB, making it easy to use DuckDB as a backend for data manipulation with dplyr syntax.</p>
+
+
+
+</main> <!-- /main -->
+<script>
 
 /* update total correct if #webex-total_correct exists */
 update_total_correct = function() {
@@ -1108,11 +1066,15 @@ window.onload = function() {
   update_total_correct();
 }
 
-</script><!-- LCM footer --><div class="d-flex justify-content-between align-items-center pt-3 pb-3">
+</script>
+
+<!-- LCM footer -->
+<div class="d-flex justify-content-between align-items-center pt-3 pb-3">
   <!-- Logo -->
   <div class="inv">
     <a href="https://www.lambdamd.org">
-      <img src="./assets/lcm-logo.svg" alt="LCM" style="height: 36px;"></a>
+      <img src="./assets/lcm-logo.svg" alt="LCM" style="height: 36px;">
+    </a>
   </div>
   <!-- Copyright notice -->
   <div class="text-center">
@@ -1531,14 +1493,16 @@ window.onload = function() {
       }
     }
   });
-  </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
-      <a href="./baseDataIO.html" class="pagination-link" aria-label="Base Data I/O">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Base Data I/O</span></span>
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./lubridate.html" class="pagination-link" aria-label="Dates with **lubridate**">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">42</span>&nbsp; <span class="chapter-title">Dates with <strong>lubridate</strong></span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./dtDataIO.html" class="pagination-link" aria-label="data.table Data I/O">
-        <span class="nav-page-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">data.table Data I/O</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./duckplyrBasics.html" class="pagination-link" aria-label="duckplyr basics">
+        <span class="nav-page-text"><span class="chapter-number">43</span>&nbsp; <span class="chapter-title">duckplyr basics</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -1546,4 +1510,5 @@ window.onload = function() {
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/egenn/pdsr/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.com/egenn/pdsr/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>

@@ -1,0 +1,130 @@
+---
+knitr:
+  opts_chunk: 
+    comment: ''
+    error: true
+lightbox: true
+---
+# Reshaping (**tidyr**) {#sec-tidyrreshape}
+
+```{r}
+library(tidyr)
+library(duckplyr)
+```
+
+:::callout-warning
+`tidyr` does not yet translate to native DuckDB operations when working on DuckDB tibbles. / duckplyr data frames. Therefore it will output regular in-memory tibbles. This is likely to change in future versions.
+:::
+
+## Long to wide with `pivot_wider()`
+
+Using the same example seen in @sec-dfreshape:
+
+```{r}
+tb_long <- duckdb_tibble(
+  Account_ID = c(
+    8001, 8002, 8003, 8004, 8001, 8002, 8003, 8004,
+    8001, 8002, 8003, 8004, 8001, 8002, 8003, 8004
+  ),
+  Age = c(
+    67.8017038366664, 42.9198507293701, 46.2301756642422,
+    39.665983196671, 67.8017038366664, 42.9198507293701,
+    46.2301756642422, 39.665983196671, 67.8017038366664,
+    42.9198507293701, 46.2301756642422, 39.665983196671,
+    67.8017038366664, 42.9198507293701, 46.2301756642422,
+    39.665983196671
+  ),
+  Admission = c(
+    "ED", "Planned", "Planned", "ED", "ED", "Planned",
+    "Planned", "ED", "ED", "Planned", "Planned", "ED", "ED", "Planned",
+    "Planned", "ED"
+  ),
+  Lab_key = c(
+    "RBC", "RBC", "RBC", "RBC", "WBC", "WBC", "WBC", "WBC",
+    "Hematocrit", "Hematocrit", "Hematocrit", "Hematocrit",
+    "Hemoglobin", "Hemoglobin", "Hemoglobin", "Hemoglobin"
+  ),
+  Lab_value = c(
+    4.63449321082268, 3.34968550627897, 4.27037213597765,
+    4.93897736897793, 8374.22887757195, 7612.37380499927,
+    8759.27855519425, 6972.28096216548, 36.272693147236,
+    40.5716317809522, 39.9888624177955, 39.8786884058422,
+    12.6188444991545, 12.1739747363806, 15.1293426442183,
+    14.8885696185238
+  )
+)
+tb_long
+```
+
+```{r}
+tb_wide <- pivot_wider(
+        tb_long,
+        id_cols = c("Account_ID", "Age", "Admission"),
+        names_from = "Lab_key",
+        values_from = "Lab_value")
+tb_wide
+```
+
+## Wide to long with `pivot_longer()`
+
+### Example 1: Timepoints
+
+```{r}
+tb_wide <- tibble(
+        ID = 1:4,
+        Timepoint_A = 11:14,
+        Timepoint_B = 21:24,
+        Timepoint_C = 51:54)
+tb_wide
+```
+
+```{r}
+tb_long <- pivot_longer(tb_wide,
+                        cols = starts_with("Timepoint_"),
+                        names_to = "Timepoint",
+                        values_to = "Score")
+tb_long
+```
+
+### Example 2: Key-value pairs
+
+```{r}
+set.seed(2022)
+tb_wide <- tibble(
+  Account_ID = c(8001, 8002, 8003, 8004),
+  Age = rnorm(4, mean = 57, sd = 12),
+  RBC = rnorm(4, mean = 4.8, sd = 0.5),
+  WBC = rnorm(4, mean = 7250, sd = 1500),
+  Hematocrit = rnorm(4, mean = 40.2, sd = 4),
+  Hemoglobin = rnorm(4, mean = 13.6, sd = 1.5),
+  Admission = sample(c("ED", "Planned"), size = 4, replace = TRUE)
+)
+tb_wide
+```
+
+```{r}
+tb_long <- pivot_longer(tb_wide,
+                        cols = 3:6,
+                        names_to = "Lab_key",
+                        values_to = "Lab_value")
+tb_long
+```
+
+or using column names:
+
+```{r}
+tb_long <- pivot_longer(tb_wide,
+                        cols = c("RBC", "WBC", "Hematocrit", "Hemoglobin"),
+                        names_to = "Lab_key",
+                        values_to = "Lab_value")
+tb_long
+```
+
+Note that the "Age" and "Admission" columns were also reshaped correctly.
+
+## See also
+
+- [data.frame Reshape](#sec-dfreshape)
+- [data.table Reshape](#sec-dtreshape)
+- [tidyr Reshape](#sec-tidyrreshape)
+- [Polars Reshape](#sec-plreshape)

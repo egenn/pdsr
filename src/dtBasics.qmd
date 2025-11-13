@@ -382,14 +382,18 @@ Note how `dt` was modified even though we did not run
 
 ## Add multiple columns ***in-place***
 
-You can define multiple new column names using a character vector of new column 
-names on the left of `:=` and a list on the right.
+You can add multiple new columns in-place and at the same time using the `:=` operator with:
+
+- a **character vector** of new column names on the left hand side
+- a **list** of values on the right hand side
+
+Here, we add two new columns, `AtimesB` and `AoverB`:
 
 ```{r}
 dt[, c("AtimesB", "AoverB") := list(A*B, A/B)]
 ```
 
-We can use `lapply()` since it always returns a list:
+It is often convenient to use `lapply()` on the right hand side, since it always returns a list:
 
 ```{r}
 vnames <- c("A", "B")

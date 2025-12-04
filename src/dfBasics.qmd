@@ -4,7 +4,7 @@ knitr:
     comment: ""
 lightbox: true
 ---
-# Working with Data frames {#sec-dfbasics}
+# data.frame basics {#sec-dfbasics}
 
 Core data.frame operations:
 
@@ -258,6 +258,57 @@ duplicated(x)
 ```{r}
 unique(x)
 ```
+
+## Order data.frame rows
+
+Let's create another synthetic data.frame:
+
+```{r}
+set.seed(2022)
+n <- 10
+dat <- data.frame(
+  PID = 8001:8010,
+  Age = sample(20:50, n, replace = TRUE),
+  Group = sample(LETTERS[1:2], n, replace = TRUE)
+)
+dat
+```
+
+To order data.frame rows by the values of one or more columns, you can use the `order()` function to
+create an index that can then be used to reorder the data.frame.
+
+To order `dat` by `Age` in ascending order:
+
+```{r}
+dat[order(dat$Age), ]
+```
+
+To order `dat` by `Age` in descending order:
+
+```{r}
+dat[order(dat$Age, decreasing = TRUE), ]
+```
+
+Or equivalently, using the negative sign to indicate descending order:
+
+```{r}
+dat[order(-dat$Age), ]
+```
+
+You can also order by multiple columns. For example, to order first by `Group` (A before B), 
+then within each group by `Age` in ascending order:
+
+```{r}
+dat[order(dat$Group, dat$Age), ]
+```
+
+Order by `Group` (A before B), then within each group by `Age` in descending order:
+
+```{r}
+dat[order(dat$Group, -dat$Age), ]
+```
+
+In this case, we don't want to specify `decreasing = TRUE` because that would reverse the order of both columns. The negative sign comes in handy here.
 
 ## See also
 

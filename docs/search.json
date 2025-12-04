@@ -1527,111 +1527,122 @@
   {
     "objectID": "dfBasics.html",
     "href": "dfBasics.html",
-    "title": "25  Working with Data frames",
+    "title": "25  data.frame basics",
     "section": "",
     "text": "25.1 Synthetic Data\nCore data.frame operations:\nset.seed(2022)\nn &lt;- 10\ndat &lt;- data.frame(\n  PID = 8001:8010,\n  Sex = sample(c(\"Male\", \"Female\"), size = n, replace = TRUE),\n  Age = rnorm(n, mean = 58, sd = 12),\n  Height = rnorm(n, mean = 178, sd = 10),\n  Weight = rnorm(n, mean = 80, sd = 12),\n  Group = sample(c(\"A\", \"B\"), size = n, replace = TRUE)\n)",
     "crumbs": [
       "Data Frames",
-      "<span class='chapter-number'>25</span>  <span class='chapter-title'>Working with Data frames</span>"
+      "<span class='chapter-number'>25</span>  <span class='chapter-title'>data.frame basics</span>"
     ]
   },
   {
     "objectID": "dfBasics.html#filter",
     "href": "dfBasics.html#filter",
-    "title": "25  Working with Data frames",
+    "title": "25  data.frame basics",
     "section": "\n25.2 Filter",
     "text": "25.2 Filter\nFilter & select operations are performed by indexing rows and cases, respectively.",
     "crumbs": [
       "Data Frames",
-      "<span class='chapter-number'>25</span>  <span class='chapter-title'>Working with Data frames</span>"
+      "<span class='chapter-number'>25</span>  <span class='chapter-title'>data.frame basics</span>"
     ]
   },
   {
     "objectID": "dfBasics.html#column-and-row-names",
     "href": "dfBasics.html#column-and-row-names",
-    "title": "25  Working with Data frames",
+    "title": "25  data.frame basics",
     "section": "\n25.3 Column and row names",
     "text": "25.3 Column and row names\nLet’s start with a simple example data.frame:\n\ndf &lt;- data.frame(PID = c(111:119),\n                 Hospital = c(\"UCSF\", \"HUP\", \"Stanford\",\n                             \"Stanford\", \"UCSF\", \"HUP\", \n                             \"HUP\", \"Stanford\", \"UCSF\"),\n                Age = c(22, 34, 41, 19, 53, 21, 63, 22, 19),\n                Sex = c(1, 1, 0, 1, 0, 0, 1, 0, 0))\ndf\n\n  PID Hospital Age Sex\n1 111     UCSF  22   1\n2 112      HUP  34   1\n3 113 Stanford  41   0\n4 114 Stanford  19   1\n5 115     UCSF  53   0\n6 116      HUP  21   0\n7 117      HUP  63   1\n8 118 Stanford  22   0\n9 119     UCSF  19   0\n\n\nThe optional row.names argument (see data.frame usage in the R documentation) can be used to define row names at the time of the data frame creation. It accepts either:\n\na single integer or a character specifying a column of the data.frame being created whose values should be used as row names, or\na vector of values (character or integer) of the row names to be used\n\nFor example, we can use the “PID” column:\n\ndf &lt;- data.frame(PID = c(111:119),\n                 Hospital = c(\"UCSF\", \"HUP\", \"Stanford\",\n                             \"Stanford\", \"UCSF\", \"HUP\", \n                             \"HUP\", \"Stanford\", \"UCSF\"),\n                Age = c(22, 34, 41, 19, 53, 21, 63, 22, 19),\n                Sex = c(1, 1, 0, 1, 0, 0, 1, 0, 0),\n                row.names = \"PID\")\n\n\n\n\n\n\n\nIt is recommended to not use/depend on row names to identify or index data.frames, and instead include a column of case IDs.\n\n\n\nWe can get column names and row names with colnames() and rownames(), respectively:\n\ncolnames(df)\n\n[1] \"Hospital\" \"Age\"      \"Sex\"     \n\nrownames(df)\n\n[1] \"111\" \"112\" \"113\" \"114\" \"115\" \"116\" \"117\" \"118\" \"119\"\n\n\nTo set new column or row names use the form:\ncolnames(df) &lt;- new.colnames\nrownames(df) &lt;- new.rownames\nwhere new.colnames and new.rownames is a character vector.\nYou can rename all columns/rows or use indexing to replace specific names:\nRename all rows:\n\nrownames(df) &lt;- paste0(\"Patient_\", 1:9)\ndf\n\n          Hospital Age Sex\nPatient_1     UCSF  22   1\nPatient_2      HUP  34   1\nPatient_3 Stanford  41   0\nPatient_4 Stanford  19   1\nPatient_5     UCSF  53   0\nPatient_6      HUP  21   0\nPatient_7      HUP  63   1\nPatient_8 Stanford  22   0\nPatient_9     UCSF  19   0\n\n\nRename first two columns:\n\ncolnames(df)[1:2] &lt;- c(\"Center\", \"Age_at_Dx\")\ndf\n\n            Center Age_at_Dx Sex\nPatient_1     UCSF        22   1\nPatient_2      HUP        34   1\nPatient_3 Stanford        41   0\nPatient_4 Stanford        19   1\nPatient_5     UCSF        53   0\nPatient_6      HUP        21   0\nPatient_7      HUP        63   1\nPatient_8 Stanford        22   0\nPatient_9     UCSF        19   0",
     "crumbs": [
       "Data Frames",
-      "<span class='chapter-number'>25</span>  <span class='chapter-title'>Working with Data frames</span>"
+      "<span class='chapter-number'>25</span>  <span class='chapter-title'>data.frame basics</span>"
     ]
   },
   {
     "objectID": "dfBasics.html#delete-columns-or-rows",
     "href": "dfBasics.html#delete-columns-or-rows",
-    "title": "25  Working with Data frames",
+    "title": "25  data.frame basics",
     "section": "\n25.4 Delete columns or rows",
     "text": "25.4 Delete columns or rows\nTo delete a data.frame column, set it to NULL:\n\ndf$Sex &lt;- NULL\ndf\n\n            Center Age_at_Dx\nPatient_1     UCSF        22\nPatient_2      HUP        34\nPatient_3 Stanford        41\nPatient_4 Stanford        19\nPatient_5     UCSF        53\nPatient_6      HUP        21\nPatient_7      HUP        63\nPatient_8 Stanford        22\nPatient_9     UCSF        19\n\n\nTo delete a data.frame row, you can “index it out”.\nFor example, to remove the third and fifths rows of the above data.frame using an integer index:\n\ndf &lt;- df[-c(3, 5), ]\ndf\n\n            Center Age_at_Dx\nPatient_1     UCSF        22\nPatient_2      HUP        34\nPatient_4 Stanford        19\nPatient_6      HUP        21\nPatient_7      HUP        63\nPatient_8 Stanford        22\nPatient_9     UCSF        19\n\n\nYou can similarly exclude a row using a logical index. Logical indexing occurs usually following some filtering condition.\nFor example, exclude patients under 20 years old:\n\ndf &lt;- df[!df$Age &lt; 20, ]\ndf\n\n            Center Age_at_Dx\nPatient_1     UCSF        22\nPatient_2      HUP        34\nPatient_6      HUP        21\nPatient_7      HUP        63\nPatient_8 Stanford        22",
     "crumbs": [
       "Data Frames",
-      "<span class='chapter-number'>25</span>  <span class='chapter-title'>Working with Data frames</span>"
+      "<span class='chapter-number'>25</span>  <span class='chapter-title'>data.frame basics</span>"
     ]
   },
   {
     "objectID": "dfBasics.html#subset",
     "href": "dfBasics.html#subset",
-    "title": "25  Working with Data frames",
+    "title": "25  data.frame basics",
     "section": "\n25.5 subset()\n",
     "text": "25.5 subset()\n\nsubset() allows you to\n\n\nfilter cases that meet certain conditions using the subset argument\n\nselect columns using the select argument\n\n(head() returns the first few lines of a data frame. We use it to avoid printing too many lines)\n\nhead(iris)\n\n  Sepal.Length Sepal.Width Petal.Length Petal.Width Species\n1          5.1         3.5          1.4         0.2  setosa\n2          4.9         3.0          1.4         0.2  setosa\n3          4.7         3.2          1.3         0.2  setosa\n4          4.6         3.1          1.5         0.2  setosa\n5          5.0         3.6          1.4         0.2  setosa\n6          5.4         3.9          1.7         0.4  setosa\n\niris_sl.gt.med &lt;- subset(iris, Sepal.Length &gt; median(Sepal.Length))\n\nNote: You can use the column name Sepal.Length directly, i.e. unquoted and you don’t need to use iris$Sepal.Length.\nThis is called Non-Standard Evaluation (NSE).\n\nx &lt;- data.frame(one = 1:10,\n                two = rnorm(10),\n                group = c(rep(\"alpha\", 4),  rep(\"beta\", 6)))\nsubset(x, subset = two &gt; 0, select = two)\n\n          two\n2  0.80776842\n5  0.06035668\n7  0.34027593\n10 0.36817344\n\nsubset(x, two &gt; 0, -one)\n\n          two group\n2  0.80776842 alpha\n5  0.06035668  beta\n7  0.34027593  beta\n10 0.36817344  beta\n\nsubset(x, two &gt; 0, two:one)\n\n          two one\n2  0.80776842   2\n5  0.06035668   5\n7  0.34027593   7\n10 0.36817344  10\n\nsubset(x, two &gt; 0, two:group)\n\n          two group\n2  0.80776842 alpha\n5  0.06035668  beta\n7  0.34027593  beta\n10 0.36817344  beta",
     "crumbs": [
       "Data Frames",
-      "<span class='chapter-number'>25</span>  <span class='chapter-title'>Working with Data frames</span>"
+      "<span class='chapter-number'>25</span>  <span class='chapter-title'>data.frame basics</span>"
     ]
   },
   {
     "objectID": "dfBasics.html#split",
     "href": "dfBasics.html#split",
-    "title": "25  Working with Data frames",
+    "title": "25  data.frame basics",
     "section": "\n25.6 split()\n",
     "text": "25.6 split()\n\nSplit a data frame into multiple data frames by groups defined by a factor:\n\nx_by_group &lt;- split(x, x$group)\nx_by_group\n\n$alpha\n  one        two group\n1   1 -0.2690377 alpha\n2   2  0.8077684 alpha\n3   3 -1.1247172 alpha\n4   4 -1.4307880 alpha\n\n$beta\n   one         two group\n5    5  0.06035668  beta\n6    6 -0.79298250  beta\n7    7  0.34027593  beta\n8    8 -0.25946873  beta\n9    9 -1.30484865  beta\n10  10  0.36817344  beta",
     "crumbs": [
       "Data Frames",
-      "<span class='chapter-number'>25</span>  <span class='chapter-title'>Working with Data frames</span>"
+      "<span class='chapter-number'>25</span>  <span class='chapter-title'>data.frame basics</span>"
     ]
   },
   {
     "objectID": "dfBasics.html#with",
     "href": "dfBasics.html#with",
-    "title": "25  Working with Data frames",
+    "title": "25  data.frame basics",
     "section": "\n25.7 with()\n",
     "text": "25.7 with()\n\nWithin a with() expression, you can access list elements or data.frame columns without quoting or using the $ operator:\n\nwith(x, one + two)\n\n [1]  0.7309623  2.8077684  1.8752828  2.5692120  5.0603567  5.2070175\n [7]  7.3402759  7.7405313  7.6951514 10.3681734\n\nwith(x, x[group == \"alpha\", ])\n\n  one        two group\n1   1 -0.2690377 alpha\n2   2  0.8077684 alpha\n3   3 -1.1247172 alpha\n4   4 -1.4307880 alpha\n\nwith(x, x[two &gt; 0, ])\n\n   one        two group\n2    2 0.80776842 alpha\n5    5 0.06035668  beta\n7    7 0.34027593  beta\n10  10 0.36817344  beta",
     "crumbs": [
       "Data Frames",
-      "<span class='chapter-number'>25</span>  <span class='chapter-title'>Working with Data frames</span>"
+      "<span class='chapter-number'>25</span>  <span class='chapter-title'>data.frame basics</span>"
     ]
   },
   {
     "objectID": "dfBasics.html#feature-transformation-with-transform",
     "href": "dfBasics.html#feature-transformation-with-transform",
-    "title": "25  Working with Data frames",
+    "title": "25  data.frame basics",
     "section": "\n25.8 Feature transformation with transform()\n",
     "text": "25.8 Feature transformation with transform()\n\nMake up some data:\n\ndat &lt;- data.frame(Sex = c(0, 0, 1, 1, 0),\n                  Height = c(1.5, 1.6, 1.55, 1.73, 1.8),\n                  Weight = c(55, 70, 69, 76, 91))\n\n\ndat &lt;- transform(dat, BMI = Weight/Height^2)\ndat\n\n  Sex Height Weight      BMI\n1   0   1.50     55 24.44444\n2   0   1.60     70 27.34375\n3   1   1.55     69 28.72008\n4   1   1.73     76 25.39343\n5   0   1.80     91 28.08642\n\n\ntransform() is probably not used too often, because it is trivial to do the same with direct assignment:\n\ndat$BMI &lt;- dat$Weight/dat$Height^2\n\nbut can be useful when adding multiple variables and/or used in a pipe:\n\ndat |&gt; \n  subset(Sex == 0) |&gt; \n  transform(DeltaWeightFromMean = Weight - mean(Weight),\n            BMI = Weight/Height^2,\n            CI = Weight/Height^3)\n\n  Sex Height Weight      BMI DeltaWeightFromMean       CI\n1   0    1.5     55 24.44444                 -17 16.29630\n2   0    1.6     70 27.34375                  -2 17.08984\n5   0    1.8     91 28.08642                  19 15.60357",
     "crumbs": [
       "Data Frames",
-      "<span class='chapter-number'>25</span>  <span class='chapter-title'>Working with Data frames</span>"
+      "<span class='chapter-number'>25</span>  <span class='chapter-title'>data.frame basics</span>"
     ]
   },
   {
     "objectID": "dfBasics.html#identify-and-remove-duplicated-rows-with-duplicated-and-unique",
     "href": "dfBasics.html#identify-and-remove-duplicated-rows-with-duplicated-and-unique",
-    "title": "25  Working with Data frames",
+    "title": "25  data.frame basics",
     "section": "\n25.9 Identify and remove duplicated rows with duplicated() and unique()\n",
     "text": "25.9 Identify and remove duplicated rows with duplicated() and unique()\n\nWhen applied on a data.frame, the duplicated() function returns a logical index specifying the location of duplicated rows - specifically, a logical index of rows which are the duplicate of another row further up the data.frame. This means that if rows 20 and 23 are identical, duplicated() will return TRUE for row 23.\nOn the other hand, unique() will remove duplicate rows from a data.frame.\n\nx &lt;- data.frame(ID = c(203, 808, 909, 707, 808),\n                Age = c(23, 44, 33, 42, 44))\n\n\nduplicated(x)\n\n[1] FALSE FALSE FALSE FALSE  TRUE\n\n\n\nunique(x)\n\n   ID Age\n1 203  23\n2 808  44\n3 909  33\n4 707  42",
     "crumbs": [
       "Data Frames",
-      "<span class='chapter-number'>25</span>  <span class='chapter-title'>Working with Data frames</span>"
+      "<span class='chapter-number'>25</span>  <span class='chapter-title'>data.frame basics</span>"
+    ]
+  },
+  {
+    "objectID": "dfBasics.html#order-data.frame-rows",
+    "href": "dfBasics.html#order-data.frame-rows",
+    "title": "25  data.frame basics",
+    "section": "\n25.10 Order data.frame rows",
+    "text": "25.10 Order data.frame rows\nLet’s create another synthetic data.frame:\n\nset.seed(2022)\nn &lt;- 10\ndat &lt;- data.frame(\n  PID = 8001:8010,\n  Age = sample(20:50, n, replace = TRUE),\n  Group = sample(LETTERS[1:2], n, replace = TRUE)\n)\ndat\n\n    PID Age Group\n1  8001  23     A\n2  8002  38     A\n3  8003  33     B\n4  8004  42     B\n5  8005  30     A\n6  8006  23     A\n7  8007  25     B\n8  8008  50     A\n9  8009  33     B\n10 8010  47     B\n\n\nTo order data.frame rows by the values of one or more columns, you can use the order() function to create an index that can then be used to reorder the data.frame.\nTo order dat by Age in ascending order:\n\ndat[order(dat$Age), ]\n\n    PID Age Group\n1  8001  23     A\n6  8006  23     A\n7  8007  25     B\n5  8005  30     A\n3  8003  33     B\n9  8009  33     B\n2  8002  38     A\n4  8004  42     B\n10 8010  47     B\n8  8008  50     A\n\n\nTo order dat by Age in descending order:\n\ndat[order(dat$Age, decreasing = TRUE), ]\n\n    PID Age Group\n8  8008  50     A\n10 8010  47     B\n4  8004  42     B\n2  8002  38     A\n3  8003  33     B\n9  8009  33     B\n5  8005  30     A\n7  8007  25     B\n1  8001  23     A\n6  8006  23     A\n\n\nOr equivalently, using the negative sign to indicate descending order:\n\ndat[order(-dat$Age), ]\n\n    PID Age Group\n8  8008  50     A\n10 8010  47     B\n4  8004  42     B\n2  8002  38     A\n3  8003  33     B\n9  8009  33     B\n5  8005  30     A\n7  8007  25     B\n1  8001  23     A\n6  8006  23     A\n\n\nYou can also order by multiple columns. For example, to order first by Group (A before B), then within each group by Age in ascending order:\n\ndat[order(dat$Group, dat$Age), ]\n\n    PID Age Group\n1  8001  23     A\n6  8006  23     A\n5  8005  30     A\n2  8002  38     A\n8  8008  50     A\n7  8007  25     B\n3  8003  33     B\n9  8009  33     B\n4  8004  42     B\n10 8010  47     B\n\n\nOrder by Group (A before B), then within each group by Age in descending order:\n\ndat[order(dat$Group, -dat$Age), ]\n\n    PID Age Group\n8  8008  50     A\n2  8002  38     A\n5  8005  30     A\n1  8001  23     A\n6  8006  23     A\n10 8010  47     B\n4  8004  42     B\n3  8003  33     B\n9  8009  33     B\n7  8007  25     B\n\n\nIn this case, we don’t want to specify decreasing = TRUE because that would reverse the order of both columns. The negative sign comes in handy here.",
+    "crumbs": [
+      "Data Frames",
+      "<span class='chapter-number'>25</span>  <span class='chapter-title'>data.frame basics</span>"
     ]
   },
   {
     "objectID": "dfBasics.html#see-also",
     "href": "dfBasics.html#see-also",
-    "title": "25  Working with Data frames",
-    "section": "\n25.10 See also",
-    "text": "25.10 See also\n\nSee the data frame section for an introduction to data frames.",
+    "title": "25  data.frame basics",
+    "section": "\n25.11 See also",
+    "text": "25.11 See also\n\nSee the data frame section for an introduction to data frames.",
     "crumbs": [
       "Data Frames",
-      "<span class='chapter-number'>25</span>  <span class='chapter-title'>Working with Data frames</span>"
+      "<span class='chapter-number'>25</span>  <span class='chapter-title'>data.frame basics</span>"
     ]
   },
   {
@@ -4789,7 +4800,7 @@
     "href": "CrashCourse.html#working-with-data.frames",
     "title": "Crash Course",
     "section": "Working with data.frames",
-    "text": "Working with data.frames\nIndexing\nTo index a data.frame means to select one or more rows and one or more rows. You do this using bracket notation, where the index of rows is followed by the index of columns.\nFor example, to index the first 10 rows and first 3 columns:\n\ndat[1:10, 1:3]\n\n   age anaemia creatinine_phosphokinase\n1   75       0                      582\n2   55       0                     7861\n3   65       0                      146\n4   50       1                      111\n5   65       1                      160\n6   90       1                       47\n7   75       1                      246\n8   60       1                      315\n9   65       0                      157\n10  80       1                      123\n\n\nTo index all rows or all columns, leave the corresponding index empty.\nFor example, index all rows of the first column:\n\ndat[, 1]\n\n  [1] 75.000 55.000 65.000 50.000 65.000 90.000 75.000 60.000 65.000 80.000\n [11] 75.000 62.000 45.000 50.000 49.000 82.000 87.000 45.000 70.000 48.000\n [21] 65.000 65.000 68.000 53.000 75.000 80.000 95.000 70.000 58.000 82.000\n [31] 94.000 85.000 50.000 50.000 65.000 69.000 90.000 82.000 60.000 60.000\n [41] 70.000 50.000 70.000 72.000 60.000 50.000 51.000 60.000 80.000 57.000\n [51] 68.000 53.000 60.000 70.000 60.000 95.000 70.000 60.000 49.000 72.000\n [61] 45.000 50.000 55.000 45.000 45.000 60.000 42.000 72.000 70.000 65.000\n [71] 41.000 58.000 85.000 65.000 69.000 60.000 70.000 42.000 75.000 55.000\n [81] 70.000 67.000 60.000 79.000 59.000 51.000 55.000 65.000 44.000 57.000\n [91] 70.000 60.000 42.000 60.000 58.000 58.000 63.000 70.000 60.000 63.000\n[101] 65.000 75.000 80.000 42.000 60.000 72.000 55.000 45.000 63.000 45.000\n[111] 85.000 55.000 50.000 70.000 60.000 58.000 60.000 85.000 65.000 86.000\n[121] 60.000 66.000 60.000 60.000 60.000 43.000 46.000 58.000 61.000 53.000\n[131] 53.000 60.000 46.000 63.000 81.000 75.000 65.000 68.000 62.000 50.000\n[141] 80.000 46.000 50.000 61.000 72.000 50.000 52.000 64.000 75.000 60.000\n[151] 72.000 62.000 50.000 50.000 65.000 60.000 52.000 50.000 85.000 59.000\n[161] 66.000 45.000 63.000 50.000 45.000 80.000 53.000 59.000 65.000 70.000\n[171] 51.000 52.000 70.000 50.000 65.000 60.000 69.000 49.000 63.000 55.000\n[181] 40.000 59.000 65.000 75.000 58.000 60.667 50.000 60.000 60.667 40.000\n[191] 80.000 64.000 50.000 73.000 45.000 77.000 45.000 65.000 50.000 60.000\n[201] 63.000 45.000 70.000 60.000 78.000 50.000 40.000 85.000 60.000 49.000\n[211] 70.000 50.000 78.000 48.000 65.000 73.000 70.000 54.000 68.000 55.000\n[221] 73.000 65.000 42.000 47.000 58.000 75.000 58.000 55.000 65.000 72.000\n[231] 60.000 70.000 40.000 53.000 53.000 77.000 75.000 70.000 65.000 55.000\n[241] 70.000 65.000 40.000 73.000 54.000 61.000 55.000 64.000 40.000 53.000\n[251] 50.000 55.000 50.000 70.000 53.000 52.000 65.000 58.000 45.000 53.000\n[261] 55.000 62.000 65.000 68.000 61.000 50.000 55.000 56.000 45.000 40.000\n[271] 44.000 51.000 67.000 42.000 60.000 45.000 70.000 70.000 50.000 55.000\n[281] 70.000 70.000 42.000 65.000 50.000 55.000 60.000 45.000 65.000 90.000\n[291] 45.000 60.000 52.000 63.000 62.000 55.000 45.000 45.000 50.000\n\n\nIndex all columns of the 12th row:\n\ndat[12, ]\n\n   age anaemia creatinine_phosphokinase diabetes ejection_fraction\n12  62       0                      231        0                25\n   high_blood_pressure platelets serum_creatinine serum_sodium sex smoking time\n12                   1    253000              0.9          140   1       1   10\n   DEATH_EVENT\n12           1\n\n\nAnother way to select a column of a data.frame is by name.\nNote, we wrap the indexing of the data.frame around head() to avoid printing the entire column.\n\nhead(dat[, \"age\"])\n\n[1] 75 55 65 50 65 90\n\n\nor using the $ notation:\n\nhead(dat$age)\n\n[1] 75 55 65 50 65 90\n\n\n\n\n\n\n\n\nLearn more about data.frames in 25  Working with Data frames.",
+    "text": "Working with data.frames\nIndexing\nTo index a data.frame means to select one or more rows and one or more rows. You do this using bracket notation, where the index of rows is followed by the index of columns.\nFor example, to index the first 10 rows and first 3 columns:\n\ndat[1:10, 1:3]\n\n   age anaemia creatinine_phosphokinase\n1   75       0                      582\n2   55       0                     7861\n3   65       0                      146\n4   50       1                      111\n5   65       1                      160\n6   90       1                       47\n7   75       1                      246\n8   60       1                      315\n9   65       0                      157\n10  80       1                      123\n\n\nTo index all rows or all columns, leave the corresponding index empty.\nFor example, index all rows of the first column:\n\ndat[, 1]\n\n  [1] 75.000 55.000 65.000 50.000 65.000 90.000 75.000 60.000 65.000 80.000\n [11] 75.000 62.000 45.000 50.000 49.000 82.000 87.000 45.000 70.000 48.000\n [21] 65.000 65.000 68.000 53.000 75.000 80.000 95.000 70.000 58.000 82.000\n [31] 94.000 85.000 50.000 50.000 65.000 69.000 90.000 82.000 60.000 60.000\n [41] 70.000 50.000 70.000 72.000 60.000 50.000 51.000 60.000 80.000 57.000\n [51] 68.000 53.000 60.000 70.000 60.000 95.000 70.000 60.000 49.000 72.000\n [61] 45.000 50.000 55.000 45.000 45.000 60.000 42.000 72.000 70.000 65.000\n [71] 41.000 58.000 85.000 65.000 69.000 60.000 70.000 42.000 75.000 55.000\n [81] 70.000 67.000 60.000 79.000 59.000 51.000 55.000 65.000 44.000 57.000\n [91] 70.000 60.000 42.000 60.000 58.000 58.000 63.000 70.000 60.000 63.000\n[101] 65.000 75.000 80.000 42.000 60.000 72.000 55.000 45.000 63.000 45.000\n[111] 85.000 55.000 50.000 70.000 60.000 58.000 60.000 85.000 65.000 86.000\n[121] 60.000 66.000 60.000 60.000 60.000 43.000 46.000 58.000 61.000 53.000\n[131] 53.000 60.000 46.000 63.000 81.000 75.000 65.000 68.000 62.000 50.000\n[141] 80.000 46.000 50.000 61.000 72.000 50.000 52.000 64.000 75.000 60.000\n[151] 72.000 62.000 50.000 50.000 65.000 60.000 52.000 50.000 85.000 59.000\n[161] 66.000 45.000 63.000 50.000 45.000 80.000 53.000 59.000 65.000 70.000\n[171] 51.000 52.000 70.000 50.000 65.000 60.000 69.000 49.000 63.000 55.000\n[181] 40.000 59.000 65.000 75.000 58.000 60.667 50.000 60.000 60.667 40.000\n[191] 80.000 64.000 50.000 73.000 45.000 77.000 45.000 65.000 50.000 60.000\n[201] 63.000 45.000 70.000 60.000 78.000 50.000 40.000 85.000 60.000 49.000\n[211] 70.000 50.000 78.000 48.000 65.000 73.000 70.000 54.000 68.000 55.000\n[221] 73.000 65.000 42.000 47.000 58.000 75.000 58.000 55.000 65.000 72.000\n[231] 60.000 70.000 40.000 53.000 53.000 77.000 75.000 70.000 65.000 55.000\n[241] 70.000 65.000 40.000 73.000 54.000 61.000 55.000 64.000 40.000 53.000\n[251] 50.000 55.000 50.000 70.000 53.000 52.000 65.000 58.000 45.000 53.000\n[261] 55.000 62.000 65.000 68.000 61.000 50.000 55.000 56.000 45.000 40.000\n[271] 44.000 51.000 67.000 42.000 60.000 45.000 70.000 70.000 50.000 55.000\n[281] 70.000 70.000 42.000 65.000 50.000 55.000 60.000 45.000 65.000 90.000\n[291] 45.000 60.000 52.000 63.000 62.000 55.000 45.000 45.000 50.000\n\n\nIndex all columns of the 12th row:\n\ndat[12, ]\n\n   age anaemia creatinine_phosphokinase diabetes ejection_fraction\n12  62       0                      231        0                25\n   high_blood_pressure platelets serum_creatinine serum_sodium sex smoking time\n12                   1    253000              0.9          140   1       1   10\n   DEATH_EVENT\n12           1\n\n\nAnother way to select a column of a data.frame is by name.\nNote, we wrap the indexing of the data.frame around head() to avoid printing the entire column.\n\nhead(dat[, \"age\"])\n\n[1] 75 55 65 50 65 90\n\n\nor using the $ notation:\n\nhead(dat$age)\n\n[1] 75 55 65 50 65 90\n\n\n\n\n\n\n\n\nLearn more about data.frames in 25  data.frame basics.",
     "crumbs": [
       "Crash Course"
     ]

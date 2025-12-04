@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.8.26">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>25&nbsp; Working with Data frames – PDSR</title>
+<title>25&nbsp; data.frame basics – PDSR</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -298,7 +298,7 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./DataFrames.html">Data Frames</a></li><li class="breadcrumb-item"><a href="./dfBasics.html"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Working with Data frames</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./DataFrames.html">Data Frames</a></li><li class="breadcrumb-item"><a href="./dfBasics.html"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">data.frame basics</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -510,7 +510,7 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dfBasics.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Working with Data frames</span></span></a>
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">data.frame basics</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -849,12 +849,13 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
   <li><a href="#with" id="toc-with" class="nav-link" data-scroll-target="#with"><span class="header-section-number">25.7</span> <code>with()</code></a></li>
   <li><a href="#feature-transformation-with-transform" id="toc-feature-transformation-with-transform" class="nav-link" data-scroll-target="#feature-transformation-with-transform"><span class="header-section-number">25.8</span> Feature transformation with <code>transform()</code></a></li>
   <li><a href="#identify-and-remove-duplicated-rows-with-duplicated-and-unique" id="toc-identify-and-remove-duplicated-rows-with-duplicated-and-unique" class="nav-link" data-scroll-target="#identify-and-remove-duplicated-rows-with-duplicated-and-unique"><span class="header-section-number">25.9</span> Identify and remove duplicated rows with <code>duplicated()</code> and <code>unique()</code></a></li>
-  <li><a href="#see-also" id="toc-see-also" class="nav-link" data-scroll-target="#see-also"><span class="header-section-number">25.10</span> See also</a></li>
+  <li><a href="#order-data.frame-rows" id="toc-order-data.frame-rows" class="nav-link" data-scroll-target="#order-data.frame-rows"><span class="header-section-number">25.10</span> Order data.frame rows</a></li>
+  <li><a href="#see-also" id="toc-see-also" class="nav-link" data-scroll-target="#see-also"><span class="header-section-number">25.11</span> See also</a></li>
   </ul><div class="toc-actions"><ul><li><a href="https://github.com/egenn/pdsr/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./DataFrames.html">Data Frames</a></li><li class="breadcrumb-item"><a href="./dfBasics.html"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Working with Data frames</span></a></li></ol></nav><div class="quarto-title">
-<h1 class="title"><span id="sec-dfbasics" class="quarto-section-identifier"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Working with Data frames</span></span></h1>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./DataFrames.html">Data Frames</a></li><li class="breadcrumb-item"><a href="./dfBasics.html"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">data.frame basics</span></a></li></ol></nav><div class="quarto-title">
+<h1 class="title"><span id="sec-dfbasics" class="quarto-section-identifier"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">data.frame basics</span></span></h1>
 </div>
 
 
@@ -1287,8 +1288,121 @@ $beta
 4 707  42</code></pre>
 </div>
 </div>
-</section><section id="see-also" class="level2" data-number="25.10"><h2 data-number="25.10" class="anchored" data-anchor-id="see-also">
-<span class="header-section-number">25.10</span> See also</h2>
+</section><section id="order-data.frame-rows" class="level2" data-number="25.10"><h2 data-number="25.10" class="anchored" data-anchor-id="order-data.frame-rows">
+<span class="header-section-number">25.10</span> Order data.frame rows</h2>
+<p>Let’s create another synthetic data.frame:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb49"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">2022</span><span class="op">)</span></span>
+<span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">10</span></span>
+<span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
+<span>  PID <span class="op">=</span> <span class="fl">8001</span><span class="op">:</span><span class="fl">8010</span>,</span>
+<span>  Age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fl">20</span><span class="op">:</span><span class="fl">50</span>, <span class="va">n</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>  Group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>, <span class="va">n</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">dat</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    PID Age Group
+1  8001  23     A
+2  8002  38     A
+3  8003  33     B
+4  8004  42     B
+5  8005  30     A
+6  8006  23     A
+7  8007  25     B
+8  8008  50     A
+9  8009  33     B
+10 8010  47     B</code></pre>
+</div>
+</div>
+<p>To order data.frame rows by the values of one or more columns, you can use the <code><a href="https://rdrr.io/r/base/order.html">order()</a></code> function to create an index that can then be used to reorder the data.frame.</p>
+<p>To order <code>dat</code> by <code>Age</code> in ascending order:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb51"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html">order</a></span><span class="op">(</span><span class="va">dat</span><span class="op">$</span><span class="va">Age</span><span class="op">)</span>, <span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    PID Age Group
+1  8001  23     A
+6  8006  23     A
+7  8007  25     B
+5  8005  30     A
+3  8003  33     B
+9  8009  33     B
+2  8002  38     A
+4  8004  42     B
+10 8010  47     B
+8  8008  50     A</code></pre>
+</div>
+</div>
+<p>To order <code>dat</code> by <code>Age</code> in descending order:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb53"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html">order</a></span><span class="op">(</span><span class="va">dat</span><span class="op">$</span><span class="va">Age</span>, decreasing <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, <span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    PID Age Group
+8  8008  50     A
+10 8010  47     B
+4  8004  42     B
+2  8002  38     A
+3  8003  33     B
+9  8009  33     B
+5  8005  30     A
+7  8007  25     B
+1  8001  23     A
+6  8006  23     A</code></pre>
+</div>
+</div>
+<p>Or equivalently, using the negative sign to indicate descending order:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb55"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html">order</a></span><span class="op">(</span><span class="op">-</span><span class="va">dat</span><span class="op">$</span><span class="va">Age</span><span class="op">)</span>, <span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    PID Age Group
+8  8008  50     A
+10 8010  47     B
+4  8004  42     B
+2  8002  38     A
+3  8003  33     B
+9  8009  33     B
+5  8005  30     A
+7  8007  25     B
+1  8001  23     A
+6  8006  23     A</code></pre>
+</div>
+</div>
+<p>You can also order by multiple columns. For example, to order first by <code>Group</code> (A before B), then within each group by <code>Age</code> in ascending order:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb57"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html">order</a></span><span class="op">(</span><span class="va">dat</span><span class="op">$</span><span class="va">Group</span>, <span class="va">dat</span><span class="op">$</span><span class="va">Age</span><span class="op">)</span>, <span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    PID Age Group
+1  8001  23     A
+6  8006  23     A
+5  8005  30     A
+2  8002  38     A
+8  8008  50     A
+7  8007  25     B
+3  8003  33     B
+9  8009  33     B
+4  8004  42     B
+10 8010  47     B</code></pre>
+</div>
+</div>
+<p>Order by <code>Group</code> (A before B), then within each group by <code>Age</code> in descending order:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb59"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html">order</a></span><span class="op">(</span><span class="va">dat</span><span class="op">$</span><span class="va">Group</span>, <span class="op">-</span><span class="va">dat</span><span class="op">$</span><span class="va">Age</span><span class="op">)</span>, <span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    PID Age Group
+8  8008  50     A
+2  8002  38     A
+5  8005  30     A
+1  8001  23     A
+6  8006  23     A
+10 8010  47     B
+4  8004  42     B
+3  8003  33     B
+9  8009  33     B
+7  8007  25     B</code></pre>
+</div>
+</div>
+<p>In this case, we don’t want to specify <code>decreasing = TRUE</code> because that would reverse the order of both columns. The negative sign comes in handy here.</p>
+</section><section id="see-also" class="level2" data-number="25.11"><h2 data-number="25.11" class="anchored" data-anchor-id="see-also">
+<span class="header-section-number">25.11</span> See also</h2>
 <ul>
 <li>See the <a href="DataStructures.html#dataframestruc">data frame section</a> for an introduction to data frames.</li>
 </ul>

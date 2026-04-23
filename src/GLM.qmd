@@ -3,14 +3,16 @@
 ```{r echo = FALSE}
 knitr::opts_chunk$set(fig.width = 4.5, fig.height = 4.5,
                       comment = NA, cache = TRUE)
-options(rt.theme = "whitegrid")
-options(rt.fit.theme = "whitegrid")
-suppressPackageStartupMessages(library(rtemis))
+options(rtemis_theme = "whitegrid")
 ```
 
 ```{r, comment="", results="asis", echo=FALSE}
 old.hooks <- fansi::set_knit_hooks(knitr::knit_hooks)
 options(crayon.enabled = TRUE)
+```
+
+```{r}
+library(rtemis)
 ```
 
 ## Generalized Linear Model (GLM)
@@ -119,7 +121,7 @@ lines(x, xy.fit, col = "#178CCB", lwd = 2)
 In [**rtemis**](https://rtemis.lambdamd.org/), you can use argument `fit` to use any supported algorithm (see `modSelect()`) to estimate the fit:
 
 ```{r}
-mplot3_xy(x, y, fit = "glm")
+draw_scatter(x, y, fit = "glm")
 ```
 
 ### Logistic Regression

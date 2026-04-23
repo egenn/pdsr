@@ -3,9 +3,7 @@
 ```{r}
 #| echo: false
 knitr::opts_chunk$set(comment = NA, cache = TRUE) 
-options(rt.theme = "whitegrid")
-options(rt.fit.theme = "whitegrid")
-options(rt.font = "sans")
+options(rtemis_theme = "whitegrid")
 ```
 
 ```{r, comment="", results="asis", echo=FALSE}
@@ -14,8 +12,7 @@ options(crayon.enabled = TRUE)
 ```
 
 ```{r}
-#| echo: false
-suppressPackageStartupMessages(library(rtemis))
+library(rtemis)
 ```
 
 ## Continuous variables
@@ -176,13 +173,13 @@ just given.
 We start by plotting its distribution:
 
 ```{r}
-mplot3_x(x)
+draw_dist(x)
 ```
 
 We can see it is skewed right. A log transform can help here:
 
 ```{r}
-mplot3_x(log(x))
+draw_dist(log(x))
 ```
 
 ### Data binning with `cut()`
@@ -218,12 +215,9 @@ xcuts5
 ```
 
 ```{r}
-mplot3_x(x, par.reset = FALSE)
-# plot(density(x)) # in base R
+plot(density(x))
 abline(v = xcuts5, col = "red", lwd = 1.5)
 ```
-
-[Note: We used `par.reset = FALSE` to stop `mplot3_x()` from resetting its custom `par()` settings so that we can continue adding elements to the same plot, in this case with the `abline()` command.]
 
 #### Quantile cuts
 
@@ -231,8 +225,7 @@ Instead of evenly-spaced intervals, we can get quantiles with `quantile()`. We a
 
 ```{r}
 xquants5 <- quantile(x, probs = seq(0, 1, length.out = 5))
-mplot3_x(x, par.reset = FALSE)
-# plot(density(x)) # in base R
+plot(density(x)) # in base R
 abline(v = xquants5, col = "green", lwd = 1.5)
 ```
 

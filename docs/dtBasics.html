@@ -2,10 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.27">
+<meta name="generator" content="quarto-1.9.37">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <title>34&nbsp; data.table basics – PDSR</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -65,19 +68,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="./dtIntro.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-2a367172f4fe7d9182ebf8e09f85cb4e.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-7fb59815a1c41eec7c034637f0c35ff0.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-2a367172f4fe7d9182ebf8e09f85cb4e.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-4e5466e430b1db38349d513585fd1d59.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-43b2d995d73a1754bd3a6f5d899fe64b.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-4e5466e430b1db38349d513585fd1d59.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-e8c9849a17ba6988b1177421e48fce47.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-ed616b55fc75d7c645e901842e6d119c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-e8c9849a17ba6988b1177421e48fce47.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-2722cb206c53af75d041f40b86569eb1.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-483fd446500d58e0a8585536c717600d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-2722cb206c53af75d041f40b86569eb1.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script src="site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet"><script id="quarto-search-options" type="application/json">{
@@ -755,14 +757,8 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Optimization.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">56</span>&nbsp; <span class="chapter-title">Optimization</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./Quarto.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">57</span>&nbsp; <span class="chapter-title">Quarto</span></span></a>
+ <span class="menu-text"><span class="chapter-number">56</span>&nbsp; <span class="chapter-title">Quarto</span></span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -777,13 +773,13 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./TerminalIntro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">58</span>&nbsp; <span class="chapter-title">Introduction to the System Shell</span></span></a>
+ <span class="menu-text"><span class="chapter-number">57</span>&nbsp; <span class="chapter-title">Introduction to the System Shell</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./GitHubIntro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">59</span>&nbsp; <span class="chapter-title">Git &amp; GitHub: The Basics</span></span></a>
+ <span class="menu-text"><span class="chapter-number">58</span>&nbsp; <span class="chapter-title">Git &amp; GitHub: The Basics</span></span></a>
   </div>
 </li>
       </ul>
@@ -800,13 +796,13 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ds.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">60</span>&nbsp; <span class="chapter-title">Data Queries across implementations</span></span></a>
+ <span class="menu-text"><span class="chapter-number">59</span>&nbsp; <span class="chapter-title">Data Queries across implementations</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./DuckDB.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">61</span>&nbsp; <span class="chapter-title">DuckDB</span></span></a>
+ <span class="menu-text"><span class="chapter-number">60</span>&nbsp; <span class="chapter-title">DuckDB</span></span></a>
   </div>
 </li>
       </ul>
@@ -814,13 +810,13 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Resources.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">62</span>&nbsp; <span class="chapter-title">Resources</span></span></a>
+ <span class="menu-text"><span class="chapter-number">61</span>&nbsp; <span class="chapter-title">Resources</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./DataPipeline.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">63</span>&nbsp; <span class="chapter-title">Data Pipeline Overview</span></span></a>
+ <span class="menu-text"><span class="chapter-number">62</span>&nbsp; <span class="chapter-title">Data Pipeline Overview</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -1146,16 +1142,16 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 <div class="cell-output cell-output-stdout">
 <pre><code>       ID        A        W
     &lt;int&gt;    &lt;num&gt;    &lt;num&gt;
- 1:  8254 36.14195 91.56035
- 2:  8800 46.17960 91.27711
- 3:  8752 41.53630 90.85834
- 4:  8414 47.35282 84.02487
- 5:  8421 48.39273 88.93596
- 6:  8551 43.76153 87.14759
- 7:  8003 41.96480 81.22580
- 8:  8059 43.20596 83.24410
- 9:  8020 27.53588 91.31077
-10:  8381 37.26614 85.18255</code></pre>
+ 1:  8891 46.64620 78.37711
+ 2:  8405 47.73877 87.77606
+ 3:  8397 50.68287 84.90517
+ 4:  8069 50.40733 86.44774
+ 5:  8538 51.37829 89.92149
+ 6:  8495 55.59011 90.95933
+ 7:  8080 37.14590 76.06015
+ 8:  8981 60.03211 82.07721
+ 9:  8611 43.72036 86.34864
+10:  8194 50.61190 98.88535</code></pre>
 </div>
 </div>
 <p>Use the syntax:</p>
@@ -1168,16 +1164,16 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 <div class="cell-output cell-output-stdout">
 <pre><code>    Patient_ID      Age   Weight
          &lt;int&gt;    &lt;num&gt;    &lt;num&gt;
- 1:       8254 36.14195 91.56035
- 2:       8800 46.17960 91.27711
- 3:       8752 41.53630 90.85834
- 4:       8414 47.35282 84.02487
- 5:       8421 48.39273 88.93596
- 6:       8551 43.76153 87.14759
- 7:       8003 41.96480 81.22580
- 8:       8059 43.20596 83.24410
- 9:       8020 27.53588 91.31077
-10:       8381 37.26614 85.18255</code></pre>
+ 1:       8891 46.64620 78.37711
+ 2:       8405 47.73877 87.77606
+ 3:       8397 50.68287 84.90517
+ 4:       8069 50.40733 86.44774
+ 5:       8538 51.37829 89.92149
+ 6:       8495 55.59011 90.95933
+ 7:       8080 37.14590 76.06015
+ 8:       8981 60.03211 82.07721
+ 9:       8611 43.72036 86.34864
+10:       8194 50.61190 98.88535</code></pre>
 </div>
 </div>
 <p>Change subset of names:</p>
@@ -1188,16 +1184,16 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 <div class="cell-output cell-output-stdout">
 <pre><code>    Patient_ID Age_at_Admission Weight_at_Admission
          &lt;int&gt;            &lt;num&gt;               &lt;num&gt;
- 1:       8254         36.14195            91.56035
- 2:       8800         46.17960            91.27711
- 3:       8752         41.53630            90.85834
- 4:       8414         47.35282            84.02487
- 5:       8421         48.39273            88.93596
- 6:       8551         43.76153            87.14759
- 7:       8003         41.96480            81.22580
- 8:       8059         43.20596            83.24410
- 9:       8020         27.53588            91.31077
-10:       8381         37.26614            85.18255</code></pre>
+ 1:       8891         46.64620            78.37711
+ 2:       8405         47.73877            87.77606
+ 3:       8397         50.68287            84.90517
+ 4:       8069         50.40733            86.44774
+ 5:       8538         51.37829            89.92149
+ 6:       8495         55.59011            90.95933
+ 7:       8080         37.14590            76.06015
+ 8:       8981         60.03211            82.07721
+ 9:       8611         43.72036            86.34864
+10:       8194         50.61190            98.88535</code></pre>
 </div>
 </div>
 <p><code>old</code> argument can also be integer index of column(s).</p>
@@ -1208,16 +1204,16 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 <div class="cell-output cell-output-stdout">
 <pre><code>    Hospital_ID Age_at_Admission Weight_at_Admission
           &lt;int&gt;            &lt;num&gt;               &lt;num&gt;
- 1:        8254         36.14195            91.56035
- 2:        8800         46.17960            91.27711
- 3:        8752         41.53630            90.85834
- 4:        8414         47.35282            84.02487
- 5:        8421         48.39273            88.93596
- 6:        8551         43.76153            87.14759
- 7:        8003         41.96480            81.22580
- 8:        8059         43.20596            83.24410
- 9:        8020         27.53588            91.31077
-10:        8381         37.26614            85.18255</code></pre>
+ 1:        8891         46.64620            78.37711
+ 2:        8405         47.73877            87.77606
+ 3:        8397         50.68287            84.90517
+ 4:        8069         50.40733            86.44774
+ 5:        8538         51.37829            89.92149
+ 6:        8495         55.59011            90.95933
+ 7:        8080         37.14590            76.06015
+ 8:        8981         60.03211            82.07721
+ 9:        8611         43.72036            86.34864
+10:        8194         50.61190            98.88535</code></pre>
 </div>
 </div>
 </section><section id="filter-rows" class="level2" data-number="34.6"><h2 data-number="34.6" class="anchored" data-anchor-id="filter-rows">
@@ -1345,13 +1341,13 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb68"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">adf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="kw">function</span><span class="op">(</span><span class="va">i</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">adf</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>          V1         V2          V3         V4         V5
-1  0.6179966  1.0724774 -0.68785242 -0.9654427  1.1936329
-2 -0.4282275 -0.8042036  0.03552512 -0.1868211  0.6651967
-3 -1.6635976 -1.3537230  0.26785997 -0.5746305 -1.0489719
-4 -0.8005334 -1.8136314  0.74195929  0.9661759  0.6596389
-5 -0.8125215  0.1643694 -0.54882367  0.2485534  0.8148406
-6 -1.2815142 -0.8154292 -0.65234682 -0.6914557 -0.7820180</code></pre>
+<pre><code>           V1         V2         V3          V4         V5
+1  1.76181867  0.1400717  0.3223699 -0.67165028 -1.1847180
+2 -1.16102989 -0.7243540  1.2147593 -0.27086664 -0.4917231
+3 -0.24079202  0.6322680  0.1615875  1.23194277 -0.3109401
+4  0.28799917 -0.9452905 -1.7282306  0.07471584  1.6144841
+5 -0.03832676 -0.6550937  1.3137549 -0.54021670 -0.2197895
+6 -0.09288854  0.7026018 -0.7111555  0.70999418 -0.4250824</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb70"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">adf</span><span class="op">[</span><span class="fl">1</span>, <span class="fl">3</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">adf</span><span class="op">[</span><span class="fl">3</span>, <span class="fl">4</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">adf</span><span class="op">[</span><span class="fl">5</span>, <span class="fl">3</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">adf</span><span class="op">[</span><span class="fl">7</span>, <span class="fl">3</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="cn">NA</span></span>
 <span><span class="va">adt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/as.data.table.html">as.data.table</a></span><span class="op">(</span><span class="va">adf</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1359,26 +1355,26 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb71"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">adf</span><span class="op">[</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">adf</span><span class="op">$</span><span class="va">V3</span><span class="op">)</span>, <span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>           V1         V2          V3         V4         V5
-2  -0.4282275 -0.8042036  0.03552512 -0.1868211  0.6651967
-3  -1.6635976 -1.3537230  0.26785997         NA -1.0489719
-4  -0.8005334 -1.8136314  0.74195929  0.9661759  0.6596389
-6  -1.2815142 -0.8154292 -0.65234682 -0.6914557 -0.7820180
-8   0.4322433 -0.2981248 -0.03369739 -1.5637058 -1.1015393
-9  -0.5805915 -0.1185931  0.16524979 -0.2436720  0.7952899
-10  0.1470787 -0.7587722  0.59074531  0.3789524  1.2539244</code></pre>
+<pre><code>            V1          V2         V3          V4         V5
+2  -1.16102989 -0.72435401  1.2147593 -0.27086664 -0.4917231
+3  -0.24079202  0.63226804  0.1615875          NA -0.3109401
+4   0.28799917 -0.94529050 -1.7282306  0.07471584  1.6144841
+6  -0.09288854  0.70260182 -0.7111555  0.70999418 -0.4250824
+8  -0.74678280 -0.27314789 -0.1950318  0.78268534 -0.5224142
+9  -0.02276843 -0.01859409 -0.4894305 -1.98561019  0.1967000
+10  0.68218165  1.05401788 -1.7543987  1.36867146  0.7186674</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb73"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">adt</span><span class="op">[</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">V3</span><span class="op">)</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>           V1         V2          V3         V4         V5
-        &lt;num&gt;      &lt;num&gt;       &lt;num&gt;      &lt;num&gt;      &lt;num&gt;
-1: -0.4282275 -0.8042036  0.03552512 -0.1868211  0.6651967
-2: -1.6635976 -1.3537230  0.26785997         NA -1.0489719
-3: -0.8005334 -1.8136314  0.74195929  0.9661759  0.6596389
-4: -1.2815142 -0.8154292 -0.65234682 -0.6914557 -0.7820180
-5:  0.4322433 -0.2981248 -0.03369739 -1.5637058 -1.1015393
-6: -0.5805915 -0.1185931  0.16524979 -0.2436720  0.7952899
-7:  0.1470787 -0.7587722  0.59074531  0.3789524  1.2539244</code></pre>
+<pre><code>            V1          V2         V3          V4         V5
+         &lt;num&gt;       &lt;num&gt;      &lt;num&gt;       &lt;num&gt;      &lt;num&gt;
+1: -1.16102989 -0.72435401  1.2147593 -0.27086664 -0.4917231
+2: -0.24079202  0.63226804  0.1615875          NA -0.3109401
+3:  0.28799917 -0.94529050 -1.7282306  0.07471584  1.6144841
+4: -0.09288854  0.70260182 -0.7111555  0.70999418 -0.4250824
+5: -0.74678280 -0.27314789 -0.1950318  0.78268534 -0.5224142
+6: -0.02276843 -0.01859409 -0.4894305 -1.98561019  0.1967000
+7:  0.68218165  1.05401788 -1.7543987  1.36867146  0.7186674</code></pre>
 </div>
 </div>
 </section></section><section id="select-columns" class="level2" data-number="34.7"><h2 data-number="34.7" class="anchored" data-anchor-id="select-columns">
@@ -1542,7 +1538,8 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb107"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span><span class="op">[</span>, <span class="va">colid</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-error">
-<pre><code>Error in `[.data.table`(dt, , colid): j (the 2nd argument inside [...]) is a single symbol but column name 'colid' is not found. If you intended to select columns using a variable in calling scope, please try DT[, ..colid]. The .. prefix conveys one-level-up similar to a file system path.</code></pre>
+<pre><code>Error in `[.data.table`:
+! j (the 2nd argument inside [...]) is a single symbol but column name 'colid' is not found. If you intended to select columns using a variable in calling scope, please try DT[, ..colid]. The .. prefix conveys one-level-up similar to a file system path.</code></pre>
 </div>
 </div>
 <p><br><br> Selecting a single column by name returns a <strong>vector</strong>:</p>
@@ -1787,16 +1784,16 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 <div class="cell-output cell-output-stdout">
 <pre><code>    PatientID   Height   Weight  Group
         &lt;int&gt;    &lt;num&gt;    &lt;num&gt; &lt;fctr&gt;
- 1:      4527 164.7702 72.51216      A
- 2:      2830 172.0150 85.21636      B
- 3:      2411 169.8776 87.68722      A
- 4:      6937 169.4237 73.00400      B
- 5:      7062 186.9313 82.31618      B
- 6:      9570 161.6996 75.82902      B
- 7:      4363 164.7490 74.86255      A
- 8:      3636 204.5409 68.81390      A
- 9:      1184 174.7388 74.44918      B
-10:      8920 185.7749 71.20984      B</code></pre>
+ 1:      3231 196.3039 71.59945      B
+ 2:      6081 176.5131 75.85621      B
+ 3:      1010 191.5851 83.10799      B
+ 4:      9380 183.1453 93.33937      B
+ 5:      2017 161.0093 82.30423      A
+ 6:      1942 182.5191 76.58418      B
+ 7:      5396 175.8809 78.43487      B
+ 8:      7338 189.9497 87.88289      B
+ 9:      5178 191.0920 55.24988      B
+10:      4113 196.1999 73.61255      B</code></pre>
 </div>
 </div>
 <p>Let’s set the order by PatientID:</p>
@@ -1806,16 +1803,16 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 <div class="cell-output cell-output-stdout">
 <pre><code>    PatientID   Height   Weight  Group
         &lt;int&gt;    &lt;num&gt;    &lt;num&gt; &lt;fctr&gt;
- 1:      1184 174.7388 74.44918      B
- 2:      2411 169.8776 87.68722      A
- 3:      2830 172.0150 85.21636      B
- 4:      3636 204.5409 68.81390      A
- 5:      4363 164.7490 74.86255      A
- 6:      4527 164.7702 72.51216      A
- 7:      6937 169.4237 73.00400      B
- 8:      7062 186.9313 82.31618      B
- 9:      8920 185.7749 71.20984      B
-10:      9570 161.6996 75.82902      B</code></pre>
+ 1:      1010 191.5851 83.10799      B
+ 2:      1942 182.5191 76.58418      B
+ 3:      2017 161.0093 82.30423      A
+ 4:      3231 196.3039 71.59945      B
+ 5:      4113 196.1999 73.61255      B
+ 6:      5178 191.0920 55.24988      B
+ 7:      5396 175.8809 78.43487      B
+ 8:      6081 176.5131 75.85621      B
+ 9:      7338 189.9497 87.88289      B
+10:      9380 183.1453 93.33937      B</code></pre>
 </div>
 </div>
 <p>Let’s re-order, always in-place, by group and then by height:</p>
@@ -1825,16 +1822,16 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 <div class="cell-output cell-output-stdout">
 <pre><code>    PatientID   Height   Weight  Group
         &lt;int&gt;    &lt;num&gt;    &lt;num&gt; &lt;fctr&gt;
- 1:      4363 164.7490 74.86255      A
- 2:      4527 164.7702 72.51216      A
- 3:      2411 169.8776 87.68722      A
- 4:      3636 204.5409 68.81390      A
- 5:      9570 161.6996 75.82902      B
- 6:      6937 169.4237 73.00400      B
- 7:      2830 172.0150 85.21636      B
- 8:      1184 174.7388 74.44918      B
- 9:      8920 185.7749 71.20984      B
-10:      7062 186.9313 82.31618      B</code></pre>
+ 1:      2017 161.0093 82.30423      A
+ 2:      5396 175.8809 78.43487      B
+ 3:      6081 176.5131 75.85621      B
+ 4:      1942 182.5191 76.58418      B
+ 5:      9380 183.1453 93.33937      B
+ 6:      7338 189.9497 87.88289      B
+ 7:      5178 191.0920 55.24988      B
+ 8:      1010 191.5851 83.10799      B
+ 9:      4113 196.1999 73.61255      B
+10:      3231 196.3039 71.59945      B</code></pre>
 </div>
 </div>
 </section><section id="group-by-operations" class="level2" data-number="34.13"><h2 data-number="34.13" class="anchored" data-anchor-id="group-by-operations">
@@ -1849,11 +1846,11 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 <div class="cell-output cell-output-stdout">
 <pre><code>       A     B           C  Group
    &lt;int&gt; &lt;num&gt;       &lt;num&gt; &lt;char&gt;
-1:     1   1.2 -0.16052987      a
-2:     2   4.3  2.15715743      b
-3:     3   9.7  0.08882041      b
-4:     4   5.6 -0.56086440      a
-5:     5   8.1 -0.37153819      a</code></pre>
+1:     1   1.2  0.69461579      a
+2:     2   4.3  1.34795272      b
+3:     3   9.7  0.82101760      b
+4:     4   5.6  0.06944533      a
+5:     5   8.1 -0.61321955      a</code></pre>
 </div>
 </div>
 <section id="group-by-summary" class="level3" data-number="34.13.1"><h3 data-number="34.13.1" class="anchored" data-anchor-id="group-by-summary">
@@ -1884,11 +1881,11 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 <div class="cell-output cell-output-stdout">
 <pre><code>       A     B           C  Group mean_A_by_Group
    &lt;int&gt; &lt;num&gt;       &lt;num&gt; &lt;char&gt;           &lt;num&gt;
-1:     1   1.2 -0.16052987      a        3.333333
-2:     2   4.3  2.15715743      b        2.500000
-3:     3   9.7  0.08882041      b        2.500000
-4:     4   5.6 -0.56086440      a        3.333333
-5:     5   8.1 -0.37153819      a        3.333333</code></pre>
+1:     1   1.2  0.69461579      a        3.333333
+2:     2   4.3  1.34795272      b        2.500000
+3:     3   9.7  0.82101760      b        2.500000
+4:     4   5.6  0.06944533      a        3.333333
+5:     5   8.1 -0.61321955      a        3.333333</code></pre>
 </div>
 </div>
 </section></section><section id="apply-functions-to-columns" class="level2" data-number="34.14"><h2 data-number="34.14" class="anchored" data-anchor-id="apply-functions-to-columns">
@@ -1898,25 +1895,25 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb152"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/as.data.table.html">as.data.table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, \<span class="op">(</span><span class="va">i</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">dt1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>            V1         V2         V3
-         &lt;num&gt;      &lt;num&gt;      &lt;num&gt;
- 1:  0.9454059 -0.7930885 -2.5190603
- 2:  0.6705971  1.0630810 -1.6928279
- 3:  0.2245473 -1.3417530  0.9264019
- 4: -1.0387699 -0.6186632  0.2471459
- 5: -1.3092584  0.7749935 -0.8194771
- 6: -0.8237848  0.2016330  1.6369376
- 7:  0.1904401 -0.7306494  0.6267110
- 8:  0.6673175  1.4075066  1.7622587
- 9:  0.1397172 -1.0341271  0.4757392
-10:  2.9029260  0.1636206  1.0136611</code></pre>
+<pre><code>             V1         V2         V3
+          &lt;num&gt;      &lt;num&gt;      &lt;num&gt;
+ 1: -1.64550451 -1.0568537  1.2768708
+ 2: -0.21590268  1.3682299 -0.7594915
+ 3:  0.15677820 -0.4693945 -0.5269167
+ 4: -1.28472574 -0.5785145  1.3110751
+ 5: -0.08883428  0.2391433  1.6325717
+ 6: -0.99025395  0.4759694  1.5294635
+ 7:  1.81356835  0.3773095  0.6376757
+ 8:  1.63115501 -0.9772004  0.4546990
+ 9: -0.01715155 -0.4408853  0.4161094
+10: -0.94024912  1.0449453  1.4215103</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb154"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/data.table/man/setattr.html">setnames</a></span><span class="op">(</span><span class="va">dt1</span>, <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">dt1</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Alpha"</span>, <span class="st">"Beta"</span>, <span class="st">"Gamma"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">dt1</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">.SD</span>, <span class="va">mean</span><span class="op">)</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>       Alpha        Beta    Gamma
-       &lt;num&gt;       &lt;num&gt;    &lt;num&gt;
-1: 0.2569138 -0.09074465 0.165749</code></pre>
+<pre><code>       Alpha         Beta     Gamma
+       &lt;num&gt;        &lt;num&gt;     &lt;num&gt;
+1: -0.158112 -0.001725105 0.7393567</code></pre>
 </div>
 </div>
 <p>You can specify which columns to operate on using the <code>.SDcols</code> argument:</p>
@@ -1927,13 +1924,13 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 <span>                  Group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"b"</span>, <span class="st">"a"</span>, <span class="st">"a"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">dt2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>       A     B           C  Group
-   &lt;int&gt; &lt;num&gt;       &lt;num&gt; &lt;char&gt;
-1:     1   1.2 -0.04075861      a
-2:     2   4.3  1.07937920      b
-3:     3   9.7 -0.16047609      b
-4:     4   5.6  0.45827880      a
-5:     5   8.1  0.31630213      a</code></pre>
+<pre><code>       A     B          C  Group
+   &lt;int&gt; &lt;num&gt;      &lt;num&gt; &lt;char&gt;
+1:     1   1.2 -0.4644849      a
+2:     2   4.3 -0.5605239      b
+3:     3   9.7  0.1979489      b
+4:     4   5.6 -0.1429797      a
+5:     5   8.1 -1.0357604      a</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb158"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt2</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">.SD</span>, <span class="va">mean</span><span class="op">)</span>, .SDcols <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -1960,68 +1957,68 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb164"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt2</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">.SD</span>, <span class="va">median</span><span class="op">)</span>, .SDcols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"B"</span>, <span class="st">"C"</span><span class="op">)</span>, by <span class="op">=</span> <span class="va">Group</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>    Group     B         C
-   &lt;char&gt; &lt;num&gt;     &lt;num&gt;
-1:      a   5.6 0.3163021
-2:      b   7.0 0.4594516</code></pre>
+<pre><code>    Group     B          C
+   &lt;char&gt; &lt;num&gt;      &lt;num&gt;
+1:      a   5.6 -0.4644849
+2:      b   7.0 -0.1812875</code></pre>
 </div>
 </div>
 <p>Create multiple new columns from transformation of existing and store with custom prefix:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb166"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>         Alpha       Beta      Gamma
-         &lt;num&gt;      &lt;num&gt;      &lt;num&gt;
- 1:  0.9454059 -0.7930885 -2.5190603
- 2:  0.6705971  1.0630810 -1.6928279
- 3:  0.2245473 -1.3417530  0.9264019
- 4: -1.0387699 -0.6186632  0.2471459
- 5: -1.3092584  0.7749935 -0.8194771
- 6: -0.8237848  0.2016330  1.6369376
- 7:  0.1904401 -0.7306494  0.6267110
- 8:  0.6673175  1.4075066  1.7622587
- 9:  0.1397172 -1.0341271  0.4757392
-10:  2.9029260  0.1636206  1.0136611</code></pre>
+<pre><code>          Alpha       Beta      Gamma
+          &lt;num&gt;      &lt;num&gt;      &lt;num&gt;
+ 1: -1.64550451 -1.0568537  1.2768708
+ 2: -0.21590268  1.3682299 -0.7594915
+ 3:  0.15677820 -0.4693945 -0.5269167
+ 4: -1.28472574 -0.5785145  1.3110751
+ 5: -0.08883428  0.2391433  1.6325717
+ 6: -0.99025395  0.4759694  1.5294635
+ 7:  1.81356835  0.3773095  0.6376757
+ 8:  1.63115501 -0.9772004  0.4546990
+ 9: -0.01715155 -0.4408853  0.4161094
+10: -0.94024912  1.0449453  1.4215103</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb168"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt1</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">dt1</span><span class="op">)</span>, <span class="st">"_abs"</span><span class="op">)</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">.SD</span>, <span class="va">abs</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="va">dt1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>         Alpha       Beta      Gamma Alpha_abs  Beta_abs Gamma_abs
-         &lt;num&gt;      &lt;num&gt;      &lt;num&gt;     &lt;num&gt;     &lt;num&gt;     &lt;num&gt;
- 1:  0.9454059 -0.7930885 -2.5190603 0.9454059 0.7930885 2.5190603
- 2:  0.6705971  1.0630810 -1.6928279 0.6705971 1.0630810 1.6928279
- 3:  0.2245473 -1.3417530  0.9264019 0.2245473 1.3417530 0.9264019
- 4: -1.0387699 -0.6186632  0.2471459 1.0387699 0.6186632 0.2471459
- 5: -1.3092584  0.7749935 -0.8194771 1.3092584 0.7749935 0.8194771
- 6: -0.8237848  0.2016330  1.6369376 0.8237848 0.2016330 1.6369376
- 7:  0.1904401 -0.7306494  0.6267110 0.1904401 0.7306494 0.6267110
- 8:  0.6673175  1.4075066  1.7622587 0.6673175 1.4075066 1.7622587
- 9:  0.1397172 -1.0341271  0.4757392 0.1397172 1.0341271 0.4757392
-10:  2.9029260  0.1636206  1.0136611 2.9029260 0.1636206 1.0136611</code></pre>
+<pre><code>          Alpha       Beta      Gamma  Alpha_abs  Beta_abs Gamma_abs
+          &lt;num&gt;      &lt;num&gt;      &lt;num&gt;      &lt;num&gt;     &lt;num&gt;     &lt;num&gt;
+ 1: -1.64550451 -1.0568537  1.2768708 1.64550451 1.0568537 1.2768708
+ 2: -0.21590268  1.3682299 -0.7594915 0.21590268 1.3682299 0.7594915
+ 3:  0.15677820 -0.4693945 -0.5269167 0.15677820 0.4693945 0.5269167
+ 4: -1.28472574 -0.5785145  1.3110751 1.28472574 0.5785145 1.3110751
+ 5: -0.08883428  0.2391433  1.6325717 0.08883428 0.2391433 1.6325717
+ 6: -0.99025395  0.4759694  1.5294635 0.99025395 0.4759694 1.5294635
+ 7:  1.81356835  0.3773095  0.6376757 1.81356835 0.3773095 0.6376757
+ 8:  1.63115501 -0.9772004  0.4546990 1.63115501 0.9772004 0.4546990
+ 9: -0.01715155 -0.4408853  0.4161094 0.01715155 0.4408853 0.4161094
+10: -0.94024912  1.0449453  1.4215103 0.94024912 1.0449453 1.4215103</code></pre>
 </div>
 </div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb170"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>       A     B           C  Group
-   &lt;int&gt; &lt;num&gt;       &lt;num&gt; &lt;char&gt;
-1:     1   1.2 -0.04075861      a
-2:     2   4.3  1.07937920      b
-3:     3   9.7 -0.16047609      b
-4:     4   5.6  0.45827880      a
-5:     5   8.1  0.31630213      a</code></pre>
+<pre><code>       A     B          C  Group
+   &lt;int&gt; &lt;num&gt;      &lt;num&gt; &lt;char&gt;
+1:     1   1.2 -0.4644849      a
+2:     2   4.3 -0.5605239      b
+3:     3   9.7  0.1979489      b
+4:     4   5.6 -0.1429797      a
+5:     5   8.1 -1.0357604      a</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb172"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">cols</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"C"</span><span class="op">)</span></span>
 <span><span class="va">dt2</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">cols</span>, <span class="st">"_groupMean"</span><span class="op">)</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">.SD</span>, <span class="va">mean</span><span class="op">)</span>, .SDcols <span class="op">=</span> <span class="va">cols</span>, by <span class="op">=</span> <span class="va">Group</span><span class="op">]</span></span>
 <span><span class="va">dt2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>       A     B           C  Group A_groupMean C_groupMean
-   &lt;int&gt; &lt;num&gt;       &lt;num&gt; &lt;char&gt;       &lt;num&gt;       &lt;num&gt;
-1:     1   1.2 -0.04075861      a    3.333333   0.2446074
-2:     2   4.3  1.07937920      b    2.500000   0.4594516
-3:     3   9.7 -0.16047609      b    2.500000   0.4594516
-4:     4   5.6  0.45827880      a    3.333333   0.2446074
-5:     5   8.1  0.31630213      a    3.333333   0.2446074</code></pre>
+<pre><code>       A     B          C  Group A_groupMean C_groupMean
+   &lt;int&gt; &lt;num&gt;      &lt;num&gt; &lt;char&gt;       &lt;num&gt;       &lt;num&gt;
+1:     1   1.2 -0.4644849      a    3.333333  -0.5477417
+2:     2   4.3 -0.5605239      b    2.500000  -0.1812875
+3:     3   9.7  0.1979489      b    2.500000  -0.1812875
+4:     4   5.6 -0.1429797      a    3.333333  -0.5477417
+5:     5   8.1 -1.0357604      a    3.333333  -0.5477417</code></pre>
 </div>
 </div>
 </section><section id="row-wise-operations" class="level2" data-number="34.15"><h2 data-number="34.15" class="anchored" data-anchor-id="row-wise-operations">

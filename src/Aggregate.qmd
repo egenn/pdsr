@@ -23,11 +23,9 @@ interactively on the console.
 Note that while you *can* programmatically create a formula, it is easier to use
 vector inputs when calling `aggregate()` programmatically. 
 <br><br>
-For this example, we shall use the penguin data from the **palmerpenguins**
-package:
+For this example, we shall use the penguins data, which has been added in base R.
 
 ```{r}
-library(palmerpenguins)
 str(penguins)
 ```
 
@@ -39,7 +37,7 @@ Note that the formula method defaults to na.action = na.omit
 Using the formula interface:
 
 ```{r}
-aggregate(bill_length_mm ~ species,
+aggregate(bill_len ~ species,
           data = penguins,
           mean, na.rm = TRUE)
 ```
@@ -47,7 +45,7 @@ aggregate(bill_length_mm ~ species,
 Using R objects directly:
 
 ```{r}
-aggregate(penguins$bill_length_mm,
+aggregate(penguins$bill_len,
           by = list(penguins$species),
           mean, na.rm = TRUE)
 ```
@@ -59,7 +57,7 @@ If instead of passing a vector, you pass a data.frame or list with one or more
 named elements, the output includes the names:
 
 ```{r}
-aggregate(penguins["bill_length_mm"],
+aggregate(penguins["bill_len"],
           by = penguins["species"],
           mean, na.rm = TRUE)
 ```
@@ -68,7 +66,7 @@ By creating a list instead of indexing the given data.frame also allows you to
 set custom names:
 
 ```{r}
-aggregate(list(`Bill length` = penguins$bill_length_mm),
+aggregate(list(`Bill length` = penguins$bill_len),
           by = list(Species = penguins$species),
           mean, na.rm = TRUE)
 ```
@@ -78,7 +76,7 @@ aggregate(list(`Bill length` = penguins$bill_length_mm),
 Formula notation:
 
 ```{r}
-aggregate(cbind(bill_length_mm, flipper_length_mm) ~ species,
+aggregate(cbind(bill_len, flipper_len) ~ species,
           data = penguins,
           mean)
 ```
@@ -86,7 +84,7 @@ aggregate(cbind(bill_length_mm, flipper_length_mm) ~ species,
 Objects:
 
 ```{r}
-aggregate(penguins[, c("bill_length_mm", "flipper_length_mm")],
+aggregate(penguins[, c("bill_len", "flipper_len")],
           by = list(Species = penguins$species),
           mean, na.rm = TRUE)
 ```
@@ -96,13 +94,13 @@ aggregate(penguins[, c("bill_length_mm", "flipper_length_mm")],
 Formula notation:
 
 ```{r}
-aggregate(bill_length_mm ~ species + island, data = penguins, mean)
+aggregate(bill_len ~ species + island, data = penguins, mean)
 ```
 
 Objects:
 
 ```{r}
-aggregate(penguins["bill_length_mm"],
+aggregate(penguins["bill_len"],
           by = list(Species = penguins$species, 
                     Island = penguins$island),
           mean, na.rm = TRUE)
@@ -113,14 +111,14 @@ aggregate(penguins["bill_length_mm"],
 Formula notation:
 
 ```{r}
-aggregate(cbind(bill_length_mm, flipper_length_mm) ~ species + island,
+aggregate(cbind(bill_len, flipper_len) ~ species + island,
           data = penguins, mean)
 ```
 
 Objects:
 
 ```{r}
-aggregate(penguins[, c("bill_length_mm", "flipper_length_mm")],
+aggregate(penguins[, c("bill_len", "flipper_len")],
           by = list(Species = penguins$species, 
                     Island = penguins$island),
           mean, na.rm = TRUE)
@@ -138,7 +136,7 @@ column names directly within the expression without the need to use `df[["column
 
 ```{r}
 with(penguins,
-     aggregate(list(`Bill length` = bill_length_mm),
+     aggregate(list(`Bill length` = bill_len),
                by = list(Species = species),
                mean, na.rm = TRUE))
 ```

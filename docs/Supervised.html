@@ -1096,7 +1096,7 @@ Mean Balanced Accuracy of 10 stratified subsamples: <span style="color: #87D7FF;
 </div>
 <p>We plot:</p>
 <div class="cell" data-hash="Supervised_cache/html/unnamed-chunk-26_7585b100a2a00a701429dc3ca8dfce95">
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/rtemis/man/mplot3_xy.html">mplot3_xy</a></span><span class="op">(</span><span class="va">x</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>y_noise <span class="op">=</span> <span class="va">y_noise</span>, y_true <span class="op">=</span> <span class="va">y_true</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/rtemis/man/draw_scatter.html">draw_scatter</a></span><span class="op">(</span><span class="va">x</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>y_noise <span class="op">=</span> <span class="va">y_noise</span>, y_true <span class="op">=</span> <span class="va">y_true</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure"><p><img src="Supervised_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid figure-img" width="480"></p>
@@ -1107,7 +1107,7 @@ Mean Balanced Accuracy of 10 stratified subsamples: <span style="color: #87D7FF;
 <p>We want to find a model that best approximates <code>y_true</code>, but we only know <code>y_noise</code>.</p>
 <p>A maximally overfitted model would model noise perfectly:</p>
 <div class="cell" data-hash="Supervised_cache/html/unnamed-chunk-27_fe118633ba1c1d3aaed83ef610329b12">
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/rtemis/man/mplot3_xy.html">mplot3_xy</a></span><span class="op">(</span><span class="va">x</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>Overfitted_model <span class="op">=</span> <span class="va">y_noise</span>, Ideal_model <span class="op">=</span> <span class="va">y_true</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"l"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/rtemis/man/draw_scatter.html">draw_scatter</a></span><span class="op">(</span><span class="va">x</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>Overfitted_model <span class="op">=</span> <span class="va">y_noise</span>, Ideal_model <span class="op">=</span> <span class="va">y_true</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"l"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure"><p><img src="Supervised_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid figure-img" width="480"></p>
@@ -1117,7 +1117,7 @@ Mean Balanced Accuracy of 10 stratified subsamples: <span style="color: #87D7FF;
 </div>
 <p>An example of an SVM set up to overfit heavily:</p>
 <div class="cell" data-hash="Supervised_cache/html/unnamed-chunk-28_32b8f4cf94d6f30c44606bbaacec2f8b">
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/rtemis/man/mplot3_xy.html">mplot3_xy</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y_noise</span>, </span>
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/rtemis/man/draw_scatter.html">draw_scatter</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y_noise</span>, </span>
 <span>          fit <span class="op">=</span> <span class="st">"svm"</span>,</span>
 <span>          fit.params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>kernel <span class="op">=</span> <span class="st">"radial"</span>, cost <span class="op">=</span> <span class="fl">100</span>, gamma <span class="op">=</span> <span class="fl">100</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -1129,7 +1129,7 @@ Mean Balanced Accuracy of 10 stratified subsamples: <span style="color: #87D7FF;
 </div>
 <p>An example of a good approximation of <code>fn</code> using a GAM with penalized splines:</p>
 <div class="cell" data-hash="Supervised_cache/html/unnamed-chunk-29_0b210cef251ef82133bc497abf7b41aa">
-<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/rtemis/man/mplot3_xy.html">mplot3_xy</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y_noise</span>, fit <span class="op">=</span> <span class="st">"gam"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/rtemis/man/draw_scatter.html">draw_scatter</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y_noise</span>, fit <span class="op">=</span> <span class="st">"gam"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure"><p><img src="Supervised_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid figure-img" width="480"></p>

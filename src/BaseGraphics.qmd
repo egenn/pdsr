@@ -407,32 +407,31 @@ suited for boxplots that give a picture of the entire distribution. Barplots
 are best for count data.
 
 ```{r}
-library(palmerpenguins)
 str(penguins)
 ```
 
 #### Single continuous by single categorical variables:
 
 ```{r}
-bill_length_by_island <- aggregate(bill_length_mm ~ island,
+bill_length_by_island <- aggregate(bill_len ~ island,
                                    data = penguins, mean)
 bill_length_by_island
 ```
 
 ```{r}
-barplot(bill_length_mm ~ island, data = bill_length_by_island)
+barplot(bill_len ~ island, data = bill_length_by_island)
 ```
 
 #### Single continuous by multiple categorical variables:
 
 ```{r}
-bill_length_by_island_x_species <- aggregate(bill_length_mm ~ island + species,
+bill_length_by_island_x_species <- aggregate(bill_len ~ island + species,
                                              data = penguins, mean)
 bill_length_by_island_x_species
 ```
 
 ```{r}
-barplot(bill_length_mm ~ island + species,
+barplot(bill_len ~ island + species,
         data = bill_length_by_island_x_species,
         legend = TRUE)
 ```
@@ -441,7 +440,7 @@ Or, if you prefer, beside instead of stacked. Note that in this dataset
 not all species are present in each island.
 
 ```{r}
-barplot(bill_length_mm ~ island + species,
+barplot(bill_len ~ island + species,
         data = bill_length_by_island_x_species,
         beside = TRUE, legend = TRUE)
 ```
@@ -449,7 +448,7 @@ barplot(bill_length_mm ~ island + species,
 Let's use the `args.legend` argument to push the legend to the right to avoid overlap:
 
 ```{r}
-barplot(bill_length_mm ~ island + species,
+barplot(bill_len ~ island + species,
         data = bill_length_by_island_x_species,
         beside = TRUE, legend = TRUE,
         args.legend = list(x = "topright", inset = c(-0.08, 0)))
@@ -466,13 +465,13 @@ The `inset` argument is a vector of length 2, where the first value is the amoun
 
 ```{r}
 bill_and_flipper_length_by_island <- 
-     aggregate(cbind(bill_length_mm, flipper_length_mm) ~ island,
+     aggregate(cbind(bill_len, flipper_len) ~ island,
      data = penguins, mean)
 bill_and_flipper_length_by_island
 ```
 
 ```{r}
-barplot(cbind(bill_length_mm, flipper_length_mm) ~ island, 
+barplot(cbind(bill_len, flipper_len) ~ island, 
         data = bill_and_flipper_length_by_island,
         beside = TRUE, legend = TRUE)
 ```
@@ -487,13 +486,13 @@ variables using `interaction()`
 ```{r}
 island_x_species <- interaction(penguins$island, penguins$species, sep = " x ")
 bill_and_flipper_length_by_island_x_species <- 
-     aggregate(cbind(bill_length_mm, flipper_length_mm) ~ island_x_species,
+     aggregate(cbind(bill_len, flipper_len) ~ island_x_species,
      data = penguins, mean)
 bill_and_flipper_length_by_island_x_species
 ```
 
 ```{r}
-barplot(cbind(bill_length_mm, flipper_length_mm) ~ island_x_species, 
+barplot(cbind(bill_len, flipper_len) ~ island_x_species, 
         data = bill_and_flipper_length_by_island_x_species,
         beside = TRUE, legend = TRUE)
 ```

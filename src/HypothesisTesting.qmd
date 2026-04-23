@@ -93,7 +93,12 @@ Both `t.test()` and `wilcox.test()` (below) either accept input as two vectors,
 `t.test(x, y)` or a formula of the form `t.test(x ~ group)`. The `paired` argument allows us to define a paired test. Since the `sleep` dataset includes measurements on the same cases in two conditions, we set `paired = TRUE`.
 
 ```{r}
-t.test(extra ~ group, data = sleep, paired = TRUE)
+# Split the data into two groups
+group1 <- sleep$extra[sleep$group == 1]
+group2 <- sleep$extra[sleep$group == 2]
+
+# Run the paired test
+t.test(group1, group2, paired = TRUE)
 ```
 
 ## Wilcoxon test

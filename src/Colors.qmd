@@ -13,19 +13,21 @@ knitr:
 ```{r}
 #| echo: false
 par(family = "Helvetica")
-library(rtemis)
-library(ggplot2)
-theme_set(theme(text = element_text(family = "Helvetica")))
 
 # rtemis defaults
-options(rt.theme = "whiteigrid")
-options(rt.fit.theme = "whiteigrid")
+options(rtemis_theme = "whiteigrid")
 ```
 
 ```{r fansi}
 #| echo: false
 #| results: asis
 old.hooks <- fansi::set_knit_hooks(knitr::knit_hooks)
+```
+
+```{r}
+library(rtemis)
+library(ggplot2)
+theme_set(theme(text = element_text(family = "Helvetica")))
 ```
 
 Colors in R can be defined in many different ways:  
@@ -90,15 +92,6 @@ white. Value 1 is max color and 0 is black.
 
 ```{r}
 hsv(1, 1, 1)
-```
-
-In the following plot, the values around the polar plot represent hue. Moving 
-inwards to the center, saturation changes from 1 to 0. (The plot is produced using
-the `mplot_hsv()` function from the [`rtemis`](https://rtemis.lambdamd.org/) package.)
-
-```{r}
-mplot_hsv()
-mplot_hsv(v = 0.5)
 ```
 
 ## Transparency

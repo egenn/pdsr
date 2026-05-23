@@ -939,6 +939,15 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 <span class="header-section-number">34.1.1</span> Load the <code>data.table</code> package</h3>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r-datatable.com">data.table</a></span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'data.table'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:base':
+
+    %notin%</code></pre>
+</div>
 </div>
 </section></section><section id="create-a-data.table" class="level2" data-number="34.2"><h2 data-number="34.2" class="anchored" data-anchor-id="create-a-data.table">
 <span class="header-section-number">34.2</span> Create a <code>data.table</code>
@@ -948,14 +957,14 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 </h3>
 <p>Let’s create a <code>data.frame</code> and a <code>data.table</code> to explore side by side.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>A <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>A <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,</span>
 <span>                 B <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1.2</span>, <span class="fl">4.3</span>, <span class="fl">9.7</span>, <span class="fl">5.6</span>, <span class="fl">8.1</span><span class="op">)</span>,</span>
 <span>                 C <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"b"</span>, <span class="st">"a"</span>, <span class="st">"a"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "data.frame"</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">df</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">df</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  A   B C
 1 1 1.2 a
@@ -967,14 +976,14 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 </div>
 <p><code><a href="https://rdrr.io/pkg/data.table/man/data.table.html">data.table()</a></code> syntax is similar to <code><a href="https://rdrr.io/r/base/data.frame.html">data.frame()</a></code> (differs in some arguments)</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/data.table.html">data.table</a></span><span class="op">(</span>A <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/data.table.html">data.table</a></span><span class="op">(</span>A <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,</span>
 <span>                 B <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1.2</span>, <span class="fl">4.3</span>, <span class="fl">9.7</span>, <span class="fl">5.6</span>, <span class="fl">8.1</span><span class="op">)</span>,</span>
 <span>                 C <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"b"</span>, <span class="st">"a"</span>, <span class="st">"a"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">dt</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "data.table" "data.frame"</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       A     B      C
    &lt;int&gt; &lt;num&gt; &lt;char&gt;
@@ -987,7 +996,7 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 </div>
 <p>Notice how a <code>data.table</code> object also inherits from <code>data.frame</code>. This means that if a method does not exist for <code>data.table</code>, the method for <code>data.frame</code> will be used (See <a href="#classes">classes and generic functions</a>). <br><br> As part of improving efficiency, data.tables do away with row names. Instead of using row names, you should use a dedicated column or column with a row identifier/s (e.g.&nbsp;“ID”). this is advisable when working with data.frames as well. <br><br> A rather convenient option is to have data.tables print each column’s class below the column name. You can pass the argument <code>class = TRUE</code> to <code><a href="https://rdrr.io/r/base/print.html">print()</a></code> or set the global option <code>datatable.print.class</code> using <code><a href="https://rdrr.io/r/base/options.html">options()</a></code></p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span>datatable.print.class <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span>datatable.print.class <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="va">dt</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       A     B      C
@@ -1001,7 +1010,7 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 </div>
 <p>Same as with a data.frame, to automatically convert strings to factors, you can use the <code>stringsAsFactors</code> argument:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/data.table.html">data.table</a></span><span class="op">(</span>A <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/data.table.html">data.table</a></span><span class="op">(</span>A <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,</span>
 <span>                  B <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1.2</span>, <span class="fl">4.3</span>, <span class="fl">9.7</span>, <span class="fl">5.6</span>, <span class="fl">8.1</span><span class="op">)</span>,</span>
 <span>                  C <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"b"</span>, <span class="st">"a"</span>, <span class="st">"a"</span><span class="op">)</span>,</span>
 <span>                  stringsAsFactors <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
@@ -1020,7 +1029,7 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 <span class="header-section-number">34.2.2</span> By coercion: <code>as.data.table()</code>
 </h3>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>A <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>A <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,</span>
 <span>                  B <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1.2</span>, <span class="fl">4.3</span>, <span class="fl">9.7</span>, <span class="fl">5.6</span>, <span class="fl">8.1</span><span class="op">)</span>,</span>
 <span>                  C <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"b"</span>, <span class="st">"a"</span>, <span class="st">"a"</span><span class="op">)</span>,</span>
 <span>                  stringsAsFactors <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
@@ -1033,7 +1042,7 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 4 4 5.6 a
 5 5 8.1 a</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/as.data.table.html">as.data.table</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/as.data.table.html">as.data.table</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span></span>
 <span><span class="va">dat2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       A     B      C
@@ -1050,7 +1059,7 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 </h3>
 <p><code><a href="https://rdrr.io/pkg/data.table/man/setDT.html">setDT()</a></code> converts a list or data.frame into a <code>data.table</code> <strong><em>in-place</em></strong>. This means the object passed to <code><a href="https://rdrr.io/pkg/data.table/man/setDT.html">setDT()</a></code> is changed and you do not need to assign the output to a new object.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>A <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>A <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,</span>
 <span>                  B <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1.2</span>, <span class="fl">4.3</span>, <span class="fl">9.7</span>, <span class="fl">5.6</span>, <span class="fl">8.1</span><span class="op">)</span>,</span>
 <span>                  C <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"b"</span>, <span class="st">"a"</span>, <span class="st">"a"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1059,7 +1068,7 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/data.table/man/setDT.html">setDT</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/data.table/man/setDT.html">setDT</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "data.table" "data.frame"</code></pre>
@@ -1067,7 +1076,7 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 </div>
 <p>You can similarly convert a <code>data.table</code> to a <code>data.frame</code>, in-place:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/data.table/man/setDF.html">setDF</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/data.table/man/setDF.html">setDF</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "data.frame"</code></pre>
@@ -1078,7 +1087,7 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 </h2>
 <p><code><a href="https://rdrr.io/r/utils/str.html">str()</a></code> works the same (and you should keep using it!)</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>'data.frame':   5 obs. of  3 variables:
  $ A: int  1 2 3 4 5
@@ -1087,13 +1096,13 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">dt</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">dt</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Classes 'data.table' and 'data.frame':  5 obs. of  3 variables:
  $ A: int  1 2 3 4 5
  $ B: num  1.2 4.3 9.7 5.6 8.1
  $ C: chr  "a" "b" "b" "a" ...
- - attr(*, ".internal.selfref")=&lt;externalptr&gt; </code></pre>
+ - attr(*, ".internal.selfref")=&lt;pointer: 0x10421bd00&gt; </code></pre>
 </div>
 </div>
 </section><section id="combine-data.tables" class="level2" data-number="34.4"><h2 data-number="34.4" class="anchored" data-anchor-id="combine-data.tables">
@@ -1101,7 +1110,7 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 </h2>
 <p><code><a href="https://rdrr.io/r/base/cbind.html">cbind()</a></code> and <code><a href="https://rdrr.io/r/base/cbind.html">rbind()</a></code> work on <code>data.table</code>s the same as on <code>data.frame</code>s:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/data.table.html">data.table</a></span><span class="op">(</span>a <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/data.table.html">data.table</a></span><span class="op">(</span>a <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span></span>
 <span><span class="va">dt2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/data.table.html">data.table</a></span><span class="op">(</span>b <span class="op">=</span> <span class="fl">11</span><span class="op">:</span><span class="fl">15</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">dt1</span>, <span class="va">dt2</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -1113,7 +1122,7 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 4:     4    14
 5:     5    15</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span><span class="op">(</span><span class="va">dt1</span>, <span class="va">dt1</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span><span class="op">(</span><span class="va">dt1</span>, <span class="va">dt1</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>        a
     &lt;int&gt;
@@ -1133,7 +1142,7 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 <span class="header-section-number">34.5</span> Set column names <strong><em>in-place</em></strong>
 </h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/data.table.html">data.table</a></span><span class="op">(</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/data.table.html">data.table</a></span><span class="op">(</span></span>
 <span>  ID <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fl">8000</span><span class="op">:</span><span class="fl">9000</span>, size <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>,</span>
 <span>  A <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">10</span>, mean <span class="op">=</span> <span class="fl">47</span>, sd <span class="op">=</span> <span class="fl">8</span><span class="op">)</span>,</span>
 <span>  W <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">10</span>, mean <span class="op">=</span> <span class="fl">87</span>, sd <span class="op">=</span> <span class="fl">7</span><span class="op">)</span></span>
@@ -1142,16 +1151,16 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 <div class="cell-output cell-output-stdout">
 <pre><code>       ID        A        W
     &lt;int&gt;    &lt;num&gt;    &lt;num&gt;
- 1:  8891 46.64620 78.37711
- 2:  8405 47.73877 87.77606
- 3:  8397 50.68287 84.90517
- 4:  8069 50.40733 86.44774
- 5:  8538 51.37829 89.92149
- 6:  8495 55.59011 90.95933
- 7:  8080 37.14590 76.06015
- 8:  8981 60.03211 82.07721
- 9:  8611 43.72036 86.34864
-10:  8194 50.61190 98.88535</code></pre>
+ 1:  8165 49.88224 97.25916
+ 2:  8658 54.50266 87.81571
+ 3:  8126 48.19081 92.55490
+ 4:  8108 39.21147 82.72322
+ 5:  8325 55.42676 90.96360
+ 6:  8109 48.04564 87.54903
+ 7:  8410 45.22314 97.25193
+ 8:  8834 55.43712 74.74517
+ 9:  8713 41.88000 92.55476
+10:  8207 50.48279 87.33159</code></pre>
 </div>
 </div>
 <p>Use the syntax:</p>
@@ -1159,61 +1168,61 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 <p>to change the column names of a data.table in-place.</p>
 <p>Changes all column names:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/data.table/man/setattr.html">setnames</a></span><span class="op">(</span><span class="va">dta</span>, <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">dta</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Patient_ID"</span>, <span class="st">"Age"</span>, <span class="st">"Weight"</span><span class="op">)</span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/data.table/man/setattr.html">setnames</a></span><span class="op">(</span><span class="va">dta</span>, <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">dta</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Patient_ID"</span>, <span class="st">"Age"</span>, <span class="st">"Weight"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">dta</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    Patient_ID      Age   Weight
          &lt;int&gt;    &lt;num&gt;    &lt;num&gt;
- 1:       8891 46.64620 78.37711
- 2:       8405 47.73877 87.77606
- 3:       8397 50.68287 84.90517
- 4:       8069 50.40733 86.44774
- 5:       8538 51.37829 89.92149
- 6:       8495 55.59011 90.95933
- 7:       8080 37.14590 76.06015
- 8:       8981 60.03211 82.07721
- 9:       8611 43.72036 86.34864
-10:       8194 50.61190 98.88535</code></pre>
+ 1:       8165 49.88224 97.25916
+ 2:       8658 54.50266 87.81571
+ 3:       8126 48.19081 92.55490
+ 4:       8108 39.21147 82.72322
+ 5:       8325 55.42676 90.96360
+ 6:       8109 48.04564 87.54903
+ 7:       8410 45.22314 97.25193
+ 8:       8834 55.43712 74.74517
+ 9:       8713 41.88000 92.55476
+10:       8207 50.48279 87.33159</code></pre>
 </div>
 </div>
 <p>Change subset of names:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">old_names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Age"</span>, <span class="st">"Weight"</span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">old_names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Age"</span>, <span class="st">"Weight"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/data.table/man/setattr.html">setnames</a></span><span class="op">(</span><span class="va">dta</span>, <span class="va">old_names</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">old_names</span>, <span class="st">"_at_Admission"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">dta</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    Patient_ID Age_at_Admission Weight_at_Admission
          &lt;int&gt;            &lt;num&gt;               &lt;num&gt;
- 1:       8891         46.64620            78.37711
- 2:       8405         47.73877            87.77606
- 3:       8397         50.68287            84.90517
- 4:       8069         50.40733            86.44774
- 5:       8538         51.37829            89.92149
- 6:       8495         55.59011            90.95933
- 7:       8080         37.14590            76.06015
- 8:       8981         60.03211            82.07721
- 9:       8611         43.72036            86.34864
-10:       8194         50.61190            98.88535</code></pre>
+ 1:       8165         49.88224            97.25916
+ 2:       8658         54.50266            87.81571
+ 3:       8126         48.19081            92.55490
+ 4:       8108         39.21147            82.72322
+ 5:       8325         55.42676            90.96360
+ 6:       8109         48.04564            87.54903
+ 7:       8410         45.22314            97.25193
+ 8:       8834         55.43712            74.74517
+ 9:       8713         41.88000            92.55476
+10:       8207         50.48279            87.33159</code></pre>
 </div>
 </div>
 <p><code>old</code> argument can also be integer index of column(s).</p>
 <p>For example, change the name of the first column:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/data.table/man/setattr.html">setnames</a></span><span class="op">(</span><span class="va">dta</span>, <span class="fl">1</span>, <span class="st">"Hospital_ID"</span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/data.table/man/setattr.html">setnames</a></span><span class="op">(</span><span class="va">dta</span>, <span class="fl">1</span>, <span class="st">"Hospital_ID"</span><span class="op">)</span></span>
 <span><span class="va">dta</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    Hospital_ID Age_at_Admission Weight_at_Admission
           &lt;int&gt;            &lt;num&gt;               &lt;num&gt;
- 1:        8891         46.64620            78.37711
- 2:        8405         47.73877            87.77606
- 3:        8397         50.68287            84.90517
- 4:        8069         50.40733            86.44774
- 5:        8538         51.37829            89.92149
- 6:        8495         55.59011            90.95933
- 7:        8080         37.14590            76.06015
- 8:        8981         60.03211            82.07721
- 9:        8611         43.72036            86.34864
-10:        8194         50.61190            98.88535</code></pre>
+ 1:        8165         49.88224            97.25916
+ 2:        8658         54.50266            87.81571
+ 3:        8126         48.19081            92.55490
+ 4:        8108         39.21147            82.72322
+ 5:        8325         55.42676            90.96360
+ 6:        8109         48.04564            87.54903
+ 7:        8410         45.22314            97.25193
+ 8:        8834         55.43712            74.74517
+ 9:        8713         41.88000            92.55476
+10:        8207         50.48279            87.33159</code></pre>
 </div>
 </div>
 </section><section id="filter-rows" class="level2" data-number="34.6"><h2 data-number="34.6" class="anchored" data-anchor-id="filter-rows">
@@ -1221,14 +1230,14 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 <p>There are many similarities and some notable differences in how indexing works in a <code>data.table</code> vs.&nbsp;a <code>data.frame</code>.</p>
 <p>Filtering rows with an integer or logical index is largely the same in a <code>data.frame</code> and a <code>data.table</code>, but in a <code>data.table</code> you can omit the comma to select all columns:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">df</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">5</span><span class="op">)</span>, <span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">df</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">5</span><span class="op">)</span>, <span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  A   B C
 1 1 1.2 a
 3 3 9.7 b
 5 5 8.1 a</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">5</span><span class="op">)</span>, <span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb44"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">5</span><span class="op">)</span>, <span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       A     B      C
    &lt;int&gt; &lt;num&gt; &lt;char&gt;
@@ -1236,7 +1245,7 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 2:     3   9.7      b
 3:     5   8.1      a</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb44"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">5</span><span class="op">)</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb46"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">5</span><span class="op">)</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       A     B      C
    &lt;int&gt; &lt;num&gt; &lt;char&gt;
@@ -1247,7 +1256,7 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 </div>
 <p>Using a variable that holds a row index, whether integer or logical:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb46"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">rowid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">5</span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb48"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">rowid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">5</span><span class="op">)</span></span>
 <span><span class="va">df</span><span class="op">[</span><span class="va">rowid</span>, <span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  A   B C
@@ -1255,7 +1264,7 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 3 3 9.7 b
 5 5 8.1 a</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb48"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span><span class="op">[</span><span class="va">rowid</span>, <span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb50"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span><span class="op">[</span><span class="va">rowid</span>, <span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       A     B      C
    &lt;int&gt; &lt;num&gt; &lt;char&gt;
@@ -1263,7 +1272,7 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 2:     3   9.7      b
 3:     5   8.1      a</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb50"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span><span class="op">[</span><span class="va">rowid</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb52"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span><span class="op">[</span><span class="va">rowid</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       A     B      C
    &lt;int&gt; &lt;num&gt; &lt;char&gt;
@@ -1273,7 +1282,7 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb52"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">rowbn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="cn">T</span>, <span class="cn">F</span>, <span class="cn">T</span>, <span class="cn">F</span>, <span class="cn">T</span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb54"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">rowbn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="cn">T</span>, <span class="cn">F</span>, <span class="cn">T</span>, <span class="cn">F</span>, <span class="cn">T</span><span class="op">)</span></span>
 <span><span class="va">df</span><span class="op">[</span><span class="va">rowbn</span>, <span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  A   B C
@@ -1281,7 +1290,7 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 3 3 9.7 b
 5 5 8.1 a</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb54"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span><span class="op">[</span><span class="va">rowbn</span>, <span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb56"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span><span class="op">[</span><span class="va">rowbn</span>, <span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       A     B      C
    &lt;int&gt; &lt;num&gt; &lt;char&gt;
@@ -1289,7 +1298,7 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 2:     3   9.7      b
 3:     5   8.1      a</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb56"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span><span class="op">[</span><span class="va">rowbn</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb58"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span><span class="op">[</span><span class="va">rowbn</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       A     B      C
    &lt;int&gt; &lt;num&gt; &lt;char&gt;
@@ -1302,17 +1311,17 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 <span class="header-section-number">34.6.1</span> Conditional filtering</h3>
 <p>As a reminder, there are a few ways to conditionally filter cases in a data.frame:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb58"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">df</span><span class="op">[</span><span class="va">df</span><span class="op">$</span><span class="va">A</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">A</span><span class="op">)</span> <span class="op">&amp;</span> <span class="va">df</span><span class="op">$</span><span class="va">B</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">B</span><span class="op">)</span>, <span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb60"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">df</span><span class="op">[</span><span class="va">df</span><span class="op">$</span><span class="va">A</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">A</span><span class="op">)</span> <span class="op">&amp;</span> <span class="va">df</span><span class="op">$</span><span class="va">B</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">B</span><span class="op">)</span>, <span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  A   B C
 5 5 8.1 a</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb60"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span><span class="op">(</span><span class="va">df</span>, <span class="va">A</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">A</span><span class="op">)</span> <span class="op">&amp;</span> <span class="va">B</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">B</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb62"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span><span class="op">(</span><span class="va">df</span>, <span class="va">A</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">A</span><span class="op">)</span> <span class="op">&amp;</span> <span class="va">B</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">B</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  A   B C
 5 5 8.1 a</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb62"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span><span class="op">(</span><span class="va">df</span>, <span class="va">df</span><span class="op">[</span><span class="va">A</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">A</span><span class="op">)</span> <span class="op">&amp;</span> <span class="va">B</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">B</span><span class="op">)</span>, <span class="op">]</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb64"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span><span class="op">(</span><span class="va">df</span>, <span class="va">df</span><span class="op">[</span><span class="va">A</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">A</span><span class="op">)</span> <span class="op">&amp;</span> <span class="va">B</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">B</span><span class="op">)</span>, <span class="op">]</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  A   B C
 5 5 8.1 a</code></pre>
@@ -1320,7 +1329,7 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 </div>
 <p><code>data.table</code> allows you to refer to column names directly and unquoted, which makes writing filter conditions easier/more compact:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb64"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span><span class="op">[</span><span class="va">A</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">A</span><span class="op">)</span> <span class="op">&amp;</span> <span class="va">B</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">B</span><span class="op">)</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb66"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span><span class="op">[</span><span class="va">A</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">A</span><span class="op">)</span> <span class="op">&amp;</span> <span class="va">B</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">B</span><span class="op">)</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       A     B      C
    &lt;int&gt; &lt;num&gt; &lt;char&gt;
@@ -1329,7 +1338,7 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 </div>
 <p>The <code>data.table</code> package also includes an S3 method for <code><a href="https://rdrr.io/r/base/subset.html">subset()</a></code> that works the same way as with a <code>data.frame</code>:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb66"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span><span class="op">(</span><span class="va">dt</span>, <span class="va">A</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">A</span><span class="op">)</span> <span class="op">&amp;</span> <span class="va">B</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">B</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb68"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span><span class="op">(</span><span class="va">dt</span>, <span class="va">A</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">A</span><span class="op">)</span> <span class="op">&amp;</span> <span class="va">B</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">B</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       A     B      C
    &lt;int&gt; &lt;num&gt; &lt;char&gt;
@@ -1338,43 +1347,43 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 </div>
 <p>As another example, exclude cases based on missingness in a specific column:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb68"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">adf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="kw">function</span><span class="op">(</span><span class="va">i</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb70"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">adf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="kw">function</span><span class="op">(</span><span class="va">i</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">adf</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>           V1         V2         V3          V4         V5
-1  1.76181867  0.1400717  0.3223699 -0.67165028 -1.1847180
-2 -1.16102989 -0.7243540  1.2147593 -0.27086664 -0.4917231
-3 -0.24079202  0.6322680  0.1615875  1.23194277 -0.3109401
-4  0.28799917 -0.9452905 -1.7282306  0.07471584  1.6144841
-5 -0.03832676 -0.6550937  1.3137549 -0.54021670 -0.2197895
-6 -0.09288854  0.7026018 -0.7111555  0.70999418 -0.4250824</code></pre>
+<pre><code>          V1          V2          V3          V4         V5
+1  1.0611426 -0.07647069 -1.63253323  0.07868359  0.1939206
+2  0.9268508 -1.40891896  0.54455183 -0.03876186 -0.3395723
+3 -0.4462552 -1.28665638  0.20117403 -1.22941802  1.4916288
+4 -0.9659414 -1.46358592 -2.53397075  0.37150097 -0.5726645
+5 -0.9260891 -0.60676517 -0.93670596  0.13302694  1.4052265
+6 -0.6103749 -0.92725026  0.05347929 -0.11491545  2.0434445</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb70"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">adf</span><span class="op">[</span><span class="fl">1</span>, <span class="fl">3</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">adf</span><span class="op">[</span><span class="fl">3</span>, <span class="fl">4</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">adf</span><span class="op">[</span><span class="fl">5</span>, <span class="fl">3</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">adf</span><span class="op">[</span><span class="fl">7</span>, <span class="fl">3</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="cn">NA</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb72"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">adf</span><span class="op">[</span><span class="fl">1</span>, <span class="fl">3</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">adf</span><span class="op">[</span><span class="fl">3</span>, <span class="fl">4</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">adf</span><span class="op">[</span><span class="fl">5</span>, <span class="fl">3</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">adf</span><span class="op">[</span><span class="fl">7</span>, <span class="fl">3</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="cn">NA</span></span>
 <span><span class="va">adt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/as.data.table.html">as.data.table</a></span><span class="op">(</span><span class="va">adf</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb71"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">adf</span><span class="op">[</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">adf</span><span class="op">$</span><span class="va">V3</span><span class="op">)</span>, <span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb73"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">adf</span><span class="op">[</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">adf</span><span class="op">$</span><span class="va">V3</span><span class="op">)</span>, <span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>            V1          V2         V3          V4         V5
-2  -1.16102989 -0.72435401  1.2147593 -0.27086664 -0.4917231
-3  -0.24079202  0.63226804  0.1615875          NA -0.3109401
-4   0.28799917 -0.94529050 -1.7282306  0.07471584  1.6144841
-6  -0.09288854  0.70260182 -0.7111555  0.70999418 -0.4250824
-8  -0.74678280 -0.27314789 -0.1950318  0.78268534 -0.5224142
-9  -0.02276843 -0.01859409 -0.4894305 -1.98561019  0.1967000
-10  0.68218165  1.05401788 -1.7543987  1.36867146  0.7186674</code></pre>
+<pre><code>           V1         V2          V3          V4         V5
+2   0.9268508 -1.4089190  0.54455183 -0.03876186 -0.3395723
+3  -0.4462552 -1.2866564  0.20117403          NA  1.4916288
+4  -0.9659414 -1.4635859 -2.53397075  0.37150097 -0.5726645
+6  -0.6103749 -0.9272503  0.05347929 -0.11491545  2.0434445
+8   1.1112820 -0.4844644 -0.32540925 -0.80632367 -1.4514447
+9   0.1170070 -0.2714165 -0.36403259 -0.68801448 -1.2255089
+10  0.6518039  1.3967466 -0.89891880  1.52829048  0.8003759</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb73"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">adt</span><span class="op">[</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">V3</span><span class="op">)</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb75"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">adt</span><span class="op">[</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">V3</span><span class="op">)</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>            V1          V2         V3          V4         V5
-         &lt;num&gt;       &lt;num&gt;      &lt;num&gt;       &lt;num&gt;      &lt;num&gt;
-1: -1.16102989 -0.72435401  1.2147593 -0.27086664 -0.4917231
-2: -0.24079202  0.63226804  0.1615875          NA -0.3109401
-3:  0.28799917 -0.94529050 -1.7282306  0.07471584  1.6144841
-4: -0.09288854  0.70260182 -0.7111555  0.70999418 -0.4250824
-5: -0.74678280 -0.27314789 -0.1950318  0.78268534 -0.5224142
-6: -0.02276843 -0.01859409 -0.4894305 -1.98561019  0.1967000
-7:  0.68218165  1.05401788 -1.7543987  1.36867146  0.7186674</code></pre>
+<pre><code>           V1         V2          V3          V4         V5
+        &lt;num&gt;      &lt;num&gt;       &lt;num&gt;       &lt;num&gt;      &lt;num&gt;
+1:  0.9268508 -1.4089190  0.54455183 -0.03876186 -0.3395723
+2: -0.4462552 -1.2866564  0.20117403          NA  1.4916288
+3: -0.9659414 -1.4635859 -2.53397075  0.37150097 -0.5726645
+4: -0.6103749 -0.9272503  0.05347929 -0.11491545  2.0434445
+5:  1.1112820 -0.4844644 -0.32540925 -0.80632367 -1.4514447
+6:  0.1170070 -0.2714165 -0.36403259 -0.68801448 -1.2255089
+7:  0.6518039  1.3967466 -0.89891880  1.52829048  0.8003759</code></pre>
 </div>
 </div>
 </section></section><section id="select-columns" class="level2" data-number="34.7"><h2 data-number="34.7" class="anchored" data-anchor-id="select-columns">
@@ -1383,11 +1392,11 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 <span class="header-section-number">34.7.1</span> By position(s)</h3>
 <p>Selecting a single column in <code>data.table</code> does not drop to a vector, similar to using <code>drop = FALSE</code> in a data.frame:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb75"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">df</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb77"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">df</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1 2 3 4 5</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb77"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">df</span><span class="op">[</span>, <span class="fl">1</span>, drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb79"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">df</span><span class="op">[</span>, <span class="fl">1</span>, drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  A
 1 1
@@ -1396,7 +1405,7 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 4 4
 5 5</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb79"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb81"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       A
    &lt;int&gt;
@@ -1409,18 +1418,18 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 </div>
 <p>Double bracket indexing of a single column works the same on a <code>data.frame</code> and a <code>data.table</code>, returning a vector:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb81"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">df</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb83"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">df</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1.2 4.3 9.7 5.6 8.1</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb83"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb85"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1.2 4.3 9.7 5.6 8.1</code></pre>
 </div>
 </div>
 <p>A vector of column positions returns a smaller <code>data.table</code>, similar to how it returns a smaller <code>data.frame</code> :</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb85"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">df</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb87"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">df</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  A   B
 1 1 1.2
@@ -1429,7 +1438,7 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 4 4 5.6
 5 5 8.1</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb87"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb89"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       A     B
    &lt;int&gt; &lt;num&gt;
@@ -1444,22 +1453,22 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 <span class="header-section-number">34.7.2</span> By name(s)</h3>
 <p>In <code>data.table</code>, you access column names directly without quoting or using the <code>$</code> notation:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb89"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">df</span><span class="op">[</span>, <span class="st">"B"</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb91"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">df</span><span class="op">[</span>, <span class="st">"B"</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1.2 4.3 9.7 5.6 8.1</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb91"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">df</span><span class="op">$</span><span class="va">B</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb93"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">df</span><span class="op">$</span><span class="va">B</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1.2 4.3 9.7 5.6 8.1</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb93"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span><span class="op">[</span>, <span class="va">B</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb95"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span><span class="op">[</span>, <span class="va">B</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1.2 4.3 9.7 5.6 8.1</code></pre>
 </div>
 </div>
 <p>Because of this, <code>data.table</code> requires a slightly different syntax to use a variable as a column index which can contain integer positions, logical index, or column names. While on a data.frame you can do pass an index vector directly:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb95"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">colid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb97"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">colid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span></span>
 <span><span class="va">colbn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="cn">FALSE</span>, <span class="cn">TRUE</span>, <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="va">colnm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"C"</span><span class="op">)</span></span>
 <span><span class="va">df</span><span class="op">[</span>, <span class="va">colid</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1471,7 +1480,7 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 4 4 5.6
 5 5 8.1</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb97"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">df</span><span class="op">[</span>, <span class="va">colbn</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb99"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">df</span><span class="op">[</span>, <span class="va">colbn</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    B C
 1 1.2 a
@@ -1480,7 +1489,7 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 4 5.6 a
 5 8.1 a</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb99"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">df</span><span class="op">[</span>, <span class="va">colnm</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb101"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">df</span><span class="op">[</span>, <span class="va">colnm</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  A C
 1 1 a
@@ -1492,7 +1501,7 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 </div>
 <p>To do the same in a <code>data.table</code>, you must prefix the index vector with two dots:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb101"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span><span class="op">[</span>, <span class="va">..colid</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb103"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span><span class="op">[</span>, <span class="va">..colid</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       A     B
    &lt;int&gt; &lt;num&gt;
@@ -1502,7 +1511,7 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 4:     4   5.6
 5:     5   8.1</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb103"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span><span class="op">[</span>, <span class="va">..colbn</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb105"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span><span class="op">[</span>, <span class="va">..colbn</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       B      C
    &lt;num&gt; &lt;char&gt;
@@ -1512,7 +1521,7 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 4:   5.6      a
 5:   8.1      a</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb105"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span><span class="op">[</span>, <span class="va">..colnm</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb107"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span><span class="op">[</span>, <span class="va">..colnm</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       A      C
    &lt;int&gt; &lt;char&gt;
@@ -1536,7 +1545,7 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 </div>
 <p>See what happens if you try to use the data.frame syntax by accident:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb107"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span><span class="op">[</span>, <span class="va">colid</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb109"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span><span class="op">[</span>, <span class="va">colid</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-error">
 <pre><code>Error in `[.data.table`:
 ! j (the 2nd argument inside [...]) is a single symbol but column name 'colid' is not found. If you intended to select columns using a variable in calling scope, please try DT[, ..colid]. The .. prefix conveys one-level-up similar to a file system path.</code></pre>
@@ -1544,14 +1553,14 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 </div>
 <p><br><br> Selecting a single column by name returns a <strong>vector</strong>:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb109"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span><span class="op">[</span>, <span class="va">A</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb111"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span><span class="op">[</span>, <span class="va">A</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1 2 3 4 5</code></pre>
 </div>
 </div>
 <p>Selecting one or more columns by name enclosed in <code><a href="https://rdrr.io/r/base/list.html">list()</a></code> or <code>.()</code> (which, in this case, is short for <code><a href="https://rdrr.io/r/base/list.html">list()</a></code>), always returns a <strong><code>data.table</code></strong>:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb111"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span><span class="op">[</span>, <span class="fu">.</span><span class="op">(</span><span class="va">A</span><span class="op">)</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb113"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span><span class="op">[</span>, <span class="fu">.</span><span class="op">(</span><span class="va">A</span><span class="op">)</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       A
    &lt;int&gt;
@@ -1561,7 +1570,7 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 4:     4
 5:     5</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb113"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span><span class="op">[</span>, <span class="fu">.</span><span class="op">(</span><span class="va">A</span>, <span class="va">B</span><span class="op">)</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb115"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span><span class="op">[</span>, <span class="fu">.</span><span class="op">(</span><span class="va">A</span>, <span class="va">B</span><span class="op">)</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       A     B
    &lt;int&gt; &lt;num&gt;
@@ -1577,7 +1586,7 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 </h3>
 <p><code>.SDcols</code> is a special symbol that can be used to select columns of a data.table as an alternative to <code>j</code>. It can accept a vector of integer positions or column names. <code>.SD</code> is another special symbol that can be used in <code>j</code> and refers to either the entire data.table, or the subset defined by <code>.SDcols</code>, if present. The following can be used to select columns:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb115"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span><span class="op">[</span>, <span class="va">.SD</span>, .SDcols <span class="op">=</span> <span class="va">colid</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb117"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span><span class="op">[</span>, <span class="va">.SD</span>, .SDcols <span class="op">=</span> <span class="va">colid</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       A     B
    &lt;int&gt; &lt;num&gt;
@@ -1594,7 +1603,7 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 </h2>
 <p>Use <code>:=</code> assignment to add a new column in the existing <code>data.table</code>.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb117"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span><span class="op">[</span>, <span class="va">AplusB</span> <span class="op">:=</span> <span class="va">A</span> <span class="op">+</span> <span class="va">B</span><span class="op">]</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb119"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span><span class="op">[</span>, <span class="va">AplusB</span> <span class="op">:=</span> <span class="va">A</span> <span class="op">+</span> <span class="va">B</span><span class="op">]</span></span>
 <span><span class="va">dt</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       A     B      C AplusB
@@ -1607,6 +1616,10 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 </div>
 </div>
 <p>Note how <code>dt</code> was modified even though we did not run <code>dt &lt;- dt[, AplusB := A + B]</code></p>
+<p><code><a href="https://rdrr.io/pkg/data.table/man/assign.html">let()</a></code> can also be use for in-place assignment (it uses <code>:=</code> internally)</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb121"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/assign.html">let</a></span><span class="op">(</span>AplusB <span class="op">=</span> <span class="va">A</span> <span class="op">+</span> <span class="va">B</span><span class="op">)</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 </section><section id="add-multiple-columns-in-place" class="level2" data-number="34.9"><h2 data-number="34.9" class="anchored" data-anchor-id="add-multiple-columns-in-place">
 <span class="header-section-number">34.9</span> Add multiple columns <strong><em>in-place</em></strong>
 </h2>
@@ -1617,11 +1630,11 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 </ul>
 <p>Here, we add two new columns, <code>AtimesB</code> and <code>AoverB</code>:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb119"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"AtimesB"</span>, <span class="st">"AoverB"</span><span class="op">)</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">A</span><span class="op">*</span><span class="va">B</span>, <span class="va">A</span><span class="op">/</span><span class="va">B</span><span class="op">)</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb122"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"AtimesB"</span>, <span class="st">"AoverB"</span><span class="op">)</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">A</span><span class="op">*</span><span class="va">B</span>, <span class="va">A</span><span class="op">/</span><span class="va">B</span><span class="op">)</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>It is often convenient to use <code><a href="https://rdrr.io/r/base/lapply.html">lapply()</a></code> on the right hand side, since it always returns a list:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb120"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">vnames</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb123"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">vnames</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span></span>
 <span><span class="va">dt</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"log"</span>, <span class="va">vnames</span><span class="op">)</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">.SD</span>, <span class="va">log</span><span class="op">)</span>, .SDcols <span class="op">=</span> <span class="va">vnames</span><span class="op">]</span></span>
 <span><span class="va">dt</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -1634,9 +1647,32 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 5:     5   8.1      a   13.1    40.5 0.6172840 1.6094379 2.0918641</code></pre>
 </div>
 </div>
-<p>You can also use <code>:=</code> in a little more awkward syntax:</p>
+<p>You can also use the “functional form” of <code>:=</code>, resulting in a little more awkward syntax:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb122"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span><span class="op">[</span>, <span class="fu">`:=`</span><span class="op">(</span>AminusB <span class="op">=</span> <span class="va">A</span> <span class="op">-</span> <span class="va">B</span>, AoverC <span class="op">=</span> <span class="va">A</span> <span class="op">/</span> <span class="va">B</span><span class="op">)</span><span class="op">]</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb125"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span><span class="op">[</span>, <span class="fu">`:=`</span><span class="op">(</span>AminusB <span class="op">=</span> <span class="va">A</span> <span class="op">-</span> <span class="va">B</span>, AoverC <span class="op">=</span> <span class="va">A</span> <span class="op">/</span> <span class="va">B</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="va">dt</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       A     B      C AplusB AtimesB    AoverB      logA      logB AminusB
+   &lt;int&gt; &lt;num&gt; &lt;char&gt;  &lt;num&gt;   &lt;num&gt;     &lt;num&gt;     &lt;num&gt;     &lt;num&gt;   &lt;num&gt;
+1:     1   1.2      a    2.2     1.2 0.8333333 0.0000000 0.1823216    -0.2
+2:     2   4.3      b    6.3     8.6 0.4651163 0.6931472 1.4586150    -2.3
+3:     3   9.7      b   12.7    29.1 0.3092784 1.0986123 2.2721259    -6.7
+4:     4   5.6      a    9.6    22.4 0.7142857 1.3862944 1.7227666    -1.6
+5:     5   8.1      a   13.1    40.5 0.6172840 1.6094379 2.0918641    -3.1
+      AoverC
+       &lt;num&gt;
+1: 0.8333333
+2: 0.4651163
+3: 0.3092784
+4: 0.7142857
+5: 0.6172840</code></pre>
+</div>
+</div>
+<p><code><a href="https://rdrr.io/pkg/data.table/man/assign.html">let()</a></code> is equivalent and offers a cleaner syntax:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb127"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/assign.html">let</a></span><span class="op">(</span></span>
+<span>  AminusB <span class="op">=</span> <span class="va">A</span> <span class="op">-</span> <span class="va">B</span>,</span>
+<span>  AoverC <span class="op">=</span> <span class="va">A</span> <span class="op">/</span> <span class="va">B</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="va">dt</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       A     B      C AplusB AtimesB    AoverB      logA      logB AminusB
@@ -1662,7 +1698,7 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 </h3>
 <p>Use any base R coercion function (<code>as.*</code>) to convert a column in-place using the <code>:=</code> notation</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb124"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span><span class="op">[</span>, <span class="va">A</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">A</span><span class="op">)</span><span class="op">]</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb129"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span><span class="op">[</span>, <span class="va">A</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">A</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="va">dt</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       A     B      C AplusB AtimesB    AoverB      logA      logB AminusB
@@ -1686,7 +1722,7 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 </h3>
 <p>To delete a column, use <code>:=</code> to set it to NULL:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb126"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span><span class="op">[</span>, <span class="va">AoverB</span> <span class="op">:=</span> <span class="cn">NULL</span><span class="op">]</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb131"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span><span class="op">[</span>, <span class="va">AoverB</span> <span class="op">:=</span> <span class="cn">NULL</span><span class="op">]</span></span>
 <span><span class="va">dt</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       A     B      C AplusB AtimesB      logA      logB AminusB    AoverC
@@ -1700,11 +1736,11 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 </div>
 <p>Delete multiple columns</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb128"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"logA"</span>, <span class="st">"logB"</span><span class="op">)</span> <span class="op">:=</span> <span class="cn">NULL</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb133"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"logA"</span>, <span class="st">"logB"</span><span class="op">)</span> <span class="op">:=</span> <span class="cn">NULL</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Or:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb129"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span><span class="op">[</span>, <span class="fu">`:=`</span><span class="op">(</span>AplusB <span class="op">=</span> <span class="cn">NULL</span>, AminusB <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span><span class="op">]</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb134"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span><span class="op">[</span>, <span class="fu">`:=`</span><span class="op">(</span>AplusB <span class="op">=</span> <span class="cn">NULL</span>, AminusB <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="va">dt</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       A     B      C AtimesB    AoverC
@@ -1734,7 +1770,7 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 </ul>
 <p>As a simple example, transform the first two columns in-place by squaring:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb131"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span> <span class="op">{</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb136"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/assign.html">set</a></span><span class="op">(</span><span class="va">dt</span>, i <span class="op">=</span> <span class="cn">NULL</span>, j <span class="op">=</span> <span class="va">i</span>, value <span class="op">=</span> <span class="va">dt</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -1742,7 +1778,7 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 <span class="header-section-number">34.11</span> Summarize</h2>
 <p>You can apply one or multiple summary functions on one or multiple columns. Surround the operations in <code><a href="https://rdrr.io/r/base/list.html">list()</a></code> or <code>.()</code> to output a <em>new</em> data.table holding the outputs of the operations, i.e.&nbsp;the input data.table remains unchanged.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb132"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">A_summary</span> <span class="op">&lt;-</span> <span class="va">dt</span><span class="op">[</span>, <span class="fu">.</span><span class="op">(</span>A_max <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">A</span><span class="op">)</span>, A_min <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">A</span><span class="op">)</span>, A_sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">A</span><span class="op">)</span><span class="op">)</span><span class="op">]</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb137"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">A_summary</span> <span class="op">&lt;-</span> <span class="va">dt</span><span class="op">[</span>, <span class="fu">.</span><span class="op">(</span>A_max <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">A</span><span class="op">)</span>, A_min <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">A</span><span class="op">)</span>, A_sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">A</span><span class="op">)</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="va">A_summary</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   A_max A_min    A_sd
@@ -1752,7 +1788,7 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 </div>
 <p>Example: Get the standard deviation of all numeric columns:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb134"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">numid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="va">dt</span>, <span class="va">is.numeric</span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb139"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">numid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="va">dt</span>, <span class="va">is.numeric</span><span class="op">)</span></span>
 <span><span class="va">dt_mean</span> <span class="op">&lt;-</span> <span class="va">dt</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">.SD</span>, <span class="va">sd</span><span class="op">)</span>, .SDcols <span class="op">=</span> <span class="va">numid</span><span class="op">]</span></span>
 <span><span class="va">dt_mean</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -1763,7 +1799,7 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 </div>
 <p>If your function returns more than one value, the output will have multiple rows:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb136"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt_range</span> <span class="op">&lt;-</span> <span class="va">dt</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">.SD</span>, <span class="va">range</span><span class="op">)</span>, .SDcols <span class="op">=</span> <span class="va">numid</span><span class="op">]</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb141"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt_range</span> <span class="op">&lt;-</span> <span class="va">dt</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">.SD</span>, <span class="va">range</span><span class="op">)</span>, .SDcols <span class="op">=</span> <span class="va">numid</span><span class="op">]</span></span>
 <span><span class="va">dt_range</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       A     B AtimesB    AoverC
@@ -1776,7 +1812,7 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 <span class="header-section-number">34.12</span> Set order</h2>
 <p>You can set the row order of a data.table in-place based on one or multiple columns’ values using <code><a href="https://rdrr.io/pkg/data.table/man/setorder.html">setorder()</a></code></p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb138"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/data.table.html">data.table</a></span><span class="op">(</span>PatientID <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fl">1001</span><span class="op">:</span><span class="fl">9999</span>, size <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb143"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/data.table.html">data.table</a></span><span class="op">(</span>PatientID <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fl">1001</span><span class="op">:</span><span class="fl">9999</span>, size <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>,</span>
 <span>                 Height <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">10</span>, mean <span class="op">=</span> <span class="fl">175</span>, sd <span class="op">=</span> <span class="fl">14</span><span class="op">)</span>,</span>
 <span>                 Weight <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">10</span>, mean <span class="op">=</span> <span class="fl">78</span>, sd <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>,</span>
 <span>                 Group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">10</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
@@ -1784,87 +1820,87 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 <div class="cell-output cell-output-stdout">
 <pre><code>    PatientID   Height   Weight  Group
         &lt;int&gt;    &lt;num&gt;    &lt;num&gt; &lt;fctr&gt;
- 1:      3231 196.3039 71.59945      B
- 2:      6081 176.5131 75.85621      B
- 3:      1010 191.5851 83.10799      B
- 4:      9380 183.1453 93.33937      B
- 5:      2017 161.0093 82.30423      A
- 6:      1942 182.5191 76.58418      B
- 7:      5396 175.8809 78.43487      B
- 8:      7338 189.9497 87.88289      B
- 9:      5178 191.0920 55.24988      B
-10:      4113 196.1999 73.61255      B</code></pre>
+ 1:      1259 190.6105 75.69310      A
+ 2:      9508 207.1002 58.57327      A
+ 3:      5474 189.1668 82.46007      B
+ 4:      2635 177.7637 83.65862      A
+ 5:      6081 181.1175 64.27897      A
+ 6:      6082 156.2349 80.47722      A
+ 7:      2033 197.0302 72.64844      B
+ 8:      4264 168.1940 82.83728      B
+ 9:      1188 174.7667 89.06856      A
+10:      6132 184.4643 79.27472      A</code></pre>
 </div>
 </div>
 <p>Let’s set the order by PatientID:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb140"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/data.table/man/setorder.html">setorder</a></span><span class="op">(</span><span class="va">dt</span>, <span class="va">PatientID</span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb145"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/data.table/man/setorder.html">setorder</a></span><span class="op">(</span><span class="va">dt</span>, <span class="va">PatientID</span><span class="op">)</span></span>
 <span><span class="va">dt</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    PatientID   Height   Weight  Group
         &lt;int&gt;    &lt;num&gt;    &lt;num&gt; &lt;fctr&gt;
- 1:      1010 191.5851 83.10799      B
- 2:      1942 182.5191 76.58418      B
- 3:      2017 161.0093 82.30423      A
- 4:      3231 196.3039 71.59945      B
- 5:      4113 196.1999 73.61255      B
- 6:      5178 191.0920 55.24988      B
- 7:      5396 175.8809 78.43487      B
- 8:      6081 176.5131 75.85621      B
- 9:      7338 189.9497 87.88289      B
-10:      9380 183.1453 93.33937      B</code></pre>
+ 1:      1188 174.7667 89.06856      A
+ 2:      1259 190.6105 75.69310      A
+ 3:      2033 197.0302 72.64844      B
+ 4:      2635 177.7637 83.65862      A
+ 5:      4264 168.1940 82.83728      B
+ 6:      5474 189.1668 82.46007      B
+ 7:      6081 181.1175 64.27897      A
+ 8:      6082 156.2349 80.47722      A
+ 9:      6132 184.4643 79.27472      A
+10:      9508 207.1002 58.57327      A</code></pre>
 </div>
 </div>
 <p>Let’s re-order, always in-place, by group and then by height:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb142"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/data.table/man/setorder.html">setorder</a></span><span class="op">(</span><span class="va">dt</span>, <span class="va">Group</span>, <span class="va">Height</span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb147"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/data.table/man/setorder.html">setorder</a></span><span class="op">(</span><span class="va">dt</span>, <span class="va">Group</span>, <span class="va">Height</span><span class="op">)</span></span>
 <span><span class="va">dt</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    PatientID   Height   Weight  Group
         &lt;int&gt;    &lt;num&gt;    &lt;num&gt; &lt;fctr&gt;
- 1:      2017 161.0093 82.30423      A
- 2:      5396 175.8809 78.43487      B
- 3:      6081 176.5131 75.85621      B
- 4:      1942 182.5191 76.58418      B
- 5:      9380 183.1453 93.33937      B
- 6:      7338 189.9497 87.88289      B
- 7:      5178 191.0920 55.24988      B
- 8:      1010 191.5851 83.10799      B
- 9:      4113 196.1999 73.61255      B
-10:      3231 196.3039 71.59945      B</code></pre>
+ 1:      6082 156.2349 80.47722      A
+ 2:      1188 174.7667 89.06856      A
+ 3:      2635 177.7637 83.65862      A
+ 4:      6081 181.1175 64.27897      A
+ 5:      6132 184.4643 79.27472      A
+ 6:      1259 190.6105 75.69310      A
+ 7:      9508 207.1002 58.57327      A
+ 8:      4264 168.1940 82.83728      B
+ 9:      5474 189.1668 82.46007      B
+10:      2033 197.0302 72.64844      B</code></pre>
 </div>
 </div>
 </section><section id="group-by-operations" class="level2" data-number="34.13"><h2 data-number="34.13" class="anchored" data-anchor-id="group-by-operations">
 <span class="header-section-number">34.13</span> Group-by operations</h2>
 <p>Up to now, we have learned how to use the <code>data.table</code> frame <code>dat[i, j]</code> to filter cases in <code>i</code> or add/remove/transform columns in-place in <code>j</code>. <code>dat[i, j, by]</code> allows to perform operations separately on groups of cases.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb144"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/data.table.html">data.table</a></span><span class="op">(</span>A <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb149"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/data.table.html">data.table</a></span><span class="op">(</span>A <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,</span>
 <span>                 B <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1.2</span>, <span class="fl">4.3</span>, <span class="fl">9.7</span>, <span class="fl">5.6</span>, <span class="fl">8.1</span><span class="op">)</span>,</span>
 <span>                 C <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span>,</span>
 <span>                 Group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"b"</span>, <span class="st">"a"</span>, <span class="st">"a"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">dt</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>       A     B           C  Group
-   &lt;int&gt; &lt;num&gt;       &lt;num&gt; &lt;char&gt;
-1:     1   1.2  0.69461579      a
-2:     2   4.3  1.34795272      b
-3:     3   9.7  0.82101760      b
-4:     4   5.6  0.06944533      a
-5:     5   8.1 -0.61321955      a</code></pre>
+<pre><code>       A     B          C  Group
+   &lt;int&gt; &lt;num&gt;      &lt;num&gt; &lt;char&gt;
+1:     1   1.2 -0.3482912      a
+2:     2   4.3  0.2924772      b
+3:     3   9.7 -0.2112419      b
+4:     4   5.6 -0.3364494      a
+5:     5   8.1  0.3825026      a</code></pre>
 </div>
 </div>
 <section id="group-by-summary" class="level3" data-number="34.13.1"><h3 data-number="34.13.1" class="anchored" data-anchor-id="group-by-summary">
 <span class="header-section-number">34.13.1</span> Group-by summary</h3>
 <p>As we’ve seen, using <code>.()</code> or <code><a href="https://rdrr.io/r/base/list.html">list()</a></code> in <code>j</code>, returns a new <code>data.table</code>:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb146"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span><span class="op">[</span>, <span class="fu">.</span><span class="op">(</span>mean_A_by_Group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">A</span><span class="op">)</span><span class="op">)</span>, by <span class="op">=</span> <span class="va">Group</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb151"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span><span class="op">[</span>, <span class="fu">.</span><span class="op">(</span>mean_A_by_Group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">A</span><span class="op">)</span><span class="op">)</span>, by <span class="op">=</span> <span class="va">Group</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    Group mean_A_by_Group
    &lt;char&gt;           &lt;num&gt;
 1:      a        3.333333
 2:      b        2.500000</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb148"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>median_B_by_Group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span><span class="op">(</span><span class="va">B</span><span class="op">)</span><span class="op">)</span>, by <span class="op">=</span> <span class="va">Group</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb153"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>median_B_by_Group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span><span class="op">(</span><span class="va">B</span><span class="op">)</span><span class="op">)</span>, by <span class="op">=</span> <span class="va">Group</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    Group median_B_by_Group
    &lt;char&gt;             &lt;num&gt;
@@ -1876,49 +1912,49 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 <span class="header-section-number">34.13.2</span> Group-by operation and assignment</h3>
 <p>Making an assignment with <code>:=</code> in <code>j</code>, adds a column in-place. If you combine such an assignment with a group-by operation, the same value will be assigned to all cases of the group:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb150"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span><span class="op">[</span>, <span class="va">mean_A_by_Group</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">A</span><span class="op">)</span>, by <span class="op">=</span> <span class="va">Group</span><span class="op">]</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb155"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span><span class="op">[</span>, <span class="va">mean_A_by_Group</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">A</span><span class="op">)</span>, by <span class="op">=</span> <span class="va">Group</span><span class="op">]</span></span>
 <span><span class="va">dt</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>       A     B           C  Group mean_A_by_Group
-   &lt;int&gt; &lt;num&gt;       &lt;num&gt; &lt;char&gt;           &lt;num&gt;
-1:     1   1.2  0.69461579      a        3.333333
-2:     2   4.3  1.34795272      b        2.500000
-3:     3   9.7  0.82101760      b        2.500000
-4:     4   5.6  0.06944533      a        3.333333
-5:     5   8.1 -0.61321955      a        3.333333</code></pre>
+<pre><code>       A     B          C  Group mean_A_by_Group
+   &lt;int&gt; &lt;num&gt;      &lt;num&gt; &lt;char&gt;           &lt;num&gt;
+1:     1   1.2 -0.3482912      a        3.333333
+2:     2   4.3  0.2924772      b        2.500000
+3:     3   9.7 -0.2112419      b        2.500000
+4:     4   5.6 -0.3364494      a        3.333333
+5:     5   8.1  0.3825026      a        3.333333</code></pre>
 </div>
 </div>
 </section></section><section id="apply-functions-to-columns" class="level2" data-number="34.14"><h2 data-number="34.14" class="anchored" data-anchor-id="apply-functions-to-columns">
 <span class="header-section-number">34.14</span> Apply functions to columns</h2>
 <p>Any function that returns a list can be used in <code>j</code> to return a new data.table - therefore lapply is perfect for getting summary on multiple columns. This is another example where you have to use the <code>.SD</code> notation:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb152"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/as.data.table.html">as.data.table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, \<span class="op">(</span><span class="va">i</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb157"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/as.data.table.html">as.data.table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, \<span class="op">(</span><span class="va">i</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">dt1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>             V1         V2         V3
-          &lt;num&gt;      &lt;num&gt;      &lt;num&gt;
- 1: -1.64550451 -1.0568537  1.2768708
- 2: -0.21590268  1.3682299 -0.7594915
- 3:  0.15677820 -0.4693945 -0.5269167
- 4: -1.28472574 -0.5785145  1.3110751
- 5: -0.08883428  0.2391433  1.6325717
- 6: -0.99025395  0.4759694  1.5294635
- 7:  1.81356835  0.3773095  0.6376757
- 8:  1.63115501 -0.9772004  0.4546990
- 9: -0.01715155 -0.4408853  0.4161094
-10: -0.94024912  1.0449453  1.4215103</code></pre>
+<pre><code>             V1           V2         V3
+          &lt;num&gt;        &lt;num&gt;      &lt;num&gt;
+ 1: -0.86353557 -0.227302365  0.9566594
+ 2:  0.53419963 -0.944049435  0.2303239
+ 3: -0.94818034  0.045335003  0.8980656
+ 4: -0.11008160 -0.001435367  0.4107448
+ 5:  0.24012701  1.626194039 -0.4623279
+ 6: -1.53714593 -1.083761179  0.6637888
+ 7:  1.35400215 -1.242644045 -1.4980473
+ 8: -0.90270771 -0.129723768  0.3419001
+ 9: -0.08707918 -0.435085844 -0.6597992
+10:  0.26244452  0.765344388  1.5186647</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb154"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/data.table/man/setattr.html">setnames</a></span><span class="op">(</span><span class="va">dt1</span>, <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">dt1</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Alpha"</span>, <span class="st">"Beta"</span>, <span class="st">"Gamma"</span><span class="op">)</span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb159"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/data.table/man/setattr.html">setnames</a></span><span class="op">(</span><span class="va">dt1</span>, <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">dt1</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Alpha"</span>, <span class="st">"Beta"</span>, <span class="st">"Gamma"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">dt1</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">.SD</span>, <span class="va">mean</span><span class="op">)</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>       Alpha         Beta     Gamma
-       &lt;num&gt;        &lt;num&gt;     &lt;num&gt;
-1: -0.158112 -0.001725105 0.7393567</code></pre>
+<pre><code>        Alpha       Beta     Gamma
+        &lt;num&gt;      &lt;num&gt;     &lt;num&gt;
+1: -0.2057957 -0.1627129 0.2399973</code></pre>
 </div>
 </div>
 <p>You can specify which columns to operate on using the <code>.SDcols</code> argument:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb156"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/data.table.html">data.table</a></span><span class="op">(</span>A <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb161"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/data.table.html">data.table</a></span><span class="op">(</span>A <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,</span>
 <span>                  B <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1.2</span>, <span class="fl">4.3</span>, <span class="fl">9.7</span>, <span class="fl">5.6</span>, <span class="fl">8.1</span><span class="op">)</span>,</span>
 <span>                  C <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span>,</span>
 <span>                  Group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"b"</span>, <span class="st">"a"</span>, <span class="st">"a"</span><span class="op">)</span><span class="op">)</span></span>
@@ -1926,26 +1962,26 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 <div class="cell-output cell-output-stdout">
 <pre><code>       A     B          C  Group
    &lt;int&gt; &lt;num&gt;      &lt;num&gt; &lt;char&gt;
-1:     1   1.2 -0.4644849      a
-2:     2   4.3 -0.5605239      b
-3:     3   9.7  0.1979489      b
-4:     4   5.6 -0.1429797      a
-5:     5   8.1 -1.0357604      a</code></pre>
+1:     1   1.2 -0.8056993      a
+2:     2   4.3 -1.0611151      b
+3:     3   9.7  0.6312908      b
+4:     4   5.6 -1.5834605      a
+5:     5   8.1  0.8796774      a</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb158"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt2</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">.SD</span>, <span class="va">mean</span><span class="op">)</span>, .SDcols <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb163"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt2</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">.SD</span>, <span class="va">mean</span><span class="op">)</span>, .SDcols <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       A     B
    &lt;num&gt; &lt;num&gt;
 1:     3  5.78</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb160"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># same as</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb165"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># same as</span></span>
 <span><span class="va">dt2</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">.SD</span>, <span class="va">mean</span><span class="op">)</span>, .SDcols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       A     B
    &lt;num&gt; &lt;num&gt;
 1:     3  5.78</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb162"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">cols</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb167"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">cols</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span></span>
 <span><span class="va">dt2</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">.SD</span>, <span class="va">mean</span><span class="op">)</span>, .SDcols <span class="op">=</span> <span class="va">cols</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       A     B
@@ -1955,76 +1991,76 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 </div>
 <p>You can combine <code>.SDcols</code> and <code>by</code>:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb164"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt2</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">.SD</span>, <span class="va">median</span><span class="op">)</span>, .SDcols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"B"</span>, <span class="st">"C"</span><span class="op">)</span>, by <span class="op">=</span> <span class="va">Group</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb169"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt2</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">.SD</span>, <span class="va">median</span><span class="op">)</span>, .SDcols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"B"</span>, <span class="st">"C"</span><span class="op">)</span>, by <span class="op">=</span> <span class="va">Group</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    Group     B          C
    &lt;char&gt; &lt;num&gt;      &lt;num&gt;
-1:      a   5.6 -0.4644849
-2:      b   7.0 -0.1812875</code></pre>
+1:      a   5.6 -0.8056993
+2:      b   7.0 -0.2149122</code></pre>
 </div>
 </div>
 <p>Create multiple new columns from transformation of existing and store with custom prefix:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb166"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb171"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>          Alpha       Beta      Gamma
-          &lt;num&gt;      &lt;num&gt;      &lt;num&gt;
- 1: -1.64550451 -1.0568537  1.2768708
- 2: -0.21590268  1.3682299 -0.7594915
- 3:  0.15677820 -0.4693945 -0.5269167
- 4: -1.28472574 -0.5785145  1.3110751
- 5: -0.08883428  0.2391433  1.6325717
- 6: -0.99025395  0.4759694  1.5294635
- 7:  1.81356835  0.3773095  0.6376757
- 8:  1.63115501 -0.9772004  0.4546990
- 9: -0.01715155 -0.4408853  0.4161094
-10: -0.94024912  1.0449453  1.4215103</code></pre>
+<pre><code>          Alpha         Beta      Gamma
+          &lt;num&gt;        &lt;num&gt;      &lt;num&gt;
+ 1: -0.86353557 -0.227302365  0.9566594
+ 2:  0.53419963 -0.944049435  0.2303239
+ 3: -0.94818034  0.045335003  0.8980656
+ 4: -0.11008160 -0.001435367  0.4107448
+ 5:  0.24012701  1.626194039 -0.4623279
+ 6: -1.53714593 -1.083761179  0.6637888
+ 7:  1.35400215 -1.242644045 -1.4980473
+ 8: -0.90270771 -0.129723768  0.3419001
+ 9: -0.08707918 -0.435085844 -0.6597992
+10:  0.26244452  0.765344388  1.5186647</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb168"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt1</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">dt1</span><span class="op">)</span>, <span class="st">"_abs"</span><span class="op">)</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">.SD</span>, <span class="va">abs</span><span class="op">)</span><span class="op">]</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb173"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt1</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">dt1</span><span class="op">)</span>, <span class="st">"_abs"</span><span class="op">)</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">.SD</span>, <span class="va">abs</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="va">dt1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>          Alpha       Beta      Gamma  Alpha_abs  Beta_abs Gamma_abs
-          &lt;num&gt;      &lt;num&gt;      &lt;num&gt;      &lt;num&gt;     &lt;num&gt;     &lt;num&gt;
- 1: -1.64550451 -1.0568537  1.2768708 1.64550451 1.0568537 1.2768708
- 2: -0.21590268  1.3682299 -0.7594915 0.21590268 1.3682299 0.7594915
- 3:  0.15677820 -0.4693945 -0.5269167 0.15677820 0.4693945 0.5269167
- 4: -1.28472574 -0.5785145  1.3110751 1.28472574 0.5785145 1.3110751
- 5: -0.08883428  0.2391433  1.6325717 0.08883428 0.2391433 1.6325717
- 6: -0.99025395  0.4759694  1.5294635 0.99025395 0.4759694 1.5294635
- 7:  1.81356835  0.3773095  0.6376757 1.81356835 0.3773095 0.6376757
- 8:  1.63115501 -0.9772004  0.4546990 1.63115501 0.9772004 0.4546990
- 9: -0.01715155 -0.4408853  0.4161094 0.01715155 0.4408853 0.4161094
-10: -0.94024912  1.0449453  1.4215103 0.94024912 1.0449453 1.4215103</code></pre>
+<pre><code>          Alpha         Beta      Gamma  Alpha_abs    Beta_abs Gamma_abs
+          &lt;num&gt;        &lt;num&gt;      &lt;num&gt;      &lt;num&gt;       &lt;num&gt;     &lt;num&gt;
+ 1: -0.86353557 -0.227302365  0.9566594 0.86353557 0.227302365 0.9566594
+ 2:  0.53419963 -0.944049435  0.2303239 0.53419963 0.944049435 0.2303239
+ 3: -0.94818034  0.045335003  0.8980656 0.94818034 0.045335003 0.8980656
+ 4: -0.11008160 -0.001435367  0.4107448 0.11008160 0.001435367 0.4107448
+ 5:  0.24012701  1.626194039 -0.4623279 0.24012701 1.626194039 0.4623279
+ 6: -1.53714593 -1.083761179  0.6637888 1.53714593 1.083761179 0.6637888
+ 7:  1.35400215 -1.242644045 -1.4980473 1.35400215 1.242644045 1.4980473
+ 8: -0.90270771 -0.129723768  0.3419001 0.90270771 0.129723768 0.3419001
+ 9: -0.08707918 -0.435085844 -0.6597992 0.08707918 0.435085844 0.6597992
+10:  0.26244452  0.765344388  1.5186647 0.26244452 0.765344388 1.5186647</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb170"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb175"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       A     B          C  Group
    &lt;int&gt; &lt;num&gt;      &lt;num&gt; &lt;char&gt;
-1:     1   1.2 -0.4644849      a
-2:     2   4.3 -0.5605239      b
-3:     3   9.7  0.1979489      b
-4:     4   5.6 -0.1429797      a
-5:     5   8.1 -1.0357604      a</code></pre>
+1:     1   1.2 -0.8056993      a
+2:     2   4.3 -1.0611151      b
+3:     3   9.7  0.6312908      b
+4:     4   5.6 -1.5834605      a
+5:     5   8.1  0.8796774      a</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb172"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">cols</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"C"</span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb177"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">cols</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"C"</span><span class="op">)</span></span>
 <span><span class="va">dt2</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">cols</span>, <span class="st">"_groupMean"</span><span class="op">)</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">.SD</span>, <span class="va">mean</span><span class="op">)</span>, .SDcols <span class="op">=</span> <span class="va">cols</span>, by <span class="op">=</span> <span class="va">Group</span><span class="op">]</span></span>
 <span><span class="va">dt2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       A     B          C  Group A_groupMean C_groupMean
    &lt;int&gt; &lt;num&gt;      &lt;num&gt; &lt;char&gt;       &lt;num&gt;       &lt;num&gt;
-1:     1   1.2 -0.4644849      a    3.333333  -0.5477417
-2:     2   4.3 -0.5605239      b    2.500000  -0.1812875
-3:     3   9.7  0.1979489      b    2.500000  -0.1812875
-4:     4   5.6 -0.1429797      a    3.333333  -0.5477417
-5:     5   8.1 -1.0357604      a    3.333333  -0.5477417</code></pre>
+1:     1   1.2 -0.8056993      a    3.333333  -0.5031608
+2:     2   4.3 -1.0611151      b    2.500000  -0.2149122
+3:     3   9.7  0.6312908      b    2.500000  -0.2149122
+4:     4   5.6 -1.5834605      a    3.333333  -0.5031608
+5:     5   8.1  0.8796774      a    3.333333  -0.5031608</code></pre>
 </div>
 </div>
 </section><section id="row-wise-operations" class="level2" data-number="34.15"><h2 data-number="34.15" class="anchored" data-anchor-id="row-wise-operations">
 <span class="header-section-number">34.15</span> Row-wise operations</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb174"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/data.table.html">data.table</a></span><span class="op">(</span>a <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, b <span class="op">=</span> <span class="fl">11</span><span class="op">:</span><span class="fl">15</span>, c <span class="op">=</span> <span class="fl">21</span><span class="op">:</span><span class="fl">25</span>, </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb179"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/data.table.html">data.table</a></span><span class="op">(</span>a <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, b <span class="op">=</span> <span class="fl">11</span><span class="op">:</span><span class="fl">15</span>, c <span class="op">=</span> <span class="fl">21</span><span class="op">:</span><span class="fl">25</span>, </span>
 <span>                 d <span class="op">=</span> <span class="fl">31</span><span class="op">:</span><span class="fl">35</span>, e <span class="op">=</span> <span class="fl">41</span><span class="op">:</span><span class="fl">45</span><span class="op">)</span></span>
 <span><span class="va">dt</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -2039,7 +2075,7 @@ Figure&nbsp;34.1: data.table significantly enhances the base R data.frame
 </div>
 <p>To operate row-wise, we can use <code>by = 1:nrow(dt)</code>. For example, to add a column, in-place, with row-wise sums of variables b through d:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb176"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span><span class="op">[</span>, <span class="va">bcd.sum</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">.SD</span><span class="op">[</span>, <span class="va">b</span><span class="op">:</span><span class="va">d</span><span class="op">]</span><span class="op">)</span>, by <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">dt</span><span class="op">)</span><span class="op">]</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb181"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dt</span><span class="op">[</span>, <span class="va">bcd.sum</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">.SD</span><span class="op">[</span>, <span class="va">b</span><span class="op">:</span><span class="va">d</span><span class="op">]</span><span class="op">)</span>, by <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">dt</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="va">dt</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       a     b     c     d     e bcd.sum

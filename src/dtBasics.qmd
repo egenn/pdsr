@@ -380,6 +380,12 @@ dt
 Note how `dt` was modified even though we did not run 
 `dt <- dt[, AplusB := A + B]`
 
+`let()` can also be use for in-place assignment (it uses `:=` internally)
+
+```{r}
+dt[, let(AplusB = A + B)]
+```
+
 ## Add multiple columns ***in-place***
 
 You can add multiple new columns in-place and at the same time using the `:=` operator with:
@@ -401,10 +407,19 @@ dt[, paste0("log", vnames) := lapply(.SD, log), .SDcols = vnames]
 dt
 ```
 
-You can also use `:=` in a little more awkward syntax:
+You can also use the "functional form" of `:=`, resulting in a little more awkward syntax:
 
 ```{r}
 dt[, `:=`(AminusB = A - B, AoverC = A / B)]
+dt
+```
+
+`let()` is equivalent and offers a cleaner syntax:
+
+```{r}
+dt[, let(
+  AminusB = A - B,
+  AoverC = A / B)]
 dt
 ```
 

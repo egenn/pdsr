@@ -1,0 +1,15 @@
+{
+  "hash": "4d22047498aade9cbb7885f642d3d333",
+  "result": {
+    "engine": "knitr",
+    "markdown": "# Dates with **lubridate** {#sec-lubridate}\n\nInstead of defining Date and/or time formats using POSIX standard abbreviations, \nwe can let the [**lubridate**](https://lubridate.tidyverse.org/) package do \nsome guesswork for us, which works well most of the time.\n\n\n::: {.cell}\n\n```{.r .cell-code}\nlibrary(lubridate)\n```\n\n::: {.cell-output .cell-output-stderr}\n\n```\n\nAttaching package: 'lubridate'\n```\n\n\n:::\n\n::: {.cell-output .cell-output-stderr}\n\n```\nThe following objects are masked from 'package:base':\n\n    date, intersect, setdiff, union\n```\n\n\n:::\n\n```{.r .cell-code}\ndt <- c(\"2020-03-04 13:38:54\")\ndt_posix <- as_datetime(dt)\ndt_posix\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n[1] \"2020-03-04 13:38:54 UTC\"\n```\n\n\n:::\n\n```{.r .cell-code}\nclass(dt_posix)\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n[1] \"POSIXct\" \"POSIXt\" \n```\n\n\n:::\n:::\n\n\nNote that timezone defaults to UTC \n([Coordinated Universal Time](https://en.wikipedia.org/wiki/Coordinated_Universal_Time)) \nand must be set manually. PST is defined with \"America/Los_Angeles\" or the \n(officially deprecated) \"US/Pacific\" \n([tz database](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones))\n\n\n::: {.cell}\n\n```{.r .cell-code}\ndt_posix <- as_datetime(dt, tz = \"America/Los_Angeles\")\ndt_posix\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n[1] \"2020-03-04 13:38:54 PST\"\n```\n\n\n:::\n:::\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\ndt2 <- c(\"03.04.20 01:38.54 pm\")\ndt2_posix <- as.POSIXct(dt2, format = \"%m.%d.%y %I:%M.%S %p\")\ndt2_posix\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n[1] \"2020-03-04 13:38:54 PST\"\n```\n\n\n:::\n:::\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\ndt2_posix <- as_datetime(dt2)\ndt2_posix\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n[1] \"2003-04-20 13:38:54 UTC\"\n```\n\n\n:::\n:::\n\n\n`dt2` got misinterpreted as year-month-day.  \nFor these cases, **lubridate** includes a number of convenient functions to \nnarrow down the guessing. The functions are named using all permutations of \n`y`, `m`, and `d`. The letter order signifies the order the information appears \nin the character you are trying to import, i.e. `ymd`, `dmy`, `mdy`, `ydm`, \n`myd`\n\n\n::: {.cell}\n\n```{.r .cell-code}\ndt2 <- c(\"03.04.20 01:38.54 pm\")\ndt2_posix <- mdy_hms(dt2, tz = \"America/Los_Angeles\")\ndt2_posix\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n[1] \"2020-03-04 13:38:54 PST\"\n```\n\n\n:::\n:::\n\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

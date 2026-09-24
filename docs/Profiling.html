@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.10.18">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>55&nbsp; Benchmarking &amp; Profiling – PDSR</title>
+<title>54&nbsp; Benchmarking &amp; Profiling – PDSR</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -68,21 +68,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./Quarto.html" rel="next">
-<link href="./GLM.html" rel="prev">
+<link href="./HypothesisTesting.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-eec68b17241c1efd3eae2de50d816e3e.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-25dec783d6e1d11f8e0bba9e4fbb47f4.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-eec68b17241c1efd3eae2de50d816e3e.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-c9523d8b11d2d372811917dcf128ef1a.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-22f8a72a56b3200f977e3b9538586c3d.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-c9523d8b11d2d372811917dcf128ef1a.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-426442561370cbf5ecd91bd6736998f8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-f676fe566ca15980d4fb06da5dc244ae.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-426442561370cbf5ecd91bd6736998f8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+<link href="site_libs/bootstrap/bootstrap-07d04bf7130c07b05a64e3fa09841ba1.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-a33f64e604ef20092cfd168d24b4114a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-07d04bf7130c07b05a64e3fa09841ba1.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
@@ -123,9 +123,10 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <meta name="apple-mobile-web-app-title" content="PDSR">
 <!-- Android/Chrome Mobile --><meta name="mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#ffffff">
-<script src="site_libs/htmlwidgets-1.6.2/htmlwidgets.js"></script><script src="site_libs/jquery-1.12.4/jquery.min.js"></script><script src="site_libs/d3-3.5.6/d3.min.js"></script><link href="site_libs/profvis-0.3.6.9000/profvis.css" rel="stylesheet">
-<script src="site_libs/profvis-0.3.6.9000/profvis.js"></script><script src="site_libs/profvis-0.3.6.9000/scroll.js"></script><link href="site_libs/highlight-6.2.0/textmate.css" rel="stylesheet">
-<script src="site_libs/highlight-6.2.0/highlight.js"></script><script src="site_libs/profvis-binding-0.3.8/profvis.js"></script><link rel="stylesheet" href="styles/rtemis.css">
+<link href="site_libs/htmltools-fill-0.5.9/fill.css" rel="stylesheet">
+<script src="site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script><script src="site_libs/jquery-3.7.1/jquery.min.js"></script><script src="site_libs/d3-3.5.6/d3.min.js"></script><link href="site_libs/profvis-0.3.6.9000/profvis.css" rel="stylesheet">
+<script src="site_libs/profvis-0.3.6.9000/profvis.js"></script><script src="site_libs/profvis-0.3.6.9000/scroll.js"></script><link href="site_libs/highlight-11.10.0/textmate.css" rel="stylesheet">
+<script src="site_libs/highlight-11.10.0/highlight.min.js"></script><script src="site_libs/profvis-binding-0.4.0/profvis.js"></script><link rel="stylesheet" href="styles/rtemis.css">
 </head>
 <body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
@@ -305,7 +306,7 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Profiling.html"><span class="chapter-number">55</span>&nbsp; <span class="chapter-title">Benchmarking &amp; Profiling</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Profiling.html"><span class="chapter-number">54</span>&nbsp; <span class="chapter-title">Benchmarking &amp; Profiling</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -316,7 +317,7 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
       <a href="./index.html" class="sidebar-logo-link">
-      <img src="./assets/pdsr.svg" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none"><img src="./assets/pdsr-dark.svg" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none"></a>
+      <img src="./assets/logo.svg" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none"><img src="./assets/logo.svg" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none"></a>
     <div class="sidebar-title mb-0 py-0">
       <a href="./"></a> 
         <div class="sidebar-tools-main tools-wide">
@@ -747,20 +748,14 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./GLM.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">54</span>&nbsp; <span class="chapter-title">Introduction to the GLM</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./Profiling.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">55</span>&nbsp; <span class="chapter-title">Benchmarking &amp; Profiling</span></span></a>
+ <span class="menu-text"><span class="chapter-number">54</span>&nbsp; <span class="chapter-title">Benchmarking &amp; Profiling</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Quarto.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">56</span>&nbsp; <span class="chapter-title">Quarto</span></span></a>
+ <span class="menu-text"><span class="chapter-number">55</span>&nbsp; <span class="chapter-title">Quarto</span></span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -775,13 +770,13 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./TerminalIntro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">57</span>&nbsp; <span class="chapter-title">Introduction to the System Shell</span></span></a>
+ <span class="menu-text"><span class="chapter-number">56</span>&nbsp; <span class="chapter-title">Introduction to the System Shell</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./GitHubIntro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">58</span>&nbsp; <span class="chapter-title">Git &amp; GitHub: The Basics</span></span></a>
+ <span class="menu-text"><span class="chapter-number">57</span>&nbsp; <span class="chapter-title">Git &amp; GitHub: The Basics</span></span></a>
   </div>
 </li>
       </ul>
@@ -798,13 +793,13 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ds.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">59</span>&nbsp; <span class="chapter-title">Data Queries across implementations</span></span></a>
+ <span class="menu-text"><span class="chapter-number">58</span>&nbsp; <span class="chapter-title">Data Queries across implementations</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./DuckDB.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">60</span>&nbsp; <span class="chapter-title">DuckDB</span></span></a>
+ <span class="menu-text"><span class="chapter-number">59</span>&nbsp; <span class="chapter-title">DuckDB</span></span></a>
   </div>
 </li>
       </ul>
@@ -812,13 +807,13 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Resources.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">61</span>&nbsp; <span class="chapter-title">Resources</span></span></a>
+ <span class="menu-text"><span class="chapter-number">60</span>&nbsp; <span class="chapter-title">Resources</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./DataPipeline.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">62</span>&nbsp; <span class="chapter-title">Data Pipeline Overview</span></span></a>
+ <span class="menu-text"><span class="chapter-number">61</span>&nbsp; <span class="chapter-title">Data Pipeline Overview</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -841,20 +836,20 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
         <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
    
   <ul>
-<li><a href="#system.time-time-the-execution-of-an-expression" id="toc-system.time-time-the-execution-of-an-expression" class="nav-link active" data-scroll-target="#system.time-time-the-execution-of-an-expression"><span class="header-section-number">55.1</span> <code>system.time()</code>: Time the execution of an expression</a></li>
+<li><a href="#system.time-time-the-execution-of-an-expression" id="toc-system.time-time-the-execution-of-an-expression" class="nav-link active" data-scroll-target="#system.time-time-the-execution-of-an-expression"><span class="header-section-number">54.1</span> <code>system.time()</code>: Time the execution of an expression</a></li>
   <li>
-<a href="#compare-execution-times-with-microbenchmarkmicrobenchmark" id="toc-compare-execution-times-with-microbenchmarkmicrobenchmark" class="nav-link" data-scroll-target="#compare-execution-times-with-microbenchmarkmicrobenchmark"><span class="header-section-number">55.2</span> Compare execution times with <code>microbenchmark::microbenchmark()</code></a>
+<a href="#compare-execution-times-with-microbenchmarkmicrobenchmark" id="toc-compare-execution-times-with-microbenchmarkmicrobenchmark" class="nav-link" data-scroll-target="#compare-execution-times-with-microbenchmarkmicrobenchmark"><span class="header-section-number">54.2</span> Compare execution times with <code>microbenchmark::microbenchmark()</code></a>
   <ul class="collapse">
-<li><a href="#example-loop-over-matrix-vs.-data.frame" id="toc-example-loop-over-matrix-vs.-data.frame" class="nav-link" data-scroll-target="#example-loop-over-matrix-vs.-data.frame"><span class="header-section-number">55.2.1</span> Example: loop over matrix vs.&nbsp;data.frame</a></li>
-  <li><a href="#example-group-means" id="toc-example-group-means" class="nav-link" data-scroll-target="#example-group-means"><span class="header-section-number">55.2.2</span> Example: Group means</a></li>
+<li><a href="#example-loop-over-matrix-vs.-data.frame" id="toc-example-loop-over-matrix-vs.-data.frame" class="nav-link" data-scroll-target="#example-loop-over-matrix-vs.-data.frame"><span class="header-section-number">54.2.1</span> Example: loop over matrix vs.&nbsp;data.frame</a></li>
+  <li><a href="#example-group-means" id="toc-example-group-means" class="nav-link" data-scroll-target="#example-group-means"><span class="header-section-number">54.2.2</span> Example: Group means</a></li>
   </ul>
 </li>
-  <li><a href="#profile-a-function-with-profvis" id="toc-profile-a-function-with-profvis" class="nav-link" data-scroll-target="#profile-a-function-with-profvis"><span class="header-section-number">55.3</span> Profile a function with <code>profvis()</code></a></li>
+  <li><a href="#profile-a-function-with-profvis" id="toc-profile-a-function-with-profvis" class="nav-link" data-scroll-target="#profile-a-function-with-profvis"><span class="header-section-number">54.3</span> Profile a function with <code>profvis()</code></a></li>
   </ul><div class="toc-actions"><ul><li><a href="https://github.com/egenn/pdsr/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
-<h1 class="title"><span id="profiling" class="quarto-section-identifier"><span class="chapter-number">55</span>&nbsp; <span class="chapter-title">Benchmarking &amp; Profiling</span></span></h1>
+<h1 class="title"><span id="profiling" class="quarto-section-identifier"><span class="chapter-number">54</span>&nbsp; <span class="chapter-title">Benchmarking &amp; Profiling</span></span></h1>
 </div>
 
 
@@ -868,27 +863,25 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
   
 
 
-</header><div class="cell" data-hash="Profiling_cache/html/unnamed-chunk-2_11db5e50107dde7eb9832b44b304d7c5">
-<style type="text/css" scoped="">
+</header><style type="text/css" scoped="">
 PRE.fansi SPAN {padding-top: .25em; padding-bottom: .25em};
 </style>
-</div>
 <p><strong>Benchmarking</strong> is the process of timing the execution of code for the purpose of comparison. For example, you can compare the execution time of a program in two different systems, e.g.&nbsp;a laptop and a high performance server. Another common case is to compare the performance of two different programs that produce the same output on the same computer.</p>
 <p><strong>Profiling</strong> refers to timing the different steps of a program to identify bottlenecks and potential targets for optimization.</p>
-<section id="system.time-time-the-execution-of-an-expression" class="level2" data-number="55.1"><h2 data-number="55.1" class="anchored" data-anchor-id="system.time-time-the-execution-of-an-expression">
-<span class="header-section-number">55.1</span> <code>system.time()</code>: Time the execution of an expression</h2>
+<section id="system.time-time-the-execution-of-an-expression" class="level2" data-number="54.1"><h2 data-number="54.1" class="anchored" data-anchor-id="system.time-time-the-execution-of-an-expression">
+<span class="header-section-number">54.1</span> <code>system.time()</code>: Time the execution of an expression</h2>
 <p>The base package’s <code><a href="https://rdrr.io/r/base/system.time.html">system.time()</a></code> function allows you to measure the execution time of an R expression.</p>
-<div class="cell" data-hash="Profiling_cache/html/unnamed-chunk-3_193ae175409ce87445e32286d4fced73">
+<div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">9999999</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-  0.305   0.007   0.312 </code></pre>
+  0.143   0.005   0.147 </code></pre>
 </div>
 </div>
 <p>“elapsed” time is real time in seconds.</p>
 <p>“user” and “system” are time used by the CPU on different types of tasks (see <code><a href="https://rdrr.io/r/base/proc.time.html">?proc.time</a></code>).</p>
 <p>As always, you can pass any R expression within curly brackets:</p>
-<div class="cell" data-hash="Profiling_cache/html/unnamed-chunk-4_48661d56982758d89f46feac5875e895">
+<div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">9999</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="op">{</span></span>
 <span>    <span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">2</span><span class="op">:</span><span class="fl">9999</span><span class="op">)</span> <span class="op">{</span></span>
@@ -898,11 +891,11 @@ PRE.fansi SPAN {padding-top: .25em; padding-bottom: .25em};
 <span><span class="op">}</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-  0.002   0.000   0.002 </code></pre>
+  0.001   0.000   0.001 </code></pre>
 </div>
 </div>
 <p>You can use <code><a href="https://rdrr.io/r/base/lapply.html">replicate()</a></code> to get a measure of time over multiple executions and average it:</p>
-<div class="cell" data-hash="Profiling_cache/html/unnamed-chunk-5_2e88d24214ec4dce0d65efcf1aa37380">
+<div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">2020</span><span class="op">)</span></span>
 <span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">500000</span><span class="op">)</span>, nrow <span class="op">=</span> <span class="fl">5000</span><span class="op">)</span></span>
 <span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fl">12</span> <span class="op">+</span> <span class="va">x</span><span class="op">[</span>, <span class="fl">3</span><span class="op">]</span> <span class="op">+</span> <span class="va">x</span><span class="op">[</span>, <span class="fl">5</span><span class="op">]</span><span class="op">^</span><span class="fl">2</span> <span class="op">+</span> <span class="va">x</span><span class="op">[</span>, <span class="fl">7</span><span class="op">]</span><span class="op">^</span><span class="fl">3</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">5000</span><span class="op">)</span></span>
@@ -910,7 +903,7 @@ PRE.fansi SPAN {padding-top: .25em; padding-bottom: .25em};
 <span>    </span>
 <span><span class="va">fit.glm_time10</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">replicate</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="fu">fit.glm</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div class="cell" data-hash="Profiling_cache/html/unnamed-chunk-6_c203384bdf8fe456763bc4eabe246d97">
+<div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/boxplot.html">boxplot</a></span><span class="op">(</span><span class="va">fit.glm_time10</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
@@ -919,24 +912,24 @@ PRE.fansi SPAN {padding-top: .25em; padding-bottom: .25em};
 </div>
 </div>
 </div>
-</section><section id="compare-execution-times-with-microbenchmarkmicrobenchmark" class="level2" data-number="55.2"><h2 data-number="55.2" class="anchored" data-anchor-id="compare-execution-times-with-microbenchmarkmicrobenchmark">
-<span class="header-section-number">55.2</span> Compare execution times with <code>microbenchmark::microbenchmark()</code>
+</section><section id="compare-execution-times-with-microbenchmarkmicrobenchmark" class="level2" data-number="54.2"><h2 data-number="54.2" class="anchored" data-anchor-id="compare-execution-times-with-microbenchmarkmicrobenchmark">
+<span class="header-section-number">54.2</span> Compare execution times with <code>microbenchmark::microbenchmark()</code>
 </h2>
 <p>The <a href="https://github.com/joshuaulrich/microbenchmark/"><strong>microbenchmark</strong></a> package’s <code><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html">microbenchmark()</a></code> function allows you to time the execution of multiple expressions with sub-millisecond accuracy. It will execute each command a number of times as defined by the <code>times</code> argument (default = 100), and output statistics of execution time per expression in nanoseconds. Using <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code> on the output produces a boxplot comparing the time distributions.</p>
-<div class="cell" data-hash="Profiling_cache/html/unnamed-chunk-7_01b0227578f5494efe1ba0dc812eb8d0">
+<div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># install.packages("microbenchmark")</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/joshuaulrich/microbenchmark/">microbenchmark</a></span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<section id="example-loop-over-matrix-vs.-data.frame" class="level3" data-number="55.2.1"><h3 data-number="55.2.1" class="anchored" data-anchor-id="example-loop-over-matrix-vs.-data.frame">
-<span class="header-section-number">55.2.1</span> Example: loop over matrix vs.&nbsp;data.frame</h3>
+<section id="example-loop-over-matrix-vs.-data.frame" class="level3" data-number="54.2.1"><h3 data-number="54.2.1" class="anchored" data-anchor-id="example-loop-over-matrix-vs.-data.frame">
+<span class="header-section-number">54.2.1</span> Example: loop over matrix vs.&nbsp;data.frame</h3>
 <p>Let’s create <code>xmat</code>, a 500 by 5 matrix and, <code>xdf</code> a data.frame with the same data.</p>
-<div class="cell" data-hash="Profiling_cache/html/unnamed-chunk-8_927249f0f957c9f53af7ff7224639748">
+<div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">2021</span><span class="op">)</span></span>
 <span><span class="va">xmat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">500</span> <span class="op">*</span> <span class="fl">5</span><span class="op">)</span>, nrow <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
 <span><span class="va">xdf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="va">xmat</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>If you wanted to square either of them, you would just use <code>^2</code>. Here, we create a function specifically to demonstrate the difference in working on a numeric matrix vs.&nbsp;a data.frame by using a nested loop that replaces each element one at a time.</p>
-<div class="cell" data-hash="Profiling_cache/html/unnamed-chunk-9_c92f4c2677c2b398d336a8aa68124ffe">
+<div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">silly_square</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">NROW</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>    <span class="kw">for</span> <span class="op">(</span><span class="va">j</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">NCOL</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
@@ -945,7 +938,7 @@ PRE.fansi SPAN {padding-top: .25em; padding-bottom: .25em};
 <span>  <span class="op">}</span></span>
 <span><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div class="cell" data-hash="Profiling_cache/html/unnamed-chunk-10_db32ff0123849fee22108fc77c3b270a">
+<div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mat_df_sq</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html">microbenchmark</a></span><span class="op">(</span></span>
 <span>  silly_square_mat <span class="op">=</span> <span class="fu">silly_square</span><span class="op">(</span><span class="va">xmat</span><span class="op">)</span>,</span>
 <span>   silly_square_df <span class="op">=</span> <span class="fu">silly_square</span><span class="op">(</span><span class="va">xdf</span><span class="op">)</span>,</span>
@@ -963,25 +956,25 @@ potential integer overflows</code></pre>
 </div>
 </div>
 <p>Print microbenchmark’s output:</p>
-<div class="cell" data-hash="Profiling_cache/html/unnamed-chunk-11_651ee67b405d34d97bcb0d830fca5c12">
+<div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mat_df_sq</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Unit: microseconds
-             expr       min         lq        mean    median         uq
- silly_square_mat   107.543   111.7865   135.07614   114.431   117.6905
-  silly_square_df 40335.472 42334.3655 43649.35645 43320.272 44353.2875
-      mat_squared     1.107     1.8655     3.05122     2.911     3.6900
-       df_squared  9875.793 10685.0305 11735.24427 12122.388 12624.4945
-       max neval
-  2190.753   100
- 71158.042   100
-    15.990   100
- 16040.963   100</code></pre>
+<pre><code>Unit: nanoseconds
+             expr      min         lq        mean     median       uq      max
+ silly_square_mat    76711    79191.5    94437.76    80770.0    82451  1201218
+  silly_square_df 26629131 27223713.0 28182246.67 27795273.5 28258922 43339788
+      mat_squared      656     1025.0     1747.42     1578.5     2091     4961
+       df_squared  6699482  7007597.0  7478352.85  7203515.5  7784178 13629507
+ neval
+   100
+   100
+   100
+   100</code></pre>
 </div>
 </div>
 <p>Notice how a) either operation is much faster on a matrix vs.&nbsp;a data.frame and b) vectorized squaring with <code>^2</code> is much faster than the nested loop as expected.</p>
 <p>There is a <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code> method for microbenchmark objects:</p>
-<div class="cell" data-hash="Profiling_cache/html/unnamed-chunk-12_5c92f2e56255979e6e0cfd167d5cece3">
+<div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">mat_df_sq</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
@@ -990,24 +983,52 @@ potential integer overflows</code></pre>
 </div>
 </div>
 </div>
-</section><section id="example-group-means" class="level3" data-number="55.2.2"><h3 data-number="55.2.2" class="anchored" data-anchor-id="example-group-means">
-<span class="header-section-number">55.2.2</span> Example: Group means</h3>
+</section><section id="example-group-means" class="level3" data-number="54.2.2"><h3 data-number="54.2.2" class="anchored" data-anchor-id="example-group-means">
+<span class="header-section-number">54.2.2</span> Example: Group means</h3>
 <p>Let’s perform a simple mean-by-group operation and compare three different approaches. As an example, we use the <code>flights</code> dataset from the <strong>nycflights13</strong> package which includes data on 336,776 flights that departed from NY area airports in 2013. The data comes as a <a href="https://tibble.tidyverse.org/">tibble</a>, and we create data.frame and data.table versions.th</p>
-<div class="cell" data-hash="Profiling_cache/html/unnamed-chunk-13_e8252aad0274db6216cc0ca2e419a0d8">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/hadley/nycflights13">nycflights13</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r-datatable.com">data.table</a></span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span>datatable.print.class <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/hadley/nycflights13">nycflights13</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r-datatable.com">data.table</a></span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'data.table'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:dplyr':
+
+    between, first, last</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:base':
+
+    %notin%</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span>datatable.print.class <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">flights</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "tbl_df"     "tbl"        "data.frame"</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="va">flights</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="va">flights</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 336776     19</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">flights_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="va">flights</span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">flights_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="va">flights</span><span class="op">)</span></span>
 <span><span class="va">flights_dt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/as.data.table.html">as.data.table</a></span><span class="op">(</span><span class="va">flights</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Compare performance of the same operation using different functions:</p>
@@ -1017,8 +1038,8 @@ potential integer overflows</code></pre>
 <li>base R <code><a href="https://rdrr.io/r/base/tapply.html">tapply()</a></code>
 </li>
 </ul>
-<div class="cell" data-hash="Profiling_cache/html/unnamed-chunk-14_ddbffe9b5e95346dd90acde80ade0ee5">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">flights_aggregate_formula</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">flights_aggregate_formula</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/aggregate.html">aggregate</a></span><span class="op">(</span><span class="va">arr_delay</span> <span class="op">~</span> <span class="va">carrier</span>, </span>
 <span>            data <span class="op">=</span> <span class="va">flights_df</span>,</span>
 <span>            <span class="va">mean</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
@@ -1042,18 +1063,22 @@ potential integer overflows</code></pre>
 <span>             tapply <span class="op">=</span> <span class="fu">flights_tapply</span><span class="op">(</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div class="cell" data-hash="Profiling_cache/html/unnamed-chunk-15_7df570fa0a0af5578ead66e1f09c705f">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">groupmean_3x</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">groupmean_3x</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Unit: milliseconds
-              expr       min       lq     mean   median       uq      max neval
- aggregate_formula 49.984125 56.19456 59.13615 57.88038 60.38195 97.78959   100
-         aggregate 43.398500 46.89822 49.91139 48.52676 50.61108 86.17450   100
-            tapply  9.478421 10.48790 11.85747 10.71896 11.61592 50.03513   100</code></pre>
+              expr       min        lq      mean    median        uq      max
+ aggregate_formula 31.734574 33.152354 35.113243 33.703702 35.043377 59.97513
+         aggregate 27.871021 29.134887 30.730340 29.793121 30.723001 57.98761
+            tapply  7.897789  8.067221  9.350599  8.195367  8.951858 31.40764
+ neval
+   100
+   100
+   100</code></pre>
 </div>
 </div>
-<div class="cell" data-hash="Profiling_cache/html/unnamed-chunk-16_a5cd1d8ab6c8e560e25408b1787992d5">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">groupmean_3x</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">groupmean_3x</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure"><p><img src="Profiling_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="480"></p>
@@ -1061,12 +1086,12 @@ potential integer overflows</code></pre>
 </div>
 </div>
 </div>
-</section></section><section id="profile-a-function-with-profvis" class="level2" data-number="55.3"><h2 data-number="55.3" class="anchored" data-anchor-id="profile-a-function-with-profvis">
-<span class="header-section-number">55.3</span> Profile a function with <code>profvis()</code>
+</section></section><section id="profile-a-function-with-profvis" class="level2" data-number="54.3"><h2 data-number="54.3" class="anchored" data-anchor-id="profile-a-function-with-profvis">
+<span class="header-section-number">54.3</span> Profile a function with <code>profvis()</code>
 </h2>
 <p>The <strong>profvis</strong> package’s <code><a href="https://profvis.r-lib.org/reference/profvis.html">profvis()</a></code> function provides an interactive output to visualize the time spent in different calls within a program.</p>
-<div class="cell" data-hash="Profiling_cache/html/unnamed-chunk-17_bed7c3b87404a6a77c8d5815244cc444">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://profvis.r-lib.org">profvis</a></span><span class="op">)</span></span>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://profvis.r-lib.org">profvis</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://profvis.r-lib.org/reference/profvis.html">profvis</a></span><span class="op">(</span><span class="op">{</span></span>
 <span>  <span class="va">hf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="st">"https://archive.ics.uci.edu/ml/machine-learning-databases/00519/heart_failure_clinical_records_dataset.csv"</span><span class="op">)</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">hf</span><span class="op">)</span></span>
@@ -1100,8 +1125,8 @@ potential integer overflows</code></pre>
 </div>
 </div>
 <div class="cell-output-display">
-<div class="profvis html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-acdf18c70c235f0b5f2f" style="width:100%;height:600px;"></div>
-<script type="application/json" data-for="htmlwidget-acdf18c70c235f0b5f2f">{"x":{"message":{"prof":{"time":[1,1,1,2,2,2],"depth":[3,2,1,3,2,1],"label":["close.connection","read.table","read.csv","bplt","<Anonymous>","boxplot.default"],"filenum":[null,null,1,null,null,null],"linenum":[null,null,3,null,null,null],"memalloc":[94.58443450927734,94.58443450927734,94.58443450927734,95.93730926513672,95.93730926513672,95.93730926513672],"meminc":[0,0,0,1.352874755859375,0,0],"filename":[null,null,"<expr>",null,null,null]},"interval":10,"files":[{"filename":"<expr>","content":"library(profvis)\nprofvis({\n  hf <- read.csv(\"https://archive.ics.uci.edu/ml/machine-learning-databases/00519/heart_failure_clinical_records_dataset.csv\")\n  str(hf)\n  lt5 <- which(sapply(hf, \\(i) length(unique(i))) < 5)\n  for (i in lt5) hf[, i] <- factor(hf[, i])\n  index_numeric <- which(sapply(hf, is.numeric))\n  par(mfrow = c(1, length(index_numeric)))\n  for (i in index_numeric) boxplot(hf[, i])\n  par(mfrow = c(1, 1))\n})","normpath":"<expr>"}],"prof_output":"/var/folders/rb/99nqfz7s2rb6d_p0d6yxtbxc0000gn/T//Rtmpriidld/file11781eef8970.prof","highlight":{"output":["^output\\$"],"gc":["^<GC>$"],"stacktrace":["^\\.\\.stacktraceo(n|ff)\\.\\.$"]},"split":"h"}},"evals":[],"jsHooks":[]}</script>
+<div class="profvis html-widget html-fill-item" id="htmlwidget-acdf18c70c235f0b5f2f" style="width:100%;height:600px;"></div>
+<script type="application/json" data-for="htmlwidget-acdf18c70c235f0b5f2f">{"x":{"message":{"prof":{"time":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,40,40],"depth":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,2,1],"label":[".main",".main",".main",".main",".main",".main",".main",".main",".main",".main",".main",".main",".main",".main",".main",".main",".main",".main",".main",".main",".main",".main",".main",".main",".main",".main",".main",".main",".main",".main",".main",".main",".main",".main",".main",".main",".main",".main",".main","setdiff","strSub","str.default"],"filenum":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],"linenum":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],"memalloc":[95.11046600341797,95.11046600341797,95.11046600341797,95.11046600341797,95.11046600341797,95.11046600341797,95.11046600341797,95.11046600341797,95.11046600341797,95.11046600341797,95.11046600341797,95.11046600341797,95.11046600341797,95.11046600341797,95.11046600341797,95.11046600341797,95.11046600341797,95.11046600341797,95.11046600341797,95.11046600341797,95.11046600341797,95.11046600341797,95.11046600341797,95.11046600341797,95.11046600341797,95.11046600341797,95.11046600341797,95.11046600341797,95.11046600341797,95.11046600341797,95.11046600341797,95.11046600341797,95.11046600341797,95.11046600341797,95.11046600341797,95.11046600341797,95.11046600341797,95.11046600341797,95.11046600341797,96.01985168457031,96.01985168457031,96.01985168457031],"meminc":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.9093856811523438,0,0],"filename":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null]},"interval":10,"files":[],"prof_output":"/var/folders/cr/lgjpmnv97lg6qtnjt9kph7qw0000gn/T//RtmpRZ7sJm/file1168c270e46e5.prof","highlight":{"output":["^output\\$"],"gc":["^<GC>$"],"stacktrace":["^\\.\\.stacktraceo(n|ff)\\.\\.$"]},"split":"h"}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 
@@ -1735,13 +1760,13 @@ window.onload = function() {
     }
   });
   </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
-      <a href="./GLM.html" class="pagination-link" aria-label="Introduction to the GLM">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">54</span>&nbsp; <span class="chapter-title">Introduction to the GLM</span></span>
+      <a href="./HypothesisTesting.html" class="pagination-link" aria-label="Common Statistical Tests">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">53</span>&nbsp; <span class="chapter-title">Common Statistical Tests</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./Quarto.html" class="pagination-link" aria-label="Quarto">
-        <span class="nav-page-text"><span class="chapter-number">56</span>&nbsp; <span class="chapter-title">Quarto</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">55</span>&nbsp; <span class="chapter-title">Quarto</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

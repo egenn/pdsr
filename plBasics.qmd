@@ -17,7 +17,7 @@ Use the `read_csv()` function within the `pl` environment to read a CSV file int
 
 ```{r}
 dat <- pl$read_csv(
-  "../docs/data/heart_failure_clinical_records_dataset.csv",
+  "./data/heart_failure_clinical_records_dataset.csv",
   infer_schema_length = 1000
 )
 dat
@@ -28,7 +28,7 @@ or use `scan_csv()` for lazy loading, followed by `collect()` to load into memor
 ```{r}
 #| eval: false
 dat <- pl$scan_csv(
-  "./docs/data/heart_failure_clinical_records_dataset.csv",
+  "./data/heart_failure_clinical_records_dataset.csv",
   infer_schema_length = 1000
 )$collect()
 ```
@@ -210,7 +210,7 @@ Select age, sex, and serum_sodium columns and sort by age in ascending order:
 
 ```{r}
 dat$select(
-  pl$col("age", "sex", "serum_sodium")
+  pl$col(c("age", "sex", "serum_sodium"))
 )$sort("age")
 ```
 
@@ -242,7 +242,7 @@ To change order of columns, you can use the `select()` method.
 For example, move the `sex` column after the `age` column:
 
 ```{r}
-dat$select("age", "sex", pl$all()$exclude("age", "sex"))
+dat$select(c("age", "sex"), pl$all()$exclude("age", "sex"))
 ```
 
 ## Append new columns

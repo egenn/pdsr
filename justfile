@@ -11,7 +11,7 @@
 #
 # Run `just` to list recipes.
 
-src := "src"
+src := "."
 out := "docs"
 quarto := env("QUARTO", "quarto")
 

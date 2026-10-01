@@ -31,6 +31,29 @@ default:
 _msg msg:
     @printf '\033[38;2;108;163;160m[%s] %s\033[0m\n' "$(date '+%Y-%m-%d %H:%M:%S')" "{{ msg }}"
 
+# Refresh the shared Quarto theme; preserve PDSR-specific files such as index.css.
+# Override the checkout with RTEMIS_THEME_DIR or `just sync-theme /path/to/rtemis-theme`.
+[doc("Sync the complete Quarto theme from the rtemis-theme checkout.")]
+sync-theme source=env("RTEMIS_THEME_DIR", home_directory() / "Code/rtemis-theme"):
+    #!/usr/bin/env bash
+    set -euo pipefail
+    source_dir="{{ source }}/quarto"
+    target_dir="{{ src }}/theme"
+    files=( _rtemis-defaults.scss _rtemis-rules.scss rtemis-light.scss rtemis-dark.scss rtemis-exercises.scss rtemis-light.theme rtemis-dark.theme LICENSE THIRD_PARTY_NOTICES.txt )
+    for file in "${files[@]}"; do
+        if [[ ! -f "$source_dir/$file" ]]; then
+            printf 'Missing theme file: %s\n' "$source_dir/$file" >&2
+            exit 1
+        fi
+    done
+    mkdir -p "$target_dir"
+    for file in "${files[@]}"; do
+        if ! cmp -s "$source_dir/$file" "$target_dir/$file"; then
+            cp "$source_dir/$file" "$target_dir/$file"
+        fi
+    done
+    printf 'Quarto theme synced from %s\n' "$source_dir"
+
 # ── Render ───────────────────────────────────────────────────────────────────
 
 # Render the whole book into `docs/`.

@@ -72,11 +72,10 @@ dt[Sex == "Male", Age := Age + rnorm(.N, mean = 6, sd = 1.8)]
 
 Define a color palette `palette`. Unlike in the previous chapters, we do not need a separate
 semi-transparent version of the palette: functions that fill areas, like `draw_histogram()` and
-`draw_density()`, have a `fill_alpha` argument.
+`draw_density()`, have a `fill_alpha` argument, which is automatically set depending on whether there are multiple groups or not, but can be overridden if desired.
 
 ```{r}
 palette <- c("#43A4AC", "#FA9860")
-palettea <- adjustcolor(palette, alpha.f = 2 / 3)
 ```
 
 ::: callout-note
@@ -115,7 +114,7 @@ draw_boxplot(dt[, Age], group = dt[, Sex], palette = palette[2:1])
 ## Histogram
 
 ```{r}
-draw_histogram(dt[, Age], palette = palette[1], fill_alpha = 0.75)
+draw_histogram(dt[, Age], palette = palette[1])
 ```
 
 We can specify the number of bins with `breaks`, and axis labels with `xlab` and `ylab`:
@@ -125,8 +124,7 @@ draw_histogram(
   dt[, Age],
   breaks = 24,
   palette = palette[1],
-  xlab = "Age (years)",
-  fill_alpha = 0.75
+  xlab = "Age (years)"
 )
 ```
 
@@ -136,8 +134,7 @@ draw_histogram(
 draw_histogram(
   dt[, Age],
   group = dt[, Sex],
-  palette = palette[2:1],
-  fill_alpha = 0.5
+  palette = palette[2:1]
 )
 ```
 
@@ -150,8 +147,7 @@ draw_histogram(
   group = dt[, Sex],
   breaks = 24,
   bar_mode = "stack",
-  palette = palette[2:1],
-  fill_alpha = 0.5
+  palette = palette[2:1]
 )
 ```
 

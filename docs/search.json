@@ -1854,7 +1854,7 @@
     "href": "Strings.html#c-style-string-formatting-with-sprintf",
     "title": "29  Strings",
     "section": "\n29.2 C-style string formatting with sprintf()\n",
-    "text": "29.2 C-style string formatting with sprintf()\n\nsprintf() is a very powerful function for formatting strings. It is based on the C programming language’s printf() function. It allows you to create formatted strings using format specifiers.\nThe general syntax is sprintf(fmt, ...), where fmt is a character string containing format specifiers, and ... are the values to be formatted.\nFor example, to format a number with two decimal places:\n\nSBP &lt;- 125.6783\nsprintf(\"The systolic blood pressure is %.2f\", SBP)\n\n[1] \"The systolic blood pressure is 125.68\"\n\n\nYou can format any number of values:\n\nage &lt;- 37\ngender &lt;- \"female\"\ntemperature &lt;- 38.9452\nsprintf(\"A %d-year-old %s with a temperature of %.1f C\", age, gender, temperature)\n\n[1] \"A 37-year-old female with a temperature of 38.9 C\"\n\n\n\n29.2.1 sprintf() common format specifiers\n\n\n\n\n\n\n\n\nSpecifier\nDescription\nExample\nWith Width/Precision\n\n\n\n%s\nString\n\"Hello\"\n\n%10s (right-pad to width 10)\n\n\n%d\nInteger\n42\n\n%5d (right-pad to width 5), %05d (zero-pad)\n\n\n%f\nFloating-point number\n3.14159\n\n%8.2f (width 8, 2 decimals)\n\n\n%.nf\nFloating-point with n decimals\n\n3.14 (for n=2)\nUse %w.nf for width w\n\n\n\n%e\nScientific notation\n1.23e+04\n\n%12.3e (width 12, 3 decimals)\n\n\n%g\nGeneral format (auto %e or %f)\n\n3.14 or 1e+05\n\n%10.3g\n\n\n%x\nHexadecimal representation\n\n2a (for 42)\n\n%04x (zero-pad to width 4)\n\n\n%%\nLiteral percent sign\n%\nN/A\n\n\n\nWidth and precision modifiers:\n\n\nWidth (e.g., %10s, %5d): Minimum field width. Right-aligns by default, pads with spaces.\n\nLeft-align (e.g., %-10s): Use negative width to left-align.\n\nZero-padding (e.g., %05d): For numbers, pad with zeros instead of spaces.\n\nPrecision (e.g., %.2f): Number of decimal places for floats, or max characters for strings.\n\n\n\n\n\n\n\nsprintf() vs paste(): - Use paste() for simple concatenation with default spacing - Use sprintf() when you need precise control over formatting (decimal places, padding, alignment)\n\n\n\n\n29.2.2 Padding and alignment\nsprintf() can produce precisely formatted strings with padding and alignment.\n\n29.2.2.1 Right-aligned with padding\nYou can specify a minimum width for each field by adding a number between % and the format specifier. If the value is shorter than the specified width, it will be padded with spaces on the left (right-aligned).\n\nsprintf(\"Patient: %5s, Age: %3d\", \"ID001\", 42)\n\n[1] \"Patient: ID001, Age:  42\"\n\n\n\nsprintf(\"Patient: %10s, Age: %10d\", \"ID10\", 7)\n\n[1] \"Patient:       ID10, Age:          7\"\n\n\n\n29.2.2.2 Left-aligned (use negative width)\nUse a negative width to left-align the value within the specified width:\n\nsprintf(\"Patient: %-5s, Age: %-3d\", \"ID001\", 48)\n\n[1] \"Patient: ID001, Age: 48 \"\n\n\n\nsprintf(\"Patient: %-10s, Age: %-10d\", \"ID10\", 7)\n\n[1] \"Patient: ID10      , Age: 7         \"\n\n\n\n29.2.2.3 Zero-padding\nSome times, you may want to pad numbers, usually integers, with leading zeros. You can do this by adding a 0 before the width specifier. For example, this can be useful when formatting IDs:\n\nsprintf(\"Patient ID: %05d\", 42)\n\n[1] \"Patient ID: 00042\"\n\n\n\n29.2.3 Vectorization\nsprintf() is vectorized, which means it can format multiple values at once. Each format specifier corresponds to an element in the provided vectors.\n\nids &lt;- c(\"82\", \"179\", \"8804\")\nages &lt;- c(45.12398, 32.98763, 67.23432)\nsprintf(\"Patient %04s is %.1f years old\", ids, ages)\n\n[1] \"Patient 0082 is 45.1 years old\" \"Patient 0179 is 33.0 years old\"\n[3] \"Patient 8804 is 67.2 years old\"\n\n\n\npatient_id &lt;- c(\"P001\", \"P002\", \"P003\")\nfasting_blood_glucose &lt;- c(95.3, 74, 142.9)\nstatus &lt;- c(\"Normal\", \"Normal\", \"High\")\n\nsprintf(\"Patient %s: Fasting Blood Glucose = %5.1f mg/dL [%s]\", \n        patient_id, fasting_blood_glucose, status)\n\n[1] \"Patient P001: Fasting Blood Glucose =  95.3 mg/dL [Normal]\"\n[2] \"Patient P002: Fasting Blood Glucose =  74.0 mg/dL [Normal]\"\n[3] \"Patient P003: Fasting Blood Glucose = 142.9 mg/dL [High]\"",
+    "text": "29.2 C-style string formatting with sprintf()\n\nsprintf() is a very powerful function for formatting strings. It is based on the C programming language’s printf() function. It allows you to create formatted strings using format specifiers.\nThe general syntax is sprintf(fmt, ...), where fmt is a character string containing format specifiers, and ... are the values to be formatted.\nFor example, to format a number with two decimal places:\n\nSBP &lt;- 125.6783\nsprintf(\"The systolic blood pressure is %.2f\", SBP)\n\n[1] \"The systolic blood pressure is 125.68\"\n\n\nYou can format any number of values:\n\nage &lt;- 37\ngender &lt;- \"female\"\ntemperature &lt;- 38.9452\nsprintf(\"A %d-year-old %s with a temperature of %.1f C\", age, gender, temperature)\n\n[1] \"A 37-year-old female with a temperature of 38.9 C\"\n\n\n\n29.2.1 sprintf() common format specifiers\n\n\n\n\n\n\n\n\nSpecifier\nDescription\nExample\nWith Width/Precision\n\n\n\n%s\nString\n\"Hello\"\n\n%10s (right-pad to width 10)\n\n\n%d\nInteger\n42\n\n%5d (right-pad to width 5), %05d (zero-pad)\n\n\n%f\nFloating-point number\n3.14159\n\n%8.2f (width 8, 2 decimals)\n\n\n%.nf\nFloating-point with n decimals\n\n3.14 (for n=2)\nUse %w.nf for width w\n\n\n\n%e\nScientific notation\n1.23e+04\n\n%12.3e (width 12, 3 decimals)\n\n\n%g\nGeneral format (auto %e or %f)\n\n3.14 or 1e+05\n\n%10.3g\n\n\n%x\nHexadecimal representation\n\n2a (for 42)\n\n%04x (zero-pad to width 4)\n\n\n%%\nLiteral percent sign\n%\nN/A\n\n\n\nWidth and precision modifiers:\n\n\nWidth (e.g., %10s, %5d): Minimum field width. Right-aligns by default, pads with spaces.\n\nLeft-align (e.g., %-10s): Use negative width to left-align.\n\nZero-padding (e.g., %05d): For numbers, pad with zeros instead of spaces.\n\nPrecision (e.g., %.2f): Number of decimal places for floats, or max characters for strings.\n\n\n\n\n\n\n\nsprintf() vs paste(): - Use paste() for simple concatenation with default spacing - Use sprintf() when you need precise control over formatting (decimal places, padding, alignment)\n\n\n\n\n29.2.2 Padding and alignment\nsprintf() can produce precisely formatted strings with padding and alignment.\n\n29.2.2.1 Right-aligned with padding\nYou can specify a minimum width for each field by adding a number between % and the format specifier. If the value is shorter than the specified width, it will be padded with spaces on the left (right-aligned).\n\nsprintf(\"Patient: %5s, Age: %3d\", \"ID001\", 42)\n\n[1] \"Patient: ID001, Age:  42\"\n\n\n\nsprintf(\"Patient: %10s, Age: %10d\", \"ID10\", 7)\n\n[1] \"Patient:       ID10, Age:          7\"\n\n\n\n29.2.2.2 Left-aligned (use negative width)\nUse a negative width to left-align the value within the specified width:\n\nsprintf(\"Patient: %-5s, Age: %-3d\", \"ID001\", 48)\n\n[1] \"Patient: ID001, Age: 48 \"\n\n\n\nsprintf(\"Patient: %-10s, Age: %-10d\", \"ID10\", 7)\n\n[1] \"Patient: ID10      , Age: 7         \"\n\n\n\n29.2.2.3 Zero-padding\nSome times, you may want to pad numbers, usually integers, with leading zeros. You can do this by adding a 0 before the width specifier. For example, this can be useful when formatting IDs:\n\nsprintf(\"Patient ID: %05d\", 42)\n\n[1] \"Patient ID: 00042\"\n\n\n\n29.2.3 Vectorization\nsprintf() is vectorized, which means it can format multiple values at once. Each format specifier corresponds to an element in the provided vectors.\n\nids &lt;- c(82, 179, 8804)\nages &lt;- c(45.12398, 32.98763, 67.23432)\nsprintf(\"Patient %04d is %.1f years old\", ids, ages)\n\n[1] \"Patient 0082 is 45.1 years old\" \"Patient 0179 is 33.0 years old\"\n[3] \"Patient 8804 is 67.2 years old\"\n\n\n\npatient_id &lt;- c(\"P001\", \"P002\", \"P003\")\nfasting_blood_glucose &lt;- c(95.3, 74, 142.9)\nstatus &lt;- c(\"Normal\", \"Normal\", \"High\")\n\nsprintf(\"Patient %s: Fasting Blood Glucose = %5.1f mg/dL [%s]\", \n        patient_id, fasting_blood_glucose, status)\n\n[1] \"Patient P001: Fasting Blood Glucose =  95.3 mg/dL [Normal]\"\n[2] \"Patient P002: Fasting Blood Glucose =  74.0 mg/dL [Normal]\"\n[3] \"Patient P003: Fasting Blood Glucose = 142.9 mg/dL [High]\"",
     "crumbs": [
       "<span class='chapter-number'>29</span>  <span class='chapter-title'>Strings</span>"
     ]
@@ -3812,213 +3812,334 @@
     ]
   },
   {
+    "objectID": "rtemis.draw.html",
+    "href": "rtemis.draw.html",
+    "title": "53  Introduction to rtemis.draw",
+    "section": "",
+    "text": "53.1 Setup\nrtemis.draw is a plotting package from the rtemis project. Like plotly (Chapter 52), it produces interactive htmlwidgets, but it provides data-first draw_*() functions that take plain vectors, lists, or data frames and choose sensible defaults, so most plots take a single call. Charts are rendered with Apache ECharts, and automatically follow the light or dark theme of the page they are displayed in.\nFull documentation is available at docs.rtemis.org.",
+    "crumbs": [
+      "Graphics",
+      "<span class='chapter-number'>53</span>  <span class='chapter-title'>Introduction to **rtemis.draw**</span>"
+    ]
+  },
+  {
+    "objectID": "rtemis.draw.html#setup",
+    "href": "rtemis.draw.html#setup",
+    "title": "53  Introduction to rtemis.draw",
+    "section": "",
+    "text": "53.1.1 Installation\nUntil the package is released on CRAN, install it from R-universe:\n\ninstall.packages(\n    \"rtemis.draw\",\n    repos = c(\"https://rtemis-org.r-universe.dev\", \"https://cloud.r-project.org\")\n)\n\n\n53.1.2 Libraries\nLoad libraries we will be using in this chapter:\n\nlibrary(rtemis.draw)\nlibrary(data.table)\noptions(datatable.print.class = TRUE)\n\n\n53.1.3 Synthetic Data\nWe use the same synthetic dataset as in the previous two chapters:\n\nset.seed(2022)\ndt &lt;- data.table(\n    PID = sample(8001:9000, size = 100),\n    Age = rnorm(100, mean = 33, sd = 8),\n    Weight = rnorm(100, mean = 70, sd = 9),\n    SysBP = rnorm(100, mean = 110, sd = 6),\n    DiaBP = rnorm(100, mean = 80, sd = 6),\n    Sex = factor(sample(c(\"Female\", \"Male\"), size = 100, replace = TRUE))\n)\ndt[, SysBP := SysBP + 0.5 * Age]\ndt[Sex == \"Male\", Weight := Weight + rnorm(.N, mean = 16, sd = 1.5)]\ndt[Sex == \"Male\", Age := Age + rnorm(.N, mean = 6, sd = 1.8)]\n\nDefine a color palette palette. Unlike in the previous chapters, we do not need a separate semi-transparent version of the palette: functions that fill areas, like draw_histogram() and draw_density(), have a fill_alpha argument.\n\npalette &lt;- c(\"#43A4AC\", \"#FA9860\")\npalettea &lt;- adjustcolor(palette, alpha.f = 2 / 3)\n\n\n\n\n\n\n\nAll draw_*() functions share a common set of arguments: title, xlab, ylab, theme, width, height, palette, and filename. If palette is not specified, the rtemis palette is used.",
+    "crumbs": [
+      "Graphics",
+      "<span class='chapter-number'>53</span>  <span class='chapter-title'>Introduction to **rtemis.draw**</span>"
+    ]
+  },
+  {
+    "objectID": "rtemis.draw.html#box-plot",
+    "href": "rtemis.draw.html#box-plot",
+    "title": "53  Introduction to rtemis.draw",
+    "section": "\n53.2 Box plot",
+    "text": "53.2 Box plot\ndraw_boxplot() accepts a numeric vector, a list of numeric vectors, or a data frame of numeric columns, and draws one box per element or column. Unlike ggplot2, there is no need to convert to long format first. Unlike plotly, there is no need to add each box one at a time.\n\ndraw_boxplot(dt[, .(SysBP, DiaBP)])\n\n\n\n\n\nUse palette to specify the colors and labels to specify the box labels:\n\ndraw_boxplot(\n    dt[, .(SysBP, DiaBP)],\n    palette = palette,\n    labels = c(\"Systolic BP\", \"Diastolic BP\")\n)\n\n\n\n\n\n\n53.2.1 Grouped boxplot\nUse group to split a vector by a factor:\n\ndraw_boxplot(dt[, Age], group = dt[, Sex], palette = palette[2:1])",
+    "crumbs": [
+      "Graphics",
+      "<span class='chapter-number'>53</span>  <span class='chapter-title'>Introduction to **rtemis.draw**</span>"
+    ]
+  },
+  {
+    "objectID": "rtemis.draw.html#histogram",
+    "href": "rtemis.draw.html#histogram",
+    "title": "53  Introduction to rtemis.draw",
+    "section": "\n53.3 Histogram",
+    "text": "53.3 Histogram\n\ndraw_histogram(dt[, Age], palette = palette[1], fill_alpha = 0.75)\n\n\n\n\n\nWe can specify the number of bins with breaks, and axis labels with xlab and ylab:\n\ndraw_histogram(\n  dt[, Age],\n  breaks = 24,\n  palette = palette[1],\n  xlab = \"Age (years)\",\n  fill_alpha = 0.75\n)\n\n\n\n\n\n\n53.3.1 Grouped Histogram\n\ndraw_histogram(\n  dt[, Age],\n  group = dt[, Sex],\n  palette = palette[2:1],\n  fill_alpha = 0.5\n)\n\n\n\n\n\nbar_mode controls the placement of the groups’ bars within each bin: \"group\" (the default) places them side by side, whereas \"stack\" stacks them vertically.\n\ndraw_histogram(\n  dt[, Age],\n  group = dt[, Sex],\n  breaks = 24,\n  bar_mode = \"stack\",\n  palette = palette[2:1],\n  fill_alpha = 0.5\n)",
+    "crumbs": [
+      "Graphics",
+      "<span class='chapter-number'>53</span>  <span class='chapter-title'>Introduction to **rtemis.draw**</span>"
+    ]
+  },
+  {
+    "objectID": "rtemis.draw.html#density-plot",
+    "href": "rtemis.draw.html#density-plot",
+    "title": "53  Introduction to rtemis.draw",
+    "section": "\n53.4 Density plot",
+    "text": "53.4 Density plot\ndraw_density() estimates the density internally with stats::density(), so there is no need to compute and pass the coordinates ourselves as with plotly.\n\ndraw_density(dt[, Age], palette = palette[1])\n\n\n\n\n\n\n53.4.1 Grouped density plot\n\ndraw_density(dt[, Age], group = dt[, Sex], palette = palette[2:1])",
+    "crumbs": [
+      "Graphics",
+      "<span class='chapter-number'>53</span>  <span class='chapter-title'>Introduction to **rtemis.draw**</span>"
+    ]
+  },
+  {
+    "objectID": "rtemis.draw.html#barplot",
+    "href": "rtemis.draw.html#barplot",
+    "title": "53  Introduction to rtemis.draw",
+    "section": "\n53.5 Barplot",
+    "text": "53.5 Barplot\n\nschools &lt;- data.frame(UCSF = 4, Stanford = 7, Penn = 12)\n\ndraw_bar() takes the category labels as x and the bar heights as y. No data frame or explicit factor is needed; the bars appear in the order provided:\n\ndraw_bar(\n    names(schools),\n    as.numeric(schools[1, ]),\n    palette = palette[1],\n    ylab = \"N schools\"\n)",
+    "crumbs": [
+      "Graphics",
+      "<span class='chapter-number'>53</span>  <span class='chapter-title'>Introduction to **rtemis.draw**</span>"
+    ]
+  },
+  {
+    "objectID": "rtemis.draw.html#scatterplot",
+    "href": "rtemis.draw.html#scatterplot",
+    "title": "53  Introduction to rtemis.draw",
+    "section": "\n53.6 Scatterplot",
+    "text": "53.6 Scatterplot\n\ndraw_scatter(dt[, Age], dt[, SysBP], xlab = \"Age\", ylab = \"SysBP\", palette = palette[1])\n\n\n\n\n\nPass fit = \"gam\" (or \"glm\") to overlay a fitted line and 95% confidence band:\n\ndraw_scatter(\n    dt[, Age], dt[, SysBP],\n    fit = \"gam\",\n    xlab = \"Age\", ylab = \"SysBP\",\n    palette = palette[1]\n)\n\n\n\n\n\n\n53.6.1 Grouped Scatterplot\n\ndraw_scatter(\n    dt[, Age], dt[, SysBP],\n    group = dt[, Sex],\n    xlab = \"Age\", ylab = \"SysBP\",\n    palette = palette[2:1]\n)\n\n\n\n\n\nWith a grouping variable, fit draws a separate fitted line for each group:\n\ndraw_scatter(\n    dt[, Age], dt[, SysBP],\n    group = dt[, Sex],\n    fit = \"gam\",\n    xlab = \"Age\", ylab = \"SysBP\",\n    palette = palette[2:1]\n)",
+    "crumbs": [
+      "Graphics",
+      "<span class='chapter-number'>53</span>  <span class='chapter-title'>Introduction to **rtemis.draw**</span>"
+    ]
+  },
+  {
+    "objectID": "rtemis.draw.html#themes",
+    "href": "rtemis.draw.html#themes",
+    "title": "53  Introduction to rtemis.draw",
+    "section": "\n53.7 Themes",
+    "text": "53.7 Themes\nCharts follow the page theme (light or dark) by default. To force a theme, pass one to the theme argument:\n\ndraw_scatter(dt[, Age], dt[, SysBP], theme = theme_dark())",
+    "crumbs": [
+      "Graphics",
+      "<span class='chapter-number'>53</span>  <span class='chapter-title'>Introduction to **rtemis.draw**</span>"
+    ]
+  },
+  {
+    "objectID": "rtemis.draw.html#save-plot-to-file",
+    "href": "rtemis.draw.html#save-plot-to-file",
+    "title": "53  Introduction to rtemis.draw",
+    "section": "\n53.8 Save plot to file",
+    "text": "53.8 Save plot to file\nWe’ll use the grouped boxplot example from above to show how to save a plot to file. Pass an .svg filename to any draw_*() function, or call save_drawing() on an existing widget. SVG export requires Node.js.\n\np &lt;- draw_boxplot(dt[, Age], group = dt[, Sex], palette = palette[2:1])\nsave_drawing(p, \"Age_by_Sex_rtemis.draw.svg\", width = 550, height = 550)\n\nor directly:\n\ndraw_boxplot(\n    dt[, Age], group = dt[, Sex], palette = palette[2:1],\n    filename = \"Age_by_Sex_rtemis.draw.svg\"\n)",
+    "crumbs": [
+      "Graphics",
+      "<span class='chapter-number'>53</span>  <span class='chapter-title'>Introduction to **rtemis.draw**</span>"
+    ]
+  },
+  {
+    "objectID": "rtemis.draw.html#see-also",
+    "href": "rtemis.draw.html#see-also",
+    "title": "53  Introduction to rtemis.draw",
+    "section": "\n53.9 See also",
+    "text": "53.9 See also\n\nBase R Graphics (Chapter 49)\nIntroduction to ggplot2 (Chapter 51)\nIntroduction to plotly (Chapter 52)",
+    "crumbs": [
+      "Graphics",
+      "<span class='chapter-number'>53</span>  <span class='chapter-title'>Introduction to **rtemis.draw**</span>"
+    ]
+  },
+  {
+    "objectID": "rtemis.draw.html#resources",
+    "href": "rtemis.draw.html#resources",
+    "title": "53  Introduction to rtemis.draw",
+    "section": "\n53.10 Resources",
+    "text": "53.10 Resources\n\nrtemis.draw Documentation",
+    "crumbs": [
+      "Graphics",
+      "<span class='chapter-number'>53</span>  <span class='chapter-title'>Introduction to **rtemis.draw**</span>"
+    ]
+  },
+  {
     "objectID": "HypothesisTesting.html",
     "href": "HypothesisTesting.html",
-    "title": "53  Common Statistical Tests",
+    "title": "54  Common Statistical Tests",
     "section": "",
-    "text": "53.1 Correlation test\nR includes a large number of functions to perform statistical hypothesis testing in the built-in stats package. This chapter includes a brief overview of the syntax for some common tests along with code to produce relevant plots of your data.\nset.seed(2020)\nx &lt;- rnorm(100)\ny1 &lt;- 0.1 * x + rnorm(100)\ny2 &lt;- 0.3 * x + rnorm(100)\ny3 &lt;- x + rnorm(100)/5\ny4 &lt;- x^2 + rnorm(100)\nScatterplot with linear fit:\nplot(x, y1,\n     col = \"#00000077\",\n     pch = 16, bty = \"none\")\nabline(lm(y1 ~ x), col = \"red\", lwd = 2)\nplot(x, y2,\n     col = \"#00000077\",\n     pch = 16, bty = \"none\")\nabline(lm(y3 ~ x), col = \"red\", lwd = 2)\nplot(x, y3,\n     col = \"#00000077\",\n     pch = 16, bty = \"none\")\nabline(lm(y3 ~ x), col = \"red\", lwd = 2)\nScatterplot with a LOESS fit\nscatter.smooth(x, y4,\n               col = \"#00000077\",\n               pch = 16, bty = \"none\",\n               lpars = list(col = \"red\", lwd = 2))\ncor.test(x, y1)\n\n\n    Pearson's product-moment correlation\n\ndata:  x and y1\nt = 0.66018, df = 98, p-value = 0.5107\nalternative hypothesis: true correlation is not equal to 0\n95 percent confidence interval:\n -0.1315978  0.2595659\nsample estimates:\n       cor \n0.06654026 \n\ncor.test(x, y2)\n\n\n    Pearson's product-moment correlation\n\ndata:  x and y2\nt = 3.3854, df = 98, p-value = 0.001024\nalternative hypothesis: true correlation is not equal to 0\n95 percent confidence interval:\n 0.1357938 0.4889247\nsample estimates:\n      cor \n0.3235813 \n\ncor.test(x, y3)\n\n\n    Pearson's product-moment correlation\n\ndata:  x and y3\nt = 53.689, df = 98, p-value &lt; 2.2e-16\nalternative hypothesis: true correlation is not equal to 0\n95 percent confidence interval:\n 0.9754180 0.9888352\nsample estimates:\n      cor \n0.9834225 \n\ncor.test(x, y4)\n\n\n    Pearson's product-moment correlation\n\ndata:  x and y4\nt = 0.66339, df = 98, p-value = 0.5086\nalternative hypothesis: true correlation is not equal to 0\n95 percent confidence interval:\n -0.1312793  0.2598681\nsample estimates:\n       cor \n0.06686289",
+    "text": "54.1 Correlation test\nR includes a large number of functions to perform statistical hypothesis testing in the built-in stats package. This chapter includes a brief overview of the syntax for some common tests along with code to produce relevant plots of your data.\nset.seed(2020)\nx &lt;- rnorm(100)\ny1 &lt;- 0.1 * x + rnorm(100)\ny2 &lt;- 0.3 * x + rnorm(100)\ny3 &lt;- x + rnorm(100)/5\ny4 &lt;- x^2 + rnorm(100)\nScatterplot with linear fit:\nplot(x, y1,\n     col = \"#00000077\",\n     pch = 16, bty = \"none\")\nabline(lm(y1 ~ x), col = \"red\", lwd = 2)\nplot(x, y2,\n     col = \"#00000077\",\n     pch = 16, bty = \"none\")\nabline(lm(y3 ~ x), col = \"red\", lwd = 2)\nplot(x, y3,\n     col = \"#00000077\",\n     pch = 16, bty = \"none\")\nabline(lm(y3 ~ x), col = \"red\", lwd = 2)\nScatterplot with a LOESS fit\nscatter.smooth(x, y4,\n               col = \"#00000077\",\n               pch = 16, bty = \"none\",\n               lpars = list(col = \"red\", lwd = 2))\ncor.test(x, y1)\n\n\n    Pearson's product-moment correlation\n\ndata:  x and y1\nt = 0.66018, df = 98, p-value = 0.5107\nalternative hypothesis: true correlation is not equal to 0\n95 percent confidence interval:\n -0.1315978  0.2595659\nsample estimates:\n       cor \n0.06654026 \n\ncor.test(x, y2)\n\n\n    Pearson's product-moment correlation\n\ndata:  x and y2\nt = 3.3854, df = 98, p-value = 0.001024\nalternative hypothesis: true correlation is not equal to 0\n95 percent confidence interval:\n 0.1357938 0.4889247\nsample estimates:\n      cor \n0.3235813 \n\ncor.test(x, y3)\n\n\n    Pearson's product-moment correlation\n\ndata:  x and y3\nt = 53.689, df = 98, p-value &lt; 2.2e-16\nalternative hypothesis: true correlation is not equal to 0\n95 percent confidence interval:\n 0.9754180 0.9888352\nsample estimates:\n      cor \n0.9834225 \n\ncor.test(x, y4)\n\n\n    Pearson's product-moment correlation\n\ndata:  x and y4\nt = 0.66339, df = 98, p-value = 0.5086\nalternative hypothesis: true correlation is not equal to 0\n95 percent confidence interval:\n -0.1312793  0.2598681\nsample estimates:\n       cor \n0.06686289",
     "crumbs": [
-      "<span class='chapter-number'>53</span>  <span class='chapter-title'>Common Statistical Tests</span>"
+      "<span class='chapter-number'>54</span>  <span class='chapter-title'>Common Statistical Tests</span>"
     ]
   },
   {
     "objectID": "HypothesisTesting.html#students-t-test",
     "href": "HypothesisTesting.html#students-t-test",
-    "title": "53  Common Statistical Tests",
-    "section": "\n53.2 Student’s t-test",
-    "text": "53.2 Student’s t-test\n\nset.seed(2021)\nx0 &lt;- rnorm(500)\nx1 &lt;- rnorm(500, mean = 0.7)\n\nFor all tests of differences in means, a boxplot is a good way to visualize. It accepts individual vectors, list or data.frame of vectors, or a formula to split a vector into groups by a factor.\n\nboxplot(x0, x1,\n        col = \"#05204999\", border = \"#052049\",\n        boxwex = 0.3, names = c(\"x0\", \"x1\"))\n\n\n\n\n\n\n\n\n53.2.1 One sample t-test\n\nt.test(x0)\n\n\n    One Sample t-test\n\ndata:  x0\nt = 0.093509, df = 499, p-value = 0.9255\nalternative hypothesis: true mean is not equal to 0\n95 percent confidence interval:\n -0.08596896  0.09456106\nsample estimates:\n  mean of x \n0.004296046 \n\n\n\nt.test(x1)\n\n\n    One Sample t-test\n\ndata:  x1\nt = 15.935, df = 499, p-value &lt; 2.2e-16\nalternative hypothesis: true mean is not equal to 0\n95 percent confidence interval:\n 0.6322846 0.8101311\nsample estimates:\nmean of x \n0.7212079 \n\n\n\nboxplot(extra ~ group, data = sleep,\n        col = \"#05204999\", border = \"#052049\",\n        boxwex = 0.3)\n\n\n\n\n\n\n\n\n53.2.2 Two-sample T-test\nBoth t.test() and wilcox.test() (below) either accept input as two vectors, t.test(x, y) or a formula of the form t.test(x ~ group). The paired argument allows us to define a paired test. Since the sleep dataset includes measurements on the same cases in two conditions, we set paired = TRUE.\n\n# Split the data into two groups\ngroup1 &lt;- sleep$extra[sleep$group == 1]\ngroup2 &lt;- sleep$extra[sleep$group == 2]\n\n# Run the paired test\nt.test(group1, group2, paired = TRUE)\n\n\n    Paired t-test\n\ndata:  group1 and group2\nt = -4.0621, df = 9, p-value = 0.002833\nalternative hypothesis: true mean difference is not equal to 0\n95 percent confidence interval:\n -2.4598858 -0.7001142\nsample estimates:\nmean difference \n          -1.58",
+    "title": "54  Common Statistical Tests",
+    "section": "\n54.2 Student’s t-test",
+    "text": "54.2 Student’s t-test\n\nset.seed(2021)\nx0 &lt;- rnorm(500)\nx1 &lt;- rnorm(500, mean = 0.7)\n\nFor all tests of differences in means, a boxplot is a good way to visualize. It accepts individual vectors, list or data.frame of vectors, or a formula to split a vector into groups by a factor.\n\nboxplot(x0, x1,\n        col = \"#05204999\", border = \"#052049\",\n        boxwex = 0.3, names = c(\"x0\", \"x1\"))\n\n\n\n\n\n\n\n\n54.2.1 One sample t-test\n\nt.test(x0)\n\n\n    One Sample t-test\n\ndata:  x0\nt = 0.093509, df = 499, p-value = 0.9255\nalternative hypothesis: true mean is not equal to 0\n95 percent confidence interval:\n -0.08596896  0.09456106\nsample estimates:\n  mean of x \n0.004296046 \n\n\n\nt.test(x1)\n\n\n    One Sample t-test\n\ndata:  x1\nt = 15.935, df = 499, p-value &lt; 2.2e-16\nalternative hypothesis: true mean is not equal to 0\n95 percent confidence interval:\n 0.6322846 0.8101311\nsample estimates:\nmean of x \n0.7212079 \n\n\n\nboxplot(extra ~ group, data = sleep,\n        col = \"#05204999\", border = \"#052049\",\n        boxwex = 0.3)\n\n\n\n\n\n\n\n\n54.2.2 Two-sample T-test\nBoth t.test() and wilcox.test() (below) either accept input as two vectors, t.test(x, y) or a formula of the form t.test(x ~ group). The paired argument allows us to define a paired test. Since the sleep dataset includes measurements on the same cases in two conditions, we set paired = TRUE.\n\n# Split the data into two groups\ngroup1 &lt;- sleep$extra[sleep$group == 1]\ngroup2 &lt;- sleep$extra[sleep$group == 2]\n\n# Run the paired test\nt.test(group1, group2, paired = TRUE)\n\n\n    Paired t-test\n\ndata:  group1 and group2\nt = -4.0621, df = 9, p-value = 0.002833\nalternative hypothesis: true mean difference is not equal to 0\n95 percent confidence interval:\n -2.4598858 -0.7001142\nsample estimates:\nmean difference \n          -1.58",
     "crumbs": [
-      "<span class='chapter-number'>53</span>  <span class='chapter-title'>Common Statistical Tests</span>"
+      "<span class='chapter-number'>54</span>  <span class='chapter-title'>Common Statistical Tests</span>"
     ]
   },
   {
     "objectID": "HypothesisTesting.html#wilcoxon-test",
     "href": "HypothesisTesting.html#wilcoxon-test",
-    "title": "53  Common Statistical Tests",
-    "section": "\n53.3 Wilcoxon test",
-    "text": "53.3 Wilcoxon test\nData from R Documentation:\n\n## Hollander & Wolfe (1973), 29f.\n## Hamilton depression scale factor measurements in 9 patients with\n##  mixed anxiety and depression, taken at the first (x) and second\n##  (y) visit after initiation of a therapy (administration of a\n##  tranquilizer).\nx &lt;- c(1.83,  0.50,  1.62,  2.48, 1.68, 1.88, 1.55, 3.06, 1.30)\ny &lt;- c(0.878, 0.647, 0.598, 2.05, 1.06, 1.29, 1.06, 3.14, 1.29)\ndepression &lt;- data.frame(first = x, second = y, change = y - x)\n\n\n53.3.1 One-sample Wilcoxon\n\nwilcox.test(depression$change)\n\n\n    Wilcoxon signed rank exact test\n\ndata:  depression$change\nV = 5, p-value = 0.03906\nalternative hypothesis: true location is not equal to 0\n\n\n\n53.3.2 Two-sample Wilcoxon rank sum test (unpaired)\na.k.a Mann-Whitney U test a.k.a. Mann–Whitney–Wilcoxon (MWW) a.k.a. Wilcoxon–Mann–Whitney test\n\nx1 &lt;- rnorm(500, mean = 3, sd = 1.5)\nx2 &lt;- rnorm(500, mean = 5, sd = 2)\nwilcox.test(x1, x2)\n\n\n    Wilcoxon rank sum test with continuity correction\n\ndata:  x1 and x2\nW = 47594, p-value &lt; 2.2e-16\nalternative hypothesis: true location shift is not equal to 0\n\n\n\n53.3.3 Two-sample Wilcoxon signed-rank test (paired)\n\nwilcox.test(x, y, paired = TRUE)\n\n\n    Wilcoxon signed rank exact test\n\ndata:  x and y\nV = 40, p-value = 0.03906\nalternative hypothesis: true location shift is not equal to 0\n\n\n\nwilcox.test(x, y, paired = TRUE, alternative = \"greater\")\n\n\n    Wilcoxon signed rank exact test\n\ndata:  x and y\nV = 40, p-value = 0.01953\nalternative hypothesis: true location shift is greater than 0",
+    "title": "54  Common Statistical Tests",
+    "section": "\n54.3 Wilcoxon test",
+    "text": "54.3 Wilcoxon test\nData from R Documentation:\n\n## Hollander & Wolfe (1973), 29f.\n## Hamilton depression scale factor measurements in 9 patients with\n##  mixed anxiety and depression, taken at the first (x) and second\n##  (y) visit after initiation of a therapy (administration of a\n##  tranquilizer).\nx &lt;- c(1.83,  0.50,  1.62,  2.48, 1.68, 1.88, 1.55, 3.06, 1.30)\ny &lt;- c(0.878, 0.647, 0.598, 2.05, 1.06, 1.29, 1.06, 3.14, 1.29)\ndepression &lt;- data.frame(first = x, second = y, change = y - x)\n\n\n54.3.1 One-sample Wilcoxon\n\nwilcox.test(depression$change)\n\n\n    Wilcoxon signed rank exact test\n\ndata:  depression$change\nV = 5, p-value = 0.03906\nalternative hypothesis: true location is not equal to 0\n\n\n\n54.3.2 Two-sample Wilcoxon rank sum test (unpaired)\na.k.a Mann-Whitney U test a.k.a. Mann–Whitney–Wilcoxon (MWW) a.k.a. Wilcoxon–Mann–Whitney test\n\nx1 &lt;- rnorm(500, mean = 3, sd = 1.5)\nx2 &lt;- rnorm(500, mean = 5, sd = 2)\nwilcox.test(x1, x2)\n\n\n    Wilcoxon rank sum test with continuity correction\n\ndata:  x1 and x2\nW = 47594, p-value &lt; 2.2e-16\nalternative hypothesis: true location shift is not equal to 0\n\n\n\n54.3.3 Two-sample Wilcoxon signed-rank test (paired)\n\nwilcox.test(x, y, paired = TRUE)\n\n\n    Wilcoxon signed rank exact test\n\ndata:  x and y\nV = 40, p-value = 0.03906\nalternative hypothesis: true location shift is not equal to 0\n\n\n\nwilcox.test(x, y, paired = TRUE, alternative = \"greater\")\n\n\n    Wilcoxon signed rank exact test\n\ndata:  x and y\nV = 40, p-value = 0.01953\nalternative hypothesis: true location shift is greater than 0",
     "crumbs": [
-      "<span class='chapter-number'>53</span>  <span class='chapter-title'>Common Statistical Tests</span>"
+      "<span class='chapter-number'>54</span>  <span class='chapter-title'>Common Statistical Tests</span>"
     ]
   },
   {
     "objectID": "HypothesisTesting.html#analysis-of-variance",
     "href": "HypothesisTesting.html#analysis-of-variance",
-    "title": "53  Common Statistical Tests",
-    "section": "\n53.4 Analysis of Variance",
-    "text": "53.4 Analysis of Variance\n\nset.seed(20)\nBP_drug &lt;- data.frame(\n  Group = factor(rep(c(\"Placebo\", \"Drug_A\", \"Drug_B\"), each = 20),\n                 levels = c(\"Placebo\", \"Drug_A\", \"Drug_B\")),\n    SBP = c(rnorm(20, mean = 140, sd = 2.2), rnorm(20, mean = 132, sd = 2.1),\n            rnorm(20, mean = 138, sd = 2))\n)\n\n\nboxplot(SBP ~ Group, data = BP_drug,\n        col = \"#05204999\", border = \"#052049\",\n        boxwex = 0.3)\n\n\n\n\n\n\n\n\nSBP_aov &lt;- aov(SBP ~ Group, data = BP_drug)\nSBP_aov\n\nCall:\n   aov(formula = SBP ~ Group, data = BP_drug)\n\nTerms:\n                   Group Residuals\nSum of Squares  728.2841  264.4843\nDeg. of Freedom        2        57\n\nResidual standard error: 2.154084\nEstimated effects may be unbalanced\n\n\n\nsummary(SBP_aov)\n\n            Df Sum Sq Mean Sq F value Pr(&gt;F)    \nGroup        2  728.3   364.1   78.48 &lt;2e-16 ***\nResiduals   57  264.5     4.6                   \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\n\nThe analysis of variance p-value is highly significant, but doesn’t tell us which levels of the Group factor are significantly different from each other. The boxplot already gives us a pretty good idea, but we can follow up with a pairwise t-test\n\n53.4.1 Pot-hoc pairwise t-tests\n\npairwise.t.test(BP_drug$SBP, BP_drug$Group,\n                p.adj = \"holm\")\n\n\n    Pairwise comparisons using t tests with pooled SD \n\ndata:  BP_drug$SBP and BP_drug$Group \n\n       Placebo Drug_A \nDrug_A 2.9e-16 -      \nDrug_B 0.065   1.7e-13\n\nP value adjustment method: holm \n\n\nThe pairwise tests suggest that the difference between Placebo and Drug_A and between Drug_a and Drug_b are highly significant, while difference between Placebo and Drub_B is not (p = 0.065).",
+    "title": "54  Common Statistical Tests",
+    "section": "\n54.4 Analysis of Variance",
+    "text": "54.4 Analysis of Variance\n\nset.seed(20)\nBP_drug &lt;- data.frame(\n  Group = factor(rep(c(\"Placebo\", \"Drug_A\", \"Drug_B\"), each = 20),\n                 levels = c(\"Placebo\", \"Drug_A\", \"Drug_B\")),\n    SBP = c(rnorm(20, mean = 140, sd = 2.2), rnorm(20, mean = 132, sd = 2.1),\n            rnorm(20, mean = 138, sd = 2))\n)\n\n\nboxplot(SBP ~ Group, data = BP_drug,\n        col = \"#05204999\", border = \"#052049\",\n        boxwex = 0.3)\n\n\n\n\n\n\n\n\nSBP_aov &lt;- aov(SBP ~ Group, data = BP_drug)\nSBP_aov\n\nCall:\n   aov(formula = SBP ~ Group, data = BP_drug)\n\nTerms:\n                   Group Residuals\nSum of Squares  728.2841  264.4843\nDeg. of Freedom        2        57\n\nResidual standard error: 2.154084\nEstimated effects may be unbalanced\n\n\n\nsummary(SBP_aov)\n\n            Df Sum Sq Mean Sq F value Pr(&gt;F)    \nGroup        2  728.3   364.1   78.48 &lt;2e-16 ***\nResiduals   57  264.5     4.6                   \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\n\nThe analysis of variance p-value is highly significant, but doesn’t tell us which levels of the Group factor are significantly different from each other. The boxplot already gives us a pretty good idea, but we can follow up with a pairwise t-test\n\n54.4.1 Pot-hoc pairwise t-tests\n\npairwise.t.test(BP_drug$SBP, BP_drug$Group,\n                p.adj = \"holm\")\n\n\n    Pairwise comparisons using t tests with pooled SD \n\ndata:  BP_drug$SBP and BP_drug$Group \n\n       Placebo Drug_A \nDrug_A 2.9e-16 -      \nDrug_B 0.065   1.7e-13\n\nP value adjustment method: holm \n\n\nThe pairwise tests suggest that the difference between Placebo and Drug_A and between Drug_a and Drug_b are highly significant, while difference between Placebo and Drub_B is not (p = 0.065).",
     "crumbs": [
-      "<span class='chapter-number'>53</span>  <span class='chapter-title'>Common Statistical Tests</span>"
+      "<span class='chapter-number'>54</span>  <span class='chapter-title'>Common Statistical Tests</span>"
     ]
   },
   {
     "objectID": "HypothesisTesting.html#kruskal-wallis-test",
     "href": "HypothesisTesting.html#kruskal-wallis-test",
-    "title": "53  Common Statistical Tests",
-    "section": "\n53.5 Kruskal-Wallis test",
-    "text": "53.5 Kruskal-Wallis test\nKruskal-Wallis rank sum test of the null that the location parameters of the distribution of x are the same in each group (sample). The alternative is that they differ in at least one. It is a generalization of the Wilcoxon test to multiple independent samples.\nFrom the R Documentation:\n\n## Hollander & Wolfe (1973), 116.\n## Mucociliary efficiency from the rate of removal of dust in normal\n##  subjects, subjects with obstructive airway disease, and subjects\n##  with asbestosis.\nx &lt;- c(2.9, 3.0, 2.5, 2.6, 3.2) # normal subjects\ny &lt;- c(3.8, 2.7, 4.0, 2.4)      # with obstructive airway disease\nz &lt;- c(2.8, 3.4, 3.7, 2.2, 2.0) # with asbestosis\nkruskal.test(list(x, y, z))\n\n\n    Kruskal-Wallis rank sum test\n\ndata:  list(x, y, z)\nKruskal-Wallis chi-squared = 0.77143, df = 2, p-value = 0.68\n\n\n\nboxplot(Ozone ~ Month, data = airquality,\n        col = \"#05204999\", border = \"#052049\",\n        boxwex = 0.3)\n\n\n\n\n\n\n\n\nkruskal.test(Ozone ~ Month, data = airquality)\n\n\n    Kruskal-Wallis rank sum test\n\ndata:  Ozone by Month\nKruskal-Wallis chi-squared = 29.267, df = 4, p-value = 6.901e-06",
+    "title": "54  Common Statistical Tests",
+    "section": "\n54.5 Kruskal-Wallis test",
+    "text": "54.5 Kruskal-Wallis test\nKruskal-Wallis rank sum test of the null that the location parameters of the distribution of x are the same in each group (sample). The alternative is that they differ in at least one. It is a generalization of the Wilcoxon test to multiple independent samples.\nFrom the R Documentation:\n\n## Hollander & Wolfe (1973), 116.\n## Mucociliary efficiency from the rate of removal of dust in normal\n##  subjects, subjects with obstructive airway disease, and subjects\n##  with asbestosis.\nx &lt;- c(2.9, 3.0, 2.5, 2.6, 3.2) # normal subjects\ny &lt;- c(3.8, 2.7, 4.0, 2.4)      # with obstructive airway disease\nz &lt;- c(2.8, 3.4, 3.7, 2.2, 2.0) # with asbestosis\nkruskal.test(list(x, y, z))\n\n\n    Kruskal-Wallis rank sum test\n\ndata:  list(x, y, z)\nKruskal-Wallis chi-squared = 0.77143, df = 2, p-value = 0.68\n\n\n\nboxplot(Ozone ~ Month, data = airquality,\n        col = \"#05204999\", border = \"#052049\",\n        boxwex = 0.3)\n\n\n\n\n\n\n\n\nkruskal.test(Ozone ~ Month, data = airquality)\n\n\n    Kruskal-Wallis rank sum test\n\ndata:  Ozone by Month\nKruskal-Wallis chi-squared = 29.267, df = 4, p-value = 6.901e-06",
     "crumbs": [
-      "<span class='chapter-number'>53</span>  <span class='chapter-title'>Common Statistical Tests</span>"
+      "<span class='chapter-number'>54</span>  <span class='chapter-title'>Common Statistical Tests</span>"
     ]
   },
   {
     "objectID": "HypothesisTesting.html#chi-squared-test",
     "href": "HypothesisTesting.html#chi-squared-test",
-    "title": "53  Common Statistical Tests",
-    "section": "\n53.6 Chi-squared Test",
-    "text": "53.6 Chi-squared Test\nPearson’s chi-squared test for count data\nSome synthetic data:\n\nset.seed(2021)\nset.seed(2021)\nCohort &lt;- factor(sample(c(\"Control\", \"Case\"), size = 500, replace = TRUE),\n                 levels = c(\"Control\", \"Case\"))\nSex &lt;- factor(\n  sapply(seq(Cohort), \\(i) sample(c(\"Male\", \"Female\"), size = 1,\n                                  prob = if (Cohort[i] == \"Control\") c(1, 1) else c(2, 1))))\ndat &lt;- data.frame(Cohort, Sex)\nhead(dat)\n\n   Cohort    Sex\n1 Control   Male\n2    Case   Male\n3    Case   Male\n4    Case Female\n5 Control Female\n6    Case   Male\n\n\nYou can lot count data using a mosaic plot, with either a table or formula input:\n\nmosaicplot(table(Cohort, Sex),\n           color = c(\"orchid\", \"skyblue\"),\n           border = NA,\n           main = \"Cohort x Sex\")\n\n\n\n\n\n\n\n\nmosaicplot(Cohort ~ Sex, dat,\n           color = c(\"orchid\", \"skyblue\"),\n           border = NA,\n           main = \"Cohort x Sex\")\n\n\n\n\n\n\n\nchisq.test() accepts either two factors, or a table:\n\ncohort_sex_chisq &lt;- chisq.test(dat$Cohort, dat$Sex)\ncohort_sex_chisq\n\n\n    Pearson's Chi-squared test with Yates' continuity correction\n\ndata:  dat$Cohort and dat$Sex\nX-squared = 18.015, df = 1, p-value = 2.192e-05\n\n\n\ncohort_sex_chisq &lt;- chisq.test(table(dat$Cohort, dat$Sex))\ncohort_sex_chisq\n\n\n    Pearson's Chi-squared test with Yates' continuity correction\n\ndata:  table(dat$Cohort, dat$Sex)\nX-squared = 18.015, df = 1, p-value = 2.192e-05",
+    "title": "54  Common Statistical Tests",
+    "section": "\n54.6 Chi-squared Test",
+    "text": "54.6 Chi-squared Test\nPearson’s chi-squared test for count data\nSome synthetic data:\n\nset.seed(2021)\nset.seed(2021)\nCohort &lt;- factor(sample(c(\"Control\", \"Case\"), size = 500, replace = TRUE),\n                 levels = c(\"Control\", \"Case\"))\nSex &lt;- factor(\n  sapply(seq(Cohort), \\(i) sample(c(\"Male\", \"Female\"), size = 1,\n                                  prob = if (Cohort[i] == \"Control\") c(1, 1) else c(2, 1))))\ndat &lt;- data.frame(Cohort, Sex)\nhead(dat)\n\n   Cohort    Sex\n1 Control   Male\n2    Case   Male\n3    Case   Male\n4    Case Female\n5 Control Female\n6    Case   Male\n\n\nYou can lot count data using a mosaic plot, with either a table or formula input:\n\nmosaicplot(table(Cohort, Sex),\n           color = c(\"orchid\", \"skyblue\"),\n           border = NA,\n           main = \"Cohort x Sex\")\n\n\n\n\n\n\n\n\nmosaicplot(Cohort ~ Sex, dat,\n           color = c(\"orchid\", \"skyblue\"),\n           border = NA,\n           main = \"Cohort x Sex\")\n\n\n\n\n\n\n\nchisq.test() accepts either two factors, or a table:\n\ncohort_sex_chisq &lt;- chisq.test(dat$Cohort, dat$Sex)\ncohort_sex_chisq\n\n\n    Pearson's Chi-squared test with Yates' continuity correction\n\ndata:  dat$Cohort and dat$Sex\nX-squared = 18.015, df = 1, p-value = 2.192e-05\n\n\n\ncohort_sex_chisq &lt;- chisq.test(table(dat$Cohort, dat$Sex))\ncohort_sex_chisq\n\n\n    Pearson's Chi-squared test with Yates' continuity correction\n\ndata:  table(dat$Cohort, dat$Sex)\nX-squared = 18.015, df = 1, p-value = 2.192e-05",
     "crumbs": [
-      "<span class='chapter-number'>53</span>  <span class='chapter-title'>Common Statistical Tests</span>"
+      "<span class='chapter-number'>54</span>  <span class='chapter-title'>Common Statistical Tests</span>"
     ]
   },
   {
     "objectID": "HypothesisTesting.html#fishers-exact-test",
     "href": "HypothesisTesting.html#fishers-exact-test",
-    "title": "53  Common Statistical Tests",
-    "section": "\n53.7 Fisher’s exact test",
-    "text": "53.7 Fisher’s exact test\nFisher’s exact test for count data\nWorking on the same data as above, fisher.test() also accepts either two factors or a table as input:\n\ncohort_sex_fisher &lt;- fisher.test(dat$Cohort, dat$Sex)\ncohort_sex_fisher\n\n\n    Fisher's Exact Test for Count Data\n\ndata:  dat$Cohort and dat$Sex\np-value = 1.512e-05\nalternative hypothesis: true odds ratio is not equal to 1\n95 percent confidence interval:\n 1.516528 3.227691\nsample estimates:\nodds ratio \n  2.207866 \n\n\n\ncohort_sex_fisher &lt;- fisher.test(table(dat$Cohort, dat$Sex))\ncohort_sex_fisher\n\n\n    Fisher's Exact Test for Count Data\n\ndata:  table(dat$Cohort, dat$Sex)\np-value = 1.512e-05\nalternative hypothesis: true odds ratio is not equal to 1\n95 percent confidence interval:\n 1.516528 3.227691\nsample estimates:\nodds ratio \n  2.207866",
+    "title": "54  Common Statistical Tests",
+    "section": "\n54.7 Fisher’s exact test",
+    "text": "54.7 Fisher’s exact test\nFisher’s exact test for count data\nWorking on the same data as above, fisher.test() also accepts either two factors or a table as input:\n\ncohort_sex_fisher &lt;- fisher.test(dat$Cohort, dat$Sex)\ncohort_sex_fisher\n\n\n    Fisher's Exact Test for Count Data\n\ndata:  dat$Cohort and dat$Sex\np-value = 1.512e-05\nalternative hypothesis: true odds ratio is not equal to 1\n95 percent confidence interval:\n 1.516528 3.227691\nsample estimates:\nodds ratio \n  2.207866 \n\n\n\ncohort_sex_fisher &lt;- fisher.test(table(dat$Cohort, dat$Sex))\ncohort_sex_fisher\n\n\n    Fisher's Exact Test for Count Data\n\ndata:  table(dat$Cohort, dat$Sex)\np-value = 1.512e-05\nalternative hypothesis: true odds ratio is not equal to 1\n95 percent confidence interval:\n 1.516528 3.227691\nsample estimates:\nodds ratio \n  2.207866",
     "crumbs": [
-      "<span class='chapter-number'>53</span>  <span class='chapter-title'>Common Statistical Tests</span>"
+      "<span class='chapter-number'>54</span>  <span class='chapter-title'>Common Statistical Tests</span>"
     ]
   },
   {
     "objectID": "HypothesisTesting.html#f-test-to-compare-two-variances",
     "href": "HypothesisTesting.html#f-test-to-compare-two-variances",
-    "title": "53  Common Statistical Tests",
-    "section": "\n53.8 F Test to compare two variances",
-    "text": "53.8 F Test to compare two variances\n\nx1 &lt;- rnorm(500, sd = 1)\nx2 &lt;- rnorm(400, sd = 1.5)\nvar.test(x1, x2)\n\n\n    F test to compare two variances\n\ndata:  x1 and x2\nF = 0.43354, num df = 499, denom df = 399, p-value &lt; 2.2e-16\nalternative hypothesis: true ratio of variances is not equal to 1\n95 percent confidence interval:\n 0.3594600 0.5218539\nsample estimates:\nratio of variances \n         0.4335363 \n\n\n\nboxplot(x1, x2,\n        col = \"#05204999\", border = \"#052049\",\n        boxwex = 0.3)\n\n\n\n\n\n\n\nFrom R Documentation:\n\nx &lt;- rnorm(50, mean = 0, sd = 2)\ny &lt;- rnorm(30, mean = 1, sd = 1)\nvar.test(x, y)                  # Do x and y have the same variance?\n\n\n    F test to compare two variances\n\ndata:  x and y\nF = 5.4776, num df = 49, denom df = 29, p-value = 5.817e-06\nalternative hypothesis: true ratio of variances is not equal to 1\n95 percent confidence interval:\n  2.752059 10.305597\nsample estimates:\nratio of variances \n          5.477573 \n\nvar.test(lm(x ~ 1), lm(y ~ 1))  # same\n\n\n    F test to compare two variances\n\ndata:  lm(x ~ 1) and lm(y ~ 1)\nF = 5.4776, num df = 49, denom df = 29, p-value = 5.817e-06\nalternative hypothesis: true ratio of variances is not equal to 1\n95 percent confidence interval:\n  2.752059 10.305597\nsample estimates:\nratio of variances \n          5.477573",
+    "title": "54  Common Statistical Tests",
+    "section": "\n54.8 F Test to compare two variances",
+    "text": "54.8 F Test to compare two variances\n\nx1 &lt;- rnorm(500, sd = 1)\nx2 &lt;- rnorm(400, sd = 1.5)\nvar.test(x1, x2)\n\n\n    F test to compare two variances\n\ndata:  x1 and x2\nF = 0.43354, num df = 499, denom df = 399, p-value &lt; 2.2e-16\nalternative hypothesis: true ratio of variances is not equal to 1\n95 percent confidence interval:\n 0.3594600 0.5218539\nsample estimates:\nratio of variances \n         0.4335363 \n\n\n\nboxplot(x1, x2,\n        col = \"#05204999\", border = \"#052049\",\n        boxwex = 0.3)\n\n\n\n\n\n\n\nFrom R Documentation:\n\nx &lt;- rnorm(50, mean = 0, sd = 2)\ny &lt;- rnorm(30, mean = 1, sd = 1)\nvar.test(x, y)                  # Do x and y have the same variance?\n\n\n    F test to compare two variances\n\ndata:  x and y\nF = 5.4776, num df = 49, denom df = 29, p-value = 5.817e-06\nalternative hypothesis: true ratio of variances is not equal to 1\n95 percent confidence interval:\n  2.752059 10.305597\nsample estimates:\nratio of variances \n          5.477573 \n\nvar.test(lm(x ~ 1), lm(y ~ 1))  # same\n\n\n    F test to compare two variances\n\ndata:  lm(x ~ 1) and lm(y ~ 1)\nF = 5.4776, num df = 49, denom df = 29, p-value = 5.817e-06\nalternative hypothesis: true ratio of variances is not equal to 1\n95 percent confidence interval:\n  2.752059 10.305597\nsample estimates:\nratio of variances \n          5.477573",
     "crumbs": [
-      "<span class='chapter-number'>53</span>  <span class='chapter-title'>Common Statistical Tests</span>"
+      "<span class='chapter-number'>54</span>  <span class='chapter-title'>Common Statistical Tests</span>"
     ]
   },
   {
     "objectID": "HypothesisTesting.html#bartlett-test-of-homogeneity-of-variances",
     "href": "HypothesisTesting.html#bartlett-test-of-homogeneity-of-variances",
-    "title": "53  Common Statistical Tests",
-    "section": "\n53.9 Bartlett test of homogeneity of variances",
-    "text": "53.9 Bartlett test of homogeneity of variances\nPerforms Bartlett’s test of the null that the variances in each of the groups (samples) are the same.\nFrom the R Documentation:\n\nplot(count ~ spray, data = InsectSprays)\n\n\n\n\n\n\n\n\nbartlett.test(InsectSprays$count, InsectSprays$spray)\n\n\n    Bartlett test of homogeneity of variances\n\ndata:  InsectSprays$count and InsectSprays$spray\nBartlett's K-squared = 25.96, df = 5, p-value = 9.085e-05\n\n\n\nbartlett.test(count ~ spray, data = InsectSprays)\n\n\n    Bartlett test of homogeneity of variances\n\ndata:  count by spray\nBartlett's K-squared = 25.96, df = 5, p-value = 9.085e-05",
+    "title": "54  Common Statistical Tests",
+    "section": "\n54.9 Bartlett test of homogeneity of variances",
+    "text": "54.9 Bartlett test of homogeneity of variances\nPerforms Bartlett’s test of the null that the variances in each of the groups (samples) are the same.\nFrom the R Documentation:\n\nplot(count ~ spray, data = InsectSprays)\n\n\n\n\n\n\n\n\nbartlett.test(InsectSprays$count, InsectSprays$spray)\n\n\n    Bartlett test of homogeneity of variances\n\ndata:  InsectSprays$count and InsectSprays$spray\nBartlett's K-squared = 25.96, df = 5, p-value = 9.085e-05\n\n\n\nbartlett.test(count ~ spray, data = InsectSprays)\n\n\n    Bartlett test of homogeneity of variances\n\ndata:  count by spray\nBartlett's K-squared = 25.96, df = 5, p-value = 9.085e-05",
     "crumbs": [
-      "<span class='chapter-number'>53</span>  <span class='chapter-title'>Common Statistical Tests</span>"
+      "<span class='chapter-number'>54</span>  <span class='chapter-title'>Common Statistical Tests</span>"
     ]
   },
   {
     "objectID": "HypothesisTesting.html#fligner-killeen-test-of-homogeneity-of-variances",
     "href": "HypothesisTesting.html#fligner-killeen-test-of-homogeneity-of-variances",
-    "title": "53  Common Statistical Tests",
-    "section": "\n53.10 Fligner-Killeen test of homogeneity of variances",
-    "text": "53.10 Fligner-Killeen test of homogeneity of variances\nPerforms a Fligner-Killeen (median) test of the null that the variances in each of the groups (samples) are the same.\n\nboxplot(count ~ spray, data = InsectSprays)\n\n\n\n\n\n\n# works the same if you do plot(count ~ spray, data = InsectSprays)\nfligner.test(InsectSprays$count, InsectSprays$spray)\n\n\n    Fligner-Killeen test of homogeneity of variances\n\ndata:  InsectSprays$count and InsectSprays$spray\nFligner-Killeen:med chi-squared = 14.483, df = 5, p-value = 0.01282\n\nfligner.test(count ~ spray, data = InsectSprays)\n\n\n    Fligner-Killeen test of homogeneity of variances\n\ndata:  count by spray\nFligner-Killeen:med chi-squared = 14.483, df = 5, p-value = 0.01282",
+    "title": "54  Common Statistical Tests",
+    "section": "\n54.10 Fligner-Killeen test of homogeneity of variances",
+    "text": "54.10 Fligner-Killeen test of homogeneity of variances\nPerforms a Fligner-Killeen (median) test of the null that the variances in each of the groups (samples) are the same.\n\nboxplot(count ~ spray, data = InsectSprays)\n\n\n\n\n\n\n# works the same if you do plot(count ~ spray, data = InsectSprays)\nfligner.test(InsectSprays$count, InsectSprays$spray)\n\n\n    Fligner-Killeen test of homogeneity of variances\n\ndata:  InsectSprays$count and InsectSprays$spray\nFligner-Killeen:med chi-squared = 14.483, df = 5, p-value = 0.01282\n\nfligner.test(count ~ spray, data = InsectSprays)\n\n\n    Fligner-Killeen test of homogeneity of variances\n\ndata:  count by spray\nFligner-Killeen:med chi-squared = 14.483, df = 5, p-value = 0.01282",
     "crumbs": [
-      "<span class='chapter-number'>53</span>  <span class='chapter-title'>Common Statistical Tests</span>"
+      "<span class='chapter-number'>54</span>  <span class='chapter-title'>Common Statistical Tests</span>"
     ]
   },
   {
     "objectID": "HypothesisTesting.html#ansari-bradley-test",
     "href": "HypothesisTesting.html#ansari-bradley-test",
-    "title": "53  Common Statistical Tests",
-    "section": "\n53.11 Ansari-Bradley test",
-    "text": "53.11 Ansari-Bradley test\nPerforms the Ansari-Bradley two-sample test for a difference in scale parameters.\n\nramsay &lt;- c(111, 107, 100, 99, 102, 106, 109, 108, 104, 99,\n            101, 96, 97, 102, 107, 113, 116, 113, 110, 98)\njung.parekh &lt;- c(107, 108, 106, 98, 105, 103, 110, 105, 104,\n            100, 96, 108, 103, 104, 114, 114, 113, 108, 106, 99)\nansari.test(ramsay, jung.parekh)\n\nWarning in ansari.test.default(ramsay, jung.parekh): cannot compute exact\np-value with ties\n\n\n\n    Ansari-Bradley test\n\ndata:  ramsay and jung.parekh\nAB = 185.5, p-value = 0.1815\nalternative hypothesis: true ratio of scales is not equal to 1\n\n\n\nx &lt;- rnorm(40, sd = 1.5)\ny &lt;- rnorm(40, sd = 2.5)\nansari.test(x, y)\n\n\n    Ansari-Bradley test\n\ndata:  x and y\nAB = 963, p-value = 0.005644\nalternative hypothesis: true ratio of scales is not equal to 1",
+    "title": "54  Common Statistical Tests",
+    "section": "\n54.11 Ansari-Bradley test",
+    "text": "54.11 Ansari-Bradley test\nPerforms the Ansari-Bradley two-sample test for a difference in scale parameters.\n\nramsay &lt;- c(111, 107, 100, 99, 102, 106, 109, 108, 104, 99,\n            101, 96, 97, 102, 107, 113, 116, 113, 110, 98)\njung.parekh &lt;- c(107, 108, 106, 98, 105, 103, 110, 105, 104,\n            100, 96, 108, 103, 104, 114, 114, 113, 108, 106, 99)\nansari.test(ramsay, jung.parekh)\n\nWarning in ansari.test.default(ramsay, jung.parekh): cannot compute exact\np-value with ties\n\n\n\n    Ansari-Bradley test\n\ndata:  ramsay and jung.parekh\nAB = 185.5, p-value = 0.1815\nalternative hypothesis: true ratio of scales is not equal to 1\n\n\n\nx &lt;- rnorm(40, sd = 1.5)\ny &lt;- rnorm(40, sd = 2.5)\nansari.test(x, y)\n\n\n    Ansari-Bradley test\n\ndata:  x and y\nAB = 963, p-value = 0.005644\nalternative hypothesis: true ratio of scales is not equal to 1",
     "crumbs": [
-      "<span class='chapter-number'>53</span>  <span class='chapter-title'>Common Statistical Tests</span>"
+      "<span class='chapter-number'>54</span>  <span class='chapter-title'>Common Statistical Tests</span>"
     ]
   },
   {
     "objectID": "HypothesisTesting.html#mood-two-sample-test-of-scale",
     "href": "HypothesisTesting.html#mood-two-sample-test-of-scale",
-    "title": "53  Common Statistical Tests",
-    "section": "\n53.12 Mood two-sample test of scale",
-    "text": "53.12 Mood two-sample test of scale\n\nmood.test(x, y)\n\n\n    Mood two-sample test of scale\n\ndata:  x and y\nZ = -2.7363, p-value = 0.006213\nalternative hypothesis: two.sided",
+    "title": "54  Common Statistical Tests",
+    "section": "\n54.12 Mood two-sample test of scale",
+    "text": "54.12 Mood two-sample test of scale\n\nmood.test(x, y)\n\n\n    Mood two-sample test of scale\n\ndata:  x and y\nZ = -2.7363, p-value = 0.006213\nalternative hypothesis: two.sided",
     "crumbs": [
-      "<span class='chapter-number'>53</span>  <span class='chapter-title'>Common Statistical Tests</span>"
+      "<span class='chapter-number'>54</span>  <span class='chapter-title'>Common Statistical Tests</span>"
     ]
   },
   {
     "objectID": "HypothesisTesting.html#kolmogorov-smirnoff-test",
     "href": "HypothesisTesting.html#kolmogorov-smirnoff-test",
-    "title": "53  Common Statistical Tests",
-    "section": "\n53.13 Kolmogorov-Smirnoff test",
-    "text": "53.13 Kolmogorov-Smirnoff test\nPerform a one- or two-sample Kolmogorov-Smirnov test Null: x and y were drawn from the same continuous distribution.\n\nx1 &lt;- rnorm(200, mean = 0, sd = 1)\nx2 &lt;- rnorm(200, mean = -0.5, sd = 1.5)\nks.test(x1, x2)\n\n\n    Asymptotic two-sample Kolmogorov-Smirnov test\n\ndata:  x1 and x2\nD = 0.35, p-value = 4.579e-11\nalternative hypothesis: two-sided",
+    "title": "54  Common Statistical Tests",
+    "section": "\n54.13 Kolmogorov-Smirnoff test",
+    "text": "54.13 Kolmogorov-Smirnoff test\nPerform a one- or two-sample Kolmogorov-Smirnov test Null: x and y were drawn from the same continuous distribution.\n\nx1 &lt;- rnorm(200, mean = 0, sd = 1)\nx2 &lt;- rnorm(200, mean = -0.5, sd = 1.5)\nks.test(x1, x2)\n\n\n    Asymptotic two-sample Kolmogorov-Smirnov test\n\ndata:  x1 and x2\nD = 0.35, p-value = 4.579e-11\nalternative hypothesis: two-sided",
     "crumbs": [
-      "<span class='chapter-number'>53</span>  <span class='chapter-title'>Common Statistical Tests</span>"
+      "<span class='chapter-number'>54</span>  <span class='chapter-title'>Common Statistical Tests</span>"
     ]
   },
   {
     "objectID": "HypothesisTesting.html#shapiro-wilk-test-of-normality",
     "href": "HypothesisTesting.html#shapiro-wilk-test-of-normality",
-    "title": "53  Common Statistical Tests",
-    "section": "\n53.14 Shapiro-Wilk test of normality",
-    "text": "53.14 Shapiro-Wilk test of normality\n\nset.seed(2021)\nx &lt;- rnorm(2000)\ny1 &lt;- 0.7 * x\ny2 &lt;- x + x^3\n\n\n53.14.1 Q-Q Plot\n\nqqplot(rnorm(300), y1, pch = 16, col = \"#00000077\")\nqqline(y1, col = \"red\", lwd = 2)\n\n\n\n\n\n\n\n\nqqplot(rnorm(300), y2, pch = 16, col = \"#00000077\")\nqqline(y2, col = \"red\", lwd = 2)",
+    "title": "54  Common Statistical Tests",
+    "section": "\n54.14 Shapiro-Wilk test of normality",
+    "text": "54.14 Shapiro-Wilk test of normality\n\nset.seed(2021)\nx &lt;- rnorm(2000)\ny1 &lt;- 0.7 * x\ny2 &lt;- x + x^3\n\n\n54.14.1 Q-Q Plot\n\nqqplot(rnorm(300), y1, pch = 16, col = \"#00000077\")\nqqline(y1, col = \"red\", lwd = 2)\n\n\n\n\n\n\n\n\nqqplot(rnorm(300), y2, pch = 16, col = \"#00000077\")\nqqline(y2, col = \"red\", lwd = 2)",
     "crumbs": [
-      "<span class='chapter-number'>53</span>  <span class='chapter-title'>Common Statistical Tests</span>"
+      "<span class='chapter-number'>54</span>  <span class='chapter-title'>Common Statistical Tests</span>"
     ]
   },
   {
     "objectID": "HypothesisTesting.html#shapiro-wilk-test",
     "href": "HypothesisTesting.html#shapiro-wilk-test",
-    "title": "53  Common Statistical Tests",
-    "section": "\n53.15 Shapiro-Wilk test",
-    "text": "53.15 Shapiro-Wilk test\n\nshapiro.test(y1)\n\n\n    Shapiro-Wilk normality test\n\ndata:  y1\nW = 0.99952, p-value = 0.9218\n\nshapiro.test(y2)\n\n\n    Shapiro-Wilk normality test\n\ndata:  y2\nW = 0.72936, p-value &lt; 2.2e-16",
+    "title": "54  Common Statistical Tests",
+    "section": "\n54.15 Shapiro-Wilk test",
+    "text": "54.15 Shapiro-Wilk test\n\nshapiro.test(y1)\n\n\n    Shapiro-Wilk normality test\n\ndata:  y1\nW = 0.99952, p-value = 0.9218\n\nshapiro.test(y2)\n\n\n    Shapiro-Wilk normality test\n\ndata:  y2\nW = 0.72936, p-value &lt; 2.2e-16",
     "crumbs": [
-      "<span class='chapter-number'>53</span>  <span class='chapter-title'>Common Statistical Tests</span>"
+      "<span class='chapter-number'>54</span>  <span class='chapter-title'>Common Statistical Tests</span>"
     ]
   },
   {
     "objectID": "HypothesisTesting.html#statsresources",
     "href": "HypothesisTesting.html#statsresources",
-    "title": "53  Common Statistical Tests",
-    "section": "\n53.16 Resources",
-    "text": "53.16 Resources\n\nRegression Methods in Biostatistics: Linear, Logistic, Survival, and Repeated Measures Models",
+    "title": "54  Common Statistical Tests",
+    "section": "\n54.16 Resources",
+    "text": "54.16 Resources\n\nRegression Methods in Biostatistics: Linear, Logistic, Survival, and Repeated Measures Models",
     "crumbs": [
-      "<span class='chapter-number'>53</span>  <span class='chapter-title'>Common Statistical Tests</span>"
+      "<span class='chapter-number'>54</span>  <span class='chapter-title'>Common Statistical Tests</span>"
     ]
   },
   {
     "objectID": "Profiling.html",
     "href": "Profiling.html",
-    "title": "54  Benchmarking & Profiling",
+    "title": "55  Benchmarking & Profiling",
     "section": "",
-    "text": "54.1 system.time(): Time the execution of an expression\nBenchmarking is the process of timing the execution of code for the purpose of comparison. For example, you can compare the execution time of a program in two different systems, e.g. a laptop and a high performance server. Another common case is to compare the performance of two different programs that produce the same output on the same computer.\nProfiling refers to timing the different steps of a program to identify bottlenecks and potential targets for optimization.\nThe base package’s system.time() function allows you to measure the execution time of an R expression.\nsystem.time(rnorm(9999999))\n\n   user  system elapsed \n  0.143   0.005   0.147\n“elapsed” time is real time in seconds.\n“user” and “system” are time used by the CPU on different types of tasks (see ?proc.time).\nAs always, you can pass any R expression within curly brackets:\nx &lt;- rnorm(9999)\nsystem.time({\n    for (i in 2:9999) {\n      x[i]\n      x[i] &lt;- x[i]^3\n    }\n})\n\n   user  system elapsed \n  0.001   0.000   0.001\nYou can use replicate() to get a measure of time over multiple executions and average it:\nset.seed(2020)\nx &lt;- matrix(rnorm(500000), nrow = 5000)\ny &lt;- 12 + x[, 3] + x[, 5]^2 + x[, 7]^3 + rnorm(5000)\nfit.glm &lt;- function(x, y) glm.fit(x, y)\n    \nfit.glm_time10 &lt;- replicate(10, system.time(fit.glm(x, y))[[1]])\nboxplot(fit.glm_time10)",
+    "text": "55.1 system.time(): Time the execution of an expression\nBenchmarking is the process of timing the execution of code for the purpose of comparison. For example, you can compare the execution time of a program in two different systems, e.g. a laptop and a high performance server. Another common case is to compare the performance of two different programs that produce the same output on the same computer.\nProfiling refers to timing the different steps of a program to identify bottlenecks and potential targets for optimization.\nThe base package’s system.time() function allows you to measure the execution time of an R expression.\nsystem.time(rnorm(9999999))\n\n   user  system elapsed \n  0.143   0.005   0.147\n“elapsed” time is real time in seconds.\n“user” and “system” are time used by the CPU on different types of tasks (see ?proc.time).\nAs always, you can pass any R expression within curly brackets:\nx &lt;- rnorm(9999)\nsystem.time({\n    for (i in 2:9999) {\n      x[i]\n      x[i] &lt;- x[i]^3\n    }\n})\n\n   user  system elapsed \n  0.001   0.000   0.001\nYou can use replicate() to get a measure of time over multiple executions and average it:\nset.seed(2020)\nx &lt;- matrix(rnorm(500000), nrow = 5000)\ny &lt;- 12 + x[, 3] + x[, 5]^2 + x[, 7]^3 + rnorm(5000)\nfit.glm &lt;- function(x, y) glm.fit(x, y)\n    \nfit.glm_time10 &lt;- replicate(10, system.time(fit.glm(x, y))[[1]])\nboxplot(fit.glm_time10)",
     "crumbs": [
-      "<span class='chapter-number'>54</span>  <span class='chapter-title'>Benchmarking & Profiling</span>"
+      "<span class='chapter-number'>55</span>  <span class='chapter-title'>Benchmarking & Profiling</span>"
     ]
   },
   {
     "objectID": "Profiling.html#compare-execution-times-with-microbenchmarkmicrobenchmark",
     "href": "Profiling.html#compare-execution-times-with-microbenchmarkmicrobenchmark",
-    "title": "54  Benchmarking & Profiling",
-    "section": "\n54.2 Compare execution times with microbenchmark::microbenchmark()\n",
-    "text": "54.2 Compare execution times with microbenchmark::microbenchmark()\n\nThe microbenchmark package’s microbenchmark() function allows you to time the execution of multiple expressions with sub-millisecond accuracy. It will execute each command a number of times as defined by the times argument (default = 100), and output statistics of execution time per expression in nanoseconds. Using plot() on the output produces a boxplot comparing the time distributions.\n\n# install.packages(\"microbenchmark\")\nlibrary(microbenchmark)\n\n\n54.2.1 Example: loop over matrix vs. data.frame\nLet’s create xmat, a 500 by 5 matrix and, xdf a data.frame with the same data.\n\nset.seed(2021)\nxmat &lt;- matrix(rnorm(500 * 5), nrow = 5)\nxdf &lt;- as.data.frame(xmat)\n\nIf you wanted to square either of them, you would just use ^2. Here, we create a function specifically to demonstrate the difference in working on a numeric matrix vs. a data.frame by using a nested loop that replaces each element one at a time.\n\nsilly_square &lt;- function(x) {\n  for (i in seq_len(NROW(x))) {\n    for (j in seq_len(NCOL(x))) {\n      x[i, j] &lt;- x[i, j]^2\n    }\n  }\n}\n\n\nmat_df_sq &lt;- microbenchmark(\n  silly_square_mat = silly_square(xmat),\n   silly_square_df = silly_square(xdf),\n       mat_squared = xmat^2,\n        df_squared = xdf^2\n)\n\nWarning in microbenchmark(silly_square_mat = silly_square(xmat),\nsilly_square_df = silly_square(xdf), : less accurate nanosecond times to avoid\npotential integer overflows\n\nclass(mat_df_sq)\n\n[1] \"microbenchmark\" \"data.frame\"    \n\n\nPrint microbenchmark’s output:\n\nmat_df_sq\n\nUnit: nanoseconds\n             expr      min         lq        mean     median       uq      max\n silly_square_mat    76711    79191.5    94437.76    80770.0    82451  1201218\n  silly_square_df 26629131 27223713.0 28182246.67 27795273.5 28258922 43339788\n      mat_squared      656     1025.0     1747.42     1578.5     2091     4961\n       df_squared  6699482  7007597.0  7478352.85  7203515.5  7784178 13629507\n neval\n   100\n   100\n   100\n   100\n\n\nNotice how a) either operation is much faster on a matrix vs. a data.frame and b) vectorized squaring with ^2 is much faster than the nested loop as expected.\nThere is a plot() method for microbenchmark objects:\n\nplot(mat_df_sq)\n\n\n\n\n\n\n\n\n54.2.2 Example: Group means\nLet’s perform a simple mean-by-group operation and compare three different approaches. As an example, we use the flights dataset from the nycflights13 package which includes data on 336,776 flights that departed from NY area airports in 2013. The data comes as a tibble, and we create data.frame and data.table versions.th\n\nlibrary(dplyr)\n\n\nAttaching package: 'dplyr'\n\n\nThe following objects are masked from 'package:stats':\n\n    filter, lag\n\n\nThe following objects are masked from 'package:base':\n\n    intersect, setdiff, setequal, union\n\nlibrary(nycflights13)\nlibrary(data.table)\n\n\nAttaching package: 'data.table'\n\n\nThe following objects are masked from 'package:dplyr':\n\n    between, first, last\n\n\nThe following object is masked from 'package:base':\n\n    %notin%\n\noptions(datatable.print.class = TRUE)\n\nclass(flights)\n\n[1] \"tbl_df\"     \"tbl\"        \"data.frame\"\n\ndim(flights)\n\n[1] 336776     19\n\nflights_df &lt;- as.data.frame(flights)\nflights_dt &lt;- as.data.table(flights)\n\nCompare performance of the same operation using different functions:\n\nbase R aggregate() with formula input\nbase R aggregate() with list input\nbase R tapply()\n\n\n\nflights_aggregate_formula &lt;- function() {\n  aggregate(arr_delay ~ carrier, \n            data = flights_df,\n            mean, na.rm = TRUE)\n}\n  \nflights_aggregate &lt;- function() {\n  aggregate(flights_df$arr_delay, \n            by = list(flights_df$carrier), \n            mean, na.rm = TRUE)\n}\n\nflights_tapply &lt;- function() {\n  tapply(flights_df$arr_delay, \n         flights_df$carrier, \n         mean, na.rm = TRUE)\n}\n\ngroupmean_3x &lt;- microbenchmark(\n  aggregate_formula = flights_aggregate_formula(),\n          aggregate = flights_aggregate(),\n             tapply = flights_tapply()\n  )\n\n\ngroupmean_3x\n\nUnit: milliseconds\n              expr       min        lq      mean    median        uq      max\n aggregate_formula 31.734574 33.152354 35.113243 33.703702 35.043377 59.97513\n         aggregate 27.871021 29.134887 30.730340 29.793121 30.723001 57.98761\n            tapply  7.897789  8.067221  9.350599  8.195367  8.951858 31.40764\n neval\n   100\n   100\n   100\n\n\n\nplot(groupmean_3x)",
+    "title": "55  Benchmarking & Profiling",
+    "section": "\n55.2 Compare execution times with microbenchmark::microbenchmark()\n",
+    "text": "55.2 Compare execution times with microbenchmark::microbenchmark()\n\nThe microbenchmark package’s microbenchmark() function allows you to time the execution of multiple expressions with sub-millisecond accuracy. It will execute each command a number of times as defined by the times argument (default = 100), and output statistics of execution time per expression in nanoseconds. Using plot() on the output produces a boxplot comparing the time distributions.\n\n# install.packages(\"microbenchmark\")\nlibrary(microbenchmark)\n\n\n55.2.1 Example: loop over matrix vs. data.frame\nLet’s create xmat, a 500 by 5 matrix and, xdf a data.frame with the same data.\n\nset.seed(2021)\nxmat &lt;- matrix(rnorm(500 * 5), nrow = 5)\nxdf &lt;- as.data.frame(xmat)\n\nIf you wanted to square either of them, you would just use ^2. Here, we create a function specifically to demonstrate the difference in working on a numeric matrix vs. a data.frame by using a nested loop that replaces each element one at a time.\n\nsilly_square &lt;- function(x) {\n  for (i in seq_len(NROW(x))) {\n    for (j in seq_len(NCOL(x))) {\n      x[i, j] &lt;- x[i, j]^2\n    }\n  }\n}\n\n\nmat_df_sq &lt;- microbenchmark(\n  silly_square_mat = silly_square(xmat),\n   silly_square_df = silly_square(xdf),\n       mat_squared = xmat^2,\n        df_squared = xdf^2\n)\n\nWarning in microbenchmark(silly_square_mat = silly_square(xmat),\nsilly_square_df = silly_square(xdf), : less accurate nanosecond times to avoid\npotential integer overflows\n\nclass(mat_df_sq)\n\n[1] \"microbenchmark\" \"data.frame\"    \n\n\nPrint microbenchmark’s output:\n\nmat_df_sq\n\nUnit: nanoseconds\n             expr      min         lq        mean     median       uq      max\n silly_square_mat    76711    79191.5    94437.76    80770.0    82451  1201218\n  silly_square_df 26629131 27223713.0 28182246.67 27795273.5 28258922 43339788\n      mat_squared      656     1025.0     1747.42     1578.5     2091     4961\n       df_squared  6699482  7007597.0  7478352.85  7203515.5  7784178 13629507\n neval\n   100\n   100\n   100\n   100\n\n\nNotice how a) either operation is much faster on a matrix vs. a data.frame and b) vectorized squaring with ^2 is much faster than the nested loop as expected.\nThere is a plot() method for microbenchmark objects:\n\nplot(mat_df_sq)\n\n\n\n\n\n\n\n\n55.2.2 Example: Group means\nLet’s perform a simple mean-by-group operation and compare three different approaches. As an example, we use the flights dataset from the nycflights13 package which includes data on 336,776 flights that departed from NY area airports in 2013. The data comes as a tibble, and we create data.frame and data.table versions.th\n\nlibrary(dplyr)\n\n\nAttaching package: 'dplyr'\n\n\nThe following objects are masked from 'package:stats':\n\n    filter, lag\n\n\nThe following objects are masked from 'package:base':\n\n    intersect, setdiff, setequal, union\n\nlibrary(nycflights13)\nlibrary(data.table)\n\n\nAttaching package: 'data.table'\n\n\nThe following objects are masked from 'package:dplyr':\n\n    between, first, last\n\n\nThe following object is masked from 'package:base':\n\n    %notin%\n\noptions(datatable.print.class = TRUE)\n\nclass(flights)\n\n[1] \"tbl_df\"     \"tbl\"        \"data.frame\"\n\ndim(flights)\n\n[1] 336776     19\n\nflights_df &lt;- as.data.frame(flights)\nflights_dt &lt;- as.data.table(flights)\n\nCompare performance of the same operation using different functions:\n\nbase R aggregate() with formula input\nbase R aggregate() with list input\nbase R tapply()\n\n\n\nflights_aggregate_formula &lt;- function() {\n  aggregate(arr_delay ~ carrier, \n            data = flights_df,\n            mean, na.rm = TRUE)\n}\n  \nflights_aggregate &lt;- function() {\n  aggregate(flights_df$arr_delay, \n            by = list(flights_df$carrier), \n            mean, na.rm = TRUE)\n}\n\nflights_tapply &lt;- function() {\n  tapply(flights_df$arr_delay, \n         flights_df$carrier, \n         mean, na.rm = TRUE)\n}\n\ngroupmean_3x &lt;- microbenchmark(\n  aggregate_formula = flights_aggregate_formula(),\n          aggregate = flights_aggregate(),\n             tapply = flights_tapply()\n  )\n\n\ngroupmean_3x\n\nUnit: milliseconds\n              expr       min        lq      mean    median        uq      max\n aggregate_formula 31.734574 33.152354 35.113243 33.703702 35.043377 59.97513\n         aggregate 27.871021 29.134887 30.730340 29.793121 30.723001 57.98761\n            tapply  7.897789  8.067221  9.350599  8.195367  8.951858 31.40764\n neval\n   100\n   100\n   100\n\n\n\nplot(groupmean_3x)",
     "crumbs": [
-      "<span class='chapter-number'>54</span>  <span class='chapter-title'>Benchmarking & Profiling</span>"
+      "<span class='chapter-number'>55</span>  <span class='chapter-title'>Benchmarking & Profiling</span>"
     ]
   },
   {
     "objectID": "Profiling.html#profile-a-function-with-profvis",
     "href": "Profiling.html#profile-a-function-with-profvis",
-    "title": "54  Benchmarking & Profiling",
-    "section": "\n54.3 Profile a function with profvis()\n",
-    "text": "54.3 Profile a function with profvis()\n\nThe profvis package’s profvis() function provides an interactive output to visualize the time spent in different calls within a program.\n\nlibrary(profvis)\nprofvis({\n  hf &lt;- read.csv(\"https://archive.ics.uci.edu/ml/machine-learning-databases/00519/heart_failure_clinical_records_dataset.csv\")\n  str(hf)\n  lt5 &lt;- which(sapply(hf, \\(i) length(unique(i))) &lt; 5)\n  for (i in lt5) hf[, i] &lt;- factor(hf[, i])\n  index_numeric &lt;- which(sapply(hf, is.numeric))\n  par(mfrow = c(1, length(index_numeric)))\n  for (i in index_numeric) boxplot(hf[, i])\n  par(mfrow = c(1, 1))\n})\n\n'data.frame':   299 obs. of  13 variables:\n $ age                     : num  75 55 65 50 65 90 75 60 65 80 ...\n $ anaemia                 : int  0 0 0 1 1 1 1 1 0 1 ...\n $ creatinine_phosphokinase: int  582 7861 146 111 160 47 246 315 157 123 ...\n $ diabetes                : int  0 0 0 0 1 0 0 1 0 0 ...\n $ ejection_fraction       : int  20 38 20 20 20 40 15 60 65 35 ...\n $ high_blood_pressure     : int  1 0 0 0 0 1 0 0 0 1 ...\n $ platelets               : num  265000 263358 162000 210000 327000 ...\n $ serum_creatinine        : num  1.9 1.1 1.3 1.9 2.7 2.1 1.2 1.1 1.5 9.4 ...\n $ serum_sodium            : int  130 136 129 137 116 132 137 131 138 133 ...\n $ sex                     : int  1 1 1 1 0 1 1 1 0 1 ...\n $ smoking                 : int  0 0 1 0 0 1 0 1 0 1 ...\n $ time                    : int  4 6 7 7 8 8 10 10 10 10 ...\n $ DEATH_EVENT             : int  1 1 1 1 1 1 1 1 1 1 ...",
+    "title": "55  Benchmarking & Profiling",
+    "section": "\n55.3 Profile a function with profvis()\n",
+    "text": "55.3 Profile a function with profvis()\n\nThe profvis package’s profvis() function provides an interactive output to visualize the time spent in different calls within a program.\n\nlibrary(profvis)\nprofvis({\n  hf &lt;- read.csv(\"https://archive.ics.uci.edu/ml/machine-learning-databases/00519/heart_failure_clinical_records_dataset.csv\")\n  str(hf)\n  lt5 &lt;- which(sapply(hf, \\(i) length(unique(i))) &lt; 5)\n  for (i in lt5) hf[, i] &lt;- factor(hf[, i])\n  index_numeric &lt;- which(sapply(hf, is.numeric))\n  par(mfrow = c(1, length(index_numeric)))\n  for (i in index_numeric) boxplot(hf[, i])\n  par(mfrow = c(1, 1))\n})\n\n'data.frame':   299 obs. of  13 variables:\n $ age                     : num  75 55 65 50 65 90 75 60 65 80 ...\n $ anaemia                 : int  0 0 0 1 1 1 1 1 0 1 ...\n $ creatinine_phosphokinase: int  582 7861 146 111 160 47 246 315 157 123 ...\n $ diabetes                : int  0 0 0 0 1 0 0 1 0 0 ...\n $ ejection_fraction       : int  20 38 20 20 20 40 15 60 65 35 ...\n $ high_blood_pressure     : int  1 0 0 0 0 1 0 0 0 1 ...\n $ platelets               : num  265000 263358 162000 210000 327000 ...\n $ serum_creatinine        : num  1.9 1.1 1.3 1.9 2.7 2.1 1.2 1.1 1.5 9.4 ...\n $ serum_sodium            : int  130 136 129 137 116 132 137 131 138 133 ...\n $ sex                     : int  1 1 1 1 0 1 1 1 0 1 ...\n $ smoking                 : int  0 0 1 0 0 1 0 1 0 1 ...\n $ time                    : int  4 6 7 7 8 8 10 10 10 10 ...\n $ DEATH_EVENT             : int  1 1 1 1 1 1 1 1 1 1 ...",
     "crumbs": [
-      "<span class='chapter-number'>54</span>  <span class='chapter-title'>Benchmarking & Profiling</span>"
+      "<span class='chapter-number'>55</span>  <span class='chapter-title'>Benchmarking & Profiling</span>"
     ]
   },
   {
     "objectID": "Quarto.html",
     "href": "Quarto.html",
-    "title": "55  Quarto",
+    "title": "56  Quarto",
     "section": "",
-    "text": "55.1 IDEs\nQuarto is “an open-source scientific and technical publishing system built on Pandoc”.\nIt is the evolution of Rmarkdown, itself built as an extension of Markdown.\nMarkdown, whose name is a play on markup languages, is a lightweight, markup language meant to be easily human-readable and can produce output in multiple formats, like HTML, PDF and many more.\nRmarkdown added the ability to include executable blocks of R code, which would compile to a Markdown document including both the source code and its output, whether that is console text output, plots, or other elements, e.g. interactive html objects/widgets. This makes it easy to create data-driven reports and presentations within a single document. Output formats include PDF, HTML, Word, ePub, and more.\nQuarto brings the same and more functionality to more languages, including R, Python, Julia, and Observable JS.\nRStudio and VS Code both feature support for authoring and rendering/previewing Quarto documents. RStudio includes built-in support for Quarto and may ask you to install additional packages when rendering a Quarto document for the first time. VS Code requires the installation of the Quarto extension.",
+    "text": "56.1 IDEs\nQuarto is “an open-source scientific and technical publishing system built on Pandoc”.\nIt is the evolution of Rmarkdown, itself built as an extension of Markdown.\nMarkdown, whose name is a play on markup languages, is a lightweight, markup language meant to be easily human-readable and can produce output in multiple formats, like HTML, PDF and many more.\nRmarkdown added the ability to include executable blocks of R code, which would compile to a Markdown document including both the source code and its output, whether that is console text output, plots, or other elements, e.g. interactive html objects/widgets. This makes it easy to create data-driven reports and presentations within a single document. Output formats include PDF, HTML, Word, ePub, and more.\nQuarto brings the same and more functionality to more languages, including R, Python, Julia, and Observable JS.\nRStudio and VS Code both feature support for authoring and rendering/previewing Quarto documents. RStudio includes built-in support for Quarto and may ask you to install additional packages when rendering a Quarto document for the first time. VS Code requires the installation of the Quarto extension.",
     "crumbs": [
-      "<span class='chapter-number'>55</span>  <span class='chapter-title'>Quarto</span>"
+      "<span class='chapter-number'>56</span>  <span class='chapter-title'>Quarto</span>"
     ]
   },
   {
     "objectID": "Quarto.html#resources",
     "href": "Quarto.html#resources",
-    "title": "55  Quarto",
-    "section": "55.2 Resources",
-    "text": "55.2 Resources\nLearn more about Quarto and access its full documentation on the official website: https://quarto.org/.",
+    "title": "56  Quarto",
+    "section": "56.2 Resources",
+    "text": "56.2 Resources\nLearn more about Quarto and access its full documentation on the official website: https://quarto.org/.",
     "crumbs": [
-      "<span class='chapter-number'>55</span>  <span class='chapter-title'>Quarto</span>"
+      "<span class='chapter-number'>56</span>  <span class='chapter-title'>Quarto</span>"
     ]
   },
   {
@@ -4034,111 +4155,111 @@
   {
     "objectID": "TerminalIntro.html",
     "href": "TerminalIntro.html",
-    "title": "56  Introduction to the System Shell",
+    "title": "57  Introduction to the System Shell",
     "section": "",
-    "text": "56.1 Common shell commands\nThis is a very brief introduction to some of the most commonly used shell commands.\nA shell is a command line interface allowing access to an operating system’s services. Multiple different shells exist. The most popular is probably bash, which is the default in most Linux installations. In macOS, the default shell switched form bash to zsh in 2019 with the release of Catalina. In Windows, various shells are available through the Windows Subsystem for Linux.\nThe commands listed here will work similarly in all/most shells.\nThe first thing to look for in a new environment is the help system. In the shell, this is accessed with man:",
+    "text": "57.1 Common shell commands\nThis is a very brief introduction to some of the most commonly used shell commands.\nA shell is a command line interface allowing access to an operating system’s services. Multiple different shells exist. The most popular is probably bash, which is the default in most Linux installations. In macOS, the default shell switched form bash to zsh in 2019 with the release of Catalina. In Windows, various shells are available through the Windows Subsystem for Linux.\nThe commands listed here will work similarly in all/most shells.\nThe first thing to look for in a new environment is the help system. In the shell, this is accessed with man:",
     "crumbs": [
       "System",
-      "<span class='chapter-number'>56</span>  <span class='chapter-title'>Introduction to the System Shell</span>"
+      "<span class='chapter-number'>57</span>  <span class='chapter-title'>Introduction to the System Shell</span>"
     ]
   },
   {
     "objectID": "TerminalIntro.html#common-shell-commands",
     "href": "TerminalIntro.html#common-shell-commands",
-    "title": "56  Introduction to the System Shell",
+    "title": "57  Introduction to the System Shell",
     "section": "",
-    "text": "56.1.1 man: Print the manual pages\nFor example, the following would return the manual pages for the ls command, explained a little later.\n\nman ls\n\n\n56.1.2 pwd: Print working directory (the directory you are currently in)\n\npwd\n\n\n56.1.3 cd: Set working directory to /path/to/dir\n\n\ncd /path/to/dir\n\n\n56.1.4 ls: List directory contents\n\nls\n\nadding the -l argument, prints directory contents as a list\n\nls -l\n\n\n56.1.5 mv: Move file from /current/dir/ to /new/dir\n\n\nmv /current/dir/file /new/dir\n\n\n56.1.6 mv: Rename file to newfilename\n\n\nmv /current/dir/file /current/dir/newfilename\n\n\n56.1.7 cp: Make a copy of file from currentPath into altPath\n\n\ncp /currentPath/file /altPath/file\n\n\n56.1.8 rm: Remove, i.e. delete, file\n\nrm /path/to/file\n\n\n56.1.9 mkdir: Create a new directory named ‘newdir’\n\nmkdir /path/to/newdir\n\n\n56.1.10 rmdir: Remove, i.e. delete, empty directory\n\nrmdir /path/to/somedir\n\nTo remove a non-empty directory and all of its contents, you can use rm -rf: -r is recursive; -f is force.\nNote: Use with care! it will immediately delete all content in the directory without asking for confirmation\n\nrm -rf /path/to/dir\n\n\n56.1.11 cat: Print contents of file to the console\n\ncat /path/to/file\n\n\n56.1.12 uname: Get system information\n-a argument for “all”\n\nuname -a\n\n\n56.1.13 whoami: Print the currently logged in user’s name\n\nwhoami\n\n\n56.1.14 id: Return user identity\nThe id command returns, among other things, the groups a user belong to. This informs you which directories and files a user can read, write, and execute.\n\nid username",
+    "text": "57.1.1 man: Print the manual pages\nFor example, the following would return the manual pages for the ls command, explained a little later.\n\nman ls\n\n\n57.1.2 pwd: Print working directory (the directory you are currently in)\n\npwd\n\n\n57.1.3 cd: Set working directory to /path/to/dir\n\n\ncd /path/to/dir\n\n\n57.1.4 ls: List directory contents\n\nls\n\nadding the -l argument, prints directory contents as a list\n\nls -l\n\n\n57.1.5 mv: Move file from /current/dir/ to /new/dir\n\n\nmv /current/dir/file /new/dir\n\n\n57.1.6 mv: Rename file to newfilename\n\n\nmv /current/dir/file /current/dir/newfilename\n\n\n57.1.7 cp: Make a copy of file from currentPath into altPath\n\n\ncp /currentPath/file /altPath/file\n\n\n57.1.8 rm: Remove, i.e. delete, file\n\nrm /path/to/file\n\n\n57.1.9 mkdir: Create a new directory named ‘newdir’\n\nmkdir /path/to/newdir\n\n\n57.1.10 rmdir: Remove, i.e. delete, empty directory\n\nrmdir /path/to/somedir\n\nTo remove a non-empty directory and all of its contents, you can use rm -rf: -r is recursive; -f is force.\nNote: Use with care! it will immediately delete all content in the directory without asking for confirmation\n\nrm -rf /path/to/dir\n\n\n57.1.11 cat: Print contents of file to the console\n\ncat /path/to/file\n\n\n57.1.12 uname: Get system information\n-a argument for “all”\n\nuname -a\n\n\n57.1.13 whoami: Print the currently logged in user’s name\n\nwhoami\n\n\n57.1.14 id: Return user identity\nThe id command returns, among other things, the groups a user belong to. This informs you which directories and files a user can read, write, and execute.\n\nid username",
     "crumbs": [
       "System",
-      "<span class='chapter-number'>56</span>  <span class='chapter-title'>Introduction to the System Shell</span>"
+      "<span class='chapter-number'>57</span>  <span class='chapter-title'>Introduction to the System Shell</span>"
     ]
   },
   {
     "objectID": "TerminalIntro.html#running-system-commands-within-r",
     "href": "TerminalIntro.html#running-system-commands-within-r",
-    "title": "56  Introduction to the System Shell",
-    "section": "\n56.2 Running system commands within R",
-    "text": "56.2 Running system commands within R\nYou can execute any system command within R using the system() command:\n\nsystem(\"uname -a\")",
+    "title": "57  Introduction to the System Shell",
+    "section": "\n57.2 Running system commands within R",
+    "text": "57.2 Running system commands within R\nYou can execute any system command within R using the system() command:\n\nsystem(\"uname -a\")",
     "crumbs": [
       "System",
-      "<span class='chapter-number'>56</span>  <span class='chapter-title'>Introduction to the System Shell</span>"
+      "<span class='chapter-number'>57</span>  <span class='chapter-title'>Introduction to the System Shell</span>"
     ]
   },
   {
     "objectID": "TerminalIntro.html#useful-terminal-commands-for-working-with-data",
     "href": "TerminalIntro.html#useful-terminal-commands-for-working-with-data",
-    "title": "56  Introduction to the System Shell",
-    "section": "\n56.3 Useful terminal commands for working with data",
-    "text": "56.3 Useful terminal commands for working with data\nIf you receive a data file, you may want to get an idea of the contents before reading it into R.\n\n56.3.1 head: Print the first few lines of a file\n\nhead iris.csv\n\nSepal_Length,Sepal_Width,Petal_Length,Petal_Width,Species\n5.1,3.5,1.4,0.2,setosa\n4.9,3,1.4,0.2,setosa\n4.7,3.2,1.3,0.2,setosa\n4.6,3.1,1.5,0.2,setosa\n5,3.6,1.4,0.2,setosa\n5.4,3.9,1.7,0.4,setosa\n4.6,3.4,1.4,0.3,setosa\n5,3.4,1.5,0.2,setosa\n4.4,2.9,1.4,0.2,setosa\n\n\nYou can print the first n lines using the syntax head -n /path/to/file.\nFor example, you can print just the first line, which would hold the column names in a CSV file:\n\nhead -1 iris.csv\n\nSepal_Length,Sepal_Width,Petal_Length,Petal_Width,Species\n\n\n\n56.3.2 tail: Print the last few lines of a file\n\ntail iris.csv\n\n6.7,3.1,5.6,2.4,virginica\n6.9,3.1,5.1,2.3,virginica\n5.8,2.7,5.1,1.9,virginica\n6.8,3.2,5.9,2.3,virginica\n6.7,3.3,5.7,2.5,virginica\n6.7,3,5.2,2.3,virginica\n6.3,2.5,5,1.9,virginica\n6.5,3,5.2,2,virginica\n6.2,3.4,5.4,2.3,virginica\n5.9,3,5.1,1.8,virginica\n\n\n\n56.3.3 wc: Word, line, character, and byte count\nwc can print the word or line count of a file, among other things. This can be particularly useful when dealing with large files\n\nwc -l iris.csv\n\n     151 iris.csv\n\n\nThe iris dataset consist of 150 cases plus one line with the column names\n\n56.3.4 du: Display disk usage statistics\ndu can display the size of a file or directory among other things.\nThis can be very important when trying to determine if the contents of a data file will fit in memory.\nDisplay the size of a file in human-readable format (Kilobytes, Megabytes, Gigabytes, etc)\n\ndu -sh iris.csv\n\n4.0K    iris.csv\n\n\nThe same command can be used on an entire current directory:\n\ndu -sh .\n\n1.0G    .",
+    "title": "57  Introduction to the System Shell",
+    "section": "\n57.3 Useful terminal commands for working with data",
+    "text": "57.3 Useful terminal commands for working with data\nIf you receive a data file, you may want to get an idea of the contents before reading it into R.\n\n57.3.1 head: Print the first few lines of a file\n\nhead iris.csv\n\nSepal_Length,Sepal_Width,Petal_Length,Petal_Width,Species\n5.1,3.5,1.4,0.2,setosa\n4.9,3,1.4,0.2,setosa\n4.7,3.2,1.3,0.2,setosa\n4.6,3.1,1.5,0.2,setosa\n5,3.6,1.4,0.2,setosa\n5.4,3.9,1.7,0.4,setosa\n4.6,3.4,1.4,0.3,setosa\n5,3.4,1.5,0.2,setosa\n4.4,2.9,1.4,0.2,setosa\n\n\nYou can print the first n lines using the syntax head -n /path/to/file.\nFor example, you can print just the first line, which would hold the column names in a CSV file:\n\nhead -1 iris.csv\n\nSepal_Length,Sepal_Width,Petal_Length,Petal_Width,Species\n\n\n\n57.3.2 tail: Print the last few lines of a file\n\ntail iris.csv\n\n6.7,3.1,5.6,2.4,virginica\n6.9,3.1,5.1,2.3,virginica\n5.8,2.7,5.1,1.9,virginica\n6.8,3.2,5.9,2.3,virginica\n6.7,3.3,5.7,2.5,virginica\n6.7,3,5.2,2.3,virginica\n6.3,2.5,5,1.9,virginica\n6.5,3,5.2,2,virginica\n6.2,3.4,5.4,2.3,virginica\n5.9,3,5.1,1.8,virginica\n\n\n\n57.3.3 wc: Word, line, character, and byte count\nwc can print the word or line count of a file, among other things. This can be particularly useful when dealing with large files\n\nwc -l iris.csv\n\n     151 iris.csv\n\n\nThe iris dataset consist of 150 cases plus one line with the column names\n\n57.3.4 du: Display disk usage statistics\ndu can display the size of a file or directory among other things.\nThis can be very important when trying to determine if the contents of a data file will fit in memory.\nDisplay the size of a file in human-readable format (Kilobytes, Megabytes, Gigabytes, etc)\n\ndu -sh iris.csv\n\n4.0K    iris.csv\n\n\nThe same command can be used on an entire current directory:\n\ndu -sh .\n\n1.0G    .",
     "crumbs": [
       "System",
-      "<span class='chapter-number'>56</span>  <span class='chapter-title'>Introduction to the System Shell</span>"
+      "<span class='chapter-number'>57</span>  <span class='chapter-title'>Introduction to the System Shell</span>"
     ]
   },
   {
     "objectID": "TerminalIntro.html#further-resources",
     "href": "TerminalIntro.html#further-resources",
-    "title": "56  Introduction to the System Shell",
-    "section": "\n56.4 Further Resources",
-    "text": "56.4 Further Resources\nBash is the default shell in most Linux distributions.\nZSH replaced Bash as the default shell in macOS with the release of macOS Catalina in 2019 (though Bash currently still comes installed)\n\nBash Documentation\nZSH Documentation\nWindows Subsystem for Linux Documentation\nWindows PowerShell Documentation",
+    "title": "57  Introduction to the System Shell",
+    "section": "\n57.4 Further Resources",
+    "text": "57.4 Further Resources\nBash is the default shell in most Linux distributions.\nZSH replaced Bash as the default shell in macOS with the release of macOS Catalina in 2019 (though Bash currently still comes installed)\n\nBash Documentation\nZSH Documentation\nWindows Subsystem for Linux Documentation\nWindows PowerShell Documentation",
     "crumbs": [
       "System",
-      "<span class='chapter-number'>56</span>  <span class='chapter-title'>Introduction to the System Shell</span>"
+      "<span class='chapter-number'>57</span>  <span class='chapter-title'>Introduction to the System Shell</span>"
     ]
   },
   {
     "objectID": "GitHubIntro.html",
     "href": "GitHubIntro.html",
-    "title": "57  Git & GitHub: The Basics",
+    "title": "58  Git & GitHub: The Basics",
     "section": "",
-    "text": "57.1 Installing git\ngit is a distributed version control system. It allows you to track changes to code as well as collaborate with others on code development. Code lives in a repository, which can be hosted on a remote or local server. GitHub is the largest online service for hosting git repositories.\nCheck if you system already includes an installation of git. If not, you can either find install it through your system’s package manager, or you can download it from the official git website.",
+    "text": "58.1 Installing git\ngit is a distributed version control system. It allows you to track changes to code as well as collaborate with others on code development. Code lives in a repository, which can be hosted on a remote or local server. GitHub is the largest online service for hosting git repositories.\nCheck if you system already includes an installation of git. If not, you can either find install it through your system’s package manager, or you can download it from the official git website.",
     "crumbs": [
       "System",
-      "<span class='chapter-number'>57</span>  <span class='chapter-title'>Git & GitHub: The Basics</span>"
+      "<span class='chapter-number'>58</span>  <span class='chapter-title'>Git & GitHub: The Basics</span>"
     ]
   },
   {
     "objectID": "GitHubIntro.html#basic-git-usage",
     "href": "GitHubIntro.html#basic-git-usage",
-    "title": "57  Git & GitHub: The Basics",
-    "section": "\n57.2 Basic git usage",
-    "text": "57.2 Basic git usage\nIn the system terminal, all git commands begin with git and are followed by a command name.\n\n57.2.1 Cloning (“Downloading”)\nDownload a repository to your computer for the first time using clone. Replace “user” with the username and “repo” with the repository name.\n\ngit clone https://github.com/user/repo.git\n\nThis will clone the remote repository to a folder name ‘repo’. You can optionally provide a different folder name after the URL.\n\n57.2.2 Pulling (“Updating”)\nTo update a previously cloned repository using pull:\n\ngit pull\n\n\n57.2.3 Pushing (“Uploading”)\nGet info on local changes to repository using status:\n\ngit status\n\nWorking locally, stage new or modified files for commit using add:\n\ngit add /path/to/file\n\nStill working locally, commit changes with an informative message using commit:\n\ngit commit -m \"Fixed this or added that\"\n\nNote that the above steps did not require an internet connection, but the following does. Push one or multiple commits to remote repository using push:\n\ngit push\n\n\n57.2.4 Collaborating\nThe main way of contributing to a project is by a) making a new “branch” of the repository, b) making your edits, and c) either merging to master yourself or requesting your edits be merged by the owner/s of the repository. This allows multiple people to work on the codebase without getting in each other’s way.\n\n57.2.5 Branching and merging\nScenario: you are working on your own project, hosted on its own repository. You want to develop a new feature, which may take some time to code and test before you make it part of your official project code.\n\nCreate a new branch, e.g. devel\n\nWork in your new branch until all testing is successful\nMerge back to master branch\n\nAlways from your system terminal, from within a directory in your repository: Create a new branch:\n\ngit branch devel\n\nSwitch to your new branch:\n\ngit checkout devel\n\nWork on your code, using git add/commit/push as per usual.\nWhen you are done testing and are happy to merge back to master:\n\ngit checkout master\ngit merge devel\ngit push\n\nAll the commits performed while you were working in the devel branch will be included in that last git push from master.\n\n57.2.6 Pull request\nScenario: You are contributing to a repository along with other collaborators. You want to suggest a new feature is added to the code:\n\nCreate a new branch, e.g. mynewfeature\n\nWork in new branch until you are ready happy to share and testing is complete\nGo on to the repository website, select your branch and perform a “Pull request” asking that the changes in your mynewfeature branch are merged into master\n\nThe repository owner/s will review the request and can merge",
+    "title": "58  Git & GitHub: The Basics",
+    "section": "\n58.2 Basic git usage",
+    "text": "58.2 Basic git usage\nIn the system terminal, all git commands begin with git and are followed by a command name.\n\n58.2.1 Cloning (“Downloading”)\nDownload a repository to your computer for the first time using clone. Replace “user” with the username and “repo” with the repository name.\n\ngit clone https://github.com/user/repo.git\n\nThis will clone the remote repository to a folder name ‘repo’. You can optionally provide a different folder name after the URL.\n\n58.2.2 Pulling (“Updating”)\nTo update a previously cloned repository using pull:\n\ngit pull\n\n\n58.2.3 Pushing (“Uploading”)\nGet info on local changes to repository using status:\n\ngit status\n\nWorking locally, stage new or modified files for commit using add:\n\ngit add /path/to/file\n\nStill working locally, commit changes with an informative message using commit:\n\ngit commit -m \"Fixed this or added that\"\n\nNote that the above steps did not require an internet connection, but the following does. Push one or multiple commits to remote repository using push:\n\ngit push\n\n\n58.2.4 Collaborating\nThe main way of contributing to a project is by a) making a new “branch” of the repository, b) making your edits, and c) either merging to master yourself or requesting your edits be merged by the owner/s of the repository. This allows multiple people to work on the codebase without getting in each other’s way.\n\n58.2.5 Branching and merging\nScenario: you are working on your own project, hosted on its own repository. You want to develop a new feature, which may take some time to code and test before you make it part of your official project code.\n\nCreate a new branch, e.g. devel\n\nWork in your new branch until all testing is successful\nMerge back to master branch\n\nAlways from your system terminal, from within a directory in your repository: Create a new branch:\n\ngit branch devel\n\nSwitch to your new branch:\n\ngit checkout devel\n\nWork on your code, using git add/commit/push as per usual.\nWhen you are done testing and are happy to merge back to master:\n\ngit checkout master\ngit merge devel\ngit push\n\nAll the commits performed while you were working in the devel branch will be included in that last git push from master.\n\n58.2.6 Pull request\nScenario: You are contributing to a repository along with other collaborators. You want to suggest a new feature is added to the code:\n\nCreate a new branch, e.g. mynewfeature\n\nWork in new branch until you are ready happy to share and testing is complete\nGo on to the repository website, select your branch and perform a “Pull request” asking that the changes in your mynewfeature branch are merged into master\n\nThe repository owner/s will review the request and can merge",
     "crumbs": [
       "System",
-      "<span class='chapter-number'>57</span>  <span class='chapter-title'>Git & GitHub: The Basics</span>"
+      "<span class='chapter-number'>58</span>  <span class='chapter-title'>Git & GitHub: The Basics</span>"
     ]
   },
   {
     "objectID": "GitHubIntro.html#gists",
     "href": "GitHubIntro.html#gists",
-    "title": "57  Git & GitHub: The Basics",
-    "section": "\n57.3 Gists",
-    "text": "57.3 Gists\nGitHub also offers a very convenient pastebin-like service called Gist, which lets you quickly and easily share code snippets.\nTo share some R code using a gist:\n\nVisit the gist site.\nWrite in/copy-paste some code\nAdd a name including a .R suffix at the top left of the entry box\nCopy-paste the URL to share with others",
+    "title": "58  Git & GitHub: The Basics",
+    "section": "\n58.3 Gists",
+    "text": "58.3 Gists\nGitHub also offers a very convenient pastebin-like service called Gist, which lets you quickly and easily share code snippets.\nTo share some R code using a gist:\n\nVisit the gist site.\nWrite in/copy-paste some code\nAdd a name including a .R suffix at the top left of the entry box\nCopy-paste the URL to share with others",
     "crumbs": [
       "System",
-      "<span class='chapter-number'>57</span>  <span class='chapter-title'>Git & GitHub: The Basics</span>"
+      "<span class='chapter-number'>58</span>  <span class='chapter-title'>Git & GitHub: The Basics</span>"
     ]
   },
   {
     "objectID": "GitHubIntro.html#git-and-github-for-open-and-reproducible-science",
     "href": "GitHubIntro.html#git-and-github-for-open-and-reproducible-science",
-    "title": "57  Git & GitHub: The Basics",
-    "section": "\n57.4 Git and GitHub for open and reproducible science",
-    "text": "57.4 Git and GitHub for open and reproducible science\nIt is recommended to create a new GitHub repository for each new research project. It may be worthwhile creating a new repository when it’s time to publish a paper, to include all final working code that should accompany the publication (and e.g. exclude all trial-and-error, testing, etc. code). As Always, make sure to follow journal requirements for reporting data deposition (includes code) and accessibility.",
+    "title": "58  Git & GitHub: The Basics",
+    "section": "\n58.4 Git and GitHub for open and reproducible science",
+    "text": "58.4 Git and GitHub for open and reproducible science\nIt is recommended to create a new GitHub repository for each new research project. It may be worthwhile creating a new repository when it’s time to publish a paper, to include all final working code that should accompany the publication (and e.g. exclude all trial-and-error, testing, etc. code). As Always, make sure to follow journal requirements for reporting data deposition (includes code) and accessibility.",
     "crumbs": [
       "System",
-      "<span class='chapter-number'>57</span>  <span class='chapter-title'>Git & GitHub: The Basics</span>"
+      "<span class='chapter-number'>58</span>  <span class='chapter-title'>Git & GitHub: The Basics</span>"
     ]
   },
   {
     "objectID": "GitHubIntro.html#gitresources",
     "href": "GitHubIntro.html#gitresources",
-    "title": "57  Git & GitHub: The Basics",
-    "section": "\n57.5 Git Resources",
-    "text": "57.5 Git Resources\nGit and GitHub are very powerful and flexible, with a great deal of functionality. Some resources to learn (a great deal) more:\n\nGit cheat sheet\n\nGitHub guides # Pro Git Book by Scott Chacon and Ben Straub\n\nSee this “GitHub for beginners” blog post on the GitHub blog.",
+    "title": "58  Git & GitHub: The Basics",
+    "section": "\n58.5 Git Resources",
+    "text": "58.5 Git Resources\nGit and GitHub are very powerful and flexible, with a great deal of functionality. Some resources to learn (a great deal) more:\n\nGit cheat sheet\n\nGitHub guides # Pro Git Book by Scott Chacon and Ben Straub\n\nSee this “GitHub for beginners” blog post on the GitHub blog.",
     "crumbs": [
       "System",
-      "<span class='chapter-number'>57</span>  <span class='chapter-title'>Git & GitHub: The Basics</span>"
+      "<span class='chapter-number'>58</span>  <span class='chapter-title'>Git & GitHub: The Basics</span>"
     ]
   },
   {
@@ -4154,465 +4275,465 @@
   {
     "objectID": "ds.html",
     "href": "ds.html",
-    "title": "58  Data Queries across implementations",
+    "title": "59  Data Queries across implementations",
     "section": "",
-    "text": "58.1 Setup\nThis chapter shows how to perform filter, select, and group-by operations using different data frame implementations:\nBase R and dplyr are both slow for large datasets. data.table is very fast and features a very concise and efficient syntax, but is limited to in-memory data. polars is very fast and can handle both in-memory and out-of-memory data, but features a possibly cumbersome syntax. tidypolars allows using dplyr syntax with polars data frames. DuckDB is also very fast and can handle both in-memory and out-of-memory data, but uses SQL syntax, not great for data frame operations. duckplyr uses dplyr syntax with DuckDB data frames.",
+    "text": "59.1 Setup\nThis chapter shows how to perform filter, select, and group-by operations using different data frame implementations:\nBase R and dplyr are both slow for large datasets. data.table is very fast and features a very concise and efficient syntax, but is limited to in-memory data. polars is very fast and can handle both in-memory and out-of-memory data, but features a possibly cumbersome syntax. tidypolars allows using dplyr syntax with polars data frames. DuckDB is also very fast and can handle both in-memory and out-of-memory data, but uses SQL syntax, not great for data frame operations. duckplyr uses dplyr syntax with DuckDB data frames.",
     "crumbs": [
       "Advanced R",
-      "<span class='chapter-number'>58</span>  <span class='chapter-title'>Data Queries across implementations</span>"
+      "<span class='chapter-number'>59</span>  <span class='chapter-title'>Data Queries across implementations</span>"
     ]
   },
   {
     "objectID": "ds.html#setup",
     "href": "ds.html#setup",
-    "title": "58  Data Queries across implementations",
+    "title": "59  Data Queries across implementations",
     "section": "",
-    "text": "58.1.1 Load packages\n\n\n\n\n\n\nNote the masking of functions that happens when all these packages are loaded together. In practice, you may want/have to stick to using a single approach at a time.\n\n\n\nFollowing isntructions on the duckplyr docs, we will not load duckplyr directly, but rather use the duckplyr::as_duckplyr_df to convert the iris data frame to to a duckplyr data frame.\n\nlibrary(data.table)\n\n\nAttaching package: 'data.table'\n\n\nThe following object is masked from 'package:base':\n\n    %notin%\n\nlibrary(dplyr)\n\n\nAttaching package: 'dplyr'\n\n\nThe following objects are masked from 'package:data.table':\n\n    between, first, last\n\n\nThe following objects are masked from 'package:stats':\n\n    filter, lag\n\n\nThe following objects are masked from 'package:base':\n\n    intersect, setdiff, setequal, union\n\nlibrary(polars)\nlibrary(tidypolars)\n\nError in `library()`:\n! there is no package called 'tidypolars'\n\n\n\n58.1.2 DuckDB\nThe following code enables reporting of fallbacks to dplyr when duckplyr fails.\n\nSys.setenv(DUCKPLYR_FALLBACK_VERBOSE = TRUE)\n\n\n58.1.3 Create data frames\nWe will use the iris built-in dataset for this chapter and create a data.table, a tibble, a RPolarsDataFrame, and a duckplyr version of it.\n\n\nBase R\ndata.table\ndplyr\npolars\nDuckDB\n\n\n\n\nhead(iris)\n\n  Sepal.Length Sepal.Width Petal.Length Petal.Width Species\n1          5.1         3.5          1.4         0.2  setosa\n2          4.9         3.0          1.4         0.2  setosa\n3          4.7         3.2          1.3         0.2  setosa\n4          4.6         3.1          1.5         0.2  setosa\n5          5.0         3.6          1.4         0.2  setosa\n6          5.4         3.9          1.7         0.4  setosa\n\n\n\n\n\niris_dt &lt;- as.data.table(iris)\niris_dt\n\n     Sepal.Length Sepal.Width Petal.Length Petal.Width   Species\n            &lt;num&gt;       &lt;num&gt;        &lt;num&gt;       &lt;num&gt;    &lt;fctr&gt;\n  1:          5.1         3.5          1.4         0.2    setosa\n  2:          4.9         3.0          1.4         0.2    setosa\n  3:          4.7         3.2          1.3         0.2    setosa\n  4:          4.6         3.1          1.5         0.2    setosa\n  5:          5.0         3.6          1.4         0.2    setosa\n ---                                                            \n146:          6.7         3.0          5.2         2.3 virginica\n147:          6.3         2.5          5.0         1.9 virginica\n148:          6.5         3.0          5.2         2.0 virginica\n149:          6.2         3.4          5.4         2.3 virginica\n150:          5.9         3.0          5.1         1.8 virginica\n\n\n\n\n\niris_tbl &lt;- as_tibble(iris)\niris_tbl\n\n# A tibble: 150 × 5\n   Sepal.Length Sepal.Width Petal.Length Petal.Width Species\n          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  \n 1          5.1         3.5          1.4         0.2 setosa \n 2          4.9         3            1.4         0.2 setosa \n 3          4.7         3.2          1.3         0.2 setosa \n 4          4.6         3.1          1.5         0.2 setosa \n 5          5           3.6          1.4         0.2 setosa \n 6          5.4         3.9          1.7         0.4 setosa \n 7          4.6         3.4          1.4         0.3 setosa \n 8          5           3.4          1.5         0.2 setosa \n 9          4.4         2.9          1.4         0.2 setosa \n10          4.9         3.1          1.5         0.1 setosa \n# ℹ 140 more rows\n\n\n\n\n\niris_pl &lt;- as_polars_df(iris)\niris_pl\n\nshape: (150, 5)\n┌──────────────┬─────────────┬──────────────┬─────────────┬───────────┐\n│ Sepal.Length ┆ Sepal.Width ┆ Petal.Length ┆ Petal.Width ┆ Species   │\n│ ---          ┆ ---         ┆ ---          ┆ ---         ┆ ---       │\n│ f64          ┆ f64         ┆ f64          ┆ f64         ┆ cat       │\n╞══════════════╪═════════════╪══════════════╪═════════════╪═══════════╡\n│ 5.1          ┆ 3.5         ┆ 1.4          ┆ 0.2         ┆ setosa    │\n│ 4.9          ┆ 3.0         ┆ 1.4          ┆ 0.2         ┆ setosa    │\n│ 4.7          ┆ 3.2         ┆ 1.3          ┆ 0.2         ┆ setosa    │\n│ 4.6          ┆ 3.1         ┆ 1.5          ┆ 0.2         ┆ setosa    │\n│ 5.0          ┆ 3.6         ┆ 1.4          ┆ 0.2         ┆ setosa    │\n│ …            ┆ …           ┆ …            ┆ …           ┆ …         │\n│ 6.7          ┆ 3.0         ┆ 5.2          ┆ 2.3         ┆ virginica │\n│ 6.3          ┆ 2.5         ┆ 5.0          ┆ 1.9         ┆ virginica │\n│ 6.5          ┆ 3.0         ┆ 5.2          ┆ 2.0         ┆ virginica │\n│ 6.2          ┆ 3.4         ┆ 5.4          ┆ 2.3         ┆ virginica │\n│ 5.9          ┆ 3.0         ┆ 5.1          ┆ 1.8         ┆ virginica │\n└──────────────┴─────────────┴──────────────┴─────────────┴───────────┘\n\n\n\n\n\niris_db &lt;- duckplyr::as_duckplyr_df(iris)\n\nThe duckplyr package is configured to fall back to dplyr when it encounters an\nincompatibility. Fallback events can be collected and uploaded for analysis to\nguide future development. By default, data will be collected but no data will\nbe uploaded.\nℹ Automatic fallback uploading is not controlled and therefore disabled, see\n  `?duckplyr::fallback()`.\n✔ Number of reports ready for upload: 10.\n→ Review with `duckplyr::fallback_review()`, upload with\n  `duckplyr::fallback_upload()`.\nℹ Configure automatic uploading with `duckplyr::fallback_config()`.\n\n\nWarning: `as_duckplyr_df()` was deprecated in duckplyr 1.0.0.\nℹ Please use `as_duckdb_tibble()` instead.\n\nhead(iris_db)\n\nduckdb is storing downloaded extensions and secrets under ~/.duckdb:\nℹ /Users/sdg/.duckdb\nThis persists across sessions and is shared with the DuckDB CLI and other clients.\nℹ Run duckdb(shared_home = FALSE) to use a temporary directory instead.\nℹ See ?duckdb_storage for details and alternatives.\n\n\n  Sepal.Length Sepal.Width Petal.Length Petal.Width Species\n1          5.1         3.5          1.4         0.2  setosa\n2          4.9         3.0          1.4         0.2  setosa\n3          4.7         3.2          1.3         0.2  setosa\n4          4.6         3.1          1.5         0.2  setosa\n5          5.0         3.6          1.4         0.2  setosa\n6          5.4         3.9          1.7         0.4  setosa",
+    "text": "59.1.1 Load packages\n\n\n\n\n\n\nNote the masking of functions that happens when all these packages are loaded together. In practice, you may want/have to stick to using a single approach at a time.\n\n\n\nFollowing isntructions on the duckplyr docs, we will not load duckplyr directly, but rather use the duckplyr::as_duckplyr_df to convert the iris data frame to to a duckplyr data frame.\n\nlibrary(data.table)\n\n\nAttaching package: 'data.table'\n\n\nThe following object is masked from 'package:base':\n\n    %notin%\n\nlibrary(dplyr)\n\n\nAttaching package: 'dplyr'\n\n\nThe following objects are masked from 'package:data.table':\n\n    between, first, last\n\n\nThe following objects are masked from 'package:stats':\n\n    filter, lag\n\n\nThe following objects are masked from 'package:base':\n\n    intersect, setdiff, setequal, union\n\nlibrary(polars)\nlibrary(tidypolars)\n\nError in `library()`:\n! there is no package called 'tidypolars'\n\n\n\n59.1.2 DuckDB\nThe following code enables reporting of fallbacks to dplyr when duckplyr fails.\n\nSys.setenv(DUCKPLYR_FALLBACK_VERBOSE = TRUE)\n\n\n59.1.3 Create data frames\nWe will use the iris built-in dataset for this chapter and create a data.table, a tibble, a RPolarsDataFrame, and a duckplyr version of it.\n\n\nBase R\ndata.table\ndplyr\npolars\nDuckDB\n\n\n\n\nhead(iris)\n\n  Sepal.Length Sepal.Width Petal.Length Petal.Width Species\n1          5.1         3.5          1.4         0.2  setosa\n2          4.9         3.0          1.4         0.2  setosa\n3          4.7         3.2          1.3         0.2  setosa\n4          4.6         3.1          1.5         0.2  setosa\n5          5.0         3.6          1.4         0.2  setosa\n6          5.4         3.9          1.7         0.4  setosa\n\n\n\n\n\niris_dt &lt;- as.data.table(iris)\niris_dt\n\n     Sepal.Length Sepal.Width Petal.Length Petal.Width   Species\n            &lt;num&gt;       &lt;num&gt;        &lt;num&gt;       &lt;num&gt;    &lt;fctr&gt;\n  1:          5.1         3.5          1.4         0.2    setosa\n  2:          4.9         3.0          1.4         0.2    setosa\n  3:          4.7         3.2          1.3         0.2    setosa\n  4:          4.6         3.1          1.5         0.2    setosa\n  5:          5.0         3.6          1.4         0.2    setosa\n ---                                                            \n146:          6.7         3.0          5.2         2.3 virginica\n147:          6.3         2.5          5.0         1.9 virginica\n148:          6.5         3.0          5.2         2.0 virginica\n149:          6.2         3.4          5.4         2.3 virginica\n150:          5.9         3.0          5.1         1.8 virginica\n\n\n\n\n\niris_tbl &lt;- as_tibble(iris)\niris_tbl\n\n# A tibble: 150 × 5\n   Sepal.Length Sepal.Width Petal.Length Petal.Width Species\n          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  \n 1          5.1         3.5          1.4         0.2 setosa \n 2          4.9         3            1.4         0.2 setosa \n 3          4.7         3.2          1.3         0.2 setosa \n 4          4.6         3.1          1.5         0.2 setosa \n 5          5           3.6          1.4         0.2 setosa \n 6          5.4         3.9          1.7         0.4 setosa \n 7          4.6         3.4          1.4         0.3 setosa \n 8          5           3.4          1.5         0.2 setosa \n 9          4.4         2.9          1.4         0.2 setosa \n10          4.9         3.1          1.5         0.1 setosa \n# ℹ 140 more rows\n\n\n\n\n\niris_pl &lt;- as_polars_df(iris)\niris_pl\n\nshape: (150, 5)\n┌──────────────┬─────────────┬──────────────┬─────────────┬───────────┐\n│ Sepal.Length ┆ Sepal.Width ┆ Petal.Length ┆ Petal.Width ┆ Species   │\n│ ---          ┆ ---         ┆ ---          ┆ ---         ┆ ---       │\n│ f64          ┆ f64         ┆ f64          ┆ f64         ┆ cat       │\n╞══════════════╪═════════════╪══════════════╪═════════════╪═══════════╡\n│ 5.1          ┆ 3.5         ┆ 1.4          ┆ 0.2         ┆ setosa    │\n│ 4.9          ┆ 3.0         ┆ 1.4          ┆ 0.2         ┆ setosa    │\n│ 4.7          ┆ 3.2         ┆ 1.3          ┆ 0.2         ┆ setosa    │\n│ 4.6          ┆ 3.1         ┆ 1.5          ┆ 0.2         ┆ setosa    │\n│ 5.0          ┆ 3.6         ┆ 1.4          ┆ 0.2         ┆ setosa    │\n│ …            ┆ …           ┆ …            ┆ …           ┆ …         │\n│ 6.7          ┆ 3.0         ┆ 5.2          ┆ 2.3         ┆ virginica │\n│ 6.3          ┆ 2.5         ┆ 5.0          ┆ 1.9         ┆ virginica │\n│ 6.5          ┆ 3.0         ┆ 5.2          ┆ 2.0         ┆ virginica │\n│ 6.2          ┆ 3.4         ┆ 5.4          ┆ 2.3         ┆ virginica │\n│ 5.9          ┆ 3.0         ┆ 5.1          ┆ 1.8         ┆ virginica │\n└──────────────┴─────────────┴──────────────┴─────────────┴───────────┘\n\n\n\n\n\niris_db &lt;- duckplyr::as_duckplyr_df(iris)\n\nThe duckplyr package is configured to fall back to dplyr when it encounters an\nincompatibility. Fallback events can be collected and uploaded for analysis to\nguide future development. By default, data will be collected but no data will\nbe uploaded.\nℹ Automatic fallback uploading is not controlled and therefore disabled, see\n  `?duckplyr::fallback()`.\n✔ Number of reports ready for upload: 10.\n→ Review with `duckplyr::fallback_review()`, upload with\n  `duckplyr::fallback_upload()`.\nℹ Configure automatic uploading with `duckplyr::fallback_config()`.\n\n\nWarning: `as_duckplyr_df()` was deprecated in duckplyr 1.0.0.\nℹ Please use `as_duckdb_tibble()` instead.\n\nhead(iris_db)\n\nduckdb is storing downloaded extensions and secrets under ~/.duckdb:\nℹ /Users/sdg/.duckdb\nThis persists across sessions and is shared with the DuckDB CLI and other clients.\nℹ Run duckdb(shared_home = FALSE) to use a temporary directory instead.\nℹ See ?duckdb_storage for details and alternatives.\n\n\n  Sepal.Length Sepal.Width Petal.Length Petal.Width Species\n1          5.1         3.5          1.4         0.2  setosa\n2          4.9         3.0          1.4         0.2  setosa\n3          4.7         3.2          1.3         0.2  setosa\n4          4.6         3.1          1.5         0.2  setosa\n5          5.0         3.6          1.4         0.2  setosa\n6          5.4         3.9          1.7         0.4  setosa",
     "crumbs": [
       "Advanced R",
-      "<span class='chapter-number'>58</span>  <span class='chapter-title'>Data Queries across implementations</span>"
+      "<span class='chapter-number'>59</span>  <span class='chapter-title'>Data Queries across implementations</span>"
     ]
   },
   {
     "objectID": "ds.html#select",
     "href": "ds.html#select",
-    "title": "58  Data Queries across implementations",
-    "section": "\n58.2 Select",
-    "text": "58.2 Select\nSelect columns Sepal.Length and Species from the iris dataset.\n\n\n\nBase R\ndata.table\ndplyr\npolars\ntidypolars\nduckplyr\n\n\n\n\niris[, c(\"Sepal.Length\", \"Species\")] |&gt; head()\n\n  Sepal.Length Species\n1          5.1  setosa\n2          4.9  setosa\n3          4.7  setosa\n4          4.6  setosa\n5          5.0  setosa\n6          5.4  setosa\n\n\n\n\n\niris_dt[, .(Sepal.Length, Species)]\n\n     Sepal.Length   Species\n            &lt;num&gt;    &lt;fctr&gt;\n  1:          5.1    setosa\n  2:          4.9    setosa\n  3:          4.7    setosa\n  4:          4.6    setosa\n  5:          5.0    setosa\n ---                       \n146:          6.7 virginica\n147:          6.3 virginica\n148:          6.5 virginica\n149:          6.2 virginica\n150:          5.9 virginica\n\n\n\n\n\niris_tbl |&gt; \n  select(Sepal.Length, Species)\n\n# A tibble: 150 × 2\n   Sepal.Length Species\n          &lt;dbl&gt; &lt;fct&gt;  \n 1          5.1 setosa \n 2          4.9 setosa \n 3          4.7 setosa \n 4          4.6 setosa \n 5          5   setosa \n 6          5.4 setosa \n 7          4.6 setosa \n 8          5   setosa \n 9          4.4 setosa \n10          4.9 setosa \n# ℹ 140 more rows\n\n\n\n\n\niris_pl$select(\n  pl$col(c(\"Sepal.Length\", \"Species\"))\n)\n\nshape: (150, 2)\n┌──────────────┬───────────┐\n│ Sepal.Length ┆ Species   │\n│ ---          ┆ ---       │\n│ f64          ┆ cat       │\n╞══════════════╪═══════════╡\n│ 5.1          ┆ setosa    │\n│ 4.9          ┆ setosa    │\n│ 4.7          ┆ setosa    │\n│ 4.6          ┆ setosa    │\n│ 5.0          ┆ setosa    │\n│ …            ┆ …         │\n│ 6.7          ┆ virginica │\n│ 6.3          ┆ virginica │\n│ 6.5          ┆ virginica │\n│ 6.2          ┆ virginica │\n│ 5.9          ┆ virginica │\n└──────────────┴───────────┘\n\n\n\n\n\niris_pl |&gt;\n  select(Sepal.Length, Species)\n\nError in `UseMethod()`:\n! no applicable method for 'select' applied to an object of class \"c('polars_data_frame', 'polars_object')\"\n\n\n\n\n\niris_db |&gt; \n  select(Sepal.Length, Species) |&gt; head()\n\n  Sepal.Length Species\n1          5.1  setosa\n2          4.9  setosa\n3          4.7  setosa\n4          4.6  setosa\n5          5.0  setosa\n6          5.4  setosa",
+    "title": "59  Data Queries across implementations",
+    "section": "\n59.2 Select",
+    "text": "59.2 Select\nSelect columns Sepal.Length and Species from the iris dataset.\n\n\n\nBase R\ndata.table\ndplyr\npolars\ntidypolars\nduckplyr\n\n\n\n\niris[, c(\"Sepal.Length\", \"Species\")] |&gt; head()\n\n  Sepal.Length Species\n1          5.1  setosa\n2          4.9  setosa\n3          4.7  setosa\n4          4.6  setosa\n5          5.0  setosa\n6          5.4  setosa\n\n\n\n\n\niris_dt[, .(Sepal.Length, Species)]\n\n     Sepal.Length   Species\n            &lt;num&gt;    &lt;fctr&gt;\n  1:          5.1    setosa\n  2:          4.9    setosa\n  3:          4.7    setosa\n  4:          4.6    setosa\n  5:          5.0    setosa\n ---                       \n146:          6.7 virginica\n147:          6.3 virginica\n148:          6.5 virginica\n149:          6.2 virginica\n150:          5.9 virginica\n\n\n\n\n\niris_tbl |&gt; \n  select(Sepal.Length, Species)\n\n# A tibble: 150 × 2\n   Sepal.Length Species\n          &lt;dbl&gt; &lt;fct&gt;  \n 1          5.1 setosa \n 2          4.9 setosa \n 3          4.7 setosa \n 4          4.6 setosa \n 5          5   setosa \n 6          5.4 setosa \n 7          4.6 setosa \n 8          5   setosa \n 9          4.4 setosa \n10          4.9 setosa \n# ℹ 140 more rows\n\n\n\n\n\niris_pl$select(\n  pl$col(c(\"Sepal.Length\", \"Species\"))\n)\n\nshape: (150, 2)\n┌──────────────┬───────────┐\n│ Sepal.Length ┆ Species   │\n│ ---          ┆ ---       │\n│ f64          ┆ cat       │\n╞══════════════╪═══════════╡\n│ 5.1          ┆ setosa    │\n│ 4.9          ┆ setosa    │\n│ 4.7          ┆ setosa    │\n│ 4.6          ┆ setosa    │\n│ 5.0          ┆ setosa    │\n│ …            ┆ …         │\n│ 6.7          ┆ virginica │\n│ 6.3          ┆ virginica │\n│ 6.5          ┆ virginica │\n│ 6.2          ┆ virginica │\n│ 5.9          ┆ virginica │\n└──────────────┴───────────┘\n\n\n\n\n\niris_pl |&gt;\n  select(Sepal.Length, Species)\n\nError in `UseMethod()`:\n! no applicable method for 'select' applied to an object of class \"c('polars_data_frame', 'polars_object')\"\n\n\n\n\n\niris_db |&gt; \n  select(Sepal.Length, Species) |&gt; head()\n\n  Sepal.Length Species\n1          5.1  setosa\n2          4.9  setosa\n3          4.7  setosa\n4          4.6  setosa\n5          5.0  setosa\n6          5.4  setosa",
     "crumbs": [
       "Advanced R",
-      "<span class='chapter-number'>58</span>  <span class='chapter-title'>Data Queries across implementations</span>"
+      "<span class='chapter-number'>59</span>  <span class='chapter-title'>Data Queries across implementations</span>"
     ]
   },
   {
     "objectID": "ds.html#filter",
     "href": "ds.html#filter",
-    "title": "58  Data Queries across implementations",
-    "section": "\n58.3 Filter",
-    "text": "58.3 Filter\nWe look at an example combining 2 conditions, one on a numeric and one on a factor column:\nFilter rows where Sepal.Length is less than 5.6 and Species is versicolor or virginica.\n\n\nBase R\ndata.table\ndplyr\npolars\ntidypolars\nduckplyr\n\n\n\n\niris[iris$Sepal.Length &lt; 5.6 & iris$Species %in% c(\"versicolor\", \"virginica\"), ]\n\n    Sepal.Length Sepal.Width Petal.Length Petal.Width    Species\n54           5.5         2.3          4.0         1.3 versicolor\n58           4.9         2.4          3.3         1.0 versicolor\n60           5.2         2.7          3.9         1.4 versicolor\n61           5.0         2.0          3.5         1.0 versicolor\n81           5.5         2.4          3.8         1.1 versicolor\n82           5.5         2.4          3.7         1.0 versicolor\n85           5.4         3.0          4.5         1.5 versicolor\n90           5.5         2.5          4.0         1.3 versicolor\n91           5.5         2.6          4.4         1.2 versicolor\n94           5.0         2.3          3.3         1.0 versicolor\n99           5.1         2.5          3.0         1.1 versicolor\n107          4.9         2.5          4.5         1.7  virginica\n\n\nor\n\nsubset(iris, Sepal.Length &lt; 5.6 & iris$Species %in% c(\"versicolor\", \"virginica\"))\n\n    Sepal.Length Sepal.Width Petal.Length Petal.Width    Species\n54           5.5         2.3          4.0         1.3 versicolor\n58           4.9         2.4          3.3         1.0 versicolor\n60           5.2         2.7          3.9         1.4 versicolor\n61           5.0         2.0          3.5         1.0 versicolor\n81           5.5         2.4          3.8         1.1 versicolor\n82           5.5         2.4          3.7         1.0 versicolor\n85           5.4         3.0          4.5         1.5 versicolor\n90           5.5         2.5          4.0         1.3 versicolor\n91           5.5         2.6          4.4         1.2 versicolor\n94           5.0         2.3          3.3         1.0 versicolor\n99           5.1         2.5          3.0         1.1 versicolor\n107          4.9         2.5          4.5         1.7  virginica\n\n\n\n\n\niris_dt[Sepal.Length &lt; 5.6 & iris$Species %in% c(\"versicolor\", \"virginica\")]\n\n    Sepal.Length Sepal.Width Petal.Length Petal.Width    Species\n           &lt;num&gt;       &lt;num&gt;        &lt;num&gt;       &lt;num&gt;     &lt;fctr&gt;\n 1:          5.5         2.3          4.0         1.3 versicolor\n 2:          4.9         2.4          3.3         1.0 versicolor\n 3:          5.2         2.7          3.9         1.4 versicolor\n 4:          5.0         2.0          3.5         1.0 versicolor\n 5:          5.5         2.4          3.8         1.1 versicolor\n 6:          5.5         2.4          3.7         1.0 versicolor\n 7:          5.4         3.0          4.5         1.5 versicolor\n 8:          5.5         2.5          4.0         1.3 versicolor\n 9:          5.5         2.6          4.4         1.2 versicolor\n10:          5.0         2.3          3.3         1.0 versicolor\n11:          5.1         2.5          3.0         1.1 versicolor\n12:          4.9         2.5          4.5         1.7  virginica\n\n\n\n\n\niris_tbl |&gt;\n  filter(\n    Sepal.Length &lt; 5.6,\n    Species %in% c(\"versicolor\", \"virginica\")\n)\n\n# A tibble: 12 × 5\n   Sepal.Length Sepal.Width Petal.Length Petal.Width Species   \n          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;     \n 1          5.5         2.3          4           1.3 versicolor\n 2          4.9         2.4          3.3         1   versicolor\n 3          5.2         2.7          3.9         1.4 versicolor\n 4          5           2            3.5         1   versicolor\n 5          5.5         2.4          3.8         1.1 versicolor\n 6          5.5         2.4          3.7         1   versicolor\n 7          5.4         3            4.5         1.5 versicolor\n 8          5.5         2.5          4           1.3 versicolor\n 9          5.5         2.6          4.4         1.2 versicolor\n10          5           2.3          3.3         1   versicolor\n11          5.1         2.5          3           1.1 versicolor\n12          4.9         2.5          4.5         1.7 virginica \n\n\n\n\n\niris_pl$filter(\n  pl$col(\"Sepal.Length\") &lt; 5.6,\n  pl$col(\"Species\")$is_in(c(\"versicolor\", \"virginica\"))\n)\n\nError in `iris_pl$filter()`:\n! Evaluation failed in `$filter()`.\nCaused by error:\n! Evaluation failed in `$collect()`.\nCaused by error:\n! Column(s) not found: \"versicolor\" not found\n\n\n\n\n\niris_pl |&gt;\n  filter(\n    Sepal.Length &lt; 5.6,\n    Species %in% c(\"versicolor\", \"virginica\")\n  )\n\nError in `UseMethod()`:\n! no applicable method for 'filter' applied to an object of class \"c('polars_data_frame', 'polars_object')\"\n\n\n\n\n\niris_db |&gt;\n  filter(\n    Sepal.Length &lt; 5.6,\n    Species %in% c(\"versicolor\", \"virginica\")\n  )\n\n   Sepal.Length Sepal.Width Petal.Length Petal.Width    Species\n1           5.5         2.3          4.0         1.3 versicolor\n2           4.9         2.4          3.3         1.0 versicolor\n3           5.2         2.7          3.9         1.4 versicolor\n4           5.0         2.0          3.5         1.0 versicolor\n5           5.5         2.4          3.8         1.1 versicolor\n6           5.5         2.4          3.7         1.0 versicolor\n7           5.4         3.0          4.5         1.5 versicolor\n8           5.5         2.5          4.0         1.3 versicolor\n9           5.5         2.6          4.4         1.2 versicolor\n10          5.0         2.3          3.3         1.0 versicolor\n11          5.1         2.5          3.0         1.1 versicolor\n12          4.9         2.5          4.5         1.7  virginica",
+    "title": "59  Data Queries across implementations",
+    "section": "\n59.3 Filter",
+    "text": "59.3 Filter\nWe look at an example combining 2 conditions, one on a numeric and one on a factor column:\nFilter rows where Sepal.Length is less than 5.6 and Species is versicolor or virginica.\n\n\nBase R\ndata.table\ndplyr\npolars\ntidypolars\nduckplyr\n\n\n\n\niris[iris$Sepal.Length &lt; 5.6 & iris$Species %in% c(\"versicolor\", \"virginica\"), ]\n\n    Sepal.Length Sepal.Width Petal.Length Petal.Width    Species\n54           5.5         2.3          4.0         1.3 versicolor\n58           4.9         2.4          3.3         1.0 versicolor\n60           5.2         2.7          3.9         1.4 versicolor\n61           5.0         2.0          3.5         1.0 versicolor\n81           5.5         2.4          3.8         1.1 versicolor\n82           5.5         2.4          3.7         1.0 versicolor\n85           5.4         3.0          4.5         1.5 versicolor\n90           5.5         2.5          4.0         1.3 versicolor\n91           5.5         2.6          4.4         1.2 versicolor\n94           5.0         2.3          3.3         1.0 versicolor\n99           5.1         2.5          3.0         1.1 versicolor\n107          4.9         2.5          4.5         1.7  virginica\n\n\nor\n\nsubset(iris, Sepal.Length &lt; 5.6 & iris$Species %in% c(\"versicolor\", \"virginica\"))\n\n    Sepal.Length Sepal.Width Petal.Length Petal.Width    Species\n54           5.5         2.3          4.0         1.3 versicolor\n58           4.9         2.4          3.3         1.0 versicolor\n60           5.2         2.7          3.9         1.4 versicolor\n61           5.0         2.0          3.5         1.0 versicolor\n81           5.5         2.4          3.8         1.1 versicolor\n82           5.5         2.4          3.7         1.0 versicolor\n85           5.4         3.0          4.5         1.5 versicolor\n90           5.5         2.5          4.0         1.3 versicolor\n91           5.5         2.6          4.4         1.2 versicolor\n94           5.0         2.3          3.3         1.0 versicolor\n99           5.1         2.5          3.0         1.1 versicolor\n107          4.9         2.5          4.5         1.7  virginica\n\n\n\n\n\niris_dt[Sepal.Length &lt; 5.6 & iris$Species %in% c(\"versicolor\", \"virginica\")]\n\n    Sepal.Length Sepal.Width Petal.Length Petal.Width    Species\n           &lt;num&gt;       &lt;num&gt;        &lt;num&gt;       &lt;num&gt;     &lt;fctr&gt;\n 1:          5.5         2.3          4.0         1.3 versicolor\n 2:          4.9         2.4          3.3         1.0 versicolor\n 3:          5.2         2.7          3.9         1.4 versicolor\n 4:          5.0         2.0          3.5         1.0 versicolor\n 5:          5.5         2.4          3.8         1.1 versicolor\n 6:          5.5         2.4          3.7         1.0 versicolor\n 7:          5.4         3.0          4.5         1.5 versicolor\n 8:          5.5         2.5          4.0         1.3 versicolor\n 9:          5.5         2.6          4.4         1.2 versicolor\n10:          5.0         2.3          3.3         1.0 versicolor\n11:          5.1         2.5          3.0         1.1 versicolor\n12:          4.9         2.5          4.5         1.7  virginica\n\n\n\n\n\niris_tbl |&gt;\n  filter(\n    Sepal.Length &lt; 5.6,\n    Species %in% c(\"versicolor\", \"virginica\")\n)\n\n# A tibble: 12 × 5\n   Sepal.Length Sepal.Width Petal.Length Petal.Width Species   \n          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;     \n 1          5.5         2.3          4           1.3 versicolor\n 2          4.9         2.4          3.3         1   versicolor\n 3          5.2         2.7          3.9         1.4 versicolor\n 4          5           2            3.5         1   versicolor\n 5          5.5         2.4          3.8         1.1 versicolor\n 6          5.5         2.4          3.7         1   versicolor\n 7          5.4         3            4.5         1.5 versicolor\n 8          5.5         2.5          4           1.3 versicolor\n 9          5.5         2.6          4.4         1.2 versicolor\n10          5           2.3          3.3         1   versicolor\n11          5.1         2.5          3           1.1 versicolor\n12          4.9         2.5          4.5         1.7 virginica \n\n\n\n\n\niris_pl$filter(\n  pl$col(\"Sepal.Length\") &lt; 5.6,\n  pl$col(\"Species\")$is_in(c(\"versicolor\", \"virginica\"))\n)\n\nError in `iris_pl$filter()`:\n! Evaluation failed in `$filter()`.\nCaused by error:\n! Evaluation failed in `$collect()`.\nCaused by error:\n! Column(s) not found: \"versicolor\" not found\n\n\n\n\n\niris_pl |&gt;\n  filter(\n    Sepal.Length &lt; 5.6,\n    Species %in% c(\"versicolor\", \"virginica\")\n  )\n\nError in `UseMethod()`:\n! no applicable method for 'filter' applied to an object of class \"c('polars_data_frame', 'polars_object')\"\n\n\n\n\n\niris_db |&gt;\n  filter(\n    Sepal.Length &lt; 5.6,\n    Species %in% c(\"versicolor\", \"virginica\")\n  )\n\n   Sepal.Length Sepal.Width Petal.Length Petal.Width    Species\n1           5.5         2.3          4.0         1.3 versicolor\n2           4.9         2.4          3.3         1.0 versicolor\n3           5.2         2.7          3.9         1.4 versicolor\n4           5.0         2.0          3.5         1.0 versicolor\n5           5.5         2.4          3.8         1.1 versicolor\n6           5.5         2.4          3.7         1.0 versicolor\n7           5.4         3.0          4.5         1.5 versicolor\n8           5.5         2.5          4.0         1.3 versicolor\n9           5.5         2.6          4.4         1.2 versicolor\n10          5.0         2.3          3.3         1.0 versicolor\n11          5.1         2.5          3.0         1.1 versicolor\n12          4.9         2.5          4.5         1.7  virginica",
     "crumbs": [
       "Advanced R",
-      "<span class='chapter-number'>58</span>  <span class='chapter-title'>Data Queries across implementations</span>"
+      "<span class='chapter-number'>59</span>  <span class='chapter-title'>Data Queries across implementations</span>"
     ]
   },
   {
     "objectID": "ds.html#group-by",
     "href": "ds.html#group-by",
-    "title": "58  Data Queries across implementations",
-    "section": "\n58.4 Group-by",
-    "text": "58.4 Group-by\nGet the mean of Sepal.Length by Species.\n\n\nBase R\ndata.table\ndplyr\npolars\ntidypolars\nduckplyr\n\n\n\n\naggregate(Sepal.Length ~ Species, iris, mean)\n\n     Species Sepal.Length\n1     setosa        5.006\n2 versicolor        5.936\n3  virginica        6.588\n\n\n\n\n\niris_dt[, .(mean(Sepal.Length)), by = Species]\n\n      Species    V1\n       &lt;fctr&gt; &lt;num&gt;\n1:     setosa 5.006\n2: versicolor 5.936\n3:  virginica 6.588\n\n\n\n\n\niris_tbl |&gt; \n  group_by(Species) |&gt; \n  summarize(mean(Sepal.Length))\n\n# A tibble: 3 × 2\n  Species    `mean(Sepal.Length)`\n  &lt;fct&gt;                     &lt;dbl&gt;\n1 setosa                     5.01\n2 versicolor                 5.94\n3 virginica                  6.59\n\n\n\n\n\niris_pl$group_by(\"Species\")$agg(pl$mean(\"Sepal.Length\"))\n\nError:\n! Evaluation failed in `$agg()`.\nCaused by error in `pl$mean`:\n! $ - syntax error: `mean` is not a member of this polars object\n\n\n\n\nNote that, unlike dplyr, tidypolars requires summarize inputs to be named (at least at the time of writing).\n\niris_pl |&gt;\n  group_by(Species) |&gt;\n  summarize(mean_Sepal.Length = mean(Sepal.Length))\n\nError in `UseMethod()`:\n! no applicable method for 'group_by' applied to an object of class \"c('polars_data_frame', 'polars_object')\"\n\n\n\n\n\niris_db |&gt; \n  group_by(Species) |&gt; \n  summarize(mean(Sepal.Length))\n\nℹ dplyr fallback recorded\n  {\"version\":\"1.2.1\",\"message\":\"Try {.code summarise(.by = ...)} or {.code\n  mutate(.by = ...)} instead of {.code group_by()} and {.code ungroup()}.\"}\n\n\n# A tibble: 3 × 2\n  Species    `mean(Sepal.Length)`\n  &lt;fct&gt;                     &lt;dbl&gt;\n1 setosa                     5.01\n2 versicolor                 5.94\n3 virginica                  6.59",
+    "title": "59  Data Queries across implementations",
+    "section": "\n59.4 Group-by",
+    "text": "59.4 Group-by\nGet the mean of Sepal.Length by Species.\n\n\nBase R\ndata.table\ndplyr\npolars\ntidypolars\nduckplyr\n\n\n\n\naggregate(Sepal.Length ~ Species, iris, mean)\n\n     Species Sepal.Length\n1     setosa        5.006\n2 versicolor        5.936\n3  virginica        6.588\n\n\n\n\n\niris_dt[, .(mean(Sepal.Length)), by = Species]\n\n      Species    V1\n       &lt;fctr&gt; &lt;num&gt;\n1:     setosa 5.006\n2: versicolor 5.936\n3:  virginica 6.588\n\n\n\n\n\niris_tbl |&gt; \n  group_by(Species) |&gt; \n  summarize(mean(Sepal.Length))\n\n# A tibble: 3 × 2\n  Species    `mean(Sepal.Length)`\n  &lt;fct&gt;                     &lt;dbl&gt;\n1 setosa                     5.01\n2 versicolor                 5.94\n3 virginica                  6.59\n\n\n\n\n\niris_pl$group_by(\"Species\")$agg(pl$mean(\"Sepal.Length\"))\n\nError:\n! Evaluation failed in `$agg()`.\nCaused by error in `pl$mean`:\n! $ - syntax error: `mean` is not a member of this polars object\n\n\n\n\nNote that, unlike dplyr, tidypolars requires summarize inputs to be named (at least at the time of writing).\n\niris_pl |&gt;\n  group_by(Species) |&gt;\n  summarize(mean_Sepal.Length = mean(Sepal.Length))\n\nError in `UseMethod()`:\n! no applicable method for 'group_by' applied to an object of class \"c('polars_data_frame', 'polars_object')\"\n\n\n\n\n\niris_db |&gt; \n  group_by(Species) |&gt; \n  summarize(mean(Sepal.Length))\n\nℹ dplyr fallback recorded\n  {\"version\":\"1.2.1\",\"message\":\"Try {.code summarise(.by = ...)} or {.code\n  mutate(.by = ...)} instead of {.code group_by()} and {.code ungroup()}.\"}\n\n\n# A tibble: 3 × 2\n  Species    `mean(Sepal.Length)`\n  &lt;fct&gt;                     &lt;dbl&gt;\n1 setosa                     5.01\n2 versicolor                 5.94\n3 virginica                  6.59",
     "crumbs": [
       "Advanced R",
-      "<span class='chapter-number'>58</span>  <span class='chapter-title'>Data Queries across implementations</span>"
+      "<span class='chapter-number'>59</span>  <span class='chapter-title'>Data Queries across implementations</span>"
     ]
   },
   {
     "objectID": "ds.html#references",
     "href": "ds.html#references",
-    "title": "58  Data Queries across implementations",
-    "section": "\n58.5 References",
-    "text": "58.5 References\n\ndata.table\ndplyr\nr-polars\ntidypolars\nduckplyr",
+    "title": "59  Data Queries across implementations",
+    "section": "\n59.5 References",
+    "text": "59.5 References\n\ndata.table\ndplyr\nr-polars\ntidypolars\nduckplyr",
     "crumbs": [
       "Advanced R",
-      "<span class='chapter-number'>58</span>  <span class='chapter-title'>Data Queries across implementations</span>"
+      "<span class='chapter-number'>59</span>  <span class='chapter-title'>Data Queries across implementations</span>"
     ]
   },
   {
     "objectID": "DuckDB.html",
     "href": "DuckDB.html",
-    "title": "59  DuckDB",
+    "title": "60  DuckDB",
     "section": "",
-    "text": "59.1 Installation\nDuckDB is a popular and powerful “in-process SQL OLAP database management system”\nIt provides APIs in multiple languages, including R, Python, and Julia.  In practical terms, it provides a very efficient way to read, query, and write big data in R, which includes datasets that are bigger than memory.  For example, it allows lazy-reading of large datasets with optional filtering, selecting, and grouping operations before reading into memory. Chapter 58 includes examples using duckplyr\ninstall.packages(\"duckdb\")",
+    "text": "60.1 Installation\nDuckDB is a popular and powerful “in-process SQL OLAP database management system”\nIt provides APIs in multiple languages, including R, Python, and Julia.  In practical terms, it provides a very efficient way to read, query, and write big data in R, which includes datasets that are bigger than memory.  For example, it allows lazy-reading of large datasets with optional filtering, selecting, and grouping operations before reading into memory. Chapter 59 includes examples using duckplyr\ninstall.packages(\"duckdb\")",
     "crumbs": [
       "Advanced R",
-      "<span class='chapter-number'>59</span>  <span class='chapter-title'>DuckDB</span>"
+      "<span class='chapter-number'>60</span>  <span class='chapter-title'>DuckDB</span>"
     ]
   },
   {
     "objectID": "DuckDB.html#duckdb-api",
     "href": "DuckDB.html#duckdb-api",
-    "title": "59  DuckDB",
-    "section": "\n59.2 DuckDB API",
-    "text": "59.2 DuckDB API\nDuckDB uses the R Database Interface (DBI). Learn more about using DBI here.",
+    "title": "60  DuckDB",
+    "section": "\n60.2 DuckDB API",
+    "text": "60.2 DuckDB API\nDuckDB uses the R Database Interface (DBI). Learn more about using DBI here.",
     "crumbs": [
       "Advanced R",
-      "<span class='chapter-number'>59</span>  <span class='chapter-title'>DuckDB</span>"
+      "<span class='chapter-number'>60</span>  <span class='chapter-title'>DuckDB</span>"
     ]
   },
   {
     "objectID": "DuckDB.html#setup-connection",
     "href": "DuckDB.html#setup-connection",
-    "title": "59  DuckDB",
-    "section": "\n59.3 Setup Connection",
-    "text": "59.3 Setup Connection\nBy default, duckdb()’s dbdir argument defaults to DBDIR_MEMORY, which creates a non-persistent, in-memory object.\n\ncon &lt;- dbConnect(duckdb::duckdb())\n\nduckdb is storing downloaded extensions and secrets under ~/.duckdb:\nℹ /Users/sdg/.duckdb\nThis persists across sessions and is shared with the DuckDB CLI and other clients.\nℹ Run duckdb(shared_home = FALSE) to use a temporary directory instead.\nℹ See ?duckdb_storage for details and alternatives.",
+    "title": "60  DuckDB",
+    "section": "\n60.3 Setup Connection",
+    "text": "60.3 Setup Connection\nBy default, duckdb()’s dbdir argument defaults to DBDIR_MEMORY, which creates a non-persistent, in-memory object.\n\ncon &lt;- dbConnect(duckdb::duckdb())\n\nduckdb is storing downloaded extensions and secrets under ~/.duckdb:\nℹ /Users/sdg/.duckdb\nThis persists across sessions and is shared with the DuckDB CLI and other clients.\nℹ Run duckdb(shared_home = FALSE) to use a temporary directory instead.\nℹ See ?duckdb_storage for details and alternatives.",
     "crumbs": [
       "Advanced R",
-      "<span class='chapter-number'>59</span>  <span class='chapter-title'>DuckDB</span>"
+      "<span class='chapter-number'>60</span>  <span class='chapter-title'>DuckDB</span>"
     ]
   },
   {
     "objectID": "DuckDB.html#settings",
     "href": "DuckDB.html#settings",
-    "title": "59  DuckDB",
-    "section": "\n59.4 Settings",
-    "text": "59.4 Settings\n\ndbExecute(con, \"PRAGMA enable_progress_bar;\")\n\n[1] 0",
+    "title": "60  DuckDB",
+    "section": "\n60.4 Settings",
+    "text": "60.4 Settings\n\ndbExecute(con, \"PRAGMA enable_progress_bar;\")\n\n[1] 0",
     "crumbs": [
       "Advanced R",
-      "<span class='chapter-number'>59</span>  <span class='chapter-title'>DuckDB</span>"
+      "<span class='chapter-number'>60</span>  <span class='chapter-title'>DuckDB</span>"
     ]
   },
   {
     "objectID": "DuckDB.html#read-csv",
     "href": "DuckDB.html#read-csv",
-    "title": "59  DuckDB",
-    "section": "\n59.5 Read CSV",
-    "text": "59.5 Read CSV\nYou can directly read into data.frame, which may be best for smaller datasets:\n\nir &lt;- dbGetQuery(con, \n    \"SELECT * FROM read_csv_auto('./iris.csv');\"\n)\nhead(ir)\n\n  Sepal_Length Sepal_Width Petal_Length Petal_Width Species\n1          5.1         3.5          1.4         0.2  setosa\n2          4.9         3.0          1.4         0.2  setosa\n3          4.7         3.2          1.3         0.2  setosa\n4          4.6         3.1          1.5         0.2  setosa\n5          5.0         3.6          1.4         0.2  setosa\n6          5.4         3.9          1.7         0.4  setosa\n\n\nFor larger datasets, you can create a DuckDB table that can be queried without loading the dataset into memory:\n\ndbExecute(con,\n    \"CREATE TABLE iris AS SELECT * FROM './iris.csv';\"\n)\n\n[1] 150\n\n\n\n59.5.1 List tables\n\ndbGetQuery(con, \"PRAGMA show_tables;\")\n\n  name\n1 iris\n\n\nUsing the R API:\n\ndbListTables(con)\n\n[1] \"iris\"",
+    "title": "60  DuckDB",
+    "section": "\n60.5 Read CSV",
+    "text": "60.5 Read CSV\nYou can directly read into data.frame, which may be best for smaller datasets:\n\nir &lt;- dbGetQuery(con, \n    \"SELECT * FROM read_csv_auto('./iris.csv');\"\n)\nhead(ir)\n\n  Sepal_Length Sepal_Width Petal_Length Petal_Width Species\n1          5.1         3.5          1.4         0.2  setosa\n2          4.9         3.0          1.4         0.2  setosa\n3          4.7         3.2          1.3         0.2  setosa\n4          4.6         3.1          1.5         0.2  setosa\n5          5.0         3.6          1.4         0.2  setosa\n6          5.4         3.9          1.7         0.4  setosa\n\n\nFor larger datasets, you can create a DuckDB table that can be queried without loading the dataset into memory:\n\ndbExecute(con,\n    \"CREATE TABLE iris AS SELECT * FROM './iris.csv';\"\n)\n\n[1] 150\n\n\n\n60.5.1 List tables\n\ndbGetQuery(con, \"PRAGMA show_tables;\")\n\n  name\n1 iris\n\n\nUsing the R API:\n\ndbListTables(con)\n\n[1] \"iris\"",
     "crumbs": [
       "Advanced R",
-      "<span class='chapter-number'>59</span>  <span class='chapter-title'>DuckDB</span>"
+      "<span class='chapter-number'>60</span>  <span class='chapter-title'>DuckDB</span>"
     ]
   },
   {
     "objectID": "DuckDB.html#filter",
     "href": "DuckDB.html#filter",
-    "title": "59  DuckDB",
-    "section": "\n59.6 Filter",
-    "text": "59.6 Filter\n\ndbGetQuery(con,\n    \"SELECT * FROM iris WHERE Species in ('setosa', 'versicolor')\") |&gt; head()\n\n  Sepal_Length Sepal_Width Petal_Length Petal_Width Species\n1          5.1         3.5          1.4         0.2  setosa\n2          4.9         3.0          1.4         0.2  setosa\n3          4.7         3.2          1.3         0.2  setosa\n4          4.6         3.1          1.5         0.2  setosa\n5          5.0         3.6          1.4         0.2  setosa\n6          5.4         3.9          1.7         0.4  setosa\n\n\n\ndbExecute(con,\n    \"\n    CREATE TABLE ir AS SELECT * FROM \n    read_csv_auto('./data/iris.csv', \n    delim=',', header=True);\n    \"\n)\n\n[1] 150\n\n\n\n59.6.1 Fetch data to data.frame\n\nir = dbGetQuery(con, \"SELECT * from iris\")\nhead(ir)\n\n  Sepal_Length Sepal_Width Petal_Length Petal_Width Species\n1          5.1         3.5          1.4         0.2  setosa\n2          4.9         3.0          1.4         0.2  setosa\n3          4.7         3.2          1.3         0.2  setosa\n4          4.6         3.1          1.5         0.2  setosa\n5          5.0         3.6          1.4         0.2  setosa\n6          5.4         3.9          1.7         0.4  setosa\n\n\n\nclass(ir)\n\n[1] \"data.frame\"\n\n\n\n59.6.2 Fetch data to data.table:\n\nir = dbGetQuery(con, \"SELECT * from iris\")\n\n\nclass(ir)\n\n[1] \"data.frame\"\n\nhead(ir)\n\n  Sepal_Length Sepal_Width Petal_Length Petal_Width Species\n1          5.1         3.5          1.4         0.2  setosa\n2          4.9         3.0          1.4         0.2  setosa\n3          4.7         3.2          1.3         0.2  setosa\n4          4.6         3.1          1.5         0.2  setosa\n5          5.0         3.6          1.4         0.2  setosa\n6          5.4         3.9          1.7         0.4  setosa",
+    "title": "60  DuckDB",
+    "section": "\n60.6 Filter",
+    "text": "60.6 Filter\n\ndbGetQuery(con,\n    \"SELECT * FROM iris WHERE Species in ('setosa', 'versicolor')\") |&gt; head()\n\n  Sepal_Length Sepal_Width Petal_Length Petal_Width Species\n1          5.1         3.5          1.4         0.2  setosa\n2          4.9         3.0          1.4         0.2  setosa\n3          4.7         3.2          1.3         0.2  setosa\n4          4.6         3.1          1.5         0.2  setosa\n5          5.0         3.6          1.4         0.2  setosa\n6          5.4         3.9          1.7         0.4  setosa\n\n\n\ndbExecute(con,\n    \"\n    CREATE TABLE ir AS SELECT * FROM \n    read_csv_auto('./data/iris.csv', \n    delim=',', header=True);\n    \"\n)\n\n[1] 150\n\n\n\n60.6.1 Fetch data to data.frame\n\nir = dbGetQuery(con, \"SELECT * from iris\")\nhead(ir)\n\n  Sepal_Length Sepal_Width Petal_Length Petal_Width Species\n1          5.1         3.5          1.4         0.2  setosa\n2          4.9         3.0          1.4         0.2  setosa\n3          4.7         3.2          1.3         0.2  setosa\n4          4.6         3.1          1.5         0.2  setosa\n5          5.0         3.6          1.4         0.2  setosa\n6          5.4         3.9          1.7         0.4  setosa\n\n\n\nclass(ir)\n\n[1] \"data.frame\"\n\n\n\n60.6.2 Fetch data to data.table:\n\nir = dbGetQuery(con, \"SELECT * from iris\")\n\n\nclass(ir)\n\n[1] \"data.frame\"\n\nhead(ir)\n\n  Sepal_Length Sepal_Width Petal_Length Petal_Width Species\n1          5.1         3.5          1.4         0.2  setosa\n2          4.9         3.0          1.4         0.2  setosa\n3          4.7         3.2          1.3         0.2  setosa\n4          4.6         3.1          1.5         0.2  setosa\n5          5.0         3.6          1.4         0.2  setosa\n6          5.4         3.9          1.7         0.4  setosa",
     "crumbs": [
       "Advanced R",
-      "<span class='chapter-number'>59</span>  <span class='chapter-title'>DuckDB</span>"
+      "<span class='chapter-number'>60</span>  <span class='chapter-title'>DuckDB</span>"
     ]
   },
   {
     "objectID": "DuckDB.html#close-connection",
     "href": "DuckDB.html#close-connection",
-    "title": "59  DuckDB",
-    "section": "\n59.7 Close connection",
-    "text": "59.7 Close connection\nWhen you are done working with the database, you should close the connection:\n\ndbDisconnect(con)",
+    "title": "60  DuckDB",
+    "section": "\n60.7 Close connection",
+    "text": "60.7 Close connection\nWhen you are done working with the database, you should close the connection:\n\ndbDisconnect(con)",
     "crumbs": [
       "Advanced R",
-      "<span class='chapter-number'>59</span>  <span class='chapter-title'>DuckDB</span>"
+      "<span class='chapter-number'>60</span>  <span class='chapter-title'>DuckDB</span>"
     ]
   },
   {
     "objectID": "DuckDB.html#resources",
     "href": "DuckDB.html#resources",
-    "title": "59  DuckDB",
-    "section": "\n59.8 Resources",
-    "text": "59.8 Resources\n\nDuckDB Documentation\nDuckDB CSV",
+    "title": "60  DuckDB",
+    "section": "\n60.8 Resources",
+    "text": "60.8 Resources\n\nDuckDB Documentation\nDuckDB CSV",
     "crumbs": [
       "Advanced R",
-      "<span class='chapter-number'>59</span>  <span class='chapter-title'>DuckDB</span>"
+      "<span class='chapter-number'>60</span>  <span class='chapter-title'>DuckDB</span>"
     ]
   },
   {
     "objectID": "Resources.html",
     "href": "Resources.html",
-    "title": "60  Resources",
+    "title": "61  Resources",
     "section": "",
-    "text": "60.1 R Project\nThe R Manuals include a number of resources, including:",
+    "text": "61.1 R Project\nThe R Manuals include a number of resources, including:",
     "crumbs": [
-      "<span class='chapter-number'>60</span>  <span class='chapter-title'>Resources</span>"
+      "<span class='chapter-number'>61</span>  <span class='chapter-title'>Resources</span>"
     ]
   },
   {
     "objectID": "Resources.html#r-project",
     "href": "Resources.html#r-project",
-    "title": "60  Resources",
+    "title": "61  Resources",
     "section": "",
     "text": "Introduction to R\nCRAN task views offer curated lists of packages by topic",
     "crumbs": [
-      "<span class='chapter-number'>60</span>  <span class='chapter-title'>Resources</span>"
+      "<span class='chapter-number'>61</span>  <span class='chapter-title'>Resources</span>"
     ]
   },
   {
     "objectID": "Resources.html#r-programming",
     "href": "Resources.html#r-programming",
-    "title": "60  Resources",
-    "section": "60.2 R programming",
-    "text": "60.2 R programming\n\nAdvanced R by Hadley Wickham\nEfficient R Programming by Colin Gillespie & Robin Lovelace\nRcpp: Seamless R and C++ Integration\nParallel and Distributed Processing with future",
+    "title": "61  Resources",
+    "section": "61.2 R programming",
+    "text": "61.2 R programming\n\nAdvanced R by Hadley Wickham\nEfficient R Programming by Colin Gillespie & Robin Lovelace\nRcpp: Seamless R and C++ Integration\nParallel and Distributed Processing with future",
     "crumbs": [
-      "<span class='chapter-number'>60</span>  <span class='chapter-title'>Resources</span>"
+      "<span class='chapter-number'>61</span>  <span class='chapter-title'>Resources</span>"
     ]
   },
   {
     "objectID": "Resources.html#r-for-data-science",
     "href": "Resources.html#r-for-data-science",
-    "title": "60  Resources",
-    "section": "60.3 R for data science",
-    "text": "60.3 R for data science\n\nR Programming for Data Science by Roger D. Peng, based mostly on base R, and also covers the basics of dplyr.\nData wrangling, exploration, and analysis with R b y Jenny Bryan\nR for Data Science by Hadley Wickham & Garrett Grolemund",
+    "title": "61  Resources",
+    "section": "61.3 R for data science",
+    "text": "61.3 R for data science\n\nR Programming for Data Science by Roger D. Peng, based mostly on base R, and also covers the basics of dplyr.\nData wrangling, exploration, and analysis with R b y Jenny Bryan\nR for Data Science by Hadley Wickham & Garrett Grolemund",
     "crumbs": [
-      "<span class='chapter-number'>60</span>  <span class='chapter-title'>Resources</span>"
+      "<span class='chapter-number'>61</span>  <span class='chapter-title'>Resources</span>"
     ]
   },
   {
     "objectID": "Resources.html#markdown",
     "href": "Resources.html#markdown",
-    "title": "60  Resources",
-    "section": "60.4 Markdown",
-    "text": "60.4 Markdown\n\nOriginal guide by the author of Markdown\nMarkdown guide by Matt Cone",
+    "title": "61  Resources",
+    "section": "61.4 Markdown",
+    "text": "61.4 Markdown\n\nOriginal guide by the author of Markdown\nMarkdown guide by Matt Cone",
     "crumbs": [
-      "<span class='chapter-number'>60</span>  <span class='chapter-title'>Resources</span>"
+      "<span class='chapter-number'>61</span>  <span class='chapter-title'>Resources</span>"
     ]
   },
   {
     "objectID": "Resources.html#r-markdown",
     "href": "Resources.html#r-markdown",
-    "title": "60  Resources",
-    "section": "60.5 R markdown",
-    "text": "60.5 R markdown\nNote: Quarto has superseded R Markdown as the recommended tool for authoring documents in R.\n\nR Markdown: The Definitive Guide by Yihui Xie, J. J. Allaire, Garrett Grolemund\nbookdown: Authoring Books and Technical Documents with R Markdown: how to make websites like this one you are on right now",
+    "title": "61  Resources",
+    "section": "61.5 R markdown",
+    "text": "61.5 R markdown\nNote: Quarto has superseded R Markdown as the recommended tool for authoring documents in R.\n\nR Markdown: The Definitive Guide by Yihui Xie, J. J. Allaire, Garrett Grolemund\nbookdown: Authoring Books and Technical Documents with R Markdown: how to make websites like this one you are on right now",
     "crumbs": [
-      "<span class='chapter-number'>60</span>  <span class='chapter-title'>Resources</span>"
+      "<span class='chapter-number'>61</span>  <span class='chapter-title'>Resources</span>"
     ]
   },
   {
     "objectID": "Resources.html#quarto",
     "href": "Resources.html#quarto",
-    "title": "60  Resources",
-    "section": "60.6 Quarto",
-    "text": "60.6 Quarto\n\nQuarto home",
+    "title": "61  Resources",
+    "section": "61.6 Quarto",
+    "text": "61.6 Quarto\n\nQuarto home",
     "crumbs": [
-      "<span class='chapter-number'>60</span>  <span class='chapter-title'>Resources</span>"
+      "<span class='chapter-number'>61</span>  <span class='chapter-title'>Resources</span>"
     ]
   },
   {
     "objectID": "Resources.html#writing-r-documentation",
     "href": "Resources.html#writing-r-documentation",
-    "title": "60  Resources",
-    "section": "60.7 Writing R Documentation",
-    "text": "60.7 Writing R Documentation\n\nDocumentation with roxygen2",
+    "title": "61  Resources",
+    "section": "61.7 Writing R Documentation",
+    "text": "61.7 Writing R Documentation\n\nDocumentation with roxygen2",
     "crumbs": [
-      "<span class='chapter-number'>60</span>  <span class='chapter-title'>Resources</span>"
+      "<span class='chapter-number'>61</span>  <span class='chapter-title'>Resources</span>"
     ]
   },
   {
     "objectID": "Resources.html#graphics",
     "href": "Resources.html#graphics",
-    "title": "60  Resources",
-    "section": "60.8 Graphics",
-    "text": "60.8 Graphics\n\n60.8.1 ggplot2\n\nggplot2\n\n\n\n60.8.2 Plotly\n\nPlotly R API\nInteractive web-based data visualization with R, plotly, and shiny",
+    "title": "61  Resources",
+    "section": "61.8 Graphics",
+    "text": "61.8 Graphics\n\n61.8.1 ggplot2\n\nggplot2\n\n\n\n61.8.2 Plotly\n\nPlotly R API\nInteractive web-based data visualization with R, plotly, and shiny",
     "crumbs": [
-      "<span class='chapter-number'>60</span>  <span class='chapter-title'>Resources</span>"
+      "<span class='chapter-number'>61</span>  <span class='chapter-title'>Resources</span>"
     ]
   },
   {
     "objectID": "Resources.html#git-and-github",
     "href": "Resources.html#git-and-github",
-    "title": "60  Resources",
-    "section": "60.9 Git and GitHub",
-    "text": "60.9 Git and GitHub\n\nGitHub guides\nPro Git Book by Scott Chacon and Ben Straub",
+    "title": "61  Resources",
+    "section": "61.9 Git and GitHub",
+    "text": "61.9 Git and GitHub\n\nGitHub guides\nPro Git Book by Scott Chacon and Ben Straub",
     "crumbs": [
-      "<span class='chapter-number'>60</span>  <span class='chapter-title'>Resources</span>"
+      "<span class='chapter-number'>61</span>  <span class='chapter-title'>Resources</span>"
     ]
   },
   {
     "objectID": "Resources.html#machine-learning",
     "href": "Resources.html#machine-learning",
-    "title": "60  Resources",
-    "section": "60.10 Machine Learning",
-    "text": "60.10 Machine Learning\n\nAn Introduction to Statistical Learning offers an accessible view of core learning algorithms, without being math-heavy.\nElements of Statistical Learning offers a deeper and more extensive view on learning algorithms.\nMachine Learning with rtemis",
+    "title": "61  Resources",
+    "section": "61.10 Machine Learning",
+    "text": "61.10 Machine Learning\n\nAn Introduction to Statistical Learning offers an accessible view of core learning algorithms, without being math-heavy.\nElements of Statistical Learning offers a deeper and more extensive view on learning algorithms.\nMachine Learning with rtemis",
     "crumbs": [
-      "<span class='chapter-number'>60</span>  <span class='chapter-title'>Resources</span>"
+      "<span class='chapter-number'>61</span>  <span class='chapter-title'>Resources</span>"
     ]
   },
   {
     "objectID": "Resources.html#datasets",
     "href": "Resources.html#datasets",
-    "title": "60  Resources",
-    "section": "60.11 Datasets",
-    "text": "60.11 Datasets\nA number of online repositories offer free access to datasets suitable for data science / statistics / machine learning. Some of them are: \n\nKaggle Datasets\nNIH Data Repositories\nOpenML\nPenn ML Benchmarks\nPLOS Recommended Repositories\nUCI Machine Learning Repository\nUCSF Library Resources\nWikipedia’s List of datasets for machine-learning research",
+    "title": "61  Resources",
+    "section": "61.11 Datasets",
+    "text": "61.11 Datasets\nA number of online repositories offer free access to datasets suitable for data science / statistics / machine learning. Some of them are: \n\nKaggle Datasets\nNIH Data Repositories\nOpenML\nPenn ML Benchmarks\nPLOS Recommended Repositories\nUCI Machine Learning Repository\nUCSF Library Resources\nWikipedia’s List of datasets for machine-learning research",
     "crumbs": [
-      "<span class='chapter-number'>60</span>  <span class='chapter-title'>Resources</span>"
+      "<span class='chapter-number'>61</span>  <span class='chapter-title'>Resources</span>"
     ]
   },
   {
     "objectID": "DataPipeline.html",
     "href": "DataPipeline.html",
-    "title": "\n61  Data Pipeline Overview\n",
+    "title": "\n62  Data Pipeline Overview\n",
     "section": "",
-    "text": "61.1 Get access to Data\nHealth-related data comes from many sources, including:",
+    "text": "62.1 Get access to Data\nHealth-related data comes from many sources, including:",
     "crumbs": [
-      "<span class='chapter-number'>61</span>  <span class='chapter-title'>Data Pipeline Overview</span>"
+      "<span class='chapter-number'>62</span>  <span class='chapter-title'>Data Pipeline Overview</span>"
     ]
   },
   {
     "objectID": "DataPipeline.html#get-access-to-data",
     "href": "DataPipeline.html#get-access-to-data",
-    "title": "\n61  Data Pipeline Overview\n",
+    "title": "\n62  Data Pipeline Overview\n",
     "section": "",
     "text": "Electronic Health Records (e.g. EPIC)\nLab/Clinical research data\nPublic datasets, e.g. NIH, UK Biobank, etc.",
     "crumbs": [
-      "<span class='chapter-number'>61</span>  <span class='chapter-title'>Data Pipeline Overview</span>"
+      "<span class='chapter-number'>62</span>  <span class='chapter-title'>Data Pipeline Overview</span>"
     ]
   },
   {
     "objectID": "DataPipeline.html#handle-and-inspect-data-in-the-command-line",
     "href": "DataPipeline.html#handle-and-inspect-data-in-the-command-line",
-    "title": "\n61  Data Pipeline Overview\n",
-    "section": "\n61.2 Handle and inspect data in the command line",
-    "text": "61.2 Handle and inspect data in the command line\nParticularly useful for data sets of unknown structure (e.g. to find what delimiter is used) and very large data (will it fit into memory?)\n\nIntro to the system shell",
+    "title": "\n62  Data Pipeline Overview\n",
+    "section": "\n62.2 Handle and inspect data in the command line",
+    "text": "62.2 Handle and inspect data in the command line\nParticularly useful for data sets of unknown structure (e.g. to find what delimiter is used) and very large data (will it fit into memory?)\n\nIntro to the system shell",
     "crumbs": [
-      "<span class='chapter-number'>61</span>  <span class='chapter-title'>Data Pipeline Overview</span>"
+      "<span class='chapter-number'>62</span>  <span class='chapter-title'>Data Pipeline Overview</span>"
     ]
   },
   {
     "objectID": "DataPipeline.html#read-data-into-r",
     "href": "DataPipeline.html#read-data-into-r",
-    "title": "\n61  Data Pipeline Overview\n",
-    "section": "\n61.3 Read Data into R",
-    "text": "61.3 Read Data into R\n\nUsing R’s read.csv(), read.table()\n\nUsing data.table’s fread()\n\nUsing readr’s read_csv()\n\nUsing specialized packages for third-party data formats",
+    "title": "\n62  Data Pipeline Overview\n",
+    "section": "\n62.3 Read Data into R",
+    "text": "62.3 Read Data into R\n\nUsing R’s read.csv(), read.table()\n\nUsing data.table’s fread()\n\nUsing readr’s read_csv()\n\nUsing specialized packages for third-party data formats",
     "crumbs": [
-      "<span class='chapter-number'>61</span>  <span class='chapter-title'>Data Pipeline Overview</span>"
+      "<span class='chapter-number'>62</span>  <span class='chapter-title'>Data Pipeline Overview</span>"
     ]
   },
   {
     "objectID": "DataPipeline.html#clean-data-names-values",
     "href": "DataPipeline.html#clean-data-names-values",
-    "title": "\n61  Data Pipeline Overview\n",
-    "section": "\n61.4 Clean data names & values",
-    "text": "61.4 Clean data names & values\n\nUsing string operations\n\nUsing factor() to define factor levels",
+    "title": "\n62  Data Pipeline Overview\n",
+    "section": "\n62.4 Clean data names & values",
+    "text": "62.4 Clean data names & values\n\nUsing string operations\n\nUsing factor() to define factor levels",
     "crumbs": [
-      "<span class='chapter-number'>61</span>  <span class='chapter-title'>Data Pipeline Overview</span>"
+      "<span class='chapter-number'>62</span>  <span class='chapter-title'>Data Pipeline Overview</span>"
     ]
   },
   {
     "objectID": "DataPipeline.html#define-data-types",
     "href": "DataPipeline.html#define-data-types",
-    "title": "\n61  Data Pipeline Overview\n",
-    "section": "\n61.5 Define Data Types",
-    "text": "61.5 Define Data Types\n\nUsing the ‘colClasses’ argument in read.csv(), or fread()\n\n\nor\n\nCoercing data types using as.numeric(), as.character(), factor(), as.Date(), as.POSIXct(), etc.",
+    "title": "\n62  Data Pipeline Overview\n",
+    "section": "\n62.5 Define Data Types",
+    "text": "62.5 Define Data Types\n\nUsing the ‘colClasses’ argument in read.csv(), or fread()\n\n\nor\n\nCoercing data types using as.numeric(), as.character(), factor(), as.Date(), as.POSIXct(), etc.",
     "crumbs": [
-      "<span class='chapter-number'>61</span>  <span class='chapter-title'>Data Pipeline Overview</span>"
+      "<span class='chapter-number'>62</span>  <span class='chapter-title'>Data Pipeline Overview</span>"
     ]
   },
   {
     "objectID": "DataPipeline.html#reshape",
     "href": "DataPipeline.html#reshape",
-    "title": "\n61  Data Pipeline Overview\n",
-    "section": "\n61.6 Reshape",
-    "text": "61.6 Reshape\nConvert long to wide or vice versa, as needed.\n\nUsing base reshape()\n\nUsing data.table’s dcast() and melt()\n\nUsing tidyr’s pivot_wider() and pivot_longer()",
+    "title": "\n62  Data Pipeline Overview\n",
+    "section": "\n62.6 Reshape",
+    "text": "62.6 Reshape\nConvert long to wide or vice versa, as needed.\n\nUsing base reshape()\n\nUsing data.table’s dcast() and melt()\n\nUsing tidyr’s pivot_wider() and pivot_longer()",
     "crumbs": [
-      "<span class='chapter-number'>61</span>  <span class='chapter-title'>Data Pipeline Overview</span>"
+      "<span class='chapter-number'>62</span>  <span class='chapter-title'>Data Pipeline Overview</span>"
     ]
   },
   {
     "objectID": "DataPipeline.html#join-data-sets",
     "href": "DataPipeline.html#join-data-sets",
-    "title": "\n61  Data Pipeline Overview\n",
-    "section": "\n61.7 Join data sets",
-    "text": "61.7 Join data sets\nIf you have data in multiple files that need to be merged, you can easily joining them:\n\nUsing merge() for data.frames or data.tables",
+    "title": "\n62  Data Pipeline Overview\n",
+    "section": "\n62.7 Join data sets",
+    "text": "62.7 Join data sets\nIf you have data in multiple files that need to be merged, you can easily joining them:\n\nUsing merge() for data.frames or data.tables",
     "crumbs": [
-      "<span class='chapter-number'>61</span>  <span class='chapter-title'>Data Pipeline Overview</span>"
+      "<span class='chapter-number'>62</span>  <span class='chapter-title'>Data Pipeline Overview</span>"
     ]
   },
   {
     "objectID": "DataPipeline.html#transform-data",
     "href": "DataPipeline.html#transform-data",
-    "title": "\n61  Data Pipeline Overview\n",
-    "section": "\n61.8 Transform data",
-    "text": "61.8 Transform data\nData transformations will depend on the analysis or analyses you wish to perform. Note that we often need to perform different data transformation for different statistical tests or machine learning models (supervised, or unsupervised learning).\n\nscale(), log(), cut()\nHandle missing data",
+    "title": "\n62  Data Pipeline Overview\n",
+    "section": "\n62.8 Transform data",
+    "text": "62.8 Transform data\nData transformations will depend on the analysis or analyses you wish to perform. Note that we often need to perform different data transformation for different statistical tests or machine learning models (supervised, or unsupervised learning).\n\nscale(), log(), cut()\nHandle missing data",
     "crumbs": [
-      "<span class='chapter-number'>61</span>  <span class='chapter-title'>Data Pipeline Overview</span>"
+      "<span class='chapter-number'>62</span>  <span class='chapter-title'>Data Pipeline Overview</span>"
     ]
   },
   {
     "objectID": "DataPipeline.html#visualize",
     "href": "DataPipeline.html#visualize",
-    "title": "\n61  Data Pipeline Overview\n",
-    "section": "\n61.9 Visualize",
-    "text": "61.9 Visualize\nVisualization is essential before, during, and data preparation, hypothesis testing, supervised, and unsupervised learning\n\nUsing base graphics: boxplot(), hist(), plot(), barplot(), etc.\n\nUsing ggplot2\n\nUsing plotly interactive plots",
+    "title": "\n62  Data Pipeline Overview\n",
+    "section": "\n62.9 Visualize",
+    "text": "62.9 Visualize\nVisualization is essential before, during, and data preparation, hypothesis testing, supervised, and unsupervised learning\n\nUsing base graphics: boxplot(), hist(), plot(), barplot(), etc.\n\nUsing ggplot2\n\nUsing plotly interactive plots",
     "crumbs": [
-      "<span class='chapter-number'>61</span>  <span class='chapter-title'>Data Pipeline Overview</span>"
+      "<span class='chapter-number'>62</span>  <span class='chapter-title'>Data Pipeline Overview</span>"
     ]
   },
   {
     "objectID": "DataPipeline.html#summarize-aggregate",
     "href": "DataPipeline.html#summarize-aggregate",
-    "title": "\n61  Data Pipeline Overview\n",
-    "section": "\n61.10 Summarize & Aggregate",
-    "text": "61.10 Summarize & Aggregate\n\nSummarize\nAggregate",
+    "title": "\n62  Data Pipeline Overview\n",
+    "section": "\n62.10 Summarize & Aggregate",
+    "text": "62.10 Summarize & Aggregate\n\nSummarize\nAggregate",
     "crumbs": [
-      "<span class='chapter-number'>61</span>  <span class='chapter-title'>Data Pipeline Overview</span>"
+      "<span class='chapter-number'>62</span>  <span class='chapter-title'>Data Pipeline Overview</span>"
     ]
   },
   {
     "objectID": "DataPipeline.html#statistical-hypothesis-testing",
     "href": "DataPipeline.html#statistical-hypothesis-testing",
-    "title": "\n61  Data Pipeline Overview\n",
-    "section": "\n61.11 Statistical Hypothesis Testing",
-    "text": "61.11 Statistical Hypothesis Testing\n\nt.test(), wilcox.test(), aov(), kruskal.test()\nGeneralized Linear Models: glm()",
+    "title": "\n62  Data Pipeline Overview\n",
+    "section": "\n62.11 Statistical Hypothesis Testing",
+    "text": "62.11 Statistical Hypothesis Testing\n\nt.test(), wilcox.test(), aov(), kruskal.test()\nGeneralized Linear Models: glm()",
     "crumbs": [
-      "<span class='chapter-number'>61</span>  <span class='chapter-title'>Data Pipeline Overview</span>"
+      "<span class='chapter-number'>62</span>  <span class='chapter-title'>Data Pipeline Overview</span>"
     ]
   },
   {
     "objectID": "DataPipeline.html#predictive-modeling",
     "href": "DataPipeline.html#predictive-modeling",
-    "title": "\n61  Data Pipeline Overview\n",
-    "section": "\n61.12 Predictive Modeling",
-    "text": "61.12 Predictive Modeling\nPerform classification, regression, survival analysis\n\nGLMNET, Classification and Regression Trees (CART), Random Forest, Gradient Boosting, etc.",
+    "title": "\n62  Data Pipeline Overview\n",
+    "section": "\n62.12 Predictive Modeling",
+    "text": "62.12 Predictive Modeling\nPerform classification, regression, survival analysis\n\nGLMNET, Classification and Regression Trees (CART), Random Forest, Gradient Boosting, etc.",
     "crumbs": [
-      "<span class='chapter-number'>61</span>  <span class='chapter-title'>Data Pipeline Overview</span>"
+      "<span class='chapter-number'>62</span>  <span class='chapter-title'>Data Pipeline Overview</span>"
     ]
   },
   {
     "objectID": "DataPipeline.html#decomposition",
     "href": "DataPipeline.html#decomposition",
-    "title": "\n61  Data Pipeline Overview\n",
-    "section": "\n61.13 Decomposition",
-    "text": "61.13 Decomposition\nDo dimensionality reduction / matrix factorization:\n\nPCA, ICA, NMF, UMAP, t-SNE, etc.",
+    "title": "\n62  Data Pipeline Overview\n",
+    "section": "\n62.13 Decomposition",
+    "text": "62.13 Decomposition\nDo dimensionality reduction / matrix factorization:\n\nPCA, ICA, NMF, UMAP, t-SNE, etc.",
     "crumbs": [
-      "<span class='chapter-number'>61</span>  <span class='chapter-title'>Data Pipeline Overview</span>"
+      "<span class='chapter-number'>62</span>  <span class='chapter-title'>Data Pipeline Overview</span>"
     ]
   },
   {
     "objectID": "DataPipeline.html#clustering",
     "href": "DataPipeline.html#clustering",
-    "title": "\n61  Data Pipeline Overview\n",
-    "section": "\n61.14 Clustering",
-    "text": "61.14 Clustering\nGroup cases based on similarity across multiple features:\n\nK-means, Fuzzy C-means, HOPACH, Spectral Clustering, etc.",
+    "title": "\n62  Data Pipeline Overview\n",
+    "section": "\n62.14 Clustering",
+    "text": "62.14 Clustering\nGroup cases based on similarity across multiple features:\n\nK-means, Fuzzy C-means, HOPACH, Spectral Clustering, etc.",
     "crumbs": [
-      "<span class='chapter-number'>61</span>  <span class='chapter-title'>Data Pipeline Overview</span>"
+      "<span class='chapter-number'>62</span>  <span class='chapter-title'>Data Pipeline Overview</span>"
     ]
   },
   {
     "objectID": "DataPipeline.html#saving-data-to-disk",
     "href": "DataPipeline.html#saving-data-to-disk",
-    "title": "\n61  Data Pipeline Overview\n",
-    "section": "\n61.15 Saving data to disk",
-    "text": "61.15 Saving data to disk\nSave your cleaned dataset to disk:\n\nbase write.csv()\n\ndata.table’s fwrite()\n\nbase saveRDS()",
+    "title": "\n62  Data Pipeline Overview\n",
+    "section": "\n62.15 Saving data to disk",
+    "text": "62.15 Saving data to disk\nSave your cleaned dataset to disk:\n\nbase write.csv()\n\ndata.table’s fwrite()\n\nbase saveRDS()",
     "crumbs": [
-      "<span class='chapter-number'>61</span>  <span class='chapter-title'>Data Pipeline Overview</span>"
+      "<span class='chapter-number'>62</span>  <span class='chapter-title'>Data Pipeline Overview</span>"
     ]
   },
   {
     "objectID": "DataPipeline.html#program-your-own-functions",
     "href": "DataPipeline.html#program-your-own-functions",
-    "title": "\n61  Data Pipeline Overview\n",
-    "section": "\n61.16 Program your own functions!",
-    "text": "61.16 Program your own functions!\nFor all the above operations, you will often be better off writing your own customized functions using the above base and third-party packages for your specific data needs and analysis goals.\n\nFunctions",
+    "title": "\n62  Data Pipeline Overview\n",
+    "section": "\n62.16 Program your own functions!",
+    "text": "62.16 Program your own functions!\nFor all the above operations, you will often be better off writing your own customized functions using the above base and third-party packages for your specific data needs and analysis goals.\n\nFunctions",
     "crumbs": [
-      "<span class='chapter-number'>61</span>  <span class='chapter-title'>Data Pipeline Overview</span>"
+      "<span class='chapter-number'>62</span>  <span class='chapter-title'>Data Pipeline Overview</span>"
     ]
   },
   {
     "objectID": "DataPipeline.html#always-document-your-code",
     "href": "DataPipeline.html#always-document-your-code",
-    "title": "\n61  Data Pipeline Overview\n",
-    "section": "\n61.17 Always document your code!",
-    "text": "61.17 Always document your code!\nAlways remember to add in-line comments (#) to your functions, scripts, Quarto documents for your future self, your collaborators, and the world.",
+    "title": "\n62  Data Pipeline Overview\n",
+    "section": "\n62.17 Always document your code!",
+    "text": "62.17 Always document your code!\nAlways remember to add in-line comments (#) to your functions, scripts, Quarto documents for your future self, your collaborators, and the world.",
     "crumbs": [
-      "<span class='chapter-number'>61</span>  <span class='chapter-title'>Data Pipeline Overview</span>"
+      "<span class='chapter-number'>62</span>  <span class='chapter-title'>Data Pipeline Overview</span>"
     ]
   },
   {
     "objectID": "DataPipeline.html#share-your-code-on-github",
     "href": "DataPipeline.html#share-your-code-on-github",
-    "title": "\n61  Data Pipeline Overview\n",
-    "section": "\n61.18 Share your code on GitHub",
-    "text": "61.18 Share your code on GitHub\nConsider sharing your code on GitHub to allow review by others. This may be done at any time during your work, you should especially consider to publish code along with published manuscripts.",
+    "title": "\n62  Data Pipeline Overview\n",
+    "section": "\n62.18 Share your code on GitHub",
+    "text": "62.18 Share your code on GitHub\nConsider sharing your code on GitHub to allow review by others. This may be done at any time during your work, you should especially consider to publish code along with published manuscripts.",
     "crumbs": [
-      "<span class='chapter-number'>61</span>  <span class='chapter-title'>Data Pipeline Overview</span>"
+      "<span class='chapter-number'>62</span>  <span class='chapter-title'>Data Pipeline Overview</span>"
     ]
   },
   {

@@ -1,0 +1,270 @@
+---
+execute:
+  warning: false
+knitr:
+  opts_knit:
+    global.par: true
+  opts_chunk:
+    comment: ''
+    fig.width: 5.5
+    fig.height: 5.5
+    out.width: 80%
+---
+
+# Introduction to **rtemis.draw** {#sec-rtemisdraw}
+
+**`rtemis.draw`** is a plotting package from the [rtemis](https://rtemis.org) project. Like **`plotly`** (@sec-plotly), it produces interactive
+[htmlwidgets](https://www.htmlwidgets.org), but it provides data-first `draw_*()` functions
+that take plain vectors, lists, or data frames and choose sensible defaults, so most plots
+take a single call. Charts are rendered with
+[Apache ECharts](https://echarts.apache.org), and automatically follow the light or dark
+theme of the page they are displayed in.
+
+::: callout-note
+`rtemis.draw` is available from [R-universe](https://rtemis-org.r-universe.dev) and is currently
+under review for CRAN.
+:::
+
+Full documentation is available at [docs.rtemis.org](https://docs.rtemis.org/r/draw/).
+
+## Setup
+
+### Installation
+
+Until the package is released on CRAN, install it from R-universe:
+
+```{r}
+#| eval: false
+install.packages(
+    "rtemis.draw",
+    repos = c("https://rtemis-org.r-universe.dev", "https://cloud.r-project.org")
+)
+```
+
+### Libraries
+
+Load libraries we will be using in this chapter:
+
+```{r}
+library(rtemis.draw)
+library(data.table)
+options(datatable.print.class = TRUE)
+```
+
+### Synthetic Data
+
+We use the same synthetic dataset as in the previous two chapters:
+
+```{r}
+set.seed(2022)
+dt <- data.table(
+    PID = sample(8001:9000, size = 100),
+    Age = rnorm(100, mean = 33, sd = 8),
+    Weight = rnorm(100, mean = 70, sd = 9),
+    SysBP = rnorm(100, mean = 110, sd = 6),
+    DiaBP = rnorm(100, mean = 80, sd = 6),
+    Sex = factor(sample(c("Female", "Male"), size = 100, replace = TRUE))
+)
+dt[, SysBP := SysBP + 0.5 * Age]
+dt[Sex == "Male", Weight := Weight + rnorm(.N, mean = 16, sd = 1.5)]
+dt[Sex == "Male", Age := Age + rnorm(.N, mean = 6, sd = 1.8)]
+```
+
+Define a color palette `palette`. Unlike in the previous chapters, we do not need a separate
+semi-transparent version of the palette: functions that fill areas, like `draw_histogram()` and
+`draw_density()`, have a `fill_alpha` argument.
+
+```{r}
+palette <- c("#43A4AC", "#FA9860")
+palettea <- adjustcolor(palette, alpha.f = 2 / 3)
+```
+
+::: callout-note
+All `draw_*()` functions share a common set of arguments: `title`, `xlab`, `ylab`, `theme`, `width`,
+`height`, `palette`, and `filename`. If `palette` is not specified, the rtemis palette is used.
+:::
+
+## Box plot
+
+`draw_boxplot()` accepts a numeric vector, a list of numeric vectors, or a data frame
+of numeric columns, and draws one box per element or column. Unlike **`ggplot2`**, there is no need
+to convert to long format first. Unlike **`plotly`**, there is no need to add each box one at a time.
+
+```{r}
+draw_boxplot(dt[, .(SysBP, DiaBP)])
+```
+
+Use `palette` to specify the colors and `labels` to specify the box labels:
+
+```{r}
+draw_boxplot(
+    dt[, .(SysBP, DiaBP)],
+    palette = palette,
+    labels = c("Systolic BP", "Diastolic BP")
+)
+```
+
+### Grouped boxplot
+
+Use `group` to split a vector by a factor:
+
+```{r}
+draw_boxplot(dt[, Age], group = dt[, Sex], palette = palette[2:1])
+```
+
+## Histogram
+
+```{r}
+draw_histogram(dt[, Age], palette = palette[1], fill_alpha = 0.75)
+```
+
+We can specify the number of bins with `breaks`, and axis labels with `xlab` and `ylab`:
+
+```{r}
+draw_histogram(
+  dt[, Age],
+  breaks = 24,
+  palette = palette[1],
+  xlab = "Age (years)",
+  fill_alpha = 0.75
+)
+```
+
+### Grouped Histogram
+
+```{r}
+draw_histogram(
+  dt[, Age],
+  group = dt[, Sex],
+  palette = palette[2:1],
+  fill_alpha = 0.5
+)
+```
+
+`bar_mode` controls the placement of the groups' bars within each bin: `"group"` (the default)
+places them side by side, whereas `"stack"` stacks them vertically.
+
+```{r}
+draw_histogram(
+  dt[, Age],
+  group = dt[, Sex],
+  breaks = 24,
+  bar_mode = "stack",
+  palette = palette[2:1],
+  fill_alpha = 0.5
+)
+```
+
+## Density plot
+
+`draw_density()` estimates the density internally with `stats::density()`, so there is no need to
+compute and pass the coordinates ourselves as with **`plotly`**.
+
+```{r}
+draw_density(dt[, Age], palette = palette[1])
+```
+
+### Grouped density plot
+
+```{r}
+draw_density(dt[, Age], group = dt[, Sex], palette = palette[2:1])
+```
+
+## Barplot
+
+```{r}
+schools <- data.frame(UCSF = 4, Stanford = 7, Penn = 12)
+```
+
+`draw_bar()` takes the category labels as `x` and the bar heights as `y`. No data frame
+or explicit factor is needed; the bars appear in the order provided:
+
+```{r}
+draw_bar(
+    names(schools),
+    as.numeric(schools[1, ]),
+    palette = palette[1],
+    ylab = "N schools"
+)
+```
+
+## Scatterplot
+
+```{r}
+draw_scatter(dt[, Age], dt[, SysBP], xlab = "Age", ylab = "SysBP", palette = palette[1])
+```
+
+Pass `fit = "gam"` (or `"glm"`) to overlay a fitted line and 95% confidence band:
+
+```{r}
+draw_scatter(
+    dt[, Age], dt[, SysBP],
+    fit = "gam",
+    xlab = "Age", ylab = "SysBP",
+    palette = palette[1]
+)
+```
+
+### Grouped Scatterplot
+
+```{r}
+draw_scatter(
+    dt[, Age], dt[, SysBP],
+    group = dt[, Sex],
+    xlab = "Age", ylab = "SysBP",
+    palette = palette[2:1]
+)
+```
+
+With a grouping variable, `fit` draws a separate fitted line for each group:
+
+```{r}
+draw_scatter(
+    dt[, Age], dt[, SysBP],
+    group = dt[, Sex],
+    fit = "gam",
+    xlab = "Age", ylab = "SysBP",
+    palette = palette[2:1]
+)
+```
+
+## Themes
+
+Charts follow the page theme (light or dark) by default. To force a theme, pass one to the
+`theme` argument:
+
+```{r}
+draw_scatter(dt[, Age], dt[, SysBP], theme = theme_dark())
+```
+
+## Save plot to file
+
+We'll use the grouped boxplot example from above to show how to save a plot to file. Pass an `.svg`
+`filename` to any `draw_*()` function, or call `save_drawing()` on an existing widget.
+SVG export requires [Node.js](https://nodejs.org).
+
+```{r}
+#| eval: false
+p <- draw_boxplot(dt[, Age], group = dt[, Sex], palette = palette[2:1])
+save_drawing(p, "Age_by_Sex_rtemis.draw.svg", width = 550, height = 550)
+```
+
+or directly:
+
+```{r}
+#| eval: false
+draw_boxplot(
+    dt[, Age], group = dt[, Sex], palette = palette[2:1],
+    filename = "Age_by_Sex_rtemis.draw.svg"
+)
+```
+
+## See also
+
+- Base R Graphics ([@sec-basegraphics])
+- Introduction to **ggplot2** ([@sec-ggplot2])
+- Introduction to **plotly** ([@sec-plotly])
+
+## Resources
+
+- [rtemis.draw Documentation](https://docs.rtemis.org/r/draw/)

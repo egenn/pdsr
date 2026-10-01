@@ -78,7 +78,9 @@
       return { type: "rect", shape: {
         x: Math.min(left[0], right[0]), y: Math.min(left[1], right[1]),
         width: Math.abs(right[0] - left[0]), height: Math.abs(right[1] - left[1])
-      }, style: { fill: api.visual("color"), opacity: params.itemPayload.fillAlpha } };
+      }, style: { fill: api.visual("color"), fillOpacity: settings.fillAlpha,
+        stroke: api.visual("color"), strokeOpacity: settings.borderAlpha,
+        lineWidth: settings.borderAlpha > 0 ? 1 : 0 } };
     },
     // Data: [category, exact value, observation ID, deterministic offset].
     "rtemis.boxplot_points.v1": function (params, api) {

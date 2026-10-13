@@ -1,0 +1,314 @@
+:root { --orange: #F08904; }
+
+/* Shared code surfaces for Pandoc and Quarto Live. */
+.quarto-light {
+    --code-border: #d6d6d6;
+    --code-selection: #dce4ec;
+    --feedback-success: #287a46;
+}
+
+.quarto-dark {
+    --code-border: #505050;
+    --code-selection: #46515d;
+    --feedback-success: #72c991;
+}
+
+body pre.sourceCode {
+    background-color: var(--code-bg) !important;
+    border-color: var(--code-bg) !important;
+}
+
+pre code,
+.sourceCode,
+.cell-output.cell-output-stdout {
+    color: var(--code-fg);
+    background-color: var(--code-bg);
+}
+
+/* Define the variables on the card so both color modes override Live defaults. */
+.card.exercise-editor {
+    --exercise-code-block-bg: var(--code-bg);
+    --exercise-code-block-color: var(--code-fg);
+    --exercise-cap-bg: var(--code-bg);
+    --exercise-gray: var(--code-border);
+    --exercise-line-bg: transparent;
+    --exercise-line-gutter-bg: transparent;
+    margin: 1rem 0;
+    background-color: var(--code-bg);
+    color: var(--code-fg);
+}
+
+/* A shared outline identifies interactive exercises. */
+.card.exercise-editor,
+.webex-box {
+    border: 1px solid var(--orange);
+    border-radius: .4rem;
+}
+
+.card.exercise-editor .card-header {
+    border-bottom: 1px solid var(--code-border);
+    border-radius: calc(.4rem - 1px) calc(.4rem - 1px) 0 0;
+    background-color: var(--code-bg);
+    padding: .5rem .75rem;
+}
+
+.card.exercise-editor .exercise-editor-body,
+.card.exercise-editor .cm-editor {
+    border-radius: 0 0 calc(.4rem - 1px) calc(.4rem - 1px);
+    background-color: var(--code-bg);
+}
+
+.card.exercise-editor .cm-editor.cm-focused {
+    outline: none;
+}
+
+.card.exercise-editor:has(.cm-focused) {
+    outline: 2px solid var(--code-comment);
+    outline-offset: 2px;
+}
+
+.card.exercise-editor .cm-content,
+.card.exercise-editor .cm-gutters {
+    font-family: var(--bs-font-monospace);
+}
+
+.card.exercise-editor .cm-gutters {
+    color: var(--code-line-number);
+    border-right-color: var(--code-border);
+    border-bottom-left-radius: calc(.4rem - 1px);
+}
+
+.card.exercise-editor .cm-activeLine,
+.card.exercise-editor .cm-activeLineGutter {
+    background-color: transparent;
+}
+
+.card.exercise-editor .cm-selectionBackground,
+.card.exercise-editor .cm-focused .cm-selectionBackground {
+    background-color: var(--code-selection);
+}
+
+.card.exercise-editor .cm-content ::selection {
+    background-color: var(--code-selection);
+}
+
+/* CodeMirror popups inherit the same surfaces as the live editor. */
+.card.exercise-editor .cm-tooltip {
+    color: var(--code-fg);
+    background-color: var(--code-bg);
+    border: 1px solid var(--code-border);
+    border-radius: .3rem;
+    box-shadow: 0 .2rem .6rem rgb(0 0 0 / .2);
+}
+
+.card.exercise-editor .cm-tooltip-autocomplete > ul {
+    padding: .2rem;
+    font-family: var(--bs-font-monospace);
+}
+
+.card.exercise-editor .cm-tooltip-autocomplete > ul > li {
+    padding: .2em .4em;
+    border-radius: .2rem;
+    color: var(--code-fg);
+}
+
+.card.exercise-editor .cm-tooltip-autocomplete > ul > li[aria-selected] {
+    color: var(--code-fg);
+    background-color: var(--code-selection);
+}
+
+.card.exercise-editor .cm-completionDetail,
+.card.exercise-editor .cm-completionIcon {
+    color: var(--code-comment);
+}
+
+/* Live classifies separators with literals; punctuation uses the operator color. */
+pre > code.sourceCode span.tok-separator,
+.exercise-editor-body > .cm-editor span.tok-separator {
+    color: var(--code-operator);
+}
+
+.card.exercise-editor .card-header .btn-exercise-editor {
+    --bs-btn-color: var(--code-fg);
+    --bs-btn-bg: transparent;
+    --bs-btn-border-color: var(--code-border);
+    --bs-btn-hover-color: var(--code-fg);
+    --bs-btn-hover-bg: var(--code-selection);
+    --bs-btn-hover-border-color: var(--code-comment);
+    --bs-btn-active-color: var(--code-fg);
+    --bs-btn-active-bg: var(--code-selection);
+    --bs-btn-active-border-color: var(--code-comment);
+    --bs-btn-disabled-color: var(--code-comment);
+    --bs-btn-disabled-bg: transparent;
+    --bs-btn-disabled-border-color: var(--code-border);
+    color: var(--code-fg);
+    background-color: transparent;
+    border-color: var(--code-border);
+}
+
+.card.exercise-editor .card-header .btn-exercise-editor:hover,
+.card.exercise-editor .card-header .btn-exercise-editor:active {
+    color: var(--code-fg);
+    background-color: var(--code-selection);
+    border-color: var(--code-comment);
+}
+
+.alert.exercise-grade {
+    padding: .75rem 1rem;
+    border: 1px solid var(--code-border);
+    border-left: 3px solid var(--code-comment);
+    background: var(--code-bg);
+    color: var(--code-fg);
+}
+
+.alert.exercise-grade.alert-success {
+    border-left-color: var(--code-string);
+}
+
+.alert.exercise-grade.alert-danger,
+.alert.exercise-grade.alert-warning {
+    border-left-color: var(--code-error);
+}
+
+/* MCQ selection highlights the answer text, leaving the radio outside the chip. */
+.webex-box {
+    padding: .85rem 1rem;
+}
+
+.webex-radiogroup {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: .15rem;
+    margin: 1em .5em;
+}
+
+.quarto-light .webex-radiogroup { color-scheme: light; }
+.quarto-dark .webex-radiogroup { color-scheme: dark; }
+
+.webex-radiogroup label {
+    display: flex;
+    align-items: center;
+    gap: .5em;
+    width: fit-content;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    text-indent: 0;
+    font-weight: 400;
+    cursor: pointer;
+}
+
+.webex-radiogroup input[type="radio"] {
+    appearance: none;
+    -webkit-appearance: none;
+    display: inline-grid;
+    place-content: center;
+    flex: 0 0 auto;
+    width: 1em;
+    height: 1em;
+    margin: 0;
+    border: 1px solid var(--code-comment);
+    border-radius: 50%;
+    background-color: var(--code-bg);
+    color: var(--orange);
+    cursor: pointer;
+}
+
+.webex-radiogroup input[type="radio"]::before {
+    content: "";
+    width: .5em;
+    height: .5em;
+    border-radius: 50%;
+    background-color: currentColor;
+    transform: scale(0);
+}
+
+.webex-radiogroup input[type="radio"]:checked {
+    border-color: currentColor;
+}
+
+.webex-radiogroup input[type="radio"]:checked::before {
+    transform: scale(1);
+}
+
+@media (forced-colors: active) {
+    .webex-radiogroup input[type="radio"] {
+        appearance: auto;
+        -webkit-appearance: auto;
+    }
+
+    .webex-radiogroup input[type="radio"]::before {
+        content: none;
+    }
+}
+
+.webex-radiogroup label > span {
+    min-width: 0;
+    padding: .12em .45em;
+    border: 1px solid transparent;
+    border-radius: .3rem;
+    line-height: 1.5;
+}
+
+.webex-radiogroup label:hover > span {
+    background: color-mix(in srgb, var(--code-fg) 7%, transparent);
+}
+
+.webex-radiogroup input:checked + span {
+    border-color: color-mix(in srgb, var(--orange) 65%, transparent);
+    background: color-mix(in srgb, var(--orange) 12%, transparent);
+    color: var(--code-fg);
+}
+
+.webex-radiogroup input:focus-visible + span {
+    outline: 2px solid var(--code-comment);
+    outline-offset: 2px;
+}
+
+.webex-check:not(.unchecked) .webex-radiogroup .webex-correct > span {
+    border-color: var(--feedback-success);
+    background: color-mix(in srgb, var(--feedback-success) 14%, transparent);
+}
+
+.webex-check:not(.unchecked) .webex-radiogroup .webex-incorrect > span {
+    border-color: var(--code-error);
+    background: color-mix(in srgb, var(--code-error) 14%, transparent);
+}
+
+/* Lucide SVG masks use theme colors without an icon JavaScript dependency. */
+.webex-correct > span::before,
+.webex-correct + .webex-icon::after {
+    --feedback-icon: url("icons/lucide/check.svg");
+    background-color: var(--feedback-success);
+}
+
+.webex-incorrect > span::before,
+.webex-incorrect + .webex-icon::after {
+    --feedback-icon: url("icons/lucide/x.svg");
+    background-color: var(--code-error);
+}
+
+.webex-correct > span::before,
+.webex-incorrect > span::before,
+.webex-correct + .webex-icon::after,
+.webex-incorrect + .webex-icon::after {
+    content: "";
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    margin-right: .3em;
+    vertical-align: -.125em;
+    -webkit-mask: var(--feedback-icon) center / contain no-repeat;
+    mask: var(--feedback-icon) center / contain no-repeat;
+}
+
+.unchecked .webex-correct > span::before,
+.unchecked .webex-incorrect > span::before,
+.unchecked .webex-correct + .webex-icon::after,
+.unchecked .webex-incorrect + .webex-icon::after {
+    display: none;
+}

@@ -1,15 +1,14 @@
 ---
 date-modified: last-modified
 engine: knitr
-webr:
-  show-startup-message: true
-filters:
-  - webr
 knitr:
   opts_chunk:
     comment: ""
 lightbox: true
 ---
+
+{{< include ./_extensions/r-wasm/live/_knitr.qmd >}}
+
 # Indexing {#sec-indexing}
 
 ## Basic concepts: Indexing data structures
@@ -743,22 +742,6 @@ df[["SBP"]][idi]
 library(webexercises)
 ```
 
-```{webr-r}
-#| context: setup
-check <- function(ans) {
-  ans_name <- deparse(substitute(ans))
-  if (!exists(ans_name)) {
-    stop("Please make sure to run the code above to define ", ans_name, " first.\n")
-  }
-  if (identical(get(paste0(".", ans_name)), ans)) {
-    cat("\n     \u2705 Correct - Well done :)\n")
-  } else {
-    cat("\n     \u274C Incorrect - Please try again :|\n")
-  }
-}
-.iris_f <- iris[iris$Sepal.Length > 7.5, ]
-```
-
 ## Comprehension check
 
 ::: {.webex-check .webex-box}
@@ -780,9 +763,8 @@ cat('To "filter" a dataset means selecting a subset of its:', longmcq(opts))
 For example, to filter the `iris` dataset to only include rows where the `Species` column is 
 `setosa`, we can use the following code:
 
-```{webr-r}
-#| read-only: true
-#| unveil: prac1
+```{webr}
+#| edit: false
 iris_setosa <- iris[iris$Species == "setosa", ]
 head(iris_setosa)
 ```
@@ -796,26 +778,29 @@ head(iris_setosa)
 ***Your turn:*** Complete the following code to filter the `iris` dataset so that it only includes 
 rows where `Sepal.Length` is greater than 7.5.
 
-```{webr-r}
-#| unveil: check1
-iris_f <- 
+```{webr}
+#| exercise: iris-filter
+iris_f <- ______
 ```
 
 :::
 
-::: {#check1 .check}
-
-Now, run the following block to check your answer:
-
-```{webr-r}
-#| read-only: true
-#| unveil: expl1
-check(iris_f)
+```{webr}
+#| exercise: iris-filter
+#| check: true
+if (!exists("iris_f", envir = .envir_result, inherits = FALSE)) {
+  list(correct = FALSE, message = "Assign the filtered data to iris_f.")
+} else if (identical(get("iris_f", envir = .envir_result),
+                     iris[iris$Sepal.Length > 7.5, ])) {
+  list(correct = TRUE, message = "Correct - Well done :)")
+} else {
+  list(correct = FALSE, message = "Incorrect - Please try again.")
+}
 ```
 
-:::
+::: {.solution exercise="iris-filter"}
 
-::: {#expl1 .callout-tip collapse="true"}
+::: {#expl1 .callout-tip}
 
 ## Explanation
 
@@ -833,6 +818,7 @@ to only include rows where the `Sepal.Length` column is greater than 7.5.
 
 For more information, see `?Extract`.
 
+:::
 :::
 
 ## Resources

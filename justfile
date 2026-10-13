@@ -39,7 +39,7 @@ sync-theme source=env("RTEMIS_THEME_DIR", home_directory() / "Code/rtemis-theme"
     set -euo pipefail
     source_dir="{{ source }}/quarto"
     target_dir="{{ src }}/theme"
-    files=( _rtemis-defaults.scss _rtemis-rules.scss rtemis-light.scss rtemis-dark.scss rtemis-exercises.scss rtemis-light.theme rtemis-dark.theme LICENSE THIRD_PARTY_NOTICES.txt )
+    files=( fonts.css _rtemis-defaults.scss _rtemis-rules.scss rtemis-light.scss rtemis-dark.scss rtemis-exercises.scss rtemis-light.theme rtemis-dark.theme LICENSE THIRD_PARTY_NOTICES.txt fonts/GeistMono-Variable.woff2 fonts/OFL.txt )
     for file in "${files[@]}"; do
         if [[ ! -f "$source_dir/$file" ]]; then
             printf 'Missing theme file: %s\n' "$source_dir/$file" >&2
@@ -49,9 +49,11 @@ sync-theme source=env("RTEMIS_THEME_DIR", home_directory() / "Code/rtemis-theme"
     mkdir -p "$target_dir"
     for file in "${files[@]}"; do
         if ! cmp -s "$source_dir/$file" "$target_dir/$file"; then
+            mkdir -p "$(dirname "$target_dir/$file")"
             cp "$source_dir/$file" "$target_dir/$file"
         fi
     done
+    python3 scripts/sync-syntax.py
     printf 'Quarto theme synced from %s\n' "$source_dir"
 
 # ── Render ───────────────────────────────────────────────────────────────────
@@ -63,7 +65,7 @@ sync-theme source=env("RTEMIS_THEME_DIR", home_directory() / "Code/rtemis-theme"
 # `src/_freeze/`. This is the everyday build.
 #
 #     just render                 # all formats declared in _quarto.yml
-#     just render --to html       # one format
+#     just render --to live-html       # one format
 #     just render --no-clean      # keep files Quarto would prune from docs/
 [doc("Render the whole book into docs/ (freeze: auto — only changed chapters execute).")]
 render *flags:
@@ -210,10 +212,9 @@ version:
 extensions:
     cd {{ src }} && {{ quarto }} list extensions
 
-# Update the webR extension. `src/_quarto.yml` attaches its filter to every
-# page, so a stale copy affects the whole book.
-[doc("Update the webR extension (egenn/quarto-webr) in src/_extensions/.")]
+# Update the official Quarto Live extension used by the live-html format.
+[doc("Update Quarto Live (r-wasm/quarto-live) in _extensions/.")]
 update-webr:
-    @just _msg "─── Updating quarto-webr extension... ───"
-    cd {{ src }} && {{ quarto }} update egenn/quarto-webr
+    @just _msg "─── Updating Quarto Live extension... ───"
+    cd {{ src }} && {{ quarto }} update r-wasm/quarto-live
     @just _msg "Done"

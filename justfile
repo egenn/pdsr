@@ -5,7 +5,7 @@
 # PDSR is a Quarto book: sources live in `src/`, the rendered site is written to
 # `docs/`, which GitHub Pages serves at https://pdsr.rtemis.org (docs/CNAME).
 #
-# Every recipe runs Quarto from inside `src/`, so any file you pass is relative
+# Every recipe runs Quarto from inside `src/`, so a file argument is relative
 # to `src/` (e.g. `just render-file DataTypes.qmd`). Recipes taking `*flags`
 # forward them verbatim to the underlying `quarto` command.
 #
@@ -76,7 +76,7 @@ render *flags:
 # Render one chapter, e.g. `just render-file DataTypes.qmd`.
 #
 # A single-file render inside a project is incremental: the rest of `docs/` is
-# left untouched, so this is the fast path while writing one chapter.
+# left untouched, which shortens the render while writing one chapter.
 [doc("Render a single chapter, e.g. `just render-file DataTypes.qmd`.")]
 render-file file *flags:
     @just _msg "─── Quarto: rendering {{ file }}... ───"
@@ -120,8 +120,8 @@ refresh file *flags:
 
 # Live-reload preview at http://127.0.0.1:4200. Ctrl-C to stop.
 #
-# Preview starts from the most recent execution results so it comes up fast,
-# then re-renders a chapter when you save it. Useful flags:
+# Preview starts from the most recent execution results, then re-renders a
+# chapter each time it is saved. Flags:
 #
 #     just preview --no-browser        # don't open a browser
 #     just preview --no-watch-inputs   # serve only, don't re-render on save
@@ -179,6 +179,26 @@ clean-cache:
 # `docs/` and the tracked `src/*_cache/` dirs alone — see `clean-cache`.
 [doc("Remove Quarto's freeze and internal caches (leaves docs/ and *_cache/ alone).")]
 clean: unfreeze clean-quarto
+
+# ── Spelling ─────────────────────────────────────────────────────────────────
+
+# Spell-check the prose of every chapter listed in `_quarto.yml`, or of the
+# files given, with the R spelling package (hunspell, en_US). Code chunks,
+# inline code, YAML, and Quarto div and attribute syntax are skipped. Words in
+# `WORDLIST` are accepted. Exits with status 1 when it finds an unknown word.
+#
+#     just spell                     # every chapter
+#     just spell DataTypes.qmd       # selected files
+[doc("Spell-check chapter prose with the spelling package, e.g. `just spell DataTypes.qmd`.")]
+spell *files:
+    @just _msg "─── Spell-checking PDSR... ───"
+    cd {{ src }} && Rscript scripts/spellcheck.R {{ files }}
+
+# Add every unknown word in the chapters, or in the files given, to `WORDLIST`.
+# Correct the typos `just spell` reports first: this accepts all of them.
+[doc("Add every unknown word to WORDLIST (run after correcting typos).")]
+spell-accept *files:
+    cd {{ src }} && Rscript scripts/spellcheck.R --update {{ files }}
 
 # ── Publish ──────────────────────────────────────────────────────────────────
 

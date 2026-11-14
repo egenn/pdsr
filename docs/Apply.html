@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.10.20">
+<meta name="generator" content="quarto-1.11.9">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <title>24&nbsp; The Apply Family – PDSR</title>
 <style>
@@ -71,18 +71,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="./Pipes.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-59d03a135adb0fbc325b52a9719a8657.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-45fcc971194a1de9c01ca038e7847389.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-59d03a135adb0fbc325b52a9719a8657.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7da53a24d39f11b6b8656a0844ae6c09.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-2628b63e6d25b3bb092b73467f99f5db.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7da53a24d39f11b6b8656a0844ae6c09.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-8e9c46e2054bf6e31be897db1eeb88de.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-8fcb57f4c16df5426826a2de309ffebf.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-8e9c46e2054bf6e31be897db1eeb88de.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-3360066597d77c0690c129b989289a11.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-61f053d8be43a25351bd6444078744e0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-3360066597d77c0690c129b989289a11.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script src="site_libs/quarto-contrib/live-runtime/live-runtime.js" type="module"></script>
 <link href="site_libs/quarto-contrib/live-runtime/live-runtime.css" rel="stylesheet">
 <script src="site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
@@ -135,7 +136,7 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 <link rel="stylesheet" href="theme/rtemis-syntax.css">
 <link rel="stylesheet" href="theme/code.css">
 </head>
-<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+<body class="nav-sidebar floating quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
       const bodyEl = window.document.querySelector("body");
@@ -158,6 +159,7 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
       for (let i=0; i < toggles.length; i++) {
         const toggle = toggles[i];
         if (toggle) {
+          toggle.setAttribute("aria-checked", alternate ? "true" : "false");
           if (alternate) {
             toggle.classList.add("alternate");
           } else {
@@ -187,13 +189,19 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
       manageTransitions('#quarto-margin-sidebar .nav-link', true);
       // Switch the toggles
       setColorSchemeToggle(alternate)
-      // Hack to workaround the fact that safari doesn't
-      // properly recolor the scrollbar when toggling (#1455)
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455).
+    // Not run on load: stylesheets are set before first paint there, and
+    // scrolling would undo the scroll to a URL fragment (#14973).
+    // The one pixel nudge keeps the reader where they were.
+    const refreshSafariScrollbar = () => {
       if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
         manageTransitions("body", false);
-        window.scrollTo(0, 1);
+        const scrollY = window.scrollY;
+        window.scrollTo(0, scrollY > 0 ? scrollY - 1 : 1);
         setTimeout(() => {
-          window.scrollTo(0, 0);
+          window.scrollTo(0, scrollY);
           manageTransitions("body", true);
         }, 40);
       }
@@ -288,6 +296,7 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
       // Read the current dark / light value
       let toAlternate = !hasAlternateSentinel();
       toggleColorMode(toAlternate);
+      refreshSafariScrollbar();
       setStyleSentinel(toAlternate);
       toggleGiscusIfUsed(toAlternate, darkModeDefault);
       window.dispatchEvent(new Event('resize'));
@@ -297,6 +306,7 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
         return;
       const alternate = e.matches
       toggleColorMode(alternate);
+      refreshSafariScrollbar();
       localAlternateSentinel = e.matches ? 'alternate' : 'default'; // this is used alongside local storage!
       toggleGiscusIfUsed(alternate, darkModeDefault);
     });
@@ -309,12 +319,12 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
   </script>
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
+  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav" aria-label="Toolbar"><div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Apply.html"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">The Apply Family</span></a></li></ol></nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Apply.html"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">The Apply Family</span></a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
@@ -322,14 +332,14 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
     </div>
   </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto" aria-label="Site"><div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
       <a href="./index.html" class="sidebar-logo-link">
       <img src="./assets/logo.svg" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none"><img src="./assets/logo.svg" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none"></a>
     <div class="sidebar-title mb-0 py-0">
       <a href="./"></a> 
         <div class="sidebar-tools-main tools-wide">
     <a href="https://github.com/egenn/pdsr/tree/master/src/" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
-  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+  <button type="button" role="switch" aria-checked="false" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode" aria-label="Toggle dark mode"><i class="bi"></i></button>
   <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
   <div class="quarto-reader-toggle-btn">
   <i class="bi"></i>
@@ -416,12 +426,12 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="./DataIO.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Data Input/Output</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+ <span class="menu-text" id="quarto-sidebar-section-1-label">Data Input/Output</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-controls="quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section: Data Input/Output">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
+      <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./baseDataIO.html" class="sidebar-item-text sidebar-link">
@@ -481,12 +491,12 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="./Functions.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Functions</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+ <span class="menu-text" id="quarto-sidebar-section-2-label">Functions</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section: Functions">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
+      <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./WritingFunctions.html" class="sidebar-item-text sidebar-link">
@@ -516,12 +526,12 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="./DataFrames.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Data Frames</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+ <span class="menu-text" id="quarto-sidebar-section-3-label">Data Frames</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section: Data Frames">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">
+      <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dfBasics.html" class="sidebar-item-text sidebar-link">
@@ -575,12 +585,12 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="./DataTable.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Data Table</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+ <span class="menu-text" id="quarto-sidebar-section-4-label">Data Table</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section: Data Table">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
       </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">
+      <ul id="quarto-sidebar-section-4" aria-labelledby="quarto-sidebar-section-4-label" class="collapse list-unstyled sidebar-section depth1 show">
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dtIntro.html" class="sidebar-item-text sidebar-link">
@@ -622,12 +632,12 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="./Tidyverse.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Tidyverse</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+ <span class="menu-text" id="quarto-sidebar-section-5-label">Tidyverse</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-controls="quarto-sidebar-section-5" aria-expanded="true" aria-label="Toggle section: Tidyverse">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
       </div>
-      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">
+      <ul id="quarto-sidebar-section-5" aria-labelledby="quarto-sidebar-section-5-label" class="collapse list-unstyled sidebar-section depth1 show">
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dplyrBasics.html" class="sidebar-item-text sidebar-link">
@@ -657,12 +667,12 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="./duckplyr.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">duckplyr</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+ <span class="menu-text" id="quarto-sidebar-section-6-label">duckplyr</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-controls="quarto-sidebar-section-6" aria-expanded="true" aria-label="Toggle section: duckplyr">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
       </div>
-      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">
+      <ul id="quarto-sidebar-section-6" aria-labelledby="quarto-sidebar-section-6-label" class="collapse list-unstyled sidebar-section depth1 show">
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./duckplyrBasics.html" class="sidebar-item-text sidebar-link">
@@ -686,12 +696,12 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="./Polars.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Polars</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+ <span class="menu-text" id="quarto-sidebar-section-7-label">Polars</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-controls="quarto-sidebar-section-7" aria-expanded="true" aria-label="Toggle section: Polars">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
       </div>
-      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">
+      <ul id="quarto-sidebar-section-7" aria-labelledby="quarto-sidebar-section-7-label" class="collapse list-unstyled sidebar-section depth1 show">
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./plBasics.html" class="sidebar-item-text sidebar-link">
@@ -715,12 +725,12 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="./Graphics.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Graphics</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+ <span class="menu-text" id="quarto-sidebar-section-8-label">Graphics</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" aria-controls="quarto-sidebar-section-8" aria-expanded="true" aria-label="Toggle section: Graphics">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
       </div>
-      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">
+      <ul id="quarto-sidebar-section-8" aria-labelledby="quarto-sidebar-section-8-label" class="collapse list-unstyled sidebar-section depth1 show">
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./BaseGraphics.html" class="sidebar-item-text sidebar-link">
@@ -774,12 +784,12 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="./System.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">System</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+ <span class="menu-text" id="quarto-sidebar-section-9-label">System</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" aria-controls="quarto-sidebar-section-9" aria-expanded="true" aria-label="Toggle section: System">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
       </div>
-      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">
+      <ul id="quarto-sidebar-section-9" aria-labelledby="quarto-sidebar-section-9-label" class="collapse list-unstyled sidebar-section depth1 show">
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./TerminalIntro.html" class="sidebar-item-text sidebar-link">
@@ -797,12 +807,12 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="./Advanced.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Advanced R</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+ <span class="menu-text" id="quarto-sidebar-section-10-label">Advanced R</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" aria-controls="quarto-sidebar-section-10" aria-expanded="true" aria-label="Toggle section: Advanced R">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
       </div>
-      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth1 show">
+      <ul id="quarto-sidebar-section-10" aria-labelledby="quarto-sidebar-section-10-label" class="collapse list-unstyled sidebar-section depth1 show">
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ds.html" class="sidebar-item-text sidebar-link">
@@ -846,7 +856,7 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
 </nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active"><h2 id="toc-title">Table of contents</h2>
    
   <ul>
 <li><a href="#apply" id="toc-apply" class="nav-link active" data-scroll-target="#apply"><span class="header-section-number">24.1</span> <code>apply()</code></a></li>
@@ -869,7 +879,7 @@ gtag('config', 'G-E1FN041JRR', { 'anonymize_ip': true});
   </ul><div class="toc-actions"><ul><li><a href="https://github.com/egenn/pdsr/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<main class="content" id="quarto-document-content" tabindex="-1"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
 <h1 class="title"><span id="sec-loopfns" class="quarto-section-identifier"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">The Apply Family</span></span></h1>
 </div>
 
@@ -967,12 +977,12 @@ Figure&nbsp;24.1: <code>*apply()</code> function family summary (Best to read th
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       Age   Weight   Height      SBP
-1 42.38150 70.51267 1.713957 138.1742
-2 45.13493 67.14017 1.894886 133.3238
-3 47.95814 74.64788 1.891844 132.6210
-4 38.35157 87.52953 1.647567 138.6056
-5 37.78304 92.54704 1.881676 136.4991
-6 27.96021 78.41965 1.765751 140.7869</code></pre>
+1 39.95479 75.60092 1.808681 136.1001
+2 53.24823 88.51938 1.764145 132.2610
+3 33.37845 77.83623 1.716284 137.0242
+4 32.30508 76.21736 1.807579 135.7073
+5 28.89502 77.36870 1.544863 133.0958
+6 45.98731 76.61588 1.616453 127.2667</code></pre>
 </div>
 </div>
 <p>Let’s calculate the mean value of each column:</p>
@@ -981,7 +991,7 @@ Figure&nbsp;24.1: <code>*apply()</code> function family summary (Best to read th
 <span><span class="va">dat_column_mean</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       Age     Weight     Height        SBP 
- 43.960451  80.670936   1.687325 134.743408 </code></pre>
+ 41.179074  79.425802   1.694581 134.011736 </code></pre>
 </div>
 </div>
 <div class="callout callout-style-simple callout-tip">
@@ -1006,7 +1016,7 @@ In the above case, we want the mean for each variable, i.e.&nbsp;we want to keep
 <span><span class="va">dat_column_mean</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       Age     Weight     Height        SBP 
- 43.960451  80.670936   1.687325 134.743408 </code></pre>
+ 41.179074  79.425802   1.694581 134.011736 </code></pre>
 </div>
 </div>
 <p>Let’s create a different example dataset, where we record weight at multiple timepoints:</p>
@@ -1019,26 +1029,26 @@ In the above case, we want the mean for each variable, i.e.&nbsp;we want to keep
 <span><span class="va">dat2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     ID Weight_week_1 Weight_week_3 Weight_week_5 Weight_week_7
-1  8001     104.30896     102.57603      99.22456      96.45127
-2  8002     132.08009     129.17549     126.44625     125.04222
-3  8003     100.67175      99.46409      97.52961      95.09241
-4  8004     104.33870     102.72914      99.40698      97.99063
-5  8005     114.24541     111.17478     108.94968     106.80377
-6  8006     105.72362     103.84822     101.46532      99.36632
-7  8007     108.01577     106.13222     103.95191     102.56862
-8  8008     106.06656     103.96815      99.01419      97.83829
-9  8009     100.67934      98.75527      94.19338      91.14441
-10 8010     111.42562     109.50959     104.89166     102.81774
-11 8011     103.96982     102.27381      98.24897      95.17522
-12 8012     128.09945     124.94677     120.89601     118.44488
-13 8013     112.33940     110.30859     106.76261     105.12271
-14 8014     126.69734     124.77691     123.36847     121.81245
-15 8015     111.86447     110.62240     106.09695     105.65511
-16 8016     117.21480     115.39372     113.06946     109.06167
-17 8017     107.19401     103.16472      98.24511      94.56299
-18 8018     113.29613     111.29393     108.57861     106.76767
-19 8019     107.14449     106.62509     103.75434     101.28574
-20 8020      93.46175      91.19262      87.80795      88.64025</code></pre>
+1  8001     116.76150     115.26660     113.44902     108.21934
+2  8002     113.28421     110.85743     107.86927     105.82818
+3  8003     125.86533     122.64847     117.87756     114.81239
+4  8004     108.63553     106.39636     101.71814     100.38368
+5  8005     113.92854     110.73836     109.43847     107.70904
+6  8006      94.88682      93.92768      91.22041      91.99245
+7  8007     109.85975     108.19224     105.33821     103.20482
+8  8008     102.47308     101.07272      97.10849      95.42480
+9  8009     100.93175      98.97594      97.32346      93.62023
+10 8010      91.26476      90.00743      88.01466      85.82322
+11 8011     115.34710     114.03729     110.19639     107.29378
+12 8012     107.54806     105.24207     102.57524      99.77543
+13 8013      96.63508      94.62322      92.09199      92.33297
+14 8014     115.90464     112.48955     109.18130     108.98056
+15 8015      88.15107      86.37664      84.32011      82.94613
+16 8016     118.63212     117.07573     113.95089     113.40997
+17 8017      96.21687      93.30772      89.74986      87.25506
+18 8018     109.55943     106.47674     102.15179     100.45647
+19 8019      91.97617      89.49879      84.46022      80.34123
+20 8020     126.07294     124.84499     122.22473     120.75519</code></pre>
 </div>
 </div>
 <p>Let’s get the mean weight per week:</p>
@@ -1046,16 +1056,16 @@ In the above case, we want the mean for each variable, i.e.&nbsp;we want to keep
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">dat2</span><span class="op">[</span>, <span class="op">-</span><span class="fl">1</span><span class="op">]</span>, <span class="fl">2</span>, <span class="va">mean</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Weight_week_1 Weight_week_3 Weight_week_5 Weight_week_7 
-     110.4419      108.3966      105.0951      103.0822 </code></pre>
+     107.1967      105.1028      102.0130      100.0282 </code></pre>
 </div>
 </div>
 <p>Let’s get the mean weight per individual across all weeks:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">dat2</span><span class="op">[</span>, <span class="op">-</span><span class="fl">1</span><span class="op">]</span>, <span class="fl">1</span>, <span class="va">mean</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] 100.64020 128.18601  98.18946 101.11636 110.29341 102.60087 105.16713
- [8] 101.72180  96.19310 107.16116  99.91695 123.09678 108.63333 124.16379
-[15] 108.55973 113.68491 100.79171 109.98409 104.70241  90.27564</code></pre>
+<pre><code> [1] 113.42411 109.45977 120.30094 104.28342 110.45360  93.00684 106.64875
+ [8]  99.01977  97.71284  88.77752 111.71864 103.78520  93.92082 111.63901
+[15]  85.44849 115.76718  91.63238 104.66111  86.56910 123.47446</code></pre>
 </div>
 </div>
 <div class="callout callout-style-simple callout-caution">
@@ -1118,16 +1128,16 @@ In the above case, we want the mean for each variable, i.e.&nbsp;we want to keep
 <span><span class="va">dat_median</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$Age
-[1] 44.46293
+[1] 40.06882
 
 $Weight
-[1] 80.65313
+[1] 80.22268
 
 $Height
-[1] 1.66992
+[1] 1.693555
 
 $SBP
-[1] 134.3893</code></pre>
+[1] 133.4842</code></pre>
 </div>
 </div>
 <p>To understand what <code><a href="https://rdrr.io/r/base/lapply.html">lapply()</a></code> does, here is the equivalent for-loop:</p>
@@ -1140,16 +1150,16 @@ $SBP
 <span><span class="va">dat_median</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$Age
-[1] 44.46293
+[1] 40.06882
 
 $Weight
-[1] 80.65313
+[1] 80.22268
 
 $Height
-[1] 1.66992
+[1] 1.693555
 
 $SBP
-[1] 134.3893</code></pre>
+[1] 133.4842</code></pre>
 </div>
 </div>
 </section><section id="sapply" class="level2" data-number="24.3"><h2 data-number="24.3" class="anchored" data-anchor-id="sapply">
@@ -1172,8 +1182,8 @@ It is the simplest R object that can hold the data type/s resulting from the ope
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat_median</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="va">dat</span>, <span class="va">median</span><span class="op">)</span></span>
 <span><span class="va">dat_median</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>      Age    Weight    Height       SBP 
- 44.46293  80.65313   1.66992 134.38930 </code></pre>
+<pre><code>       Age     Weight     Height        SBP 
+ 40.068819  80.222677   1.693555 133.484236 </code></pre>
 </div>
 </div>
 <div class="cell">
@@ -1182,10 +1192,10 @@ It is the simplest R object that can hold the data type/s resulting from the ope
 <span><span class="va">dat_summary</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>             Mean        SD
-Age     43.960451 8.4488287
-Weight  80.670936 9.9690463
-Height   1.687325 0.1662497
-SBP    134.743408 4.0641392</code></pre>
+Age     41.179074 8.1294865
+Weight  79.425802 9.1050362
+Height   1.694581 0.1219298
+SBP    134.011736 3.8393916</code></pre>
 </div>
 </div>
 <section id="example-get-index-of-numeric-variables" class="level3" data-number="24.3.1"><h3 data-number="24.3.1" class="anchored" data-anchor-id="example-get-index-of-numeric-variables">
@@ -1195,12 +1205,12 @@ SBP    134.743408 4.0641392</code></pre>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">dat2</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    ID Weight_week_1 Weight_week_3 Weight_week_5 Weight_week_7
-1 8001      104.3090     102.57603      99.22456      96.45127
-2 8002      132.0801     129.17549     126.44625     125.04222
-3 8003      100.6717      99.46409      97.52961      95.09241
-4 8004      104.3387     102.72914      99.40698      97.99063
-5 8005      114.2454     111.17478     108.94968     106.80377
-6 8006      105.7236     103.84822     101.46532      99.36632</code></pre>
+1 8001     116.76150     115.26660     113.44902     108.21934
+2 8002     113.28421     110.85743     107.86927     105.82818
+3 8003     125.86533     122.64847     117.87756     114.81239
+4 8004     108.63553     106.39636     101.71814     100.38368
+5 8005     113.92854     110.73836     109.43847     107.70904
+6 8006      94.88682      93.92768      91.22041      91.99245</code></pre>
 </div>
 </div>
 <p>logical index of numeric columns:</p>
@@ -1249,23 +1259,23 @@ They are usually passed as arguments to other functions to be used once, hence n
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">dat</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       Age   Weight   Height      SBP
-1 42.38150 70.51267 1.713957 138.1742
-2 45.13493 67.14017 1.894886 133.3238
-3 47.95814 74.64788 1.891844 132.6210
-4 38.35157 87.52953 1.647567 138.6056
-5 37.78304 92.54704 1.881676 136.4991
-6 27.96021 78.41965 1.765751 140.7869</code></pre>
+1 39.95479 75.60092 1.808681 136.1001
+2 53.24823 88.51938 1.764145 132.2610
+3 33.37845 77.83623 1.716284 137.0242
+4 32.30508 76.21736 1.807579 135.7073
+5 28.89502 77.36870 1.544863 133.0958
+6 45.98731 76.61588 1.616453 127.2667</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat_sq</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="va">dat</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span>, <span class="va">squared</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">dat_sq</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>           Age   Weight   Height      SBP
-[1,] 1796.1916 4972.037 2.937648 19092.10
-[2,] 2037.1620 4507.803 3.590595 17775.25
-[3,] 2299.9833 5572.306 3.579074 17588.32
-[4,] 1470.8427 7661.419 2.714476 19211.52
-[5,] 1427.5583 8564.954 3.540704 18632.01
-[6,]  781.7734 6149.642 3.117877 19820.96</code></pre>
+[1,] 1596.3852 5715.499 3.271327 18523.24
+[2,] 2835.3738 7835.680 3.112208 17492.96
+[3,] 1114.1212 6058.479 2.945632 18775.63
+[4,] 1043.6185 5809.086 3.267340 18416.47
+[5,]  834.9225 5985.915 2.386600 17714.49
+[6,] 2114.8330 5869.992 2.612920 16196.81</code></pre>
 </div>
 </div>
 <p>Let’s do the same as above, but this time using an anonymous function:</p>
@@ -1274,12 +1284,12 @@ They are usually passed as arguments to other functions to be used once, hence n
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">dat_sqtoo</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>           Age   Weight   Height      SBP
-[1,] 1796.1916 4972.037 2.937648 19092.10
-[2,] 2037.1620 4507.803 3.590595 17775.25
-[3,] 2299.9833 5572.306 3.579074 17588.32
-[4,] 1470.8427 7661.419 2.714476 19211.52
-[5,] 1427.5583 8564.954 3.540704 18632.01
-[6,]  781.7734 6149.642 3.117877 19820.96</code></pre>
+[1,] 1596.3852 5715.499 3.271327 18523.24
+[2,] 2835.3738 7835.680 3.112208 17492.96
+[3,] 1114.1212 6058.479 2.945632 18775.63
+[4,] 1043.6185 5809.086 3.267340 18416.47
+[5,]  834.9225 5985.915 2.386600 17714.49
+[6,] 2114.8330 5869.992 2.612920 16196.81</code></pre>
 </div>
 </div>
 <p>The entire anonymous function definition is passed to the <code>FUN</code> argument.</p>
@@ -1296,8 +1306,8 @@ They are usually passed as arguments to other functions to be used once, hence n
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb41"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">vapply</a></span><span class="op">(</span><span class="va">dat</span>, <span class="va">median</span>, FUN.VALUE <span class="op">=</span> <span class="fl">0.0</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>      Age    Weight    Height       SBP 
- 44.46293  80.65313   1.66992 134.38930 </code></pre>
+<pre><code>       Age     Weight     Height        SBP 
+ 40.068819  80.222677   1.693555 133.484236 </code></pre>
 </div>
 </div>
 <p>Here, each iteration returns the median of each column, i.e.&nbsp;a numeric vector of length 1.</p>
@@ -1306,9 +1316,9 @@ They are usually passed as arguments to other functions to be used once, hence n
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb43"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">vapply</a></span><span class="op">(</span><span class="va">dat</span>, <span class="va">range</span>, FUN.VALUE <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">0.0</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>          Age    Weight   Height      SBP
-[1,] 21.23755  60.13075 1.357788 124.4021
-[2,] 68.44259 100.50335 2.155144 146.1186</code></pre>
+<pre><code>          Age   Weight   Height      SBP
+[1,] 22.88668 57.55530 1.487633 126.1829
+[2,] 58.46057 98.71397 1.918809 141.6291</code></pre>
 </div>
 </div>
 <p>If <code>FUN.VALUE</code> does not match the returned value, we get an informative error:</p>
@@ -1329,12 +1339,12 @@ They are usually passed as arguments to other functions to be used once, hence n
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       Age   Weight   Height      SBP Group
-1 42.38150 70.51267 1.713957 138.1742     C
-2 45.13493 67.14017 1.894886 133.3238     A
-3 47.95814 74.64788 1.891844 132.6210     A
-4 38.35157 87.52953 1.647567 138.6056     C
-5 37.78304 92.54704 1.881676 136.4991     A
-6 27.96021 78.41965 1.765751 140.7869     C</code></pre>
+1 39.95479 75.60092 1.808681 136.1001     A
+2 53.24823 88.51938 1.764145 132.2610     A
+3 33.37845 77.83623 1.716284 137.0242     B
+4 32.30508 76.21736 1.807579 135.7073     A
+5 28.89502 77.36870 1.544863 133.0958     A
+6 45.98731 76.61588 1.616453 127.2667     B</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -1342,7 +1352,7 @@ They are usually passed as arguments to other functions to be used once, hence n
 <span><span class="va">mean_Age_by_Group</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       A        B        C 
-46.92917 40.28314 44.15959 </code></pre>
+40.92401 41.68042 40.82285 </code></pre>
 </div>
 </div>
 <p>The for-loop equivalent of the above is:</p>
@@ -1364,7 +1374,7 @@ They are usually passed as arguments to other functions to be used once, hence n
 <span><span class="va">mean_Age_by_Group</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       A        B        C 
-46.92917 40.28314 44.15959 </code></pre>
+40.92401 41.68042 40.82285 </code></pre>
 </div>
 </div>
 </section><section id="mapply" class="level2" data-number="24.7"><h2 data-number="24.7" class="anchored" data-anchor-id="mapply">
@@ -1493,14 +1503,14 @@ First, let’s create a matrix and a data frame with the same data:</p>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       Age     Weight     Height        SBP      Group 
- 43.960451  80.670936   1.687325 134.743408         NA </code></pre>
+ 41.179074  79.425802   1.694581 134.011736         NA </code></pre>
 </div>
 </div>
-<p>Just for demonstraion, iterate over integer index of the elements:</p>
+<p>Just for demonstration, iterate over integer index of the elements:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb77"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, <span class="kw">function</span><span class="op">(</span><span class="va">i</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">dat</span><span class="op">[</span>, <span class="va">i</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1]  43.960451  80.670936   1.687325 134.743408</code></pre>
+<pre><code>[1]  41.179074  79.425802   1.694581 134.011736</code></pre>
 </div>
 </div>
 <p>Notice that in the above approach you are not passing the object (<code>dat</code>) to <code><a href="https://rdrr.io/r/base/lapply.html">lapply()</a></code>. You therefore need to access it within the anonymous function.</p>
@@ -1517,14 +1527,14 @@ First, let’s create a matrix and a data frame with the same data:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb80"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">replicate</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] -0.05293836 -0.02584996 -0.02878163 -0.10129907  0.12994509</code></pre>
+<pre><code>[1] -0.009742381  0.131624622 -0.096821028 -0.017862926  0.173247698</code></pre>
 </div>
 </div>
 <p>This is equivalent to:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb82"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="kw">function</span><span class="op">(</span><span class="va">i</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.0657095 0.2055937 0.1113706 0.1311028 0.1976527</code></pre>
+<pre><code>[1]  0.072646331  0.025212193 -0.001145958 -0.154729535 -0.174763895</code></pre>
 </div>
 </div>
 </section><section id="map" class="level2" data-number="24.11"><h2 data-number="24.11" class="anchored" data-anchor-id="map">
@@ -1833,15 +1843,50 @@ window._ojs.runtime.interpretFromScriptTags();
   window.document.addEventListener("DOMContentLoaded", function (event) {
     // Ensure there is a toggle, if there isn't float one in the top right
     if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
-      const a = window.document.createElement('a');
-      a.classList.add('top-right');
-      a.classList.add('quarto-color-scheme-toggle');
-      a.href = "";
-      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const toggle = window.document.createElement('button');
+      toggle.type = "button";
+      toggle.setAttribute("role", "switch");
+      toggle.setAttribute("aria-checked", "false");
+      toggle.classList.add('top-right');
+      toggle.classList.add('quarto-color-scheme-toggle');
+      toggle.setAttribute("aria-label", "Toggle dark mode");
+      toggle.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
       const i = window.document.createElement("i");
       i.classList.add('bi');
-      a.appendChild(i);
-      window.document.body.appendChild(a);
+      toggle.appendChild(i);
+      // Put the toggle in a landmark of its own, so that landmark navigation
+      // can reach it.
+      //
+      // The container is always a fresh direct child of body, and the toggle is
+      // never moved into page furniture that the theme or the author controls.
+      // The toggle is positioned against the page, so any ancestor that
+      // establishes a containing block captures it: a positioned element or a
+      // grid for position: absolute, and transform, filter, will-change or
+      // contain for position: fixed. A direct child of body has none of these
+      // to inherit, and the shift when one appears is silent and visual.
+      //
+      // ARIA says a document should have at most one banner, and axe reports a
+      // duplicate whether or not the banners carry distinct labels. So use a
+      // header when the page has no banner yet, and a named region otherwise.
+      //
+      // A header is a banner wherever it sits, unless it is inside sectioning
+      // content, so this cannot just look at the children of body: a custom
+      // page layout wraps the title block header in a plain div. An explicit
+      // role="banner" always counts.
+      const sectioning = 'article, aside, main, nav, section, [role="article"], [role="complementary"], [role="main"], [role="navigation"], [role="region"]';
+      const hasBanner = Array.from(
+        window.document.querySelectorAll('header:not([role]), [role="banner"]')
+      ).some(function(el) {
+        return el.hasAttribute("role") || el.closest(sectioning) === null;
+      });
+      const container = window.document.createElement(hasBanner ? "div" : "header");
+      if (hasBanner) {
+        container.setAttribute("role", "region");
+        container.setAttribute("aria-label", "Toggle dark mode");
+      }
+      container.classList.add('quarto-color-scheme-toggle-container');
+      container.appendChild(toggle);
+      window.document.body.appendChild(container);
     }
     setColorSchemeToggle(hasAlternateSentinel())
     const icon = "";
@@ -1920,7 +1965,8 @@ window._ojs.runtime.interpretFromScriptTags();
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
       // Inspect non-navigation links and adorn them if external
-     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
       for (var i=0; i<links.length; i++) {
         const link = links[i];
         if (!isInternal(link.href)) {
@@ -1929,8 +1975,69 @@ window._ojs.runtime.interpretFromScriptTags();
           if (link.dataset.originalHref !== undefined) {
             link.href = link.dataset.originalHref;
           }
+          if (!link.classList.contains('no-external-icon')) {
+          }
         }
       }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
     function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
       const config = {
         allowHTML: true,
@@ -1944,6 +2051,7 @@ window._ojs.runtime.interpretFromScriptTags();
         interactiveBorder: 10,
         theme: 'quarto',
         placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
       };
       if (contentFn) {
         config.content = contentFn;
@@ -2106,44 +2214,54 @@ window._ojs.runtime.interpretFromScriptTags();
           const lineIds = lines.map((line) => {
             return targetCell + "-" + line;
           })
-          let top = null;
-          let height = null;
-          let parent = null;
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
           if (lineIds.length > 0) {
-              //compute the position of the single el (top and bottom and make a div)
-              const el = window.document.getElementById(lineIds[0]);
-              top = el.offsetTop;
-              height = el.offsetHeight;
-              parent = el.parentElement.parentElement;
-            if (lineIds.length > 1) {
-              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
-              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
-              height = bottom - top;
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
             }
-            if (top !== null && height !== null && parent !== null) {
-              // cook up a div (if necessary) and position it 
-              let div = window.document.getElementById("code-annotation-line-highlight");
-              if (div === null) {
-                div = window.document.createElement("div");
-                div.setAttribute("id", "code-annotation-line-highlight");
-                div.style.position = 'absolute';
-                parent.appendChild(div);
-              }
-              div.style.top = top - 2 + "px";
-              div.style.height = height + 4 + "px";
-              div.style.left = 0;
-              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
-              if (gutterDiv === null) {
-                gutterDiv = window.document.createElement("div");
-                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
-                gutterDiv.style.position = 'absolute';
-                const codeCell = window.document.getElementById(targetCell);
-                const gutter = codeCell.querySelector('.code-annotation-gutter');
-                gutter.appendChild(gutterDiv);
-              }
-              gutterDiv.style.top = top - 2 + "px";
-              gutterDiv.style.height = height + 4 + "px";
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
             }
+            placeBand(gutterDiv, el, lastEl);
             selectedAnnoteEl = annoteEl;
           }
         };
@@ -2241,7 +2359,9 @@ window._ojs.runtime.interpretFromScriptTags();
       }
     }
   });
-  </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
+  </script><script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script><nav class="page-navigation" aria-label="Page"><div class="nav-page nav-page-previous">
       <a href="./Pipes.html" class="pagination-link" aria-label="Pipes">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Pipes</span></span>
       </a>          

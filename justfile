@@ -197,7 +197,7 @@ spell *files:
 # Add every unknown word in the chapters, or in the files given, to `WORDLIST`.
 # Correct the typos `just spell` reports first: this accepts all of them.
 [doc("Add every unknown word to WORDLIST (run after correcting typos).")]
-spell-accept *files:
+spell-update *files:
     cd {{ src }} && Rscript scripts/spellcheck.R --update {{ files }}
 
 # ── Publish ──────────────────────────────────────────────────────────────────
